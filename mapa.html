@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Mapa Interactivo</title>
+    <meta charset="utf-8" />
+
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+
+    <style>
+        html, body { height: 100%; margin: 0; }
+        #map { height: 90%; }
+
+        #filtro {
+            padding: 10px;
+            background: white;
+        }
+    </style>
+</head>
+<body>
+
+<div id="filtro">
+    Filtrar por RC:
+    <select id="rcFilter">
+        <option value="ALL">Todos</option>
+    </select>
+</div>
+
+<div id="map"></div>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+<script>
+
+var map = L.map('map').setView([-12.0464, -77.0428], 11);
+
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
+
+let allData = [];
+let markersLayer = L.layerGroup().addTo(map);
+
+// 🎨 colores
+function getColor(estado) {
+    if (!estado) return "gray";
+    estado = estado.toUpperCase();
+
+    if (estado.includes("ACTIVO")) return "green";
+    if (estado.includes("INACTIVO")) return "red";
+    return "blue";
+}
+
+// 📌 cargar JSON
+fetch('puntos.json')
+.then(res => res.json())
+.then(data => {
+
+    allData = data;
+
+    // 🔽 llenar dropdown
+    let rcSet = new Set();
+    data.forEach(p => rcSet.add(p.rc));
+
+    let select = document.getElementById("rcFilter");
+
+    rcSet.forEach(rc => {
+        let option = document.createElement("option");
+        option.value = rc;
+        option.text = rc;
+        select.appendChild(option);
+    });
+
+    renderMap("ALL");
+});
+
+// 🗺️ renderizar mapa
+function renderMap(filterRC) {
+
+    markersLayer.clearLayers();
+
+    let filtered = allData.filter(p => {
+        return filterRC === "ALL" || p.rc === filterRC;
+    });
+
+    let group = new L.featureGroup();
+
+    filtered.forEach(p => {
+
+        let lat = parseFloat(p.lat);
+        let lng = parseFloat(p.lng);
+
+        if (!isNaN(lat) && !isNaN(lng)) {
+
+            let marker = L.circleMarker([lat, lng], {
+                radius: 6,
+                fillColor: getColor(p.estado),
+                color: "#000",
+                weight: 1,
+                fillOpacity: 0.8
+            });
+
+            marker.bindPopup(`
+                <b>${p.nombre}</b><br>
+                RC: ${p.rc}<br>
+                Estado: ${p.estado}<br>
+                Zona: ${p.zona}
+            `);
+
+            markersLayer.addLayer(marker);
+            group.addLayer(marker);
+        }
+    });
+
+    if (filtered.length > 0) {
+        map.fitBounds(group.getBounds());
+    }
+}
+
+// 🎯 evento filtro
+document.getElementById("rcFilter").addEventListener("change", function() {
+    renderMap(this.value);
+});
+
+</script>
+
+</body>
+</html>
