@@ -59,28 +59,8 @@ L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
 let allData = [];
 let markersLayer = L.layerGroup().addTo(map);
 
-// 🎨 colores por responsable
-const colores = [
-    "red","blue","green","orange","purple",
-    "darkred","cadetblue","darkgreen","black"
-];
-
-let colorMap = {};
-
-function getColorByResponsable(responsable) {
-    if (!responsable) return "gray";
-
-    if (!colorMap[responsable]) {
-        let index = Object.keys(colorMap).length % colores.length;
-        colorMap[responsable] = colores[index];
-    }
-
-    return colorMap[responsable];
-}
-
-// 🖼️ ICONOS POR RESPONSABLE
+// ICONOS
 function getIcon(responsable) {
-
     if (!responsable) return "icons/default.png";
 
     responsable = responsable.trim().toUpperCase();
@@ -99,8 +79,8 @@ function getIcon(responsable) {
     return "icons/default.png";
 }
 
-// 📌 cargar JSON
-fetch('puntos.json')
+// FETCH SIN CACHE 🔥
+fetch('puntos.json?v=' + new Date().getTime())
 .then(res => res.json())
 .then(data => {
 
@@ -117,7 +97,7 @@ fetch('puntos.json')
         }
     });
 
-    // llenar RC
+    // RC
     let rcSelect = document.getElementById("rcFilter");
     rcSet.forEach(rc => {
         let option = document.createElement("option");
@@ -126,7 +106,7 @@ fetch('puntos.json')
         rcSelect.appendChild(option);
     });
 
-    // llenar días
+    // DIAS
     let diaSelect = document.getElementById("diaFilter");
     diaSet.forEach(dia => {
         let option = document.createElement("option");
@@ -135,11 +115,9 @@ fetch('puntos.json')
         diaSelect.appendChild(option);
     });
 
-    // mapa inicial
     renderMap("ALL", "ALL");
 });
 
-// 🗺️ renderizar mapa
 function renderMap(filterRC, filterDia) {
 
     markersLayer.clearLayers();
@@ -167,10 +145,6 @@ function renderMap(filterRC, filterDia) {
 
             let marker = L.marker([lat, lng], { icon: icon });
 
-            marker.bindTooltip(p.responsable || "Sin responsable", {
-                direction: "top"
-            });
-
             marker.bindPopup(`
                 <b>${p.nombre}</b><br>
                 ID: ${p["ID"]}<br>
@@ -191,7 +165,7 @@ function renderMap(filterRC, filterDia) {
     }
 }
 
-// 🎯 eventos filtros
+// eventos
 document.getElementById("rcFilter").addEventListener("change", updateFilters);
 document.getElementById("diaFilter").addEventListener("change", updateFilters);
 
