@@ -3,13 +3,24 @@
 <head>
     <title>Mapa Interactivo</title>
     <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
 
 <style>
-html, body { height: 100%; margin: 0; }
+html, body {
+    height: 100%;
+    margin: 0;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
 
-#map { height: 85%; }
+#map {
+    flex: 1;
+    min-height: 0;
+    width: 100%;
+}
 
 #filtro {
     padding: 14px;
@@ -142,6 +153,42 @@ html, body { height: 100%; margin: 0; }
     font-weight: 600;
 }
 .stop-nav:hover { text-decoration: underline; }
+
+@media (max-width: 600px) {
+    #filtro {
+        padding: 8px;
+        gap: 6px;
+    }
+    #filtro label { font-size: 14px; }
+    #filtro select {
+        font-size: 16px;
+        padding: 8px;
+        min-width: 0;
+        flex: 1;
+    }
+    #buscador {
+        font-size: 16px;
+        padding: 8px;
+        min-width: 0;
+        width: 100%;
+        box-sizing: border-box;
+    }
+    #btnRuta, #btnLimpiarRuta {
+        font-size: 14px;
+        padding: 8px 12px;
+    }
+    #panelRuta {
+        width: 100%;
+        height: 50%;
+        top: auto;
+        bottom: 0;
+        right: 0;
+        left: 0;
+        border-left: none;
+        border-top: 3px solid #2196F3;
+        border-radius: 16px 16px 0 0;
+    }
+}
 </style>
 </head>
 
