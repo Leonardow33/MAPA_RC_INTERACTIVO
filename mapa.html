@@ -6,31 +6,55 @@
 
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
 
-    <style>
-    html, body { height: 100%; margin: 0; }
+   <style>
+html, body { height: 100%; margin: 0; }
 
-    #map { height: 85%; }
+#map { height: 85%; }
 
-    #filtro {
-        padding: 12px;
-        background: white;
-        display: flex;
-        flex-wrap: wrap;
-        gap: 10px;
-        align-items: center;
-    }
+/* 🔹 CONTENEDOR FILTROS */
+#filtro {
+    padding: 14px;
+    background: white;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    align-items: center;
+}
 
-    #filtro label {
-        font-size: 14px;
-    }
+/* 🔹 TEXTOS */
+#filtro label {
+    font-size: 16px;
+    font-weight: 600;
+}
 
-    #filtro select {
-        font-size: 16px;
-        padding: 8px;
-        border-radius: 8px;
-        min-width: 140px;
-    }
-    </style>
+/* 🔹 SELECTS (más grandes 📱) */
+#filtro select {
+    font-size: 18px;
+    padding: 12px;
+    border-radius: 10px;
+    min-width: 160px;
+    border: 1px solid #ccc;
+}
+
+/* 🔥 BOTÓN DE CAPAS */
+.leaflet-control-layers {
+    font-size: 16px;
+    border-radius: 10px;
+    padding: 6px;
+}
+
+/* 🔥 ICONO MÁS GRANDE */
+.leaflet-control-layers-toggle {
+    width: 44px !important;
+    height: 44px !important;
+}
+
+/* 🔥 PANEL DESPLEGADO */
+.leaflet-control-layers-expanded {
+    padding: 12px;
+    font-size: 16px;
+}
+</style>
 </head>
 <body>
 
