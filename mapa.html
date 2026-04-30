@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Mapa Interactivo</title>
+    <meta charset="utf-8" />
+
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+
+    <style>
+    html, body { height: 100%; margin: 0; }
+
+    #map { height: 85%; }
+
+    #filtro {
+        padding: 12px;
+        background: white;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        align-items: center;
+    }
+
+    #filtro label {
+        font-size: 14px;
+    }
+
+    #filtro select {
+        font-size: 16px;
+        padding: 8px;
+        border-radius: 8px;
+        min-width: 140px;
+    }
+    </style>
+</head>
+<body>
+
+<div id="filtro">
+    <label>RC:</label>
+    <select id="rcFilter">
+        <option value="ALL">Todos</option>
+    </select>
+
+    <label>Día:</label>
+    <select id="diaFilter">
+        <option value="ALL">Todos</option>
+    </select>
+</div>
+
+<div id="map"></div>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+<script>
+
+var map = L.map('map').setView([-12.0464, -77.0428], 11);
+
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
+
+let allData = [];
+let markersLayer = L.layerGroup().addTo(map);
+
+// 🎨 colores por responsable
+const colores = [
+    "red","blue","green","orange","purple",
+    "darkred","cadetblue","darkgreen","black"
+];
+
+let colorMap = {};
+
+function getColorByResponsable(responsable) {
+    if (!responsable) return "gray";
+
+    if (!colorMap[responsable]) {
+        let index = Object.keys(colorMap).length % colores.length;
+        colorMap[responsable] = colores[index];
+    }
+
+    return colorMap[responsable];
+}
+
+// 🖼️ ICONOS POR RESPONSABLE
+function getIcon(responsable) {
+
+    if (!responsable) return "icons/default.png";
+
+    responsable = responsable.trim().toUpperCase();
+
+    if (responsable.includes("APUESTA TOTAL")) return "icons/apuesta.png";
+    if (responsable.includes("TAMBO")) return "icons/tambo.png";
+    if (responsable.includes("TINBET")) return "icons/tinbet.png";
+    if (responsable.includes("LIVESPORT")) return "icons/livesport.png";
+
+    if (
+        responsable.includes("AUR BODEGA") ||
+        responsable.includes("JS BODEGA") ||
+        responsable.includes("MCG BODEGA")
+    ) return "icons/bodega.png";
+
+    return "icons/default.png";
+}
+
+// 📌 cargar JSON
+fetch('puntos.json')
+.then(res => res.json())
+.then(data => {
+
+    allData = data;
+
+    let rcSet = new Set();
+    let diaSet = new Set();
+
+    data.forEach(p => {
+        rcSet.add(p.rc);
+
+        if (p.dias) {
+            p.dias.forEach(d => diaSet.add(d));
+        }
+    });
+
+    // llenar RC
+    let rcSelect = document.getElementById("rcFilter");
+    rcSet.forEach(rc => {
+        let option = document.createElement("option");
+        option.value = rc;
+        option.text = rc;
+        rcSelect.appendChild(option);
+    });
+
+    // llenar días
+    let diaSelect = document.getElementById("diaFilter");
+    diaSet.forEach(dia => {
+        let option = document.createElement("option");
+        option.value = dia;
+        option.text = dia;
+        diaSelect.appendChild(option);
+    });
+
+    // mapa inicial
+    renderMap("ALL", "ALL");
+});
+
+// 🗺️ renderizar mapa
+function renderMap(filterRC, filterDia) {
+
+    markersLayer.clearLayers();
+
+    let filtered = allData.filter(p => {
+        return (filterRC === "ALL" || p.rc === filterRC) &&
+               (filterDia === "ALL" || (p.dias && p.dias.includes(filterDia)));
+    });
+
+    let group = new L.featureGroup();
+
+    filtered.forEach(p => {
+
+        let lat = parseFloat(p.lat);
+        let lng = parseFloat(p.lng);
+
+        if (!isNaN(lat) && !isNaN(lng)) {
+
+            let icon = L.icon({
+                iconUrl: getIcon(p.responsable),
+                iconSize: [38, 38],
+                iconAnchor: [19, 38],
+                popupAnchor: [0, -30]
+            });
+
+            let marker = L.marker([lat, lng], { icon: icon });
+
+            marker.bindTooltip(p.responsable || "Sin responsable", {
+                direction: "top"
+            });
+
+            marker.bindPopup(`
+                <b>${p.nombre}</b><br>
+                ID: ${p["ID"]}<br>
+                RC: ${p.rc}<br>
+                Responsable: ${p.responsable}<br>
+                Días: ${p.dias ? p.dias.join(", ") : ""}<br>
+                Estado: ${p.estado}<br>
+                Zona: ${p.zona}<br>
+            `);
+
+            markersLayer.addLayer(marker);
+            group.addLayer(marker);
+        }
+    });
+
+    if (filtered.length > 0) {
+        map.fitBounds(group.getBounds());
+    }
+}
+
+// 🎯 eventos filtros
+document.getElementById("rcFilter").addEventListener("change", updateFilters);
+document.getElementById("diaFilter").addEventListener("change", updateFilters);
+
+function updateFilters() {
+    let rc = document.getElementById("rcFilter").value;
+    let dia = document.getElementById("diaFilter").value;
+
+    renderMap(rc, dia);
+}
+
+</script>
+
+</body>
+</html>
