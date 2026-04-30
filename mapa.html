@@ -260,9 +260,40 @@ buscador.addEventListener("input", function () {
         item.innerHTML = `<b>${p.nombre}</b><br>${p.ID}`;
 
         item.onclick = () => {
-            map.setView([p.lat, p.lng], 16);
-            resultadosDiv.innerHTML = "";
-        };
+
+    resultadosDiv.innerHTML = "";
+    buscador.value = p.nombre;
+
+    // 🔥 filtrar SOLO esa tienda
+    let resultadoUnico = [p];
+
+    markersLayer.clearLayers();
+
+    resultadoUnico.forEach(p => {
+
+        let icon = L.icon({
+            iconUrl: getIcon(p.responsable),
+            iconSize: [38, 38],
+            iconAnchor: [19, 38],
+            popupAnchor: [0, -30]
+        });
+
+        let marker = L.marker([p.lat, p.lng], { icon: icon });
+
+        marker.bindPopup(`
+            <b>${p.nombre}</b><br>
+            ID: ${p.ID}<br>
+            RC: ${p.rc}<br>
+            Responsable: ${p.responsable}<br>
+            Estado: ${p.estado}<br>
+            Zona: ${p.zona}
+        `).openPopup();
+
+        markersLayer.addLayer(marker);
+    });
+
+    map.setView([p.lat, p.lng], 16);
+};
 
         resultadosDiv.appendChild(item);
     });
