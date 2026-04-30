@@ -88,12 +88,31 @@ html, body {
     padding: 12px 18px;
     border-radius: 10px;
     border: none;
-    background: #2196F3;
+    background: #9E9E9E;
     color: white;
-    cursor: pointer;
+    cursor: not-allowed;
     font-weight: 600;
+    opacity: 0.6;
+    transition: background 0.2s, opacity 0.2s;
 }
-#btnRuta:hover { background: #1565C0; }
+#btnRuta.activo {
+    background: #2196F3;
+    cursor: pointer;
+    opacity: 1;
+}
+#btnRuta.activo:hover { background: #1565C0; }
+
+#btnUbicacion {
+    font-size: 20px;
+    padding: 10px 14px;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+    background: #f5f5f5;
+    color: #333;
+    cursor: pointer;
+    line-height: 1;
+}
+#btnUbicacion:hover { background: #e0e0e0; }
 
 #btnLimpiarRuta {
     font-size: 16px;
@@ -211,6 +230,7 @@ html, body {
         <option value="ALL">Todos</option>
     </select>
 
+    <button id="btnUbicacion" onclick="irAUbicacion()" title="Mi ubicación">📍</button>
     <button id="btnRuta" onclick="generarRuta()">🗺️ Generar Ruta</button>
     <button id="btnLimpiarRuta" onclick="limpiarRuta()">✕ Limpiar Ruta</button>
 
@@ -358,10 +378,24 @@ document.getElementById("rcFilter").addEventListener("change", updateFilters);
 document.getElementById("diaFilter").addEventListener("change", updateFilters);
 
 function updateFilters() {
-    renderMap(
-        document.getElementById("rcFilter").value,
-        document.getElementById("diaFilter").value
-    );
+    let rc = document.getElementById("rcFilter").value;
+    let btnRuta = document.getElementById("btnRuta");
+    if (rc !== "ALL") {
+        btnRuta.classList.add("activo");
+    } else {
+        btnRuta.classList.remove("activo");
+        limpiarRuta();
+    }
+    renderMap(rc, document.getElementById("diaFilter").value);
+}
+
+function irAUbicacion() {
+    if (!userLat || !userLng) {
+        alert("Esperando señal GPS. Asegúrate de haber dado permiso de ubicación.");
+        return;
+    }
+    map.flyTo([userLat, userLng], 16, { duration: 1.2 });
+    if (userMarker) userMarker.openPopup();
 }
 
 // 📍 GEOLOCALIZACIÓN
@@ -392,6 +426,7 @@ function haversine(lat1, lng1, lat2, lng2) {
 }
 
 function generarRuta() {
+    if (!document.getElementById("btnRuta").classList.contains("activo")) return;
     if (!userLat || !userLng) {
         alert("Esperando señal GPS. Asegúrate de haber dado permiso de ubicación.");
         return;
