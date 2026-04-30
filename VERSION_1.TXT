@@ -71,77 +71,6 @@ html, body { height: 100%; margin: 0; }
     width: 44px !important;
     height: 44px !important;
 }
-
-#btnRuta {
-    font-size: 16px;
-    padding: 12px 18px;
-    border-radius: 10px;
-    border: none;
-    background: #2196F3;
-    color: white;
-    cursor: pointer;
-    font-weight: 600;
-}
-#btnRuta:hover { background: #1565C0; }
-
-#btnLimpiarRuta {
-    font-size: 16px;
-    padding: 12px 18px;
-    border-radius: 10px;
-    border: none;
-    background: #f44336;
-    color: white;
-    cursor: pointer;
-    font-weight: 600;
-    display: none;
-}
-#btnLimpiarRuta:hover { background: #c62828; }
-
-#panelRuta {
-    display: none;
-    position: fixed;
-    right: 0;
-    top: 0;
-    bottom: 0;
-    width: 290px;
-    background: white;
-    border-left: 3px solid #2196F3;
-    overflow-y: auto;
-    z-index: 1001;
-    padding: 14px;
-    box-sizing: border-box;
-    box-shadow: -4px 0 12px rgba(0,0,0,0.2);
-}
-
-.stop-item {
-    padding: 9px 6px;
-    border-bottom: 1px solid #eee;
-    font-size: 13px;
-}
-
-.stop-num {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    background: #2196F3;
-    color: white;
-    border-radius: 50%;
-    width: 24px;
-    height: 24px;
-    font-weight: bold;
-    font-size: 12px;
-    margin-right: 6px;
-}
-
-.stop-nav {
-    display: inline-block;
-    margin-top: 5px;
-    font-size: 12px;
-    color: #2196F3;
-    text-decoration: none;
-    font-weight: 600;
-}
-.stop-nav:hover { text-decoration: underline; }
 </style>
 </head>
 
@@ -164,19 +93,7 @@ html, body { height: 100%; margin: 0; }
         <option value="ALL">Todos</option>
     </select>
 
-    <button id="btnRuta" onclick="generarRuta()">🗺️ Generar Ruta</button>
-    <button id="btnLimpiarRuta" onclick="limpiarRuta()">✕ Limpiar Ruta</button>
-
 </div>
-
-<div id="panelRuta">
-    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
-        <strong style="font-size:15px">🗺️ Ruta por cercanía</strong>
-        <button onclick="document.getElementById('panelRuta').style.display='none'" style="border:none;background:none;font-size:22px;cursor:pointer;color:#888;line-height:1">×</button>
-    </div>
-    <div id="listaRuta"></div>
-</div>
-
 
 <div id="map"></div>
 
@@ -184,7 +101,7 @@ html, body { height: 100%; margin: 0; }
 
 <script>
 
-var map = L.map('map').setView([-9.19, -75.02], 6);
+var map = L.map('map').setView([-12.0464, -77.0428], 14);
 
 // 🗺️ CAPAS
 var street = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}', {
@@ -201,11 +118,6 @@ L.control.layers({
 }, null, { position: 'bottomright' }).addTo(map);
 
 let allData = [];
-let currentFiltered = [];
-let userLat = null, userLng = null;
-let userMarker = null;
-let routeLayer = null;
-let routeMarkersLayer = L.layerGroup().addTo(map);
 let markersLayer = L.layerGroup().addTo(map);
 
 // ICONOS
@@ -272,7 +184,6 @@ function renderMap(filterRC, filterDia) {
         (filterRC === "ALL" || p.rc === filterRC) &&
         (filterDia === "ALL" || (p.dias && p.dias.includes(filterDia)))
     );
-    currentFiltered = filtered;
 
     let group = new L.featureGroup();
 
@@ -300,7 +211,8 @@ function renderMap(filterRC, filterDia) {
     group.addLayer(marker);
 });
 
-if (filtered.length > 0 && (filterRC !== "ALL" || filterDia !== "ALL")) {
+// 🔥 ESTO FALTABA
+if (filtered.length > 0) {
     map.fitBounds(group.getBounds());
 }
 
@@ -319,114 +231,11 @@ function updateFilters() {
 
 // 📍 GEOLOCALIZACIÓN
 navigator.geolocation.watchPosition(pos => {
-    userLat = pos.coords.latitude;
-    userLng = pos.coords.longitude;
+    let lat = pos.coords.latitude;
+    let lng = pos.coords.longitude;
 
-    if (userMarker) {
-        userMarker.setLatLng([userLat, userLng]);
-    } else {
-        userMarker = L.circleMarker([userLat, userLng], {
-            radius: 10,
-            fillColor: '#2196F3',
-            color: 'white',
-            weight: 3,
-            fillOpacity: 1
-        }).addTo(map).bindPopup("Estás aquí");
-    }
-}, () => {}, { enableHighAccuracy: true });
-
-// RUTA POR CERCANÍA
-function haversine(lat1, lng1, lat2, lng2) {
-    const R = 6371;
-    const dLat = (lat2 - lat1) * Math.PI / 180;
-    const dLng = (lng2 - lng1) * Math.PI / 180;
-    const a = Math.sin(dLat/2)**2 + Math.cos(lat1*Math.PI/180) * Math.cos(lat2*Math.PI/180) * Math.sin(dLng/2)**2;
-    return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
-}
-
-function generarRuta() {
-    if (!userLat || !userLng) {
-        alert("Esperando señal GPS. Asegúrate de haber dado permiso de ubicación.");
-        return;
-    }
-    if (currentFiltered.length === 0) {
-        alert("No hay puntos visibles en el mapa.");
-        return;
-    }
-
-    limpiarRuta();
-
-    // Algoritmo vecino más cercano partiendo de la ubicación actual
-    let remaining = [...currentFiltered];
-    let ordered = [];
-    let curLat = userLat, curLng = userLng;
-
-    while (remaining.length > 0) {
-        let minDist = Infinity, minIdx = 0;
-        remaining.forEach((p, i) => {
-            let d = haversine(curLat, curLng, p.lat, p.lng);
-            if (d < minDist) { minDist = d; minIdx = i; }
-        });
-        ordered.push(remaining[minIdx]);
-        curLat = remaining[minIdx].lat;
-        curLng = remaining[minIdx].lng;
-        remaining.splice(minIdx, 1);
-    }
-
-    // Línea de ruta
-    let coords = [[userLat, userLng], ...ordered.map(p => [p.lat, p.lng])];
-    routeLayer = L.polyline(coords, { color: '#2196F3', weight: 3, opacity: 0.85, dashArray: '8,5' }).addTo(map);
-
-    // Marcadores numerados
-    ordered.forEach((p, i) => {
-        let numIcon = L.divIcon({
-            html: `<div style="background:#2196F3;color:white;border-radius:50%;width:26px;height:26px;display:flex;align-items:center;justify-content:center;font-weight:bold;font-size:12px;border:2px solid white;box-shadow:0 2px 5px rgba(0,0,0,0.4)">${i+1}</div>`,
-            className: '',
-            iconSize: [26, 26],
-            iconAnchor: [13, 13]
-        });
-        L.marker([p.lat, p.lng], { icon: numIcon })
-            .bindPopup(`<b>#${i+1} ${p.nombre}</b><br>ID: ${p.ID}<br>RC: ${p.rc}`)
-            .addTo(routeMarkersLayer);
-    });
-
-    // Panel lateral con lista
-    let lista = document.getElementById("listaRuta");
-    let distTotal = 0;
-    let prevLat = userLat, prevLng = userLng;
-    ordered.forEach(p => {
-        distTotal += haversine(prevLat, prevLng, p.lat, p.lng);
-        prevLat = p.lat; prevLng = p.lng;
-    });
-
-    lista.innerHTML = `<div style="font-size:12px;color:#666;margin-bottom:10px;padding-bottom:8px;border-bottom:1px solid #eee">
-        <b>${ordered.length} paradas</b> · ${distTotal.toFixed(1)} km aprox.
-    </div>`;
-
-    ordered.forEach((p, i) => {
-        let navUrl = `https://www.google.com/maps/dir/?api=1&destination=${p.lat},${p.lng}`;
-        lista.innerHTML += `
-            <div class="stop-item">
-                <div style="display:flex;align-items:center">
-                    <span class="stop-num">${i+1}</span>
-                    <span style="font-weight:600">${p.nombre}</span>
-                </div>
-                <div style="font-size:11px;color:#888;margin-top:3px;margin-left:30px">${p.ID} · ${p.rc || ''}</div>
-                <a class="stop-nav" href="${navUrl}" target="_blank" style="margin-left:30px">Navegar →</a>
-            </div>`;
-    });
-
-    document.getElementById("panelRuta").style.display = "block";
-    document.getElementById("btnLimpiarRuta").style.display = "inline-block";
-    map.fitBounds(routeLayer.getBounds(), { padding: [30, 30] });
-}
-
-function limpiarRuta() {
-    if (routeLayer) { map.removeLayer(routeLayer); routeLayer = null; }
-    routeMarkersLayer.clearLayers();
-    document.getElementById("panelRuta").style.display = "none";
-    document.getElementById("btnLimpiarRuta").style.display = "none";
-}
+    L.marker([lat, lng]).addTo(map).bindPopup("Estás aquí");
+});
 
 // 🔍 BUSCADOR
 const buscador = document.getElementById("buscador");
