@@ -237,6 +237,57 @@ function updateFilters() {
 
     renderMap(rc, dia);
 }
+// 📍 GEOLOCALIZACIÓN EN TIEMPO REAL
+
+let userMarker = null;
+let userCircle = null;
+
+function localizarUsuario() {
+
+    if (!navigator.geolocation) {
+        alert("Tu navegador no soporta geolocalización");
+        return;
+    }
+
+    navigator.geolocation.watchPosition(
+        function(position) {
+
+            let lat = position.coords.latitude;
+            let lng = position.coords.longitude;
+
+            // eliminar marcador anterior
+            if (userMarker) map.removeLayer(userMarker);
+            if (userCircle) map.removeLayer(userCircle);
+
+            // 📍 marcador usuario
+            userMarker = L.marker([lat, lng]).addTo(map)
+                .bindPopup("📍 Estás aquí");
+
+            // 🔵 círculo de precisión
+            userCircle = L.circle([lat, lng], {
+                radius: position.coords.accuracy,
+                color: 'blue',
+                fillColor: 'blue',
+                fillOpacity: 0.2
+            }).addTo(map);
+
+            // 🎯 CENTRAR MAPA AUTOMÁTICAMENTE
+            map.setView([lat, lng], 15);
+
+        },
+        function(error) {
+            console.log("Error geolocalización:", error);
+        },
+        {
+            enableHighAccuracy: true,
+            maximumAge: 10000,
+            timeout: 5000
+        }
+    );
+}
+
+// 🚀 ACTIVAR
+localizarUsuario();
 
 </script>
 
