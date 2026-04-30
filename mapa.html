@@ -6,12 +6,11 @@
 
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
 
-   <style>
+<style>
 html, body { height: 100%; margin: 0; }
 
 #map { height: 85%; }
 
-/* 🔹 CONTENEDOR FILTROS */
 #filtro {
     padding: 14px;
     background: white;
@@ -19,15 +18,14 @@ html, body { height: 100%; margin: 0; }
     flex-wrap: wrap;
     gap: 12px;
     align-items: center;
+    position: relative;
 }
 
-/* 🔹 TEXTOS */
 #filtro label {
     font-size: 16px;
     font-weight: 600;
 }
 
-/* 🔹 SELECTS (más grandes 📱) */
 #filtro select {
     font-size: 18px;
     padding: 12px;
@@ -36,29 +34,55 @@ html, body { height: 100%; margin: 0; }
     border: 1px solid #ccc;
 }
 
-/* 🔥 BOTÓN DE CAPAS */
-.leaflet-control-layers {
-    font-size: 16px;
+#buscador {
+    font-size: 18px;
+    padding: 12px;
     border-radius: 10px;
-    padding: 6px;
+    border: 1px solid #ccc;
+    min-width: 220px;
 }
 
-/* 🔥 ICONO MÁS GRANDE */
+/* 🔽 RESULTADOS */
+#resultados {
+    position: absolute;
+    top: 60px;
+    left: 0;
+    background: white;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    width: 260px;
+    max-height: 250px;
+    overflow-y: auto;
+    z-index: 999;
+}
+
+.item-resultado {
+    padding: 10px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.item-resultado:hover {
+    background: #f0f0f0;
+}
+
+/* BOTÓN CAPAS */
 .leaflet-control-layers-toggle {
     width: 44px !important;
     height: 44px !important;
 }
-
-/* 🔥 PANEL DESPLEGADO */
-.leaflet-control-layers-expanded {
-    padding: 12px;
-    font-size: 16px;
-}
 </style>
 </head>
+
 <body>
 
 <div id="filtro">
+
+    <!-- 🔍 BUSCADOR -->
+    <input type="text" id="buscador" placeholder="🔍 Buscar tienda o código..." />
+    <div id="resultados"></div>
+
+    <!-- FILTROS -->
     <label>RC:</label>
     <select id="rcFilter">
         <option value="ALL">Todos</option>
@@ -68,6 +92,7 @@ html, body { height: 100%; margin: 0; }
     <select id="diaFilter">
         <option value="ALL">Todos</option>
     </select>
+
 </div>
 
 <div id="map"></div>
@@ -78,51 +103,26 @@ html, body { height: 100%; margin: 0; }
 
 var map = L.map('map').setView([-12.0464, -77.0428], 14);
 
-// 🗺️ CAPAS DE MAPA
-
-// 🟢 CALLES (ESRI - MUY BUENA LEGIBILIDAD)
+// 🗺️ CAPAS
 var street = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}', {
-    attribution: 'Tiles © Esri',
-    maxZoom: 19
+    attribution: 'Tiles © Esri'
 }).addTo(map);
 
-// 🔵 SATÉLITE (ESRI)
-var satellite = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
-    attribution: 'Tiles © Esri',
-    maxZoom: 19
-});
+var satellite = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}');
+var dark = L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png');
 
-// 🟡 HÍBRIDO (SATÉLITE + NOMBRES DE CALLES 🔥)
-var hybrid = L.layerGroup([
-    satellite,
-    L.tileLayer('https://services.arcgisonline.com/ArcGIS/rest/services/Reference/World_Boundaries_and_Places/MapServer/tile/{z}/{y}/{x}', {
-        attribution: 'Labels © Esri'
-    })
-]);
-
-// 🟣 OSCURO (CARTO)
-var dark = L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
-    attribution: '&copy; OpenStreetMap &copy; CARTO',
-    subdomains: 'abcd',
-    maxZoom: 20
-});
-
-// Selector de capas
-var baseMaps = {
-    "Calles (Pro)": street,
+L.control.layers({
+    "Calles": street,
     "Satélite": satellite,
-    "Híbrido 🔥": hybrid,
     "Oscuro": dark
-};
-
-// Control
-L.control.layers(baseMaps, null, { position: 'bottomright' }).addTo(map);
+}, null, { position: 'bottomright' }).addTo(map);
 
 let allData = [];
 let markersLayer = L.layerGroup().addTo(map);
 
 // ICONOS
 function getIcon(responsable) {
+
     if (!responsable) return "icons/default.png";
 
     responsable = responsable.trim().toUpperCase();
@@ -141,7 +141,7 @@ function getIcon(responsable) {
     return "icons/default.png";
 }
 
-// FETCH SIN CACHE 🔥
+// FETCH
 fetch('puntos.json?v=' + new Date().getTime())
 .then(res => res.json())
 .then(data => {
@@ -153,13 +153,9 @@ fetch('puntos.json?v=' + new Date().getTime())
 
     data.forEach(p => {
         rcSet.add(p.rc);
-
-        if (p.dias) {
-            p.dias.forEach(d => diaSet.add(d));
-        }
+        if (p.dias) p.dias.forEach(d => diaSet.add(d));
     });
 
-    // RC
     let rcSelect = document.getElementById("rcFilter");
     rcSet.forEach(rc => {
         let option = document.createElement("option");
@@ -168,7 +164,6 @@ fetch('puntos.json?v=' + new Date().getTime())
         rcSelect.appendChild(option);
     });
 
-    // DIAS
     let diaSelect = document.getElementById("diaFilter");
     diaSet.forEach(dia => {
         let option = document.createElement("option");
@@ -180,114 +175,98 @@ fetch('puntos.json?v=' + new Date().getTime())
     renderMap("ALL", "ALL");
 });
 
+// MAPA
 function renderMap(filterRC, filterDia) {
 
     markersLayer.clearLayers();
 
-    let filtered = allData.filter(p => {
-        return (filterRC === "ALL" || p.rc === filterRC) &&
-               (filterDia === "ALL" || (p.dias && p.dias.includes(filterDia)));
-    });
+    let filtered = allData.filter(p =>
+        (filterRC === "ALL" || p.rc === filterRC) &&
+        (filterDia === "ALL" || (p.dias && p.dias.includes(filterDia)))
+    );
 
     let group = new L.featureGroup();
 
     filtered.forEach(p => {
 
-        let lat = parseFloat(p.lat);
-        let lng = parseFloat(p.lng);
-
-        if (!isNaN(lat) && !isNaN(lng)) {
-
-            let icon = L.icon({
-                iconUrl: getIcon(p.responsable),
-                iconSize: [38, 38],
-                iconAnchor: [19, 38],
-                popupAnchor: [0, -30]
-            });
-
-            let marker = L.marker([lat, lng], { icon: icon });
-
-            marker.bindPopup(`
-                <b>${p.nombre}</b><br>
-                ID: ${p["ID"]}<br>
-                RC: ${p.rc}<br>
-                Responsable: ${p.responsable}<br>
-                Días: ${p.dias ? p.dias.join(", ") : ""}<br>
-                Estado: ${p.estado}<br>
-                Zona: ${p.zona}<br>
-            `);
-
-            markersLayer.addLayer(marker);
-            group.addLayer(marker);
-        }
+    let icon = L.icon({
+        iconUrl: getIcon(p.responsable),
+        iconSize: [38, 38],
+        iconAnchor: [19, 38],
+        popupAnchor: [0, -30]
     });
 
-    if (filtered.length > 0) {
-        map.fitBounds(group.getBounds());
-    }
+    let marker = L.marker([p.lat, p.lng], { icon: icon });
+
+    marker.bindPopup(`
+        <b>${p.nombre}</b><br>
+        ID: ${p.ID}<br>
+        RC: ${p.rc}<br>
+        Responsable: ${p.responsable}<br>
+        Estado: ${p.estado}<br>
+        Zona: ${p.zona}
+    `);
+
+    markersLayer.addLayer(marker);
+    group.addLayer(marker);
+});
+
+// 🔥 ESTO FALTABA
+if (filtered.length > 0) {
+    map.fitBounds(group.getBounds());
 }
 
-// eventos
+}
+
+// FILTROS
 document.getElementById("rcFilter").addEventListener("change", updateFilters);
 document.getElementById("diaFilter").addEventListener("change", updateFilters);
 
 function updateFilters() {
-    let rc = document.getElementById("rcFilter").value;
-    let dia = document.getElementById("diaFilter").value;
-
-    renderMap(rc, dia);
-}
-// 📍 GEOLOCALIZACIÓN EN TIEMPO REAL
-
-let userMarker = null;
-let userCircle = null;
-
-function localizarUsuario() {
-
-    if (!navigator.geolocation) {
-        alert("Tu navegador no soporta geolocalización");
-        return;
-    }
-
-    navigator.geolocation.watchPosition(
-        function(position) {
-
-            let lat = position.coords.latitude;
-            let lng = position.coords.longitude;
-
-            // eliminar marcador anterior
-            if (userMarker) map.removeLayer(userMarker);
-            if (userCircle) map.removeLayer(userCircle);
-
-            // 📍 marcador usuario
-            userMarker = L.marker([lat, lng]).addTo(map)
-                .bindPopup("📍 Estás aquí");
-
-            // 🔵 círculo de precisión
-            userCircle = L.circle([lat, lng], {
-                radius: position.coords.accuracy,
-                color: 'blue',
-                fillColor: 'blue',
-                fillOpacity: 0.2
-            }).addTo(map);
-
-            // 🎯 CENTRAR MAPA AUTOMÁTICAMENTE
-            map.setView([lat, lng], 15);
-
-        },
-        function(error) {
-            console.log("Error geolocalización:", error);
-        },
-        {
-            enableHighAccuracy: true,
-            maximumAge: 10000,
-            timeout: 5000
-        }
+    renderMap(
+        document.getElementById("rcFilter").value,
+        document.getElementById("diaFilter").value
     );
 }
 
-// 🚀 ACTIVAR
-localizarUsuario();
+// 📍 GEOLOCALIZACIÓN
+navigator.geolocation.watchPosition(pos => {
+    let lat = pos.coords.latitude;
+    let lng = pos.coords.longitude;
+
+    L.marker([lat, lng]).addTo(map).bindPopup("Estás aquí");
+});
+
+// 🔍 BUSCADOR
+const buscador = document.getElementById("buscador");
+const resultadosDiv = document.getElementById("resultados");
+
+buscador.addEventListener("input", function () {
+
+    let texto = this.value.toLowerCase();
+    resultadosDiv.innerHTML = "";
+
+    if (texto.length < 2) return;
+
+    let resultados = allData.filter(p =>
+        p.nombre.toLowerCase().includes(texto) ||
+        p.ID.toString().includes(texto)
+    ).slice(0, 10);
+
+    resultados.forEach(p => {
+
+        let item = document.createElement("div");
+        item.className = "item-resultado";
+        item.innerHTML = `<b>${p.nombre}</b><br>${p.ID}`;
+
+        item.onclick = () => {
+            map.setView([p.lat, p.lng], 16);
+            resultadosDiv.innerHTML = "";
+        };
+
+        resultadosDiv.appendChild(item);
+    });
+});
 
 </script>
 
