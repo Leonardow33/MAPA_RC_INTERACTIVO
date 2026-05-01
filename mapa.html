@@ -114,6 +114,23 @@ html, body {
 }
 #btnUbicacion:hover { background: #e0e0e0; }
 
+#btnModo {
+    font-size: 15px;
+    padding: 10px 14px;
+    border-radius: 10px;
+    border: 2px solid #ccc;
+    background: white;
+    color: #555;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.2s;
+}
+#btnModo.pie {
+    border-color: #43A047;
+    color: #43A047;
+    background: #f1f8e9;
+}
+
 #btnLimpiarRuta {
     font-size: 16px;
     padding: 12px 18px;
@@ -230,6 +247,7 @@ html, body {
         <option value="ALL">Todos</option>
     </select>
 
+    <button id="btnModo" onclick="toggleModo()">🚗 Auto</button>
     <button id="btnUbicacion" onclick="irAUbicacion()" title="Mi ubicación">📍</button>
     <button id="btnRuta" onclick="generarRuta()">🗺️ Generar Ruta</button>
     <button id="btnLimpiarRuta" onclick="limpiarRuta()">✕ Limpiar Ruta</button>
@@ -274,6 +292,20 @@ let userMarker = null;
 let routeLayer = null;
 let routeMarkersLayer = L.layerGroup().addTo(map);
 let markersLayer = L.layerGroup().addTo(map);
+let routeMode = 'driving'; // 'driving' | 'foot'
+
+function toggleModo() {
+    let btn = document.getElementById("btnModo");
+    if (routeMode === 'driving') {
+        routeMode = 'foot';
+        btn.textContent = '🚶 A pie';
+        btn.classList.add('pie');
+    } else {
+        routeMode = 'driving';
+        btn.textContent = '🚗 Auto';
+        btn.classList.remove('pie');
+    }
+}
 
 // ICONOS
 function getIcon(responsable) {
@@ -422,65 +454,64 @@ navigator.geolocation.watchPosition(pos => {
 const ORS_KEY = 'eyJvcmciOiI1YjNjZTM1OTc4NTExMTAwMDFjZjYyNDgiLCJpZCI6IjZmZTFlYjBiMDM1YjQxMDRhOWJkNGFiNjM0MTg4ZmZhIiwiaCI6Im11cm11cjY0In0=';
 // ──────────────────────────────────────────────────────────────────────────
 
-async function fetchChunk(pts) {
-    // Intento 1: OSRM (CORS abierto)
+const ORS_PROFILE = { driving: 'driving-car', foot: 'foot-walking' };
+
+async function fetchChunk(pts, mode) {
+    // Intento 1: OSRM
     try {
         let coordStr = pts.map(p => `${p.lng},${p.lat}`).join(';');
-        let res = await fetch(`https://router.project-osrm.org/route/v1/driving/${coordStr}?overview=full&geometries=geojson`);
+        let res = await fetch(`https://router.project-osrm.org/route/v1/${mode}/${coordStr}?overview=full&geometries=geojson`);
         if (res.ok) {
             let data = await res.json();
             if (data.code === 'Ok' && data.routes[0]) return data.routes[0].geometry;
-            console.warn('OSRM respuesta:', data.code, data.message);
-        } else {
-            console.warn('OSRM HTTP:', res.status);
         }
-    } catch(e) {
-        console.warn('OSRM error:', e.message);
-    }
+    } catch(e) { console.warn('OSRM error:', e.message); }
 
     // Intento 2: OpenRouteService (requiere ORS_KEY)
     if (ORS_KEY) {
         try {
-            let res = await fetch('https://api.openrouteservice.org/v2/directions/driving-car/geojson', {
+            let profile = ORS_PROFILE[mode] || 'driving-car';
+            let res = await fetch(`https://api.openrouteservice.org/v2/directions/${profile}/geojson`, {
                 method: 'POST',
                 headers: { 'Authorization': ORS_KEY, 'Content-Type': 'application/json' },
                 body: JSON.stringify({ coordinates: pts.map(p => [p.lng, p.lat]) })
             });
             if (res.ok) {
                 let data = await res.json();
-                if (data.features && data.features[0]) return data.features[0].geometry;
-                console.warn('ORS respuesta sin features');
-            } else {
-                console.warn('ORS HTTP:', res.status);
+                if (data.features?.[0]) return data.features[0].geometry;
             }
-        } catch(e) {
-            console.warn('ORS error:', e.message);
-        }
+        } catch(e) { console.warn('ORS error:', e.message); }
     }
 
     return null;
 }
 
-async function fetchRutaOSRM(waypoints) {
+async function fetchRutaOSRM(waypoints, mode) {
     const CHUNK = 15;
     let allCoords = [];
+    let algunPuntoOmitido = false;
 
     for (let i = 0; i < waypoints.length - 1; i += CHUNK - 1) {
         let slice = waypoints.slice(i, Math.min(i + CHUNK, waypoints.length));
         if (slice.length < 2) break;
 
-        let geom = await fetchChunk(slice);
-        if (!geom) return null;
+        let geom = await fetchChunk(slice, mode);
+        if (!geom) {
+            // Sin cobertura: ignorar tramo, continuar sin línea recta
+            algunPuntoOmitido = true;
+            continue;
+        }
 
         let coords = geom.coordinates;
         if (allCoords.length > 0) coords = coords.slice(1);
         allCoords = allCoords.concat(coords);
     }
 
-    return allCoords.length >= 2 ? { type: 'LineString', coordinates: allCoords } : null;
+    if (allCoords.length < 2) return null;
+    return { type: 'LineString', coordinates: allCoords, parcial: algunPuntoOmitido };
 }
 
-// RUTA POR CERCANÍA
+// UTILIDADES DE RUTA
 function haversine(lat1, lng1, lat2, lng2) {
     const R = 6371;
     const dLat = (lat2 - lat1) * Math.PI / 180;
@@ -489,24 +520,10 @@ function haversine(lat1, lng1, lat2, lng2) {
     return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
 }
 
-function generarRuta() {
-    if (!document.getElementById("btnRuta").classList.contains("activo")) return;
-    if (!userLat || !userLng) {
-        alert("Esperando señal GPS. Asegúrate de haber dado permiso de ubicación.");
-        return;
-    }
-    if (currentFiltered.length === 0) {
-        alert("No hay puntos visibles en el mapa.");
-        return;
-    }
-
-    limpiarRuta();
-
-    // Algoritmo vecino más cercano
-    let remaining = [...currentFiltered];
+function nearestNeighborAlgo(startLat, startLng, puntos) {
+    let remaining = [...puntos];
     let ordered = [];
-    let curLat = userLat, curLng = userLng;
-
+    let curLat = startLat, curLng = startLng;
     while (remaining.length > 0) {
         let minDist = Infinity, minIdx = 0;
         remaining.forEach((p, i) => {
@@ -518,35 +535,93 @@ function generarRuta() {
         curLng = remaining[minIdx].lng;
         remaining.splice(minIdx, 1);
     }
+    return ordered;
+}
 
-    // OSRM soporta hasta 100 waypoints en el servidor público
-    if (ordered.length > 99) ordered = ordered.slice(0, 99);
+// 2-opt: elimina cruces mejorando el orden iterativamente
+// pts[0] = ubicación del usuario (fijo), resto = tiendas
+function twoOpt(pts) {
+    let n = pts.length;
+    let improved = true;
+    let maxIter = 300;
+    while (improved && maxIter-- > 0) {
+        improved = false;
+        for (let i = 0; i < n - 2; i++) {
+            for (let j = i + 2; j < n; j++) {
+                let d1 = haversine(pts[i].lat, pts[i].lng, pts[i+1].lat, pts[i+1].lng)
+                       + (j+1 < n ? haversine(pts[j].lat, pts[j].lng, pts[j+1].lat, pts[j+1].lng) : 0);
+                let d2 = haversine(pts[i].lat, pts[i].lng, pts[j].lat, pts[j].lng)
+                       + (j+1 < n ? haversine(pts[i+1].lat, pts[i+1].lng, pts[j+1].lat, pts[j+1].lng) : 0);
+                if (d2 < d1 - 1e-9) {
+                    pts = [...pts.slice(0, i+1), ...pts.slice(i+1, j+1).reverse(), ...pts.slice(j+1)];
+                    improved = true;
+                }
+            }
+        }
+    }
+    return pts.slice(1); // devuelve sin el punto de inicio
+}
 
-    // Marcadores numerados (se muestran de inmediato)
+// OSRM /trip: resuelve TSP + calcula ruta por calles en una sola llamada
+async function fetchTripOSRM(allWaypoints, mode) {
+    try {
+        let coordStr = allWaypoints.map(p => `${p.lng},${p.lat}`).join(';');
+        let res = await fetch(
+            `https://router.project-osrm.org/trip/v1/${mode}/${coordStr}?source=first&roundtrip=false&geometries=geojson&overview=full`
+        );
+        if (!res.ok) { console.warn('OSRM trip HTTP:', res.status); return null; }
+        let data = await res.json();
+        if (data.code !== 'Ok' || !data.trips || !data.trips[0]) {
+            console.warn('OSRM trip code:', data.code); return null;
+        }
+        // Reconstruir orden óptimo desde waypoint_index
+        let ordered = data.waypoints
+            .map((wp, i) => ({ wp, i }))
+            .filter(x => x.i > 0)
+            .sort((a, b) => a.wp.waypoint_index - b.wp.waypoint_index)
+            .map(x => allWaypoints[x.i]);
+        return { geom: data.trips[0].geometry, ordered };
+    } catch(e) {
+        console.warn('OSRM trip error:', e.message); return null;
+    }
+}
+
+function dibujarMarcadoresYPanel(ordered, geom) {
+    // Marcadores numerados
     ordered.forEach((p, i) => {
         let numIcon = L.divIcon({
-            html: `<div style="background:#2196F3;color:white;border-radius:50%;width:28px;height:28px;display:flex;align-items:center;justify-content:center;font-weight:bold;font-size:12px;border:2px solid white;box-shadow:0 2px 6px rgba(0,0,0,0.45)">${i+1}</div>`,
-            className: '',
-            iconSize: [28, 28],
-            iconAnchor: [14, 14]
+            html: `<div style="background:#1565C0;color:white;border-radius:50%;width:28px;height:28px;display:flex;align-items:center;justify-content:center;font-weight:bold;font-size:12px;border:2px solid white;box-shadow:0 2px 6px rgba(0,0,0,0.45)">${i+1}</div>`,
+            className: '', iconSize: [28, 28], iconAnchor: [14, 14]
         });
         L.marker([p.lat, p.lng], { icon: numIcon })
             .bindPopup(`<b>#${i+1} ${p.nombre}</b><br>ID: ${p.ID}<br>RC: ${p.rc}`)
             .addTo(routeMarkersLayer);
     });
 
+    // Trazar ruta
+    if (geom) {
+        routeLayer = L.geoJSON(geom, { style: { color: '#1565C0', weight: 5, opacity: 0.9 } }).addTo(map);
+    } else {
+        let coords = [[userLat, userLng], ...ordered.map(p => [p.lat, p.lng])];
+        routeLayer = L.polyline(coords, { color: '#1565C0', weight: 4, opacity: 0.8, dashArray: '10,6' }).addTo(map);
+    }
+
     // Panel lateral
-    let lista = document.getElementById("listaRuta");
-    let distTotal = 0;
-    let prevLat = userLat, prevLng = userLng;
+    let distTotal = 0, prevLat = userLat, prevLng = userLng;
     ordered.forEach(p => {
         distTotal += haversine(prevLat, prevLng, p.lat, p.lng);
         prevLat = p.lat; prevLng = p.lng;
     });
 
+    let estado = !geom
+        ? `<span style="color:#FF9800;font-weight:600">⚠️ Sin cobertura vial</span>`
+        : geom.parcial
+            ? `<span style="color:#FF9800;font-weight:600">⚠️ Algunos puntos omitidos por falta de cobertura</span>`
+            : `<span style="color:#388E3C;font-weight:600">✅ Ruta optimizada por calles</span>`;
+
+    let lista = document.getElementById("listaRuta");
     lista.innerHTML = `<div style="font-size:12px;color:#666;margin-bottom:10px;padding-bottom:8px;border-bottom:1px solid #eee">
-        <b>${ordered.length} paradas</b> · ~${distTotal.toFixed(1)} km
-        <span id="estadoRuta" style="display:block;margin-top:4px;color:#FF9800;font-weight:600">⏳ Calculando ruta por calles...</span>
+        <b>${ordered.length} paradas</b> · ~${distTotal.toFixed(1)} km<br>${estado}
     </div>`;
 
     ordered.forEach((p, i) => {
@@ -564,31 +639,55 @@ function generarRuta() {
 
     document.getElementById("panelRuta").style.display = "block";
     document.getElementById("btnLimpiarRuta").style.display = "inline-block";
+    if (routeLayer) map.fitBounds(routeLayer.getBounds(), { padding: [30, 30] });
+}
 
-    // Estado de carga en el botón
+async function generarRuta() {
+    if (!document.getElementById("btnRuta").classList.contains("activo")) return;
+    if (!userLat || !userLng) {
+        alert("Esperando señal GPS. Asegúrate de haber dado permiso de ubicación.");
+        return;
+    }
+    if (currentFiltered.length === 0) {
+        alert("No hay puntos visibles en el mapa.");
+        return;
+    }
+
+    limpiarRuta();
+
     let btnRuta = document.getElementById("btnRuta");
-    btnRuta.textContent = "⏳ Calculando...";
+    btnRuta.textContent = "⏳ Optimizando...";
     btnRuta.classList.remove("activo");
 
-    // Pedir ruta real por calles (chunking + dos servidores)
-    let allWaypoints = [{ lat: userLat, lng: userLng }, ...ordered];
-    fetchRutaOSRM(allWaypoints).then(geom => {
-        let estadoEl = document.getElementById("estadoRuta");
-        if (geom) {
-            routeLayer = L.geoJSON(geom, {
-                style: { color: '#1565C0', weight: 5, opacity: 0.9 }
-            }).addTo(map);
-            if (estadoEl) estadoEl.remove();
+    try {
+        // Paso 1: vecino más cercano + 2-opt (rápido, síncrono)
+        let puntos = currentFiltered.slice(0, 99);
+        let nnOrdered = nearestNeighborAlgo(userLat, userLng, puntos);
+        let ordered = twoOpt([{ lat: userLat, lng: userLng }, ...nnOrdered]);
+
+        // Paso 2: OSRM /trip — orden óptimo TSP + calles en una llamada
+        let allWaypoints = [{ lat: userLat, lng: userLng }, ...puntos];
+        let tripResult = await fetchTripOSRM(allWaypoints, routeMode);
+
+        let geom = null;
+        if (tripResult) {
+            ordered = tripResult.ordered;
+            geom = tripResult.geom;
         } else {
-            // Fallback a líneas rectas
-            let coords = [[userLat, userLng], ...ordered.map(p => [p.lat, p.lng])];
-            routeLayer = L.polyline(coords, { color: '#1565C0', weight: 4, opacity: 0.8, dashArray: '10,6' }).addTo(map);
-            if (estadoEl) estadoEl.textContent = "⚠️ Ruta aproximada (servicio no disponible)";
+            // Paso 3: 2-opt como orden + /route con snap automático para zonas aisladas
+            geom = await fetchRutaOSRM([{ lat: userLat, lng: userLng }, ...ordered], routeMode);
         }
+
+        dibujarMarcadoresYPanel(ordered, geom);
+    } catch(e) {
+        console.error('Error generando ruta:', e);
+        document.getElementById("listaRuta").innerHTML =
+            `<div style="color:#c62828;padding:12px;font-size:13px">❌ Error inesperado al calcular la ruta.<br>Revisa la consola para más detalles.</div>`;
+        document.getElementById("panelRuta").style.display = "block";
+    } finally {
         btnRuta.textContent = "🗺️ Generar Ruta";
         btnRuta.classList.add("activo");
-        if (routeLayer) map.fitBounds(routeLayer.getBounds(), { padding: [30, 30] });
-    });
+    }
 }
 
 function limpiarRuta() {
