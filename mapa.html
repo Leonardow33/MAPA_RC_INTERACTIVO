@@ -416,12 +416,52 @@ navigator.geolocation.watchPosition(pos => {
     }
 }, () => {}, { enableHighAccuracy: true });
 
-// OSRM: chunks de 15 puntos, dos servidores alternativos
+// ─── API KEY GRATUITA ──────────────────────────────────────────────────────
+// Regístrate gratis en https://openrouteservice.org/dev/#/signup
+// Copia tu API key y pégala entre las comillas:
+const ORS_KEY = 'eyJvcmciOiI1YjNjZTM1OTc4NTExMTAwMDFjZjYyNDgiLCJpZCI6IjZmZTFlYjBiMDM1YjQxMDRhOWJkNGFiNjM0MTg4ZmZhIiwiaCI6Im11cm11cjY0In0=';
+// ──────────────────────────────────────────────────────────────────────────
+
+async function fetchChunk(pts) {
+    // Intento 1: OSRM (CORS abierto)
+    try {
+        let coordStr = pts.map(p => `${p.lng},${p.lat}`).join(';');
+        let res = await fetch(`https://router.project-osrm.org/route/v1/driving/${coordStr}?overview=full&geometries=geojson`);
+        if (res.ok) {
+            let data = await res.json();
+            if (data.code === 'Ok' && data.routes[0]) return data.routes[0].geometry;
+            console.warn('OSRM respuesta:', data.code, data.message);
+        } else {
+            console.warn('OSRM HTTP:', res.status);
+        }
+    } catch(e) {
+        console.warn('OSRM error:', e.message);
+    }
+
+    // Intento 2: OpenRouteService (requiere ORS_KEY)
+    if (ORS_KEY) {
+        try {
+            let res = await fetch('https://api.openrouteservice.org/v2/directions/driving-car/geojson', {
+                method: 'POST',
+                headers: { 'Authorization': ORS_KEY, 'Content-Type': 'application/json' },
+                body: JSON.stringify({ coordinates: pts.map(p => [p.lng, p.lat]) })
+            });
+            if (res.ok) {
+                let data = await res.json();
+                if (data.features && data.features[0]) return data.features[0].geometry;
+                console.warn('ORS respuesta sin features');
+            } else {
+                console.warn('ORS HTTP:', res.status);
+            }
+        } catch(e) {
+            console.warn('ORS error:', e.message);
+        }
+    }
+
+    return null;
+}
+
 async function fetchRutaOSRM(waypoints) {
-    const SERVIDORES = [
-        'https://router.project-osrm.org',
-        'https://routing.openstreetmap.de/routed-car'
-    ];
     const CHUNK = 15;
     let allCoords = [];
 
@@ -429,26 +469,12 @@ async function fetchRutaOSRM(waypoints) {
         let slice = waypoints.slice(i, Math.min(i + CHUNK, waypoints.length));
         if (slice.length < 2) break;
 
-        let coordStr = slice.map(p => `${p.lng},${p.lat}`).join(';');
-        let ok = false;
+        let geom = await fetchChunk(slice);
+        if (!geom) return null;
 
-        for (let srv of SERVIDORES) {
-            try {
-                let res = await fetch(`${srv}/route/v1/driving/${coordStr}?overview=full&geometries=geojson`);
-                if (!res.ok) { console.warn(`OSRM ${srv} HTTP ${res.status}`); continue; }
-                let data = await res.json();
-                if (data.code !== 'Ok' || !data.routes[0]) { console.warn(`OSRM ${srv} code:`, data.code); continue; }
-                let coords = data.routes[0].geometry.coordinates;
-                if (allCoords.length > 0) coords = coords.slice(1);
-                allCoords = allCoords.concat(coords);
-                ok = true;
-                break;
-            } catch(e) {
-                console.warn(`OSRM ${srv} error:`, e.message);
-            }
-        }
-
-        if (!ok) return null;
+        let coords = geom.coordinates;
+        if (allCoords.length > 0) coords = coords.slice(1);
+        allCoords = allCoords.concat(coords);
     }
 
     return allCoords.length >= 2 ? { type: 'LineString', coordinates: allCoords } : null;
