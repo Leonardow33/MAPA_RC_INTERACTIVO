@@ -2,7 +2,7 @@
 <html>
 <head>
     <title>Mapa Interactivo</title>
-    <meta charset="utf-8" />
+    <meta charset="utf-8" />    
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
@@ -416,6 +416,44 @@ navigator.geolocation.watchPosition(pos => {
     }
 }, () => {}, { enableHighAccuracy: true });
 
+// OSRM: chunks de 15 puntos, dos servidores alternativos
+async function fetchRutaOSRM(waypoints) {
+    const SERVIDORES = [
+        'https://router.project-osrm.org',
+        'https://routing.openstreetmap.de/routed-car'
+    ];
+    const CHUNK = 15;
+    let allCoords = [];
+
+    for (let i = 0; i < waypoints.length - 1; i += CHUNK - 1) {
+        let slice = waypoints.slice(i, Math.min(i + CHUNK, waypoints.length));
+        if (slice.length < 2) break;
+
+        let coordStr = slice.map(p => `${p.lng},${p.lat}`).join(';');
+        let ok = false;
+
+        for (let srv of SERVIDORES) {
+            try {
+                let res = await fetch(`${srv}/route/v1/driving/${coordStr}?overview=full&geometries=geojson`);
+                if (!res.ok) { console.warn(`OSRM ${srv} HTTP ${res.status}`); continue; }
+                let data = await res.json();
+                if (data.code !== 'Ok' || !data.routes[0]) { console.warn(`OSRM ${srv} code:`, data.code); continue; }
+                let coords = data.routes[0].geometry.coordinates;
+                if (allCoords.length > 0) coords = coords.slice(1);
+                allCoords = allCoords.concat(coords);
+                ok = true;
+                break;
+            } catch(e) {
+                console.warn(`OSRM ${srv} error:`, e.message);
+            }
+        }
+
+        if (!ok) return null;
+    }
+
+    return allCoords.length >= 2 ? { type: 'LineString', coordinates: allCoords } : null;
+}
+
 // RUTA POR CERCANÍA
 function haversine(lat1, lng1, lat2, lng2) {
     const R = 6371;
@@ -438,7 +476,7 @@ function generarRuta() {
 
     limpiarRuta();
 
-    // Algoritmo vecino más cercano partiendo de la ubicación actual
+    // Algoritmo vecino más cercano
     let remaining = [...currentFiltered];
     let ordered = [];
     let curLat = userLat, curLng = userLng;
@@ -455,24 +493,23 @@ function generarRuta() {
         remaining.splice(minIdx, 1);
     }
 
-    // Línea de ruta
-    let coords = [[userLat, userLng], ...ordered.map(p => [p.lat, p.lng])];
-    routeLayer = L.polyline(coords, { color: '#2196F3', weight: 3, opacity: 0.85, dashArray: '8,5' }).addTo(map);
+    // OSRM soporta hasta 100 waypoints en el servidor público
+    if (ordered.length > 99) ordered = ordered.slice(0, 99);
 
-    // Marcadores numerados
+    // Marcadores numerados (se muestran de inmediato)
     ordered.forEach((p, i) => {
         let numIcon = L.divIcon({
-            html: `<div style="background:#2196F3;color:white;border-radius:50%;width:26px;height:26px;display:flex;align-items:center;justify-content:center;font-weight:bold;font-size:12px;border:2px solid white;box-shadow:0 2px 5px rgba(0,0,0,0.4)">${i+1}</div>`,
+            html: `<div style="background:#2196F3;color:white;border-radius:50%;width:28px;height:28px;display:flex;align-items:center;justify-content:center;font-weight:bold;font-size:12px;border:2px solid white;box-shadow:0 2px 6px rgba(0,0,0,0.45)">${i+1}</div>`,
             className: '',
-            iconSize: [26, 26],
-            iconAnchor: [13, 13]
+            iconSize: [28, 28],
+            iconAnchor: [14, 14]
         });
         L.marker([p.lat, p.lng], { icon: numIcon })
             .bindPopup(`<b>#${i+1} ${p.nombre}</b><br>ID: ${p.ID}<br>RC: ${p.rc}`)
             .addTo(routeMarkersLayer);
     });
 
-    // Panel lateral con lista
+    // Panel lateral
     let lista = document.getElementById("listaRuta");
     let distTotal = 0;
     let prevLat = userLat, prevLng = userLng;
@@ -482,7 +519,8 @@ function generarRuta() {
     });
 
     lista.innerHTML = `<div style="font-size:12px;color:#666;margin-bottom:10px;padding-bottom:8px;border-bottom:1px solid #eee">
-        <b>${ordered.length} paradas</b> · ${distTotal.toFixed(1)} km aprox.
+        <b>${ordered.length} paradas</b> · ~${distTotal.toFixed(1)} km
+        <span id="estadoRuta" style="display:block;margin-top:4px;color:#FF9800;font-weight:600">⏳ Calculando ruta por calles...</span>
     </div>`;
 
     ordered.forEach((p, i) => {
@@ -500,7 +538,31 @@ function generarRuta() {
 
     document.getElementById("panelRuta").style.display = "block";
     document.getElementById("btnLimpiarRuta").style.display = "inline-block";
-    map.fitBounds(routeLayer.getBounds(), { padding: [30, 30] });
+
+    // Estado de carga en el botón
+    let btnRuta = document.getElementById("btnRuta");
+    btnRuta.textContent = "⏳ Calculando...";
+    btnRuta.classList.remove("activo");
+
+    // Pedir ruta real por calles (chunking + dos servidores)
+    let allWaypoints = [{ lat: userLat, lng: userLng }, ...ordered];
+    fetchRutaOSRM(allWaypoints).then(geom => {
+        let estadoEl = document.getElementById("estadoRuta");
+        if (geom) {
+            routeLayer = L.geoJSON(geom, {
+                style: { color: '#1565C0', weight: 5, opacity: 0.9 }
+            }).addTo(map);
+            if (estadoEl) estadoEl.remove();
+        } else {
+            // Fallback a líneas rectas
+            let coords = [[userLat, userLng], ...ordered.map(p => [p.lat, p.lng])];
+            routeLayer = L.polyline(coords, { color: '#1565C0', weight: 4, opacity: 0.8, dashArray: '10,6' }).addTo(map);
+            if (estadoEl) estadoEl.textContent = "⚠️ Ruta aproximada (servicio no disponible)";
+        }
+        btnRuta.textContent = "🗺️ Generar Ruta";
+        btnRuta.classList.add("activo");
+        if (routeLayer) map.fitBounds(routeLayer.getBounds(), { padding: [30, 30] });
+    });
 }
 
 function limpiarRuta() {
