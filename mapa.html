@@ -237,6 +237,11 @@ html, body {
     <div id="resultados"></div>
 
     <!-- FILTROS -->
+    <label>Supervisor:</label>
+    <select id="supFilter">
+        <option value="ALL">Todos</option>
+    </select>
+
     <label>RC:</label>
     <select id="rcFilter">
         <option value="ALL">Todos</option>
@@ -335,12 +340,22 @@ fetch('puntos.json?v=' + new Date().getTime())
 
     allData = data;
 
+    let supSet = new Set();
     let rcSet = new Set();
     let diaSet = new Set();
 
     data.forEach(p => {
+        if (p.supervisor) supSet.add(p.supervisor);
         rcSet.add(p.rc);
         if (p.dias) p.dias.forEach(d => diaSet.add(d));
+    });
+
+    let supSelect = document.getElementById("supFilter");
+    [...supSet].sort().forEach(sup => {
+        let option = document.createElement("option");
+        option.value = sup;
+        option.text = sup;
+        supSelect.appendChild(option);
     });
 
     let rcSelect = document.getElementById("rcFilter");
@@ -359,16 +374,17 @@ fetch('puntos.json?v=' + new Date().getTime())
         diaSelect.appendChild(option);
     });
 
-    renderMap("ALL", "ALL");
+    renderMap("ALL", "ALL", "ALL");
 });
 
 // MAPA
-function renderMap(filterRC, filterDia) {
+function renderMap(filterRC, filterDia, filterSup) {
 
     markersLayer.clearLayers();
 
     let filtered = allData.filter(p =>
-        (filterRC === "ALL" || p.rc === filterRC) &&
+        (filterSup === "ALL" || p.supervisor === filterSup) &&
+        (filterRC  === "ALL" || p.rc === filterRC) &&
         (filterDia === "ALL" || (p.dias && p.dias.includes(filterDia)))
     );
     currentFiltered = filtered;
@@ -406,11 +422,13 @@ if (filtered.length > 0 && (filterRC !== "ALL" || filterDia !== "ALL")) {
 }
 
 // FILTROS
+document.getElementById("supFilter").addEventListener("change", updateFilters);
 document.getElementById("rcFilter").addEventListener("change", updateFilters);
 document.getElementById("diaFilter").addEventListener("change", updateFilters);
 
 function updateFilters() {
-    let rc = document.getElementById("rcFilter").value;
+    let rc  = document.getElementById("rcFilter").value;
+    let sup = document.getElementById("supFilter").value;
     let btnRuta = document.getElementById("btnRuta");
     if (rc !== "ALL") {
         btnRuta.classList.add("activo");
@@ -418,7 +436,7 @@ function updateFilters() {
         btnRuta.classList.remove("activo");
         limpiarRuta();
     }
-    renderMap(rc, document.getElementById("diaFilter").value);
+    renderMap(rc, document.getElementById("diaFilter").value, sup);
 }
 
 function irAUbicacion() {

@@ -8,8 +8,8 @@ data = []
 
 for _, row in df.iterrows():
 
-    # ✅ Validar coordenadas
-    if pd.notnull(row["LATITUD"]) and pd.notnull(row["LONGITUD"]):
+    # ✅ Solo puntos Activos con coordenadas
+    if pd.notnull(row["LATITUD"]) and pd.notnull(row["LONGITUD"]) and str(row["ESTATUS"]).strip().upper() == "ACTIVO":
 
         # 🔥 PROCESAR DÍAS DESDE "FRECUENCIA-NORMAL"
         dias = []
@@ -43,9 +43,10 @@ for _, row in df.iterrows():
             "cluster": row["CLUSTER"],
             "ID": str(row["ORG_CODE"]),
             "rc": row["RC_NOMBRE"],
+            "supervisor": str(row["SUPERVISOR"]).strip() if pd.notnull(row["SUPERVISOR"]) else "",
             "responsable": row["P_RESPONSABLE"],
-            "frecuencia": row["FRECUENCIA-NORMAL"],  # lo dejamos por referencia
-            "dias": dias  # 🔥 ESTE ES EL CAMPO CLAVE
+            "frecuencia": row["FRECUENCIA-NORMAL"],
+            "dias": dias
         })
 
 # 💾 Guardar JSON
