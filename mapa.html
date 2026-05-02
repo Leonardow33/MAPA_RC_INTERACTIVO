@@ -313,24 +313,65 @@ function toggleModo() {
 }
 
 // ICONOS
-function getIcon(responsable) {
+const PIN_BORDER = {
+    "APUESTA TOTAL": "#E53935",
+    "TAMBO":         "#1E88E5",
+    "TINBET":        "#43A047",
+    "LIVESPORT":     "#FB8C00",
+    "BODEGA":        "#8E24AA",
+    "DEFAULT":       "#546E7A"
+};
 
+function getPinBorder(responsable) {
+    if (!responsable) return PIN_BORDER["DEFAULT"];
+    const r = responsable.trim().toUpperCase();
+    if (r.includes("APUESTA TOTAL")) return PIN_BORDER["APUESTA TOTAL"];
+    if (r.includes("TAMBO"))         return PIN_BORDER["TAMBO"];
+    if (r.includes("TINBET"))        return PIN_BORDER["TINBET"];
+    if (r.includes("LIVESPORT"))     return PIN_BORDER["LIVESPORT"];
+    if (r.includes("BODEGA"))        return PIN_BORDER["BODEGA"];
+    return PIN_BORDER["DEFAULT"];
+}
+
+function getIconUrl(responsable) {
     if (!responsable) return "icons/default.png";
-
-    responsable = responsable.trim().toUpperCase();
-
-    if (responsable.includes("APUESTA TOTAL")) return "icons/apuesta.png";
-    if (responsable.includes("TAMBO")) return "icons/tambo.png";
-    if (responsable.includes("TINBET")) return "icons/tinbet.png";
-    if (responsable.includes("LIVESPORT")) return "icons/livesport.png";
-
-    if (
-        responsable.includes("AUR BODEGA") ||
-        responsable.includes("JS BODEGA") ||
-        responsable.includes("MCG BODEGA")
-    ) return "icons/bodega.png";
-
+    const r = responsable.trim().toUpperCase();
+    if (r.includes("APUESTA TOTAL")) return "icons/apuesta.png";
+    if (r.includes("TAMBO"))         return "icons/tambo.png";
+    if (r.includes("TINBET"))        return "icons/tinbet.png";
+    if (r.includes("LIVESPORT"))     return "icons/livesport.png";
+    if (r.includes("AUR BODEGA") || r.includes("JS BODEGA") || r.includes("MCG BODEGA")) return "icons/bodega.png";
     return "icons/default.png";
+}
+
+function makePinIcon(responsable) {
+    const url    = getIconUrl(responsable);
+    const color  = getPinBorder(responsable);
+    const html = `
+        <div style="display:flex;flex-direction:column;align-items:center;width:34px;">
+            <div style="
+                width:30px;height:30px;
+                border-radius:50%;
+                overflow:hidden;
+                border:2.5px solid ${color};
+                box-shadow:0 3px 8px rgba(0,0,0,0.45);">
+                <img src="${url}" style="width:100%;height:100%;object-fit:cover;" />
+            </div>
+            <div style="
+                width:0;height:0;
+                border-left:6px solid transparent;
+                border-right:6px solid transparent;
+                border-top:9px solid ${color};
+                margin-top:-2px;
+                filter:drop-shadow(0 2px 2px rgba(0,0,0,0.3));"></div>
+        </div>`;
+    return L.divIcon({
+        html: html,
+        className: '',
+        iconSize:    [34, 41],
+        iconAnchor:  [17, 41],
+        popupAnchor: [0, -41]
+    });
 }
 
 // FETCH
@@ -393,12 +434,7 @@ function renderMap(filterRC, filterDia, filterSup) {
 
     filtered.forEach(p => {
 
-    let icon = L.icon({
-        iconUrl: getIcon(p.responsable),
-        iconSize: [38, 38],
-        iconAnchor: [19, 38],
-        popupAnchor: [0, -30]
-    });
+    let icon = makePinIcon(p.responsable);
 
     let marker = L.marker([p.lat, p.lng], { icon: icon });
 
@@ -749,12 +785,7 @@ buscador.addEventListener("input", function () {
 
     resultadoUnico.forEach(p => {
 
-        let icon = L.icon({
-            iconUrl: getIcon(p.responsable),
-            iconSize: [38, 38],
-            iconAnchor: [19, 38],
-            popupAnchor: [0, -30]
-        });
+        let icon = makePinIcon(p.responsable);
 
         let marker = L.marker([p.lat, p.lng], { icon: icon });
 
