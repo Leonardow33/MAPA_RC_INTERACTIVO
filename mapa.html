@@ -391,8 +391,32 @@ fetch('puntos.json?v=' + new Date().getTime())
         if (p.dias) p.dias.forEach(d => diaSet.add(d));
     });
 
+    const DIA_ORDER = ["LUNES","MARTES","MIERCOLES","MIÉRCOLES","JUEVES","VIERNES","SABADO","SÁBADO","DOMINGO","SIN RUTA"];
+
+    function sortedLast(arr, lastValues) {
+        const lasts = lastValues.map(v => v.toUpperCase());
+        return arr.sort((a, b) => {
+            const aLast = lasts.includes((a || "").toUpperCase());
+            const bLast = lasts.includes((b || "").toUpperCase());
+            if (aLast && !bLast) return 1;
+            if (!aLast && bLast) return -1;
+            return (a || "").localeCompare(b || "", "es");
+        });
+    }
+
+    function sortDias(arr) {
+        return arr.sort((a, b) => {
+            const ai = DIA_ORDER.indexOf((a || "").toUpperCase());
+            const bi = DIA_ORDER.indexOf((b || "").toUpperCase());
+            if (ai === -1 && bi === -1) return (a || "").localeCompare(b || "", "es");
+            if (ai === -1) return 1;
+            if (bi === -1) return -1;
+            return ai - bi;
+        });
+    }
+
     let supSelect = document.getElementById("supFilter");
-    [...supSet].sort().forEach(sup => {
+    sortedLast([...supSet], ["SIN SUPERVISOR"]).forEach(sup => {
         let option = document.createElement("option");
         option.value = sup;
         option.text = sup;
@@ -400,7 +424,7 @@ fetch('puntos.json?v=' + new Date().getTime())
     });
 
     let rcSelect = document.getElementById("rcFilter");
-    rcSet.forEach(rc => {
+    sortedLast([...rcSet], ["SIN RC"]).forEach(rc => {
         let option = document.createElement("option");
         option.value = rc;
         option.text = rc;
@@ -408,7 +432,7 @@ fetch('puntos.json?v=' + new Date().getTime())
     });
 
     let diaSelect = document.getElementById("diaFilter");
-    diaSet.forEach(dia => {
+    sortDias([...diaSet]).forEach(dia => {
         let option = document.createElement("option");
         option.value = dia;
         option.text = dia;
@@ -419,6 +443,84 @@ fetch('puntos.json?v=' + new Date().getTime())
 });
 
 // MAPA
+function registrarVisita(p) {
+    if (!userLat || !userLng) {
+        alert("Activa el GPS primero.");
+        return;
+    }
+    const distM = haversine(userLat, userLng, p.lat, p.lng) * 1000;
+    if (distM > 400) {
+        alert(`Estás a ${Math.round(distM)}m. Acércate a 400m para registrar.`);
+        return;
+    }
+    const params = new URLSearchParams({
+        tienda:     p.nombre,
+        id:         p.ID,
+        rc:         p.rc         || "",
+        supervisor: p.supervisor || "",
+        zona:       p.zona       || "",
+        cluster:    p.cluster    || "",
+        latT:       p.lat,
+        lngT:       p.lng,
+        latRC:      userLat,
+        lngRC:      userLng,
+        dist:       Math.round(distM)
+    });
+    new Image().src = SHEET_URL + "?" + params.toString();
+    const btn = document.getElementById("btn-visita-" + p.ID);
+    if (btn) {
+        btn.textContent = "✅ Visita registrada";
+        btn.disabled = true;
+        btn.style.background = "#43A047";
+        btn.style.cursor = "default";
+    }
+}
+
+function buildPopupContent(p) {
+    const safeId = String(p.ID).replace(/[^a-zA-Z0-9_-]/g, "_");
+    return `
+        <b>${p.nombre}</b><br>
+        ID: ${p.ID}<br>
+        RC: ${p.rc}<br>
+        Responsable: ${p.responsable}<br>
+        Estado: ${p.estado}<br>
+        Zona: ${p.zona}<br><br>
+        <button id="btn-visita-${safeId}" style="
+            display:none;
+            width:100%;padding:8px;
+            background:#1565C0;color:white;
+            border:none;border-radius:8px;
+            font-size:14px;font-weight:600;cursor:pointer;">
+            📍 Registrar visita
+        </button>
+        <small id="msg-visita-${safeId}" style="color:#999;font-size:12px;">
+            📍 Acércate a 400m para registrar
+        </small>`;
+}
+
+function attachPopupOpen(marker, p) {
+    const safeId = String(p.ID).replace(/[^a-zA-Z0-9_-]/g, "_");
+    marker.on("popupopen", function() {
+        const btn = document.getElementById("btn-visita-" + safeId);
+        const msg = document.getElementById("msg-visita-" + safeId);
+        if (!btn || !msg) return;
+        if (!userLat || !userLng) {
+            msg.textContent = "📍 Activa GPS para registrar";
+            return;
+        }
+        const distM = haversine(userLat, userLng, p.lat, p.lng) * 1000;
+        if (distM <= 400) {
+            btn.style.display = "block";
+            msg.style.display = "none";
+            btn.onclick = () => registrarVisita(p);
+        } else {
+            btn.style.display = "none";
+            msg.style.display = "block";
+            msg.textContent = `📍 Estás a ${Math.round(distM)}m (necesitas 400m)`;
+        }
+    });
+}
+
 function renderMap(filterRC, filterDia, filterSup) {
 
     markersLayer.clearLayers();
@@ -437,16 +539,8 @@ function renderMap(filterRC, filterDia, filterSup) {
     let icon = makePinIcon(p.responsable);
 
     let marker = L.marker([p.lat, p.lng], { icon: icon });
-
-    marker.bindPopup(`
-        <b>${p.nombre}</b><br>
-        ID: ${p.ID}<br>
-        RC: ${p.rc}<br>
-        Responsable: ${p.responsable}<br>
-        Estado: ${p.estado}<br>
-        Zona: ${p.zona}
-    `);
-
+    marker.bindPopup(buildPopupContent(p));
+    attachPopupOpen(marker, p);
     markersLayer.addLayer(marker);
     group.addLayer(marker);
 });
@@ -506,6 +600,10 @@ navigator.geolocation.watchPosition(pos => {
 // Regístrate gratis en https://openrouteservice.org/dev/#/signup
 // Copia tu API key y pégala entre las comillas:
 const ORS_KEY = 'eyJvcmciOiI1YjNjZTM1OTc4NTExMTAwMDFjZjYyNDgiLCJpZCI6IjZmZTFlYjBiMDM1YjQxMDRhOWJkNGFiNjM0MTg4ZmZhIiwiaCI6Im11cm11cjY0In0=';
+
+// ── GOOGLE SHEET (reemplaza con tu URL de Apps Script desplegado) ──────────
+const SHEET_URL = "https://script.google.com/macros/s/AKfycbwV6aryrlS7kxomyubCgUzxixGJrHE4Okuclg7Kg0yB-MNTb84cGVcBvxohZguA_qi95w/exec";
+// ─────────────────────────────────────────────────────────────────────────
 // ──────────────────────────────────────────────────────────────────────────
 
 const ORS_PROFILE = { driving: 'driving-car', foot: 'foot-walking' };
@@ -788,15 +886,10 @@ buscador.addEventListener("input", function () {
         let icon = makePinIcon(p.responsable);
 
         let marker = L.marker([p.lat, p.lng], { icon: icon });
-
-        marker.bindPopup(`
-            <b>${p.nombre}</b><br>
-            ID: ${p.ID}<br>
-            RC: ${p.rc}<br>
-            Responsable: ${p.responsable}<br>
-            Estado: ${p.estado}<br>
-            Zona: ${p.zona}
-        `).openPopup();
+        marker.bindPopup(buildPopupContent(p));
+        attachPopupOpen(marker, p);
+        marker.addTo(markersLayer);
+        marker.openPopup();
 
         markersLayer.addLayer(marker);
     });
