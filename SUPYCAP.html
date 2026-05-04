@@ -257,13 +257,14 @@ html, body {
     <div id="resultados"></div>
 
     <!-- FILTROS -->
-    <label>Supervisor:</label>
-    <select id="supFilter">
-        <option value="ALL">Todos</option>
+    <label>Rol:</label>
+    <select id="rolFilter">
+        <option value="supervisor">Supervisor</option>
+        <option value="capacitador">Capacitador</option>
     </select>
 
-    <label>RC:</label>
-    <select id="rcFilter">
+    <label>Nombre:</label>
+    <select id="nombreFilter">
         <option value="ALL">Todos</option>
     </select>
 
@@ -442,19 +443,18 @@ function sortDias(arr) {
     });
 }
 
-function repoblarRC(sup) {
-    const rcSelect = document.getElementById("rcFilter");
-    const prevRC = rcSelect.value;
-    rcSelect.innerHTML = '<option value="ALL">Todos</option>';
-    const base = sup === "ALL" ? allData : allData.filter(p => p.supervisor === sup);
-    const rcSet = new Set(base.map(p => p.rc));
-    sortedLast([...rcSet], ["SIN RC"]).forEach(rc => {
+function repoblarNombre(rol) {
+    const sel = document.getElementById("nombreFilter");
+    const prev = sel.value;
+    sel.innerHTML = '<option value="ALL">Todos</option>';
+    const campo = rol === "capacitador" ? "capacitador" : "supervisor";
+    const nombres = new Set(allData.map(p => p[campo]).filter(v => v && v !== ""));
+    sortedLast([...nombres], ["SIN SUPERVISOR", "SIN CAPACITADOR"]).forEach(n => {
         const opt = document.createElement("option");
-        opt.value = rc; opt.text = rc;
-        rcSelect.appendChild(opt);
+        opt.value = n; opt.text = n;
+        sel.appendChild(opt);
     });
-    // mantener selección si sigue disponible
-    rcSelect.value = [...rcSelect.options].some(o => o.value === prevRC) ? prevRC : "ALL";
+    sel.value = [...sel.options].some(o => o.value === prev) ? prev : "ALL";
 }
 
 // FETCH
@@ -464,29 +464,8 @@ fetch('puntos.json?v=' + new Date().getTime())
 
     allData = data;
 
-    let supSet = new Set();
-    let rcSet  = new Set();
     let diaSet = new Set();
-
-    data.forEach(p => {
-        if (p.supervisor) supSet.add(p.supervisor);
-        rcSet.add(p.rc);
-        if (p.dias) p.dias.forEach(d => diaSet.add(d));
-    });
-
-    let supSelect = document.getElementById("supFilter");
-    sortedLast([...supSet], ["SIN SUPERVISOR"]).forEach(sup => {
-        let option = document.createElement("option");
-        option.value = sup; option.text = sup;
-        supSelect.appendChild(option);
-    });
-
-    let rcSelect = document.getElementById("rcFilter");
-    sortedLast([...rcSet], ["SIN RC"]).forEach(rc => {
-        let option = document.createElement("option");
-        option.value = rc; option.text = rc;
-        rcSelect.appendChild(option);
-    });
+    data.forEach(p => { if (p.dias) p.dias.forEach(d => diaSet.add(d)); });
 
     let diaSelect = document.getElementById("diaFilter");
     sortDias([...diaSet]).forEach(dia => {
@@ -495,7 +474,8 @@ fetch('puntos.json?v=' + new Date().getTime())
         diaSelect.appendChild(option);
     });
 
-    renderMap("ALL", "ALL", "ALL");
+    repoblarNombre("supervisor");
+    renderMap("ALL", "ALL", "supervisor");
 });
 
 // MAPA
@@ -509,19 +489,21 @@ function registrarVisita(p) {
         alert(`Estás a ${Math.round(distM)}m. Acércate a 400m para registrar.`);
         return;
     }
+    const rolActivo    = document.getElementById("rolFilter").value;
+    const nombreActivo = document.getElementById("nombreFilter").value;
     const params = new URLSearchParams({
-        hoja:       "Visitas",
-        tienda:     p.nombre,
-        id:         p.ID,
-        rc:         p.rc         || "",
-        supervisor: p.supervisor || "",
-        zona:       p.zona       || "",
-        cluster:    p.cluster    || "",
-        latT:       p.lat,
-        lngT:       p.lng,
-        latRC:      userLat,
-        lngRC:      userLng,
-        dist:       Math.round(distM)
+        hoja:        SHEET_HOJA,
+        tienda:      p.nombre,
+        id:          p.ID,
+        rol:         rolActivo,
+        nombre:      nombreActivo !== "ALL" ? nombreActivo : "",
+        zona:        p.zona    || "",
+        cluster:     p.cluster || "",
+        latT:        p.lat,
+        lngT:        p.lng,
+        latRC:       userLat,
+        lngRC:       userLng,
+        dist:        Math.round(distM)
     });
     const safeId = String(p.ID).replace(/[^a-zA-Z0-9_-]/g, "_");
     const btn = document.getElementById("btn-visita-" + safeId);
@@ -574,6 +556,13 @@ function attachPopupOpen(marker, p) {
         const btn = document.getElementById("btn-visita-" + safeId);
         const msg = document.getElementById("msg-visita-" + safeId);
         if (!btn || !msg) return;
+        const nombreSel = document.getElementById("nombreFilter").value;
+        if (nombreSel === "ALL") {
+            btn.style.display = "none";
+            msg.style.display = "block";
+            msg.textContent = "⚠️ Selecciona tu nombre para registrar";
+            return;
+        }
         if (!userLat || !userLng) {
             msg.textContent = "📍 Activa GPS para registrar";
             return;
@@ -591,55 +580,47 @@ function attachPopupOpen(marker, p) {
     });
 }
 
-function renderMap(filterRC, filterDia, filterSup) {
-
+function renderMap(filterNombre, filterDia, filterRol) {
     markersLayer.clearLayers();
-
     let filtered = allData.filter(p =>
-        (filterSup === "ALL" || p.supervisor === filterSup) &&
-        (filterRC  === "ALL" || p.rc === filterRC) &&
+        (filterRol !== "supervisor" || filterNombre === "ALL" || p.supervisor === filterNombre) &&
         (filterDia === "ALL" || (p.dias && p.dias.includes(filterDia)))
     );
     currentFiltered = filtered;
 
     let group = new L.featureGroup();
-
     filtered.forEach(p => {
+        let marker = L.marker([p.lat, p.lng], { icon: makePinIcon(p.responsable) });
+        marker.bindPopup(buildPopupContent(p));
+        attachPopupOpen(marker, p);
+        markersLayer.addLayer(marker);
+        group.addLayer(marker);
+    });
 
-    let icon = makePinIcon(p.responsable);
-
-    let marker = L.marker([p.lat, p.lng], { icon: icon });
-    marker.bindPopup(buildPopupContent(p));
-    attachPopupOpen(marker, p);
-    markersLayer.addLayer(marker);
-    group.addLayer(marker);
-});
-
-if (filtered.length > 0 && (filterRC !== "ALL" || filterDia !== "ALL")) {
-    map.fitBounds(group.getBounds());
-}
-
+    if (filtered.length > 0 && filterNombre !== "ALL") {
+        map.fitBounds(group.getBounds());
+    }
 }
 
 // FILTROS
-document.getElementById("supFilter").addEventListener("change", function() {
-    repoblarRC(this.value);
+document.getElementById("rolFilter").addEventListener("change", function() {
+    repoblarNombre(this.value);
     updateFilters();
 });
-document.getElementById("rcFilter").addEventListener("change", updateFilters);
+document.getElementById("nombreFilter").addEventListener("change", updateFilters);
 document.getElementById("diaFilter").addEventListener("change", updateFilters);
 
 function updateFilters() {
-    let rc  = document.getElementById("rcFilter").value;
-    let sup = document.getElementById("supFilter").value;
-    let btnRuta = document.getElementById("btnRuta");
-    if (rc !== "ALL") {
+    const nombre = document.getElementById("nombreFilter").value;
+    const rol    = document.getElementById("rolFilter").value;
+    const btnRuta = document.getElementById("btnRuta");
+    if (nombre !== "ALL") {
         btnRuta.classList.add("activo");
     } else {
         btnRuta.classList.remove("activo");
         limpiarRuta();
     }
-    renderMap(rc, document.getElementById("diaFilter").value, sup);
+    renderMap(nombre, document.getElementById("diaFilter").value, rol);
 }
 
 function irAUbicacion() {
@@ -674,10 +655,10 @@ navigator.geolocation.watchPosition(pos => {
 // Copia tu API key y pégala entre las comillas:
 const ORS_KEY = 'eyJvcmciOiI1YjNjZTM1OTc4NTExMTAwMDFjZjYyNDgiLCJpZCI6IjZmZTFlYjBiMDM1YjQxMDRhOWJkNGFiNjM0MTg4ZmZhIiwiaCI6Im11cm11cjY0In0=';
 
-// ── GOOGLE SHEET (reemplaza con tu URL de Apps Script desplegado) ──────────
-const SHEET_URL = "https://script.google.com/macros/s/AKfycby2f2uW9E2_CUBr9OiKVT4Sp-ubP2sRIXlWig-GPuKTGyDxi-zx724ZGtkOFaWW0jnqjw/exec";
+// ── GOOGLE SHEET ──────────────────────────────────────────────────────────
+const SHEET_URL  = "https://script.google.com/macros/s/AKfycby2f2uW9E2_CUBr9OiKVT4Sp-ubP2sRIXlWig-GPuKTGyDxi-zx724ZGtkOFaWW0jnqjw/exec";
+const SHEET_HOJA = "Visitas_Mapa2";
 // ─────────────────────────────────────────────────────────────────────────
-// ──────────────────────────────────────────────────────────────────────────
 
 const ORS_PROFILE = { driving: 'driving-car', foot: 'foot-walking' };
 
