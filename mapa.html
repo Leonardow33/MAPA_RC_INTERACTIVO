@@ -24,7 +24,9 @@ html, body {
 
 #filtro {
     padding: 14px;
-    background: white;
+    background: linear-gradient(to right, #f9e4e4, #f5ece4);
+    border-bottom: 2.5px solid #c4897a;
+    box-shadow: 0 3px 10px rgba(150, 80, 60, 0.12);
     display: flex;
     flex-wrap: wrap;
     gap: 12px;
@@ -34,7 +36,9 @@ html, body {
 
 #filtro label {
     font-size: 16px;
-    font-weight: 600;
+    font-weight: 700;
+    color: #6b3a2a;
+    letter-spacing: 0.3px;
 }
 
 #filtro select {
@@ -42,15 +46,31 @@ html, body {
     padding: 12px;
     border-radius: 10px;
     min-width: 160px;
-    border: 1px solid #ccc;
+    border: 1.5px solid #c4897a;
+    background: #fff8f6;
+    color: #4a2318;
+}
+
+#filtro select:focus {
+    outline: none;
+    border-color: #9c4f3a;
+    box-shadow: 0 0 0 3px rgba(196,137,122,0.25);
 }
 
 #buscador {
     font-size: 18px;
     padding: 12px;
     border-radius: 10px;
-    border: 1px solid #ccc;
+    border: 1.5px solid #c4897a;
+    background: #fff8f6;
+    color: #4a2318;
     min-width: 220px;
+}
+
+#buscador:focus {
+    outline: none;
+    border-color: #9c4f3a;
+    box-shadow: 0 0 0 3px rgba(196,137,122,0.25);
 }
 
 /* 🔽 RESULTADOS */
@@ -106,21 +126,21 @@ html, body {
     font-size: 20px;
     padding: 10px 14px;
     border-radius: 10px;
-    border: 1px solid #ccc;
-    background: #f5f5f5;
-    color: #333;
+    border: 1.5px solid #c4897a;
+    background: #fff8f6;
+    color: #6b3a2a;
     cursor: pointer;
     line-height: 1;
 }
-#btnUbicacion:hover { background: #e0e0e0; }
+#btnUbicacion:hover { background: #f0d8d0; }
 
 #btnModo {
     font-size: 15px;
     padding: 10px 14px;
     border-radius: 10px;
-    border: 2px solid #ccc;
-    background: white;
-    color: #555;
+    border: 1.5px solid #c4897a;
+    background: #fff8f6;
+    color: #6b3a2a;
     cursor: pointer;
     font-weight: 600;
     transition: all 0.2s;
@@ -269,6 +289,29 @@ html, body {
 
 
 <div id="map"></div>
+
+<!-- Logo + crédito -->
+<div style="
+    position:fixed;
+    bottom:10px;left:10px;
+    z-index:1000;
+    pointer-events:none;
+    display:flex;flex-direction:column;align-items:flex-start;gap:3px;">
+    <img src="icons/GEODOR.png"
+         style="height:42px;object-fit:contain;
+                opacity:0.88;
+                filter:drop-shadow(0 1px 4px rgba(0,0,0,0.35));" />
+    <span style="
+        font-family:sans-serif;
+        font-size:10px;
+        color:#555;
+        background:rgba(255,255,255,0.72);
+        padding:2px 7px;
+        border-radius:4px;
+        letter-spacing:0.3px;">
+        Desarrollado por <strong>Doriant C. F.</strong>
+    </span>
+</div>
 
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 
