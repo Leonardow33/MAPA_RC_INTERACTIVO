@@ -417,6 +417,46 @@ function makePinIcon(responsable) {
     });
 }
 
+// HELPERS DE ORDENAMIENTO
+const DIA_ORDER = ["LUNES","MARTES","MIERCOLES","MIÉRCOLES","JUEVES","VIERNES","SABADO","SÁBADO","DOMINGO","SIN RUTA"];
+
+function sortedLast(arr, lastValues) {
+    const lasts = lastValues.map(v => v.toUpperCase());
+    return arr.sort((a, b) => {
+        const aLast = lasts.includes((a || "").toUpperCase());
+        const bLast = lasts.includes((b || "").toUpperCase());
+        if (aLast && !bLast) return 1;
+        if (!aLast && bLast) return -1;
+        return (a || "").localeCompare(b || "", "es");
+    });
+}
+
+function sortDias(arr) {
+    return arr.sort((a, b) => {
+        const ai = DIA_ORDER.indexOf((a || "").toUpperCase());
+        const bi = DIA_ORDER.indexOf((b || "").toUpperCase());
+        if (ai === -1 && bi === -1) return (a || "").localeCompare(b || "", "es");
+        if (ai === -1) return 1;
+        if (bi === -1) return -1;
+        return ai - bi;
+    });
+}
+
+function repoblarRC(sup) {
+    const rcSelect = document.getElementById("rcFilter");
+    const prevRC = rcSelect.value;
+    rcSelect.innerHTML = '<option value="ALL">Todos</option>';
+    const base = sup === "ALL" ? allData : allData.filter(p => p.supervisor === sup);
+    const rcSet = new Set(base.map(p => p.rc));
+    sortedLast([...rcSet], ["SIN RC"]).forEach(rc => {
+        const opt = document.createElement("option");
+        opt.value = rc; opt.text = rc;
+        rcSelect.appendChild(opt);
+    });
+    // mantener selección si sigue disponible
+    rcSelect.value = [...rcSelect.options].some(o => o.value === prevRC) ? prevRC : "ALL";
+}
+
 // FETCH
 fetch('puntos.json?v=' + new Date().getTime())
 .then(res => res.json())
@@ -425,7 +465,7 @@ fetch('puntos.json?v=' + new Date().getTime())
     allData = data;
 
     let supSet = new Set();
-    let rcSet = new Set();
+    let rcSet  = new Set();
     let diaSet = new Set();
 
     data.forEach(p => {
@@ -434,51 +474,24 @@ fetch('puntos.json?v=' + new Date().getTime())
         if (p.dias) p.dias.forEach(d => diaSet.add(d));
     });
 
-    const DIA_ORDER = ["LUNES","MARTES","MIERCOLES","MIÉRCOLES","JUEVES","VIERNES","SABADO","SÁBADO","DOMINGO","SIN RUTA"];
-
-    function sortedLast(arr, lastValues) {
-        const lasts = lastValues.map(v => v.toUpperCase());
-        return arr.sort((a, b) => {
-            const aLast = lasts.includes((a || "").toUpperCase());
-            const bLast = lasts.includes((b || "").toUpperCase());
-            if (aLast && !bLast) return 1;
-            if (!aLast && bLast) return -1;
-            return (a || "").localeCompare(b || "", "es");
-        });
-    }
-
-    function sortDias(arr) {
-        return arr.sort((a, b) => {
-            const ai = DIA_ORDER.indexOf((a || "").toUpperCase());
-            const bi = DIA_ORDER.indexOf((b || "").toUpperCase());
-            if (ai === -1 && bi === -1) return (a || "").localeCompare(b || "", "es");
-            if (ai === -1) return 1;
-            if (bi === -1) return -1;
-            return ai - bi;
-        });
-    }
-
     let supSelect = document.getElementById("supFilter");
     sortedLast([...supSet], ["SIN SUPERVISOR"]).forEach(sup => {
         let option = document.createElement("option");
-        option.value = sup;
-        option.text = sup;
+        option.value = sup; option.text = sup;
         supSelect.appendChild(option);
     });
 
     let rcSelect = document.getElementById("rcFilter");
     sortedLast([...rcSet], ["SIN RC"]).forEach(rc => {
         let option = document.createElement("option");
-        option.value = rc;
-        option.text = rc;
+        option.value = rc; option.text = rc;
         rcSelect.appendChild(option);
     });
 
     let diaSelect = document.getElementById("diaFilter");
     sortDias([...diaSet]).forEach(dia => {
         let option = document.createElement("option");
-        option.value = dia;
-        option.text = dia;
+        option.value = dia; option.text = dia;
         diaSelect.appendChild(option);
     });
 
@@ -595,7 +608,10 @@ if (filtered.length > 0 && (filterRC !== "ALL" || filterDia !== "ALL")) {
 }
 
 // FILTROS
-document.getElementById("supFilter").addEventListener("change", updateFilters);
+document.getElementById("supFilter").addEventListener("change", function() {
+    repoblarRC(this.value);
+    updateFilters();
+});
 document.getElementById("rcFilter").addEventListener("change", updateFilters);
 document.getElementById("diaFilter").addEventListener("change", updateFilters);
 

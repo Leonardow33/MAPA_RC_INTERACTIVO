@@ -6181,9 +6181,9 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-MIÉRCOLES-VIERNES",
         "dias": [
-            "VIERNES",
             "LUNES",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "VIERNES"
         ]
     },
     {
@@ -6829,9 +6829,9 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-MIÉRCOLES-VIERNES",
         "dias": [
-            "VIERNES",
             "LUNES",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "VIERNES"
         ]
     },
     {
@@ -7035,9 +7035,9 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-MIÉRCOLES-VIERNES",
         "dias": [
-            "VIERNES",
             "LUNES",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "VIERNES"
         ]
     },
     {
@@ -7069,9 +7069,9 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-MIÉRCOLES-VIERNES",
         "dias": [
-            "VIERNES",
             "LUNES",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "VIERNES"
         ]
     },
     {
@@ -7121,9 +7121,9 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-MIÉRCOLES-VIERNES",
         "dias": [
-            "VIERNES",
             "LUNES",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "VIERNES"
         ]
     },
     {
@@ -7325,9 +7325,9 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-MIÉRCOLES-VIERNES",
         "dias": [
-            "VIERNES",
             "LUNES",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "VIERNES"
         ]
     },
     {
@@ -7377,9 +7377,9 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-MIÉRCOLES-VIERNES",
         "dias": [
-            "VIERNES",
             "LUNES",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "VIERNES"
         ]
     },
     {
@@ -7411,9 +7411,9 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-MIÉRCOLES-VIERNES",
         "dias": [
-            "VIERNES",
             "LUNES",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "VIERNES"
         ]
     },
     {
@@ -7513,9 +7513,9 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-MIÉRCOLES-VIERNES",
         "dias": [
-            "VIERNES",
             "LUNES",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "VIERNES"
         ]
     },
     {
@@ -7871,9 +7871,9 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-MARTES-MIÉRCOLES",
         "dias": [
-            "MARTES",
             "LUNES",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "MARTES"
         ]
     },
     {
@@ -8349,9 +8349,9 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-MIÉRCOLES-VIERNES",
         "dias": [
-            "VIERNES",
             "LUNES",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "VIERNES"
         ]
     },
     {
@@ -8520,9 +8520,9 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-MIÉRCOLES-VIERNES",
         "dias": [
-            "VIERNES",
             "LUNES",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "VIERNES"
         ]
     },
     {
@@ -9691,9 +9691,9 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-MARTES-MIÉRCOLES",
         "dias": [
-            "MARTES",
             "LUNES",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "MARTES"
         ]
     },
     {
@@ -10216,9 +10216,9 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-MIÉRCOLES-VIERNES",
         "dias": [
-            "VIERNES",
             "LUNES",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "VIERNES"
         ]
     },
     {
@@ -10352,9 +10352,9 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-MARTES-MIÉRCOLES",
         "dias": [
-            "MARTES",
             "LUNES",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "MARTES"
         ]
     },
     {
@@ -10948,9 +10948,9 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-MARTES-MIÉRCOLES",
         "dias": [
-            "MARTES",
             "LUNES",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "MARTES"
         ]
     },
     {
@@ -13478,9 +13478,9 @@
         "responsable": "MCG BODEGA",
         "frecuencia": "LUNES-MIÉRCOLES-VIERNES",
         "dias": [
-            "VIERNES",
             "LUNES",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "VIERNES"
         ]
     },
     {
@@ -13801,11 +13801,11 @@
         "frecuencia": "LUNES-MARTES-MIÉRCOLES-JUEVES-VIERNES-SÁBADO",
         "dias": [
             "JUEVES",
-            "SÁBADO",
-            "LUNES",
             "VIERNES",
+            "SÁBADO",
+            "MIÉRCOLES",
             "MARTES",
-            "MIÉRCOLES"
+            "LUNES"
         ]
     },
     {
@@ -13822,11 +13822,11 @@
         "frecuencia": "LUNES-MARTES-MIÉRCOLES-JUEVES-VIERNES-SÁBADO",
         "dias": [
             "JUEVES",
-            "SÁBADO",
-            "LUNES",
             "VIERNES",
+            "SÁBADO",
+            "MIÉRCOLES",
             "MARTES",
-            "MIÉRCOLES"
+            "LUNES"
         ]
     },
     {
@@ -14022,8 +14022,8 @@
         "responsable": "JS BODEGA",
         "frecuencia": "LUNES-MARTES",
         "dias": [
-            "MARTES",
-            "LUNES"
+            "LUNES",
+            "MARTES"
         ]
     },
     {
@@ -14039,9 +14039,9 @@
         "responsable": "JS BODEGA",
         "frecuencia": "LUNES-MIÉRCOLES-VIERNES",
         "dias": [
-            "VIERNES",
             "LUNES",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "VIERNES"
         ]
     },
     {
@@ -14177,9 +14177,9 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-MARTES-MIÉRCOLES",
         "dias": [
-            "MARTES",
             "LUNES",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "MARTES"
         ]
     },
     {
@@ -15565,9 +15565,9 @@
         "responsable": "TINBET",
         "frecuencia": "LUNES-MIÉRCOLES-VIERNES",
         "dias": [
-            "VIERNES",
             "LUNES",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "VIERNES"
         ]
     },
     {
@@ -15583,9 +15583,9 @@
         "responsable": "TINBET",
         "frecuencia": "LUNES-MIÉRCOLES-VIERNES",
         "dias": [
-            "VIERNES",
             "LUNES",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "VIERNES"
         ]
     },
     {
@@ -15837,9 +15837,9 @@
         "responsable": "TINBET",
         "frecuencia": "LUNES-MIÉRCOLES-VIERNES",
         "dias": [
-            "VIERNES",
             "LUNES",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "VIERNES"
         ]
     },
     {
@@ -15924,9 +15924,9 @@
         "responsable": "TINBET",
         "frecuencia": "LUNES-MIÉRCOLES-VIERNES",
         "dias": [
-            "VIERNES",
             "LUNES",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "VIERNES"
         ]
     },
     {
@@ -16249,11 +16249,11 @@
         "frecuencia": "LUNES-MARTES-MIÉRCOLES-JUEVES-VIERNES-SÁBADO",
         "dias": [
             "JUEVES",
-            "SÁBADO",
-            "LUNES",
             "VIERNES",
+            "SÁBADO",
+            "MIÉRCOLES",
             "MARTES",
-            "MIÉRCOLES"
+            "LUNES"
         ]
     },
     {
@@ -16270,11 +16270,11 @@
         "frecuencia": "LUNES-MARTES-MIÉRCOLES-JUEVES-VIERNES-SÁBADO",
         "dias": [
             "JUEVES",
-            "SÁBADO",
-            "LUNES",
             "VIERNES",
+            "SÁBADO",
+            "MIÉRCOLES",
             "MARTES",
-            "MIÉRCOLES"
+            "LUNES"
         ]
     },
     {
@@ -16291,11 +16291,11 @@
         "frecuencia": "LUNES-MARTES-MIÉRCOLES-JUEVES-VIERNES-SÁBADO",
         "dias": [
             "JUEVES",
-            "SÁBADO",
-            "LUNES",
             "VIERNES",
+            "SÁBADO",
+            "MIÉRCOLES",
             "MARTES",
-            "MIÉRCOLES"
+            "LUNES"
         ]
     },
     {
@@ -16538,9 +16538,9 @@
         "responsable": "TINBET",
         "frecuencia": "LUNES-MIÉRCOLES-VIERNES",
         "dias": [
-            "VIERNES",
             "LUNES",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "VIERNES"
         ]
     },
     {
@@ -16574,9 +16574,9 @@
         "responsable": "TINBET",
         "frecuencia": "LUNES-MIÉRCOLES-VIERNES",
         "dias": [
-            "VIERNES",
             "LUNES",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "VIERNES"
         ]
     },
     {
@@ -16592,9 +16592,9 @@
         "responsable": "TINBET",
         "frecuencia": "LUNES-MIÉRCOLES-VIERNES",
         "dias": [
-            "VIERNES",
             "LUNES",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "VIERNES"
         ]
     },
     {
@@ -16628,9 +16628,9 @@
         "responsable": "TINBET",
         "frecuencia": "LUNES-MIÉRCOLES-VIERNES",
         "dias": [
-            "VIERNES",
             "LUNES",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "VIERNES"
         ]
     },
     {
@@ -16646,9 +16646,9 @@
         "responsable": "TINBET",
         "frecuencia": "LUNES-MIÉRCOLES-VIERNES",
         "dias": [
-            "VIERNES",
             "LUNES",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "VIERNES"
         ]
     },
     {
@@ -16682,9 +16682,9 @@
         "responsable": "TINBET",
         "frecuencia": "LUNES-MIÉRCOLES-VIERNES",
         "dias": [
-            "VIERNES",
             "LUNES",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "VIERNES"
         ]
     },
     {
@@ -16700,9 +16700,9 @@
         "responsable": "TINBET",
         "frecuencia": "LUNES-MIÉRCOLES-VIERNES",
         "dias": [
-            "VIERNES",
             "LUNES",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "VIERNES"
         ]
     },
     {
@@ -16718,9 +16718,9 @@
         "responsable": "TINBET",
         "frecuencia": "LUNES-MIÉRCOLES-VIERNES",
         "dias": [
-            "VIERNES",
             "LUNES",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "VIERNES"
         ]
     },
     {
@@ -16941,9 +16941,9 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-MARTES-MIÉRCOLES",
         "dias": [
-            "MARTES",
             "LUNES",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "MARTES"
         ]
     },
     {
@@ -17264,9 +17264,9 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-MIÉRCOLES-VIERNES",
         "dias": [
-            "VIERNES",
             "LUNES",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "VIERNES"
         ]
     },
     {
@@ -17993,9 +17993,9 @@
         "responsable": "APUESTA TOTAL",
         "frecuencia": "LUNES-MIÉRCOLES-VIERNES",
         "dias": [
-            "VIERNES",
             "LUNES",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "VIERNES"
         ]
     },
     {
@@ -19013,11 +19013,11 @@
         "frecuencia": "LUNES-MARTES-MIÉRCOLES-JUEVES-VIERNES-SÁBADO",
         "dias": [
             "JUEVES",
-            "SÁBADO",
-            "LUNES",
             "VIERNES",
+            "SÁBADO",
+            "MIÉRCOLES",
             "MARTES",
-            "MIÉRCOLES"
+            "LUNES"
         ]
     },
     {
@@ -19313,9 +19313,9 @@
         "responsable": "TINBET",
         "frecuencia": "LUNES-MIÉRCOLES-VIERNES",
         "dias": [
-            "VIERNES",
             "LUNES",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "VIERNES"
         ]
     },
     {
@@ -19699,9 +19699,9 @@
         "responsable": "TINBET",
         "frecuencia": "LUNES-MIÉRCOLES-VIERNES",
         "dias": [
-            "VIERNES",
             "LUNES",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "VIERNES"
         ]
     },
     {
@@ -19765,9 +19765,9 @@
         "responsable": "TINBET",
         "frecuencia": "LUNES-MIÉRCOLES-VIERNES",
         "dias": [
-            "VIERNES",
             "LUNES",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "VIERNES"
         ]
     },
     {
@@ -19916,11 +19916,11 @@
         "frecuencia": "LUNES-MARTES-MIÉRCOLES-JUEVES-VIERNES-SÁBADO",
         "dias": [
             "JUEVES",
-            "SÁBADO",
-            "LUNES",
             "VIERNES",
+            "SÁBADO",
+            "MIÉRCOLES",
             "MARTES",
-            "MIÉRCOLES"
+            "LUNES"
         ]
     },
     {
@@ -19937,11 +19937,11 @@
         "frecuencia": "LUNES-MARTES-MIÉRCOLES-JUEVES-VIERNES-SÁBADO",
         "dias": [
             "JUEVES",
-            "SÁBADO",
-            "LUNES",
             "VIERNES",
+            "SÁBADO",
+            "MIÉRCOLES",
             "MARTES",
-            "MIÉRCOLES"
+            "LUNES"
         ]
     },
     {
@@ -21603,8 +21603,8 @@
         "responsable": "APUESTA TOTAL",
         "frecuencia": "LUNES-MARTES",
         "dias": [
-            "MARTES",
-            "LUNES"
+            "LUNES",
+            "MARTES"
         ]
     },
     {
@@ -21652,8 +21652,8 @@
         "responsable": "APUESTA TOTAL",
         "frecuencia": "LUNES-MARTES",
         "dias": [
-            "MARTES",
-            "LUNES"
+            "LUNES",
+            "MARTES"
         ]
     },
     {
@@ -25270,11 +25270,11 @@
         "frecuencia": "LUNES-MARTES-MIÉRCOLES-JUEVES-VIERNES-SÁBADO",
         "dias": [
             "JUEVES",
-            "SÁBADO",
-            "LUNES",
             "VIERNES",
+            "SÁBADO",
+            "MIÉRCOLES",
             "MARTES",
-            "MIÉRCOLES"
+            "LUNES"
         ]
     },
     {
@@ -25323,11 +25323,11 @@
         "frecuencia": "LUNES-MARTES-MIÉRCOLES-JUEVES-VIERNES-SÁBADO",
         "dias": [
             "JUEVES",
-            "SÁBADO",
-            "LUNES",
             "VIERNES",
+            "SÁBADO",
+            "MIÉRCOLES",
             "MARTES",
-            "MIÉRCOLES"
+            "LUNES"
         ]
     },
     {
