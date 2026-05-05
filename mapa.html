@@ -582,6 +582,7 @@ function buildPopupContent(p) {
         <b>${p.nombre}</b><br>
         ID: ${p.ID}<br>
         RC: ${p.rc}<br>
+        Usuario: ${p.username || "-"}<br>
         Responsable: ${p.responsable}<br>
         Estado: ${p.estado}<br>
         Zona: ${p.zona}<br><br>
@@ -1014,7 +1015,7 @@ buscador.addEventListener("input", function () {
     resultadoUnico.forEach(p => {
 
         let icon = makePinIcon(p.responsable, getEstadoPunto(p.ID));
-
+P
         let marker = L.marker([p.lat, p.lng], { icon: icon });
         marker.bindPopup(buildPopupContent(p));
         attachPopupOpen(marker, p);

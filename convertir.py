@@ -43,6 +43,7 @@ for _, row in df.iterrows():
             "cluster": row["CLUSTER"],
             "ID": str(row["ORG_CODE"]),
             "rc": row["RC_NOMBRE"],
+            "username": str(row["USERNAME"]).strip() if pd.notnull(row.get("USERNAME")) else "",
             "supervisor": str(row["SUPERVISOR"]).strip() if pd.notnull(row["SUPERVISOR"]) else "",
             "capacitador": str(row["CAPACITADOR"]).strip() if pd.notnull(row.get("CAPACITADOR")) else "",
             "responsable": row["P_RESPONSABLE"],
