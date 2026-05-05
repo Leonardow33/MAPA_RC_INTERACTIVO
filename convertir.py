@@ -44,6 +44,7 @@ for _, row in df.iterrows():
             "ID": str(row["ORG_CODE"]),
             "rc": row["RC_NOMBRE"],
             "supervisor": str(row["SUPERVISOR"]).strip() if pd.notnull(row["SUPERVISOR"]) else "",
+            "capacitador": str(row["CAPACITADOR"]).strip() if pd.notnull(row.get("CAPACITADOR")) else "",
             "responsable": row["P_RESPONSABLE"],
             "frecuencia": row["FRECUENCIA-NORMAL"],
             "dias": dias

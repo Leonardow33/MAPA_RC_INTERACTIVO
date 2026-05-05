@@ -388,34 +388,31 @@ function getIconUrl(responsable) {
     return "icons/default.png";
 }
 
-function makePinIcon(responsable) {
-    const url    = getIconUrl(responsable);
-    const color  = getPinBorder(responsable);
+function makePinIcon(responsable, estado) {
+    const url = getIconUrl(responsable);
+    let color, extraStyle = "", imgStyle = "width:100%;height:100%;object-fit:cover;";
+
+    if (estado === "completado") {
+        color     = "#9E9E9E";
+        extraStyle = "opacity:0.45;";
+        imgStyle  += "filter:grayscale(1);";
+    } else if (estado === "en_visita") {
+        color = "#FF9800";
+    } else {
+        color = getPinBorder(responsable);
+    }
+
     const html = `
-        <div style="display:flex;flex-direction:column;align-items:center;width:34px;">
-            <div style="
-                width:30px;height:30px;
-                border-radius:50%;
-                overflow:hidden;
-                border:2.5px solid ${color};
-                box-shadow:0 3px 8px rgba(0,0,0,0.45);">
-                <img src="${url}" style="width:100%;height:100%;object-fit:cover;" />
+        <div style="display:flex;flex-direction:column;align-items:center;width:34px;${extraStyle}">
+            <div style="width:30px;height:30px;border-radius:50%;overflow:hidden;
+                border:2.5px solid ${color};box-shadow:0 3px 8px rgba(0,0,0,0.45);">
+                <img src="${url}" style="${imgStyle}" />
             </div>
-            <div style="
-                width:0;height:0;
-                border-left:6px solid transparent;
-                border-right:6px solid transparent;
-                border-top:9px solid ${color};
-                margin-top:-2px;
-                filter:drop-shadow(0 2px 2px rgba(0,0,0,0.3));"></div>
+            <div style="width:0;height:0;border-left:6px solid transparent;
+                border-right:6px solid transparent;border-top:9px solid ${color};
+                margin-top:-2px;filter:drop-shadow(0 2px 2px rgba(0,0,0,0.3));"></div>
         </div>`;
-    return L.divIcon({
-        html: html,
-        className: '',
-        iconSize:    [34, 41],
-        iconAnchor:  [17, 41],
-        popupAnchor: [0, -41]
-    });
+    return L.divIcon({ html, className: '', iconSize: [34,41], iconAnchor: [17,41], popupAnchor: [0,-41] });
 }
 
 // HELPERS DE ORDENAMIENTO
@@ -478,53 +475,84 @@ fetch('puntos.json?v=' + new Date().getTime())
     renderMap("ALL", "ALL", "supervisor");
 });
 
-// MAPA
-function registrarVisita(p) {
-    if (!userLat || !userLng) {
-        alert("Activa el GPS primero.");
-        return;
-    }
-    const distM = haversine(userLat, userLng, p.lat, p.lng) * 1000;
-    if (distM > 400) {
-        alert(`Estás a ${Math.round(distM)}m. Acércate a 400m para registrar.`);
-        return;
-    }
+// ── ESTADO DE VISITAS (localStorage por día) ──────────────────────────────
+function getTodayKey() {
+    return "visitas_" + new Date().toISOString().slice(0, 10);
+}
+function getVisitasHoy() {
+    return JSON.parse(localStorage.getItem(getTodayKey()) || "{}");
+}
+function getEstadoPunto(id) {
+    const v = getVisitasHoy()[String(id)];
+    if (!v)       return "libre";
+    if (v.salida) return "completado";
+    return "en_visita";
+}
+function guardarEstadoLocal(id, tipo, hora) {
+    const key = getTodayKey();
+    const visitas = getVisitasHoy();
+    if (!visitas[String(id)]) visitas[String(id)] = {};
+    visitas[String(id)][tipo] = hora;
+    localStorage.setItem(key, JSON.stringify(visitas));
+}
+// ──────────────────────────────────────────────────────────────────────────
+
+function enviarAlSheet(p, tipo, distM) {
     const rolActivo    = document.getElementById("rolFilter").value;
     const nombreActivo = document.getElementById("nombreFilter").value;
     const params = new URLSearchParams({
-        hoja:        SHEET_HOJA,
-        tienda:      p.nombre,
-        id:          p.ID,
-        rol:         rolActivo,
-        nombre:      nombreActivo !== "ALL" ? nombreActivo : "",
-        zona:        p.zona    || "",
-        cluster:     p.cluster || "",
-        latT:        p.lat,
-        lngT:        p.lng,
-        latRC:       userLat,
-        lngRC:       userLng,
-        dist:        Math.round(distM)
+        hoja: SHEET_HOJA, tipo,
+        tienda: p.nombre, id: p.ID,
+        rol:    rolActivo,
+        nombre: nombreActivo !== "ALL" ? nombreActivo : "",
+        zona: p.zona || "", cluster: p.cluster || "",
+        latT: p.lat, lngT: p.lng,
+        latRC: userLat, lngRC: userLng,
+        dist: Math.round(distM)
     });
+    return fetch(SHEET_URL + "?" + params.toString(), { mode: 'no-cors' });
+}
+
+function registrarMovimiento(p, tipo, marker) {
     const safeId = String(p.ID).replace(/[^a-zA-Z0-9_-]/g, "_");
-    const btn = document.getElementById("btn-visita-" + safeId);
-    if (btn) {
-        btn.textContent = "⏳ Registrando...";
-        btn.disabled = true;
-    }
-    fetch(SHEET_URL + "?" + params.toString(), { mode: 'no-cors' })
+    const btn    = document.getElementById("btn-visita-" + safeId);
+    const msg    = document.getElementById("msg-visita-" + safeId);
+    const hora   = new Date().toTimeString().slice(0, 5);
+    const distM  = haversine(userLat, userLng, p.lat, p.lng) * 1000;
+
+    if (btn) { btn.textContent = "⏳ Registrando..."; btn.disabled = true; }
+
+    guardarEstadoLocal(p.ID, tipo, hora);
+    marker.setIcon(makePinIcon(p.responsable, getEstadoPunto(p.ID)));
+
+    enviarAlSheet(p, tipo, distM)
         .then(() => {
-            if (btn) {
-                btn.textContent = "✅ Visita registrada";
-                btn.style.background = "#43A047";
-                btn.style.cursor = "default";
+            const estado = getEstadoPunto(p.ID);
+            if (estado === "completado") {
+                const v = getVisitasHoy()[String(p.ID)];
+                if (btn) btn.style.display = "none";
+                if (msg) {
+                    msg.style.display = "block";
+                    msg.style.color   = "#388E3C";
+                    msg.textContent   = `✅ Visita completa · E: ${v.entrada} · S: ${v.salida}`;
+                }
+            } else {
+                const v = getVisitasHoy()[String(p.ID)];
+                if (btn) {
+                    btn.textContent      = "🔴 Registrar Salida";
+                    btn.style.background = "#E65100";
+                    btn.disabled         = false;
+                    btn.onclick = () => registrarMovimiento(p, "salida", marker);
+                }
+                if (msg) {
+                    msg.style.display = "block";
+                    msg.style.color   = "#E65100";
+                    msg.textContent   = `🟡 En visita · Entrada: ${v.entrada}`;
+                }
             }
         })
         .catch(() => {
-            if (btn) {
-                btn.textContent = "❌ Error al registrar";
-                btn.style.background = "#e53935";
-                btn.disabled = false;
-            }
+            if (btn) { btn.textContent = "❌ Error - reintentar"; btn.style.background = "#e53935"; btn.disabled = false; }
         });
 }
 
@@ -538,14 +566,12 @@ function buildPopupContent(p) {
         Estado: ${p.estado}<br>
         Zona: ${p.zona}<br><br>
         <button id="btn-visita-${safeId}" style="
-            display:none;
-            width:100%;padding:8px;
+            display:none;width:100%;padding:8px;
             background:#1565C0;color:white;
             border:none;border-radius:8px;
             font-size:14px;font-weight:600;cursor:pointer;">
-            📍 Registrar visita
         </button>
-        <small id="msg-visita-${safeId}" style="color:#999;font-size:12px;">
+        <small id="msg-visita-${safeId}" style="font-size:12px;color:#999;">
             📍 Acércate a 400m para registrar
         </small>`;
 }
@@ -556,26 +582,55 @@ function attachPopupOpen(marker, p) {
         const btn = document.getElementById("btn-visita-" + safeId);
         const msg = document.getElementById("msg-visita-" + safeId);
         if (!btn || !msg) return;
+
+        const estado = getEstadoPunto(p.ID);
+        const v      = getVisitasHoy()[String(p.ID)];
+
+        if (estado === "completado") {
+            btn.style.display = "none";
+            msg.style.display = "block";
+            msg.style.color   = "#388E3C";
+            msg.textContent   = `✅ Visita completa · E: ${v.entrada} · S: ${v.salida}`;
+            return;
+        }
         const nombreSel = document.getElementById("nombreFilter").value;
         if (nombreSel === "ALL") {
             btn.style.display = "none";
             msg.style.display = "block";
-            msg.textContent = "⚠️ Selecciona tu nombre para registrar";
+            msg.style.color   = "#E65100";
+            msg.textContent   = "⚠️ Selecciona tu nombre para registrar";
             return;
         }
         if (!userLat || !userLng) {
-            msg.textContent = "📍 Activa GPS para registrar";
+            btn.style.display = "none";
+            msg.style.display = "block";
+            msg.style.color   = "#999";
+            msg.textContent   = "📍 Activa GPS para registrar";
             return;
         }
         const distM = haversine(userLat, userLng, p.lat, p.lng) * 1000;
-        if (distM <= 400) {
-            btn.style.display = "block";
-            msg.style.display = "none";
-            btn.onclick = () => registrarVisita(p);
-        } else {
+        if (distM > 400) {
             btn.style.display = "none";
             msg.style.display = "block";
-            msg.textContent = `📍 Estás a ${Math.round(distM)}m (necesitas 400m)`;
+            msg.style.color   = "#999";
+            msg.textContent   = `📍 Estás a ${Math.round(distM)}m (necesitas 400m)`;
+            return;
+        }
+        msg.style.display = "block";
+        btn.style.display = "block";
+        if (estado === "libre") {
+            btn.textContent      = "🟢 Registrar Entrada";
+            btn.style.background = "#1565C0";
+            btn.disabled         = false;
+            msg.textContent      = "";
+            btn.onclick = () => registrarMovimiento(p, "entrada", marker);
+        } else {
+            btn.textContent      = "🔴 Registrar Salida";
+            btn.style.background = "#E65100";
+            btn.disabled         = false;
+            msg.style.color      = "#E65100";
+            msg.textContent      = `🟡 En visita · Entrada: ${v.entrada}`;
+            btn.onclick = () => registrarMovimiento(p, "salida", marker);
         }
     });
 }
@@ -590,7 +645,7 @@ function renderMap(filterNombre, filterDia, filterRol) {
 
     let group = new L.featureGroup();
     filtered.forEach(p => {
-        let marker = L.marker([p.lat, p.lng], { icon: makePinIcon(p.responsable) });
+        let marker = L.marker([p.lat, p.lng], { icon: makePinIcon(p.responsable, getEstadoPunto(p.ID)) });
         marker.bindPopup(buildPopupContent(p));
         attachPopupOpen(marker, p);
         markersLayer.addLayer(marker);
@@ -937,7 +992,7 @@ buscador.addEventListener("input", function () {
 
     resultadoUnico.forEach(p => {
 
-        let icon = makePinIcon(p.responsable);
+        let icon = makePinIcon(p.responsable, getEstadoPunto(p.ID));
 
         let marker = L.marker([p.lat, p.lng], { icon: icon });
         marker.bindPopup(buildPopupContent(p));
