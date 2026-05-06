@@ -48,7 +48,10 @@ for _, row in df.iterrows():
             "capacitador": str(row["CAPACITADOR"]).strip() if pd.notnull(row.get("CAPACITADOR")) else "",
             "responsable": row["P_RESPONSABLE"],
             "frecuencia": row["FRECUENCIA-NORMAL"],
-            "dias": dias
+            "dias": dias,
+            "distrito": str(row["DISTRITOS"]).strip() if pd.notnull(row.get("DISTRITOS")) else "",
+            "gz": str(row["GZ"]).strip() if pd.notnull(row.get("GZ")) else "",
+            "jz": str(row["JZ"]).strip() if pd.notnull(row.get("JZ")) else ""
         })
 
 # 💾 Guardar JSON

@@ -67,6 +67,19 @@
         }
         #btn-nearest:active { background: #bf360c; }
 
+        /* ── DISTRITO ─────────────────────────────────────────── */
+        #distrito-area {
+            padding: 6px 10px;
+            border-bottom: 1px solid #c4897a;
+            flex-shrink: 0;
+            display: flex; gap: 8px; align-items: center;
+        }
+        #distrito-filter {
+            flex: 1; padding: 7px 8px;
+            border: 1px solid #c4897a; border-radius: 6px;
+            font-size: 12px; background: white;
+        }
+
         /* ── BUSQUEDA ─────────────────────────────────────────── */
         #search-area {
             padding: 10px;
@@ -200,6 +213,33 @@
             font-size: 13px; cursor: pointer;
         }
 
+        /* ── BARRA FILTROS MAPA ───────────────────────────────── */
+        #map-filtros {
+            position: fixed;
+            top: 0; left: 312px; right: 0;
+            z-index: 250;
+            background: linear-gradient(to right, #f9e4e4, #f5ece4);
+            border-bottom: 2px solid #c4897a;
+            padding: 7px 14px;
+            display: flex; gap: 10px; align-items: center; flex-wrap: wrap;
+            box-shadow: 0 2px 8px rgba(150,80,60,0.15);
+            transition: left 0.3s ease;
+        }
+        #map-filtros.panel-oculto { left: 0; }
+        #map-filtros label {
+            font-size: 12px; font-weight: bold; color: #6d3d2a;
+        }
+        #map-filtros select {
+            padding: 6px 8px; border: 1.5px solid #c4897a;
+            border-radius: 8px; font-size: 13px;
+            background: white; color: #4a2318; min-width: 140px;
+        }
+        #map-filtros select:focus { outline: none; border-color: #9c4f3a; }
+        #map-total {
+            margin-left: auto; font-size: 12px;
+            color: #6d3d2a; font-weight: bold;
+        }
+
         /* ── WATERMARK ────────────────────────────────────────── */
         #watermark {
             position: fixed; bottom: 10px; left: 320px;
@@ -213,9 +253,16 @@
         @media (max-width: 768px) {
             body { display: block; }
 
+            #map-filtros {
+                left: 0;
+                padding: 6px 10px;
+                gap: 6px;
+            }
+            #map-filtros select { min-width: 120px; font-size: 12px; }
+
             #map {
                 position: fixed;
-                top: 0; left: 0; right: 0; bottom: 0; z-index: 1;
+                top: 46px; left: 0; right: 0; bottom: 0; z-index: 1;
             }
 
             #panel {
@@ -272,6 +319,13 @@
         <button id="btn-nearest">&#x1F4CD; 10 cercanos</button>
     </div>
 
+    <div id="distrito-area">
+        <label style="font-size:12px;color:#6d3d2a;font-weight:bold;">Distrito:</label>
+        <select id="distrito-filter">
+            <option value="">-- Todos --</option>
+        </select>
+    </div>
+
     <div id="search-area">
         <input type="text" id="search-input" placeholder="Buscar por nombre o ID..." autocomplete="off"/>
         <div id="search-results"></div>
@@ -294,6 +348,22 @@
         <button id="btn-calcular" disabled>Calcular Ruta</button>
         <button id="btn-limpiar">&#x1F5D1;</button>
     </div>
+</div>
+
+<div id="map-filtros">
+    <label>Partner:</label>
+    <select id="map-partner-sel">
+        <option value="">Todos</option>
+    </select>
+    <label>Distrito:</label>
+    <div id="map-dist-wrap" style="position:relative;display:inline-flex;align-items:center;gap:4px;">
+        <input type="text" id="map-distrito-input" placeholder="Buscar distrito..." autocomplete="off"
+            style="padding:6px 8px;border:1.5px solid #c4897a;border-radius:8px;font-size:13px;background:white;color:#4a2318;min-width:150px;"/>
+        <button id="map-dist-clear" onclick="clearMapDistrito()"
+            style="display:none;background:#c4897a;border:none;color:white;border-radius:6px;padding:4px 8px;font-size:12px;cursor:pointer;">&#x2715;</button>
+        <div id="map-dist-sugg" style="display:none;position:absolute;top:100%;left:0;min-width:180px;background:white;border:1.5px solid #c4897a;border-radius:0 0 8px 8px;max-height:200px;overflow-y:auto;z-index:999;"></div>
+    </div>
+    <span id="map-total"></span>
 </div>
 
 <div id="map"></div>
@@ -326,6 +396,17 @@ let stopMarkers   = [];
 let userMarker    = null;
 let userLatLng    = null;
 let rutaOrdenada  = [];
+const displayLayer = L.layerGroup().addTo(map);
+
+const COLORES = {
+    "APUESTA TOTAL": "#FB8C00",
+    "TAMBO":         "#8E24AA",
+    "TINBET":        "#43A047",
+    "LIVESPORT":     "#1E88E5",
+    "BODEGA":        "#29B6F6",
+    "AUR BODEGA":    "#29B6F6"
+};
+function colorPartner(r) { return COLORES[r] || "#757575"; }
 
 // ── DATOS ─────────────────────────────────────────────────────────────────
 fetch("puntos.json")
@@ -348,22 +429,139 @@ if (navigator.geolocation) {
     }, null, { enableHighAccuracy: true });
 }
 
-// ── PARTNERS ──────────────────────────────────────────────────────────────
+// ── POBLAR FILTROS ────────────────────────────────────────────────────────
 function poblarPartners() {
+    // Panel de ruta: partner y distrito
     const sel = document.getElementById("partner-filter");
     const partners = [...new Set(allData.map(p => p.responsable).filter(Boolean))].sort();
-    partners.forEach(p => {
+    partners.forEach(v => {
         const o = document.createElement("option");
-        o.value = p; o.textContent = p;
+        o.value = v; o.textContent = v;
         sel.appendChild(o);
     });
+
+    const dSel = document.getElementById("distrito-filter");
+    const distritos = [...new Set(allData.map(p => p.distrito).filter(Boolean))].sort();
+    distritos.forEach(v => {
+        const o = document.createElement("option");
+        o.value = v; o.textContent = v;
+        dSel.appendChild(o);
+    });
+
+    document.getElementById("distrito-filter").addEventListener("change", () => {
+        searchResults.innerHTML = "";
+        searchResults.classList.remove("visible");
+        searchInput.value = "";
+    });
+
+    // Barra de filtros del mapa (independiente)
+    const mpSel = document.getElementById("map-partner-sel");
+    partners.forEach(v => {
+        const o = document.createElement("option");
+        o.value = v; o.textContent = v;
+        mpSel.appendChild(o);
+    });
+
+    // buscador de distrito en barra del mapa
+    const mapDistInput = document.getElementById("map-distrito-input");
+    const mapDistSugg  = document.getElementById("map-dist-sugg");
+    const mapDistClear = document.getElementById("map-dist-clear");
+    let   mapDistrito  = "";
+
+    mapDistInput.addEventListener("input", function () {
+        const q = this.value.trim().toLowerCase();
+        mapDistSugg.innerHTML = "";
+        if (q.length < 1) { mapDistSugg.style.display = "none"; return; }
+        const matches = distritos.filter(d => d.toLowerCase().includes(q)).slice(0, 30);
+        if (!matches.length) { mapDistSugg.style.display = "none"; return; }
+        matches.forEach(d => {
+            const div = document.createElement("div");
+            div.textContent = d;
+            div.style.cssText = "padding:8px 10px;cursor:pointer;font-size:13px;border-bottom:1px solid #f0e0d8;";
+            div.addEventListener("mouseover", () => div.style.background = "#fde8e0");
+            div.addEventListener("mouseout",  () => div.style.background = "");
+            div.addEventListener("click", () => {
+                mapDistrito          = d;
+                mapDistInput.value   = d;
+                mapDistClear.style.display = "inline-block";
+                mapDistSugg.style.display  = "none";
+                renderDisplayPoints();
+            });
+            mapDistSugg.appendChild(div);
+        });
+        mapDistSugg.style.display = "block";
+    });
+
+    document.addEventListener("click", e => {
+        if (!e.target.closest("#map-dist-wrap")) mapDistSugg.style.display = "none";
+    });
+
+    window.clearMapDistrito = function () {
+        mapDistrito                = "";
+        mapDistInput.value         = "";
+        mapDistClear.style.display = "none";
+        mapDistSugg.style.display  = "none";
+        renderDisplayPoints();
+    };
+
+    window._getMapDistrito = () => mapDistrito;
+
+    document.getElementById("map-partner-sel").addEventListener("change", renderDisplayPoints);
+
+    renderDisplayPoints();
+}
+
+// ── CAPA DE PUNTOS DEL MAPA ───────────────────────────────────────────────
+function renderDisplayPoints() {
+    displayLayer.clearLayers();
+    const partnerVal  = document.getElementById("map-partner-sel").value;
+    const distritoVal = (window._getMapDistrito && window._getMapDistrito()) || "";
+
+    const filtered = allData.filter(p =>
+        (!partnerVal  || p.responsable === partnerVal) &&
+        (!distritoVal || p.distrito    === distritoVal)
+    );
+
+    document.getElementById("map-total").textContent = filtered.length + " puntos";
+
+    const group = L.featureGroup();
+
+    filtered.forEach(p => {
+        const color = colorPartner(p.responsable);
+        const m = L.circleMarker([p.lat, p.lng], {
+            radius: 6, color: color, fillColor: color,
+            fillOpacity: 0.75, weight: 1.5
+        }).bindPopup(
+            "<b>" + p.nombre + "</b><br>" +
+            "ORG_CODE: " + p.ID + "<br>" +
+            "RC: " + (p.rc||"-") + "<br>" +
+            "Distrito: " + (p.distrito||"-") + "<br>" +
+            "GZ: " + (p.gz||"-") + " · JZ: " + (p.jz||"-") + "<br><br>" +
+            "<button onclick=\"addStopById('" + p.ID + "')\" style=\"width:100%;padding:7px;background:#1565C0;color:white;border:none;border-radius:6px;cursor:pointer;font-size:13px;\">+ Agregar a ruta</button>"
+        );
+        displayLayer.addLayer(m);
+        group.addLayer(m);
+    });
+
+    // solo hace fitBounds cuando hay un filtro activo y hay puntos
+    if ((partnerVal || distritoVal) && filtered.length > 0) {
+        map.fitBounds(group.getBounds(), { padding: [40, 40], maxZoom: 15 });
+    }
+}
+
+function addStopById(id) {
+    const p = allData.find(x => x.ID === id);
+    if (p) { addStop(p); map.closePopup(); }
 }
 
 // ── 10 MAS CERCANOS ───────────────────────────────────────────────────────
 document.getElementById("btn-nearest").addEventListener("click", () => {
     if (!userLatLng) { alert("Esperando GPS. Activa la ubicacion e intenta de nuevo."); return; }
-    const partner = document.getElementById("partner-filter").value;
-    let pool = partner ? allData.filter(p => p.responsable === partner) : allData;
+    const partner  = document.getElementById("partner-filter").value;
+    const distSel  = document.getElementById("distrito-filter").value;
+    let pool = allData;
+    if (partner) pool = pool.filter(p => p.responsable === partner);
+    if (distSel) pool = pool.filter(p => p.distrito === distSel);
 
     const conDist = pool
         .map(p => ({ ...p, _dist: haversine(userLatLng[0], userLatLng[1], p.lat, p.lng) }))
@@ -398,10 +596,12 @@ searchInput.addEventListener("input", function () {
     searchResults.innerHTML = "";
     if (q.length < 2) { searchResults.classList.remove("visible"); return; }
 
+    const distSel = document.getElementById("distrito-filter").value;
     const matches = allData.filter(p =>
-        p.nombre.toLowerCase().includes(q) ||
-        String(p.ID).toLowerCase().includes(q) ||
-        (p.rc && p.rc.toLowerCase().includes(q))
+        (!distSel || p.distrito === distSel) &&
+        (p.nombre.toLowerCase().includes(q) ||
+         String(p.ID).toLowerCase().includes(q) ||
+         (p.rc && p.rc.toLowerCase().includes(q)))
     ).slice(0, 40);
 
     if (!matches.length) { searchResults.classList.remove("visible"); return; }
@@ -476,13 +676,16 @@ function togglePanel() {
     const btn   = document.getElementById("btn-toggle-panel");
     const isMob = window.innerWidth <= 768;
 
+    const filtros = document.getElementById("map-filtros");
     if (panel.classList.contains("collapsed")) {
         panel.classList.remove("collapsed");
+        filtros.classList.remove("panel-oculto");
         btn.textContent = "−";
         if (isMob) document.getElementById("fab-abrir").classList.add("oculto");
         else setTimeout(() => map.invalidateSize(), 320);
     } else {
         panel.classList.add("collapsed");
+        filtros.classList.add("panel-oculto");
         btn.textContent = "+";
         if (!isMob) setTimeout(() => map.invalidateSize(), 320);
         else document.getElementById("fab-abrir").classList.remove("oculto");
@@ -574,7 +777,7 @@ async function calcularRuta() {
                 iconSize: [32,32], iconAnchor: [16,16]
             });
             const m = L.marker([p.lat, p.lng], { icon }).addTo(map)
-                .bindPopup("<b>"+(idx+1)+". "+p.nombre+"</b><br>ID: "+p.ID+"<br>RC: "+(p.rc||"-")+"<br>Usuario: "+(p.username||"-"));
+                .bindPopup("<b>"+(idx+1)+". "+p.nombre+"</b><br>ORG_CODE: "+p.ID+"<br>RC: "+(p.rc||"-")+"<br>Usuario: "+(p.username||"-")+"<br>Distrito: "+(p.distrito||"-")+"<br>GZ: "+(p.gz||"-")+"<br>JZ: "+(p.jz||"-"));
             stopMarkers.push(m);
         });
 

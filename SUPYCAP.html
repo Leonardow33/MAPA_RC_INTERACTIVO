@@ -97,6 +97,59 @@ html, body {
     background: #f0f0f0;
 }
 
+/* BUSCADOR DISTRITO */
+#distritoWrap {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+}
+#distritoInput {
+    font-size: 16px;
+    padding: 12px;
+    border-radius: 10px;
+    border: 1.5px solid #c4897a;
+    background: #fff8f6;
+    color: #4a2318;
+    min-width: 180px;
+}
+#distritoInput:focus {
+    outline: none;
+    border-color: #9c4f3a;
+    box-shadow: 0 0 0 3px rgba(196,137,122,0.25);
+}
+#distritoClear {
+    background: #c4897a;
+    border: none;
+    color: white;
+    border-radius: 6px;
+    padding: 6px 9px;
+    font-size: 13px;
+    cursor: pointer;
+    display: none;
+}
+#distritoSuggestions {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background: white;
+    border: 1.5px solid #c4897a;
+    border-radius: 0 0 10px 10px;
+    width: 100%;
+    max-height: 220px;
+    overflow-y: auto;
+    z-index: 999;
+    display: none;
+}
+#distritoSuggestions.visible { display: block; }
+.dist-item {
+    padding: 10px 12px;
+    cursor: pointer;
+    font-size: 15px;
+    border-bottom: 1px solid #f0e0d8;
+}
+.dist-item:hover { background: #fde8e0; }
+
 /* BOTÓN CAPAS */
 .leaflet-control-layers-toggle {
     width: 44px !important;
@@ -268,10 +321,25 @@ html, body {
         <option value="ALL">Todos</option>
     </select>
 
-    <label>Día:</label>
-    <select id="diaFilter">
+    <span id="zonaWrap" style="display:none;">
+        <label>Zona:</label>
+        <select id="zonaFilter">
+            <option value="otra_zona">Otra zona</option>
+            <option value="su_zona">Su zona</option>
+        </select>
+    </span>
+
+    <label>Partner:</label>
+    <select id="partnerFilter">
         <option value="ALL">Todos</option>
     </select>
+
+    <label>Distrito:</label>
+    <div id="distritoWrap">
+        <input type="text" id="distritoInput" placeholder="Buscar distrito..." autocomplete="off"/>
+        <button id="distritoClear" onclick="clearDistrito()">&#x2715;</button>
+        <div id="distritoSuggestions"></div>
+    </div>
 
     <button id="btnModo" onclick="toggleModo()">🚗 Auto</button>
     <button id="btnUbicacion" onclick="irAUbicacion()" title="Mi ubicación">📍</button>
@@ -336,6 +404,8 @@ L.control.layers({
 
 let allData = [];
 let currentFiltered = [];
+let allDistritos     = [];
+let selectedDistrito = "";
 let userLat = null, userLng = null;
 let userMarker = null;
 let routeLayer = null;
@@ -461,23 +531,25 @@ fetch('puntos.json?v=' + new Date().getTime())
 
     allData = data;
 
-    let diaSet = new Set();
-    data.forEach(p => { if (p.dias) p.dias.forEach(d => diaSet.add(d)); });
 
-    let diaSelect = document.getElementById("diaFilter");
-    sortDias([...diaSet]).forEach(dia => {
-        let option = document.createElement("option");
-        option.value = dia; option.text = dia;
-        diaSelect.appendChild(option);
+    // poblar partner
+    const partnerSel = document.getElementById("partnerFilter");
+    const partners = [...new Set(data.map(p => p.responsable).filter(Boolean))].sort();
+    partners.forEach(v => {
+        const o = document.createElement("option");
+        o.value = v; o.text = v;
+        partnerSel.appendChild(o);
     });
 
+    allDistritos = [...new Set(data.map(p => p.distrito).filter(Boolean))].sort();
+
     repoblarNombre("supervisor");
-    renderMap("ALL", "ALL", "supervisor");
+    renderMap("ALL", "ALL", "supervisor", "ALL", "otra_zona", "");
 });
 
 // ── ESTADO DE VISITAS (localStorage por día) ──────────────────────────────
 function getTodayKey() {
-    return "visitas_" + new Date().toISOString().slice(0, 10);
+    return "visitas_supycap_" + new Date().toISOString().slice(0, 10);
 }
 function getVisitasHoy() {
     return JSON.parse(localStorage.getItem(getTodayKey()) || "{}");
@@ -506,6 +578,7 @@ function enviarAlSheet(p, tipo, distM) {
         rol:    rolActivo,
         nombre: nombreActivo !== "ALL" ? nombreActivo : "",
         zona: p.zona || "", cluster: p.cluster || "",
+        gz: p.gz || "", jz: p.jz || "",
         latT: p.lat, lngT: p.lng,
         latRC: userLat, lngRC: userLng,
         dist: Math.round(distM)
@@ -560,12 +633,15 @@ function buildPopupContent(p) {
     const safeId = String(p.ID).replace(/[^a-zA-Z0-9_-]/g, "_");
     return `
         <b>${p.nombre}</b><br>
-        ID: ${p.ID}<br>
+        ORG_CODE: ${p.ID}<br>
         RC: ${p.rc}<br>
         Usuario: ${p.username || "-"}<br>
         Responsable: ${p.responsable}<br>
         Estado: ${p.estado}<br>
-        Zona: ${p.zona}<br><br>
+        Zona: ${p.zona}<br>
+        Distrito: ${p.distrito || "-"}<br>
+        GZ: ${p.gz || "-"}<br>
+        JZ: ${p.jz || "-"}<br><br>
         <button id="btn-visita-${safeId}" style="
             display:none;width:100%;padding:8px;
             background:#1565C0;color:white;
@@ -636,11 +712,14 @@ function attachPopupOpen(marker, p) {
     });
 }
 
-function renderMap(filterNombre, filterDia, filterRol) {
+function renderMap(filterNombre, filterDia, filterRol, filterPartner, filterZona, filterDistrito) {
     markersLayer.clearLayers();
     let filtered = allData.filter(p =>
-        (filterRol !== "supervisor" || filterNombre === "ALL" || p.supervisor === filterNombre) &&
-        (filterDia === "ALL" || (p.dias && p.dias.includes(filterDia)))
+        (filterRol !== "supervisor"   || filterNombre === "ALL" || p.supervisor  === filterNombre) &&
+        (filterRol !== "capacitador"  || filterNombre === "ALL" || filterZona !== "su_zona" || p.capacitador === filterNombre) &&
+        (filterDia === "ALL" || (p.dias && p.dias.includes(filterDia))) &&
+        (filterPartner === "ALL" || !filterPartner || p.responsable === filterPartner) &&
+        (!filterDistrito || p.distrito === filterDistrito)
     );
     currentFiltered = filtered;
 
@@ -661,14 +740,19 @@ function renderMap(filterNombre, filterDia, filterRol) {
 // FILTROS
 document.getElementById("rolFilter").addEventListener("change", function() {
     repoblarNombre(this.value);
+    document.getElementById("zonaWrap").style.display = this.value === "capacitador" ? "inline-flex" : "none";
+    document.getElementById("zonaFilter").value = "otra_zona";
     updateFilters();
 });
 document.getElementById("nombreFilter").addEventListener("change", updateFilters);
-document.getElementById("diaFilter").addEventListener("change", updateFilters);
+document.getElementById("partnerFilter").addEventListener("change", updateFilters);
+document.getElementById("zonaFilter").addEventListener("change", updateFilters);
 
 function updateFilters() {
-    const nombre = document.getElementById("nombreFilter").value;
-    const rol    = document.getElementById("rolFilter").value;
+    const nombre  = document.getElementById("nombreFilter").value;
+    const rol     = document.getElementById("rolFilter").value;
+    const partner = document.getElementById("partnerFilter").value;
+    const zona    = document.getElementById("zonaFilter").value;
     const btnRuta = document.getElementById("btnRuta");
     if (nombre !== "ALL") {
         btnRuta.classList.add("activo");
@@ -676,7 +760,48 @@ function updateFilters() {
         btnRuta.classList.remove("activo");
         limpiarRuta();
     }
-    renderMap(nombre, document.getElementById("diaFilter").value, rol);
+    renderMap(nombre, "ALL", rol, partner, zona, selectedDistrito);
+}
+
+// ── BUSCADOR DE DISTRITO ──────────────────────────────────────────────────
+const distritoInput       = document.getElementById("distritoInput");
+const distritoSuggestions = document.getElementById("distritoSuggestions");
+const distritoClearBtn    = document.getElementById("distritoClear");
+
+distritoInput.addEventListener("input", function () {
+    const q = this.value.trim().toLowerCase();
+    distritoSuggestions.innerHTML = "";
+    if (q.length < 1) { distritoSuggestions.classList.remove("visible"); return; }
+
+    const matches = allDistritos.filter(d => d.toLowerCase().includes(q)).slice(0, 30);
+    if (!matches.length) { distritoSuggestions.classList.remove("visible"); return; }
+
+    matches.forEach(d => {
+        const div = document.createElement("div");
+        div.className = "dist-item";
+        div.textContent = d;
+        div.addEventListener("click", () => {
+            selectedDistrito          = d;
+            distritoInput.value       = d;
+            distritoClearBtn.style.display = "inline-block";
+            distritoSuggestions.classList.remove("visible");
+            updateFilters();
+        });
+        distritoSuggestions.appendChild(div);
+    });
+    distritoSuggestions.classList.add("visible");
+});
+
+document.addEventListener("click", e => {
+    if (!e.target.closest("#distritoWrap")) distritoSuggestions.classList.remove("visible");
+});
+
+function clearDistrito() {
+    selectedDistrito               = "";
+    distritoInput.value            = "";
+    distritoClearBtn.style.display = "none";
+    distritoSuggestions.classList.remove("visible");
+    updateFilters();
 }
 
 function irAUbicacion() {

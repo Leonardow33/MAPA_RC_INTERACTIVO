@@ -499,7 +499,7 @@ fetch('puntos.json?v=' + new Date().getTime())
 // MAPA
 // ── ESTADO DE VISITAS (localStorage por día) ──────────────────────────────
 function getTodayKey() {
-    return "visitas_" + new Date().toISOString().slice(0, 10);
+    return "visitas_mapa_" + new Date().toISOString().slice(0, 10);
 }
 function getVisitasHoy() {
     return JSON.parse(localStorage.getItem(getTodayKey()) || "{}");
@@ -525,6 +525,7 @@ function enviarAlSheet(p, tipo, distM) {
         tienda: p.nombre, id: p.ID,
         rc: p.rc || "", supervisor: p.supervisor || "",
         zona: p.zona || "", cluster: p.cluster || "",
+        gz: p.gz || "", jz: p.jz || "",
         latT: p.lat, lngT: p.lng,
         latRC: userLat, lngRC: userLng,
         dist: Math.round(distM)
@@ -580,12 +581,15 @@ function buildPopupContent(p) {
     const safeId = String(p.ID).replace(/[^a-zA-Z0-9_-]/g, "_");
     return `
         <b>${p.nombre}</b><br>
-        ID: ${p.ID}<br>
+        ORG_CODE: ${p.ID}<br>
         RC: ${p.rc}<br>
         Usuario: ${p.username || "-"}<br>
         Responsable: ${p.responsable}<br>
         Estado: ${p.estado}<br>
-        Zona: ${p.zona}<br><br>
+        Zona: ${p.zona}<br>
+        Distrito: ${p.distrito || "-"}<br>
+        GZ: ${p.gz || "-"}<br>
+        JZ: ${p.jz || "-"}<br><br>
         <button id="btn-visita-${safeId}" style="
             display:none;width:100%;padding:8px;
             background:#1565C0;color:white;
