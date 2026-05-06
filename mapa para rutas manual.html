@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <title>Armador de Ruta Manual</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { display: flex; height: 100vh; font-family: Arial, sans-serif; overflow: hidden; }
+
+        /* ── PANEL ──────────────────────────────────────────── */
+        #panel {
+            width: 310px;
+            min-width: 310px;
+            background: linear-gradient(to bottom, #f9e4e4, #f5ece4);
+            border-right: 2px solid #c4897a;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            z-index: 10;
+        }
+
+        #panel-header {
+            padding: 12px 14px;
+            background: linear-gradient(to right, #c4897a, #a06050);
+            color: white;
+            font-weight: bold;
+            font-size: 14px;
+            flex-shrink: 0;
+        }
+
+        /* ── BUSQUEDA ───────────────────────────────────────── */
+        #search-area {
+            padding: 10px;
+            border-bottom: 1px solid #c4897a;
+            flex-shrink: 0;
+            position: relative;
+        }
+
+        #search-input {
+            width: 100%;
+            padding: 8px 10px;
+            border: 1px solid #c4897a;
+            border-radius: 6px;
+            font-size: 13px;
+            background: white;
+        }
+
+        #search-results {
+            position: absolute;
+            left: 10px;
+            right: 10px;
+            max-height: 220px;
+            overflow-y: auto;
+            background: white;
+            border: 1px solid #c4897a;
+            border-top: none;
+            border-radius: 0 0 6px 6px;
+            z-index: 100;
+            display: none;
+        }
+
+        #search-results.visible { display: block; }
+
+        .result-item {
+            padding: 7px 10px;
+            cursor: pointer;
+            font-size: 12px;
+            border-bottom: 1px solid #f0e0d8;
+        }
+        .result-item:hover { background: #fde8e0; }
+        .result-item.added { color: #aaa; cursor: default; }
+        .result-item .r-sub { color: #999; font-size: 11px; }
+
+        /* ── OPCIONES ───────────────────────────────────────── */
+        #opts-area {
+            padding: 8px 10px;
+            border-bottom: 1px solid #c4897a;
+            flex-shrink: 0;
+            font-size: 12px;
+            color: #6d3d2a;
+        }
+        #opts-area label { display: flex; align-items: center; gap: 6px; cursor: pointer; }
+
+        /* ── LISTA DE PARADAS ───────────────────────────────── */
+        #stops-area {
+            flex: 1;
+            overflow-y: auto;
+            padding: 10px;
+        }
+
+        #stops-title {
+            font-size: 12px;
+            font-weight: bold;
+            color: #6d3d2a;
+            margin-bottom: 8px;
+        }
+
+        #stops-list { list-style: none; }
+
+        .stop-item {
+            display: flex;
+            align-items: center;
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            padding: 6px 8px;
+            margin-bottom: 5px;
+            font-size: 12px;
+            gap: 5px;
+        }
+
+        .stop-num {
+            background: #1565C0;
+            color: white;
+            border-radius: 50%;
+            width: 22px;
+            height: 22px;
+            min-width: 22px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 11px;
+        }
+
+        .stop-name { flex: 1; line-height: 1.4; }
+        .stop-name small { color: #999; display: block; font-size: 10px; }
+
+        .stop-up, .stop-down {
+            background: none;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 11px;
+            padding: 2px 5px;
+            color: #555;
+        }
+        .stop-up:hover, .stop-down:hover { background: #f0e0d8; }
+
+        .stop-remove {
+            background: none;
+            border: none;
+            color: #c00;
+            cursor: pointer;
+            font-size: 18px;
+            line-height: 1;
+            padding: 0 2px;
+        }
+
+        #empty-msg {
+            text-align: center;
+            color: #bbb;
+            font-size: 12px;
+            margin-top: 24px;
+        }
+
+        /* ── BOTONES ────────────────────────────────────────── */
+        #btn-area {
+            padding: 10px;
+            border-top: 1px solid #c4897a;
+            display: flex;
+            gap: 8px;
+            flex-shrink: 0;
+        }
+
+        #btn-calcular {
+            flex: 1;
+            padding: 10px;
+            background: #1565C0;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+        #btn-calcular:hover:not(:disabled) { background: #0d47a1; }
+        #btn-calcular:disabled { background: #aaa; cursor: default; }
+
+        #btn-limpiar {
+            padding: 10px 13px;
+            background: #e53935;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            cursor: pointer;
+        }
+        #btn-limpiar:hover { background: #b71c1c; }
+
+        /* ── MAPA ───────────────────────────────────────────── */
+        #map { flex: 1; }
+
+        /* ── INFO RUTA ──────────────────────────────────────── */
+        #route-info {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: white;
+            border: 2px solid #c4897a;
+            border-radius: 10px;
+            padding: 12px 16px;
+            font-size: 13px;
+            display: none;
+            z-index: 1000;
+            min-width: 200px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            line-height: 1.8;
+        }
+        #route-info b { display: block; margin-bottom: 4px; font-size: 14px; }
+        #route-info .ri-row { color: #444; }
+
+        /* ── WATERMARK ──────────────────────────────────────── */
+        #watermark {
+            position: fixed;
+            bottom: 10px;
+            left: 320px;
+            z-index: 999;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            opacity: 0.7;
+            pointer-events: none;
+        }
+        #watermark img { height: 26px; }
+        #watermark span { font-size: 11px; color: #555; }
+    </style>
+</head>
+<body>
+
+<div id="panel">
+    <div id="panel-header">&#x1F5FA;&#xFE0F; Armador de Ruta Manual</div>
+
+    <div id="search-area">
+        <input type="text" id="search-input" placeholder="Buscar tienda por nombre o ID..." autocomplete="off"/>
+        <div id="search-results"></div>
+    </div>
+
+    <div id="opts-area">
+        <label>
+            <input type="checkbox" id="chk-optimizar" checked/>
+            Optimizar orden automaticamente
+        </label>
+    </div>
+
+    <div id="stops-area">
+        <div id="stops-title">Paradas: <span id="stops-count">0</span></div>
+        <ul id="stops-list"></ul>
+        <div id="empty-msg">Busca y agrega tiendas arriba</div>
+    </div>
+
+    <div id="btn-area">
+        <button id="btn-calcular" disabled>Calcular Ruta</button>
+        <button id="btn-limpiar" title="Limpiar todo">&#x1F5D1;</button>
+    </div>
+</div>
+
+<div id="map"></div>
+
+<div id="route-info"></div>
+
+<div id="watermark">
+    <img src="GEODOR.png" alt="GEODOR"/>
+    <span>Desarrollado por Doriant C. F.</span>
+</div>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+// ── MAPA ──────────────────────────────────────────────────────────────────
+const map = L.map("map").setView([-9.19, -75.0], 6);
+L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+    attribution: "© OpenStreetMap contributors",
+    maxZoom: 19
+}).addTo(map);
+
+// ── ESTADO ────────────────────────────────────────────────────────────────
+let allData       = [];
+let selectedStops = [];
+let routeLayer    = null;
+let stopMarkers   = [];
+let userMarker    = null;
+let userLatLng    = null;
+
+// ── CARGA DE DATOS ────────────────────────────────────────────────────────
+fetch("puntos.json")
+    .then(r => r.json())
+    .then(data => { allData = data; });
+
+// ── GPS ───────────────────────────────────────────────────────────────────
+if (navigator.geolocation) {
+    navigator.geolocation.watchPosition(pos => {
+        userLatLng = [pos.coords.latitude, pos.coords.longitude];
+        if (!userMarker) {
+            userMarker = L.circleMarker(userLatLng, {
+                radius: 10, color: "#1565C0",
+                fillColor: "#42a5f5", fillOpacity: 0.9, weight: 3
+            }).addTo(map).bindPopup("📍 Tu ubicacion actual");
+            map.setView(userLatLng, 12);
+        } else {
+            userMarker.setLatLng(userLatLng);
+        }
+    }, null, { enableHighAccuracy: true });
+}
+
+// ── BUSQUEDA ──────────────────────────────────────────────────────────────
+const searchInput   = document.getElementById("search-input");
+const searchResults = document.getElementById("search-results");
+
+searchInput.addEventListener("input", function () {
+    const q = this.value.trim().toLowerCase();
+    searchResults.innerHTML = "";
+    if (q.length < 2) { searchResults.classList.remove("visible"); return; }
+
+    const matches = allData.filter(p =>
+        p.nombre.toLowerCase().includes(q) ||
+        String(p.ID).toLowerCase().includes(q) ||
+        (p.rc && p.rc.toLowerCase().includes(q))
+    ).slice(0, 40);
+
+    if (matches.length === 0) { searchResults.classList.remove("visible"); return; }
+
+    matches.forEach(p => {
+        const div = document.createElement("div");
+        div.className = "result-item";
+        const ya = selectedStops.some(s => s.ID === p.ID);
+        if (ya) {
+            div.classList.add("added");
+            div.innerHTML = "✓ " + p.nombre + ' <span class="r-sub">' + p.ID + "</span>";
+        } else {
+            div.innerHTML = p.nombre + ' <span class="r-sub">' + p.ID + " · " + (p.rc || "") + "</span>";
+            div.addEventListener("click", () => { addStop(p); searchInput.focus(); });
+        }
+        searchResults.appendChild(div);
+    });
+
+    searchResults.classList.add("visible");
+});
+
+document.addEventListener("click", e => {
+    if (!e.target.closest("#search-area")) searchResults.classList.remove("visible");
+});
+
+// ── AGREGAR PARADA ────────────────────────────────────────────────────────
+function addStop(p) {
+    if (selectedStops.some(s => s.ID === p.ID)) return;
+    selectedStops.push(p);
+    searchInput.value = "";
+    searchResults.classList.remove("visible");
+    renderList();
+}
+
+// ── QUITAR PARADA ─────────────────────────────────────────────────────────
+function removeStop(id) {
+    selectedStops = selectedStops.filter(s => s.ID !== id);
+    renderList();
+}
+
+// ── MOVER ARRIBA / ABAJO ──────────────────────────────────────────────────
+function moveStop(id, dir) {
+    const idx = selectedStops.findIndex(s => s.ID === id);
+    if (idx < 0) return;
+    const ni = idx + dir;
+    if (ni < 0 || ni >= selectedStops.length) return;
+    [selectedStops[idx], selectedStops[ni]] = [selectedStops[ni], selectedStops[idx]];
+    renderList();
+}
+
+// ── RENDERIZAR LISTA ──────────────────────────────────────────────────────
+function renderList() {
+    const ul    = document.getElementById("stops-list");
+    const empty = document.getElementById("empty-msg");
+    ul.innerHTML = "";
+    document.getElementById("stops-count").textContent = selectedStops.length;
+    document.getElementById("btn-calcular").disabled = selectedStops.length === 0;
+    empty.style.display = selectedStops.length === 0 ? "block" : "none";
+
+    selectedStops.forEach((p, i) => {
+        const li = document.createElement("li");
+        li.className = "stop-item";
+        li.innerHTML =
+            '<div class="stop-num">' + (i + 1) + "</div>" +
+            '<div class="stop-name">' + p.nombre + "<small>" + p.ID + " · " + (p.rc || "-") + "</small></div>" +
+            '<button class="stop-up"   onclick="moveStop(\'' + p.ID + "', -1)\" title=\"Subir\">▲</button>" +
+            '<button class="stop-down" onclick="moveStop(\'' + p.ID + "', +1)\" title=\"Bajar\">▼</button>" +
+            '<button class="stop-remove" onclick="removeStop(\'' + p.ID + "')\" title=\"Quitar\">×</button>";
+        ul.appendChild(li);
+    });
+}
+
+// ── LIMPIAR TODO ──────────────────────────────────────────────────────────
+document.getElementById("btn-limpiar").addEventListener("click", () => {
+    selectedStops = [];
+    renderList();
+    clearRoute();
+    document.getElementById("route-info").style.display = "none";
+});
+
+function clearRoute() {
+    if (routeLayer) { map.removeLayer(routeLayer); routeLayer = null; }
+    stopMarkers.forEach(m => map.removeLayer(m));
+    stopMarkers = [];
+}
+
+// ── CALCULAR RUTA ─────────────────────────────────────────────────────────
+document.getElementById("btn-calcular").addEventListener("click", calcularRuta);
+
+async function calcularRuta() {
+    if (selectedStops.length === 0) return;
+    clearRoute();
+
+    const optimizar = document.getElementById("chk-optimizar").checked;
+
+    const pts = userLatLng
+        ? [[userLatLng[1], userLatLng[0]], ...selectedStops.map(p => [p.lng, p.lat])]
+        : selectedStops.map(p => [p.lng, p.lat]);
+
+    const coordStr = pts.map(c => c[0] + "," + c[1]).join(";");
+
+    const url = optimizar
+        ? "https://router.project-osrm.org/trip/v1/driving/" + coordStr + "?source=first&roundtrip=false&steps=false&geometries=geojson&overview=full"
+        : "https://router.project-osrm.org/route/v1/driving/" + coordStr + "?steps=false&geometries=geojson&overview=full";
+
+    const btn = document.getElementById("btn-calcular");
+    btn.textContent = "Calculando...";
+    btn.disabled = true;
+
+    try {
+        const res  = await fetch(url);
+        const json = await res.json();
+
+        btn.textContent = "Calcular Ruta";
+        btn.disabled = false;
+
+        if (json.code !== "Ok") {
+            alert("No se pudo calcular la ruta. Verifica las coordenadas.");
+            return;
+        }
+
+        let geometry, distM, durS;
+        if (optimizar) {
+            geometry = json.trips[0].geometry;
+            distM    = json.trips[0].distance;
+            durS     = json.trips[0].duration;
+        } else {
+            geometry = json.routes[0].geometry;
+            distM    = json.routes[0].distance;
+            durS     = json.routes[0].duration;
+        }
+
+        routeLayer = L.geoJSON(geometry, {
+            style: { color: "#1565C0", weight: 5, opacity: 0.8 }
+        }).addTo(map);
+
+        // Orden de paradas
+        let ordenadas;
+        if (optimizar) {
+            const wpStops = userLatLng ? json.waypoints.slice(1) : json.waypoints;
+            ordenadas = wpStops
+                .map((wp, i) => ({ orden: wp.waypoint_index, stop: selectedStops[i] }))
+                .sort((a, b) => a.orden - b.orden)
+                .map(x => x.stop);
+        } else {
+            ordenadas = [...selectedStops];
+        }
+
+        // Marcadores numerados
+        ordenadas.forEach((p, idx) => {
+            if (!p) return;
+            const icon = L.divIcon({
+                className: "",
+                html: '<div style="background:#1565C0;color:white;border-radius:50%;width:30px;height:30px;display:flex;align-items:center;justify-content:center;font-weight:bold;font-size:13px;border:2px solid white;box-shadow:0 2px 8px rgba(0,0,0,0.45);">' + (idx + 1) + "</div>",
+                iconSize: [30, 30],
+                iconAnchor: [15, 15]
+            });
+
+            const m = L.marker([p.lat, p.lng], { icon })
+                .addTo(map)
+                .bindPopup("<b>" + (idx + 1) + ". " + p.nombre + "</b><br>ID: " + p.ID + "<br>RC: " + (p.rc || "-") + "<br>Usuario: " + (p.username || "-"));
+            stopMarkers.push(m);
+        });
+
+        map.fitBounds(routeLayer.getBounds(), { padding: [40, 40] });
+
+        const distKm = (distM / 1000).toFixed(1);
+        const durMin = Math.round(durS / 60);
+        const hrs    = Math.floor(durMin / 60);
+        const mins   = durMin % 60;
+        const durStr = hrs > 0 ? hrs + "h " + mins + "min" : mins + " min";
+
+        const info = document.getElementById("route-info");
+        info.style.display = "block";
+        info.innerHTML =
+            "<b>📍 Ruta calculada</b>" +
+            '<div class="ri-row">🏪 Paradas: <b>' + ordenadas.length + "</b></div>" +
+            '<div class="ri-row">📏 Distancia: <b>~' + distKm + " km</b></div>" +
+            '<div class="ri-row">⏱️ Tiempo est.: <b>~' + durStr + "</b></div>" +
+            (optimizar ? '<div class="ri-row" style="color:#888;font-size:11px;margin-top:4px;">Orden optimizado por OSRM</div>' : "");
+
+    } catch (e) {
+        btn.textContent = "Calcular Ruta";
+        btn.disabled = false;
+        alert("Error al conectar con el servicio de rutas. Verifica tu conexion.");
+    }
+}
+</script>
+</body>
+</html>
