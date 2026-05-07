@@ -597,7 +597,7 @@ function buildPopupContent(p) {
             font-size:14px;font-weight:600;cursor:pointer;">
         </button>
         <small id="msg-visita-${safeId}" style="font-size:12px;color:#999;">
-            📍 Acércate a 400m para registrar
+            📍 Acércate a 20m para registrar
         </small>`;
 }
 
@@ -626,11 +626,11 @@ function attachPopupOpen(marker, p) {
             return;
         }
         const distM = haversine(userLat, userLng, p.lat, p.lng) * 1000;
-        if (distM > 400) {
+        if (distM > 20) {
             btn.style.display = "none";
             msg.style.display = "block";
             msg.style.color   = "#999";
-            msg.textContent   = `📍 Estás a ${Math.round(distM)}m (necesitas 400m)`;
+            msg.textContent   = `📍 Estás a ${Math.round(distM)}m (necesitas 20m)`;
             return;
         }
         msg.style.display = "block";
