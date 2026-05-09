@@ -498,16 +498,14 @@ fetch('puntos.json?v=' + new Date().getTime())
 
     allData = data;
 
-    let supSet     = new Set();
-    let rcSet      = new Set();
-    let diaSet     = new Set();
-    let partnerSet = new Set();
+    let supSet = new Set();
+    let rcSet  = new Set();
+    let diaSet = new Set();
 
     data.forEach(p => {
         if (p.supervisor) supSet.add(p.supervisor);
         rcSet.add(p.rc);
         if (p.dias) p.dias.forEach(d => diaSet.add(d));
-        if (p.responsable) partnerSet.add(p.responsable);
     });
 
     let supSelect = document.getElementById("supFilter");
@@ -531,13 +529,7 @@ fetch('puntos.json?v=' + new Date().getTime())
         diaSelect.appendChild(option);
     });
 
-    let partnerSelect = document.getElementById("partnerFilter");
-    [...partnerSet].sort().forEach(p => {
-        let option = document.createElement("option");
-        option.value = p; option.text = p;
-        partnerSelect.appendChild(option);
-    });
-
+    repoblarPartner("ALL", "ALL");
     renderMap("ALL", "ALL", "ALL", "ALL");
 });
 
@@ -734,11 +726,32 @@ if (filtered.length > 0 && (filterRC !== "ALL" || filterDia !== "ALL" || filterP
 }
 
 // FILTROS
+function repoblarPartner(sup, rc) {
+    const sel = document.getElementById("partnerFilter");
+    const prev = sel.value;
+    sel.innerHTML = '<option value="ALL">Todos</option>';
+    const base = allData.filter(p =>
+        (sup === "ALL" || p.supervisor === sup) &&
+        (rc  === "ALL" || p.rc === rc)
+    );
+    const partners = [...new Set(base.map(p => p.responsable).filter(Boolean))].sort();
+    partners.forEach(v => {
+        const o = document.createElement("option");
+        o.value = v; o.text = v;
+        sel.appendChild(o);
+    });
+    sel.value = [...sel.options].some(o => o.value === prev) ? prev : "ALL";
+}
+
 document.getElementById("supFilter").addEventListener("change", function() {
     repoblarRC(this.value);
+    repoblarPartner(this.value, document.getElementById("rcFilter").value);
     updateFilters();
 });
-document.getElementById("rcFilter").addEventListener("change", updateFilters);
+document.getElementById("rcFilter").addEventListener("change", function() {
+    repoblarPartner(document.getElementById("supFilter").value, this.value);
+    updateFilters();
+});
 document.getElementById("diaFilter").addEventListener("change", updateFilters);
 document.getElementById("partnerFilter").addEventListener("change", updateFilters);
 
