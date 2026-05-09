@@ -727,8 +727,8 @@ function renderMap(filterRC, filterDia, filterSup, filterPartner) {
     group.addLayer(marker);
 });
 
-if (filtered.length > 0 && (filterRC !== "ALL" || filterDia !== "ALL" || filterPartner !== "ALL")) {
-    map.fitBounds(group.getBounds());
+if (filtered.length > 0 && (filterRC !== "ALL" || filterDia !== "ALL" || filterPartner !== "ALL" || filterSup !== "ALL")) {
+    map.fitBounds(group.getBounds(), { padding: [30, 30] });
 }
 
 }
