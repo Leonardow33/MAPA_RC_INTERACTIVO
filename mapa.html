@@ -6,6 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.css"/>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.Default.css"/>
 
 <style>
 html, body {
@@ -123,16 +125,25 @@ html, body {
 #btnRuta.activo:hover { background: #1565C0; }
 
 #btnUbicacion {
-    font-size: 20px;
-    padding: 10px 14px;
-    border-radius: 10px;
-    border: 1.5px solid #c4897a;
-    background: #fff8f6;
-    color: #6b3a2a;
+    position: fixed;
+    bottom: 92px;
+    right: 14px;
+    z-index: 1000;
+    width: 54px;
+    height: 54px;
+    border-radius: 50%;
+    border: none;
+    background: white;
+    color: #1565C0;
+    font-size: 26px;
+    box-shadow: 0 3px 14px rgba(0,0,0,0.28);
     cursor: pointer;
-    line-height: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
 }
-#btnUbicacion:hover { background: #f0d8d0; }
+#btnUbicacion:hover { background: #e3f2fd; }
 
 #btnModo {
     font-size: 15px;
@@ -245,6 +256,24 @@ html, body {
         border-radius: 16px 16px 0 0;
     }
 }
+
+/* === POPUP CARD === */
+.popup-card { font-family: sans-serif; min-width: 235px; max-width: 295px; border-radius: 10px; overflow: hidden; box-shadow: 0 2px 12px rgba(0,0,0,0.18); }
+.popup-header { padding: 10px 14px 9px; }
+.popup-nombre { display: block; font-size: 15px; font-weight: 700; color: #fff; line-height: 1.3; margin-bottom: 5px; }
+.popup-badge { display: inline-block; font-size: 11px; background: rgba(255,255,255,0.25); color: #fff; padding: 2px 9px; border-radius: 20px; font-weight: 600; }
+.popup-body { background: #fff; padding: 6px 14px 2px; border: 1px solid #e8e8e8; border-top: none; }
+.popup-row { display: flex; justify-content: space-between; align-items: flex-start; padding: 4px 0; border-bottom: 1px solid #f5f5f5; }
+.popup-row:last-child { border-bottom: none; }
+.popup-lbl { color: #aaa; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.4px; min-width: 66px; padding-top: 1px; }
+.popup-val { color: #222; font-size: 13px; text-align: right; }
+.popup-btn-visita { display: none; width: 100%; padding: 13px; background: #1565C0; color: white; border: none; font-size: 15px; font-weight: 700; cursor: pointer; }
+.popup-btn-visita:active { opacity: 0.82; }
+.popup-msg-visita { display: block; text-align: center; font-size: 12px; color: #999; padding: 7px 14px 10px; background: #fff; border: 1px solid #e8e8e8; border-top: none; border-radius: 0 0 10px 10px; }
+
+/* === MARKER PULSE === */
+@keyframes markerPulse { 0%{transform:scale(1)} 40%{transform:scale(1.5)} 100%{transform:scale(1)} }
+.marker-pulse { animation: markerPulse 0.42s ease; }
 </style>
 </head>
 
@@ -272,8 +301,12 @@ html, body {
         <option value="ALL">Todos</option>
     </select>
 
+    <label>Partner:</label>
+    <select id="partnerFilter">
+        <option value="ALL">Todos</option>
+    </select>
+
     <button id="btnModo" onclick="toggleModo()">🚗 Auto</button>
-    <button id="btnUbicacion" onclick="irAUbicacion()" title="Mi ubicación">📍</button>
     <button id="btnRuta" onclick="generarRuta()">🗺️ Generar Ruta</button>
     <button id="btnLimpiarRuta" onclick="limpiarRuta()">✕ Limpiar Ruta</button>
 
@@ -289,6 +322,8 @@ html, body {
 
 
 <div id="map"></div>
+
+<button id="btnUbicacion" onclick="irAUbicacion()" title="Mi ubicación">📍</button>
 
 <!-- Logo + crédito -->
 <div style="
@@ -314,6 +349,7 @@ html, body {
 </div>
 
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js"></script>
 
 <script>
 
@@ -339,7 +375,7 @@ let userLat = null, userLng = null;
 let userMarker = null;
 let routeLayer = null;
 let routeMarkersLayer = L.layerGroup().addTo(map);
-let markersLayer = L.layerGroup().addTo(map);
+let markersLayer = L.markerClusterGroup({ chunkedLoading: true, maxClusterRadius: 45 }).addTo(map);
 let routeMode = 'driving'; // 'driving' | 'foot'
 
 function toggleModo() {
@@ -462,14 +498,16 @@ fetch('puntos.json?v=' + new Date().getTime())
 
     allData = data;
 
-    let supSet = new Set();
-    let rcSet  = new Set();
-    let diaSet = new Set();
+    let supSet     = new Set();
+    let rcSet      = new Set();
+    let diaSet     = new Set();
+    let partnerSet = new Set();
 
     data.forEach(p => {
         if (p.supervisor) supSet.add(p.supervisor);
         rcSet.add(p.rc);
         if (p.dias) p.dias.forEach(d => diaSet.add(d));
+        if (p.responsable) partnerSet.add(p.responsable);
     });
 
     let supSelect = document.getElementById("supFilter");
@@ -493,7 +531,14 @@ fetch('puntos.json?v=' + new Date().getTime())
         diaSelect.appendChild(option);
     });
 
-    renderMap("ALL", "ALL", "ALL");
+    let partnerSelect = document.getElementById("partnerFilter");
+    [...partnerSet].sort().forEach(p => {
+        let option = document.createElement("option");
+        option.value = p; option.text = p;
+        partnerSelect.appendChild(option);
+    });
+
+    renderMap("ALL", "ALL", "ALL", "ALL");
 });
 
 // MAPA
@@ -545,6 +590,10 @@ function registrarMovimiento(p, tipo, marker) {
     guardarEstadoLocal(p.ID, tipo, hora);
     marker.setIcon(makePinIcon(p.responsable, getEstadoPunto(p.ID)));
 
+    if ('vibrate' in navigator) navigator.vibrate([60, 40, 60]);
+    const _mEl = marker.getElement ? marker.getElement() : null;
+    if (_mEl) { _mEl.classList.add('marker-pulse'); setTimeout(() => _mEl.classList.remove('marker-pulse'), 500); }
+
     enviarAlSheet(p, tipo, distM)
         .then(() => {
             const estado = getEstadoPunto(p.ID);
@@ -579,26 +628,26 @@ function registrarMovimiento(p, tipo, marker) {
 
 function buildPopupContent(p) {
     const safeId = String(p.ID).replace(/[^a-zA-Z0-9_-]/g, "_");
+    const color  = getPinBorder(p.responsable);
     return `
-        <b>${p.nombre}</b><br>
-        ORG_CODE: ${p.ID}<br>
-        RC: ${p.rc}<br>
-        Usuario: ${p.username || "-"}<br>
-        Responsable: ${p.responsable}<br>
-        Estado: ${p.estado}<br>
-        Zona: ${p.zona}<br>
-        Distrito: ${p.distrito || "-"}<br>
-        GZ: ${p.gz || "-"}<br>
-        JZ: ${p.jz || "-"}<br><br>
-        <button id="btn-visita-${safeId}" style="
-            display:none;width:100%;padding:8px;
-            background:#1565C0;color:white;
-            border:none;border-radius:8px;
-            font-size:14px;font-weight:600;cursor:pointer;">
-        </button>
-        <small id="msg-visita-${safeId}" style="font-size:12px;color:#999;">
-            📍 Acércate a 20m para registrar
-        </small>`;
+    <div class="popup-card">
+      <div class="popup-header" style="background:${color}">
+        <span class="popup-nombre">${p.nombre}</span>
+        <span class="popup-badge">${p.responsable || "Sin partner"}</span>
+      </div>
+      <div class="popup-body">
+        <div class="popup-row"><span class="popup-lbl">ORG_CODE</span><span class="popup-val">${p.ID}</span></div>
+        <div class="popup-row"><span class="popup-lbl">RC</span><span class="popup-val">${p.rc || "-"}</span></div>
+        <div class="popup-row"><span class="popup-lbl">Usuario</span><span class="popup-val">${p.username || "-"}</span></div>
+        <div class="popup-row"><span class="popup-lbl">Supervisor</span><span class="popup-val">${p.supervisor || "-"}</span></div>
+        <div class="popup-row"><span class="popup-lbl">Zona</span><span class="popup-val">${p.zona || "-"}</span></div>
+        <div class="popup-row"><span class="popup-lbl">Distrito</span><span class="popup-val">${p.distrito || "-"}</span></div>
+        <div class="popup-row"><span class="popup-lbl">GZ</span><span class="popup-val">${p.gz || "-"}</span></div>
+        <div class="popup-row"><span class="popup-lbl">JZ</span><span class="popup-val">${p.jz || "-"}</span></div>
+      </div>
+      <button id="btn-visita-${safeId}" class="popup-btn-visita"></button>
+      <div id="msg-visita-${safeId}" class="popup-msg-visita">📍 Acércate a 40m para registrar</div>
+    </div>`;
 }
 
 function attachPopupOpen(marker, p) {
@@ -626,11 +675,11 @@ function attachPopupOpen(marker, p) {
             return;
         }
         const distM = haversine(userLat, userLng, p.lat, p.lng) * 1000;
-        if (distM > 20) {
+        if (distM > 40) {
             btn.style.display = "none";
             msg.style.display = "block";
             msg.style.color   = "#999";
-            msg.textContent   = `📍 Estás a ${Math.round(distM)}m (necesitas 20m)`;
+            msg.textContent   = `📍 Estás a ${Math.round(distM)}m (necesitas 40m)`;
             return;
         }
         msg.style.display = "block";
@@ -653,14 +702,15 @@ function attachPopupOpen(marker, p) {
     });
 }
 
-function renderMap(filterRC, filterDia, filterSup) {
+function renderMap(filterRC, filterDia, filterSup, filterPartner) {
 
     markersLayer.clearLayers();
 
     let filtered = allData.filter(p =>
-        (filterSup === "ALL" || p.supervisor === filterSup) &&
-        (filterRC  === "ALL" || p.rc === filterRC) &&
-        (filterDia === "ALL" || (p.dias && p.dias.includes(filterDia)))
+        (filterSup     === "ALL" || p.supervisor  === filterSup) &&
+        (filterRC      === "ALL" || p.rc          === filterRC) &&
+        (filterDia     === "ALL" || (p.dias && p.dias.includes(filterDia))) &&
+        (filterPartner === "ALL" || p.responsable === filterPartner)
     );
     currentFiltered = filtered;
 
@@ -677,7 +727,7 @@ function renderMap(filterRC, filterDia, filterSup) {
     group.addLayer(marker);
 });
 
-if (filtered.length > 0 && (filterRC !== "ALL" || filterDia !== "ALL")) {
+if (filtered.length > 0 && (filterRC !== "ALL" || filterDia !== "ALL" || filterPartner !== "ALL")) {
     map.fitBounds(group.getBounds());
 }
 
@@ -690,10 +740,12 @@ document.getElementById("supFilter").addEventListener("change", function() {
 });
 document.getElementById("rcFilter").addEventListener("change", updateFilters);
 document.getElementById("diaFilter").addEventListener("change", updateFilters);
+document.getElementById("partnerFilter").addEventListener("change", updateFilters);
 
 function updateFilters() {
-    let rc  = document.getElementById("rcFilter").value;
-    let sup = document.getElementById("supFilter").value;
+    let rc      = document.getElementById("rcFilter").value;
+    let sup     = document.getElementById("supFilter").value;
+    let partner = document.getElementById("partnerFilter").value;
     let btnRuta = document.getElementById("btnRuta");
     if (rc !== "ALL") {
         btnRuta.classList.add("activo");
@@ -701,7 +753,7 @@ function updateFilters() {
         btnRuta.classList.remove("activo");
         limpiarRuta();
     }
-    renderMap(rc, document.getElementById("diaFilter").value, sup);
+    renderMap(rc, document.getElementById("diaFilter").value, sup, partner);
 }
 
 function irAUbicacion() {
@@ -993,7 +1045,10 @@ buscador.addEventListener("input", function () {
     let texto = this.value.toLowerCase();
     resultadosDiv.innerHTML = "";
 
-    if (texto.length < 2) return;
+    if (texto.length < 2) {
+        if (texto.length === 0) updateFilters();
+        return;
+    }
 
     let resultados = allData.filter(p =>
         p.nombre.toLowerCase().includes(texto) ||
