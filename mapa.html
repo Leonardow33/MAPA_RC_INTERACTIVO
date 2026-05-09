@@ -274,6 +274,48 @@ html, body {
 /* === MARKER PULSE === */
 @keyframes markerPulse { 0%{transform:scale(1)} 40%{transform:scale(1.5)} 100%{transform:scale(1)} }
 .marker-pulse { animation: markerPulse 0.42s ease; }
+
+/* === CHIPS DE FILTROS ACTIVOS === */
+#filtro-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    padding: 7px 14px;
+    background: rgba(245,220,215,0.55);
+    border-bottom: 1px solid #e0b8ae;
+    min-height: 0;
+}
+#filtro-chips:empty { display: none; padding: 0; }
+.chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    background: #9c4f3a;
+    color: white;
+    border-radius: 20px;
+    padding: 5px 8px 5px 12px;
+    font-size: 13px;
+    font-weight: 600;
+    animation: chipIn 0.18s ease;
+}
+@keyframes chipIn { from{opacity:0;transform:scale(0.85)} to{opacity:1;transform:scale(1)} }
+.chip-x {
+    background: rgba(255,255,255,0.28);
+    border: none;
+    color: white;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    font-size: 14px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    line-height: 1;
+    flex-shrink: 0;
+}
+.chip-x:hover { background: rgba(255,255,255,0.5); }
 </style>
 </head>
 
@@ -311,6 +353,7 @@ html, body {
     <button id="btnLimpiarRuta" onclick="limpiarRuta()">✕ Limpiar Ruta</button>
 
 </div>
+<div id="filtro-chips"></div>
 
 <div id="panelRuta">
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
@@ -767,6 +810,50 @@ function updateFilters() {
         limpiarRuta();
     }
     renderMap(rc, document.getElementById("diaFilter").value, sup, partner);
+    updateChips();
+}
+
+function updateChips() {
+    const container = document.getElementById("filtro-chips");
+    container.innerHTML = "";
+
+    const defs = [
+        {
+            id: "supFilter", label: "Supervisor",
+            clear: () => {
+                document.getElementById("supFilter").value = "ALL";
+                repoblarRC("ALL");
+                repoblarPartner("ALL", document.getElementById("rcFilter").value);
+                updateFilters();
+            }
+        },
+        {
+            id: "rcFilter", label: "RC",
+            clear: () => {
+                document.getElementById("rcFilter").value = "ALL";
+                repoblarPartner(document.getElementById("supFilter").value, "ALL");
+                updateFilters();
+            }
+        },
+        {
+            id: "diaFilter", label: "Día",
+            clear: () => { document.getElementById("diaFilter").value = "ALL"; updateFilters(); }
+        },
+        {
+            id: "partnerFilter", label: "Partner",
+            clear: () => { document.getElementById("partnerFilter").value = "ALL"; updateFilters(); }
+        }
+    ];
+
+    defs.forEach(({ id, label, clear }) => {
+        const sel = document.getElementById(id);
+        if (!sel || sel.value === "ALL") return;
+        const chip = document.createElement("div");
+        chip.className = "chip";
+        chip.innerHTML = `<span>${label}: ${sel.value}</span><button class="chip-x">✕</button>`;
+        chip.querySelector(".chip-x").onclick = clear;
+        container.appendChild(chip);
+    });
 }
 
 function irAUbicacion() {
