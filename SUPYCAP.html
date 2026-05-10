@@ -502,10 +502,11 @@ function toggleModo() {
 // ICONOS
 const PIN_BORDER = {
     "APUESTA TOTAL": "#E53935",
-    "TAMBO":         "#1E88E5",
+    "TAMBO":         "#8E24AA",
     "TINBET":        "#43A047",
-    "LIVESPORT":     "#FB8C00",
-    "BODEGA":        "#8E24AA",
+    "LIVESPORT":     "#1E88E5",
+    "BODEGA":        "#29B6F6",
+    "CENCOSUD":      "#FB8C00",
     "DEFAULT":       "#546E7A"
 };
 
@@ -516,6 +517,7 @@ function getPinBorder(responsable) {
     if (r.includes("TAMBO"))         return PIN_BORDER["TAMBO"];
     if (r.includes("TINBET"))        return PIN_BORDER["TINBET"];
     if (r.includes("LIVESPORT"))     return PIN_BORDER["LIVESPORT"];
+    if (r.includes("CENCOSUD"))      return PIN_BORDER["CENCOSUD"];
     if (r.includes("BODEGA"))        return PIN_BORDER["BODEGA"];
     return PIN_BORDER["DEFAULT"];
 }
