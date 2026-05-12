@@ -484,6 +484,8 @@ let userMarker = null;
 let routeLayer = null;
 let routeMarkersLayer = L.layerGroup().addTo(map);
 let markersLayer = L.markerClusterGroup({ chunkedLoading: true, maxClusterRadius: 45 }).addTo(map);
+let elotLayer  = L.layerGroup().addTo(map);
+let elotMarker = null;
 let routeMode = 'driving'; // 'driving' | 'foot'
 
 function toggleModo() {
@@ -560,6 +562,29 @@ function makePinIcon(responsable, estado) {
     return L.divIcon({ html, className: '', iconSize: [34,41], iconAnchor: [17,41], popupAnchor: [0,-41] });
 }
 
+function makeElotIcon() {
+    const html = `
+        <div style="display:flex;flex-direction:column;align-items:center;width:50px;">
+            <div style="width:38px;height:38px;border-radius:50%;overflow:hidden;
+                border:2.5px solid #FFD700;
+                box-shadow:0 0 0 2px rgba(255,215,0,0.35),0 3px 10px rgba(0,0,0,0.45);
+                background:#fffde7;display:flex;align-items:center;justify-content:center;">
+                <img src="icons/llama.jpeg" style="width:100%;height:100%;object-fit:cover;"
+                     onerror="this.style.display='none';this.nextElementSibling.style.display='block'"/>
+                <span style="display:none;font-size:22px;line-height:1;">🦙</span>
+            </div>
+            <div style="width:0;height:0;border-left:7px solid transparent;
+                border-right:7px solid transparent;border-top:10px solid #FFD700;
+                margin-top:-2px;filter:drop-shadow(0 2px 2px rgba(0,0,0,0.3));"></div>
+            <div style="background:#FFD700;color:#4a2e00;font-size:9px;font-weight:900;
+                padding:2px 7px;border-radius:8px;margin-top:2px;
+                box-shadow:0 2px 5px rgba(0,0,0,0.22);letter-spacing:0.8px;white-space:nowrap;">
+                ELOT
+            </div>
+        </div>`;
+    return L.divIcon({ html, className: '', iconSize: [50, 66], iconAnchor: [25, 52], popupAnchor: [0, -52] });
+}
+
 // HELPERS DE ORDENAMIENTO
 const DIA_ORDER = ["LUNES","MARTES","MIERCOLES","MIÉRCOLES","JUEVES","VIERNES","SABADO","SÁBADO","DOMINGO","SIN RUTA"];
 
@@ -606,6 +631,17 @@ fetch('puntos.json?v=' + new Date().getTime())
 
     allData = data;
 
+    // PIN ESPECIAL ELOT (nunca se agrupa)
+    const elotPoint = data.find(p => (p.nombre || "").toUpperCase().includes("OFICINA ELOT"));
+    if (elotPoint && !elotMarker) {
+        elotMarker = L.marker([elotPoint.lat, elotPoint.lng], { icon: makeElotIcon(), zIndexOffset: 1000 });
+        elotMarker.bindPopup(buildPopupContent(elotPoint));
+        attachPopupOpen(elotMarker, elotPoint);
+        elotMarker.on('click', function() {
+            map.flyTo([elotPoint.lat, elotPoint.lng], map.getMaxZoom(), { duration: 1.4 });
+        });
+        elotLayer.addLayer(elotMarker);
+    }
 
     // poblar partner
     const partnerSel = document.getElementById("partnerFilter");
@@ -620,7 +656,8 @@ fetch('puntos.json?v=' + new Date().getTime())
 
     repoblarNombre("capacitador");
     document.getElementById("zonaWrap").style.display = "inline-flex";
-    renderMap("ALL", "ALL", "capacitador", "ALL", "otra_zona", "");
+    restoreFilters();
+    updateFilters();
 });
 
 // ── ESTADO DE VISITAS (localStorage por día) ──────────────────────────────
@@ -710,8 +747,9 @@ function registrarMovimiento(p, tipo, marker) {
 }
 
 function buildPopupContent(p) {
-    const safeId = String(p.ID).replace(/[^a-zA-Z0-9_-]/g, "_");
-    const color  = getPinBorder(p.responsable);
+    const safeId  = String(p.ID).replace(/[^a-zA-Z0-9_-]/g, "_");
+    const isElot  = (p.nombre || "").toUpperCase().includes("OFICINA ELOT");
+    const color   = isElot ? "#B8860B" : getPinBorder(p.responsable);
     return `
     <div class="popup-card">
       <div class="popup-header" style="background:${color}">
@@ -795,6 +833,7 @@ function attachPopupOpen(marker, p) {
 function renderMap(filterNombre, filterDia, filterRol, filterPartner, filterZona, filterDistrito) {
     markersLayer.clearLayers();
     let filtered = allData.filter(p =>
+        !(p.nombre || "").toUpperCase().includes("OFICINA ELOT") &&
         (filterRol !== "supervisor"   || filterNombre === "ALL" || p.supervisor  === filterNombre) &&
         (filterRol !== "capacitador"  || filterNombre === "ALL" || filterZona !== "su_zona" || p.capacitador === filterNombre) &&
         (filterDia === "ALL" || (p.dias && p.dias.includes(filterDia))) &&
@@ -814,6 +853,44 @@ function renderMap(filterNombre, filterDia, filterRol, filterPartner, filterZona
 
     if (filtered.length > 0 && filterNombre !== "ALL") {
         map.fitBounds(group.getBounds());
+    }
+}
+
+// PERSISTENCIA DE FILTROS
+function saveFilters() {
+    localStorage.setItem("filtros_supycap", JSON.stringify({
+        rol:      document.getElementById("rolFilter").value,
+        nombre:   document.getElementById("nombreFilter").value,
+        zona:     document.getElementById("zonaFilter").value,
+        partner:  document.getElementById("partnerFilter").value,
+        distrito: selectedDistrito
+    }));
+}
+
+function restoreFilters() {
+    const saved = JSON.parse(localStorage.getItem("filtros_supycap") || "{}");
+    if (!saved.rol) return;
+
+    const rol = saved.rol;
+    document.getElementById("rolFilter").value = rol;
+    repoblarNombre(rol);
+    document.getElementById("zonaWrap").style.display = rol === "capacitador" ? "inline-flex" : "none";
+
+    const nombreSel = document.getElementById("nombreFilter");
+    if (saved.nombre && [...nombreSel.options].some(o => o.value === saved.nombre))
+        nombreSel.value = saved.nombre;
+
+    if (saved.zona)
+        document.getElementById("zonaFilter").value = saved.zona;
+
+    const partnerSel = document.getElementById("partnerFilter");
+    if (saved.partner && [...partnerSel.options].some(o => o.value === saved.partner))
+        partnerSel.value = saved.partner;
+
+    if (saved.distrito) {
+        selectedDistrito = saved.distrito;
+        document.getElementById("distritoInput").value = saved.distrito;
+        document.getElementById("distritoClear").style.display = "inline-block";
     }
 }
 
@@ -842,6 +919,7 @@ function updateFilters() {
     }
     renderMap(nombre, "ALL", rol, partner, zona, selectedDistrito);
     updateChips();
+    saveFilters();
 }
 
 function updateChips() {

@@ -316,6 +316,110 @@ html, body {
     flex-shrink: 0;
 }
 .chip-x:hover { background: rgba(255,255,255,0.5); }
+
+/* === BOTÓN REUNIÓN === */
+#btnReunion {
+    font-size: 15px;
+    padding: 10px 16px;
+    border-radius: 10px;
+    border: none;
+    background: #9E9E9E;
+    color: white;
+    font-weight: 700;
+    cursor: not-allowed;
+    opacity: 0.5;
+    transition: all 0.2s;
+    white-space: nowrap;
+}
+#btnReunion.activo {
+    background: #00897B;
+    cursor: pointer;
+    opacity: 1;
+}
+#btnReunion.activo:hover { background: #00695C; }
+
+/* === MODAL PIN === */
+#modalReunion {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.55);
+    z-index: 3000;
+    align-items: center;
+    justify-content: center;
+}
+#modalReunion.visible { display: flex; }
+#modalCard {
+    background: white;
+    border-radius: 18px;
+    padding: 28px 24px 22px;
+    width: 300px;
+    max-width: 92vw;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.28);
+    text-align: center;
+}
+#modalCard h3 {
+    margin: 0 0 4px;
+    font-size: 18px;
+    color: #00897B;
+}
+#modalRCNombre {
+    font-size: 14px;
+    color: #555;
+    margin-bottom: 20px;
+    font-weight: 600;
+}
+#pinBoxes {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 16px;
+}
+.pin-digit {
+    width: 52px;
+    height: 58px;
+    font-size: 26px;
+    font-weight: 700;
+    text-align: center;
+    border: 2px solid #ccc;
+    border-radius: 10px;
+    outline: none;
+    color: #222;
+    transition: border-color 0.15s;
+    -webkit-appearance: none;
+    appearance: none;
+}
+.pin-digit:focus { border-color: #00897B; }
+#pinError {
+    color: #e53935;
+    font-size: 13px;
+    font-weight: 600;
+    min-height: 18px;
+    margin-bottom: 14px;
+}
+#modalBtns { display: flex; gap: 10px; }
+#btnPinConfirm {
+    flex: 1;
+    padding: 12px;
+    background: #00897B;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
+}
+#btnPinConfirm:active { opacity: 0.85; }
+#btnPinCancel {
+    padding: 12px 18px;
+    background: #f5f5f5;
+    color: #555;
+    border: none;
+    border-radius: 10px;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+}
 </style>
 </head>
 
@@ -351,9 +455,29 @@ html, body {
     <button id="btnModo" onclick="toggleModo()">🚗 Auto</button>
     <button id="btnRuta" onclick="generarRuta()">🗺️ Generar Ruta</button>
     <button id="btnLimpiarRuta" onclick="limpiarRuta()">✕ Limpiar Ruta</button>
+    <button id="btnReunion" onclick="abrirModalReunion()" disabled>📅 Reunión</button>
 
 </div>
 <div id="filtro-chips"></div>
+
+<!-- MODAL REUNIÓN MENSUAL -->
+<div id="modalReunion">
+    <div id="modalCard">
+        <h3>📅 Reunión Mensual</h3>
+        <div id="modalRCNombre"></div>
+        <div id="pinBoxes">
+            <input class="pin-digit" type="number" maxlength="1" min="0" max="9" inputmode="numeric"/>
+            <input class="pin-digit" type="number" maxlength="1" min="0" max="9" inputmode="numeric"/>
+            <input class="pin-digit" type="number" maxlength="1" min="0" max="9" inputmode="numeric"/>
+            <input class="pin-digit" type="number" maxlength="1" min="0" max="9" inputmode="numeric"/>
+        </div>
+        <div id="pinError"></div>
+        <div id="modalBtns">
+            <button id="btnPinCancel" onclick="cerrarModalReunion()">Cancelar</button>
+            <button id="btnPinConfirm" onclick="validarPinReunion()">✔ Confirmar</button>
+        </div>
+    </div>
+</div>
 
 <div id="panelRuta">
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
@@ -419,6 +543,8 @@ let userMarker = null;
 let routeLayer = null;
 let routeMarkersLayer = L.layerGroup().addTo(map);
 let markersLayer = L.markerClusterGroup({ chunkedLoading: true, maxClusterRadius: 45 }).addTo(map);
+let elotLayer  = L.layerGroup().addTo(map);
+let elotMarker = null;
 let routeMode = 'driving'; // 'driving' | 'foot'
 
 function toggleModo() {
@@ -496,6 +622,29 @@ function makePinIcon(responsable, estado) {
     return L.divIcon({ html, className: '', iconSize: [34,41], iconAnchor: [17,41], popupAnchor: [0,-41] });
 }
 
+function makeElotIcon() {
+    const html = `
+        <div style="display:flex;flex-direction:column;align-items:center;width:50px;">
+            <div style="width:38px;height:38px;border-radius:50%;overflow:hidden;
+                border:2.5px solid #FFD700;
+                box-shadow:0 0 0 2px rgba(255,215,0,0.35),0 3px 10px rgba(0,0,0,0.45);
+                background:#fffde7;display:flex;align-items:center;justify-content:center;">
+                <img src="icons/llama.jpeg" style="width:100%;height:100%;object-fit:cover;"
+                     onerror="this.style.display='none';this.nextElementSibling.style.display='block'"/>
+                <span style="display:none;font-size:22px;line-height:1;">🦙</span>
+            </div>
+            <div style="width:0;height:0;border-left:7px solid transparent;
+                border-right:7px solid transparent;border-top:10px solid #FFD700;
+                margin-top:-2px;filter:drop-shadow(0 2px 2px rgba(0,0,0,0.3));"></div>
+            <div style="background:#FFD700;color:#4a2e00;font-size:9px;font-weight:900;
+                padding:2px 7px;border-radius:8px;margin-top:2px;
+                box-shadow:0 2px 5px rgba(0,0,0,0.22);letter-spacing:0.8px;white-space:nowrap;">
+                ELOT
+            </div>
+        </div>`;
+    return L.divIcon({ html, className: '', iconSize: [50, 66], iconAnchor: [25, 52], popupAnchor: [0, -52] });
+}
+
 // HELPERS DE ORDENAMIENTO
 const DIA_ORDER = ["LUNES","MARTES","MIERCOLES","MIÉRCOLES","JUEVES","VIERNES","SABADO","SÁBADO","DOMINGO","SIN RUTA"];
 
@@ -543,6 +692,18 @@ fetch('puntos.json?v=' + new Date().getTime())
 
     allData = data;
 
+    // PIN ESPECIAL ELOT (nunca se agrupa)
+    const elotPoint = data.find(p => (p.nombre || "").toUpperCase().includes("OFICINA ELOT"));
+    if (elotPoint && !elotMarker) {
+        elotMarker = L.marker([elotPoint.lat, elotPoint.lng], { icon: makeElotIcon(), zIndexOffset: 1000 });
+        elotMarker.bindPopup(buildPopupContent(elotPoint));
+        attachPopupOpen(elotMarker, elotPoint);
+        elotMarker.on('click', function() {
+            map.flyTo([elotPoint.lat, elotPoint.lng], map.getMaxZoom(), { duration: 1.4 });
+        });
+        elotLayer.addLayer(elotMarker);
+    }
+
     let supSet = new Set();
     let rcSet  = new Set();
     let diaSet = new Set();
@@ -575,7 +736,8 @@ fetch('puntos.json?v=' + new Date().getTime())
     });
 
     repoblarPartner("ALL", "ALL");
-    renderMap("ALL", "ALL", "ALL", "ALL");
+    restoreFilters();
+    updateFilters();
 });
 
 // MAPA
@@ -664,8 +826,9 @@ function registrarMovimiento(p, tipo, marker) {
 }
 
 function buildPopupContent(p) {
-    const safeId = String(p.ID).replace(/[^a-zA-Z0-9_-]/g, "_");
-    const color  = getPinBorder(p.responsable);
+    const safeId  = String(p.ID).replace(/[^a-zA-Z0-9_-]/g, "_");
+    const isElot  = (p.nombre || "").toUpperCase().includes("OFICINA ELOT");
+    const color   = isElot ? "#B8860B" : getPinBorder(p.responsable);
     return `
     <div class="popup-card">
       <div class="popup-header" style="background:${color}">
@@ -744,6 +907,7 @@ function renderMap(filterRC, filterDia, filterSup, filterPartner) {
     markersLayer.clearLayers();
 
     let filtered = allData.filter(p =>
+        !(p.nombre || "").toUpperCase().includes("OFICINA ELOT") &&
         (filterSup     === "ALL" || p.supervisor  === filterSup) &&
         (filterRC      === "ALL" || p.rc          === filterRC) &&
         (filterDia     === "ALL" || (p.dias && p.dias.includes(filterDia))) &&
@@ -768,6 +932,41 @@ if (filtered.length > 0 && (filterRC !== "ALL" || filterDia !== "ALL" || filterP
     map.fitBounds(group.getBounds(), { padding: [30, 30] });
 }
 
+}
+
+// PERSISTENCIA DE FILTROS
+function saveFilters() {
+    localStorage.setItem("filtros_mapa", JSON.stringify({
+        sup:     document.getElementById("supFilter").value,
+        rc:      document.getElementById("rcFilter").value,
+        dia:     document.getElementById("diaFilter").value,
+        partner: document.getElementById("partnerFilter").value
+    }));
+}
+
+function restoreFilters() {
+    const saved = JSON.parse(localStorage.getItem("filtros_mapa") || "{}");
+    if (!saved.sup) return;
+
+    const supSel = document.getElementById("supFilter");
+    if ([...supSel.options].some(o => o.value === saved.sup)) {
+        supSel.value = saved.sup;
+        repoblarRC(saved.sup);
+    }
+
+    const rcSel = document.getElementById("rcFilter");
+    if (saved.rc && [...rcSel.options].some(o => o.value === saved.rc))
+        rcSel.value = saved.rc;
+
+    const diaSel = document.getElementById("diaFilter");
+    if (saved.dia && [...diaSel.options].some(o => o.value === saved.dia))
+        diaSel.value = saved.dia;
+
+    repoblarPartner(supSel.value, rcSel.value);
+
+    const partnerSel = document.getElementById("partnerFilter");
+    if (saved.partner && [...partnerSel.options].some(o => o.value === saved.partner))
+        partnerSel.value = saved.partner;
 }
 
 // FILTROS
@@ -813,6 +1012,7 @@ function updateFilters() {
     }
     renderMap(rc, document.getElementById("diaFilter").value, sup, partner);
     updateChips();
+    saveFilters();
 }
 
 function updateChips() {
@@ -892,6 +1092,7 @@ const ORS_KEY = 'eyJvcmciOiI1YjNjZTM1OTc4NTExMTAwMDFjZjYyNDgiLCJpZCI6IjZmZTFlYjB
 
 // ── GOOGLE SHEET (reemplaza con tu URL de Apps Script desplegado) ──────────
 const SHEET_URL = "https://script.google.com/macros/s/AKfycby2f2uW9E2_CUBr9OiKVT4Sp-ubP2sRIXlWig-GPuKTGyDxi-zx724ZGtkOFaWW0jnqjw/exec";
+const REUNION_PIN = "1234"; // ← cambia este código cada mes
 // ─────────────────────────────────────────────────────────────────────────
 // ──────────────────────────────────────────────────────────────────────────
 
@@ -1191,6 +1392,87 @@ buscador.addEventListener("input", function () {
         resultadosDiv.appendChild(item);
     });
 });
+
+// ── REUNIÓN MENSUAL ────────────────────────────────────────────────────────
+function abrirModalReunion() {
+    const rc = document.getElementById("rcFilter").value;
+    if (rc === "ALL") return;
+    document.getElementById("modalRCNombre").textContent = "RC: " + rc;
+    document.querySelectorAll(".pin-digit").forEach(el => { el.value = ""; el.style.borderColor = "#ccc"; });
+    document.getElementById("pinError").textContent = "";
+    document.getElementById("modalReunion").classList.add("visible");
+    document.querySelectorAll(".pin-digit")[0].focus();
+}
+
+function cerrarModalReunion() {
+    document.getElementById("modalReunion").classList.remove("visible");
+}
+
+function validarPinReunion() {
+    const digits = [...document.querySelectorAll(".pin-digit")].map(el => el.value.trim());
+    const pin = digits.join("");
+    if (pin.length < 4) {
+        document.getElementById("pinError").textContent = "Ingresá los 4 dígitos";
+        return;
+    }
+    if (pin !== REUNION_PIN) {
+        document.getElementById("pinError").textContent = "PIN incorrecto";
+        document.querySelectorAll(".pin-digit").forEach(el => el.style.borderColor = "#e53935");
+        return;
+    }
+    const rc   = document.getElementById("rcFilter").value;
+    const hora = new Date().toTimeString().slice(0, 5);
+    const fecha = new Date().toLocaleDateString("es-PE");
+    const btn  = document.getElementById("btnPinConfirm");
+    btn.textContent = "⏳ Registrando...";
+    btn.disabled = true;
+    const params = new URLSearchParams({
+        hoja: "Reunion",
+        tipo: "reunion_mensual",
+        rc, fecha, hora,
+        latRC: userLat  || "",
+        lngRC: userLng  || ""
+    });
+    fetch(SHEET_URL + "?" + params.toString(), { mode: "no-cors" })
+        .finally(() => {
+            cerrarModalReunion();
+            btn.textContent = "✔ Confirmar";
+            btn.disabled = false;
+            alert(`✅ Reunión registrada\nRC: ${rc}\n${fecha} · ${hora}`);
+        });
+}
+
+// avance automático entre cajas del PIN
+document.querySelectorAll(".pin-digit").forEach((el, i, all) => {
+    el.addEventListener("input", function() {
+        this.value = this.value.slice(-1);
+        if (this.value && i < all.length - 1) all[i + 1].focus();
+    });
+    el.addEventListener("keydown", function(e) {
+        if (e.key === "Backspace" && !this.value && i > 0) all[i - 1].focus();
+        if (e.key === "Enter") validarPinReunion();
+    });
+});
+
+// cerrar modal al tocar fuera
+document.getElementById("modalReunion").addEventListener("click", function(e) {
+    if (e.target === this) cerrarModalReunion();
+});
+
+// activar/desactivar botón según RC seleccionado
+function actualizarBtnReunion() {
+    const btn = document.getElementById("btnReunion");
+    const rc  = document.getElementById("rcFilter").value;
+    if (rc !== "ALL") {
+        btn.classList.add("activo");
+        btn.disabled = false;
+    } else {
+        btn.classList.remove("activo");
+        btn.disabled = true;
+    }
+}
+document.getElementById("rcFilter").addEventListener("change", actualizarBtnReunion);
+// ──────────────────────────────────────────────────────────────────────────
 
 </script>
 
