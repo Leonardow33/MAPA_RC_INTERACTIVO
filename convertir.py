@@ -8,8 +8,8 @@ data = []
 
 for _, row in df.iterrows():
 
-    # ✅ Solo puntos Activos con coordenadas
-    if pd.notnull(row["LATITUD"]) and pd.notnull(row["LONGITUD"]) and str(row["ESTATUS"]).strip().upper() == "ACTIVO":
+    # ✅ Puntos con coordenadas, excluyendo solo CERRADO
+    if pd.notnull(row["LATITUD"]) and pd.notnull(row["LONGITUD"]) and str(row["ESTATUS"]).strip().upper() != "CERRADO":
 
         # 🔥 PROCESAR DÍAS DESDE "FRECUENCIA-NORMAL"
         dias = []

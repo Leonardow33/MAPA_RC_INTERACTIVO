@@ -882,6 +882,7 @@ function renderMap(filterNombre, filterDia, filterRol, filterPartner, filterZona
     markersLayer.clearLayers();
     let filtered = allData.filter(p =>
         !(p.nombre || "").toUpperCase().includes("OFICINA ELOT") &&
+        (p.estado || "").toUpperCase() !== "CERRADO" &&
         (filterRol !== "supervisor"   || filterNombre === "ALL" || p.supervisor  === filterNombre) &&
         (filterRol !== "capacitador"  || filterNombre === "ALL" || filterZona !== "su_zona" || p.capacitador === filterNombre) &&
         (filterDia === "ALL" || (p.dias && p.dias.includes(filterDia))) &&
