@@ -15,11 +15,11 @@
         "frecuencia": "LUNES-MARTES-MIÉRCOLES-JUEVES-VIERNES-SÁBADO",
         "dias": [
             "MARTES",
-            "MIÉRCOLES",
-            "JUEVES",
+            "LUNES",
             "SÁBADO",
+            "MIÉRCOLES",
             "VIERNES",
-            "LUNES"
+            "JUEVES"
         ],
         "distrito": "SAN ISIDRO",
         "gz": "SIN INFO",
@@ -2020,8 +2020,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MIÉRCOLES-VIERNES",
         "dias": [
-            "MIÉRCOLES",
-            "VIERNES"
+            "VIERNES",
+            "MIÉRCOLES"
         ],
         "distrito": "TRUJILLO",
         "gz": "Jesus",
@@ -8021,9 +8021,9 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-MIÉRCOLES-VIERNES",
         "dias": [
-            "MIÉRCOLES",
             "VIERNES",
-            "LUNES"
+            "LUNES",
+            "MIÉRCOLES"
         ],
         "distrito": "CHICLAYO",
         "gz": "Jesus",
@@ -8505,8 +8505,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MARTES-JUEVES-VIERNES",
         "dias": [
-            "JUEVES",
             "MARTES",
+            "JUEVES",
             "VIERNES"
         ],
         "distrito": "ICA",
@@ -8790,8 +8790,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MARTES-JUEVES-SÁBADO",
         "dias": [
-            "JUEVES",
             "MARTES",
+            "JUEVES",
             "SÁBADO"
         ],
         "distrito": "PIURA",
@@ -8857,9 +8857,9 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-MIÉRCOLES-VIERNES",
         "dias": [
-            "MIÉRCOLES",
             "VIERNES",
-            "LUNES"
+            "LUNES",
+            "MIÉRCOLES"
         ],
         "distrito": "PIURA",
         "gz": "Jesus",
@@ -8880,8 +8880,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MARTES-JUEVES-SÁBADO",
         "dias": [
-            "JUEVES",
             "MARTES",
+            "JUEVES",
             "SÁBADO"
         ],
         "distrito": "PIURA",
@@ -8990,8 +8990,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MARTES-JUEVES-SÁBADO",
         "dias": [
-            "JUEVES",
             "MARTES",
+            "JUEVES",
             "SÁBADO"
         ],
         "distrito": "CHICLAYO",
@@ -9013,8 +9013,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MARTES-JUEVES-SÁBADO",
         "dias": [
-            "JUEVES",
             "MARTES",
+            "JUEVES",
             "SÁBADO"
         ],
         "distrito": "CHICLAYO",
@@ -9036,8 +9036,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MIÉRCOLES-VIERNES",
         "dias": [
-            "MIÉRCOLES",
-            "VIERNES"
+            "VIERNES",
+            "MIÉRCOLES"
         ],
         "distrito": "TRUJILLO",
         "gz": "Jesus",
@@ -9123,9 +9123,9 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-MIÉRCOLES-VIERNES",
         "dias": [
-            "MIÉRCOLES",
             "VIERNES",
-            "LUNES"
+            "LUNES",
+            "MIÉRCOLES"
         ],
         "distrito": "LAMBAYEQUE",
         "gz": "Jesus",
@@ -9167,9 +9167,9 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-MIÉRCOLES-VIERNES",
         "dias": [
-            "MIÉRCOLES",
             "VIERNES",
-            "LUNES"
+            "LUNES",
+            "MIÉRCOLES"
         ],
         "distrito": "LAMBAYEQUE",
         "gz": "Jesus",
@@ -9234,9 +9234,9 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-MIÉRCOLES-VIERNES",
         "dias": [
-            "MIÉRCOLES",
             "VIERNES",
-            "LUNES"
+            "LUNES",
+            "MIÉRCOLES"
         ],
         "distrito": "ICA",
         "gz": "Juan",
@@ -9323,8 +9323,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MARTES-JUEVES-SÁBADO",
         "dias": [
-            "JUEVES",
             "MARTES",
+            "JUEVES",
             "SÁBADO"
         ],
         "distrito": "CHICLAYO",
@@ -9389,8 +9389,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MARTES-JUEVES-SÁBADO",
         "dias": [
-            "JUEVES",
             "MARTES",
+            "JUEVES",
             "SÁBADO"
         ],
         "distrito": "PIURA",
@@ -9498,9 +9498,9 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-MIÉRCOLES-VIERNES",
         "dias": [
-            "MIÉRCOLES",
             "VIERNES",
-            "LUNES"
+            "LUNES",
+            "MIÉRCOLES"
         ],
         "distrito": "PIURA",
         "gz": "Jesus",
@@ -9565,9 +9565,9 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-MIÉRCOLES-VIERNES",
         "dias": [
-            "MIÉRCOLES",
             "VIERNES",
-            "LUNES"
+            "LUNES",
+            "MIÉRCOLES"
         ],
         "distrito": "CHICLAYO",
         "gz": "Jesus",
@@ -9609,9 +9609,9 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-MIÉRCOLES-VIERNES",
         "dias": [
-            "MIÉRCOLES",
             "VIERNES",
-            "LUNES"
+            "LUNES",
+            "MIÉRCOLES"
         ],
         "distrito": "PIURA",
         "gz": "Jesus",
@@ -9632,8 +9632,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MARTES-JUEVES-SÁBADO",
         "dias": [
-            "JUEVES",
             "MARTES",
+            "JUEVES",
             "SÁBADO"
         ],
         "distrito": "PIURA",
@@ -9741,9 +9741,9 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-MIÉRCOLES-VIERNES",
         "dias": [
-            "MIÉRCOLES",
             "VIERNES",
-            "LUNES"
+            "LUNES",
+            "MIÉRCOLES"
         ],
         "distrito": "PIURA",
         "gz": "Jesus",
@@ -9764,8 +9764,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MIÉRCOLES-VIERNES",
         "dias": [
-            "MIÉRCOLES",
-            "VIERNES"
+            "VIERNES",
+            "MIÉRCOLES"
         ],
         "distrito": "TRUJILLO",
         "gz": "Jesus",
@@ -10094,8 +10094,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MIÉRCOLES-VIERNES",
         "dias": [
-            "MIÉRCOLES",
-            "VIERNES"
+            "VIERNES",
+            "MIÉRCOLES"
         ],
         "distrito": "TRUJILLO",
         "gz": "Jesus",
@@ -10204,9 +10204,9 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-MARTES-MIÉRCOLES",
         "dias": [
-            "MIÉRCOLES",
             "MARTES",
-            "LUNES"
+            "LUNES",
+            "MIÉRCOLES"
         ],
         "distrito": "ICA",
         "gz": "Juan",
@@ -10337,8 +10337,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MARTES-JUEVES-SÁBADO",
         "dias": [
-            "JUEVES",
             "MARTES",
+            "JUEVES",
             "SÁBADO"
         ],
         "distrito": "CHICLAYO",
@@ -10448,8 +10448,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MARTES-JUEVES-VIERNES",
         "dias": [
-            "JUEVES",
             "MARTES",
+            "JUEVES",
             "VIERNES"
         ],
         "distrito": "ICA",
@@ -10822,9 +10822,9 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-MIÉRCOLES-VIERNES",
         "dias": [
-            "MIÉRCOLES",
             "VIERNES",
-            "LUNES"
+            "LUNES",
+            "MIÉRCOLES"
         ],
         "distrito": "PIURA",
         "gz": "Jesus",
@@ -11043,9 +11043,9 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-MIÉRCOLES-VIERNES",
         "dias": [
-            "MIÉRCOLES",
             "VIERNES",
-            "LUNES"
+            "LUNES",
+            "MIÉRCOLES"
         ],
         "distrito": "CHICLAYO",
         "gz": "Jesus",
@@ -11219,8 +11219,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MIÉRCOLES-VIERNES",
         "dias": [
-            "MIÉRCOLES",
-            "VIERNES"
+            "VIERNES",
+            "MIÉRCOLES"
         ],
         "distrito": "TRUJILLO",
         "gz": "Jesus",
@@ -11460,8 +11460,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MARTES-JUEVES-SÁBADO",
         "dias": [
-            "JUEVES",
             "MARTES",
+            "JUEVES",
             "SÁBADO"
         ],
         "distrito": "CHICLAYO",
@@ -11548,8 +11548,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MARTES-JUEVES-SÁBADO",
         "dias": [
-            "JUEVES",
             "MARTES",
+            "JUEVES",
             "SÁBADO"
         ],
         "distrito": "CHICLAYO",
@@ -12581,9 +12581,9 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-MARTES-MIÉRCOLES",
         "dias": [
-            "MIÉRCOLES",
             "MARTES",
-            "LUNES"
+            "LUNES",
+            "MIÉRCOLES"
         ],
         "distrito": "ICA",
         "gz": "Juan",
@@ -13261,9 +13261,9 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-MIÉRCOLES-VIERNES",
         "dias": [
-            "MIÉRCOLES",
             "VIERNES",
-            "LUNES"
+            "LUNES",
+            "MIÉRCOLES"
         ],
         "distrito": "CHICLAYO",
         "gz": "Jesus",
@@ -13437,9 +13437,9 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-MARTES-MIÉRCOLES",
         "dias": [
-            "MIÉRCOLES",
             "MARTES",
-            "LUNES"
+            "LUNES",
+            "MIÉRCOLES"
         ],
         "distrito": "ICA",
         "gz": "Juan",
@@ -13833,8 +13833,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MARTES-JUEVES-VIERNES",
         "dias": [
-            "JUEVES",
             "MARTES",
+            "JUEVES",
             "VIERNES"
         ],
         "distrito": "ICA",
@@ -14206,9 +14206,9 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-MARTES-MIÉRCOLES",
         "dias": [
-            "MIÉRCOLES",
             "MARTES",
-            "LUNES"
+            "LUNES",
+            "MIÉRCOLES"
         ],
         "distrito": "ICA",
         "gz": "Juan",
@@ -17480,9 +17480,9 @@
         "responsable": "MCG BODEGA",
         "frecuencia": "LUNES-MIÉRCOLES-VIERNES",
         "dias": [
-            "MIÉRCOLES",
             "VIERNES",
-            "LUNES"
+            "LUNES",
+            "MIÉRCOLES"
         ],
         "distrito": "JAEN",
         "gz": "SIN INFO",
@@ -17903,11 +17903,11 @@
         "frecuencia": "LUNES-MARTES-MIÉRCOLES-JUEVES-VIERNES-SÁBADO",
         "dias": [
             "MARTES",
-            "MIÉRCOLES",
-            "JUEVES",
+            "LUNES",
             "SÁBADO",
+            "MIÉRCOLES",
             "VIERNES",
-            "LUNES"
+            "JUEVES"
         ],
         "distrito": "EL TAMBO",
         "gz": "SIN INFO",
@@ -17929,11 +17929,11 @@
         "frecuencia": "LUNES-MARTES-MIÉRCOLES-JUEVES-VIERNES-SÁBADO",
         "dias": [
             "MARTES",
-            "MIÉRCOLES",
-            "JUEVES",
+            "LUNES",
             "SÁBADO",
+            "MIÉRCOLES",
             "VIERNES",
-            "LUNES"
+            "JUEVES"
         ],
         "distrito": "HUANCAYO",
         "gz": "SIN INFO",
@@ -18232,8 +18232,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MARTES-JUEVES-VIERNES",
         "dias": [
-            "JUEVES",
             "MARTES",
+            "JUEVES",
             "VIERNES"
         ],
         "distrito": "ICA",
@@ -18387,9 +18387,9 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-MARTES-MIÉRCOLES",
         "dias": [
-            "MIÉRCOLES",
             "MARTES",
-            "LUNES"
+            "LUNES",
+            "MIÉRCOLES"
         ],
         "distrito": "ICA",
         "gz": "Juan",
@@ -18762,8 +18762,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MIÉRCOLES-VIERNES",
         "dias": [
-            "MIÉRCOLES",
-            "VIERNES"
+            "VIERNES",
+            "MIÉRCOLES"
         ],
         "distrito": "VICTOR LARCO HERRERA",
         "gz": "Jesus",
@@ -20185,8 +20185,8 @@
         "responsable": "TINBET",
         "frecuencia": "VIERNES-MARTES",
         "dias": [
-            "MARTES",
-            "VIERNES"
+            "VIERNES",
+            "MARTES"
         ],
         "distrito": "CAJABAMBA",
         "gz": "SPORTBETSTRUJILLO",
@@ -20229,9 +20229,9 @@
         "responsable": "TINBET",
         "frecuencia": "LUNES-MIÉRCOLES-VIERNES",
         "dias": [
-            "MIÉRCOLES",
             "VIERNES",
-            "LUNES"
+            "LUNES",
+            "MIÉRCOLES"
         ],
         "distrito": "CHICLAYO",
         "gz": "BEASPORT",
@@ -20252,9 +20252,9 @@
         "responsable": "TINBET",
         "frecuencia": "LUNES-MIÉRCOLES-VIERNES",
         "dias": [
-            "MIÉRCOLES",
             "VIERNES",
-            "LUNES"
+            "LUNES",
+            "MIÉRCOLES"
         ],
         "distrito": "JOSE LEONARDO ORTIZ",
         "gz": "BEASPORT",
@@ -20340,8 +20340,8 @@
         "responsable": "TINBET",
         "frecuencia": "VIERNES-MARTES",
         "dias": [
-            "MARTES",
-            "VIERNES"
+            "VIERNES",
+            "MARTES"
         ],
         "distrito": "MORALES",
         "gz": "GAMING SOLUTIONS",
@@ -20603,9 +20603,9 @@
         "responsable": "TINBET",
         "frecuencia": "LUNES-MIÉRCOLES-VIERNES",
         "dias": [
-            "MIÉRCOLES",
             "VIERNES",
-            "LUNES"
+            "LUNES",
+            "MIÉRCOLES"
         ],
         "distrito": "PIURA",
         "gz": "FERNANDO ORBEGOZO",
@@ -20692,8 +20692,8 @@
         "responsable": "TINBET",
         "frecuencia": "MARTES-JUEVES-SÁBADO",
         "dias": [
-            "JUEVES",
             "MARTES",
+            "JUEVES",
             "SÁBADO"
         ],
         "distrito": "PIURA",
@@ -20715,9 +20715,9 @@
         "responsable": "TINBET",
         "frecuencia": "LUNES-MIÉRCOLES-VIERNES",
         "dias": [
-            "MIÉRCOLES",
             "VIERNES",
-            "LUNES"
+            "LUNES",
+            "MIÉRCOLES"
         ],
         "distrito": "CASTILLA",
         "gz": "FERNANDO ORBEGOZO",
@@ -20738,8 +20738,8 @@
         "responsable": "TINBET",
         "frecuencia": "MARTES-JUEVES-SÁBADO",
         "dias": [
-            "JUEVES",
             "MARTES",
+            "JUEVES",
             "SÁBADO"
         ],
         "distrito": "VEINTISEIS DE OCTUBRE",
@@ -20783,8 +20783,8 @@
         "responsable": "TINBET",
         "frecuencia": "MARTES-JUEVES-SÁBADO",
         "dias": [
-            "JUEVES",
             "MARTES",
+            "JUEVES",
             "SÁBADO"
         ],
         "distrito": "JOSE LEONARDO ORTIZ",
@@ -21134,11 +21134,11 @@
         "frecuencia": "LUNES-MARTES-MIÉRCOLES-JUEVES-VIERNES-SÁBADO",
         "dias": [
             "MARTES",
-            "MIÉRCOLES",
-            "JUEVES",
+            "LUNES",
             "SÁBADO",
+            "MIÉRCOLES",
             "VIERNES",
-            "LUNES"
+            "JUEVES"
         ],
         "distrito": "EL TAMBO",
         "gz": "INDEPENDIENTES",
@@ -21160,11 +21160,11 @@
         "frecuencia": "LUNES-MARTES-MIÉRCOLES-JUEVES-VIERNES-SÁBADO",
         "dias": [
             "MARTES",
-            "MIÉRCOLES",
-            "JUEVES",
+            "LUNES",
             "SÁBADO",
+            "MIÉRCOLES",
             "VIERNES",
-            "LUNES"
+            "JUEVES"
         ],
         "distrito": "EL TAMBO",
         "gz": "INDEPENDIENTES",
@@ -21186,11 +21186,11 @@
         "frecuencia": "LUNES-MARTES-MIÉRCOLES-JUEVES-VIERNES-SÁBADO",
         "dias": [
             "MARTES",
-            "MIÉRCOLES",
-            "JUEVES",
+            "LUNES",
             "SÁBADO",
+            "MIÉRCOLES",
             "VIERNES",
-            "LUNES"
+            "JUEVES"
         ],
         "distrito": "EL TAMBO",
         "gz": "INDEPENDIENTES",
@@ -21211,8 +21211,8 @@
         "responsable": "TINBET",
         "frecuencia": "MARTES-JUEVES-SÁBADO",
         "dias": [
-            "JUEVES",
             "MARTES",
+            "JUEVES",
             "SÁBADO"
         ],
         "distrito": "CHICLAYO",
@@ -21540,9 +21540,8 @@
         "supervisor": "JENY LAZO",
         "capacitador": "PENDING",
         "responsable": "TINBET",
-        "frecuencia": "LUNES-JUEVES",
+        "frecuencia": "LUNES-LUNES",
         "dias": [
-            "JUEVES",
             "LUNES"
         ],
         "distrito": "CALLERIA",
@@ -22004,9 +22003,9 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-MARTES-MIÉRCOLES",
         "dias": [
-            "MIÉRCOLES",
             "MARTES",
-            "LUNES"
+            "LUNES",
+            "MIÉRCOLES"
         ],
         "distrito": "ICA",
         "gz": "Juan",
@@ -22444,9 +22443,9 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-MIÉRCOLES-VIERNES",
         "dias": [
-            "MIÉRCOLES",
             "VIERNES",
-            "LUNES"
+            "LUNES",
+            "MIÉRCOLES"
         ],
         "distrito": "ICA",
         "gz": "Juan",
@@ -22971,8 +22970,8 @@
         "responsable": "TINBET",
         "frecuencia": "MIÉRCOLES-VIERNES",
         "dias": [
-            "MIÉRCOLES",
-            "VIERNES"
+            "VIERNES",
+            "MIÉRCOLES"
         ],
         "distrito": "VICTOR LARCO HERRERA",
         "gz": "SIN INFO",
@@ -22993,9 +22992,9 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-MIÉRCOLES-VIERNES",
         "dias": [
-            "MIÉRCOLES",
             "VIERNES",
-            "LUNES"
+            "LUNES",
+            "MIÉRCOLES"
         ],
         "distrito": "CERRO COLORADO",
         "gz": "Jesus",
@@ -23016,9 +23015,9 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-MIÉRCOLES-VIERNES",
         "dias": [
-            "MIÉRCOLES",
             "VIERNES",
-            "LUNES"
+            "LUNES",
+            "MIÉRCOLES"
         ],
         "distrito": "AREQUIPA",
         "gz": "Jesus",
@@ -23583,9 +23582,9 @@
         "responsable": "APUESTA TOTAL",
         "frecuencia": "LUNES-MIÉRCOLES-VIERNES",
         "dias": [
-            "MIÉRCOLES",
             "VIERNES",
-            "LUNES"
+            "LUNES",
+            "MIÉRCOLES"
         ],
         "distrito": "CHICLAYO",
         "gz": "Kelly Ballena",
@@ -23606,8 +23605,8 @@
         "responsable": "APUESTA TOTAL",
         "frecuencia": "MARTES-JUEVES-SÁBADO",
         "dias": [
-            "JUEVES",
             "MARTES",
+            "JUEVES",
             "SÁBADO"
         ],
         "distrito": "CHICLAYO",
@@ -24073,8 +24072,8 @@
         "responsable": "LIVESPORT",
         "frecuencia": "MARTES-JUEVES-SÁBADO",
         "dias": [
-            "JUEVES",
             "MARTES",
+            "JUEVES",
             "SÁBADO"
         ],
         "distrito": "CHICLAYO",
@@ -24294,8 +24293,8 @@
         "responsable": "TINBET",
         "frecuencia": "MARTES-JUEVES-VIERNES",
         "dias": [
-            "JUEVES",
             "MARTES",
+            "JUEVES",
             "VIERNES"
         ],
         "distrito": "ICA",
@@ -24974,11 +24973,11 @@
         "frecuencia": "LUNES-MARTES-MIÉRCOLES-JUEVES-VIERNES-SÁBADO",
         "dias": [
             "MARTES",
-            "MIÉRCOLES",
-            "JUEVES",
+            "LUNES",
             "SÁBADO",
+            "MIÉRCOLES",
             "VIERNES",
-            "LUNES"
+            "JUEVES"
         ],
         "distrito": "JUNÍN",
         "gz": "GIAN MIRANDA",
@@ -25589,14 +25588,14 @@
         "zona": "NORTE",
         "cluster": "ACTIVE",
         "ID": "3231",
-        "rc": "SIN RC",
+        "rc": "IRIS CAMPOS",
         "username": "TINBET_3231",
-        "supervisor": "SIN SUPERVISOR",
+        "supervisor": "JENY LAZO",
         "capacitador": "PENDING",
         "responsable": "TINBET",
-        "frecuencia": "SIN ASIGNAR-SIN ASIGNAR",
+        "frecuencia": "LUNES-LUNES",
         "dias": [
-            "SIN RUTA"
+            "LUNES"
         ],
         "distrito": "CAJAMARCA",
         "gz": "LENY DAVILA",
@@ -26528,11 +26527,11 @@
         "frecuencia": "LUNES-MARTES-MIÉRCOLES-JUEVES-VIERNES-SÁBADO",
         "dias": [
             "MARTES",
-            "MIÉRCOLES",
-            "JUEVES",
+            "LUNES",
             "SÁBADO",
+            "MIÉRCOLES",
             "VIERNES",
-            "LUNES"
+            "JUEVES"
         ],
         "distrito": "JUNÍN",
         "gz": "GAMING SOLUTIONS",
@@ -26554,11 +26553,11 @@
         "frecuencia": "LUNES-MARTES-MIÉRCOLES-JUEVES-VIERNES-SÁBADO",
         "dias": [
             "MARTES",
-            "MIÉRCOLES",
-            "JUEVES",
+            "LUNES",
             "SÁBADO",
+            "MIÉRCOLES",
             "VIERNES",
-            "LUNES"
+            "JUEVES"
         ],
         "distrito": "JUNÍN",
         "gz": "GAMING SOLUTIONS",
@@ -33589,11 +33588,11 @@
         "frecuencia": "LUNES-MARTES-MIÉRCOLES-JUEVES-VIERNES-SÁBADO",
         "dias": [
             "MARTES",
-            "MIÉRCOLES",
-            "JUEVES",
+            "LUNES",
             "SÁBADO",
+            "MIÉRCOLES",
             "VIERNES",
-            "LUNES"
+            "JUEVES"
         ],
         "distrito": "EL TAMBO",
         "gz": "Sheyla Gonzales",
@@ -33657,11 +33656,11 @@
         "frecuencia": "LUNES-MARTES-MIÉRCOLES-JUEVES-VIERNES-SÁBADO",
         "dias": [
             "MARTES",
-            "MIÉRCOLES",
-            "JUEVES",
+            "LUNES",
             "SÁBADO",
+            "MIÉRCOLES",
             "VIERNES",
-            "LUNES"
+            "JUEVES"
         ],
         "distrito": "EL TAMBO",
         "gz": "Sheyla Gonzales",
@@ -36564,6 +36563,506 @@
             "SIN RUTA"
         ],
         "distrito": "SANTIAGO DE SURCO",
+        "gz": "SIN INFO",
+        "jz": "SIN INFO"
+    },
+    {
+        "nombre": "AVIACION-C23-SANBORJA",
+        "lat": -12.08565,
+        "lng": -77.00365,
+        "estado": "INACTIVO",
+        "zona": "LIMA CENTRO",
+        "cluster": "0",
+        "ID": "3717",
+        "rc": "KARINA SANCHEZ",
+        "username": "TAMBO_3717",
+        "supervisor": "IVAN SALCEDO",
+        "capacitador": "JESUS OLIVEROS",
+        "responsable": "TAMBO",
+        "frecuencia": "MARTES-VIERNES",
+        "dias": [
+            "MARTES",
+            "VIERNES"
+        ],
+        "distrito": "SAN BORJA",
+        "gz": "SIN INFO",
+        "jz": "SIN INFO"
+    },
+    {
+        "nombre": "HAYADELATORRE-C4-LAPERLA",
+        "lat": -12.07137,
+        "lng": -77.10994,
+        "estado": "INACTIVO",
+        "zona": "LIMA OESTE",
+        "cluster": "0",
+        "ID": "3718",
+        "rc": "HELENA BARREDA",
+        "username": "TAMBO_3718",
+        "supervisor": "JORGE SANCHEZ",
+        "capacitador": "SELEN CASTRO",
+        "responsable": "TAMBO",
+        "frecuencia": "MIÉRCOLES-SÁBADO",
+        "dias": [
+            "SÁBADO",
+            "MIÉRCOLES"
+        ],
+        "distrito": "LA PERLA",
+        "gz": "SIN INFO",
+        "jz": "SIN INFO"
+    },
+    {
+        "nombre": "MALA2",
+        "lat": -12.65786,
+        "lng": -76.63277,
+        "estado": "INACTIVO",
+        "zona": "SUR CHICO",
+        "cluster": "0",
+        "ID": "3719",
+        "rc": "GUADALUPE KIMURA",
+        "username": "TAMBO_3719",
+        "supervisor": "RODRIGO MARTINEZ",
+        "capacitador": "PENDING",
+        "responsable": "TAMBO",
+        "frecuencia": "SÁBADO-MIÉRCOLES",
+        "dias": [
+            "SÁBADO",
+            "MIÉRCOLES"
+        ],
+        "distrito": "MALA",
+        "gz": "SIN INFO",
+        "jz": "SIN INFO"
+    },
+    {
+        "nombre": "QUECHUAS-C4-ATE",
+        "lat": -12.07419,
+        "lng": -76.98498,
+        "estado": "INACTIVO",
+        "zona": "LIMA ESTE",
+        "cluster": "0",
+        "ID": "3720",
+        "rc": "KARINA SANCHEZ",
+        "username": "TAMBO_3720",
+        "supervisor": "IVAN SALCEDO",
+        "capacitador": "JESUS OLIVEROS",
+        "responsable": "TAMBO",
+        "frecuencia": "LUNES-JUEVES",
+        "dias": [
+            "JUEVES",
+            "LUNES"
+        ],
+        "distrito": "ATE",
+        "gz": "SIN INFO",
+        "jz": "SIN INFO"
+    },
+    {
+        "nombre": "ALAMOS2-SJM",
+        "lat": -12.16174,
+        "lng": -76.98231,
+        "estado": "INACTIVO",
+        "zona": "LIMA SUR",
+        "cluster": "0",
+        "ID": "3721",
+        "rc": "KIARA OSCO",
+        "username": "TAMBO_3721",
+        "supervisor": "RODRIGO MARTINEZ",
+        "capacitador": "BEATRIZ HUAMAN",
+        "responsable": "TAMBO",
+        "frecuencia": "MARTES-VIERNES",
+        "dias": [
+            "MARTES",
+            "VIERNES"
+        ],
+        "distrito": "SAN JUAN DE MIRAFLORES",
+        "gz": "SIN INFO",
+        "jz": "SIN INFO"
+    },
+    {
+        "nombre": "GIUFUENTE-C2-COMAS",
+        "lat": -11.94155,
+        "lng": -77.06437,
+        "estado": "INACTIVO",
+        "zona": "LIMA NORTE",
+        "cluster": "0",
+        "ID": "3722",
+        "rc": "LISSETH ADRIANZEN",
+        "username": "TAMBO_3722",
+        "supervisor": "JORGE SANCHEZ",
+        "capacitador": "JOEL VENTURA",
+        "responsable": "TAMBO",
+        "frecuencia": "LUNES-JUEVES",
+        "dias": [
+            "JUEVES",
+            "LUNES"
+        ],
+        "distrito": "COMAS",
+        "gz": "SIN INFO",
+        "jz": "SIN INFO"
+    },
+    {
+        "nombre": "CARRANZA-C5-SJM",
+        "lat": -12.15629,
+        "lng": -76.97159,
+        "estado": "INACTIVO",
+        "zona": "LIMA SUR",
+        "cluster": "0",
+        "ID": "3723",
+        "rc": "KIARA OSCO",
+        "username": "TAMBO_3723",
+        "supervisor": "RODRIGO MARTINEZ",
+        "capacitador": "BEATRIZ HUAMAN",
+        "responsable": "TAMBO",
+        "frecuencia": "MARTES-VIERNES",
+        "dias": [
+            "MARTES",
+            "VIERNES"
+        ],
+        "distrito": "SAN JUAN DE MIRAFLORES",
+        "gz": "SIN INFO",
+        "jz": "SIN INFO"
+    },
+    {
+        "nombre": "GRIFOARGENTINA-C8-CERCADO",
+        "lat": -12.04415,
+        "lng": -77.05328,
+        "estado": "INACTIVO",
+        "zona": "LIMA CENTRO",
+        "cluster": "0",
+        "ID": "3724",
+        "rc": "JESSICA LEON",
+        "username": "TAMBO_3724",
+        "supervisor": "JORGE SANCHEZ",
+        "capacitador": "RODRIGO BRAVO",
+        "responsable": "TAMBO",
+        "frecuencia": "MIÉRCOLES-SÁBADO",
+        "dias": [
+            "SÁBADO",
+            "MIÉRCOLES"
+        ],
+        "distrito": "LIMA",
+        "gz": "SIN INFO",
+        "jz": "SIN INFO"
+    },
+    {
+        "nombre": "13DENERO-C21-SJL",
+        "lat": -11.996,
+        "lng": -77.00497,
+        "estado": "INACTIVO",
+        "zona": "LIMA ESTE",
+        "cluster": "0",
+        "ID": "3725",
+        "rc": "MIGUEL CALAMPA",
+        "username": "TAMBO_3725",
+        "supervisor": "IVAN SALCEDO",
+        "capacitador": "RODRIGO BRAVO",
+        "responsable": "TAMBO",
+        "frecuencia": "LUNES-JUEVES",
+        "dias": [
+            "JUEVES",
+            "LUNES"
+        ],
+        "distrito": "SAN JUAN DE LURIGANCHO",
+        "gz": "SIN INFO",
+        "jz": "SIN INFO"
+    },
+    {
+        "nombre": "ZONA SPORT",
+        "lat": -8.372362,
+        "lng": -74.549399,
+        "estado": "INACTIVO",
+        "zona": "NORTE",
+        "cluster": "0",
+        "ID": "3726",
+        "rc": "IRIS CAMPOS",
+        "username": "TINBET_3726",
+        "supervisor": "JENY LAZO",
+        "capacitador": "PENDING",
+        "responsable": "TINBET",
+        "frecuencia": "MARTES-VIERNES",
+        "dias": [
+            "MARTES",
+            "VIERNES"
+        ],
+        "distrito": "CALLERIA",
+        "gz": "SIN INFO",
+        "jz": "SIN INFO"
+    },
+    {
+        "nombre": "TIMBERO",
+        "lat": -12.061061,
+        "lng": -75.213419,
+        "estado": "INACTIVO",
+        "zona": "NORTE",
+        "cluster": "0",
+        "ID": "3727",
+        "rc": "YAN BACA ",
+        "username": "TINBET_3727",
+        "supervisor": "JENY LAZO",
+        "capacitador": "PENDING",
+        "responsable": "TINBET",
+        "frecuencia": "LUNES-JUEVES",
+        "dias": [
+            "JUEVES",
+            "LUNES"
+        ],
+        "distrito": "EL TAMBO",
+        "gz": "SIN INFO",
+        "jz": "SIN INFO"
+    },
+    {
+        "nombre": "TIMBERO II",
+        "lat": -12.074218,
+        "lng": -75.20517,
+        "estado": "INACTIVO",
+        "zona": "NORTE",
+        "cluster": "0",
+        "ID": "3728",
+        "rc": "YAN BACA ",
+        "username": "TINBET_3728",
+        "supervisor": "JENY LAZO",
+        "capacitador": "PENDING",
+        "responsable": "TINBET",
+        "frecuencia": "LUNES-JUEVES",
+        "dias": [
+            "JUEVES",
+            "LUNES"
+        ],
+        "distrito": "HUANCAYO",
+        "gz": "SIN INFO",
+        "jz": "SIN INFO"
+    },
+    {
+        "nombre": "TINBET EL AGUSTINO",
+        "lat": -12.038889,
+        "lng": -76.993801,
+        "estado": "INACTIVO",
+        "zona": "LIMA ESTE",
+        "cluster": "0",
+        "ID": "3729",
+        "rc": "GIANCARLO VEGA",
+        "username": "TINBET_3729",
+        "supervisor": "IVAN SALCEDO",
+        "capacitador": "JESUS OLIVEROS",
+        "responsable": "TINBET",
+        "frecuencia": "MARTES-VIERNES",
+        "dias": [
+            "MARTES",
+            "VIERNES"
+        ],
+        "distrito": "EL AGUSTINO",
+        "gz": "SIN INFO",
+        "jz": "SIN INFO"
+    },
+    {
+        "nombre": "LA PLAYA",
+        "lat": -11.777058,
+        "lng": -77.164844,
+        "estado": "INACTIVO",
+        "zona": "LIMA NORTE",
+        "cluster": "0",
+        "ID": "3730",
+        "rc": "ALEXANDER RABELO",
+        "username": "TINBET_3730",
+        "supervisor": "JORGE SANCHEZ",
+        "capacitador": "JOEL VENTURA",
+        "responsable": "TINBET",
+        "frecuencia": "MIÉRCOLES-SÁBADO",
+        "dias": [
+            "SÁBADO",
+            "MIÉRCOLES"
+        ],
+        "distrito": "ANCON",
+        "gz": "SIN INFO",
+        "jz": "SIN INFO"
+    },
+    {
+        "nombre": "TAYACAJA",
+        "lat": -12.039136,
+        "lng": -76.993695,
+        "estado": "INACTIVO",
+        "zona": "LIMA ESTE",
+        "cluster": "0",
+        "ID": "3731",
+        "rc": "GIANCARLO VEGA",
+        "username": "TINBET_3731",
+        "supervisor": "IVAN SALCEDO",
+        "capacitador": "JESUS OLIVEROS",
+        "responsable": "TINBET",
+        "frecuencia": "MARTES-VIERNES",
+        "dias": [
+            "MARTES",
+            "VIERNES"
+        ],
+        "distrito": "EL AGUSTINO",
+        "gz": "SIN INFO",
+        "jz": "SIN INFO"
+    },
+    {
+        "nombre": "CLUB SAN BLAS",
+        "lat": -13.165316,
+        "lng": -74.228944,
+        "estado": "INACTIVO",
+        "zona": "SUR",
+        "cluster": "0",
+        "ID": "3732",
+        "rc": "SIN RC",
+        "username": "TINBET_3732",
+        "supervisor": "SIN SUPERVISOR",
+        "capacitador": "PENDING",
+        "responsable": "TINBET",
+        "frecuencia": "SIN ASIGNAR-SIN ASIGNAR",
+        "dias": [
+            "SIN RUTA"
+        ],
+        "distrito": "AYACUCHO",
+        "gz": "SIN INFO",
+        "jz": "SIN INFO"
+    },
+    {
+        "nombre": "TINBET LOS TITANES",
+        "lat": -8.539339,
+        "lng": -78.677944,
+        "estado": "INACTIVO",
+        "zona": "NORTE",
+        "cluster": "0",
+        "ID": "3733",
+        "rc": "SIN RC",
+        "username": "TINBET_3733",
+        "supervisor": "SIN SUPERVISOR",
+        "capacitador": "PENDING",
+        "responsable": "TINBET",
+        "frecuencia": "SIN ASIGNAR-SIN ASIGNAR",
+        "dias": [
+            "SIN RUTA"
+        ],
+        "distrito": "CHAO",
+        "gz": "SIN INFO",
+        "jz": "SIN INFO"
+    },
+    {
+        "nombre": "ZONA SPORT",
+        "lat": -8.372362,
+        "lng": -74.549399,
+        "estado": "INACTIVO",
+        "zona": "NORTE",
+        "cluster": "0",
+        "ID": "3734",
+        "rc": "IRIS CAMPOS",
+        "username": "TINBET_3734",
+        "supervisor": "JENY LAZO",
+        "capacitador": "PENDING",
+        "responsable": "TINBET",
+        "frecuencia": "MARTES-VIERNES",
+        "dias": [
+            "MARTES",
+            "VIERNES"
+        ],
+        "distrito": "CALLERIA",
+        "gz": "SIN INFO",
+        "jz": "SIN INFO"
+    },
+    {
+        "nombre": "ANDAHUAYLAS",
+        "lat": -13.657156,
+        "lng": -73.384288,
+        "estado": "INACTIVO",
+        "zona": "SUR",
+        "cluster": "0",
+        "ID": "3735",
+        "rc": "SIN RC",
+        "username": "TINBET_3735",
+        "supervisor": "SIN SUPERVISOR",
+        "capacitador": "PENDING",
+        "responsable": "TINBET",
+        "frecuencia": "SIN ASIGNAR-SIN ASIGNAR",
+        "dias": [
+            "SIN RUTA"
+        ],
+        "distrito": "ANDAHUAYLAS",
+        "gz": "SIN INFO",
+        "jz": "SIN INFO"
+    },
+    {
+        "nombre": "KG-TAHUANTINSUYO",
+        "lat": -6.486375,
+        "lng": -76.366741,
+        "estado": "INACTIVO",
+        "zona": "NORTE",
+        "cluster": "0",
+        "ID": "3736",
+        "rc": "SIN RC",
+        "username": "TINBET_3736",
+        "supervisor": "SIN SUPERVISOR",
+        "capacitador": "PENDING",
+        "responsable": "TINBET",
+        "frecuencia": "SIN ASIGNAR-SIN ASIGNAR",
+        "dias": [
+            "SIN RUTA"
+        ],
+        "distrito": "TARAPOTO",
+        "gz": "SIN INFO",
+        "jz": "SIN INFO"
+    },
+    {
+        "nombre": "PIURA LA UNION",
+        "lat": -5.40335,
+        "lng": -80.74283,
+        "estado": "INACTIVO",
+        "zona": "NORTE",
+        "cluster": "0",
+        "ID": "3737",
+        "rc": "EDWIN VARGAS",
+        "username": "TINBET_3737",
+        "supervisor": "JENY LAZO",
+        "capacitador": "PENDING",
+        "responsable": "TINBET",
+        "frecuencia": "SÁBADO-SIN ASIGNAR",
+        "dias": [
+            "SÁBADO"
+        ],
+        "distrito": "LA UNIÓN",
+        "gz": "SIN INFO",
+        "jz": "SIN INFO"
+    },
+    {
+        "nombre": "Red AT Mayolo Los Olivos",
+        "lat": -11.996679,
+        "lng": -77.084796,
+        "estado": "INACTIVO",
+        "zona": "LIMA NORTE",
+        "cluster": "0",
+        "ID": "3738",
+        "rc": "JESUS CHATE",
+        "username": "APUESTATOTAL_3738",
+        "supervisor": "JORGE SANCHEZ",
+        "capacitador": "SELEN CASTRO",
+        "responsable": "APUESTATOTAL",
+        "frecuencia": "LUNES-JUEVES",
+        "dias": [
+            "JUEVES",
+            "LUNES"
+        ],
+        "distrito": "LOS OLIVOS",
+        "gz": "SIN INFO",
+        "jz": "SIN INFO"
+    },
+    {
+        "nombre": "Red AT Bambamarca",
+        "lat": -6.680114,
+        "lng": -78.519626,
+        "estado": "INACTIVO",
+        "zona": "ESTE",
+        "cluster": "0",
+        "ID": "3739",
+        "rc": "SIN RC",
+        "username": "APUESTATOTAL_3739",
+        "supervisor": "SIN SUPERVISOR",
+        "capacitador": "PENDING",
+        "responsable": "APUESTATOTAL",
+        "frecuencia": "SIN ASIGNAR-SIN ASIGNAR",
+        "dias": [
+            "SIN RUTA"
+        ],
+        "distrito": "BAMBAMARCA",
         "gz": "SIN INFO",
         "jz": "SIN INFO"
     }
