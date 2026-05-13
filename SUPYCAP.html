@@ -99,6 +99,39 @@ html, body {
     background: #f0f0f0;
 }
 
+/* === BANNER GPS === */
+#gpsBanner {
+    display: none;
+    position: fixed;
+    bottom: 160px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 2000;
+    background: #1565C0;
+    color: white;
+    border-radius: 14px;
+    padding: 12px 18px;
+    font-size: 13px;
+    font-family: sans-serif;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.3);
+    max-width: 310px;
+    width: 90%;
+    text-align: center;
+}
+#gpsBanner.denied { background: #c62828; }
+#gpsBanner button {
+    margin-top: 8px;
+    padding: 7px 16px;
+    border: none;
+    border-radius: 8px;
+    background: rgba(255,255,255,0.25);
+    color: white;
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+}
+#gpsBanner button:hover { background: rgba(255,255,255,0.4); }
+
 /* BUSCADOR DISTRITO */
 #distritoWrap {
     position: relative;
@@ -430,6 +463,10 @@ html, body {
 <div id="map"></div>
 
 <button id="btnUbicacion" onclick="irAUbicacion()" title="Mi ubicación">📍</button>
+<div id="gpsBanner">
+    <div id="gpsBannerMsg"></div>
+    <button id="gpsBannerBtn"></button>
+</div>
 
 <!-- Logo + crédito -->
 <div style="
@@ -1027,7 +1064,8 @@ function clearDistrito() {
 
 function irAUbicacion() {
     if (!userLat || !userLng) {
-        alert("Esperando señal GPS. Asegúrate de haber dado permiso de ubicación.");
+        mostrarGPSBanner('prompt');
+        startWatchPosition();
         return;
     }
     map.flyTo([userLat, userLng], 16, { duration: 1.2 });
@@ -1035,22 +1073,74 @@ function irAUbicacion() {
 }
 
 // 📍 GEOLOCALIZACIÓN
-navigator.geolocation.watchPosition(pos => {
-    userLat = pos.coords.latitude;
-    userLng = pos.coords.longitude;
+function startWatchPosition() {
+    navigator.geolocation.watchPosition(pos => {
+        userLat = pos.coords.latitude;
+        userLng = pos.coords.longitude;
+        ocultarGPSBanner();
+        if (userMarker) {
+            userMarker.setLatLng([userLat, userLng]);
+        } else {
+            userMarker = L.circleMarker([userLat, userLng], {
+                radius: 10,
+                fillColor: '#2196F3',
+                color: 'white',
+                weight: 3,
+                fillOpacity: 1
+            }).addTo(map).bindPopup("Estás aquí");
+        }
+    }, (err) => {
+        if (err.code === 1) mostrarGPSBanner('denied');
+    }, { enableHighAccuracy: true });
+}
 
-    if (userMarker) {
-        userMarker.setLatLng([userLat, userLng]);
+function mostrarGPSBanner(tipo) {
+    const banner = document.getElementById('gpsBanner');
+    const msg    = document.getElementById('gpsBannerMsg');
+    const btn    = document.getElementById('gpsBannerBtn');
+    if (tipo === 'denied') {
+        banner.classList.add('denied');
+        msg.textContent = '📍 Ubicación bloqueada. Ve a Configuración del navegador → Permisos del sitio → Ubicación → Permitir.';
+        btn.textContent = '🔄 Reintentar';
+        btn.onclick = () => startWatchPosition();
     } else {
-        userMarker = L.circleMarker([userLat, userLng], {
-            radius: 10,
-            fillColor: '#2196F3',
-            color: 'white',
-            weight: 3,
-            fillOpacity: 1
-        }).addTo(map).bindPopup("Estás aquí");
+        banner.classList.remove('denied');
+        msg.textContent = '📍 Activa tu ubicación para registrar visitas y generar rutas.';
+        btn.textContent = '📍 Activar GPS';
+        btn.onclick = () => startWatchPosition();
     }
-}, () => {}, { enableHighAccuracy: true });
+    banner.style.display = 'block';
+    setTimeout(() => { if (tipo !== 'denied') ocultarGPSBanner(); }, 8000);
+}
+
+function ocultarGPSBanner() {
+    document.getElementById('gpsBanner').style.display = 'none';
+}
+
+async function initGeolocation() {
+    if (!navigator.geolocation) return;
+    if (navigator.permissions) {
+        try {
+            const result = await navigator.permissions.query({ name: 'geolocation' });
+            if (result.state === 'granted') {
+                startWatchPosition();
+            } else if (result.state === 'denied') {
+                mostrarGPSBanner('denied');
+            } else {
+                mostrarGPSBanner('prompt');
+                startWatchPosition();
+            }
+            result.onchange = () => {
+                if (result.state === 'granted') { ocultarGPSBanner(); startWatchPosition(); }
+                else if (result.state === 'denied') mostrarGPSBanner('denied');
+            };
+            return;
+        } catch(e) {}
+    }
+    startWatchPosition();
+}
+
+initGeolocation();
 
 // ─── API KEY GRATUITA ──────────────────────────────────────────────────────
 // Regístrate gratis en https://openrouteservice.org/dev/#/signup
