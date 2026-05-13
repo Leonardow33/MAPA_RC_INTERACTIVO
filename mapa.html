@@ -350,6 +350,37 @@ html, body {
 }
 #gpsBanner button:hover { background: rgba(255,255,255,0.4); }
 
+/* === SIN VENTA === */
+#btnSinVenta {
+    font-size: 15px;
+    padding: 10px 16px;
+    border-radius: 10px;
+    border: none;
+    background: #b71c1c;
+    color: white;
+    font-weight: 700;
+    cursor: pointer;
+    opacity: 0.55;
+    transition: all 0.2s;
+    white-space: nowrap;
+}
+#btnSinVenta.activo { opacity: 1; box-shadow: 0 0 0 3px rgba(183,28,28,0.35); }
+#btnSinVenta:hover { opacity: 0.85; }
+
+#sinVentaBar {
+    display: none;
+    background: #b71c1c;
+    color: white;
+    padding: 5px 14px;
+    font-size: 12px;
+    font-weight: 600;
+    font-family: sans-serif;
+    align-items: center;
+    gap: 12px;
+    border-bottom: 2px solid #7f0000;
+}
+#sinVentaBar.visible { display: flex; }
+
 /* === BOTÓN REUNIÓN === */
 #btnReunion {
     font-size: 15px;
@@ -489,9 +520,14 @@ html, body {
     <button id="btnRuta" onclick="generarRuta()">🗺️ Generar Ruta</button>
     <button id="btnLimpiarRuta" onclick="limpiarRuta()">✕ Limpiar Ruta</button>
     <button id="btnReunion" onclick="abrirModalReunion()" disabled>📅 Reunión</button>
+    <button id="btnSinVenta" onclick="toggleSinVenta()">🔴 Sin Venta</button>
 
 </div>
 <div id="filtro-chips"></div>
+<div id="sinVentaBar">
+    <span>🔴 Sin venta hoy · <b id="sinVentaCount">0</b> tiendas</span>
+    <span style="margin-left:auto;font-weight:400;font-size:11px">Actualizado: <span id="sinVentaTs">--:--</span></span>
+</div>
 
 <!-- MODAL REUNIÓN MENSUAL -->
 <div id="modalReunion">
@@ -1182,6 +1218,7 @@ const ORS_KEY = 'eyJvcmciOiI1YjNjZTM1OTc4NTExMTAwMDFjZjYyNDgiLCJpZCI6IjZmZTFlYjB
 
 // ── GOOGLE SHEET (reemplaza con tu URL de Apps Script desplegado) ──────────
 const SHEET_URL = "https://script.google.com/macros/s/AKfycby2f2uW9E2_CUBr9OiKVT4Sp-ubP2sRIXlWig-GPuKTGyDxi-zx724ZGtkOFaWW0jnqjw/exec";
+const SIN_VENTA_URL = "https://script.google.com/macros/s/AKfycbylrnnvDuR3IIl8bRG-X_B2FlpRKCDMnw9QTdkn_YkPRA6YqtW-mD3BbcPL8MnWUSaI/exec";
 const REUNION_PIN = "0810"; // ← cambia este código cada mes
 // ─────────────────────────────────────────────────────────────────────────
 // ──────────────────────────────────────────────────────────────────────────
@@ -1548,6 +1585,92 @@ document.querySelectorAll(".pin-digit").forEach((el, i, all) => {
 document.getElementById("modalReunion").addEventListener("click", function(e) {
     if (e.target === this) cerrarModalReunion();
 });
+
+// === SIN VENTA LAYER ===
+let sinVentaCodes = new Set();
+let sinVentaActive = false;
+const sinVentaLayer = L.layerGroup().addTo(map);
+
+async function fetchSinVenta() {
+    try {
+        const res = await fetch(SIN_VENTA_URL + "?action=getSinVenta");
+        const json = await res.json();
+        if (Array.isArray(json.codes)) {
+            sinVentaCodes = new Set(json.codes.map(c => String(c)));
+        }
+        const tsEl = document.getElementById("sinVentaTs");
+        if (json.ts && tsEl) {
+            const ts = String(json.ts);
+            tsEl.textContent = ts.length <= 10 ? ts : (ts.slice(11, 16) || ts);
+        }
+        if (sinVentaActive) renderSinVentaLayer();
+    } catch(e) { console.warn("sinVenta fetch:", e); }
+}
+
+function renderSinVentaLayer() {
+    sinVentaLayer.clearLayers();
+    if (!sinVentaActive || sinVentaCodes.size === 0) return;
+    let count = 0;
+    allData.forEach(p => {
+        if (sinVentaCodes.has(String(p.ID))) {
+            L.circleMarker([p.lat, p.lng], {
+                radius: 13,
+                fillColor: '#b71c1c',
+                color: '#ff1744',
+                weight: 2.5,
+                fillOpacity: 0.38,
+                opacity: 0.9
+            }).addTo(sinVentaLayer)
+              .bindPopup(`<b style="color:#b71c1c">⚠️ Sin venta hoy</b><br><small>${p.nombre}</small>`);
+            count++;
+        }
+    });
+    const countEl = document.getElementById("sinVentaCount");
+    if (countEl) countEl.textContent = count;
+}
+
+function toggleSinVenta() {
+    sinVentaActive = !sinVentaActive;
+    document.getElementById("btnSinVenta").classList.toggle("activo", sinVentaActive);
+    document.getElementById("sinVentaBar").classList.toggle("visible", sinVentaActive);
+    if (sinVentaActive) {
+        if (sinVentaCodes.size === 0) fetchSinVenta(); else renderSinVentaLayer();
+    } else {
+        sinVentaLayer.clearLayers();
+    }
+}
+
+function initSinVenta() {
+    const peruHour = () => (new Date().getUTCHours() - 5 + 24) % 24;
+    const h = peruHour();
+
+    // Fetch now if within the 14:00–17:00 window
+    if (h >= 14 && h < 17) {
+        fetchSinVenta().then(() => {
+            // Auto-activate if it's 15:00 or later and data arrived
+            if (peruHour() >= 15 && !sinVentaActive && sinVentaCodes.size > 0) toggleSinVenta();
+        });
+    }
+
+    // Refresh every 15 min while inside the window
+    setInterval(() => {
+        if (peruHour() >= 14 && peruHour() < 17) fetchSinVenta();
+    }, 15 * 60 * 1000);
+
+    // If before 15:00, schedule a one-shot auto-activate at 15:00 Peru
+    if (h < 15) {
+        const now = new Date();
+        const msUntil15 = ((15 - h) * 60 - now.getUTCMinutes()) * 60000 - now.getUTCSeconds() * 1000;
+        setTimeout(() => {
+            fetchSinVenta().then(() => {
+                if (!sinVentaActive && sinVentaCodes.size > 0) toggleSinVenta();
+            });
+        }, Math.max(0, msUntil15));
+    }
+}
+
+initSinVenta();
+// ──────────────────────────────────────────────────────────────────────────
 
 // activar/desactivar botón según RC seleccionado
 function actualizarBtnReunion() {
