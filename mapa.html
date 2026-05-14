@@ -365,7 +365,8 @@ html, body {
     white-space: nowrap;
 }
 #btnSinVenta.activo { opacity: 1; box-shadow: 0 0 0 3px rgba(183,28,28,0.35); }
-#btnSinVenta:hover { opacity: 0.85; }
+#btnSinVenta:hover:not(:disabled) { opacity: 0.85; }
+#btnSinVenta:disabled { opacity: 0.35; cursor: not-allowed; }
 
 #sinVentaBar {
     display: none;
@@ -1645,12 +1646,20 @@ function toggleSinVenta() {
 
 function initSinVenta() {
     const peruHour = () => (new Date().getUTCHours() - 5 + 24) % 24;
+    const btn = document.getElementById("btnSinVenta");
     const h = peruHour();
+
+    // Deshabilitar botón antes de las 14:00
+    if (h < 14) {
+        btn.disabled = true;
+        const now = new Date();
+        const msUntil14 = ((14 - h) * 60 - now.getUTCMinutes()) * 60000 - now.getUTCSeconds() * 1000;
+        setTimeout(() => { btn.disabled = false; fetchSinVenta(); }, Math.max(0, msUntil14));
+    }
 
     // Fetch now if within the 14:00–17:00 window
     if (h >= 14 && h < 17) {
         fetchSinVenta().then(() => {
-            // Auto-activate if it's 15:00 or later and data arrived
             if (peruHour() >= 15 && !sinVentaActive && sinVentaCodes.size > 0) toggleSinVenta();
         });
     }
