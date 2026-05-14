@@ -520,7 +520,7 @@ html, body {
     <button id="btnRuta" onclick="generarRuta()">🗺️ Generar Ruta</button>
     <button id="btnLimpiarRuta" onclick="limpiarRuta()">✕ Limpiar Ruta</button>
     <button id="btnReunion" onclick="abrirModalReunion()" disabled>📅 Reunión</button>
-    <button id="btnSinVenta" onclick="toggleSinVenta()" style="display:none">🔴 Sin Venta</button>
+    <button id="btnSinVenta" onclick="toggleSinVenta()">🔴 Sin Venta</button>
 
 </div>
 <div id="filtro-chips"></div>
@@ -635,7 +635,7 @@ function toggleModo() {
 
 // ICONOS
 const PIN_BORDER = {
-    "APUESTA TOTAL": "#E53935",
+    "APUESTA TOTAL": "#FDD835",
     "TAMBO":         "#8E24AA",
     "TINBET":        "#43A047",
     "LIVESPORT":     "#1E88E5",
@@ -1005,6 +1005,8 @@ function renderMap(filterRC, filterDia, filterSup, filterPartner) {
 if (filtered.length > 0 && (filterRC !== "ALL" || filterDia !== "ALL" || filterPartner !== "ALL" || filterSup !== "ALL")) {
     map.fitBounds(group.getBounds(), { padding: [30, 30] });
 }
+
+if (sinVentaActive) renderSinVentaLayer();
 
 }
 
@@ -1612,17 +1614,17 @@ function renderSinVentaLayer() {
     sinVentaLayer.clearLayers();
     if (!sinVentaActive || sinVentaCodes.size === 0) return;
     let count = 0;
-    allData.forEach(p => {
+    const base = currentFiltered.length > 0 ? currentFiltered : allData;
+    base.forEach(p => {
         if (sinVentaCodes.has(String(p.ID))) {
             L.circleMarker([p.lat, p.lng], {
-                radius: 13,
-                fillColor: '#b71c1c',
-                color: '#ff1744',
+                radius: 16,
+                fillOpacity: 0,
+                color: '#E53935',
                 weight: 2.5,
-                fillOpacity: 0.38,
                 opacity: 0.9
             }).addTo(sinVentaLayer)
-              .bindPopup(`<b style="color:#b71c1c">⚠️ Sin venta hoy</b><br><small>${p.nombre}</small>`);
+              .bindPopup(`<b style="color:#E53935">⚠️ Sin venta hoy</b><br><small>${p.nombre}</small>`);
             count++;
         }
     });
