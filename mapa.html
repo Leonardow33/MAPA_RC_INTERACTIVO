@@ -1485,8 +1485,9 @@ buscador.addEventListener("input", function () {
     }
 
     let resultados = allData.filter(p =>
-        p.nombre.toLowerCase().includes(texto) ||
-        p.ID.toString().includes(texto)
+        (p.estado || "").toUpperCase() === "ACTIVO" &&
+        (p.nombre.toLowerCase().includes(texto) ||
+        p.ID.toString().includes(texto))
     ).slice(0, 10);
 
     resultados.forEach(p => {
