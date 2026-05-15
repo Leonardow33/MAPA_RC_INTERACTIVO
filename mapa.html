@@ -368,6 +368,23 @@ html, body {
 #btnSinVenta:hover:not(:disabled) { opacity: 0.85; }
 #btnSinVenta:disabled { opacity: 0.35; cursor: not-allowed; }
 
+#clusterBtns { display: none; gap: 4px; align-items: center; }
+#clusterBtns.visible { display: flex; }
+.btn-cluster {
+    font-size: 11px; padding: 6px 9px; border-radius: 8px; border: none;
+    color: white; font-weight: 800; cursor: pointer; opacity: 0.6;
+    transition: all 0.15s; line-height: 1;
+}
+.btn-cluster.activo { opacity: 1; box-shadow: 0 0 0 2px rgba(0,0,0,0.35); transform: scale(1.08); }
+.btn-cluster:hover { opacity: 0.9; }
+.bc-ta  { background: #7B1FA2; }
+.bc-tb  { background: #9C27B0; }
+.bc-tc  { background: #CE93D8; color: #4a0072; }
+.bc-bro { background: #8B5E3C; }
+.bc-dia { background: linear-gradient(135deg, #e0f7fa, #00E5FF); color: #004D61; text-shadow: 0 0 4px rgba(255,255,255,0.8); box-shadow: 0 0 6px rgba(0,229,255,0.5); }
+.bc-oro { background: #F9A825; color: #3e2000; }
+.bc-pla { background: #757575; }
+
 #sinVentaBar {
     display: none;
     background: #b71c1c;
@@ -523,6 +540,20 @@ html, body {
     <button id="btnReunion" onclick="abrirModalReunion()" disabled>📅 Reunión</button>
     <button id="btnSinVenta" onclick="toggleSinVenta()">🔴 Sin Venta</button>
 
+    <div id="clusterBtns">
+        <span id="tamboClusterGroup" style="display:none;gap:4px;align-items:center;display:none">
+            <button class="btn-cluster bc-ta" data-cluster="TOP A" onclick="toggleCluster(this)">A</button>
+            <button class="btn-cluster bc-tb" data-cluster="TOP B" onclick="toggleCluster(this)">B</button>
+            <button class="btn-cluster bc-tc" data-cluster="TOP C" onclick="toggleCluster(this)">C</button>
+        </span>
+        <span id="atClusterGroup" style="display:none;gap:4px;align-items:center;display:none">
+            <button class="btn-cluster bc-bro" data-cluster="BRONCE"   onclick="toggleCluster(this)">B</button>
+            <button class="btn-cluster bc-pla" data-cluster="PLATA"    onclick="toggleCluster(this)">P</button>
+            <button class="btn-cluster bc-oro" data-cluster="ORO"      onclick="toggleCluster(this)">O</button>
+            <button class="btn-cluster bc-dia" data-cluster="DIAMANTE" onclick="toggleCluster(this)">D</button>
+        </span>
+    </div>
+
 </div>
 <div id="filtro-chips"></div>
 <div id="sinVentaBar">
@@ -612,6 +643,7 @@ L.control.layers({
 
 let allData = [];
 let currentFiltered = [];
+let activeCluster = null;
 let userLat = null, userLng = null;
 let userMarker = null;
 let routeLayer = null;
@@ -915,6 +947,7 @@ function buildPopupContent(p) {
         <div class="popup-row"><span class="popup-lbl">RC</span><span class="popup-val">${p.rc || "-"}</span></div>
         <div class="popup-row"><span class="popup-lbl">Usuario</span><span class="popup-val">${p.username || "-"}</span></div>
         <div class="popup-row"><span class="popup-lbl">Supervisor</span><span class="popup-val">${p.supervisor || "-"}</span></div>
+        <div class="popup-row"><span class="popup-lbl">Cluster</span><span class="popup-val">${p.cluster || "-"}</span></div>
         <div class="popup-row"><span class="popup-lbl">Zona</span><span class="popup-val">${p.zona || "-"}</span></div>
         <div class="popup-row"><span class="popup-lbl">Distrito</span><span class="popup-val">${p.distrito || "-"}</span></div>
         <div class="popup-row"><span class="popup-lbl">GZ</span><span class="popup-val">${p.gz || "-"}</span></div>
@@ -987,7 +1020,8 @@ function renderMap(filterRC, filterDia, filterSup, filterPartner) {
         (filterSup     === "ALL" || p.supervisor  === filterSup) &&
         (filterRC      === "ALL" || p.rc          === filterRC) &&
         (filterDia     === "ALL" || (p.dias && p.dias.includes(filterDia))) &&
-        (filterPartner === "ALL" || p.responsable === filterPartner)
+        (filterPartner === "ALL" || p.responsable === filterPartner) &&
+        (activeCluster === null  || (p.cluster || "").toUpperCase() === activeCluster)
     );
     currentFiltered = filtered;
 
@@ -1075,7 +1109,45 @@ document.getElementById("rcFilter").addEventListener("change", function() {
     updateFilters();
 });
 document.getElementById("diaFilter").addEventListener("change", updateFilters);
-document.getElementById("partnerFilter").addEventListener("change", updateFilters);
+document.getElementById("partnerFilter").addEventListener("change", function() {
+    updateClusterButtons();
+    updateFilters();
+});
+
+function toggleCluster(btn) {
+    const cluster = btn.dataset.cluster;
+    if (activeCluster === cluster) {
+        activeCluster = null;
+        btn.classList.remove("activo");
+    } else {
+        document.querySelectorAll(".btn-cluster").forEach(b => b.classList.remove("activo"));
+        activeCluster = cluster;
+        btn.classList.add("activo");
+    }
+    updateFilters();
+}
+
+function updateClusterButtons() {
+    const partner = (document.getElementById("partnerFilter").value || "").toUpperCase();
+    const tamboGroup = document.getElementById("tamboClusterGroup");
+    const atGroup    = document.getElementById("atClusterGroup");
+    const container  = document.getElementById("clusterBtns");
+    activeCluster = null;
+    document.querySelectorAll(".btn-cluster").forEach(b => b.classList.remove("activo"));
+    if (partner.includes("TAMBO")) {
+        tamboGroup.style.display = "flex";
+        atGroup.style.display    = "none";
+        container.classList.add("visible");
+    } else if (partner.includes("APUESTA TOTAL")) {
+        tamboGroup.style.display = "none";
+        atGroup.style.display    = "flex";
+        container.classList.add("visible");
+    } else {
+        tamboGroup.style.display = "none";
+        atGroup.style.display    = "none";
+        container.classList.remove("visible");
+    }
+}
 
 function updateFilters() {
     let rc      = document.getElementById("rcFilter").value;
