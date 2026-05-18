@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Seguimiento RC</title>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Segoe UI', sans-serif; background: #f5f0ee; height: 100vh; display: flex; flex-direction: column; }
+
+#header {
+    background: #6b3a2a;
+    color: white;
+    padding: 10px 16px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-shrink: 0;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.25);
+}
+#header h1 { font-size: 16px; font-weight: 700; flex: 1; }
+#header select {
+    padding: 6px 10px; border-radius: 8px; border: none;
+    background: rgba(255,255,255,0.15); color: white;
+    font-size: 13px; font-weight: 600; cursor: pointer;
+}
+#header select option { background: #6b3a2a; }
+#btnRefresh {
+    padding: 6px 12px; border-radius: 8px; border: none;
+    background: rgba(255,255,255,0.2); color: white;
+    font-size: 13px; font-weight: 600; cursor: pointer;
+    transition: background 0.2s;
+}
+#btnRefresh:hover { background: rgba(255,255,255,0.35); }
+#lastUpdate { font-size: 11px; opacity: 0.7; white-space: nowrap; }
+#btnSinVenta {
+    padding: 6px 12px; border-radius: 8px; border: none;
+    background: rgba(255,255,255,0.2); color: white;
+    font-size: 13px; font-weight: 600; cursor: pointer;
+    transition: background 0.2s;
+}
+#btnSinVenta:hover { background: rgba(255,255,255,0.35); }
+#btnSinVenta.activo { background: #E53935; }
+
+#content { display: flex; flex: 1; overflow: hidden; }
+
+#panel {
+    width: 280px;
+    background: white;
+    border-right: 1px solid #e0c8c0;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    flex-shrink: 0;
+}
+#panelHeader {
+    padding: 10px 14px;
+    background: #fff8f6;
+    border-bottom: 1px solid #e0c8c0;
+    font-size: 12px;
+    font-weight: 700;
+    color: #6b3a2a;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+#rcList { overflow-y: auto; flex: 1; }
+
+.rc-card {
+    padding: 10px 14px;
+    border-bottom: 1px solid #f5eeeb;
+    cursor: pointer;
+    transition: background 0.15s;
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+}
+.rc-card:hover { background: #fff8f6; }
+.rc-card.activo { border-left: 3px solid #43A047; }
+.rc-card.inactivo { border-left: 3px solid #e0c8c0; opacity: 0.6; }
+.rc-card.seleccionado { background: #fff0eb; }
+
+.rc-dot {
+    width: 32px; height: 32px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    color: white; font-weight: 800; font-size: 12px;
+    flex-shrink: 0; margin-top: 2px;
+}
+.rc-info { flex: 1; min-width: 0; }
+.rc-nombre { font-size: 13px; font-weight: 700; color: #222; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.rc-sup { font-size: 11px; color: #999; margin-bottom: 4px; }
+.rc-stats { display: flex; gap: 8px; flex-wrap: wrap; }
+.rc-stat { font-size: 10px; background: #f5eeeb; color: #6b3a2a; padding: 2px 7px; border-radius: 10px; font-weight: 600; }
+.rc-ultima { font-size: 10px; color: #888; margin-top: 3px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+#noData { padding: 30px 20px; text-align: center; color: #aaa; font-size: 13px; }
+
+#map { flex: 1; }
+
+.rc-popup { font-family: 'Segoe UI', sans-serif; min-width: 200px; }
+.rc-popup-nombre { font-size: 14px; font-weight: 700; margin-bottom: 6px; }
+.rc-popup-row { display: flex; justify-content: space-between; font-size: 12px; padding: 3px 0; border-bottom: 1px solid #f0f0f0; }
+.rc-popup-row:last-child { border-bottom: none; }
+.rc-popup-lbl { color: #999; font-weight: 600; text-transform: uppercase; font-size: 10px; }
+.rc-popup-val { color: #222; font-weight: 600; }
+
+@media (max-width: 600px) {
+    #panel { width: 220px; }
+}
+
+#authOverlay {
+    position: fixed; inset: 0; z-index: 9999;
+    background: #6b3a2a;
+    display: flex; align-items: center; justify-content: center;
+}
+#authBox {
+    background: white; border-radius: 16px;
+    padding: 36px 32px; width: 320px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+    text-align: center;
+}
+#authBox h2 { color: #6b3a2a; font-size: 18px; margin-bottom: 6px; }
+#authBox p  { color: #999; font-size: 13px; margin-bottom: 20px; }
+#authInput {
+    width: 100%; padding: 10px 14px; border-radius: 8px;
+    border: 2px solid #e0c8c0; font-size: 14px;
+    outline: none; margin-bottom: 12px;
+    transition: border 0.2s;
+}
+#authInput:focus { border-color: #6b3a2a; }
+#authBtn {
+    width: 100%; padding: 10px; border-radius: 8px; border: none;
+    background: #6b3a2a; color: white; font-size: 14px;
+    font-weight: 700; cursor: pointer; transition: background 0.2s;
+}
+#authBtn:hover { background: #8b4a36; }
+#authError { color: #E53935; font-size: 12px; margin-top: 8px; display: none; }
+</style>
+</head>
+<body>
+
+<div id="authOverlay">
+    <div id="authBox">
+        <h2>📍 Seguimiento RC</h2>
+        <p>Ingresa la contraseña para continuar</p>
+        <input id="authInput" type="password" placeholder="Contraseña" onkeydown="if(event.key==='Enter') checkAuth()"/>
+        <button id="authBtn" onclick="checkAuth()">Ingresar</button>
+        <div id="authError">Contraseña incorrecta</div>
+    </div>
+</div>
+
+<script>
+(function() {
+    if (localStorage.getItem('rc_auth') === '1') {
+        document.addEventListener('DOMContentLoaded', () => {
+            document.getElementById('authOverlay').style.display = 'none';
+        });
+    }
+})();
+function checkAuth() {
+    const val = document.getElementById('authInput').value;
+    if (val === 'Geodor2026-1') {
+        localStorage.setItem('rc_auth', '1');
+        document.getElementById('authOverlay').style.display = 'none';
+    } else {
+        document.getElementById('authError').style.display = 'block';
+        document.getElementById('authInput').value = '';
+        document.getElementById('authInput').focus();
+    }
+}
+</script>
+
+<div id="header">
+    <h1>📍 Seguimiento RC en Tiempo Real</h1>
+    <select id="supFilter"><option value="ALL">Todos los supervisores</option></select>
+    <button id="btnRefresh" onclick="cargarDatos()">🔄 Actualizar</button>
+    <button id="btnSinVenta" onclick="toggleSinVenta()">🔴 Sin Venta</button>
+    <span id="lastUpdate">--</span>
+</div>
+
+<div id="content">
+    <div id="panel">
+        <div id="panelHeader">RCs activos hoy</div>
+        <div id="rcList"><div id="noData">Cargando...</div></div>
+    </div>
+    <div id="map"></div>
+</div>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+const SHEET_URL    = "https://script.google.com/macros/s/AKfycby2f2uW9E2_CUBr9OiKVT4Sp-ubP2sRIXlWig-GPuKTGyDxi-zx724ZGtkOFaWW0jnqjw/exec";
+const SIN_VENTA_URL = "https://script.google.com/macros/s/AKfycbylrnnvDuR3IIl8bRG-X_B2FlpRKCDMnw9QTdkn_YkPRA6YqtW-mD3BbcPL8MnWUSaI/exec";
+
+const COLORES = [
+    "#E53935","#8E24AA","#1E88E5","#43A047","#FB8C00",
+    "#00ACC1","#6D4C41","#F4511E","#3949AB","#00897B",
+    "#FDD835","#D81B60","#5E35B1","#039BE5","#7CB342"
+];
+
+const map = L.map('map').setView([-9.19, -75.0152], 6);
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '© OpenStreetMap'
+}).addTo(map);
+
+let rcMarkers = {};
+let rcPolylines = {};
+let tiendaLayers = {};
+let rcColores = {};
+let todosRCs = [];
+
+let puntosData = [];
+let sinVentaCodes = new Set();
+let sinVentaActive = false;
+const sinVentaLayer = L.layerGroup().addTo(map);
+
+fetch('puntos.json').then(r => r.json()).then(d => { puntosData = d; }).catch(() => {});
+
+function getColor(rc) {
+    if (!rcColores[rc]) {
+        const idx = Object.keys(rcColores).length % COLORES.length;
+        rcColores[rc] = COLORES[idx];
+    }
+    return rcColores[rc];
+}
+
+function makeRCIcon(rc, color) {
+    const initials = rc.split(' ').map(w => w[0]).join('').toUpperCase().slice(0,2);
+    return L.divIcon({
+        html: `<div style="width:34px;height:34px;border-radius:50%;background:${color};
+                    color:white;font-weight:800;font-size:12px;display:flex;
+                    align-items:center;justify-content:center;
+                    border:3px solid white;box-shadow:0 2px 8px rgba(0,0,0,0.4)">
+                    ${initials}
+               </div>`,
+        className: '', iconSize: [34,34], iconAnchor: [17,17], popupAnchor: [0,-17]
+    });
+}
+
+function makeStartIcon(color) {
+    return L.divIcon({
+        html: `<div style="width:14px;height:14px;border-radius:50%;background:white;
+                    border:3px solid ${color};box-shadow:0 1px 4px rgba(0,0,0,0.3)"></div>`,
+        className: '', iconSize: [14,14], iconAnchor: [7,7]
+    });
+}
+
+function limpiarCapas() {
+    Object.values(rcMarkers).forEach(m => map.removeLayer(m));
+    Object.values(rcPolylines).forEach(p => p.forEach(l => map.removeLayer(l)));
+    Object.values(tiendaLayers).forEach(arr => arr.forEach(m => map.removeLayer(m)));
+    rcMarkers = {};
+    rcPolylines = {};
+    tiendaLayers = {};
+}
+
+function toHora(val) {
+    if (!val) return '-';
+    const s = String(val);
+    const m = s.match(/(\d{1,2}:\d{2}(:\d{2})?)/);
+    return m ? m[1] : s;
+}
+
+function calcHoraEntrada(salida, duracion) {
+    const s = toHora(salida);
+    const d = toHora(duracion);
+    if (s === '-' || d === '-') return '-';
+    try {
+        const [sh, sm, ss] = s.split(':').map(Number);
+        const [dh, dm, ds] = d.split(':').map(Number);
+        if (isNaN(sh) || isNaN(dh)) return '-';
+        let total = sh * 3600 + sm * 60 + (ss || 0) - (dh * 3600 + dm * 60 + (ds || 0));
+        if (total < 0) total += 86400;
+        const rh = Math.floor(total / 3600);
+        const rm = Math.floor((total % 3600) / 60);
+        const rs = total % 60;
+        return String(rh).padStart(2,'0') + ':' + String(rm).padStart(2,'0') + ':' + String(rs).padStart(2,'0');
+    } catch(e) { return '-'; }
+}
+
+function buildRCPopup(rc, color) {
+    return `<div class="rc-popup">
+        <div class="rc-popup-nombre" style="color:${color}">${rc.rc}</div>
+        <div class="rc-popup-row"><span class="rc-popup-lbl">Supervisor</span><span class="rc-popup-val">${rc.supervisor || '-'}</span></div>
+        <div class="rc-popup-row"><span class="rc-popup-lbl">Primera visita</span><span class="rc-popup-val">${toHora(rc.primeraVisita)}</span></div>
+        <div class="rc-popup-row"><span class="rc-popup-lbl">Ultima marca</span><span class="rc-popup-val">${toHora(rc.horaActual)}</span></div>
+        <div class="rc-popup-row"><span class="rc-popup-lbl">Tiendas visitadas</span><span class="rc-popup-val">${rc.totalTiendas || 0}</span></div>
+        <div class="rc-popup-row"><span class="rc-popup-lbl">Ultima tienda</span><span class="rc-popup-val">${rc.ultimaTienda || '-'}</span></div>
+    </div>`;
+}
+
+function buildStorePopup(v, rcNombre, color) {
+    const num = v.numVisita || '-';
+    return `<div class="rc-popup">
+        <div class="rc-popup-nombre" style="color:${color}">Visita #${num} · ${v.tienda || '-'}</div>
+        <div class="rc-popup-row"><span class="rc-popup-lbl">ID</span><span class="rc-popup-val">${v.id || '-'}</span></div>
+        <div class="rc-popup-row"><span class="rc-popup-lbl">Hora entrada</span><span class="rc-popup-val">${calcHoraEntrada(v.hora, v.tiempoTienda)}</span></div>
+        <div class="rc-popup-row"><span class="rc-popup-lbl">Hora salida</span><span class="rc-popup-val">${toHora(v.hora)}</span></div>
+        <div class="rc-popup-row"><span class="rc-popup-lbl">Tiempo en tienda</span><span class="rc-popup-val">${toHora(v.tiempoTienda)}</span></div>
+        <div class="rc-popup-row"><span class="rc-popup-lbl">Tipo</span><span class="rc-popup-val">${v.tipo || '-'}</span></div>
+        <div class="rc-popup-row"><span class="rc-popup-lbl">Zona</span><span class="rc-popup-val">${v.zona || '-'}</span></div>
+        <div class="rc-popup-row"><span class="rc-popup-lbl">Cluster</span><span class="rc-popup-val">${v.cluster || '-'}</span></div>
+        <div class="rc-popup-row"><span class="rc-popup-lbl">RC</span><span class="rc-popup-val">${rcNombre}</span></div>
+    </div>`;
+}
+
+function renderRC(rcs) {
+    limpiarCapas();
+    const supFiltro = document.getElementById('supFilter').value;
+    const filtrados = rcs.filter(rc =>
+        supFiltro === 'ALL' || rc.supervisor === supFiltro
+    );
+
+    filtrados.forEach(rc => {
+        const color = getColor(rc.rc);
+        const visitas = rc.visitas || [];
+
+        const puntos = visitas
+            .filter(v => v.latRC && v.lngRC && parseFloat(v.latRC) !== 0)
+            .map(v => [parseFloat(v.latRC), parseFloat(v.lngRC)]);
+
+        const lineas = [];
+
+        if (puntos.length > 0) {
+            if (puntos.length > 1) {
+                const poly = L.polyline(puntos, {
+                    color: color, weight: 2.5, opacity: 0.6, dashArray: '6,4'
+                }).addTo(map);
+                lineas.push(poly);
+            }
+            const startM = L.marker(puntos[0], { icon: makeStartIcon(color) }).addTo(map);
+            lineas.push(startM);
+
+            const ultima = puntos[puntos.length - 1];
+            const marker = L.marker(ultima, { icon: makeRCIcon(rc.rc, color), zIndexOffset: 100 })
+                .addTo(map)
+                .bindPopup(buildRCPopup(rc, color));
+            rcMarkers[rc.rc] = marker;
+        }
+
+        rcPolylines[rc.rc] = lineas;
+
+        const tiendas = [];
+        visitas.forEach(v => {
+            const lat = parseFloat(v.latT) || parseFloat(v.latRC);
+            const lng = parseFloat(v.lngT) || parseFloat(v.lngRC);
+            if (!lat || !lng) return;
+            const num = v.numVisita || '?';
+            const icon = L.divIcon({
+                html: `<div style="width:22px;height:22px;border-radius:50%;background:${color};
+                            color:white;font-weight:800;font-size:11px;display:flex;
+                            align-items:center;justify-content:center;
+                            border:2px solid white;box-shadow:0 1px 5px rgba(0,0,0,0.35)">
+                            ${num}
+                       </div>`,
+                className: '', iconSize: [22,22], iconAnchor: [11,11], popupAnchor: [0,-11]
+            });
+            const m = L.marker([lat, lng], { icon })
+                .addTo(map)
+                .bindPopup(buildStorePopup(v, rc.rc, color));
+            tiendas.push(m);
+        });
+        tiendaLayers[rc.rc] = tiendas;
+    });
+
+    renderPanel(filtrados);
+}
+
+function renderPanel(rcs) {
+    const list = document.getElementById('rcList');
+    if (rcs.length === 0) {
+        list.innerHTML = '<div id="noData">Sin registros hoy</div>';
+        return;
+    }
+
+    const activos = rcs.filter(r => r.totalTiendas > 0).sort((a,b) => (b.totalTiendas||0)-(a.totalTiendas||0));
+    const inactivos = rcs.filter(r => !r.totalTiendas || r.totalTiendas === 0);
+
+    list.innerHTML = '';
+    [...activos, ...inactivos].forEach(rc => {
+        const color = getColor(rc.rc);
+        const initials = rc.rc.split(' ').map(w=>w[0]).join('').toUpperCase().slice(0,2);
+        const card = document.createElement('div');
+        card.className = `rc-card ${rc.totalTiendas > 0 ? 'activo' : 'inactivo'}`;
+        card.innerHTML = `
+            <div class="rc-dot" style="background:${color}">${initials}</div>
+            <div class="rc-info">
+                <div class="rc-nombre">${rc.rc}</div>
+                <div class="rc-sup">${rc.supervisor || ''}</div>
+                <div class="rc-stats">
+                    <span class="rc-stat">&#9200; ${toHora(rc.primeraVisita)}</span>
+                    <span class="rc-stat">&#127978; ${rc.totalTiendas || 0} tiendas</span>
+                </div>
+                <div class="rc-ultima">Ultima: ${rc.ultimaTienda || 'Sin registro'} · ${toHora(rc.horaActual)}</div>
+            </div>`;
+        card.onclick = () => enfocarRC(rc.rc);
+        list.appendChild(card);
+    });
+}
+
+function enfocarRC(nombre) {
+    document.querySelectorAll('.rc-card').forEach(c => c.classList.remove('seleccionado'));
+    const marker = rcMarkers[nombre];
+    if (marker) {
+        map.setView(marker.getLatLng(), 13);
+        marker.openPopup();
+    }
+    document.querySelectorAll('.rc-card').forEach(c => {
+        if (c.querySelector('.rc-nombre')?.textContent === nombre) c.classList.add('seleccionado');
+    });
+}
+
+function poblarSupervisores(rcs) {
+    const sel = document.getElementById('supFilter');
+    const actual = sel.value;
+    const sups = [...new Set(rcs.map(r => r.supervisor).filter(Boolean))].sort();
+    sel.innerHTML = '<option value="ALL">Todos los supervisores</option>';
+    sups.forEach(s => {
+        const opt = document.createElement('option');
+        opt.value = s; opt.text = s;
+        sel.appendChild(opt);
+    });
+    if ([...sel.options].some(o => o.value === actual)) sel.value = actual;
+}
+
+async function cargarDatos() {
+    document.getElementById('btnRefresh').textContent = '...';
+    try {
+        const res = await fetch(SHEET_URL + "?action=getVisitas");
+        const data = await res.json();
+        todosRCs = Array.isArray(data) ? data : [];
+        poblarSupervisores(todosRCs);
+        renderRC(todosRCs);
+        const hora = new Date().toTimeString().slice(0,5);
+        document.getElementById('lastUpdate').textContent = `Actualizado: ${hora}`;
+    } catch(e) {
+        console.warn('Error cargando visitas:', e);
+        document.getElementById('noData').textContent = 'Error al cargar datos';
+    }
+    document.getElementById('btnRefresh').textContent = '🔄 Actualizar';
+}
+
+async function fetchSinVenta() {
+    try {
+        const res = await fetch(SIN_VENTA_URL + "?action=getSinVenta");
+        const json = await res.json();
+        sinVentaCodes = new Set((json.codes || []).map(c => String(c)));
+        renderSinVentaLayer();
+    } catch(e) { console.warn("sinVenta fetch:", e); }
+}
+
+function renderSinVentaLayer() {
+    sinVentaLayer.clearLayers();
+    if (!sinVentaActive || sinVentaCodes.size === 0) return;
+    puntosData.forEach(p => {
+        if (!sinVentaCodes.has(String(p.ID))) return;
+        L.circleMarker([p.lat, p.lng], {
+            radius: 16, fillOpacity: 0,
+            color: '#E53935', weight: 2.5, opacity: 0.9
+        }).addTo(sinVentaLayer)
+          .bindPopup(`<b style="color:#E53935">Sin venta hoy</b><br><small>${p.nombre}</small>`);
+    });
+}
+
+function toggleSinVenta() {
+    sinVentaActive = !sinVentaActive;
+    document.getElementById('btnSinVenta').classList.toggle('activo', sinVentaActive);
+    if (sinVentaActive) {
+        if (sinVentaCodes.size === 0) fetchSinVenta(); else renderSinVentaLayer();
+    } else {
+        sinVentaLayer.clearLayers();
+    }
+}
+
+document.getElementById('supFilter').addEventListener('change', () => renderRC(todosRCs));
+
+cargarDatos();
+setInterval(cargarDatos, 3 * 60 * 1000);
+</script>
+</body>
+</html>
