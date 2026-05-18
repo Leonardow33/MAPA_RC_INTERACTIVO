@@ -104,8 +104,55 @@ body { font-family: 'Segoe UI', sans-serif; background: #f5f0ee; height: 100vh; 
 .rc-popup-lbl { color: #999; font-weight: 600; text-transform: uppercase; font-size: 10px; }
 .rc-popup-val { color: #222; font-weight: 600; }
 
-@media (max-width: 600px) {
-    #panel { width: 220px; }
+/* ── MOBILE ── */
+#panelToggle {
+    display: none;
+    position: fixed;
+    bottom: 16px; left: 50%; transform: translateX(-50%);
+    z-index: 600;
+    background: #6b3a2a; color: white;
+    border: none; border-radius: 24px;
+    padding: 10px 22px; font-size: 13px; font-weight: 700;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.35);
+    cursor: pointer;
+}
+#panelHandle {
+    display: none;
+    width: 40px; height: 4px;
+    background: #d0b8b0; border-radius: 2px;
+    margin: 8px auto 0;
+    cursor: pointer;
+}
+
+@media (max-width: 768px) {
+    #header { flex-wrap: wrap; padding: 8px 12px; gap: 8px; }
+    #header h1 { font-size: 14px; width: 100%; }
+    #lastUpdate { display: none; }
+    #btnRefresh { padding: 6px 10px; font-size: 12px; }
+    #btnSinVenta { padding: 6px 10px; font-size: 12px; }
+
+    #content { position: relative; }
+
+    #map { position: absolute; inset: 0; width: 100%; height: 100%; }
+
+    #panel {
+        position: fixed;
+        bottom: 0; left: 0; right: 0;
+        width: 100%; height: 55vh;
+        border-right: none;
+        border-radius: 16px 16px 0 0;
+        box-shadow: 0 -4px 20px rgba(0,0,0,0.2);
+        transform: translateY(100%);
+        transition: transform 0.3s ease;
+        z-index: 500;
+    }
+    #panel.abierto { transform: translateY(0); }
+
+    #panelHandle { display: block; }
+    #panelToggle { display: block; }
+    #panelToggle.abierto { bottom: calc(55vh + 8px); }
+
+    .rc-popup { min-width: 160px; }
 }
 
 #authOverlay {
@@ -180,9 +227,11 @@ function checkAuth() {
 
 <div id="content">
     <div id="panel">
+        <div id="panelHandle" onclick="togglePanel()"></div>
         <div id="panelHeader">RCs activos hoy</div>
         <div id="rcList"><div id="noData">Cargando...</div></div>
     </div>
+    <button id="panelToggle" onclick="togglePanel()">&#128100; Ver RCs</button>
     <div id="map"></div>
 </div>
 
@@ -469,6 +518,14 @@ function toggleSinVenta() {
     } else {
         sinVentaLayer.clearLayers();
     }
+}
+
+function togglePanel() {
+    const panel = document.getElementById('panel');
+    const btn   = document.getElementById('panelToggle');
+    const abierto = panel.classList.toggle('abierto');
+    btn.classList.toggle('abierto', abierto);
+    btn.textContent = abierto ? '✕ Cerrar' : '👤 Ver RCs';
 }
 
 document.getElementById('supFilter').addEventListener('change', () => renderRC(todosRCs));
