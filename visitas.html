@@ -43,32 +43,12 @@ body { font-family: 'Segoe UI', sans-serif; background: #f5f0ee; height: 100vh; 
 #btnSinVenta:hover { background: rgba(255,255,255,0.35); }
 #btnSinVenta.activo { background: #E53935; }
 
-#dayFilter {
-    background: #7b4a36;
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    padding: 6px 16px;
-    overflow-x: auto;
-    flex-shrink: 0;
-    scrollbar-width: none;
+#fechaFilter {
+    padding: 6px 10px; border-radius: 8px; border: none;
+    background: rgba(255,255,255,0.15); color: white;
+    font-size: 13px; font-weight: 600; cursor: pointer;
 }
-#dayFilter::-webkit-scrollbar { display: none; }
-.day-btn {
-    padding: 5px 14px;
-    border-radius: 16px;
-    border: none;
-    background: rgba(255,255,255,0.15);
-    color: white;
-    font-size: 12px;
-    font-weight: 600;
-    cursor: pointer;
-    white-space: nowrap;
-    transition: background 0.2s;
-    flex-shrink: 0;
-}
-.day-btn:hover { background: rgba(255,255,255,0.3); }
-.day-btn.activo { background: white; color: #6b3a2a; }
+#fechaFilter option { background: #6b3a2a; }
 
 #content { display: flex; flex: 1; overflow: hidden; }
 
@@ -246,13 +226,12 @@ function checkAuth() {
 
 <div id="header">
     <h1>📍 Seguimiento de Visitas del RC</h1>
+    <select id="fechaFilter"></select>
     <select id="supFilter"><option value="ALL">Todos los supervisores</option></select>
     <button id="btnRefresh" onclick="cargarDatos()">🔄 Actualizar</button>
     <button id="btnSinVenta" onclick="toggleSinVenta()">🔴 Sin Venta</button>
     <span id="lastUpdate">--</span>
 </div>
-
-<div id="dayFilter"></div>
 
 <div id="content">
     <div id="panel">
@@ -519,33 +498,28 @@ function buildDayFilter() {
     monday.setDate(today.getDate() + diffToMonday);
 
     const diasNombre = ['Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb'];
-    const container = document.getElementById('dayFilter');
-    container.innerHTML = '';
+    const sel = document.getElementById('fechaFilter');
+    sel.innerHTML = '';
 
     for (let i = 0; i < 6; i++) {
         const d = new Date(monday);
         d.setDate(monday.getDate() + i);
-        if (d > today) continue;
-
         const dateStr = formatFecha(d);
-        const label = `${diasNombre[i]} ${d.getDate()}/${d.getMonth() + 1}`;
-        const btn = document.createElement('button');
-        btn.className = 'day-btn' + (dateStr === todayStr ? ' activo' : '');
-        btn.textContent = label;
-        btn.dataset.fecha = dateStr;
-        btn.onclick = () => selectDay(btn, dateStr);
-        container.appendChild(btn);
+        const esHoy = dateStr === todayStr;
+        const label = `${diasNombre[i]} ${d.getDate()}/${d.getMonth() + 1}${esHoy ? ' (hoy)' : ''}`;
+        const opt = document.createElement('option');
+        opt.value = dateStr;
+        opt.textContent = label;
+        if (esHoy) opt.selected = true;
+        sel.appendChild(opt);
     }
-}
 
-function selectDay(btn, fecha) {
-    document.querySelectorAll('.day-btn').forEach(b => b.classList.remove('activo'));
-    btn.classList.add('activo');
-    selectedDate = fecha;
-    const todayStr = formatFecha(new Date());
-    const label = fecha === todayStr ? 'hoy' : btn.textContent.trim();
-    document.getElementById('panelHeader').textContent = `RCs visitando · ${label}`;
-    cargarDatos();
+    sel.addEventListener('change', function() {
+        selectedDate = this.value;
+        const label = this.options[this.selectedIndex].textContent;
+        document.getElementById('panelHeader').textContent = `RCs visitando · ${label}`;
+        cargarDatos();
+    });
 }
 
 async function cargarDatos() {
