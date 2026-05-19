@@ -489,30 +489,31 @@ function formatFecha(d) {
 
 function buildDayFilter() {
     const today = new Date();
+    today.setHours(0, 0, 0, 0);
     const todayStr = formatFecha(today);
     selectedDate = todayStr;
 
-    const dow = today.getDay();
-    const diffToMonday = dow === 0 ? -6 : 1 - dow;
-    const monday = new Date(today);
-    monday.setDate(today.getDate() + diffToMonday);
-
-    const diasNombre = ['Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb'];
+    const diasNombre = ['Dom', 'Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb'];
     const sel = document.getElementById('fechaFilter');
     sel.innerHTML = '';
 
-    for (let i = 0; i < 6; i++) {
-        const d = new Date(monday);
-        d.setDate(monday.getDate() + i);
+    const inicio = new Date(today.getFullYear(), today.getMonth(), 1);
+    const dias = [];
+    for (let d = new Date(inicio); d <= today; d.setDate(d.getDate() + 1)) {
+        dias.push(new Date(d));
+    }
+    dias.reverse(); // más reciente primero
+
+    dias.forEach(d => {
         const dateStr = formatFecha(d);
         const esHoy = dateStr === todayStr;
-        const label = `${diasNombre[i]} ${d.getDate()}/${d.getMonth() + 1}${esHoy ? ' (hoy)' : ''}`;
+        const label = `${diasNombre[d.getDay()]} ${d.getDate()}/${d.getMonth() + 1}${esHoy ? ' (hoy)' : ''}`;
         const opt = document.createElement('option');
         opt.value = dateStr;
         opt.textContent = label;
         if (esHoy) opt.selected = true;
         sel.appendChild(opt);
-    }
+    });
 
     sel.addEventListener('change', function() {
         selectedDate = this.value;
