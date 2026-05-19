@@ -569,19 +569,29 @@ function toggleTodosPuntos() {
     renderTodosLosPuntos();
 }
 
+function normalizeID(val) {
+    return String(val).trim().replace(/\.0$/, '');
+}
+
 function renderSinVisitar() {
     sinVisitarLayer.clearLayers();
-    if (!sinVisitarActive) return;
-    puntosData.filter(p =>
+    const btn = document.getElementById('btnSinVisitar');
+    if (!sinVisitarActive) { btn.textContent = '⚠️ Sin visitar'; return; }
+
+    const noVisitados = puntosData.filter(p =>
         (p.estado || '').toUpperCase() === 'ACTIVO' &&
-        !visitedIDs.has(String(p.ID))
-    ).forEach(p => {
+        !visitedIDs.has(normalizeID(p.ID))
+    );
+
+    noVisitados.forEach(p => {
         L.circleMarker([p.lat, p.lng], {
-            radius: 9, fillColor: '#FB8C00', color: 'white',
+            radius: 8, fillColor: '#FB8C00', color: 'white',
             weight: 1.5, fillOpacity: 0.85, opacity: 1
         }).addTo(sinVisitarLayer)
-          .bindPopup(`<b style="color:#FB8C00">⚠️ Sin visita</b><br>${p.nombre}<br><small>ID: ${p.ID} · RC: ${p.rc || '-'}</small>`);
+          .bindPopup(`<b style="color:#FB8C00">⚠️ Sin visita</b><br>${p.nombre}<br><small>ID: ${p.ID} · RC: ${p.rc || '-'} · ${p.zona || '-'}</small>`);
     });
+
+    btn.textContent = `⚠️ Sin visitar (${noVisitados.length})`;
 }
 
 function toggleSinVisitar() {
@@ -598,7 +608,7 @@ async function cargarDatos() {
         const data = await res.json();
         todosRCs = Array.isArray(data) ? data : [];
         visitedIDs = new Set();
-        todosRCs.forEach(rc => (rc.visitas || []).forEach(v => { if (v.id) visitedIDs.add(String(v.id)); }));
+        todosRCs.forEach(rc => (rc.visitas || []).forEach(v => { if (v.id) visitedIDs.add(normalizeID(v.id)); }));
         poblarSupervisores(todosRCs);
         renderRC(todosRCs);
         if (sinVisitarActive) renderSinVisitar();
