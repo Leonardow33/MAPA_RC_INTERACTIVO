@@ -43,6 +43,24 @@ body { font-family: 'Segoe UI', sans-serif; background: #f5f0ee; height: 100vh; 
 #btnSinVenta:hover { background: rgba(255,255,255,0.35); }
 #btnSinVenta.activo { background: #E53935; }
 
+#btnTodosPuntos {
+    padding: 6px 12px; border-radius: 8px; border: none;
+    background: rgba(255,255,255,0.2); color: white;
+    font-size: 13px; font-weight: 600; cursor: pointer;
+    transition: background 0.2s;
+}
+#btnTodosPuntos:hover { background: rgba(255,255,255,0.35); }
+#btnTodosPuntos.activo { background: #43A047; }
+
+#btnSinVisitar {
+    padding: 6px 12px; border-radius: 8px; border: none;
+    background: rgba(255,255,255,0.2); color: white;
+    font-size: 13px; font-weight: 600; cursor: pointer;
+    transition: background 0.2s;
+}
+#btnSinVisitar:hover { background: rgba(255,255,255,0.35); }
+#btnSinVisitar.activo { background: #FB8C00; }
+
 #fechaFilter {
     padding: 6px 10px; border-radius: 8px; border: none;
     background: rgba(255,255,255,0.15); color: white;
@@ -229,6 +247,8 @@ function checkAuth() {
     <select id="fechaFilter"></select>
     <select id="supFilter"><option value="ALL">Todos los supervisores</option></select>
     <button id="btnRefresh" onclick="cargarDatos()">🔄 Actualizar</button>
+    <button id="btnTodosPuntos" class="activo" onclick="toggleTodosPuntos()">📍 Todos los puntos</button>
+    <button id="btnSinVisitar" onclick="toggleSinVisitar()">⚠️ Sin visitar</button>
     <button id="btnSinVenta" onclick="toggleSinVenta()">🔴 Sin Venta</button>
     <span id="lastUpdate">--</span>
 </div>
@@ -269,9 +289,17 @@ let puntosData = [];
 let sinVentaCodes = new Set();
 let sinVentaActive = false;
 let selectedDate = '';
-const sinVentaLayer = L.layerGroup().addTo(map);
+const sinVentaLayer    = L.layerGroup().addTo(map);
+const todosLosPointsLayer = L.layerGroup().addTo(map);
+const sinVisitarLayer  = L.layerGroup().addTo(map);
+let todosLosPointsActive = true;
+let sinVisitarActive = false;
+let visitedIDs = new Set();
 
-fetch('puntos.json').then(r => r.json()).then(d => { puntosData = d; }).catch(() => {});
+fetch('puntos.json').then(r => r.json()).then(d => {
+    puntosData = d;
+    renderTodosLosPuntos();
+}).catch(() => {});
 
 function getColor(rc) {
     if (!rcColores[rc]) {
@@ -523,6 +551,45 @@ function buildDayFilter() {
     });
 }
 
+function renderTodosLosPuntos() {
+    todosLosPointsLayer.clearLayers();
+    if (!todosLosPointsActive) return;
+    puntosData.filter(p => (p.estado || '').toUpperCase() === 'ACTIVO').forEach(p => {
+        L.circleMarker([p.lat, p.lng], {
+            radius: 5, fillColor: '#546E7A', color: 'white',
+            weight: 1, fillOpacity: 0.55, opacity: 0.7
+        }).addTo(todosLosPointsLayer)
+          .bindPopup(`<b>${p.nombre}</b><br><small>ID: ${p.ID} · RC: ${p.rc || '-'} · ${p.zona || '-'}</small>`);
+    });
+}
+
+function toggleTodosPuntos() {
+    todosLosPointsActive = !todosLosPointsActive;
+    document.getElementById('btnTodosPuntos').classList.toggle('activo', todosLosPointsActive);
+    renderTodosLosPuntos();
+}
+
+function renderSinVisitar() {
+    sinVisitarLayer.clearLayers();
+    if (!sinVisitarActive) return;
+    puntosData.filter(p =>
+        (p.estado || '').toUpperCase() === 'ACTIVO' &&
+        !visitedIDs.has(String(p.ID))
+    ).forEach(p => {
+        L.circleMarker([p.lat, p.lng], {
+            radius: 9, fillColor: '#FB8C00', color: 'white',
+            weight: 1.5, fillOpacity: 0.85, opacity: 1
+        }).addTo(sinVisitarLayer)
+          .bindPopup(`<b style="color:#FB8C00">⚠️ Sin visita</b><br>${p.nombre}<br><small>ID: ${p.ID} · RC: ${p.rc || '-'}</small>`);
+    });
+}
+
+function toggleSinVisitar() {
+    sinVisitarActive = !sinVisitarActive;
+    document.getElementById('btnSinVisitar').classList.toggle('activo', sinVisitarActive);
+    renderSinVisitar();
+}
+
 async function cargarDatos() {
     document.getElementById('btnRefresh').textContent = '...';
     try {
@@ -530,8 +597,11 @@ async function cargarDatos() {
         const res = await fetch(url);
         const data = await res.json();
         todosRCs = Array.isArray(data) ? data : [];
+        visitedIDs = new Set();
+        todosRCs.forEach(rc => (rc.visitas || []).forEach(v => { if (v.id) visitedIDs.add(String(v.id)); }));
         poblarSupervisores(todosRCs);
         renderRC(todosRCs);
+        if (sinVisitarActive) renderSinVisitar();
         const hora = new Date().toTimeString().slice(0,5);
         document.getElementById('lastUpdate').textContent = `Actualizado: ${hora}`;
     } catch(e) {
