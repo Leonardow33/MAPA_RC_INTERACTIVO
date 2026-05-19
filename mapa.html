@@ -1862,24 +1862,24 @@ function toggleSinVenta() {
 }
 
 function initSinVenta() {
-    // ── [DESACTIVADO] Restricción horaria: botón bloqueado antes de las 14:00 y auto-activación a las 15:00 ──
-    // const peruHour = () => (new Date().getUTCHours() - 5 + 24) % 24;
-    // const btn = document.getElementById("btnSinVenta");
-    // const h = peruHour();
-    // if (h < 14) {
-    //     btn.disabled = true;
-    //     const now = new Date();
-    //     const msUntil14 = ((14 - h) * 60 - now.getUTCMinutes()) * 60000 - now.getUTCSeconds() * 1000;
-    //     setTimeout(() => { btn.disabled = false; fetchSinVenta(); }, Math.max(0, msUntil14));
-    // }
-    // if (h >= 14 && h < 17) {
-    //     fetchSinVenta().then(() => {
-    //         if (peruHour() >= 15 && !sinVentaActive && sinVentaCodes.size > 0) toggleSinVenta();
-    //     });
-    // }
-    // setInterval(() => {
-    //     if (peruHour() >= 14 && peruHour() < 17) fetchSinVenta();
-    // }, 15 * 60 * 1000);
+    const peruHour = () => (new Date().getUTCHours() - 5 + 24) % 24;
+    const btn = document.getElementById("btnSinVenta");
+    const h = peruHour();
+
+    // Bloquear botón antes de las 14:00
+    if (h < 14) {
+        btn.disabled = true;
+        const now = new Date();
+        const msUntil14 = ((14 - h) * 60 - now.getUTCMinutes()) * 60000 - now.getUTCSeconds() * 1000;
+        setTimeout(() => { btn.disabled = false; fetchSinVenta(); }, Math.max(0, msUntil14));
+    } else {
+        fetchSinVenta();
+    }
+
+    // Actualizar cada 15 min
+    setInterval(fetchSinVenta, 15 * 60 * 1000);
+
+    // ── [DESACTIVADO] Auto-activación a las 15:00 ──
     // if (h < 15) {
     //     const now = new Date();
     //     const msUntil15 = ((15 - h) * 60 - now.getUTCMinutes()) * 60000 - now.getUTCSeconds() * 1000;
@@ -1889,13 +1889,6 @@ function initSinVenta() {
     //         });
     //     }, Math.max(0, msUntil15));
     // }
-    // ────────────────────────────────────────────────────────────────────────────
-
-    // Pre-cargar datos al iniciar (sin activar la capa)
-    fetchSinVenta();
-
-    // Actualizar cada 15 min
-    setInterval(fetchSinVenta, 15 * 60 * 1000);
 }
 
 initSinVenta();
