@@ -132,58 +132,6 @@ html, body {
 }
 #gpsBanner button:hover { background: rgba(255,255,255,0.4); }
 
-/* BUSCADOR DISTRITO */
-#distritoWrap {
-    position: relative;
-    display: inline-flex;
-    align-items: center;
-    gap: 4px;
-}
-#distritoInput {
-    font-size: 16px;
-    padding: 12px;
-    border-radius: 10px;
-    border: 1.5px solid #c4897a;
-    background: #fff8f6;
-    color: #4a2318;
-    min-width: 180px;
-}
-#distritoInput:focus {
-    outline: none;
-    border-color: #9c4f3a;
-    box-shadow: 0 0 0 3px rgba(196,137,122,0.25);
-}
-#distritoClear {
-    background: #c4897a;
-    border: none;
-    color: white;
-    border-radius: 6px;
-    padding: 6px 9px;
-    font-size: 13px;
-    cursor: pointer;
-    display: none;
-}
-#distritoSuggestions {
-    position: absolute;
-    top: 100%;
-    left: 0;
-    background: white;
-    border: 1.5px solid #c4897a;
-    border-radius: 0 0 10px 10px;
-    width: 100%;
-    max-height: 220px;
-    overflow-y: auto;
-    z-index: 999;
-    display: none;
-}
-#distritoSuggestions.visible { display: block; }
-.dist-item {
-    padding: 10px 12px;
-    cursor: pointer;
-    font-size: 15px;
-    border-bottom: 1px solid #f0e0d8;
-}
-.dist-item:hover { background: #fde8e0; }
 
 /* BOTÓN CAPAS */
 .leaflet-control-layers-toggle {
@@ -437,13 +385,6 @@ html, body {
         <option value="ALL">Todos</option>
     </select>
 
-    <label>Distrito:</label>
-    <div id="distritoWrap">
-        <input type="text" id="distritoInput" placeholder="Buscar distrito..." autocomplete="off"/>
-        <button id="distritoClear" onclick="clearDistrito()">&#x2715;</button>
-        <div id="distritoSuggestions"></div>
-    </div>
-
     <button id="btnModo" onclick="toggleModo()" style="display:none;">🚗 Auto</button>
     <button id="btnRuta" onclick="generarRuta()" style="display:none;">🗺️ Generar Ruta</button>
     <button id="btnLimpiarRuta" onclick="limpiarRuta()" style="display:none;">✕ Limpiar Ruta</button>
@@ -514,8 +455,6 @@ L.control.layers({
 
 let allData = [];
 let currentFiltered = [];
-let allDistritos     = [];
-let selectedDistrito = "";
 let userLat = null, userLng = null;
 let userMarker = null;
 let routeLayer = null;
@@ -700,8 +639,6 @@ fetch('puntos.json?v=' + new Date().getTime())
 
     repoblarPartner("ALL", "capacitador");
 
-    allDistritos = [...new Set(data.map(p => p.distrito).filter(Boolean))].sort();
-
     repoblarNombre("capacitador");
     document.getElementById("zonaWrap").style.display = "inline-flex";
     restoreFilters();
@@ -878,7 +815,7 @@ function attachPopupOpen(marker, p) {
     });
 }
 
-function renderMap(filterNombre, filterDia, filterRol, filterPartner, filterZona, filterDistrito) {
+function renderMap(filterNombre, filterDia, filterRol, filterPartner, filterZona) {
     markersLayer.clearLayers();
     let filtered = allData.filter(p =>
         !(p.nombre || "").toUpperCase().includes("OFICINA ELOT") &&
@@ -886,8 +823,7 @@ function renderMap(filterNombre, filterDia, filterRol, filterPartner, filterZona
         (filterRol !== "supervisor"   || filterNombre === "ALL" || p.supervisor  === filterNombre) &&
         (filterRol !== "capacitador"  || filterNombre === "ALL" || filterZona !== "su_zona" || p.capacitador === filterNombre) &&
         (filterDia === "ALL" || (p.dias && p.dias.includes(filterDia))) &&
-        (filterPartner === "ALL" || !filterPartner || p.responsable === filterPartner) &&
-        (!filterDistrito || p.distrito === filterDistrito)
+        (filterPartner === "ALL" || !filterPartner || p.responsable === filterPartner)
     );
     currentFiltered = filtered;
 
@@ -911,8 +847,7 @@ function saveFilters() {
         rol:      document.getElementById("rolFilter").value,
         nombre:   document.getElementById("nombreFilter").value,
         zona:     document.getElementById("zonaFilter").value,
-        partner:  document.getElementById("partnerFilter").value,
-        distrito: selectedDistrito
+        partner:  document.getElementById("partnerFilter").value
     }));
 }
 
@@ -938,11 +873,6 @@ function restoreFilters() {
     if (saved.partner && [...partnerSel.options].some(o => o.value === saved.partner))
         partnerSel.value = saved.partner;
 
-    if (saved.distrito) {
-        selectedDistrito = saved.distrito;
-        document.getElementById("distritoInput").value = saved.distrito;
-        document.getElementById("distritoClear").style.display = "inline-block";
-    }
 }
 
 // FILTROS
@@ -976,7 +906,7 @@ function updateFilters() {
         btnRuta.classList.remove("activo");
         limpiarRuta();
     }
-    renderMap(nombre, "ALL", rol, partner, zona, selectedDistrito);
+    renderMap(nombre, "ALL", rol, partner, zona);
     updateChips();
     saveFilters();
 }
@@ -1017,50 +947,6 @@ function updateChips() {
             updateFilters();
         });
     }
-    if (selectedDistrito) {
-        makeChip("Distrito", selectedDistrito, () => { clearDistrito(); });
-    }
-}
-
-// ── BUSCADOR DE DISTRITO ──────────────────────────────────────────────────
-const distritoInput       = document.getElementById("distritoInput");
-const distritoSuggestions = document.getElementById("distritoSuggestions");
-const distritoClearBtn    = document.getElementById("distritoClear");
-
-distritoInput.addEventListener("input", function () {
-    const q = this.value.trim().toLowerCase();
-    distritoSuggestions.innerHTML = "";
-    if (q.length < 1) { distritoSuggestions.classList.remove("visible"); return; }
-
-    const matches = allDistritos.filter(d => d.toLowerCase().includes(q)).slice(0, 30);
-    if (!matches.length) { distritoSuggestions.classList.remove("visible"); return; }
-
-    matches.forEach(d => {
-        const div = document.createElement("div");
-        div.className = "dist-item";
-        div.textContent = d;
-        div.addEventListener("click", () => {
-            selectedDistrito          = d;
-            distritoInput.value       = d;
-            distritoClearBtn.style.display = "inline-block";
-            distritoSuggestions.classList.remove("visible");
-            updateFilters();
-        });
-        distritoSuggestions.appendChild(div);
-    });
-    distritoSuggestions.classList.add("visible");
-});
-
-document.addEventListener("click", e => {
-    if (!e.target.closest("#distritoWrap")) distritoSuggestions.classList.remove("visible");
-});
-
-function clearDistrito() {
-    selectedDistrito               = "";
-    distritoInput.value            = "";
-    distritoClearBtn.style.display = "none";
-    distritoSuggestions.classList.remove("visible");
-    updateFilters();
 }
 
 function irAUbicacion() {
