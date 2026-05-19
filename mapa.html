@@ -1862,40 +1862,40 @@ function toggleSinVenta() {
 }
 
 function initSinVenta() {
-    const peruHour = () => (new Date().getUTCHours() - 5 + 24) % 24;
-    const btn = document.getElementById("btnSinVenta");
-    const h = peruHour();
+    // ── [DESACTIVADO] Restricción horaria: botón bloqueado antes de las 14:00 y auto-activación a las 15:00 ──
+    // const peruHour = () => (new Date().getUTCHours() - 5 + 24) % 24;
+    // const btn = document.getElementById("btnSinVenta");
+    // const h = peruHour();
+    // if (h < 14) {
+    //     btn.disabled = true;
+    //     const now = new Date();
+    //     const msUntil14 = ((14 - h) * 60 - now.getUTCMinutes()) * 60000 - now.getUTCSeconds() * 1000;
+    //     setTimeout(() => { btn.disabled = false; fetchSinVenta(); }, Math.max(0, msUntil14));
+    // }
+    // if (h >= 14 && h < 17) {
+    //     fetchSinVenta().then(() => {
+    //         if (peruHour() >= 15 && !sinVentaActive && sinVentaCodes.size > 0) toggleSinVenta();
+    //     });
+    // }
+    // setInterval(() => {
+    //     if (peruHour() >= 14 && peruHour() < 17) fetchSinVenta();
+    // }, 15 * 60 * 1000);
+    // if (h < 15) {
+    //     const now = new Date();
+    //     const msUntil15 = ((15 - h) * 60 - now.getUTCMinutes()) * 60000 - now.getUTCSeconds() * 1000;
+    //     setTimeout(() => {
+    //         fetchSinVenta().then(() => {
+    //             if (!sinVentaActive && sinVentaCodes.size > 0) toggleSinVenta();
+    //         });
+    //     }, Math.max(0, msUntil15));
+    // }
+    // ────────────────────────────────────────────────────────────────────────────
 
-    // Deshabilitar botón antes de las 14:00
-    if (h < 14) {
-        btn.disabled = true;
-        const now = new Date();
-        const msUntil14 = ((14 - h) * 60 - now.getUTCMinutes()) * 60000 - now.getUTCSeconds() * 1000;
-        setTimeout(() => { btn.disabled = false; fetchSinVenta(); }, Math.max(0, msUntil14));
-    }
+    // Pre-cargar datos al iniciar (sin activar la capa)
+    fetchSinVenta();
 
-    // Fetch now if within the 14:00–17:00 window
-    if (h >= 14 && h < 17) {
-        fetchSinVenta().then(() => {
-            if (peruHour() >= 15 && !sinVentaActive && sinVentaCodes.size > 0) toggleSinVenta();
-        });
-    }
-
-    // Refresh every 15 min while inside the window
-    setInterval(() => {
-        if (peruHour() >= 14 && peruHour() < 17) fetchSinVenta();
-    }, 15 * 60 * 1000);
-
-    // If before 15:00, schedule a one-shot auto-activate at 15:00 Peru
-    if (h < 15) {
-        const now = new Date();
-        const msUntil15 = ((15 - h) * 60 - now.getUTCMinutes()) * 60000 - now.getUTCSeconds() * 1000;
-        setTimeout(() => {
-            fetchSinVenta().then(() => {
-                if (!sinVentaActive && sinVentaCodes.size > 0) toggleSinVenta();
-            });
-        }, Math.max(0, msUntil15));
-    }
+    // Actualizar cada 15 min
+    setInterval(fetchSinVenta, 15 * 60 * 1000);
 }
 
 initSinVenta();

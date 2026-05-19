@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Seguimiento RC</title>
+<title>Seguimiento de Visitas del RC</title>
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
 <style>
 * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -42,6 +42,33 @@ body { font-family: 'Segoe UI', sans-serif; background: #f5f0ee; height: 100vh; 
 }
 #btnSinVenta:hover { background: rgba(255,255,255,0.35); }
 #btnSinVenta.activo { background: #E53935; }
+
+#dayFilter {
+    background: #7b4a36;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 16px;
+    overflow-x: auto;
+    flex-shrink: 0;
+    scrollbar-width: none;
+}
+#dayFilter::-webkit-scrollbar { display: none; }
+.day-btn {
+    padding: 5px 14px;
+    border-radius: 16px;
+    border: none;
+    background: rgba(255,255,255,0.15);
+    color: white;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: background 0.2s;
+    flex-shrink: 0;
+}
+.day-btn:hover { background: rgba(255,255,255,0.3); }
+.day-btn.activo { background: white; color: #6b3a2a; }
 
 #content { display: flex; flex: 1; overflow: hidden; }
 
@@ -188,7 +215,7 @@ body { font-family: 'Segoe UI', sans-serif; background: #f5f0ee; height: 100vh; 
 
 <div id="authOverlay">
     <div id="authBox">
-        <h2>📍 Seguimiento RC</h2>
+        <h2>📍 Seguimiento de Visitas del RC</h2>
         <p>Ingresa la contraseña para continuar</p>
         <input id="authInput" type="password" placeholder="Contraseña" onkeydown="if(event.key==='Enter') checkAuth()"/>
         <button id="authBtn" onclick="checkAuth()">Ingresar</button>
@@ -218,12 +245,14 @@ function checkAuth() {
 </script>
 
 <div id="header">
-    <h1>📍 Seguimiento RC en Tiempo Real</h1>
+    <h1>📍 Seguimiento de Visitas del RC</h1>
     <select id="supFilter"><option value="ALL">Todos los supervisores</option></select>
     <button id="btnRefresh" onclick="cargarDatos()">🔄 Actualizar</button>
     <button id="btnSinVenta" onclick="toggleSinVenta()">🔴 Sin Venta</button>
     <span id="lastUpdate">--</span>
 </div>
+
+<div id="dayFilter"></div>
 
 <div id="content">
     <div id="panel">
@@ -260,6 +289,7 @@ let todosRCs = [];
 let puntosData = [];
 let sinVentaCodes = new Set();
 let sinVentaActive = false;
+let selectedDate = '';
 const sinVentaLayer = L.layerGroup().addTo(map);
 
 fetch('puntos.json').then(r => r.json()).then(d => { puntosData = d; }).catch(() => {});
@@ -471,10 +501,58 @@ function poblarSupervisores(rcs) {
     if ([...sel.options].some(o => o.value === actual)) sel.value = actual;
 }
 
+function formatFecha(d) {
+    const y = d.getFullYear();
+    const m = String(d.getMonth() + 1).padStart(2, '0');
+    const day = String(d.getDate()).padStart(2, '0');
+    return `${y}-${m}-${day}`;
+}
+
+function buildDayFilter() {
+    const today = new Date();
+    const todayStr = formatFecha(today);
+    selectedDate = todayStr;
+
+    const dow = today.getDay();
+    const diffToMonday = dow === 0 ? -6 : 1 - dow;
+    const monday = new Date(today);
+    monday.setDate(today.getDate() + diffToMonday);
+
+    const diasNombre = ['Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb'];
+    const container = document.getElementById('dayFilter');
+    container.innerHTML = '';
+
+    for (let i = 0; i < 6; i++) {
+        const d = new Date(monday);
+        d.setDate(monday.getDate() + i);
+        if (d > today) continue;
+
+        const dateStr = formatFecha(d);
+        const label = `${diasNombre[i]} ${d.getDate()}/${d.getMonth() + 1}`;
+        const btn = document.createElement('button');
+        btn.className = 'day-btn' + (dateStr === todayStr ? ' activo' : '');
+        btn.textContent = label;
+        btn.dataset.fecha = dateStr;
+        btn.onclick = () => selectDay(btn, dateStr);
+        container.appendChild(btn);
+    }
+}
+
+function selectDay(btn, fecha) {
+    document.querySelectorAll('.day-btn').forEach(b => b.classList.remove('activo'));
+    btn.classList.add('activo');
+    selectedDate = fecha;
+    const todayStr = formatFecha(new Date());
+    const label = fecha === todayStr ? 'hoy' : btn.textContent.trim();
+    document.getElementById('panelHeader').textContent = `RCs visitando · ${label}`;
+    cargarDatos();
+}
+
 async function cargarDatos() {
     document.getElementById('btnRefresh').textContent = '...';
     try {
-        const res = await fetch(SHEET_URL + "?action=getVisitas");
+        const url = SHEET_URL + "?action=getVisitas" + (selectedDate ? `&fecha=${selectedDate}` : '');
+        const res = await fetch(url);
         const data = await res.json();
         todosRCs = Array.isArray(data) ? data : [];
         poblarSupervisores(todosRCs);
@@ -530,8 +608,8 @@ function togglePanel() {
 
 document.getElementById('supFilter').addEventListener('change', () => renderRC(todosRCs));
 
+buildDayFilter();
 cargarDatos();
-setInterval(cargarDatos, 3 * 60 * 1000);
 </script>
 </body>
 </html>
