@@ -35,15 +35,14 @@ body { font-family: 'Inter', 'Segoe UI', sans-serif; background: #0F172A; height
 
 #lastUpdate { font-size: 11px; color: #475569; white-space: nowrap; }
 
-#btnTodosPuntos, #btnSinVisitar, #btnSinVenta {
+#btnTodosPuntos, #btnSinVenta {
     padding: 5px 14px; border-radius: 20px; border: 1px solid #334155;
     background: #243447; color: #94A3B8;
     font-size: 12px; font-weight: 600; cursor: pointer;
     transition: all 0.2s; font-family: 'Inter', sans-serif; white-space: nowrap;
 }
-#btnTodosPuntos:hover, #btnSinVisitar:hover, #btnSinVenta:hover { background: #2D3F55; border-color: #475569; color: #E2E8F0; }
+#btnTodosPuntos:hover, #btnSinVenta:hover { background: #2D3F55; border-color: #475569; color: #E2E8F0; }
 #btnTodosPuntos.activo { background: #059669; border-color: #059669; color: white; }
-#btnSinVisitar.activo { background: #D97706; border-color: #D97706; color: white; }
 #btnSinVenta.activo  { background: #DC2626; border-color: #DC2626; color: white; }
 #btnSinVenta:disabled { opacity: 0.35; cursor: not-allowed; }
 
@@ -246,7 +245,6 @@ function checkAuth() {
         <option value="PROVINCIA">Solo Provincia</option>
     </select>
     <button id="btnTodosPuntos" class="activo" onclick="toggleTodosPuntos()">📍 Todos los puntos</button>
-    <button id="btnSinVisitar" onclick="toggleSinVisitar()">⚠️ Sin visitar</button>
     <button id="btnSinVenta" onclick="toggleSinVenta()">🔴 Sin Venta</button>
     <span id="lastUpdate">--</span>
 </div>
@@ -304,7 +302,6 @@ const sinVentaLayer    = L.layerGroup().addTo(map);
 const todosLosPointsLayer = L.layerGroup().addTo(map);
 const sinVisitarLayer  = L.layerGroup().addTo(map);
 let todosLosPointsActive = true;
-let sinVisitarActive = false;
 let selectedPartnerFilter = null;
 let visitedIDs = new Set();
 let visitCountsSemana = {};
@@ -518,7 +515,7 @@ function enfocarRC(nombre) {
     selectedPartnerFilter = null;
     renderRC(todosRCs);
     renderTodosLosPuntos();
-    if (sinVisitarActive) renderSinVisitar();
+    renderSinVisitar();
     if (sinVentaActive) renderSinVentaLayer();
 }
 
@@ -701,8 +698,6 @@ function renderCobertura() {
             <div class="partner-bar"><div class="partner-bar-fill" style="width:${pct}%;background:${color}"></div></div>`;
         div.addEventListener('click', () => {
             selectedPartnerFilter = selectedPartnerFilter === r.nombre ? null : r.nombre;
-            sinVisitarActive = true;
-            document.getElementById('btnSinVisitar').classList.add('activo');
             renderSinVisitar();
             renderCobertura();
         });
@@ -761,7 +756,7 @@ async function cargarDatosSemanales() {
 
     renderTodosLosPuntos();
     renderCobertura();
-    if (sinVisitarActive) renderSinVisitar();
+    renderSinVisitar();
 }
 
 function toggleTodosPuntos() {
@@ -776,11 +771,9 @@ function normalizeID(val) {
 
 function renderSinVisitar() {
     sinVisitarLayer.clearLayers();
-    const btn = document.getElementById('btnSinVisitar');
-    if (!sinVisitarActive) { btn.textContent = '⚠️ Sin visitar'; return; }
+    if (!selectedPartnerFilter) return;
 
     const zf = getZonalFiltro();
-    // Si hay día seleccionado → usa visitas del día; si no → usa datos de la semana
     const fueVisitado = selectedDate
         ? (id) => visitedIDs.has(id)
         : (id) => (visitCountsSemana[id] || 0) > 0;
@@ -789,7 +782,7 @@ function renderSinVisitar() {
         (p.estado || '').toUpperCase() === 'ACTIVO' &&
         !fueVisitado(normalizeID(p.ID)) &&
         (selectedRCFilter      ? p.rc          === selectedRCFilter      : true) &&
-        (selectedPartnerFilter ? p.responsable === selectedPartnerFilter : true) &&
+        p.responsable === selectedPartnerFilter &&
         (zf !== 'ALL'          ? (p.zonal_tipo || '').toUpperCase() === zf : true)
     );
 
@@ -804,14 +797,7 @@ function renderSinVisitar() {
           .bindPopup(`<b style="color:#FB8C00">⚠️ Sin visita</b><br>${p.nombre}<br><small>ID: ${p.ID} · RC: ${p.rc || '-'} · Partner: ${p.responsable || '-'}</small>`);
     });
 
-    btn.textContent = `⚠️ Sin visitar (${noVisitados.length})`;
     if (bounds.length > 0) map.fitBounds(bounds, { padding: [40, 40], maxZoom: 14 });
-}
-
-function toggleSinVisitar() {
-    sinVisitarActive = !sinVisitarActive;
-    document.getElementById('btnSinVisitar').classList.toggle('activo', sinVisitarActive);
-    renderSinVisitar();
 }
 
 async function cargarDatos() {
@@ -824,7 +810,7 @@ async function cargarDatos() {
         todosRCs.forEach(rc => (rc.visitas || []).forEach(v => { if (v.id) visitedIDs.add(normalizeID(v.id)); }));
         poblarSupervisores(todosRCs);
         renderRC(todosRCs);
-        if (sinVisitarActive) renderSinVisitar();
+        renderSinVisitar();
         const hora = new Date().toTimeString().slice(0,5);
         document.getElementById('lastUpdate').textContent = `Actualizado: ${hora}`;
     } catch(e) {
