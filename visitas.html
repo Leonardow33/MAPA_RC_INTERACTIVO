@@ -87,9 +87,13 @@ body { font-family: 'Segoe UI', sans-serif; background: #f5f0ee; height: 100vh; 
     text-transform: uppercase; letter-spacing: 0.5px;
     flex-shrink: 0;
 }
-#rcSection { flex: 1; display: flex; flex-direction: column; overflow: hidden; border-bottom: 2px solid #e0c8c0; min-height: 80px; }
+#rcSection { flex: 1; display: flex; flex-direction: column; overflow: hidden; border-bottom: 2px solid #e0c8c0; min-height: 80px; max-height: 35%; }
 #rcList { overflow-y: auto; flex: 1; }
-#coberturaSection { flex: 0 0 230px; display: flex; flex-direction: column; overflow: hidden; }
+#coberturaSection { flex: 2; display: flex; flex-direction: column; overflow: hidden; }
+#coberturaResumen { padding: 8px 14px; background: #f5eeeb; border-bottom: 1px solid #e0c8c0; flex-shrink: 0; }
+#coberturaResumen .res-total { font-size: 13px; font-weight: 700; color: #222; margin-bottom: 4px; }
+#coberturaResumen .res-bar { height: 7px; background: #e0d0cc; border-radius: 4px; overflow: hidden; }
+#coberturaResumen .res-bar-fill { height: 100%; border-radius: 4px; transition: width 0.4s; }
 #coberturaHeader {
     padding: 8px 14px;
     background: #fff8f6;
@@ -292,6 +296,10 @@ function checkAuth() {
             <div id="coberturaHeader">
                 <span>📊 Cobertura por partner</span>
                 <button id="btnDescarga" onclick="descargarSinVisita()">⬇ CSV</button>
+            </div>
+            <div id="coberturaResumen">
+                <div class="res-total" id="resumenTexto">— / — puntos visitados</div>
+                <div class="res-bar"><div class="res-bar-fill" id="resumenBar" style="width:0%;background:#43A047"></div></div>
             </div>
             <div id="coberturaList"></div>
         </div>
@@ -664,6 +672,19 @@ function renderCobertura() {
     const rows = Object.entries(byPartner)
         .map(([nombre, d]) => ({ nombre, ...d, pct: d.total > 0 ? d.visitados / d.total : 0 }))
         .sort((a, b) => b.pct - a.pct);
+
+    // Resumen general
+    const totalGral     = activos.length;
+    const visitadosGral = activos.filter(p => {
+        const id = normalizeID(p.ID);
+        return visitedSet ? visitedSet.has(id) : (visitCountsSemana[id] || 0) > 0;
+    }).length;
+    const pctGral = totalGral > 0 ? Math.round(visitadosGral / totalGral * 100) : 0;
+    const colorGral = pctGral >= 60 ? '#43A047' : pctGral >= 30 ? '#FB8C00' : '#E53935';
+    const resTexto = document.getElementById('resumenTexto');
+    const resBar   = document.getElementById('resumenBar');
+    if (resTexto) resTexto.innerHTML = `<span style="color:${colorGral}">${visitadosGral} / ${totalGral} visitados &nbsp;·&nbsp; <b>${pctGral}%</b></span>`;
+    if (resBar)   { resBar.style.width = pctGral + '%'; resBar.style.background = colorGral; }
 
     list.innerHTML = '';
     if (!rows.length) {
