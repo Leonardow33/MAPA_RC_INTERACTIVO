@@ -845,7 +845,6 @@ function toggleSinVisitar() {
 }
 
 async function cargarDatos() {
-    document.getElementById('btnRefresh').textContent = '...';
     try {
         const url = SHEET_URL + "?action=getVisitas" + (selectedDate ? `&fecha=${selectedDate}` : '');
         const res = await fetch(url);
@@ -862,7 +861,6 @@ async function cargarDatos() {
         console.warn('Error cargando visitas:', e);
         document.getElementById('noData').textContent = 'Error al cargar datos';
     }
-    document.getElementById('btnRefresh').textContent = '🔄 Actualizar';
 }
 
 let sinVentaTimes = {};
