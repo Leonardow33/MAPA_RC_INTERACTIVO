@@ -601,6 +601,11 @@ function buildDayFilter(monday) {
     const sel = document.getElementById('fechaFilter');
     sel.innerHTML = '';
 
+    // Placeholder sin selección
+    const ph = document.createElement('option');
+    ph.value = ''; ph.textContent = 'Día';
+    sel.appendChild(ph);
+
     for (let i = 0; i < 6; i++) {
         const d = new Date(monday);
         d.setDate(monday.getDate() + i);
@@ -613,17 +618,15 @@ function buildDayFilter(monday) {
         sel.appendChild(opt);
     }
 
-    // Seleccionar hoy si está en esta semana, si no el día más reciente
-    const todayOpt = [...sel.options].find(o => o.value === todayStr);
-    if (todayOpt) { sel.value = todayStr; selectedDate = todayStr; }
-    else if (sel.options.length > 0) { sel.selectedIndex = sel.options.length - 1; selectedDate = sel.value; }
-
-    const lbl = sel.options[sel.selectedIndex]?.textContent || '';
-    document.getElementById('panelHeader').textContent = `RCs visitando · ${lbl}`;
+    // Siempre default al placeholder
+    sel.selectedIndex = 0;
+    selectedDate = '';
+    document.getElementById('panelHeader').textContent = 'RCs activos hoy';
 
     sel.onchange = function() {
         selectedDate = this.value;
-        document.getElementById('panelHeader').textContent = `RCs visitando · ${this.options[this.selectedIndex].textContent}`;
+        const lbl = this.value ? this.options[this.selectedIndex].textContent : 'RCs activos hoy';
+        document.getElementById('panelHeader').textContent = lbl === 'RCs activos hoy' ? lbl : `RCs visitando · ${lbl}`;
         document.getElementById('rcList').innerHTML = '<div style="padding:16px;color:#aaa;font-size:12px;text-align:center">⏳ Cargando...</div>';
         updateSinVentaBtn();
         cargarDatos();
