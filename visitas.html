@@ -791,7 +791,7 @@ let sinVentaTimes = {};
 let svTimestamp = '';
 
 function fetchSinVenta() {
-    return fetch(SIN_VENTA_URL)
+    return fetch(SIN_VENTA_URL + '?t=' + Date.now(), { cache: 'no-store' })
         .then(r => r.text())
         .then(text => {
             // Formato: "2026-05-20 10:27|{[C]:"122",[U]:"10:08:58"}[C]{...}"
