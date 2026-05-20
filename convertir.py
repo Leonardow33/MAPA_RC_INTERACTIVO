@@ -51,7 +51,8 @@ for _, row in df.iterrows():
             "dias": dias,
             "distrito": str(row["DISTRITOS"]).strip() if pd.notnull(row.get("DISTRITOS")) else "",
             "gz": str(row["GZ"]).strip() if pd.notnull(row.get("GZ")) else "",
-            "jz": str(row["JZ"]).strip() if pd.notnull(row.get("JZ")) else ""
+            "jz": str(row["JZ"]).strip() if pd.notnull(row.get("JZ")) else "",
+            "zonal_tipo": str(row["ZONAL_TIPO"]).strip().upper() if pd.notnull(row.get("ZONAL_TIPO")) else ""
         })
 
 # 💾 Guardar JSON
