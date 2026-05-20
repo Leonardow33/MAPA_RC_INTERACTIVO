@@ -278,7 +278,6 @@ function checkAuth() {
         <option value="LIMA">Solo Lima</option>
         <option value="PROVINCIA">Solo Provincia</option>
     </select>
-    <button id="btnRefresh" onclick="cargarDatos()">🔄 Actualizar</button>
     <button id="btnTodosPuntos" class="activo" onclick="toggleTodosPuntos()">📍 Todos los puntos</button>
     <button id="btnSinVisitar" onclick="toggleSinVisitar()">⚠️ Sin visitar</button>
     <button id="btnSinVenta" onclick="toggleSinVenta()">🔴 Sin Venta</button>
@@ -576,41 +575,59 @@ function formatFecha(d) {
     return `${y}-${m}-${day}`;
 }
 
-function buildDayFilter() {
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
+function updateSinVentaBtn() {
+    const today = new Date(); today.setHours(0,0,0,0);
     const todayStr = formatFecha(today);
-    selectedDate = todayStr;
+    const monday = selectedSemanaMonday;
+    const saturday = new Date(monday); saturday.setDate(monday.getDate() + 5);
+    const isCurrentWeek = today >= monday && today <= saturday;
+    const isTodaySelected = selectedDate === todayStr;
+    const btn = document.getElementById('btnSinVenta');
+    const ok = isCurrentWeek && isTodaySelected;
+    btn.disabled = !ok;
+    btn.style.opacity = ok ? '1' : '0.45';
+    btn.title = ok ? '' : 'Solo disponible para la semana y día de hoy';
+    if (!ok && sinVentaActive) {
+        sinVentaActive = false;
+        btn.classList.remove('activo');
+        sinVentaLayer.clearLayers();
+    }
+}
 
+function buildDayFilter(monday) {
+    const today = new Date(); today.setHours(0,0,0,0);
+    const todayStr = formatFecha(today);
     const diasNombre = ['Dom', 'Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb'];
     const sel = document.getElementById('fechaFilter');
     sel.innerHTML = '';
 
-    const inicio = new Date(today.getFullYear(), today.getMonth(), 1);
-    const dias = [];
-    for (let d = new Date(inicio); d <= today; d.setDate(d.getDate() + 1)) {
-        dias.push(new Date(d));
-    }
-    dias.reverse(); // más reciente primero
-
-    dias.forEach(d => {
+    for (let i = 0; i < 6; i++) {
+        const d = new Date(monday);
+        d.setDate(monday.getDate() + i);
+        if (d > today) break;
         const dateStr = formatFecha(d);
         const esHoy = dateStr === todayStr;
-        const label = `${diasNombre[d.getDay()]} ${d.getDate()}/${d.getMonth() + 1}${esHoy ? ' (hoy)' : ''}`;
         const opt = document.createElement('option');
         opt.value = dateStr;
-        opt.textContent = label;
-        if (esHoy) opt.selected = true;
+        opt.textContent = `${diasNombre[d.getDay()]} ${d.getDate()}/${d.getMonth()+1}${esHoy ? ' (hoy)' : ''}`;
         sel.appendChild(opt);
-    });
+    }
 
-    sel.addEventListener('change', function() {
+    // Seleccionar hoy si está en esta semana, si no el día más reciente
+    const todayOpt = [...sel.options].find(o => o.value === todayStr);
+    if (todayOpt) { sel.value = todayStr; selectedDate = todayStr; }
+    else if (sel.options.length > 0) { sel.selectedIndex = sel.options.length - 1; selectedDate = sel.value; }
+
+    const lbl = sel.options[sel.selectedIndex]?.textContent || '';
+    document.getElementById('panelHeader').textContent = `RCs visitando · ${lbl}`;
+
+    sel.onchange = function() {
         selectedDate = this.value;
-        const label = this.options[this.selectedIndex].textContent;
-        document.getElementById('panelHeader').textContent = `RCs visitando · ${label}`;
+        document.getElementById('panelHeader').textContent = `RCs visitando · ${this.options[this.selectedIndex].textContent}`;
         document.getElementById('rcList').innerHTML = '<div style="padding:16px;color:#aaa;font-size:12px;text-align:center">⏳ Cargando...</div>';
+        updateSinVentaBtn();
         cargarDatos();
-    });
+    };
 }
 
 function getZonalFiltro() {
@@ -1005,12 +1022,16 @@ function buildSemanaFilter() {
     sel.addEventListener('change', function() {
         semanaKeyCache = '';
         selectedSemanaMonday = new Date(this.value + 'T00:00:00');
+        buildDayFilter(selectedSemanaMonday);
+        updateSinVentaBtn();
+        cargarDatos();
         cargarDatosSemanales();
     });
 }
 
-buildDayFilter();
 buildSemanaFilter();
+buildDayFilter(selectedSemanaMonday);
+updateSinVentaBtn();
 cargarDatos();
 cargarDatosSemanales();
 </script>
