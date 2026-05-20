@@ -339,6 +339,7 @@ const todosLosPointsLayer = L.layerGroup().addTo(map);
 const sinVisitarLayer  = L.layerGroup().addTo(map);
 let todosLosPointsActive = true;
 let sinVisitarActive = false;
+let selectedPartnerFilter = null;
 let visitedIDs = new Set();
 let visitCountsSemana = {};
 let visitsByRC = {};
@@ -548,8 +549,10 @@ function enfocarRC(nombre) {
     document.querySelector('#coberturaHeader span').textContent = selectedRCFilter
         ? `📊 Cobertura · ${selectedRCFilter}`
         : '📊 Cobertura por partner';
+    selectedPartnerFilter = null;
     renderRC(todosRCs);
     renderTodosLosPuntos();
+    if (sinVisitarActive) renderSinVisitar();
     if (sinVentaActive) renderSinVentaLayer();
 }
 
@@ -700,12 +703,22 @@ function renderCobertura() {
     rows.forEach(r => {
         const pct = Math.round(r.pct * 100);
         const color = pct >= 60 ? '#43A047' : pct >= 30 ? '#FB8C00' : '#E53935';
+        const esSeleccionado = selectedPartnerFilter === r.nombre;
         const div = document.createElement('div');
-        div.className = 'partner-row';
+        div.className = 'partner-row' + (esSeleccionado ? ' seleccionado' : '');
+        div.style.cursor = 'pointer';
+        if (esSeleccionado) div.style.background = '#fff3e0';
         div.innerHTML = `
-            <div class="partner-nombre">${r.nombre}</div>
+            <div class="partner-nombre">${r.nombre}${esSeleccionado ? ' <span style="color:#FB8C00;font-size:10px">● filtrado</span>' : ''}</div>
             <div class="partner-stats">${r.visitados} de ${r.total} puntos &nbsp;·&nbsp; <b style="color:${color}">${pct}%</b></div>
             <div class="partner-bar"><div class="partner-bar-fill" style="width:${pct}%;background:${color}"></div></div>`;
+        div.addEventListener('click', () => {
+            selectedPartnerFilter = selectedPartnerFilter === r.nombre ? null : r.nombre;
+            sinVisitarActive = true;
+            document.getElementById('btnSinVisitar').classList.add('activo');
+            renderSinVisitar();
+            renderCobertura();
+        });
         list.appendChild(div);
     });
 }
@@ -781,20 +794,28 @@ function renderSinVisitar() {
     const btn = document.getElementById('btnSinVisitar');
     if (!sinVisitarActive) { btn.textContent = '⚠️ Sin visitar'; return; }
 
+    const zf = getZonalFiltro();
     const noVisitados = puntosData.filter(p =>
         (p.estado || '').toUpperCase() === 'ACTIVO' &&
-        !visitedIDs.has(normalizeID(p.ID))
+        !visitedIDs.has(normalizeID(p.ID)) &&
+        (selectedRCFilter      ? p.rc          === selectedRCFilter      : true) &&
+        (selectedPartnerFilter ? p.responsable === selectedPartnerFilter : true) &&
+        (zf !== 'ALL'          ? (p.zonal_tipo || '').toUpperCase() === zf : true)
     );
 
+    const bounds = [];
     noVisitados.forEach(p => {
+        if (!p.lat || !p.lng) return;
+        bounds.push([p.lat, p.lng]);
         L.circleMarker([p.lat, p.lng], {
             radius: 8, fillColor: '#FB8C00', color: 'white',
             weight: 1.5, fillOpacity: 0.85, opacity: 1
         }).addTo(sinVisitarLayer)
-          .bindPopup(`<b style="color:#FB8C00">⚠️ Sin visita</b><br>${p.nombre}<br><small>ID: ${p.ID} · RC: ${p.rc || '-'} · ${p.zona || '-'}</small>`);
+          .bindPopup(`<b style="color:#FB8C00">⚠️ Sin visita</b><br>${p.nombre}<br><small>ID: ${p.ID} · RC: ${p.rc || '-'} · Partner: ${p.responsable || '-'}</small>`);
     });
 
     btn.textContent = `⚠️ Sin visitar (${noVisitados.length})`;
+    if (bounds.length > 0) map.fitBounds(bounds, { padding: [40, 40], maxZoom: 14 });
 }
 
 function toggleSinVisitar() {
