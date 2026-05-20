@@ -1909,15 +1909,16 @@ function initSinVenta() {
     const btn = document.getElementById("btnSinVenta");
     const h = peruHour();
 
-    // Bloquear botón antes de las 14:00
-    if (h < 14) {
-        btn.disabled = true;
-        const now = new Date();
-        const msUntil14 = ((14 - h) * 60 - now.getUTCMinutes()) * 60000 - now.getUTCSeconds() * 1000;
-        setTimeout(() => { btn.disabled = false; fetchSinVenta(); }, Math.max(0, msUntil14));
-    } else {
-        fetchSinVenta();
-    }
+    // ── [DESACTIVADO] Bloquear botón antes de las 14:00 ──
+    // if (h < 14) {
+    //     btn.disabled = true;
+    //     const now = new Date();
+    //     const msUntil14 = ((14 - h) * 60 - now.getUTCMinutes()) * 60000 - now.getUTCSeconds() * 1000;
+    //     setTimeout(() => { btn.disabled = false; fetchSinVenta(); }, Math.max(0, msUntil14));
+    // } else {
+    //     fetchSinVenta();
+    // }
+    fetchSinVenta();
 
     // Actualizar cada 15 min
     setInterval(fetchSinVenta, 15 * 60 * 1000);
