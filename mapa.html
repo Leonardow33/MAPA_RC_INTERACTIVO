@@ -1464,7 +1464,7 @@ const ORS_KEY = 'eyJvcmciOiI1YjNjZTM1OTc4NTExMTAwMDFjZjYyNDgiLCJpZCI6IjZmZTFlYjB
 
 // ── GOOGLE SHEET (reemplaza con tu URL de Apps Script desplegado) ──────────
 const SHEET_URL = "https://script.google.com/macros/s/AKfycby2f2uW9E2_CUBr9OiKVT4Sp-ubP2sRIXlWig-GPuKTGyDxi-zx724ZGtkOFaWW0jnqjw/exec";
-const SIN_VENTA_URL = "https://script.google.com/macros/s/AKfycbylrnnvDuR3IIl8bRG-X_B2FlpRKCDMnw9QTdkn_YkPRA6YqtW-mD3BbcPL8MnWUSaI/exec";
+const SIN_VENTA_URL = "https://elotgroup2020-my.sharepoint.com/:t:/g/personal/doriant_elotgroup_com/IQDOVKkrNAxRQLROxaknVeI0AaUOszfguKywNJ4QfCIaULk?download=1";
 const REUNION_PIN = "0810"; // ← cambia este código cada mes
 // ─────────────────────────────────────────────────────────────────────────
 // ──────────────────────────────────────────────────────────────────────────
@@ -1836,41 +1836,58 @@ document.getElementById("modalReunion").addEventListener("click", function(e) {
 // === SIN VENTA LAYER ===
 let sinVentaCodes = new Set();
 let sinVentaActive = false;
+let svTs = '', svUpdateTambo = '', svUpdateAT = '', svUpdateTinbet = '';
 const sinVentaLayer = L.layerGroup().addTo(map);
 
-async function fetchSinVenta() {
-    try {
-        const res = await fetch(SIN_VENTA_URL + "?action=getSinVenta");
-        const json = await res.json();
-        if (Array.isArray(json.codes)) {
-            sinVentaCodes = new Set(json.codes.map(c => String(c)));
-        }
-        const tsEl = document.getElementById("sinVentaTs");
-        if (json.ts && tsEl) {
-            const ts = String(json.ts);
-            tsEl.textContent = ts.length <= 10 ? ts : (ts.slice(11, 16) || ts);
-        }
-        if (sinVentaActive) renderSinVentaLayer();
-    } catch(e) { console.warn("sinVenta fetch:", e); }
+function fetchSinVenta() {
+    return fetch(SIN_VENTA_URL)
+        .then(r => r.text())
+        .then(text => {
+            const partes       = text.split('|');
+            svTs               = partes[0] || '';
+            const codesRaw     = partes[1] || '';
+            svUpdateTambo      = partes[2] || '';
+            svUpdateAT         = partes[3] || '';
+            svUpdateTinbet     = partes[4] || '';
+
+            sinVentaCodes = new Set(codesRaw.split(',').map(c => c.trim()).filter(c => c));
+
+            const tsEl = document.getElementById("sinVentaTs");
+            if (tsEl) tsEl.textContent = svTs.slice(11, 16) || svTs;
+
+            if (sinVentaActive) renderSinVentaLayer();
+            console.log(`SinVenta: ${sinVentaCodes.size} tiendas | TAMBO:${svUpdateTambo} AT:${svUpdateAT} TINBET:${svUpdateTinbet}`);
+        })
+        .catch(e => console.warn('SinVenta error:', e));
 }
 
 function renderSinVentaLayer() {
     sinVentaLayer.clearLayers();
     if (!sinVentaActive || sinVentaCodes.size === 0) return;
     let count = 0;
-    const base = currentFiltered.length > 0 ? currentFiltered : allData;
-    base.forEach(p => {
-        if (sinVentaCodes.has(String(p.ID))) {
-            L.circleMarker([p.lat, p.lng], {
-                radius: 16,
-                fillOpacity: 0,
-                color: '#E53935',
-                weight: 2.5,
-                opacity: 0.9
-            }).addTo(sinVentaLayer)
-              .bindPopup(`<b style="color:#E53935">⚠️ Sin venta hoy</b><br><small>${p.nombre}</small>`);
-            count++;
-        }
+    allData.forEach(p => {
+        if (!sinVentaCodes.has(String(p.ID))) return;
+        const icon = L.divIcon({
+            html: `<div style="width:22px;height:22px;background:#e53935;border:2.5px solid #fff;border-radius:50%;box-shadow:0 0 0 4px rgba(229,57,53,0.35)"></div>`,
+            className: '', iconSize: [22,22], iconAnchor: [11,11]
+        });
+        L.marker([p.lat, p.lng], { icon })
+            .bindPopup(`
+                <div style="font-family:sans-serif;min-width:200px">
+                    <div style="background:#e53935;padding:8px 12px;border-radius:8px 8px 0 0">
+                        <span style="color:white;font-weight:700;font-size:14px">⚠️ SIN VENTA HOY</span>
+                    </div>
+                    <div style="padding:8px 12px;border:1px solid #eee;border-top:none;border-radius:0 0 8px 8px">
+                        <b>${p.nombre}</b><br>
+                        <span style="color:#888;font-size:12px">Código: ${p.ID}</span><br>
+                        <span style="color:#888;font-size:12px">Partner: ${p.responsable || '-'}</span><br>
+                        <hr style="margin:6px 0;border-color:#f5f5f5">
+                        <span style="font-size:11px;color:#aaa">🕐 TAMBO: ${svUpdateTambo} | AT: ${svUpdateAT} | TINBET: ${svUpdateTinbet}</span><br>
+                        <span style="font-size:11px;color:#aaa">📅 Actualizado: ${svTs}</span>
+                    </div>
+                </div>`)
+            .addTo(sinVentaLayer);
+        count++;
     });
     const countEl = document.getElementById("sinVentaCount");
     if (countEl) countEl.textContent = count;
