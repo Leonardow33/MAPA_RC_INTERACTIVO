@@ -1837,34 +1837,36 @@ document.getElementById("modalReunion").addEventListener("click", function(e) {
 let sinVentaCodes = new Set();
 let sinVentaActive = false;
 let sinVentaTimes = {};
+let svTimestamp = '';
 const sinVentaLayer = L.layerGroup().addTo(map);
 
 function fetchSinVenta() {
     return fetch(SIN_VENTA_URL)
         .then(r => r.text())
         .then(text => {
-            let records = [];
-            try {
-                const parsed = JSON.parse(text.trim());
-                records = Array.isArray(parsed) ? parsed : [parsed];
-            } catch(e) {
-                try { records = JSON.parse('[' + text.trim() + ']'); } catch(e2) {}
-            }
+            // Formato: "2026-05-20 10:27|{[C]:"122",[U]:"10:08:58"}[C]{...}"
+            const pipeIdx = text.indexOf('|');
+            svTimestamp   = pipeIdx >= 0 ? text.slice(0, pipeIdx).trim() : '';
+            const records = pipeIdx >= 0 ? text.slice(pipeIdx + 1) : text;
+
             sinVentaCodes = new Set();
             sinVentaTimes = {};
-            records.forEach(r => {
-                const code = String(r['[C]'] || '').trim();
-                if (code) {
-                    sinVentaCodes.add(code);
-                    sinVentaTimes[code] = String(r['[U]'] || '').trim();
-                }
+            (records.match(/\{[^}]+\}/g) || []).forEach(m => {
+                try {
+                    const r    = JSON.parse(m);
+                    const code = String(r['[C]'] || '').trim();
+                    if (code) {
+                        sinVentaCodes.add(code);
+                        sinVentaTimes[code] = String(r['[U]'] || '').trim();
+                    }
+                } catch(e) {}
             });
 
             const tsEl = document.getElementById("sinVentaTs");
-            if (tsEl) tsEl.textContent = new Date().toTimeString().slice(0,5);
+            if (tsEl) tsEl.textContent = svTimestamp.slice(11) || svTimestamp;
 
             if (sinVentaActive) renderSinVentaLayer();
-            console.log('SinVenta cargado:', sinVentaCodes.size, 'tiendas');
+            console.log(`SinVenta: ${sinVentaCodes.size} tiendas | ${svTimestamp}`);
         })
         .catch(e => console.warn('SinVenta error:', e));
 }
@@ -1890,7 +1892,8 @@ function renderSinVentaLayer() {
                         <b>${p.nombre}</b><br>
                         <span style="color:#888;font-size:12px">Código: ${p.ID}</span><br>
                         <span style="color:#888;font-size:12px">Partner: ${p.responsable || '-'}</span><br>
-                        <span style="font-size:11px;color:#aaa">🕐 Última actualización: ${hora}</span>
+                        <span style="font-size:11px;color:#aaa">🕐 Últ. dato BI: ${hora}</span><br>
+                        <span style="font-size:11px;color:#aaa">📅 Flujo: ${svTimestamp}</span>
                     </div>
                 </div>`)
             .addTo(sinVentaLayer);
