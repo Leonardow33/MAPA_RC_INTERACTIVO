@@ -547,7 +547,7 @@ function enfocarRC(nombre) {
     document.querySelector('#coberturaHeader span').textContent = selectedRCFilter
         ? `📊 Cobertura · ${selectedRCFilter}`
         : '📊 Cobertura por partner';
-    renderCobertura();
+    renderTodosLosPuntos();
 }
 
 function poblarSupervisores(rcs) {
@@ -602,6 +602,7 @@ function buildDayFilter() {
         selectedDate = this.value;
         const label = this.options[this.selectedIndex].textContent;
         document.getElementById('panelHeader').textContent = `RCs visitando · ${label}`;
+        document.getElementById('rcList').innerHTML = '<div style="padding:16px;color:#aaa;font-size:12px;text-align:center">⏳ Cargando...</div>';
         cargarDatos();
     });
 }
@@ -615,10 +616,11 @@ function renderTodosLosPuntos() {
     const btn = document.getElementById('btnTodosPuntos');
     if (!todosLosPointsActive) { btn.textContent = '📍 Todos los puntos'; renderCobertura(); return; }
     const zf = getZonalFiltro();
-    const activos = puntosData.filter(p =>
+    let activos = puntosData.filter(p =>
         (p.estado || '').toUpperCase() === 'ACTIVO' &&
         (zf === 'ALL' || (p.zonal_tipo || '').toUpperCase() === zf)
     );
+    if (selectedRCFilter) activos = activos.filter(p => p.rc === selectedRCFilter);
     let visitados = 0;
     activos.forEach(p => {
         if (!p.lat || !p.lng) return;
@@ -636,7 +638,8 @@ function renderTodosLosPuntos() {
           .bindPopup(`<b>${p.nombre}</b><br><small>ID: ${p.ID} · RC: ${p.rc || '-'} · ${p.zona || '-'}</small><br>${visitaLabel}`);
     });
     const pct = activos.length > 0 ? Math.round(visitados / activos.length * 100) : 0;
-    btn.textContent = `📍 ${visitados}/${activos.length} visitados (${pct}%)`;
+    const rcLabel = selectedRCFilter ? ` · ${selectedRCFilter}` : '';
+    btn.textContent = `📍 ${visitados}/${activos.length} visitados (${pct}%)${rcLabel}`;
     renderCobertura();
 }
 
@@ -704,6 +707,17 @@ function renderCobertura() {
     });
 }
 
+function setLoadingState(loading) {
+    const resTexto = document.getElementById('resumenTexto');
+    const btn      = document.getElementById('btnTodosPuntos');
+    if (loading) {
+        if (resTexto) resTexto.innerHTML = '<span style="color:#aaa">⏳ Actualizando datos...</span>';
+        if (btn) btn.textContent = '📍 Actualizando...';
+        document.getElementById('coberturaList').innerHTML =
+            '<div style="padding:16px;color:#aaa;font-size:12px;text-align:center">⏳ Cargando...</div>';
+    }
+}
+
 async function cargarDatosSemanales() {
     if (!selectedSemanaMonday) return;
     const monday = selectedSemanaMonday;
@@ -711,8 +725,7 @@ async function cargarDatosSemanales() {
     if (semanaKey === semanaKeyCache) return;
     semanaKeyCache = semanaKey;
 
-    const btn = document.getElementById('btnTodosPuntos');
-    btn.textContent = '📍 Cargando semana...';
+    setLoadingState(true);
 
     const today = new Date(); today.setHours(0,0,0,0);
     const fetches = [];
