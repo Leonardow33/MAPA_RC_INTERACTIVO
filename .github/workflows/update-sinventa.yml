@@ -1,0 +1,27 @@
+name: Update Sin Venta
+
+on:
+  schedule:
+    - cron: '*/15 * * * *'   # cada 15 minutos
+  workflow_dispatch:           # permite lanzarlo manualmente desde GitHub
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Descargar datos de Sin Venta desde SharePoint
+        run: |
+          curl -L \
+            "https://elotgroup2020-my.sharepoint.com/:t:/g/personal/doriant_elotgroup_com/IQDOVKkrNAxRQLROxaknVeI0AeETKdn2V-BF0AGwXsAFR_0?e=KRN7C3&download=1" \
+            -o sinventa.txt \
+            --fail \
+            --max-time 30
+
+      - name: Hacer commit si hubo cambios
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add sinventa.txt
+          git diff --cached --quiet || (git commit -m "chore: actualizar sinventa.txt" && git push)
