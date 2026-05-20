@@ -613,7 +613,7 @@ function getZonalFiltro() {
 function renderTodosLosPuntos() {
     todosLosPointsLayer.clearLayers();
     const btn = document.getElementById('btnTodosPuntos');
-    if (!todosLosPointsActive) { btn.textContent = '📍 Todos los puntos'; return; }
+    if (!todosLosPointsActive) { btn.textContent = '📍 Todos los puntos'; renderCobertura(); return; }
     const zf = getZonalFiltro();
     const activos = puntosData.filter(p =>
         (p.estado || '').toUpperCase() === 'ACTIVO' &&
@@ -746,6 +746,7 @@ async function cargarDatosSemanales() {
     });
 
     renderTodosLosPuntos();
+    renderCobertura();
     if (sinVisitarActive) renderSinVisitar();
 }
 
