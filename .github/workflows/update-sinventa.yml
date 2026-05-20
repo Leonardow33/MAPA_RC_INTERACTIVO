@@ -30,27 +30,59 @@ jobs:
           import sys
           from playwright.sync_api import sync_playwright
 
-          URL = "https://elotgroup2020-my.sharepoint.com/:t:/g/personal/doriant_elotgroup_com/IQDOVKkrNAxRQLROxaknVeI0AeETKdn2V-BF0AGwXsAFR_0?e=KRN7C3&download=1"
+          # Sin &download=1 para que SharePoint muestre el archivo inline
+          URL = "https://elotgroup2020-my.sharepoint.com/:t:/g/personal/doriant_elotgroup_com/IQDOVKkrNAxRQLROxaknVeI0AeETKdn2V-BF0AGwXsAFR_0?e=KRN7C3"
+
+          captured = []
+
+          def on_response(resp):
+              ct  = resp.headers.get('content-type', '')
+              cd  = resp.headers.get('content-disposition', '')
+              if 'text/plain' in ct or 'attachment' in cd:
+                  try:
+                      text = resp.body().decode('utf-8', errors='replace')
+                      if text.strip() and '<html' not in text[:100].lower():
+                          captured.append(text)
+                          print(f"Capturado: {len(text)} chars desde {resp.url[:80]}")
+                  except Exception as e:
+                      print(f"Error leyendo respuesta: {e}")
 
           with sync_playwright() as p:
               browser = p.chromium.launch(headless=True)
               context = browser.new_context(accept_downloads=True)
-              page = context.new_page()
+              page    = context.new_page()
+              page.on("response", on_response)
+
               try:
-                  with page.expect_download(timeout=30000) as dl_info:
-                      page.goto(URL)
-                  download = dl_info.value
-                  download.save_as("sinventa.txt")
-              finally:
-                  browser.close()
+                  page.goto(URL, wait_until="networkidle", timeout=40000)
+              except Exception as e:
+                  print(f"Navegacion: {e}")
 
-          with open("sinventa.txt", encoding="utf-8", errors="replace") as f:
-              content = f.read()
+              final_url = page.url
+              print(f"URL final: {final_url[:100]}")
 
-          if "<html" in content[:300].lower():
+              if not captured:
+                  # Fallback: leer texto del body de la pagina
+                  body_text = page.evaluate("() => document.body.innerText || ''")
+                  print(f"Fallback body: {len(body_text)} chars | {body_text[:80]}")
+                  if body_text.strip() and '<html' not in body_text[:100].lower():
+                      captured.append(body_text)
+
+              browser.close()
+
+          if not captured:
+              print("ERROR: no se pudo capturar el contenido")
+              sys.exit(1)
+
+          content = captured[-1]
+
+          if '<html' in content[:300].lower():
               print("ERROR: se recibio HTML en lugar del archivo")
               print(content[:400])
               sys.exit(1)
+
+          with open("sinventa.txt", "w", encoding="utf-8") as f:
+              f.write(content)
 
           print(f"OK: {len(content)} chars | {content[:80]}")
           PYEOF
