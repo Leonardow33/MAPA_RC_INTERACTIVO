@@ -1109,7 +1109,7 @@ function buildPopupContent(p) {
         <div class="popup-row"><span class="popup-lbl">Distrito</span><span class="popup-val">${p.distrito || "-"}</span></div>
         <div class="popup-row"><span class="popup-lbl">GZ</span><span class="popup-val">${p.gz || "-"}</span></div>
         <div class="popup-row"><span class="popup-lbl">JZ</span><span class="popup-val">${p.jz || "-"}</span></div>
-        ${sinVentaCodes.has(String(p.ID)) ? `<div class="popup-row" style="background:#fff3f3;border-radius:4px;margin-top:4px"><span class="popup-lbl" style="color:#e53935">⚠️ Sin venta</span><span class="popup-val" style="color:#e53935">BI: ${sinVentaTimes[String(p.ID)] || '-'}</span></div>` : ''}
+        <div id="sv-row-${safeId}" style="display:none;background:#fff3f3;border-radius:4px;margin-top:4px" class="popup-row"><span class="popup-lbl" style="color:#e53935">⚠️ Sin venta</span><span class="popup-val" id="sv-bi-${safeId}" style="color:#e53935"></span></div>
       </div>
       <button id="btn-visita-${safeId}" class="popup-btn-visita"></button>
       <div id="msg-visita-${safeId}" class="popup-msg-visita">📍 Acércate a 40m para registrar</div>
@@ -1119,6 +1119,16 @@ function buildPopupContent(p) {
 function attachPopupOpen(marker, p) {
     const safeId = String(p.ID).replace(/[^a-zA-Z0-9_-]/g, "_");
     marker.on("popupopen", function() {
+        const svRow = document.getElementById("sv-row-" + safeId);
+        const svBi  = document.getElementById("sv-bi-"  + safeId);
+        if (svRow && svBi) {
+            if (sinVentaCodes.has(String(p.ID))) {
+                svBi.textContent   = "BI: " + (sinVentaTimes[String(p.ID)] || '-');
+                svRow.style.display = "";
+            } else {
+                svRow.style.display = "none";
+            }
+        }
         const btn = document.getElementById("btn-visita-" + safeId);
         const msg = document.getElementById("msg-visita-" + safeId);
         if (!btn || !msg) return;
