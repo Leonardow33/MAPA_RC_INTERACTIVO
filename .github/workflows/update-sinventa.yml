@@ -94,4 +94,4 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add sinventa.txt
-          git diff --cached --quiet || (git commit -m "chore: actualizar sinventa.txt" && git push)
+          git diff --cached --quiet || (git commit -m "chore: actualizar sinventa.txt" && git pull --rebase && git push)
