@@ -744,10 +744,8 @@ function renderCobertura() {
 }
 
 function setLoadingState(loading) {
-    const resTexto = document.getElementById('resumenTexto');
-    const btn      = document.getElementById('btnTodosPuntos');
+    const btn = document.getElementById('btnTodosPuntos');
     if (loading) {
-        if (resTexto) resTexto.innerHTML = '<span style="color:#aaa">⏳ Actualizando datos...</span>';
         if (btn) btn.textContent = '📍 Actualizando...';
         document.getElementById('coberturaList').innerHTML =
             '<div style="padding:16px;color:#aaa;font-size:12px;text-align:center">⏳ Cargando...</div>';
@@ -815,9 +813,14 @@ function renderSinVisitar() {
     if (!sinVisitarActive) { btn.textContent = '⚠️ Sin visitar'; return; }
 
     const zf = getZonalFiltro();
+    // Si hay día seleccionado → usa visitas del día; si no → usa datos de la semana
+    const fueVisitado = selectedDate
+        ? (id) => visitedIDs.has(id)
+        : (id) => (visitCountsSemana[id] || 0) > 0;
+
     const noVisitados = puntosData.filter(p =>
         (p.estado || '').toUpperCase() === 'ACTIVO' &&
-        !visitedIDs.has(normalizeID(p.ID)) &&
+        !fueVisitado(normalizeID(p.ID)) &&
         (selectedRCFilter      ? p.rc          === selectedRCFilter      : true) &&
         (selectedPartnerFilter ? p.responsable === selectedPartnerFilter : true) &&
         (zf !== 'ALL'          ? (p.zonal_tipo || '').toUpperCase() === zf : true)
