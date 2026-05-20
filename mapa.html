@@ -1836,27 +1836,35 @@ document.getElementById("modalReunion").addEventListener("click", function(e) {
 // === SIN VENTA LAYER ===
 let sinVentaCodes = new Set();
 let sinVentaActive = false;
-let svTs = '', svUpdateTambo = '', svUpdateAT = '', svUpdateTinbet = '';
+let sinVentaTimes = {};
 const sinVentaLayer = L.layerGroup().addTo(map);
 
 function fetchSinVenta() {
     return fetch(SIN_VENTA_URL)
         .then(r => r.text())
         .then(text => {
-            const partes       = text.split('|');
-            svTs               = partes[0] || '';
-            const codesRaw     = partes[1] || '';
-            svUpdateTambo      = partes[2] || '';
-            svUpdateAT         = partes[3] || '';
-            svUpdateTinbet     = partes[4] || '';
-
-            sinVentaCodes = new Set(codesRaw.split(',').map(c => c.trim()).filter(c => c));
+            let records = [];
+            try {
+                const parsed = JSON.parse(text.trim());
+                records = Array.isArray(parsed) ? parsed : [parsed];
+            } catch(e) {
+                try { records = JSON.parse('[' + text.trim() + ']'); } catch(e2) {}
+            }
+            sinVentaCodes = new Set();
+            sinVentaTimes = {};
+            records.forEach(r => {
+                const code = String(r['[C]'] || '').trim();
+                if (code) {
+                    sinVentaCodes.add(code);
+                    sinVentaTimes[code] = String(r['[U]'] || '').trim();
+                }
+            });
 
             const tsEl = document.getElementById("sinVentaTs");
-            if (tsEl) tsEl.textContent = svTs.slice(11, 16) || svTs;
+            if (tsEl) tsEl.textContent = new Date().toTimeString().slice(0,5);
 
             if (sinVentaActive) renderSinVentaLayer();
-            console.log(`SinVenta: ${sinVentaCodes.size} tiendas | TAMBO:${svUpdateTambo} AT:${svUpdateAT} TINBET:${svUpdateTinbet}`);
+            console.log('SinVenta cargado:', sinVentaCodes.size, 'tiendas');
         })
         .catch(e => console.warn('SinVenta error:', e));
 }
@@ -1867,6 +1875,7 @@ function renderSinVentaLayer() {
     let count = 0;
     allData.forEach(p => {
         if (!sinVentaCodes.has(String(p.ID))) return;
+        const hora = sinVentaTimes[String(p.ID)] || '-';
         const icon = L.divIcon({
             html: `<div style="width:22px;height:22px;background:#e53935;border:2.5px solid #fff;border-radius:50%;box-shadow:0 0 0 4px rgba(229,57,53,0.35)"></div>`,
             className: '', iconSize: [22,22], iconAnchor: [11,11]
@@ -1881,9 +1890,7 @@ function renderSinVentaLayer() {
                         <b>${p.nombre}</b><br>
                         <span style="color:#888;font-size:12px">Código: ${p.ID}</span><br>
                         <span style="color:#888;font-size:12px">Partner: ${p.responsable || '-'}</span><br>
-                        <hr style="margin:6px 0;border-color:#f5f5f5">
-                        <span style="font-size:11px;color:#aaa">🕐 TAMBO: ${svUpdateTambo} | AT: ${svUpdateAT} | TINBET: ${svUpdateTinbet}</span><br>
-                        <span style="font-size:11px;color:#aaa">📅 Actualizado: ${svTs}</span>
+                        <span style="font-size:11px;color:#aaa">🕐 Última actualización: ${hora}</span>
                     </div>
                 </div>`)
             .addTo(sinVentaLayer);
