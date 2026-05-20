@@ -3,7 +3,7 @@ name: Update Sin Venta
 on:
   schedule:
     - cron: '*/15 * * * *'   # cada 15 minutos
-  workflow_dispatch:           # permite lanzarlo manualmente desde GitHub
+  workflow_dispatch:
 
 jobs:
   update:
@@ -11,37 +11,47 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Descargar datos de Sin Venta desde SharePoint
+      - name: Cachear Chromium de Playwright
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/ms-playwright
+          key: playwright-chromium-${{ runner.os }}-v1
+
+      - name: Instalar Playwright + Chromium
         run: |
-          python3 - << 'EOF'
-          import urllib.request
+          pip install playwright
+          playwright install chromium --with-deps
+
+      - name: Descargar Sin Venta con browser real
+        run: |
+          python3 - << 'PYEOF'
           import sys
+          from playwright.sync_api import sync_playwright
 
-          url = "https://elotgroup2020-my.sharepoint.com/:t:/g/personal/doriant_elotgroup_com/IQDOVKkrNAxRQLROxaknVeI0AeETKdn2V-BF0AGwXsAFR_0?e=KRN7C3&download=1"
+          URL = "https://elotgroup2020-my.sharepoint.com/:t:/g/personal/doriant_elotgroup_com/IQDOVKkrNAxRQLROxaknVeI0AeETKdn2V-BF0AGwXsAFR_0?e=KRN7C3&download=1"
 
-          req = urllib.request.Request(url, headers={
-              "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36",
-              "Accept": "text/plain,*/*",
-              "Accept-Language": "es-PE,es;q=0.9",
-          })
+          with sync_playwright() as p:
+              browser = p.chromium.launch(headless=True)
+              context = browser.new_context(accept_downloads=True)
+              page = context.new_page()
+              try:
+                  with page.expect_download(timeout=30000) as dl_info:
+                      page.goto(URL)
+                  download = dl_info.value
+                  download.save_as("sinventa.txt")
+              finally:
+                  browser.close()
 
-          try:
-              with urllib.request.urlopen(req, timeout=30) as resp:
-                  content = resp.read().decode("utf-8", errors="replace")
-          except Exception as e:
-              print(f"ERROR descargando: {e}")
+          with open("sinventa.txt", encoding="utf-8", errors="replace") as f:
+              content = f.read()
+
+          if "<html" in content[:300].lower():
+              print("ERROR: se recibio HTML en lugar del archivo")
+              print(content[:400])
               sys.exit(1)
 
-          if "<html" in content[:200].lower():
-              print("ERROR: SharePoint devolvio HTML en lugar del archivo")
-              print(content[:500])
-              sys.exit(1)
-
-          with open("sinventa.txt", "w", encoding="utf-8") as f:
-              f.write(content)
-
-          print(f"OK: {len(content)} chars | primeros 80: {content[:80]}")
-          EOF
+          print(f"OK: {len(content)} chars | {content[:80]}")
+          PYEOF
 
       - name: Hacer commit si hubo cambios
         run: |
