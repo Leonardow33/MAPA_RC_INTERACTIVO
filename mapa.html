@@ -1109,6 +1109,7 @@ function buildPopupContent(p) {
         <div class="popup-row"><span class="popup-lbl">Distrito</span><span class="popup-val">${p.distrito || "-"}</span></div>
         <div class="popup-row"><span class="popup-lbl">GZ</span><span class="popup-val">${p.gz || "-"}</span></div>
         <div class="popup-row"><span class="popup-lbl">JZ</span><span class="popup-val">${p.jz || "-"}</span></div>
+        ${sinVentaCodes.has(String(p.ID)) ? `<div class="popup-row" style="background:#fff3f3;border-radius:4px;margin-top:4px"><span class="popup-lbl" style="color:#e53935">⚠️ Sin venta</span><span class="popup-val" style="color:#e53935">BI: ${sinVentaTimes[String(p.ID)] || '-'}</span></div>` : ''}
       </div>
       <button id="btn-visita-${safeId}" class="popup-btn-visita"></button>
       <div id="msg-visita-${safeId}" class="popup-msg-visita">📍 Acércate a 40m para registrar</div>
