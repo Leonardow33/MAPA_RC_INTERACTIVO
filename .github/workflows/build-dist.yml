@@ -9,6 +9,7 @@ on:
       - 'puntos.json'
       - 'sinventa.txt'
       - 'icons/**'
+  workflow_dispatch:
 
 jobs:
   build:
