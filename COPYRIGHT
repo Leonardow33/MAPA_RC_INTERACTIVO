@@ -1,0 +1,25 @@
+COPYRIGHT NOTICE
+================
+
+Sistema de Tracking de Visitas RC — Mapa Interactivo
+
+Copyright (c) 2026 Geodor — Doriant Cárdenas Fernández
+Todos los derechos reservados.
+
+Propietario intelectual: Doriant Cárdenas Fernández
+Marca registrada: Geodor
+Contacto: doriant@elotgroup.com
+
+Desarrollado por Geodor como servicio tecnológico para Elot Group Peru.
+La titularidad del código, arquitectura y diseño pertenece exclusivamente a Geodor.
+
+Este sistema incluye:
+  - Mapa interactivo de visitas de RC (visitas.html)
+  - Mapa de rutas y cobertura (mapa.html)
+  - Sistema de sincronización automática de datos Sin Venta (GitHub Actions)
+  - Pipeline de procesamiento de datos desde Excel (convertir.py)
+  - Integración con Google Sheets para datos de visitas en tiempo real
+
+El diseño, arquitectura y lógica de este sistema son originales y constituyen
+obra protegida bajo el Decreto Legislativo N° 822 (Ley sobre el Derecho de Autor
+del Perú) y el Convenio de Berna para la Protección de las Obras Literarias y Artísticas.
