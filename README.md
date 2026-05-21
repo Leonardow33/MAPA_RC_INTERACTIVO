@@ -50,4 +50,4 @@ Google Sheets
 > No se permite redistribución, copia ni uso comercial sin autorización escrita de Geodor.
 > Ver [LICENSE](LICENSE) · [COPYRIGHT](COPYRIGHT) · [TERMS](TERMS)
 >
-> Contacto: doriant@elotgroup.com
+> Contacto: doriantleodor@gmail.com
