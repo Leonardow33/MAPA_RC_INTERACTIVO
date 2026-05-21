@@ -1,0 +1,96 @@
+name: Build Dist Obfuscado
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'visitas.html'
+      - 'mapa.html'
+      - 'puntos.json'
+      - 'sinventa.txt'
+      - 'icons/**'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Instalar javascript-obfuscator
+        run: npm install javascript-obfuscator
+
+      - name: Ofuscar archivos HTML
+        run: |
+          node << 'JSEOF'
+          const fs = require('fs');
+          const JavaScriptObfuscator = require('javascript-obfuscator');
+
+          const MAX_SIZE_SKIP = 300 * 1024; // scripts > 300KB son datos, no lógica
+
+          function obfuscateHTML(filePath) {
+              let html = fs.readFileSync(filePath, 'utf8');
+              let count = 0;
+
+              html = html.replace(/<script(?![^>]*\bsrc\b)[^>]*>([\s\S]*?)<\/script>/gi, (match, scriptContent) => {
+                  const trimmed = scriptContent.trim();
+                  if (!trimmed || trimmed.length < 100) return match;
+                  if (Buffer.byteLength(trimmed, 'utf8') > MAX_SIZE_SKIP) {
+                      console.log(`  [skip - datos grandes] ${(trimmed.length/1024).toFixed(0)}KB en ${filePath}`);
+                      return match;
+                  }
+                  try {
+                      const result = JavaScriptObfuscator.obfuscate(trimmed, {
+                          compact: true,
+                          controlFlowFlattening: false,
+                          deadCodeInjection: false,
+                          stringArray: false,
+                          renameGlobals: false,
+                          identifierNamesGenerator: 'hexadecimal',
+                          selfDefending: false,
+                          disableConsoleOutput: false,
+                      });
+                      count++;
+                      return match.replace(scriptContent, '\n' + result.getObfuscatedCode() + '\n');
+                  } catch(e) {
+                      console.error(`  [error] ${filePath}: ${e.message.slice(0, 100)}`);
+                      return match;
+                  }
+              });
+
+              fs.writeFileSync(filePath, html, 'utf8');
+              console.log(`✔ ${filePath}: ${count} bloque(s) ofuscado(s)`);
+          }
+
+          ['visitas.html', 'mapa.html'].forEach(f => {
+              if (fs.existsSync(f)) obfuscateHTML(f);
+              else console.log(`  [no encontrado] ${f}`);
+          });
+          JSEOF
+
+      - name: Publicar rama dist
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          # Guardar HTMLs ofuscados
+          cp visitas.html /tmp/visitas_obf.html
+          cp mapa.html /tmp/mapa_obf.html
+
+          # Crear rama dist desde el estado actual de main (incluye todos los archivos)
+          git checkout -B dist
+
+          # Reemplazar con versiones ofuscadas
+          cp /tmp/visitas_obf.html visitas.html
+          cp /tmp/mapa_obf.html mapa.html
+
+          git add visitas.html mapa.html
+          git diff --cached --quiet && echo "Sin cambios en dist" || \
+            git commit -m "build: dist ofuscado [skip ci]"
+
+          git push origin dist --force
