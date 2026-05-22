@@ -35,16 +35,17 @@ body { font-family: 'Inter', 'Segoe UI', sans-serif; background: #0F172A; height
 
 #lastUpdate { font-size: 11px; color: #475569; white-space: nowrap; }
 
-#btnTodosPuntos, #btnSinVenta {
+#btnTodosPuntos, #btnSinVenta, #btnRutaHoy {
     padding: 5px 14px; border-radius: 20px; border: 1px solid #334155;
     background: #243447; color: #94A3B8;
     font-size: 12px; font-weight: 600; cursor: pointer;
     transition: all 0.2s; font-family: 'Inter', sans-serif; white-space: nowrap;
 }
-#btnTodosPuntos:hover, #btnSinVenta:hover { background: #2D3F55; border-color: #475569; color: #E2E8F0; }
+#btnTodosPuntos:hover, #btnSinVenta:hover, #btnRutaHoy:hover { background: #2D3F55; border-color: #475569; color: #E2E8F0; }
 #btnTodosPuntos.activo { background: #059669; border-color: #059669; color: white; }
-#btnSinVenta.activo  { background: #DC2626; border-color: #DC2626; color: white; }
-#btnSinVenta:disabled { opacity: 0.35; cursor: not-allowed; }
+#btnSinVenta.activo   { background: #DC2626; border-color: #DC2626; color: white; }
+#btnRutaHoy.activo    { background: #1565C0; border-color: #1565C0; color: white; }
+#btnSinVenta:disabled, #btnRutaHoy:disabled { opacity: 0.35; cursor: not-allowed; }
 
 #content { display: flex; flex: 1; overflow: hidden; }
 
@@ -245,6 +246,7 @@ function checkAuth() {
         <option value="PROVINCIA">Solo Provincia</option>
     </select>
     <button id="btnTodosPuntos" class="activo" onclick="toggleTodosPuntos()">📍 Todos los puntos</button>
+    <button id="btnRutaHoy" onclick="toggleRutaHoy()" disabled>📅 Ruta Hoy</button>
     <button id="btnSinVenta" onclick="toggleSinVenta()">🔴 Sin Venta</button>
     <span id="lastUpdate">--</span>
 </div>
@@ -301,8 +303,11 @@ let selectedDate = '';
 const sinVentaLayer    = L.layerGroup().addTo(map);
 const todosLosPointsLayer = L.layerGroup().addTo(map);
 const sinVisitarLayer  = L.layerGroup().addTo(map);
+const rutaHoyLayer     = L.layerGroup().addTo(map);
 let todosLosPointsActive = true;
+let rutaHoyActive        = false;
 let selectedPartnerFilter = null;
+const DIAS_SEMANA = ['DOM','LUN','MAR','MIE','JUE','VIE','SAB'];
 let visitedIDs = new Set();
 let visitCountsSemana = {};
 let visitsByRC = {};
@@ -513,9 +518,12 @@ function enfocarRC(nombre) {
         ? `📊 Cobertura · ${selectedRCFilter}`
         : '📊 Cobertura por partner';
     selectedPartnerFilter = null;
+    rutaHoyActive = false;
+    document.getElementById('btnRutaHoy').classList.remove('activo');
     renderRC(todosRCs);
     renderTodosLosPuntos();
     renderSinVisitar();
+    renderRutaHoy();
     if (sinVentaActive) renderSinVentaLayer();
 }
 
@@ -757,6 +765,7 @@ async function cargarDatosSemanales() {
     renderTodosLosPuntos();
     renderCobertura();
     renderSinVisitar();
+    renderRutaHoy();
 }
 
 function toggleTodosPuntos() {
@@ -800,6 +809,51 @@ function renderSinVisitar() {
     });
 
     if (bounds.length > 0) map.fitBounds(bounds, { padding: [40, 40], maxZoom: 14 });
+}
+
+function renderRutaHoy() {
+    rutaHoyLayer.clearLayers();
+    const btn = document.getElementById('btnRutaHoy');
+    if (!selectedRCFilter) { btn.disabled = true; btn.textContent = '📅 Ruta Hoy'; return; }
+    btn.disabled = false;
+    if (!rutaHoyActive) return;
+
+    const todayAbbr = DIAS_SEMANA[new Date().getDay()];
+    const visitados  = visitsByRC[selectedRCFilter] || new Set();
+    const zf         = getZonalFiltro();
+
+    const rutaHoy = puntosData.filter(p =>
+        (p.estado || '').toUpperCase() === 'ACTIVO' &&
+        p.rc === selectedRCFilter &&
+        Array.isArray(p.dias) && p.dias.some(d => d.trim().toUpperCase() === todayAbbr) &&
+        (zf !== 'ALL' ? (p.zonal_tipo || '').toUpperCase() === zf : true)
+    );
+
+    let visitadasHoy = 0;
+    const bounds = [];
+    rutaHoy.forEach(p => {
+        if (!p.lat || !p.lng) return;
+        bounds.push([p.lat, p.lng]);
+        const visitado = visitados.has(normalizeID(p.ID));
+        if (visitado) visitadasHoy++;
+        const color = visitado ? '#43A047' : '#E53935';
+        const label = visitado ? '✅ Visitado hoy' : '⚠️ Pendiente hoy';
+        L.circleMarker([p.lat, p.lng], {
+            radius: 9, fillColor: color, color: 'white',
+            weight: 2, fillOpacity: 0.9, opacity: 1
+        }).addTo(rutaHoyLayer)
+          .bindPopup(`<b style="color:${color}">${label}</b><br>${p.nombre}<br><small>ID: ${p.ID} · ${p.responsable || '-'} · RC: ${p.rc}</small>`);
+    });
+
+    btn.textContent = `📅 Ruta Hoy (${visitadasHoy}/${rutaHoy.length})`;
+    if (bounds.length > 0) map.fitBounds(bounds, { padding: [40, 40], maxZoom: 14 });
+}
+
+function toggleRutaHoy() {
+    if (!selectedRCFilter) return;
+    rutaHoyActive = !rutaHoyActive;
+    document.getElementById('btnRutaHoy').classList.toggle('activo', rutaHoyActive);
+    renderRutaHoy();
 }
 
 async function cargarDatos() {
