@@ -774,10 +774,10 @@ function renderSinVisitar() {
     if (!selectedPartnerFilter) return;
 
     const zf = getZonalFiltro();
-    const fueVisitado = selectedDate
-        ? (id) => visitedIDs.has(id)
-        : selectedRCFilter
-            ? (id) => (visitsByRC[selectedRCFilter] || new Set()).has(id)
+    const fueVisitado = selectedRCFilter
+        ? (id) => (visitsByRC[selectedRCFilter] || new Set()).has(id)
+        : selectedDate
+            ? (id) => visitedIDs.has(id)
             : (id) => (visitCountsSemana[id] || 0) > 0;
 
     const noVisitados = puntosData.filter(p =>
