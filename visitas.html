@@ -316,6 +316,7 @@ function normDia(d) {
 let visitedIDs = new Set();
 let visitCountsSemana = {};
 let visitsByRC = {};
+let visitsByRCToday = {};
 let selectedRCFilter = null;
 let semanaKeyCache = '';
 let selectedSemanaMonday = null;
@@ -655,13 +656,20 @@ function renderCobertura() {
         (p.estado || '').toUpperCase() === 'ACTIVO' &&
         (zf === 'ALL' || (p.zonal_tipo || '').toUpperCase() === zf)
     );
-    const visitedSet = selectedRCFilter
-        ? (visitsByRC[selectedRCFilter] || new Set())
-        : null;
-
     if (selectedRCFilter) {
         activos = activos.filter(p => p.rc === selectedRCFilter);
     }
+
+    const todayNorm = normDia(DIAS_SEMANA[new Date().getDay()]);
+    if (rutaHoyActive && selectedRCFilter) {
+        activos = activos.filter(p => Array.isArray(p.dias) && p.dias.some(d => normDia(d) === todayNorm));
+    }
+
+    const visitedSet = rutaHoyActive && selectedRCFilter
+        ? (visitsByRCToday[selectedRCFilter] || new Set())
+        : selectedRCFilter
+            ? (visitsByRC[selectedRCFilter] || new Set())
+            : null;
 
     const byPartner = {};
     activos.forEach(p => {
@@ -788,18 +796,22 @@ function renderSinVisitar() {
     if (!selectedPartnerFilter) return;
 
     const zf = getZonalFiltro();
-    const fueVisitado = selectedRCFilter
-        ? (id) => (visitsByRC[selectedRCFilter] || new Set()).has(id)
-        : selectedDate
-            ? (id) => visitedIDs.has(id)
-            : (id) => (visitCountsSemana[id] || 0) > 0;
+    const todayNorm = normDia(DIAS_SEMANA[new Date().getDay()]);
+    const fueVisitado = rutaHoyActive && selectedRCFilter
+        ? (id) => (visitsByRCToday[selectedRCFilter] || new Set()).has(id)
+        : selectedRCFilter
+            ? (id) => (visitsByRC[selectedRCFilter] || new Set()).has(id)
+            : selectedDate
+                ? (id) => visitedIDs.has(id)
+                : (id) => (visitCountsSemana[id] || 0) > 0;
 
     const noVisitados = puntosData.filter(p =>
         (p.estado || '').toUpperCase() === 'ACTIVO' &&
         !fueVisitado(normalizeID(p.ID)) &&
-        (selectedRCFilter      ? p.rc          === selectedRCFilter      : true) &&
+        (selectedRCFilter ? p.rc === selectedRCFilter : true) &&
         p.responsable === selectedPartnerFilter &&
-        (zf !== 'ALL'          ? (p.zonal_tipo || '').toUpperCase() === zf : true)
+        (zf !== 'ALL' ? (p.zonal_tipo || '').toUpperCase() === zf : true) &&
+        (!rutaHoyActive || (Array.isArray(p.dias) && p.dias.some(d => normDia(d) === todayNorm)))
     );
 
     const bounds = [];
@@ -862,6 +874,8 @@ function toggleRutaHoy() {
     rutaHoyActive = !rutaHoyActive;
     document.getElementById('btnRutaHoy').classList.toggle('activo', rutaHoyActive);
     renderRutaHoy();
+    renderCobertura();
+    renderSinVisitar();
 }
 
 async function cargarDatos() {
@@ -871,7 +885,17 @@ async function cargarDatos() {
         const data = await res.json();
         todosRCs = Array.isArray(data) ? data : [];
         visitedIDs = new Set();
-        todosRCs.forEach(rc => (rc.visitas || []).forEach(v => { if (v.id) visitedIDs.add(normalizeID(v.id)); }));
+        visitsByRCToday = {};
+        todosRCs.forEach(rc => {
+            const rcName = rc.rc || '';
+            if (rcName && !visitsByRCToday[rcName]) visitsByRCToday[rcName] = new Set();
+            (rc.visitas || []).forEach(v => {
+                if (v.id) {
+                    visitedIDs.add(normalizeID(v.id));
+                    if (rcName) visitsByRCToday[rcName].add(normalizeID(v.id));
+                }
+            });
+        });
         poblarSupervisores(todosRCs);
         renderRC(todosRCs);
         renderSinVisitar();
