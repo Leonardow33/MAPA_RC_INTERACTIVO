@@ -843,10 +843,13 @@ function renderRutaHoy() {
         if (visitado) visitadasHoy++;
         const color = visitado ? '#43A047' : '#E53935';
         const label = visitado ? '✅ Visitado hoy' : '⚠️ Pendiente hoy';
-        L.circleMarker([p.lat, p.lng], {
-            radius: 9, fillColor: color, color: 'white',
-            weight: 2, fillOpacity: 0.9, opacity: 1
-        }).addTo(rutaHoyLayer)
+        const icon = L.divIcon({
+            html: `<div style="width:18px;height:18px;border-radius:50%;background:${color};
+                        border:3px solid #1565C0;
+                        box-shadow:0 0 0 2px white,0 2px 8px rgba(0,0,0,0.45);"></div>`,
+            className: '', iconSize: [18,18], iconAnchor: [9,9], popupAnchor: [0,-9]
+        });
+        L.marker([p.lat, p.lng], { icon }).addTo(rutaHoyLayer)
           .bindPopup(`<b style="color:${color}">${label}</b><br>${p.nombre}<br><small>ID: ${p.ID} · ${p.responsable || '-'} · RC: ${p.rc}</small>`);
     });
 
