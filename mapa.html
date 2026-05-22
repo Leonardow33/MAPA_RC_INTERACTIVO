@@ -401,28 +401,28 @@ html, body {
 
 /* drum inside panel */
 .pp-drum-vp {
-    position: relative; height: 136px; overflow: hidden;
-    cursor: grab; touch-action: none; user-select: none; -webkit-user-select: none;
+    position: relative; height: 72px; overflow: hidden;
+    cursor: grab; touch-action: pan-y; user-select: none; -webkit-user-select: none;
     border-bottom: 1px solid #f0f0f0; flex-shrink: 0;
 }
 .pp-drum-vp:active { cursor: grabbing; }
-.pp-drum-fade-top, .pp-drum-fade-bot {
-    position: absolute; left: 0; right: 0; height: 50px;
+.pp-drum-fade-left, .pp-drum-fade-right {
+    position: absolute; top: 0; bottom: 0; width: 60px;
     z-index: 2; pointer-events: none;
 }
-.pp-drum-fade-top { top: 0; background: linear-gradient(to bottom, #fff 0%, transparent 100%); }
-.pp-drum-fade-bot { bottom: 0; background: linear-gradient(to top, #fff 0%, transparent 100%); }
-.pp-drum-line { position: absolute; left: 8%; right: 8%; height: 1px; background: rgba(26,58,107,0.18); z-index: 3; pointer-events: none; }
-.pp-drum-line.t { top: calc(50% - 21px); }
-.pp-drum-line.b { bottom: calc(50% - 21px); }
-.pp-drum-scene { perspective: 270px; height: 100%; display: flex; align-items: center; justify-content: center; }
+.pp-drum-fade-left  { left: 0;  background: linear-gradient(to right, #fff 0%, transparent 100%); }
+.pp-drum-fade-right { right: 0; background: linear-gradient(to left,  #fff 0%, transparent 100%); }
+.pp-drum-line { position: absolute; top: 8%; bottom: 8%; width: 1px; background: rgba(26,58,107,0.18); z-index: 3; pointer-events: none; }
+.pp-drum-line.l { left:  calc(50% - 38px); }
+.pp-drum-line.r { right: calc(50% - 38px); }
+.pp-drum-scene { perspective: 320px; height: 100%; display: flex; align-items: center; justify-content: center; }
 #ppDrumTrack {
-    transform-style: preserve-3d; position: relative; width: 100%; height: 40px;
+    transform-style: preserve-3d; position: relative; width: 62px; height: 60px;
     transition: transform 0.35s cubic-bezier(.25,.46,.45,.94);
 }
 .pp-drum-item {
-    position: absolute; top: 0; left: 0; right: 0; height: 40px;
-    display: flex; align-items: center; justify-content: center; gap: 8px;
+    position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+    display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1px;
     font-family: sans-serif; backface-visibility: hidden; pointer-events: none;
 }
 .pp-drum-dday  { font-weight: 800; text-transform: uppercase; letter-spacing: 0.04em; transition: color 0.2s, font-size 0.2s; }
@@ -766,10 +766,10 @@ html, body {
         <button class="pp-close" onclick="togglePanelPartidos()">×</button>
     </div>
     <div class="pp-drum-vp" id="ppDrumVP">
-        <div class="pp-drum-fade-top"></div>
-        <div class="pp-drum-fade-bot"></div>
-        <div class="pp-drum-line t"></div>
-        <div class="pp-drum-line b"></div>
+        <div class="pp-drum-fade-left"></div>
+        <div class="pp-drum-fade-right"></div>
+        <div class="pp-drum-line l"></div>
+        <div class="pp-drum-line r"></div>
         <div class="pp-drum-scene"><div id="ppDrumTrack"></div></div>
     </div>
     <div class="pp-body" id="ppBody">
@@ -2059,15 +2059,15 @@ function formatDayLabel(dayStr) {
     return `${labels[d.getDay()]} ${dayStr}`;
 }
 
-// === PP DRUM PICKER ===
-const PP_DRUM_STEP = 22;
-const PP_DRUM_R    = 90;
+// === PP DRUM PICKER (horizontal) ===
+const PP_DRUM_STEP = 26;
+const PP_DRUM_R    = 130;
 const PP_DAYS_ES   = ['DOM','LUN','MAR','MIÉ','JUE','VIE','SÁB'];
 const PP_MONTHS_ES = ['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
 
 let ppDrumIdx      = 0;
 let ppDrumDragging = false;
-let ppDrumStartY   = 0;
+let ppDrumStartX   = 0;
 let ppDrumRawIdx   = 0;
 let ppDrumDays     = [];
 let ppAllMatches   = [];
@@ -2084,7 +2084,7 @@ function ppGetWeekDays() {
 
 function ppApplyDrumTransform(idx) {
     const t = document.getElementById('ppDrumTrack');
-    if (t) t.style.transform = `rotateX(${-idx * PP_DRUM_STEP}deg)`;
+    if (t) t.style.transform = `rotateY(${idx * PP_DRUM_STEP}deg)`;
 }
 
 function ppUpdateDrumStyles(currentIdx) {
@@ -2143,7 +2143,7 @@ function buildPPDrum(allMatches) {
     ppDrumDays.forEach((day, i) => {
         const el = document.createElement('div');
         el.className = 'pp-drum-item';
-        el.style.transform = `rotateX(${i * PP_DRUM_STEP}deg) translateZ(${PP_DRUM_R}px)`;
+        el.style.transform = `rotateY(${-i * PP_DRUM_STEP}deg) translateZ(${PP_DRUM_R}px)`;
         el.innerHTML = `<span class="pp-drum-dday">${PP_DAYS_ES[day.getDay()]}</span><span class="pp-drum-ddate">${ppDayLabel(day)}</span>`;
         track.appendChild(el);
     });
@@ -2162,34 +2162,34 @@ function buildPPDrum(allMatches) {
 
     vp.addEventListener('touchstart', e => {
         ppDrumDragging = true;
-        ppDrumStartY   = e.touches[0].clientY;
+        ppDrumStartX   = e.touches[0].clientX;
         ppDrumRawIdx   = ppDrumIdx;
         document.getElementById('ppDrumTrack').style.transition = 'none';
     }, { passive: true });
     vp.addEventListener('touchmove', e => {
         if (!ppDrumDragging) return;
-        const clamped = Math.max(0, Math.min(ppDrumDays.length - 1, ppDrumRawIdx + (ppDrumStartY - e.touches[0].clientY) / 46));
+        const clamped = Math.max(0, Math.min(ppDrumDays.length - 1, ppDrumRawIdx + (ppDrumStartX - e.touches[0].clientX) / 55));
         ppApplyDrumTransform(clamped);
         ppUpdateDrumStyles(clamped);
     }, { passive: true });
     vp.addEventListener('touchend', e => {
         if (!ppDrumDragging) return;
         ppDrumDragging = false;
-        ppSetDrumDay(Math.round(Math.max(0, Math.min(ppDrumDays.length - 1, ppDrumRawIdx + (ppDrumStartY - e.changedTouches[0].clientY) / 46))));
+        ppSetDrumDay(Math.round(Math.max(0, Math.min(ppDrumDays.length - 1, ppDrumRawIdx + (ppDrumStartX - e.changedTouches[0].clientX) / 55))));
     }, { passive: true });
     vp.addEventListener('mousedown', e => {
-        ppDrumDragging = true; ppDrumStartY = e.clientY; ppDrumRawIdx = ppDrumIdx;
+        ppDrumDragging = true; ppDrumStartX = e.clientX; ppDrumRawIdx = ppDrumIdx;
         document.getElementById('ppDrumTrack').style.transition = 'none';
     });
     document.addEventListener('mousemove', e => {
         if (!ppDrumDragging) return;
-        const clamped = Math.max(0, Math.min(ppDrumDays.length - 1, ppDrumRawIdx + (ppDrumStartY - e.clientY) / 46));
+        const clamped = Math.max(0, Math.min(ppDrumDays.length - 1, ppDrumRawIdx + (ppDrumStartX - e.clientX) / 55));
         ppApplyDrumTransform(clamped); ppUpdateDrumStyles(clamped);
     });
     document.addEventListener('mouseup', e => {
         if (!ppDrumDragging) return;
         ppDrumDragging = false;
-        ppSetDrumDay(Math.round(Math.max(0, Math.min(ppDrumDays.length - 1, ppDrumRawIdx + (ppDrumStartY - e.clientY) / 46))));
+        ppSetDrumDay(Math.round(Math.max(0, Math.min(ppDrumDays.length - 1, ppDrumRawIdx + (ppDrumStartX - e.clientX) / 55))));
     });
 }
 
