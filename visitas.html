@@ -302,8 +302,8 @@ let sinVentaActive = false;
 let selectedDate = '';
 const sinVentaLayer    = L.layerGroup().addTo(map);
 const todosLosPointsLayer = L.layerGroup().addTo(map);
-const sinVisitarLayer  = L.layerGroup().addTo(map);
 const rutaHoyLayer     = L.layerGroup().addTo(map);
+const sinVisitarLayer  = L.layerGroup().addTo(map);
 let todosLosPointsActive = true;
 let rutaHoyActive        = false;
 let selectedPartnerFilter = null;
@@ -721,6 +721,7 @@ function renderCobertura() {
             selectedPartnerFilter = selectedPartnerFilter === r.nombre ? null : r.nombre;
             renderSinVisitar();
             renderCobertura();
+            if (rutaHoyActive) renderRutaHoy();
         });
         list.appendChild(div);
     });
@@ -836,7 +837,7 @@ function renderRutaHoy() {
     if (!rutaHoyActive) return;
 
     const todayAbbr = normDia(DIAS_SEMANA[new Date().getDay()]);
-    const visitados  = visitsByRC[selectedRCFilter] || new Set();
+    const visitados  = visitsByRCToday[selectedRCFilter] || new Set();
     const zf         = getZonalFiltro();
 
     const rutaHoy = puntosData.filter(p =>
@@ -855,11 +856,15 @@ function renderRutaHoy() {
         if (visitado) visitadasHoy++;
         const color = visitado ? '#43A047' : '#E53935';
         const label = visitado ? '✅ Visitado hoy' : '⚠️ Pendiente hoy';
+        const esPartner = !selectedPartnerFilter || p.responsable === selectedPartnerFilter;
+        const size    = esPartner ? 18 : 11;
+        const opacity = esPartner ? '1' : '0.25';
+        const border  = esPartner ? '3px solid #1565C0' : '2px solid #888';
+        const shadow  = esPartner ? '0 0 0 2px white,0 2px 8px rgba(0,0,0,0.45)' : 'none';
         const icon = L.divIcon({
-            html: `<div style="width:18px;height:18px;border-radius:50%;background:${color};
-                        border:3px solid #1565C0;
-                        box-shadow:0 0 0 2px white,0 2px 8px rgba(0,0,0,0.45);"></div>`,
-            className: '', iconSize: [18,18], iconAnchor: [9,9], popupAnchor: [0,-9]
+            html: `<div style="width:${size}px;height:${size}px;border-radius:50%;background:${color};
+                        border:${border};box-shadow:${shadow};opacity:${opacity};"></div>`,
+            className: '', iconSize: [size,size], iconAnchor: [size/2,size/2], popupAnchor: [0,-size/2]
         });
         L.marker([p.lat, p.lng], { icon }).addTo(rutaHoyLayer)
           .bindPopup(`<b style="color:${color}">${label}</b><br>${p.nombre}<br><small>ID: ${p.ID} · ${p.responsable || '-'} · RC: ${p.rc}</small>`);
