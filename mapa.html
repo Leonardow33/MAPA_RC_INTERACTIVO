@@ -2084,7 +2084,7 @@ function ppGetWeekDays() {
 
 function ppApplyDrumTransform(idx) {
     const t = document.getElementById('ppDrumTrack');
-    if (t) t.style.transform = `rotateY(${idx * PP_DRUM_STEP}deg)`;
+    if (t) t.style.transform = `rotateY(${-idx * PP_DRUM_STEP}deg)`;
 }
 
 function ppUpdateDrumStyles(currentIdx) {
@@ -2140,16 +2140,16 @@ function buildPPDrum(allMatches) {
     const track  = document.getElementById('ppDrumTrack');
     if (!track) return;
     track.innerHTML = '';
+    const today = new Date(); today.setHours(0,0,0,0);
+    ppDrumDays   = ppDrumDays.filter(d => d >= today);
     ppDrumDays.forEach((day, i) => {
         const el = document.createElement('div');
         el.className = 'pp-drum-item';
-        el.style.transform = `rotateY(${-i * PP_DRUM_STEP}deg) translateZ(${PP_DRUM_R}px)`;
+        el.style.transform = `rotateY(${i * PP_DRUM_STEP}deg) translateZ(${PP_DRUM_R}px)`;
         el.innerHTML = `<span class="pp-drum-dday">${PP_DAYS_ES[day.getDay()]}</span><span class="pp-drum-ddate">${ppDayLabel(day)}</span>`;
         track.appendChild(el);
     });
-    const today = new Date(); today.setHours(0,0,0,0);
-    ppDrumIdx    = ppDrumDays.findIndex(d => d.getTime() === today.getTime());
-    if (ppDrumIdx < 0) ppDrumIdx = 0;
+    ppDrumIdx    = 0;
     ppDrumRawIdx = ppDrumIdx;
     track.style.transition = 'none';
     ppApplyDrumTransform(ppDrumIdx);
