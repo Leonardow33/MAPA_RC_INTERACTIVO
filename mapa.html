@@ -2030,14 +2030,16 @@ async function loadPartidos() {
         const json = await res.json();
         const { start, end } = getWeekRange();
 
+        const today = new Date(); today.setHours(0,0,0,0);
+
         const matches = (json.matches || []).filter(m => {
             if (!m.importante) return false;
             const d = parseMatchDay(m.day);
-            return d >= start && d <= end;
+            return d >= today && d <= end;
         });
 
         if (matches.length === 0) {
-            body.innerHTML = '<div class="pp-empty">No hay partidos importantes esta semana.</div>';
+            body.innerHTML = '<div class="pp-empty">No hay más partidos importantes esta semana.</div>';
             return;
         }
 
@@ -2074,7 +2076,7 @@ async function loadPartidos() {
 function togglePanelPartidos() {
     const panel = document.getElementById('panelPartidos');
     const visible = panel.classList.toggle('visible');
-    if (visible && !partidosLoaded) loadPartidos();
+    if (visible) loadPartidos();
 }
 
 // Pre-cargar en background para mostrar el badge sin que el usuario abra el panel

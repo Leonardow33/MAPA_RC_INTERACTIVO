@@ -209,6 +209,32 @@ html, body {
 }
 #btnLimpiarRuta:hover { background: #c62828; }
 
+#btnSinVenta {
+    font-size: 15px;
+    padding: 10px 14px;
+    border-radius: 10px;
+    border: 1.5px solid #c4897a;
+    background: #fff8f6;
+    color: #6b3a2a;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.2s;
+    white-space: nowrap;
+}
+#btnSinVenta.activo { background: #b71c1c; border-color: #b71c1c; color: white; }
+
+#sinVentaBar {
+    display: none;
+    background: #b71c1c;
+    color: white;
+    padding: 8px 16px;
+    font-size: 13px;
+    font-weight: 700;
+    align-items: center;
+    border-bottom: 2px solid #7f0000;
+}
+#sinVentaBar.visible { display: flex; }
+
 #panelRuta {
     display: none;
     position: fixed;
@@ -388,9 +414,14 @@ html, body {
     <button id="btnModo" onclick="toggleModo()" style="display:none;">🚗 Auto</button>
     <button id="btnRuta" onclick="generarRuta()" style="display:none;">🗺️ Generar Ruta</button>
     <button id="btnLimpiarRuta" onclick="limpiarRuta()" style="display:none;">✕ Limpiar Ruta</button>
+    <button id="btnSinVenta" onclick="toggleSinVenta()">🔴 Sin Venta</button>
 
 </div>
 <div id="filtro-chips"></div>
+<div id="sinVentaBar">
+    <span>🔴 Sin venta hoy · <b id="sinVentaCount">0</b> tiendas</span>
+    <span style="margin-left:auto;font-weight:400;font-size:11px">Actualizado: <span id="sinVentaTs">--:--</span></span>
+</div>
 
 <div id="panelRuta">
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
@@ -750,6 +781,7 @@ function buildPopupContent(p) {
         <div class="popup-row"><span class="popup-lbl">Distrito</span><span class="popup-val">${p.distrito || "-"}</span></div>
         <div class="popup-row"><span class="popup-lbl">GZ</span><span class="popup-val">${p.gz || "-"}</span></div>
         <div class="popup-row"><span class="popup-lbl">JZ</span><span class="popup-val">${p.jz || "-"}</span></div>
+        <div id="sv-row-${safeId}" style="display:none;background:#fff3f3;border-radius:4px;margin-top:4px" class="popup-row"><span class="popup-lbl" style="color:#e53935">⚠️ Sin venta</span><span class="popup-val" id="sv-bi-${safeId}" style="color:#e53935"></span></div>
       </div>
       <button id="btn-visita-${safeId}" class="popup-btn-visita"></button>
       <div id="msg-visita-${safeId}" class="popup-msg-visita">📍 Acércate a 40m para registrar</div>
@@ -759,6 +791,17 @@ function buildPopupContent(p) {
 function attachPopupOpen(marker, p) {
     const safeId = String(p.ID).replace(/[^a-zA-Z0-9_-]/g, "_");
     marker.on("popupopen", function() {
+        const svRow = document.getElementById("sv-row-" + safeId);
+        const svBi  = document.getElementById("sv-bi-"  + safeId);
+        if (svRow && svBi) {
+            if (sinVentaCodes.has(String(p.ID))) {
+                svBi.textContent    = "BI: " + (sinVentaTimes[String(p.ID)] || '-');
+                svRow.style.display = "";
+            } else {
+                svRow.style.display = "none";
+            }
+        }
+
         const btn = document.getElementById("btn-visita-" + safeId);
         const msg = document.getElementById("msg-visita-" + safeId);
         if (!btn || !msg) return;
@@ -907,6 +950,7 @@ function updateFilters() {
         limpiarRuta();
     }
     renderMap(nombre, "ALL", rol, partner, zona);
+    if (sinVentaActive) renderSinVentaLayer();
     updateChips();
     saveFilters();
 }
@@ -1033,6 +1077,91 @@ initGeolocation();
 // Regístrate gratis en https://openrouteservice.org/dev/#/signup
 // Copia tu API key y pégala entre las comillas:
 const ORS_KEY = 'eyJvcmciOiI1YjNjZTM1OTc4NTExMTAwMDFjZjYyNDgiLCJpZCI6IjZmZTFlYjBiMDM1YjQxMDRhOWJkNGFiNjM0MTg4ZmZhIiwiaCI6Im11cm11cjY0In0=';
+
+// ── SIN VENTA ─────────────────────────────────────────────────────────────
+const SIN_VENTA_URL = "https://raw.githubusercontent.com/Leonardow33/MAPA_RC_INTERACTIVO/main/sinventa.txt";
+let sinVentaCodes  = new Set();
+let sinVentaTimes  = {};
+let sinVentaActive = false;
+let svTimestamp    = '';
+const sinVentaLayer = L.layerGroup().addTo(map);
+
+function fetchSinVenta() {
+    return fetch(SIN_VENTA_URL + '?t=' + Date.now(), { cache: 'no-store' })
+        .then(r => r.text())
+        .then(text => {
+            const pipeIdx = text.indexOf('|');
+            svTimestamp = pipeIdx >= 0 ? text.slice(0, pipeIdx).trim() : '';
+            const records = pipeIdx >= 0 ? text.slice(pipeIdx + 1) : text;
+            sinVentaCodes = new Set();
+            sinVentaTimes = {};
+            (records.match(/\{[^}]+\}/g) || []).forEach(m => {
+                try {
+                    const r = JSON.parse(m);
+                    const code = String(r['[C]'] || '').trim();
+                    if (code) {
+                        sinVentaCodes.add(code);
+                        sinVentaTimes[code] = String(r['[U]'] || '').trim();
+                    }
+                } catch(e) {}
+            });
+            const tsEl = document.getElementById("sinVentaTs");
+            if (tsEl) tsEl.textContent = (svTimestamp.slice(11) || svTimestamp) + ` (${sinVentaCodes.size} cód.)`;
+            if (sinVentaActive) renderSinVentaLayer();
+        })
+        .catch(e => console.warn('SinVenta error:', e));
+}
+
+function renderSinVentaLayer() {
+    sinVentaLayer.clearLayers();
+    if (!sinVentaActive || sinVentaCodes.size === 0) return;
+    const partner = document.getElementById("partnerFilter").value;
+    const nombre  = document.getElementById("nombreFilter").value;
+    const rol     = document.getElementById("rolFilter").value;
+    let count = 0;
+    allData.forEach(p => {
+        if (!sinVentaCodes.has(String(p.ID))) return;
+        if (!p.lat || !p.lng) return;
+        if ((p.estado || '').toUpperCase() !== 'ACTIVO') return;
+        if (partner !== 'ALL' && p.responsable  !== partner) return;
+        if (nombre  !== 'ALL' && rol === 'supervisor'  && p.supervisor  !== nombre) return;
+        if (nombre  !== 'ALL' && rol === 'capacitador' && p.capacitador !== nombre) return;
+        const hora = sinVentaTimes[String(p.ID)] || '-';
+        L.circleMarker([p.lat, p.lng], {
+            radius: 7, color: '#e53935', weight: 2, fill: false, opacity: 0.85, interactive: true
+        }).bindPopup(`
+            <div style="font-family:sans-serif;min-width:200px">
+                <div style="background:#e53935;padding:8px 12px;border-radius:8px 8px 0 0">
+                    <span style="color:white;font-weight:700;font-size:14px">⚠️ SIN VENTA HOY</span>
+                </div>
+                <div style="padding:8px 12px;border:1px solid #eee;border-top:none;border-radius:0 0 8px 8px">
+                    <b>${p.nombre}</b><br>
+                    <span style="color:#888;font-size:12px">Código: ${p.ID}</span><br>
+                    <span style="color:#888;font-size:12px">Partner: ${p.responsable || '-'}</span><br>
+                    <span style="font-size:11px;color:#aaa">🕐 Últ. dato BI: ${hora}</span><br>
+                    <span style="font-size:11px;color:#aaa">📅 Flujo: ${svTimestamp}</span>
+                </div>
+            </div>`)
+            .addTo(sinVentaLayer);
+        count++;
+    });
+    const countEl = document.getElementById("sinVentaCount");
+    if (countEl) countEl.textContent = count;
+}
+
+function toggleSinVenta() {
+    sinVentaActive = !sinVentaActive;
+    document.getElementById("btnSinVenta").classList.toggle("activo", sinVentaActive);
+    document.getElementById("sinVentaBar").classList.toggle("visible", sinVentaActive);
+    if (sinVentaActive) {
+        if (sinVentaCodes.size === 0) fetchSinVenta(); else renderSinVentaLayer();
+    } else {
+        sinVentaLayer.clearLayers();
+    }
+}
+
+fetchSinVenta();
+// ─────────────────────────────────────────────────────────────────────────
 
 // ── GOOGLE SHEET ──────────────────────────────────────────────────────────
 const SHEET_URL  = "https://script.google.com/macros/s/AKfycby2f2uW9E2_CUBr9OiKVT4Sp-ubP2sRIXlWig-GPuKTGyDxi-zx724ZGtkOFaWW0jnqjw/exec";
