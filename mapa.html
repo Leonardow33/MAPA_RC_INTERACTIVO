@@ -399,6 +399,35 @@ html, body {
 .pp-liga { font-size: 10px; color: #999; }
 .pp-empty { text-align: center; padding: 24px 16px; color: #aaa; font-size: 13px; }
 
+/* drum inside panel */
+.pp-drum-vp {
+    position: relative; height: 136px; overflow: hidden;
+    cursor: grab; touch-action: none; user-select: none; -webkit-user-select: none;
+    border-bottom: 1px solid #f0f0f0; flex-shrink: 0;
+}
+.pp-drum-vp:active { cursor: grabbing; }
+.pp-drum-fade-top, .pp-drum-fade-bot {
+    position: absolute; left: 0; right: 0; height: 50px;
+    z-index: 2; pointer-events: none;
+}
+.pp-drum-fade-top { top: 0; background: linear-gradient(to bottom, #fff 0%, transparent 100%); }
+.pp-drum-fade-bot { bottom: 0; background: linear-gradient(to top, #fff 0%, transparent 100%); }
+.pp-drum-line { position: absolute; left: 8%; right: 8%; height: 1px; background: rgba(26,58,107,0.18); z-index: 3; pointer-events: none; }
+.pp-drum-line.t { top: calc(50% - 21px); }
+.pp-drum-line.b { bottom: calc(50% - 21px); }
+.pp-drum-scene { perspective: 270px; height: 100%; display: flex; align-items: center; justify-content: center; }
+#ppDrumTrack {
+    transform-style: preserve-3d; position: relative; width: 100%; height: 40px;
+    transition: transform 0.35s cubic-bezier(.25,.46,.45,.94);
+}
+.pp-drum-item {
+    position: absolute; top: 0; left: 0; right: 0; height: 40px;
+    display: flex; align-items: center; justify-content: center; gap: 8px;
+    font-family: sans-serif; backface-visibility: hidden; pointer-events: none;
+}
+.pp-drum-dday  { font-weight: 800; text-transform: uppercase; letter-spacing: 0.04em; transition: color 0.2s, font-size 0.2s; }
+.pp-drum-ddate { font-size: 11px; color: #888; transition: opacity 0.2s; }
+
 /* === MARKER PULSE === */
 @keyframes markerPulse { 0%{transform:scale(1)} 40%{transform:scale(1.5)} 100%{transform:scale(1)} }
 .marker-pulse { animation: markerPulse 0.42s ease; }
@@ -735,6 +764,13 @@ html, body {
     <div class="pp-header">
         <span class="pp-title">⚽ Partidos importantes</span>
         <button class="pp-close" onclick="togglePanelPartidos()">×</button>
+    </div>
+    <div class="pp-drum-vp" id="ppDrumVP">
+        <div class="pp-drum-fade-top"></div>
+        <div class="pp-drum-fade-bot"></div>
+        <div class="pp-drum-line t"></div>
+        <div class="pp-drum-line b"></div>
+        <div class="pp-drum-scene"><div id="ppDrumTrack"></div></div>
     </div>
     <div class="pp-body" id="ppBody">
         <div class="pp-empty">Cargando...</div>
@@ -2023,50 +2059,160 @@ function formatDayLabel(dayStr) {
     return `${labels[d.getDay()]} ${dayStr}`;
 }
 
-async function loadPartidos() {
-    const body = document.getElementById('ppBody');
-    try {
-        const res = await fetch(PARTIDOS_URL + '?v=' + Date.now());
-        const json = await res.json();
-        const { start, end } = getWeekRange();
+// === PP DRUM PICKER ===
+const PP_DRUM_STEP = 22;
+const PP_DRUM_R    = 90;
+const PP_DAYS_ES   = ['DOM','LUN','MAR','MIÉ','JUE','VIE','SÁB'];
+const PP_MONTHS_ES = ['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
 
-        const today = new Date(); today.setHours(0,0,0,0);
+let ppDrumIdx      = 0;
+let ppDrumDragging = false;
+let ppDrumStartY   = 0;
+let ppDrumRawIdx   = 0;
+let ppDrumDays     = [];
+let ppAllMatches   = [];
 
-        const matches = (json.matches || []).filter(m => {
-            if (!m.importante) return false;
-            const d = parseMatchDay(m.day);
-            return d >= today && d <= end;
-        });
+function ppDayLabel(d) { return `${d.getDate()} ${PP_MONTHS_ES[d.getMonth()]}`; }
 
-        if (matches.length === 0) {
-            body.innerHTML = '<div class="pp-empty">No hay más partidos importantes esta semana.</div>';
-            return;
-        }
+function ppGetWeekDays() {
+    const today = new Date(); today.setHours(0,0,0,0);
+    const dow = today.getDay();
+    const monday = new Date(today);
+    monday.setDate(today.getDate() - (dow === 0 ? 6 : dow - 1));
+    return Array.from({length:7}, (_,i) => { const d = new Date(monday); d.setDate(monday.getDate()+i); return d; });
+}
 
-        const grouped = {};
-        matches.forEach(m => { (grouped[m.day] = grouped[m.day] || []).push(m); });
-        const sortedDays = Object.keys(grouped).sort((a, b) => parseMatchDay(a) - parseMatchDay(b));
+function ppApplyDrumTransform(idx) {
+    const t = document.getElementById('ppDrumTrack');
+    if (t) t.style.transform = `rotateX(${-idx * PP_DRUM_STEP}deg)`;
+}
 
-        body.innerHTML = sortedDays.map(day => {
-            const rows = grouped[day].map(m => {
+function ppUpdateDrumStyles(currentIdx) {
+    document.querySelectorAll('.pp-drum-item').forEach((el, i) => {
+        const diff = Math.abs(i - currentIdx);
+        const isActive = diff < 0.5;
+        el.querySelector('.pp-drum-dday').style.color    = isActive ? '#1A3A6B' : diff < 1.5 ? '#333' : '#ccc';
+        el.querySelector('.pp-drum-dday').style.fontSize = isActive ? '15px' : diff < 1.5 ? '12px' : '10px';
+        el.querySelector('.pp-drum-ddate').style.opacity = diff < 2 ? '1' : '0.25';
+    });
+}
+
+function ppSetDrumDay(idx) {
+    ppDrumIdx = Math.max(0, Math.min(ppDrumDays.length - 1, Math.round(idx)));
+    document.getElementById('ppDrumTrack').style.transition = 'transform 0.35s cubic-bezier(.25,.46,.45,.94)';
+    ppApplyDrumTransform(ppDrumIdx);
+    ppUpdateDrumStyles(ppDrumIdx);
+    ppRenderDayMatches(ppDrumIdx);
+}
+
+function ppRenderDayMatches(idx) {
+    const body    = document.getElementById('ppBody');
+    const day     = ppDrumDays[idx];
+    const dateStr = ppDayLabel(day);
+    const matches = ppAllMatches.filter(m => m.day === dateStr)
+                                .sort((a,b) => a.time.localeCompare(b.time));
+    body.style.transition = 'none';
+    body.style.opacity    = '0';
+    body.style.transform  = 'translateY(6px)';
+    setTimeout(() => {
+        body.innerHTML = matches.length
+            ? matches.map(m => {
                 const color = LIGA_COLOR[m.liga] || '#888';
+                const star  = m.importante ? ' ⭐' : '';
                 return `<div class="pp-match">
                     <div class="pp-bar" style="background:${color}"></div>
                     <div class="pp-info">
-                        <div class="pp-teams">${m.home} <span class="pp-vs">vs</span> ${m.away}</div>
-                        <div class="pp-meta">
-                            <span class="pp-time">${m.time}</span>
-                            <span class="pp-liga">${m.liga}</span>
-                        </div>
+                        <div class="pp-teams">${m.home}<span class="pp-vs">vs</span>${m.away}${star}</div>
+                        <div class="pp-meta"><span class="pp-time">${m.time}</span><span class="pp-liga">${m.liga}</span></div>
                     </div>
                 </div>`;
-            }).join('');
-            return `<div class="pp-day">${formatDayLabel(day)}</div>${rows}`;
-        }).join('');
+              }).join('')
+            : '<div class="pp-empty">Sin partidos este día 🏖️</div>';
+        body.style.transition = 'opacity 0.2s ease, transform 0.2s ease';
+        body.style.opacity    = '1';
+        body.style.transform  = 'translateY(0)';
+    }, 140);
+}
 
+function buildPPDrum(allMatches) {
+    ppDrumDays   = ppGetWeekDays();
+    ppAllMatches = allMatches;
+    const track  = document.getElementById('ppDrumTrack');
+    if (!track) return;
+    track.innerHTML = '';
+    ppDrumDays.forEach((day, i) => {
+        const el = document.createElement('div');
+        el.className = 'pp-drum-item';
+        el.style.transform = `rotateX(${i * PP_DRUM_STEP}deg) translateZ(${PP_DRUM_R}px)`;
+        el.innerHTML = `<span class="pp-drum-dday">${PP_DAYS_ES[day.getDay()]}</span><span class="pp-drum-ddate">${ppDayLabel(day)}</span>`;
+        track.appendChild(el);
+    });
+    const today = new Date(); today.setHours(0,0,0,0);
+    ppDrumIdx    = ppDrumDays.findIndex(d => d.getTime() === today.getTime());
+    if (ppDrumIdx < 0) ppDrumIdx = 0;
+    ppDrumRawIdx = ppDrumIdx;
+    track.style.transition = 'none';
+    ppApplyDrumTransform(ppDrumIdx);
+    ppUpdateDrumStyles(ppDrumIdx);
+    ppRenderDayMatches(ppDrumIdx);
+
+    const vp = document.getElementById('ppDrumVP');
+    if (vp._bound) return;
+    vp._bound = true;
+
+    vp.addEventListener('touchstart', e => {
+        ppDrumDragging = true;
+        ppDrumStartY   = e.touches[0].clientY;
+        ppDrumRawIdx   = ppDrumIdx;
+        document.getElementById('ppDrumTrack').style.transition = 'none';
+    }, { passive: true });
+    vp.addEventListener('touchmove', e => {
+        if (!ppDrumDragging) return;
+        const clamped = Math.max(0, Math.min(ppDrumDays.length - 1, ppDrumRawIdx + (ppDrumStartY - e.touches[0].clientY) / 46));
+        ppApplyDrumTransform(clamped);
+        ppUpdateDrumStyles(clamped);
+    }, { passive: true });
+    vp.addEventListener('touchend', e => {
+        if (!ppDrumDragging) return;
+        ppDrumDragging = false;
+        ppSetDrumDay(Math.round(Math.max(0, Math.min(ppDrumDays.length - 1, ppDrumRawIdx + (ppDrumStartY - e.changedTouches[0].clientY) / 46))));
+    }, { passive: true });
+    vp.addEventListener('mousedown', e => {
+        ppDrumDragging = true; ppDrumStartY = e.clientY; ppDrumRawIdx = ppDrumIdx;
+        document.getElementById('ppDrumTrack').style.transition = 'none';
+    });
+    document.addEventListener('mousemove', e => {
+        if (!ppDrumDragging) return;
+        const clamped = Math.max(0, Math.min(ppDrumDays.length - 1, ppDrumRawIdx + (ppDrumStartY - e.clientY) / 46));
+        ppApplyDrumTransform(clamped); ppUpdateDrumStyles(clamped);
+    });
+    document.addEventListener('mouseup', e => {
+        if (!ppDrumDragging) return;
+        ppDrumDragging = false;
+        ppSetDrumDay(Math.round(Math.max(0, Math.min(ppDrumDays.length - 1, ppDrumRawIdx + (ppDrumStartY - e.clientY) / 46))));
+    });
+}
+
+async function loadPartidos() {
+    const body = document.getElementById('ppBody');
+    try {
+        const res  = await fetch(PARTIDOS_URL + '?v=' + Date.now());
+        const json = await res.json();
+        const { end } = getWeekRange();
+        const today   = new Date(); today.setHours(0,0,0,0);
+        const matches = (json.matches || []).filter(m => {
+            const d = parseMatchDay(m.day);
+            return d >= today && d <= end;
+        });
+        if (!matches.length) {
+            body.innerHTML = '<div class="pp-empty">No hay más partidos esta semana.</div>';
+            return;
+        }
+        buildPPDrum(matches);
+        const imp = matches.filter(m => m.importante).length;
         const badge = document.getElementById('badgePartidos');
-        badge.textContent = matches.length;
-        badge.style.display = 'block';
+        badge.textContent = imp || '';
+        badge.style.display = imp ? 'block' : 'none';
         partidosLoaded = true;
     } catch(e) {
         body.innerHTML = '<div class="pp-empty">No se pudieron cargar los partidos.</div>';
