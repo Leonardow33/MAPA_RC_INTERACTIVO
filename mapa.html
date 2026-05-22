@@ -696,10 +696,10 @@ html, body {
         <option value="ALL">Todos</option>
     </select>
 
-    <button id="btnModo" onclick="toggleModo()">🚗 Auto</button>
+    <button id="btnModo" onclick="toggleModo()" style="display:none">🚗 Auto</button>
     <button id="btnRuta" onclick="generarRuta()">🗺️ Generar Ruta</button>
     <button id="btnLimpiarRuta" onclick="limpiarRuta()">✕ Limpiar Ruta</button>
-    <button id="btnReunion" onclick="abrirModalReunion()" disabled>📅 Reunión</button>
+    <button id="btnReunion" onclick="abrirModalReunion()" disabled style="display:none">📅 Reunión</button>
     <button id="btnSinVenta" onclick="toggleSinVenta()">🔴 Sin Venta</button>
 
     <div id="clusterBtns">
