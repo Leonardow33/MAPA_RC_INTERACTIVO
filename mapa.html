@@ -809,7 +809,7 @@ html, body {
 
 <script>
 
-var map = L.map('map').setView([-9.19, -75.02], 6);
+var map = L.map('map', { preferCanvas: true }).setView([-9.19, -75.02], 6);
 
 // 🗺️ CAPAS
 var street = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}', {
@@ -1360,6 +1360,12 @@ function updateClusterButtons() {
     }
 }
 
+function debounce(fn, ms) {
+    let t;
+    return function(...args) { clearTimeout(t); t = setTimeout(() => fn.apply(this, args), ms); };
+}
+const _debouncedRenderMap = debounce(renderMap, 150);
+
 function updateFilters() {
     let rc      = document.getElementById("rcFilter").value;
     let sup     = document.getElementById("supFilter").value;
@@ -1372,7 +1378,7 @@ function updateFilters() {
         btnRuta.classList.remove("activo");
         limpiarRuta();
     }
-    renderMap(rc, document.getElementById("diaFilter").value, sup, partner, zona);
+    _debouncedRenderMap(rc, document.getElementById("diaFilter").value, sup, partner, zona);
     if (sinVentaActive) renderSinVentaLayer();
     updateChips();
     saveFilters();
