@@ -285,7 +285,7 @@ const COLORES = [
     "#FDD835","#D81B60","#5E35B1","#039BE5","#7CB342"
 ];
 
-const map = L.map('map').setView([-9.19, -75.0152], 6);
+const map = L.map('map', { preferCanvas: true }).setView([-9.19, -75.0152], 6);
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution: '© OpenStreetMap'
 }).addTo(map);
@@ -527,9 +527,7 @@ function enfocarRC(nombre) {
     rutaHoyActive = false;
     document.getElementById('btnRutaHoy').classList.remove('activo');
     renderRC(todosRCs);
-    renderTodosLosPuntos();
-    renderSinVisitar();
-    renderRutaHoy();
+    scheduleFullRender();
     if (sinVentaActive) renderSinVentaLayer();
 }
 
@@ -614,6 +612,16 @@ function buildDayFilter(monday) {
 function getZonalFiltro() {
     return (document.getElementById('zonalTipoFilter')?.value || 'ALL');
 }
+
+function debounce(fn, ms) {
+    let t;
+    return function(...args) { clearTimeout(t); t = setTimeout(() => fn.apply(this, args), ms); };
+}
+const scheduleFullRender = debounce(function() {
+    renderTodosLosPuntos();
+    renderSinVisitar();
+    renderRutaHoy();
+}, 150);
 
 function renderTodosLosPuntos() {
     todosLosPointsLayer.clearLayers();
@@ -776,10 +784,7 @@ async function cargarDatosSemanales() {
         });
     });
 
-    renderTodosLosPuntos();
-    renderCobertura();
-    renderSinVisitar();
-    renderRutaHoy();
+    scheduleFullRender();
 }
 
 function toggleTodosPuntos() {
@@ -992,7 +997,7 @@ function togglePanel() {
 }
 
 document.getElementById('supFilter').addEventListener('change', () => renderRC(todosRCs));
-document.getElementById('zonalTipoFilter').addEventListener('change', () => { renderTodosLosPuntos(); renderCobertura(); if (sinVentaActive) renderSinVentaLayer(); });
+document.getElementById('zonalTipoFilter').addEventListener('change', () => { scheduleFullRender(); if (sinVentaActive) renderSinVentaLayer(); });
 
 function descargarSinVisita() {
     const visitedSet = selectedRCFilter
