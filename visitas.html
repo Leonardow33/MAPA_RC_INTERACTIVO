@@ -219,6 +219,9 @@ body { font-family: 'Inter', 'Segoe UI', sans-serif; background: #0F172A; height
 
 <script>
 (function() {
+    if (window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true) {
+        window.location.replace('mapa.html');
+    }
     if (localStorage.getItem('rc_auth') === '1') {
         document.addEventListener('DOMContentLoaded', () => {
             document.getElementById('authOverlay').style.display = 'none';
