@@ -59,4 +59,4 @@ for _, row in df.iterrows():
 with open("puntos.json", "w", encoding="utf-8") as f:
     json.dump(data, f, ensure_ascii=False, indent=4)
 
-print("Mapa actualizado ✔")
+print("Mapa actualizado OK")
