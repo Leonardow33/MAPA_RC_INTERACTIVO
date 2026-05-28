@@ -50,6 +50,15 @@ body { font-family: 'Inter', 'Segoe UI', sans-serif; background: #0F172A; height
 #btnRutaHoy.activo    { background: #1565C0; border-color: #1565C0; color: white; }
 #btnSinVenta:disabled, #btnRutaHoy:disabled { opacity: 0.35; cursor: not-allowed; }
 
+#btnModoRC, #btnModoCap {
+    padding: 5px 14px; border-radius: 20px; border: 1px solid #334155;
+    background: #243447; color: #94A3B8;
+    font-size: 12px; font-weight: 600; cursor: pointer;
+    transition: all 0.2s; font-family: 'Inter', sans-serif; white-space: nowrap;
+}
+#btnModoRC.activo  { background: #1E88E5; border-color: #1E88E5; color: white; }
+#btnModoCap.activo { background: #8E24AA; border-color: #8E24AA; color: white; }
+
 #content { display: flex; flex: 1; overflow: hidden; }
 
 #panel {
@@ -243,6 +252,8 @@ function checkAuth() {
 
 <div id="header">
     <h1>📍 Seguimiento de Visitas del RC</h1>
+    <button id="btnModoRC" class="activo" onclick="setModoVista('rc')">👤 RCs</button>
+    <button id="btnModoCap" onclick="setModoVista('cap')">🎓 Capacitadores</button>
     <select id="fechaFilter"></select>
     <select id="supFilter"><option value="ALL">Todos los supervisores</option></select>
     <select id="semanaFilter"></select>
@@ -283,6 +294,7 @@ function checkAuth() {
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script>
 const SHEET_URL    = "https://script.google.com/macros/s/AKfycby2f2uW9E2_CUBr9OiKVT4Sp-ubP2sRIXlWig-GPuKTGyDxi-zx724ZGtkOFaWW0jnqjw/exec";
+let modoVista = 'rc';
 const SIN_VENTA_URL = "https://raw.githubusercontent.com/Leonardow33/MAPA_RC_INTERACTIVO/main/sinventa.txt";
 
 const COLORES = [
@@ -603,12 +615,13 @@ function buildDayFilter(monday) {
     // Siempre default al placeholder
     sel.selectedIndex = 0;
     selectedDate = '';
-    document.getElementById('panelHeader').textContent = 'RCs activos hoy';
+    document.getElementById('panelHeader').textContent = modoVista === 'cap' ? 'Capacitadores activos hoy' : 'RCs activos hoy';
 
     sel.onchange = function() {
         selectedDate = this.value;
-        const lbl = this.value ? this.options[this.selectedIndex].textContent : 'RCs activos hoy';
-        document.getElementById('panelHeader').textContent = lbl === 'RCs activos hoy' ? lbl : `RCs visitando · ${lbl}`;
+        const defaultLbl = modoVista === 'cap' ? 'Capacitadores activos hoy' : 'RCs activos hoy';
+        const prefijo    = modoVista === 'cap' ? 'Capacitadores' : 'RCs';
+        document.getElementById('panelHeader').textContent = !this.value ? defaultLbl : `${prefijo} visitando · ${this.options[this.selectedIndex].textContent}`;
         document.getElementById('rcList').innerHTML = '<div style="padding:16px;color:#aaa;font-size:12px;text-align:center">⏳ Cargando...</div>';
         updateSinVentaBtn();
         cargarDatos();
@@ -767,7 +780,7 @@ async function cargarDatosSemanales() {
         if (d > today) continue;
         const fecha = formatFecha(d);
         fetches.push(
-            fetch(SHEET_URL + `?action=getVisitas&fecha=${fecha}`)
+            fetch(SHEET_URL + `?action=${modoVista === 'cap' ? 'getVisitasMapa2' : 'getVisitas'}&fecha=${fecha}`)
                 .then(r => r.json()).catch(() => [])
         );
     }
@@ -894,9 +907,25 @@ function toggleRutaHoy() {
     renderSinVisitar();
 }
 
+function setModoVista(modo) {
+    modoVista = modo;
+    document.getElementById('btnModoRC').classList.toggle('activo', modo === 'rc');
+    document.getElementById('btnModoCap').classList.toggle('activo', modo === 'cap');
+    selectedRCFilter = null;
+    selectedDate = '';
+    document.getElementById('fechaFilter').selectedIndex = 0;
+    document.getElementById('supFilter').value = 'ALL';
+    semanaKeyCache = null;
+    document.getElementById('panelHeader').textContent = modo === 'cap' ? 'Capacitadores activos hoy' : 'RCs activos hoy';
+    document.getElementById('rcList').innerHTML = '<div style="padding:16px;color:#aaa;font-size:12px;text-align:center">⏳ Cargando...</div>';
+    cargarDatos();
+    cargarSemana();
+}
+
 async function cargarDatos() {
     try {
-        const url = SHEET_URL + "?action=getVisitas" + (selectedDate ? `&fecha=${selectedDate}` : '');
+        const accion = modoVista === 'cap' ? 'getVisitasMapa2' : 'getVisitas';
+        const url = SHEET_URL + `?action=${accion}` + (selectedDate ? `&fecha=${selectedDate}` : '');
         const res = await fetch(url);
         const data = await res.json();
         todosRCs = Array.isArray(data) ? data : [];
