@@ -1000,6 +1000,13 @@ function _aplicarModoVista(modo) {
     modoVista = modo;
     document.getElementById('btnModoRC').classList.toggle('activo', modo === 'rc');
     document.getElementById('btnModoCap').classList.toggle('activo', modo === 'cap');
+    const btnRuta = document.getElementById('btnRutaHoy');
+    btnRuta.style.display = modo === 'cap' ? 'none' : '';
+    if (modo === 'cap' && rutaHoyActive) {
+        rutaHoyActive = false;
+        btnRuta.classList.remove('activo');
+        rutaHoyLayer.clearLayers();
+    }
     selectedRCFilter = null;
     selectedDate = '';
     document.getElementById('fechaFilter').selectedIndex = 0;
@@ -1213,6 +1220,7 @@ buildDayFilter(selectedSemanaMonday);
 updateSinVentaBtn();
 document.getElementById('btnModoRC').classList.toggle('activo', modoVista === 'rc');
 document.getElementById('btnModoCap').classList.toggle('activo', modoVista === 'cap');
+document.getElementById('btnRutaHoy').style.display = modoVista === 'cap' ? 'none' : '';
 cargarDatos();
 cargarDatosSemanales();
 </script>
