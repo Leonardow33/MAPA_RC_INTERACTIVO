@@ -161,15 +161,55 @@ body { font-family: 'Inter', 'Segoe UI', sans-serif; background: #0F172A; height
 }
 
 @media (max-width: 768px) {
-    #header { flex-wrap: wrap; padding: 8px 12px; gap: 6px; }
-    #header h1 { font-size: 13px; width: 100%; }
+    /* ── Header ── */
+    #header {
+        flex-wrap: wrap;
+        padding: 7px 10px;
+        gap: 5px;
+        align-items: center;
+    }
+    /* Fila 1: título + botones de modo */
+    #header h1 {
+        flex: 1 1 0;
+        font-size: 12px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        min-width: 0;
+    }
+    #btnModoRC, #btnModoCap {
+        flex: 0 0 auto;
+        padding: 6px 12px;
+        font-size: 11px;
+        border-radius: 10px;
+        min-height: 32px;
+    }
+    /* Fila 2: fecha + semana | Fila 3: supervisor + zonal */
+    #fechaFilter, #semanaFilter,
+    #supFilter, #zonalTipoFilter {
+        flex: 1 1 calc(50% - 3px);
+        min-height: 36px;
+        font-size: 12px;
+        padding: 5px 8px;
+    }
+    /* Fila 4: botones de acción */
+    #btnTodosPuntos, #btnRutaHoy, #btnSinVenta {
+        flex: 1 1 auto;
+        padding: 7px 8px;
+        font-size: 11px;
+        min-height: 36px;
+        border-radius: 10px;
+    }
     #lastUpdate { display: none; }
-    #btnSinVenta { padding: 5px 10px; font-size: 11px; }
+
+    /* ── Mapa full-screen detrás del header ── */
     #content { position: relative; }
     #map { position: absolute; inset: 0; width: 100%; height: 100%; }
+
+    /* ── Panel: bottom sheet ── */
     #panel {
         position: fixed; bottom: 0; left: 0; right: 0;
-        width: 100%; height: 55vh; border-right: none;
+        width: 100%; height: 60vh; border-right: none;
         border-radius: 16px 16px 0 0;
         box-shadow: 0 -8px 30px rgba(0,0,0,0.6);
         transform: translateY(100%);
@@ -179,8 +219,17 @@ body { font-family: 'Inter', 'Segoe UI', sans-serif; background: #0F172A; height
     #panel.abierto { transform: translateY(0); }
     #panelHandle { display: block; }
     #panelToggle { display: block; }
-    #panelToggle.abierto { bottom: calc(55vh + 8px); }
-    .rc-popup { min-width: 160px; }
+    #panelToggle.abierto { bottom: calc(60vh + 8px); }
+
+    /* ── Popups del mapa ── */
+    .rc-popup { min-width: 160px; font-size: 12px; }
+    .rc-popup-nombre { font-size: 13px; }
+
+    /* ── Modales de auth/switch ── */
+    #authBox, #switchBox {
+        width: 92vw;
+        padding: 28px 20px;
+    }
 }
 
 #authOverlay {
