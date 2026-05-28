@@ -212,6 +212,41 @@ body { font-family: 'Inter', 'Segoe UI', sans-serif; background: #0F172A; height
 }
 #authBtn:hover { opacity: 0.9; }
 #authError { color: #EF4444; font-size: 12px; margin-top: 8px; display: none; }
+
+#switchOverlay {
+    position: fixed; inset: 0; z-index: 9998;
+    background: rgba(15,23,42,0.85);
+    display: none; align-items: center; justify-content: center;
+}
+#switchBox {
+    background: #1E293B; border-radius: 16px;
+    padding: 32px 28px; width: 320px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.6);
+    text-align: center; border: 1px solid #334155;
+}
+#switchBox h3 { color: #F1F5F9; font-size: 16px; margin-bottom: 6px; font-weight: 700; }
+#switchBox p  { color: #64748B; font-size: 13px; margin-bottom: 20px; }
+#switchInput {
+    width: 100%; padding: 11px 14px; border-radius: 10px;
+    border: 1px solid #334155; background: #243447; color: #F1F5F9;
+    font-size: 14px; font-family: 'Inter', sans-serif;
+    outline: none; margin-bottom: 10px; transition: border-color 0.2s;
+}
+#switchInput:focus { border-color: #3B82F6; }
+#switchInput::placeholder { color: #475569; }
+.switch-btns { display: flex; gap: 8px; }
+#switchConfirm {
+    flex: 1; padding: 11px; border-radius: 10px; border: none;
+    background: linear-gradient(135deg, #3B82F6, #1D4ED8);
+    color: white; font-size: 13px; font-weight: 700;
+    cursor: pointer; font-family: 'Inter', sans-serif;
+}
+#switchCancel {
+    padding: 11px 16px; border-radius: 10px;
+    border: 1px solid #334155; background: #243447; color: #94A3B8;
+    font-size: 13px; font-weight: 600; cursor: pointer; font-family: 'Inter', sans-serif;
+}
+#switchError { color: #EF4444; font-size: 12px; margin-top: 8px; display: none; }
 </style>
 </head>
 <body>
@@ -226,12 +261,28 @@ body { font-family: 'Inter', 'Segoe UI', sans-serif; background: #0F172A; height
     </div>
 </div>
 
+<div id="switchOverlay">
+    <div id="switchBox">
+        <h3 id="switchTitle">Cambiar modo</h3>
+        <p id="switchDesc">Ingresa la contraseña para continuar</p>
+        <input id="switchInput" type="password" placeholder="Contraseña"
+               onkeydown="if(event.key==='Enter') confirmarSwitch()"/>
+        <div class="switch-btns">
+            <button id="switchConfirm" onclick="confirmarSwitch()">Confirmar</button>
+            <button id="switchCancel" onclick="cancelarSwitch()">Cancelar</button>
+        </div>
+        <div id="switchError">Contraseña incorrecta</div>
+    </div>
+</div>
+
 <script>
 (function() {
     if (window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true) {
         window.location.replace('mapa.html');
     }
-    if (localStorage.getItem('rc_auth') === '1') {
+    const stored = localStorage.getItem('rc_auth');
+    if (stored === 'rc' || stored === 'cap' || stored === '1') {
+        window._authModo = (stored === 'cap') ? 'cap' : 'rc';
         document.addEventListener('DOMContentLoaded', () => {
             document.getElementById('authOverlay').style.display = 'none';
         });
@@ -239,9 +290,12 @@ body { font-family: 'Inter', 'Segoe UI', sans-serif; background: #0F172A; height
 })();
 function checkAuth() {
     const val = document.getElementById('authInput').value;
-    if (val === 'Geodor2026-1') {
-        localStorage.setItem('rc_auth', '1');
+    if (val === 'Geodor2026-1' || val === 'Geodor2026-2') {
+        const modo = val === 'Geodor2026-2' ? 'cap' : 'rc';
+        localStorage.setItem('rc_auth', modo);
+        window._authModo = modo;
         document.getElementById('authOverlay').style.display = 'none';
+        if (typeof _aplicarModoVista === 'function') _aplicarModoVista(modo);
     } else {
         document.getElementById('authError').style.display = 'block';
         document.getElementById('authInput').value = '';
@@ -294,7 +348,7 @@ function checkAuth() {
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script>
 const SHEET_URL    = "https://script.google.com/macros/s/AKfycby2f2uW9E2_CUBr9OiKVT4Sp-ubP2sRIXlWig-GPuKTGyDxi-zx724ZGtkOFaWW0jnqjw/exec";
-let modoVista = 'rc';
+let modoVista = (window._authModo === 'cap') ? 'cap' : 'rc';
 const SIN_VENTA_URL = "https://raw.githubusercontent.com/Leonardow33/MAPA_RC_INTERACTIVO/main/sinventa.txt";
 
 const COLORES = [
@@ -907,7 +961,42 @@ function toggleRutaHoy() {
     renderSinVisitar();
 }
 
+let _modoSolicitado = null;
+
 function setModoVista(modo) {
+    if (modo === modoVista) return;
+    _modoSolicitado = modo;
+    const nombre = modo === 'cap' ? 'Capacitadores' : 'RCs';
+    document.getElementById('switchTitle').textContent = `Cambiar a ${nombre}`;
+    document.getElementById('switchDesc').textContent = `Ingresa la contraseña de ${nombre} para continuar`;
+    document.getElementById('switchInput').value = '';
+    document.getElementById('switchError').style.display = 'none';
+    document.getElementById('switchOverlay').style.display = 'flex';
+    setTimeout(() => document.getElementById('switchInput').focus(), 50);
+}
+
+function confirmarSwitch() {
+    const val  = document.getElementById('switchInput').value;
+    const pass = _modoSolicitado === 'cap' ? 'Geodor2026-2' : 'Geodor2026-1';
+    if (val === pass) {
+        localStorage.setItem('rc_auth', _modoSolicitado);
+        document.getElementById('switchOverlay').style.display = 'none';
+        _aplicarModoVista(_modoSolicitado);
+    } else {
+        document.getElementById('switchError').style.display = 'block';
+        document.getElementById('switchInput').value = '';
+        document.getElementById('switchInput').focus();
+    }
+}
+
+function cancelarSwitch() {
+    document.getElementById('switchOverlay').style.display = 'none';
+    _modoSolicitado = null;
+    document.getElementById('btnModoRC').classList.toggle('activo', modoVista === 'rc');
+    document.getElementById('btnModoCap').classList.toggle('activo', modoVista === 'cap');
+}
+
+function _aplicarModoVista(modo) {
     modoVista = modo;
     document.getElementById('btnModoRC').classList.toggle('activo', modo === 'rc');
     document.getElementById('btnModoCap').classList.toggle('activo', modo === 'cap');
@@ -919,7 +1008,7 @@ function setModoVista(modo) {
     document.getElementById('panelHeader').textContent = modo === 'cap' ? 'Capacitadores activos hoy' : 'RCs activos hoy';
     document.getElementById('rcList').innerHTML = '<div style="padding:16px;color:#aaa;font-size:12px;text-align:center">⏳ Cargando...</div>';
     cargarDatos();
-    cargarSemana();
+    cargarDatosSemanales();
 }
 
 async function cargarDatos() {
@@ -1122,6 +1211,8 @@ function buildSemanaFilter() {
 buildSemanaFilter();
 buildDayFilter(selectedSemanaMonday);
 updateSinVentaBtn();
+document.getElementById('btnModoRC').classList.toggle('activo', modoVista === 'rc');
+document.getElementById('btnModoCap').classList.toggle('activo', modoVista === 'cap');
 cargarDatos();
 cargarDatosSemanales();
 </script>
