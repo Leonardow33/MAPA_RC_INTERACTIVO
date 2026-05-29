@@ -409,6 +409,17 @@ html, body {
 }
 .pp-liga { font-size: 10px; color: #999; }
 .pp-empty { text-align: center; padding: 24px 16px; color: #aaa; font-size: 13px; }
+.pp-match-past .pp-teams { color: #888; }
+.pp-match-past .pp-bar   { opacity: 0.35; }
+.pp-score {
+    font-size: 12px; font-weight: 800; color: #1A3A6B;
+    background: rgba(26,58,107,0.1); padding: 1px 7px; border-radius: 4px;
+}
+.pp-fin {
+    font-size: 10px; font-weight: 700; color: #999;
+    background: #f0f0f0; padding: 1px 6px; border-radius: 4px;
+    text-transform: uppercase;
+}
 
 /* drum inside panel */
 .pp-drum-vp {
@@ -2144,15 +2155,27 @@ function ppRenderDayMatches(idx) {
     body.style.opacity    = '0';
     body.style.transform  = 'translateY(6px)';
     setTimeout(() => {
+        const _now = new Date();
+        const _todayMid = new Date(); _todayMid.setHours(0,0,0,0);
+        const isToday = day.getTime() === _todayMid.getTime();
         body.innerHTML = matches.length
             ? matches.map(m => {
                 const color = LIGA_COLOR[m.liga] || '#888';
                 const star  = m.importante ? ' ⭐' : '';
+                let finHtml = '';
+                if (isToday) {
+                    const [timePart, ampm] = m.time.split(' ');
+                    const [hh, mm] = timePart.split(':').map(Number);
+                    let h = hh + (ampm === 'PM' && hh !== 12 ? 12 : 0) + (ampm === 'AM' && hh === 12 ? -12 : 0);
+                    const matchDate = new Date(_todayMid); matchDate.setHours(h, mm, 0, 0);
+                    matchDate.setMinutes(matchDate.getMinutes() + 120); // partido ~2h
+                    if (_now > matchDate) finHtml = '<span class="pp-fin">FIN</span>';
+                }
                 return `<div class="pp-match">
                     <div class="pp-bar" style="background:${color}"></div>
                     <div class="pp-info">
                         <div class="pp-teams">${m.home}<span class="pp-vs">vs</span>${m.away}${star}</div>
-                        <div class="pp-meta"><span class="pp-time">${m.time}</span><span class="pp-liga">${m.liga}</span></div>
+                        <div class="pp-meta"><span class="pp-time">${m.time}</span><span class="pp-liga">${m.liga}</span>${finHtml}</div>
                     </div>
                 </div>`;
               }).join('')
