@@ -1,0 +1,877 @@
+{
+  "121": {
+    "horario": "00:00:00",
+    "representante": "Selen Castro",
+    "supervisor": "SIN SUP"
+  },
+  "105": {
+    "horario": "3:00 a 4:30 pm",
+    "representante": "ALEJANDRO CHAVEZ",
+    "supervisor": "JORGE SANCHEZ"
+  },
+  "3051": {
+    "horario": "6:00 pm de largo",
+    "representante": "ALEJANDRO CHAVEZ",
+    "supervisor": "JORGE SANCHEZ"
+  },
+  "450": {
+    "horario": "2:00 PM - 4:00 PM",
+    "representante": "ANDRES MONTAÑO",
+    "supervisor": "IVAN SALCEDO"
+  },
+  "215": {
+    "horario": "11:00:00",
+    "representante": "Guillermo Martinez",
+    "supervisor": "SIN SUP"
+  },
+  "490": {
+    "horario": "6:30 PM - 8:30 PM",
+    "representante": "ANDRES MONTAÑO",
+    "supervisor": "IVAN SALCEDO"
+  },
+  "2993": {
+    "horario": "10 a 11am",
+    "representante": "ESTEFANIA IPENZA",
+    "supervisor": "GUILLERMO MARTINEZ"
+  },
+  "442": {
+    "horario": "2pm",
+    "representante": "Katherine Alvitez",
+    "supervisor": "SIN SUP"
+  },
+  "583": {
+    "horario": "2pm",
+    "representante": "Katherine Alvitez",
+    "supervisor": "SIN SUP"
+  },
+  "166": {
+    "horario": "11 a 1pm",
+    "representante": "ESTEFANIA IPENZA",
+    "supervisor": "GUILLERMO MARTINEZ"
+  },
+  "2940": {
+    "horario": "11:00:00",
+    "representante": "Guillermo Martinez",
+    "supervisor": "SIN SUP"
+  },
+  "147": {
+    "horario": "11:00:00",
+    "representante": "Guillermo Martinez",
+    "supervisor": "SIN SUP"
+  },
+  "219": {
+    "horario": "2:30 a 4:30pm",
+    "representante": "FLOR YBARGUE",
+    "supervisor": "GUILLERMO MARTINEZ"
+  },
+  "2841": {
+    "horario": "11:00:00",
+    "representante": "Guillermo Martinez",
+    "supervisor": "SIN SUP"
+  },
+  "110": {
+    "horario": "1:00 a 2:30 pm",
+    "representante": "GERARD DAVILA",
+    "supervisor": "JORGE SANCHEZ"
+  },
+  "560": {
+    "horario": "3:00 a 4:30 pm",
+    "representante": "GERARD DAVILA",
+    "supervisor": "JORGE SANCHEZ"
+  },
+  "664": {
+    "horario": "17:00:00",
+    "representante": "Pamela Diaz",
+    "supervisor": "SIN SUP"
+  },
+  "637": {
+    "horario": "4:00 pm - 6:00 pm",
+    "representante": "GIANCARLO VEGA",
+    "supervisor": "IVAN SALCEDO"
+  },
+  "300": {
+    "horario": "6:35pm - 9:00 pm",
+    "representante": "GIANCARLO VEGA",
+    "supervisor": "IVAN SALCEDO"
+  },
+  "3407": {
+    "horario": "10 a 11am",
+    "representante": "GUADALUPE KIMURA",
+    "supervisor": "GUILLERMO MARTINEZ"
+  },
+  "485": {
+    "horario": "11:30am a 1pm",
+    "representante": "GUADALUPE KIMURA",
+    "supervisor": "GUILLERMO MARTINEZ"
+  },
+  "389": {
+    "horario": "2:30 a 4:30pm",
+    "representante": "GUADALUPE KIMURA",
+    "supervisor": "GUILLERMO MARTINEZ"
+  },
+  "234": {
+    "horario": "4:30 a 7pm",
+    "representante": "GUADALUPE KIMURA",
+    "supervisor": "GUILLERMO MARTINEZ"
+  },
+  "367": {
+    "horario": "10:00:00",
+    "representante": "Hernany Acosta",
+    "supervisor": "SIN SUP"
+  },
+  "3089": {
+    "horario": "10:00:00",
+    "representante": "Esteban Choy",
+    "supervisor": "SIN SUP"
+  },
+  "708": {
+    "horario": "10:00:00",
+    "representante": "Hernany Acosta",
+    "supervisor": "SIN SUP"
+  },
+  "2752": {
+    "horario": "1:00 a 2:30 pm",
+    "representante": "JEAN CARLOSS",
+    "supervisor": "JORGE SANCHEZ"
+  },
+  "132": {
+    "horario": "11:00:00",
+    "representante": "Danny Espinoza",
+    "supervisor": "SIN SUP"
+  },
+  "369": {
+    "horario": "11:00:00",
+    "representante": "Danny Espinoza",
+    "supervisor": "SIN SUP"
+  },
+  "3147": {
+    "horario": "10 a 11am",
+    "representante": "JENNY LAPA",
+    "supervisor": "GUILLERMO MARTINEZ"
+  },
+  "312": {
+    "horario": "12:30 a 2:30pm",
+    "representante": "JENNY LAPA",
+    "supervisor": "GUILLERMO MARTINEZ"
+  },
+  "412": {
+    "horario": "2:30 a 4:30pm",
+    "representante": "JENNY LAPA",
+    "supervisor": "GUILLERMO MARTINEZ"
+  },
+  "2751": {
+    "horario": "4:30 a 7pm",
+    "representante": "JENNY LAPA",
+    "supervisor": "GUILLERMO MARTINEZ"
+  },
+  "462": {
+    "horario": "00:00:00",
+    "representante": "Selen Castro",
+    "supervisor": "SIN SUP"
+  },
+  "444": {
+    "horario": "9:00AM ",
+    "representante": "Lindaura Cordova",
+    "supervisor": "SIN SUP"
+  },
+  "539": {
+    "horario": "6:00 pm de largo",
+    "representante": "JESUS CHATE",
+    "supervisor": "JORGE SANCHEZ"
+  },
+  "420": {
+    "horario": "2:30 PM - 4:30 PM",
+    "representante": "JONATHAN CASTILLO",
+    "supervisor": "IVAN SALCEDO"
+  },
+  "275": {
+    "horario": "4:00 pm - 6:00 pm",
+    "representante": "JONATHAN CASTILLO",
+    "supervisor": "IVAN SALCEDO"
+  },
+  "3350": {
+    "horario": "10 a 11am",
+    "representante": "JOSELYN CALDERON",
+    "supervisor": "GUILLERMO MARTINEZ"
+  },
+  "191": {
+    "horario": "2:30 a 4:30pm",
+    "representante": "JOSELYN CALDERON",
+    "supervisor": "GUILLERMO MARTINEZ"
+  },
+  "308": {
+    "horario": "00:00:00",
+    "representante": "Ricardo Sáenz",
+    "supervisor": "SIN SUP"
+  },
+  "644": {
+    "horario": "11 a 1pm",
+    "representante": "JOSELYN CALDERON",
+    "supervisor": "GUILLERMO MARTINEZ"
+  },
+  "130": {
+    "horario": "2 a 4 pm",
+    "representante": "Ivan Salcedo",
+    "supervisor": "SIN SUP"
+  },
+  "139": {
+    "horario": "00:00:00",
+    "representante": "Jesús Oliveros",
+    "supervisor": "SIN SUP"
+  },
+  "584": {
+    "horario": "6:35 - 9:00 PM",
+    "representante": "KARINA TAPIA",
+    "supervisor": "IVAN SALCEDO"
+  },
+  "2952": {
+    "horario": "00:00:00",
+    "representante": "Erick Lipe",
+    "supervisor": "SIN SUP"
+  },
+  "251": {
+    "horario": "por asignar",
+    "representante": "KIARA OSCO",
+    "supervisor": "GUILLERMO MARTINEZ"
+  },
+  "233": {
+    "horario": "2:30 a 4:30pm",
+    "representante": "KIARA OSCO",
+    "supervisor": "GUILLERMO MARTINEZ"
+  },
+  "479": {
+    "horario": "4:30 a 7pm",
+    "representante": "KIARA OSCO",
+    "supervisor": "GUILLERMO MARTINEZ"
+  },
+  "119": {
+    "horario": "11 a 1pm",
+    "representante": "KIARA OSCO",
+    "supervisor": "GUILLERMO MARTINEZ"
+  },
+  "254": {
+    "horario": "00:00:00",
+    "representante": "Elizabeth Ramos",
+    "supervisor": "SIN SUP"
+  },
+  "153": {
+    "horario": "4:30 a 6pm",
+    "representante": "MAYRA CHAFLOQUE",
+    "supervisor": "GUILLERMO MARTINEZ"
+  },
+  "597": {
+    "horario": "1:30 a 2:30pm",
+    "representante": "MAYRA CHAFLOQUE",
+    "supervisor": "GUILLERMO MARTINEZ"
+  },
+  "370": {
+    "horario": "2:30 a 4:30pm",
+    "representante": "MAYRA CHAFLOQUE",
+    "supervisor": "GUILLERMO MARTINEZ"
+  },
+  "140": {
+    "horario": "12:00 pm - 2:00 pm",
+    "representante": "MIGUEL CALAMPA",
+    "supervisor": "IVAN SALCEDO"
+  },
+  "171": {
+    "horario": "2:30 PM - 4:30 PM",
+    "representante": "MIGUEL CALAMPA",
+    "supervisor": "IVAN SALCEDO"
+  },
+  "2942": {
+    "horario": "9 a 11am",
+    "representante": "NADIRY RODRIGUEZ",
+    "supervisor": "GUILLERMO MARTINEZ"
+  },
+  "756": {
+    "horario": "2 a 4pm",
+    "representante": "NADIRY RODRIGUEZ",
+    "supervisor": "GUILLERMO MARTINEZ"
+  },
+  "492": {
+    "horario": "11 a 1pm",
+    "representante": "NADIRY RODRIGUEZ",
+    "supervisor": "GUILLERMO MARTINEZ"
+  },
+  "2939": {
+    "horario": "00:00:00",
+    "representante": "Flor Alanya",
+    "supervisor": "SIN SUP"
+  },
+  "697": {
+    "horario": "11 a 1pm",
+    "representante": "NASHIRA SALVADOR",
+    "supervisor": "GUILLERMO MARTINEZ"
+  },
+  "133": {
+    "horario": "2 a 4pm",
+    "representante": "NASHIRA SALVADOR",
+    "supervisor": "GUILLERMO MARTINEZ"
+  },
+  "622": {
+    "horario": "4 a 6pm",
+    "representante": "NASHIRA SALVADOR",
+    "supervisor": "GUILLERMO MARTINEZ"
+  },
+  "329": {
+    "horario": "12:00 pm - 2:00 pm",
+    "representante": "YADHIRA ZUNINI",
+    "supervisor": "IVAN SALCEDO"
+  },
+  "204": {
+    "horario": "2:30 a 4:30pm",
+    "representante": "YADHIRA ZUNINI",
+    "supervisor": "IVAN SALCEDO"
+  },
+  "255": {
+    "horario": "00:00:00",
+    "representante": "Gianina Miraval",
+    "supervisor": "SIN SUP"
+  },
+  "3211": {
+    "horario": "09:00:00",
+    "representante": "MANUEL VERGARA",
+    "supervisor": "JENY LAZO"
+  },
+  "3441": {
+    "horario": "10:00:00",
+    "representante": "MANUEL VERGARA",
+    "supervisor": "JENY LAZO"
+  },
+  "3436": {
+    "horario": "11:00:00",
+    "representante": "MANUEL VERGARA",
+    "supervisor": "JENY LAZO"
+  },
+  "3737": {
+    "horario": "09:00:00",
+    "representante": "EDWIN VARGAS",
+    "supervisor": "JENY LAZO"
+  },
+  "3515": {
+    "horario": "10:00:00",
+    "representante": "EDWIN VARGAS",
+    "supervisor": "JENY LAZO"
+  },
+  "2988": {
+    "horario": "11:00:00",
+    "representante": "EDWIN VARGAS",
+    "supervisor": "JENY LAZO"
+  },
+  "3140": {
+    "horario": "00:00:00",
+    "representante": "Alexandra Leguia",
+    "supervisor": "SIN SUP"
+  },
+  "3768": {
+    "horario": "00:00:00",
+    "representante": "Beatriz Huaman",
+    "supervisor": "SIN SUP"
+  },
+  "2935": {
+    "horario": "8:30 AMA",
+    "representante": "Brenda Raymundo",
+    "supervisor": "SIN SUP"
+  },
+  "51": {
+    "horario": "09:00:00",
+    "representante": "Carlos Alvarado",
+    "supervisor": "SIN SUP"
+  },
+  "2986": {
+    "horario": "00:00:00",
+    "representante": "Doriant Cardenas",
+    "supervisor": "SIN SUP"
+  },
+  "23": {
+    "horario": "00:00:00",
+    "representante": "Elizabeth Ramos",
+    "supervisor": "SIN SUP"
+  },
+  "29": {
+    "horario": "00:00:00",
+    "representante": "Erick Lipe",
+    "supervisor": "SIN SUP"
+  },
+  "45": {
+    "horario": "10:00:00",
+    "representante": "Esteban Choy",
+    "supervisor": "SIN SUP"
+  },
+  "309": {
+    "horario": "00:00:00",
+    "representante": "Gianina Miraval",
+    "supervisor": "SIN SUP"
+  },
+  "222": {
+    "horario": "10:00:00",
+    "representante": "Hernany Acosta",
+    "supervisor": "SIN SUP"
+  },
+  "26": {
+    "horario": "2 a 4 pm",
+    "representante": "Ivan Salcedo",
+    "supervisor": "SIN SUP"
+  },
+  "500": {
+    "horario": "17:00:00",
+    "representante": "Jenny Falla",
+    "supervisor": "SIN SUP"
+  },
+  "22": {
+    "horario": "11:00:00",
+    "representante": "Jeny Lazo",
+    "supervisor": "SIN SUP"
+  },
+  "2840": {
+    "horario": "11:00:00",
+    "representante": "Jorge Sanchez",
+    "supervisor": "SIN SUP"
+  },
+  "2943": {
+    "horario": "9:00AM ",
+    "representante": "Lindaura Cordova",
+    "supervisor": "SIN SUP"
+  },
+  "235": {
+    "horario": "00:00:00",
+    "representante": "Mellisa Razuri",
+    "supervisor": "SIN SUP"
+  },
+  "32": {
+    "horario": "17:00:00",
+    "representante": "Pamela Diaz",
+    "supervisor": "SIN SUP"
+  },
+  "40": {
+    "horario": "00:00:00",
+    "representante": "Ramon Razuri",
+    "supervisor": "SIN SUP"
+  },
+  "2937": {
+    "horario": "00:00:00",
+    "representante": "Selen Castro",
+    "supervisor": "SIN SUP"
+  },
+  "689": {
+    "horario": "00:00:00",
+    "representante": "Jesús Oliveros",
+    "supervisor": "SIN SUP"
+  },
+  "50": {
+    "horario": "2pm",
+    "representante": "Joel Ventura",
+    "supervisor": "SIN SUP"
+  },
+  "34": {
+    "horario": "2pm",
+    "representante": "Katherine Alvitez",
+    "supervisor": "SIN SUP"
+  },
+  "78": {
+    "horario": "11:00:00",
+    "representante": "Danny Espinoza",
+    "supervisor": "SIN SUP"
+  },
+  "216": {
+    "horario": "00:00:00",
+    "representante": "Ricardo Sáenz",
+    "supervisor": "SIN SUP"
+  },
+  "3315": {
+    "horario": "00:00:00",
+    "representante": "Rodrigo Bravo",
+    "supervisor": "SIN SUP"
+  },
+  "3419": {
+    "horario": "00:00:00",
+    "representante": "Alexandra Leguia",
+    "supervisor": "SIN SUP"
+  },
+  "3142": {
+    "horario": "00:00:00",
+    "representante": "Beatriz Huaman",
+    "supervisor": "SIN SUP"
+  },
+  "2950": {
+    "horario": "8:30 AMA",
+    "representante": "Brenda Raymundo",
+    "supervisor": "SIN SUP"
+  },
+  "729": {
+    "horario": "09:00:00",
+    "representante": "Carlos Alvarado",
+    "supervisor": "SIN SUP"
+  },
+  "441": {
+    "horario": "00:00:00",
+    "representante": "Doriant Cardenas",
+    "supervisor": "SIN SUP"
+  },
+  "85": {
+    "horario": "00:00:00",
+    "representante": "Elizabeth Ramos",
+    "supervisor": "SIN SUP"
+  },
+  "42": {
+    "horario": "10:00:00",
+    "representante": "Esteban Choy",
+    "supervisor": "SIN SUP"
+  },
+  "477": {
+    "horario": "00:00:00",
+    "representante": "Flor Alanya",
+    "supervisor": "SIN SUP"
+  },
+  "91": {
+    "horario": "00:00:00",
+    "representante": "Gianina Miraval",
+    "supervisor": "SIN SUP"
+  },
+  "3047": {
+    "horario": "11:00:00",
+    "representante": "Guillermo Martinez",
+    "supervisor": "SIN SUP"
+  },
+  "237": {
+    "horario": "17:00:00",
+    "representante": "Jenny Falla",
+    "supervisor": "SIN SUP"
+  },
+  "75": {
+    "horario": "11:00:00",
+    "representante": "Jeny Lazo",
+    "supervisor": "SIN SUP"
+  },
+  "2748": {
+    "horario": "11:00:00",
+    "representante": "Jorge Sanchez",
+    "supervisor": "SIN SUP"
+  },
+  "2951": {
+    "horario": "9:00AM ",
+    "representante": "Lindaura Cordova",
+    "supervisor": "SIN SUP"
+  },
+  "3310": {
+    "horario": "00:00:00",
+    "representante": "Mellisa Razuri",
+    "supervisor": "SIN SUP"
+  },
+  "63": {
+    "horario": "17:00:00",
+    "representante": "Pamela Diaz",
+    "supervisor": "SIN SUP"
+  },
+  "210": {
+    "horario": "00:00:00",
+    "representante": "Ramon Razuri",
+    "supervisor": "SIN SUP"
+  },
+  "2936": {
+    "horario": "00:00:00",
+    "representante": "Selen Castro",
+    "supervisor": "SIN SUP"
+  },
+  "295": {
+    "horario": "00:00:00",
+    "representante": "Jesús Oliveros",
+    "supervisor": "SIN SUP"
+  },
+  "99": {
+    "horario": "2pm",
+    "representante": "Joel Ventura",
+    "supervisor": "SIN SUP"
+  },
+  "53": {
+    "horario": "2pm",
+    "representante": "Katherine Alvitez",
+    "supervisor": "SIN SUP"
+  },
+  "58": {
+    "horario": "11:00:00",
+    "representante": "Danny Espinoza",
+    "supervisor": "SIN SUP"
+  },
+  "260": {
+    "horario": "00:00:00",
+    "representante": "Ricardo Sáenz",
+    "supervisor": "SIN SUP"
+  },
+  "138": {
+    "horario": "00:00:00",
+    "representante": "Rodrigo Bravo",
+    "supervisor": "SIN SUP"
+  },
+  "3423": {
+    "horario": "00:00:00",
+    "representante": "Alexandra Leguia",
+    "supervisor": "SIN SUP"
+  },
+  "3347": {
+    "horario": "00:00:00",
+    "representante": "Beatriz Huaman",
+    "supervisor": "SIN SUP"
+  },
+  "3104": {
+    "horario": "8:30 AMA",
+    "representante": "Brenda Raymundo",
+    "supervisor": "SIN SUP"
+  },
+  "2747": {
+    "horario": "09:00:00",
+    "representante": "Carlos Alvarado",
+    "supervisor": "SIN SUP"
+  },
+  "2771": {
+    "horario": "00:00:00",
+    "representante": "Erick Lipe",
+    "supervisor": "SIN SUP"
+  },
+  "56": {
+    "horario": "10:00:00",
+    "representante": "Esteban Choy",
+    "supervisor": "SIN SUP"
+  },
+  "168": {
+    "horario": "00:00:00",
+    "representante": "Flor Alanya",
+    "supervisor": "SIN SUP"
+  },
+  "60": {
+    "horario": "00:00:00",
+    "representante": "Gianina Miraval",
+    "supervisor": "SIN SUP"
+  },
+  "187": {
+    "horario": "10:00:00",
+    "representante": "Hernany Acosta",
+    "supervisor": "SIN SUP"
+  },
+  "111": {
+    "horario": "2 a 4 pm",
+    "representante": "Ivan Salcedo",
+    "supervisor": "SIN SUP"
+  },
+  "3066": {
+    "horario": "17:00:00",
+    "representante": "Jenny Falla",
+    "supervisor": "SIN SUP"
+  },
+  "702": {
+    "horario": "11:00:00",
+    "representante": "Jeny Lazo",
+    "supervisor": "SIN SUP"
+  },
+  "151": {
+    "horario": "11:00:00",
+    "representante": "Jorge Sanchez",
+    "supervisor": "SIN SUP"
+  },
+  "709": {
+    "horario": "00:00:00",
+    "representante": "Mellisa Razuri",
+    "supervisor": "SIN SUP"
+  },
+  "2949": {
+    "horario": "00:00:00",
+    "representante": "Selen Castro",
+    "supervisor": "SIN SUP"
+  },
+  "344": {
+    "horario": "00:00:00",
+    "representante": "Jesús Oliveros",
+    "supervisor": "SIN SUP"
+  },
+  "482": {
+    "horario": "2pm",
+    "representante": "Joel Ventura",
+    "supervisor": "SIN SUP"
+  },
+  "61": {
+    "horario": "2pm",
+    "representante": "Katherine Alvitez",
+    "supervisor": "SIN SUP"
+  },
+  "587": {
+    "horario": "00:00:00",
+    "representante": "Ricardo Sáenz",
+    "supervisor": "SIN SUP"
+  },
+  "2980": {
+    "horario": "00:00:00",
+    "representante": "Rodrigo Bravo",
+    "supervisor": "SIN SUP"
+  },
+  "3421": {
+    "horario": "00:00:00",
+    "representante": "Alexandra Leguia",
+    "supervisor": "SIN SUP"
+  },
+  "3112": {
+    "horario": "8:30 AMA",
+    "representante": "Brenda Raymundo",
+    "supervisor": "SIN SUP"
+  },
+  "126": {
+    "horario": "09:00:00",
+    "representante": "Carlos Alvarado",
+    "supervisor": "SIN SUP"
+  },
+  "3311": {
+    "horario": "00:00:00",
+    "representante": "Doriant Cardenas",
+    "supervisor": "SIN SUP"
+  },
+  "603": {
+    "horario": "00:00:00",
+    "representante": "Elizabeth Ramos",
+    "supervisor": "SIN SUP"
+  },
+  "249": {
+    "horario": "00:00:00",
+    "representante": "Erick Lipe",
+    "supervisor": "SIN SUP"
+  },
+  "162": {
+    "horario": "10:00:00",
+    "representante": "Esteban Choy",
+    "supervisor": "SIN SUP"
+  },
+  "717": {
+    "horario": "00:00:00",
+    "representante": "Flor Alanya",
+    "supervisor": "SIN SUP"
+  },
+  "3279": {
+    "horario": "00:00:00",
+    "representante": "Gianina Miraval",
+    "supervisor": "SIN SUP"
+  },
+  "292": {
+    "horario": "2 a 4 pm",
+    "representante": "Ivan Salcedo",
+    "supervisor": "SIN SUP"
+  },
+  "624": {
+    "horario": "17:00:00",
+    "representante": "Jenny Falla",
+    "supervisor": "SIN SUP"
+  },
+  "612": {
+    "horario": "11:00:00",
+    "representante": "Jeny Lazo",
+    "supervisor": "SIN SUP"
+  },
+  "2947": {
+    "horario": "11:00:00",
+    "representante": "Jorge Sanchez",
+    "supervisor": "SIN SUP"
+  },
+  "2938": {
+    "horario": "9:00AM ",
+    "representante": "Lindaura Cordova",
+    "supervisor": "SIN SUP"
+  },
+  "3090": {
+    "horario": "00:00:00",
+    "representante": "Mellisa Razuri",
+    "supervisor": "SIN SUP"
+  },
+  "641": {
+    "horario": "17:00:00",
+    "representante": "Pamela Diaz",
+    "supervisor": "SIN SUP"
+  },
+  "229": {
+    "horario": "2pm",
+    "representante": "Joel Ventura",
+    "supervisor": "SIN SUP"
+  },
+  "103": {
+    "horario": "00:00:00",
+    "representante": "Rodrigo Bravo",
+    "supervisor": "SIN SUP"
+  },
+  "3420": {
+    "horario": "00:00:00",
+    "representante": "Alexandra Leguia",
+    "supervisor": "SIN SUP"
+  },
+  "3115": {
+    "horario": "8:30 AMA",
+    "representante": "Brenda Raymundo",
+    "supervisor": "SIN SUP"
+  },
+  "771": {
+    "horario": "09:00:00",
+    "representante": "Carlos Alvarado",
+    "supervisor": "SIN SUP"
+  },
+  "286": {
+    "horario": "00:00:00",
+    "representante": "Elizabeth Ramos",
+    "supervisor": "SIN SUP"
+  },
+  "288": {
+    "horario": "00:00:00",
+    "representante": "Erick Lipe",
+    "supervisor": "SIN SUP"
+  },
+  "2737": {
+    "horario": "00:00:00",
+    "representante": "Flor Alanya",
+    "supervisor": "SIN SUP"
+  },
+  "268": {
+    "horario": "10:00:00",
+    "representante": "Hernany Acosta",
+    "supervisor": "SIN SUP"
+  },
+  "422": {
+    "horario": "2 a 4 pm",
+    "representante": "Ivan Salcedo",
+    "supervisor": "SIN SUP"
+  },
+  "395": {
+    "horario": "17:00:00",
+    "representante": "Jenny Falla",
+    "supervisor": "SIN SUP"
+  },
+  "651": {
+    "horario": "11:00:00",
+    "representante": "Jeny Lazo",
+    "supervisor": "SIN SUP"
+  },
+  "176": {
+    "horario": "11:00:00",
+    "representante": "Jorge Sanchez",
+    "supervisor": "SIN SUP"
+  },
+  "2944": {
+    "horario": "9:00AM ",
+    "representante": "Lindaura Cordova",
+    "supervisor": "SIN SUP"
+  },
+  "200": {
+    "horario": "17:00:00",
+    "representante": "Pamela Diaz",
+    "supervisor": "SIN SUP"
+  },
+  "3163": {
+    "horario": "00:00:00",
+    "representante": "Jesús Oliveros",
+    "supervisor": "SIN SUP"
+  },
+  "3085": {
+    "horario": "2pm",
+    "representante": "Joel Ventura",
+    "supervisor": "SIN SUP"
+  },
+  "1015": {
+    "horario": "11:00:00",
+    "representante": "Danny Espinoza",
+    "supervisor": "SIN SUP"
+  }
+}
