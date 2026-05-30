@@ -325,32 +325,7 @@ body { font-family: 'Inter', 'Segoe UI', sans-serif; background: #0F172A; height
 </div>
 
 <script>
-(function() {
-    if (window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true) {
-        window.location.replace('mapa.html');
-    }
-    const stored = localStorage.getItem('rc_auth');
-    if (stored === 'rc' || stored === 'cap' || stored === '1') {
-        window._authModo = (stored === 'cap') ? 'cap' : 'rc';
-        document.addEventListener('DOMContentLoaded', () => {
-            document.getElementById('authOverlay').style.display = 'none';
-        });
-    }
-})();
-function checkAuth() {
-    const val = document.getElementById('authInput').value;
-    if (val === 'Geodor2026-1' || val === 'Geodor2026-2') {
-        const modo = val === 'Geodor2026-2' ? 'cap' : 'rc';
-        localStorage.setItem('rc_auth', modo);
-        window._authModo = modo;
-        document.getElementById('authOverlay').style.display = 'none';
-        if (typeof _aplicarModoVista === 'function') _aplicarModoVista(modo);
-    } else {
-        document.getElementById('authError').style.display = 'block';
-        document.getElementById('authInput').value = '';
-        document.getElementById('authInput').focus();
-    }
-}
+(function(){(window['matchMedia']('(display-mode:\x20standalone)')['matches']||window['navigator']['standalone']===!![])&&window['location']['replace']('mapa.html');const _0x1762c5=localStorage['getItem']('rc_auth');(_0x1762c5==='rc'||_0x1762c5==='cap'||_0x1762c5==='1')&&(window['_authModo']=_0x1762c5==='cap'?'cap':'rc',document['addEventListener']('DOMContentLoaded',()=>{document['getElementById']('authOverlay')['style']['display']='none';}));}());function checkAuth(){const _0x58703d=document['getElementById']('authInput')['value'];if(_0x58703d==='Geodor2026-1'||_0x58703d==='Geodor2026-2'){const _0x13dccf=_0x58703d==='Geodor2026-2'?'cap':'rc';localStorage['setItem']('rc_auth',_0x13dccf),window['_authModo']=_0x13dccf,document['getElementById']('authOverlay')['style']['display']='none';if(typeof _aplicarModoVista==='function')_aplicarModoVista(_0x13dccf);}else document['getElementById']('authError')['style']['display']='block',document['getElementById']('authInput')['value']='',document['getElementById']('authInput')['focus']();}
 </script>
 
 <div id="header">
