@@ -1098,18 +1098,42 @@ function sortDias(arr) {
     });
 }
 
+function filtrarPorTipo(data) {
+    const ft = document.getElementById("tipoFilter").value;
+    if (!ft || ft === "ALL") return data;
+    return data.filter(p => {
+        const t = (p.tipo || "").toUpperCase();
+        if (ft === "TAMBO") return t !== "CASA DE APUESTA";
+        if (ft === "CASA DE APUESTA") return t !== "TAMBO";
+        return true;
+    });
+}
+
+function repoblarSup() {
+    const supSelect = document.getElementById("supFilter");
+    const prev = supSelect.value;
+    const opts = [...supSelect.options].filter(o => o.value === "ALL");
+    supSelect.innerHTML = '<option value="ALL">Todos</option>';
+    const supSet = new Set(filtrarPorTipo(allData).map(p => p.supervisor).filter(v => v && v.trim() !== ""));
+    sortedLast([...supSet], ["SIN SUPERVISOR"]).forEach(sup => {
+        const o = document.createElement("option");
+        o.value = sup; o.text = sup;
+        supSelect.appendChild(o);
+    });
+    supSelect.value = [...supSelect.options].some(o => o.value === prev) ? prev : "ALL";
+}
+
 function repoblarRC(sup) {
     const rcSelect = document.getElementById("rcFilter");
     const prevRC = rcSelect.value;
     rcSelect.innerHTML = '<option value="ALL">Todos</option>';
-    const base = sup === "ALL" ? allData : allData.filter(p => p.supervisor === sup);
-    const rcSet = new Set(base.map(p => p.rc));
+    const base = filtrarPorTipo(sup === "ALL" ? allData : allData.filter(p => p.supervisor === sup));
+    const rcSet = new Set(base.map(p => p.rc).filter(v => v && v.trim() !== ""));
     sortedLast([...rcSet], ["SIN RC"]).forEach(rc => {
         const opt = document.createElement("option");
         opt.value = rc; opt.text = rc;
         rcSelect.appendChild(opt);
     });
-    // mantener selección si sigue disponible
     rcSelect.value = [...rcSelect.options].some(o => o.value === prevRC) ? prevRC : "ALL";
 }
 
@@ -1135,30 +1159,12 @@ fetch('puntos.json?v=' + new Date().getTime())
         elotLayer.addLayer(elotMarker);
     }
 
-    let supSet  = new Set();
-    let rcSet   = new Set();
     let diaSet  = new Set();
     let zonaSet = new Set();
 
     data.forEach(p => {
-        if (p.supervisor) supSet.add(p.supervisor);
-        rcSet.add(p.rc);
         if (p.dias) p.dias.forEach(d => diaSet.add(d));
         if (p.zona) zonaSet.add(p.zona);
-    });
-
-    let supSelect = document.getElementById("supFilter");
-    sortedLast([...supSet], ["SIN SUPERVISOR"]).forEach(sup => {
-        let option = document.createElement("option");
-        option.value = sup; option.text = sup;
-        supSelect.appendChild(option);
-    });
-
-    let rcSelect = document.getElementById("rcFilter");
-    sortedLast([...rcSet], ["SIN RC"]).forEach(rc => {
-        let option = document.createElement("option");
-        option.value = rc; option.text = rc;
-        rcSelect.appendChild(option);
     });
 
     let diaSelect = document.getElementById("diaFilter");
@@ -1175,12 +1181,14 @@ fetch('puntos.json?v=' + new Date().getTime())
         zonaSelect.appendChild(option);
     });
 
-    repoblarPartner("ALL", "ALL");
-    restoreFilters();
     const _tipoActual = localStorage.getItem('geodor_tipo');
     if (_tipoActual) {
         document.getElementById("tipoFilter").value = _tipoActual;
     }
+    repoblarSup();
+    repoblarRC("ALL");
+    repoblarPartner("ALL", "ALL");
+    restoreFilters();
     updateFilters();
 
 } catch(err) { console.error('ERROR en fetch puntos.json:', err); } })
@@ -1470,11 +1478,11 @@ function repoblarPartner(sup, rc) {
     const sel = document.getElementById("partnerFilter");
     const prev = sel.value;
     sel.innerHTML = '<option value="ALL">Todos</option>';
-    const base = allData.filter(p =>
+    const base = filtrarPorTipo(allData.filter(p =>
         (sup === "ALL" || p.supervisor === sup) &&
         (rc  === "ALL" || p.rc === rc)
-    );
-    const partners = [...new Set(base.map(p => p.responsable).filter(Boolean))].sort();
+    ));
+    const partners = [...new Set(base.map(p => p.responsable).filter(v => v && v.trim() !== ""))].sort();
     partners.forEach(v => {
         const o = document.createElement("option");
         o.value = v; o.text = v;
@@ -1548,6 +1556,9 @@ function elegirTipo(tipo) {
     sel.style.pointerEvents = "none";
     document.getElementById("tipoFilter").value = tipo;
     document.getElementById("tipoFilterGroup").style.display = "none";
+    repoblarSup();
+    repoblarRC("ALL");
+    repoblarPartner("ALL", "ALL");
     updateFilters();
 }
 
