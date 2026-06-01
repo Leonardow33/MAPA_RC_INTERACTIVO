@@ -769,7 +769,7 @@ html, body {
         <div class="st-card" onclick="elegirTipo('CASA DE APUESTA')">
             <span class="st-icon">🎰</span>
             <span class="st-name">Casa de Apuesta</span>
-            <span class="st-desc">Casas de Apuesta<br>y Bodegas</span>
+            <span class="st-desc">Casas de Apuesta</span>
         </div>
     </div>
     <div class="st-footer"><span onclick="elegirTipo('ALL')" style="cursor:pointer;text-decoration:underline;color:rgba(255,255,255,0.45);">Ver todos los puntos</span></div>
@@ -1104,7 +1104,7 @@ function filtrarPorTipo(data) {
     return data.filter(p => {
         const t = (p.tipo || "").toUpperCase();
         if (ft === "TAMBO") return t !== "CASA DE APUESTA" && t !== "CENCOS";
-        if (ft === "CASA DE APUESTA") return t !== "TAMBO" && t !== "CENCOS";
+        if (ft === "CASA DE APUESTA") return t !== "TAMBO" && t !== "CENCOS" && t !== "BODEGA";
         return true;
     });
 }
@@ -1397,7 +1397,7 @@ function renderMap(filterRC, filterDia, filterSup, filterPartner, filterZona, fi
         const tipo = (p.tipo || "").toUpperCase();
         const tipoOk = !filterTipo || filterTipo === "ALL" ||
             (filterTipo === "TAMBO"           && tipo !== "CASA DE APUESTA" && tipo !== "CENCOS") ||
-            (filterTipo === "CASA DE APUESTA" && tipo !== "TAMBO"           && tipo !== "CENCOS");
+            (filterTipo === "CASA DE APUESTA" && tipo !== "TAMBO"           && tipo !== "CENCOS" && tipo !== "BODEGA");
         return (
             !(p.nombre || "").toUpperCase().includes("OFICINA ELOT") &&
             (p.estado || "").toUpperCase() === "ACTIVO" &&
