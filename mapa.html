@@ -746,14 +746,6 @@ html, body {
         <option value="CASA DE APUESTA">Casa de Apuesta</option>
     </select>
 
-    <div style="display:flex;align-items:center;gap:5px;flex-shrink:0">
-        <label style="margin:0">to 60k:</label>
-        <select id="sab30Filter">
-            <option value="ALL">Todos los puntos</option>
-            <option value="SAB30_ALL">Sábado 30 Pedro</option>
-        </select>
-    </div>
-
     <button id="btnModo" onclick="toggleModo()" style="display:none">🚗 Auto</button>
     <button id="btnRuta" onclick="generarRuta()" style="display:none">🗺️ Generar Ruta</button>
     <button id="btnLimpiarRuta" onclick="limpiarRuta()" style="display:none">✕ Limpiar Ruta</button>
@@ -1051,11 +1043,8 @@ function repoblarRC(sup) {
     rcSelect.value = [...rcSelect.options].some(o => o.value === prevRC) ? prevRC : "ALL";
 }
 
-// FETCH SABADO 30
 fetch('sabado30.json?v=' + new Date().getTime())
-.then(res => res.json())
-.then(data => { sabado30 = data; })
-.catch(() => {});
+.then(res => res.json()).then(data => { sabado30 = data; }).catch(() => {});
 
 // FETCH
 fetch('puntos.json?v=' + new Date().getTime())
@@ -1316,7 +1305,7 @@ function attachPopupOpen(marker, p) {
     });
 }
 
-function renderMap(filterRC, filterDia, filterSup, filterPartner, filterZona, filterSab30, filterTipo) {
+function renderMap(filterRC, filterDia, filterSup, filterPartner, filterZona, filterTipo) {
 
     markersLayer.clearLayers();
 
@@ -1334,7 +1323,6 @@ function renderMap(filterRC, filterDia, filterSup, filterPartner, filterZona, fi
             (filterPartner === "ALL" || p.responsable === filterPartner) &&
             (filterZona    === "ALL" || p.zona        === filterZona) &&
             (activeCluster === null  || (p.cluster || "").toUpperCase() === activeCluster) &&
-            (!filterSab30  || filterSab30 === "ALL"   || sabado30[String(p.ID)]) &&
             tipoOk
         );
     });
@@ -1436,16 +1424,6 @@ document.getElementById("partnerFilter").addEventListener("change", function() {
 });
 document.getElementById("tipoFilter").addEventListener("change", updateFilters);
 
-document.getElementById("sab30Filter").addEventListener("change", function() {
-    const isSab = this.value === "SAB30_ALL";
-    // botones de ruta permanecen ocultos siempre
-    if (isSab) {
-        limpiarRuta();
-        map.flyTo([-12.046374, -77.042793], 12, { duration: 1.2 });
-    }
-    updateFilters();
-});
-
 function toggleCluster(btn) {
     const cluster = btn.dataset.cluster;
     if (activeCluster === cluster) {
@@ -1499,7 +1477,7 @@ function updateFilters() {
         btnRuta.classList.remove("activo");
         limpiarRuta();
     }
-    _debouncedRenderMap(rc, document.getElementById("diaFilter").value, sup, partner, zona, document.getElementById("sab30Filter").value, document.getElementById("tipoFilter").value);
+    _debouncedRenderMap(rc, document.getElementById("diaFilter").value, sup, partner, zona, document.getElementById("tipoFilter").value);
     if (sinVentaActive) renderSinVentaLayer();
     updateChips();
     saveFilters();
