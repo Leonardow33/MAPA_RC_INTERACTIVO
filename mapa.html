@@ -739,6 +739,13 @@ html, body {
         <option value="ALL">Todos</option>
     </select>
 
+    <label>Tipo:</label>
+    <select id="tipoFilter">
+        <option value="ALL">Todos</option>
+        <option value="TAMBO">Tambo</option>
+        <option value="CASA DE APUESTA">Casa de Apuesta</option>
+    </select>
+
     <div style="display:flex;align-items:center;gap:5px;flex-shrink:0">
         <label style="margin:0">to 60k:</label>
         <select id="sab30Filter">
@@ -1309,21 +1316,28 @@ function attachPopupOpen(marker, p) {
     });
 }
 
-function renderMap(filterRC, filterDia, filterSup, filterPartner, filterZona, filterSab30) {
+function renderMap(filterRC, filterDia, filterSup, filterPartner, filterZona, filterSab30, filterTipo) {
 
     markersLayer.clearLayers();
 
-    let filtered = allData.filter(p =>
-        !(p.nombre || "").toUpperCase().includes("OFICINA ELOT") &&
-        (p.estado || "").toUpperCase() === "ACTIVO" &&
-        (filterSup     === "ALL" || p.supervisor  === filterSup) &&
-        (filterRC      === "ALL" || p.rc          === filterRC) &&
-        (filterDia     === "ALL" || (p.dias && p.dias.includes(filterDia))) &&
-        (filterPartner === "ALL" || p.responsable === filterPartner) &&
-        (filterZona    === "ALL" || p.zona        === filterZona) &&
-        (activeCluster === null  || (p.cluster || "").toUpperCase() === activeCluster) &&
-        (!filterSab30 || filterSab30 === "ALL" || sabado30[String(p.ID)])
-    );
+    let filtered = allData.filter(p => {
+        const tipo = (p.tipo || "").toUpperCase();
+        const tipoOk = !filterTipo || filterTipo === "ALL" ||
+            (filterTipo === "TAMBO"           && tipo !== "CASA DE APUESTA") ||
+            (filterTipo === "CASA DE APUESTA" && tipo !== "TAMBO");
+        return (
+            !(p.nombre || "").toUpperCase().includes("OFICINA ELOT") &&
+            (p.estado || "").toUpperCase() === "ACTIVO" &&
+            (filterSup     === "ALL" || p.supervisor  === filterSup) &&
+            (filterRC      === "ALL" || p.rc          === filterRC) &&
+            (filterDia     === "ALL" || (p.dias && p.dias.includes(filterDia))) &&
+            (filterPartner === "ALL" || p.responsable === filterPartner) &&
+            (filterZona    === "ALL" || p.zona        === filterZona) &&
+            (activeCluster === null  || (p.cluster || "").toUpperCase() === activeCluster) &&
+            (!filterSab30  || filterSab30 === "ALL"   || sabado30[String(p.ID)]) &&
+            tipoOk
+        );
+    });
     currentFiltered = filtered;
 
     let group = new L.featureGroup();
@@ -1420,6 +1434,8 @@ document.getElementById("partnerFilter").addEventListener("change", function() {
     updateClusterButtons();
     updateFilters();
 });
+document.getElementById("tipoFilter").addEventListener("change", updateFilters);
+
 document.getElementById("sab30Filter").addEventListener("change", function() {
     const isSab = this.value === "SAB30_ALL";
     // botones de ruta permanecen ocultos siempre
@@ -1483,7 +1499,7 @@ function updateFilters() {
         btnRuta.classList.remove("activo");
         limpiarRuta();
     }
-    _debouncedRenderMap(rc, document.getElementById("diaFilter").value, sup, partner, zona, document.getElementById("sab30Filter").value);
+    _debouncedRenderMap(rc, document.getElementById("diaFilter").value, sup, partner, zona, document.getElementById("sab30Filter").value, document.getElementById("tipoFilter").value);
     if (sinVentaActive) renderSinVentaLayer();
     updateChips();
     saveFilters();
