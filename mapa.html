@@ -1175,8 +1175,9 @@ fetch('puntos.json?v=' + new Date().getTime())
 
     repoblarPartner("ALL", "ALL");
     restoreFilters();
-    if (_savedTipo) {
-        document.getElementById("tipoFilter").value = _savedTipo;
+    const _tipoActual = localStorage.getItem('geodor_tipo');
+    if (_tipoActual) {
+        document.getElementById("tipoFilter").value = _tipoActual;
     }
     updateFilters();
 });
@@ -1538,15 +1539,18 @@ const _debouncedRenderMap = debounce(renderMap, 150);
 
 function elegirTipo(tipo) {
     localStorage.setItem('geodor_tipo', tipo);
+    const sel = document.getElementById("seleccionTipo");
+    sel.style.display = "none";
+    sel.style.pointerEvents = "none";
     document.getElementById("tipoFilter").value = tipo;
-    document.getElementById("seleccionTipo").style.display = "none";
     updateFilters();
 }
 
-// Aplicar tipo guardado al cargar
-const _savedTipo = localStorage.getItem('geodor_tipo');
-if (_savedTipo) {
-    document.getElementById("seleccionTipo").style.display = "none";
+// Ocultar pantalla si ya hay tipo guardado
+const _selTipo = document.getElementById("seleccionTipo");
+if (localStorage.getItem('geodor_tipo')) {
+    _selTipo.style.display = "none";
+    _selTipo.style.pointerEvents = "none";
 }
 
 function updateFilters() {
