@@ -809,47 +809,51 @@ function togglePanel() {
 document.getElementById('supFilter').addEventListener('change', () => renderRC(todosRCs));
 document.getElementById('zonalTipoFilter').addEventListener('change', () => { scheduleFullRender(); if (sinVentaActive) renderSinVentaLayer(); });
 
-function descargarSinVisita() {
-    const visitedSet = selectedRCFilter
-        ? (visitsByRC[selectedRCFilter] || new Set())
-        : null;
-
-    const zf = getZonalFiltro();
+function _getActivosConFiltros() {
+    const zf  = getZonalFiltro();
+    const sup = document.getElementById('supFilter').value;
     let activos = puntosData.filter(p =>
         (p.estado || '').toUpperCase() === 'ACTIVO' &&
-        (zf === 'ALL' || (p.zonal_tipo || '').toUpperCase() === zf)
+        (zf === 'ALL' || (p.zonal_tipo || '').toUpperCase() === zf) &&
+        (sup === 'ALL' || p.supervisor === sup)
     );
-    if (selectedRCFilter) activos = activos.filter(p => p.rc === selectedRCFilter);
+    if (selectedRCFilter)      activos = activos.filter(p => p.rc === selectedRCFilter);
+    if (selectedPartnerFilter) activos = activos.filter(p => p.responsable === selectedPartnerFilter);
+    return activos;
+}
 
-    const sinVisita = activos.filter(p => {
-        const id = normalizeID(p.ID);
-        return visitedSet ? !visitedSet.has(id) : !(visitCountsSemana[id] > 0);
-    });
-
-    if (!sinVisita.length) { alert('No hay puntos sin visita para exportar.'); return; }
-
-    const semSel = document.getElementById('semanaFilter');
-    const semLabel = semSel.options[semSel.selectedIndex]?.textContent || 'semana';
-
+function _descargarCSV(puntos, filename) {
+    if (!puntos.length) { alert('No hay puntos para exportar con los filtros actuales.'); return; }
     const rows = [['Org ID', 'Partner', 'Nombre Tienda', 'RC', 'Supervisor']];
-    sinVisita.forEach(p => {
-        rows.push([
-            p.ID || '',
-            p.responsable || '',
-            p.nombre || '',
-            p.rc || '',
-            p.supervisor || ''
-        ]);
-    });
-
+    puntos.forEach(p => rows.push([p.ID || '', p.responsable || '', p.nombre || '', p.rc || '', p.supervisor || '']));
     const csv = rows.map(r => r.map(v => `"${String(v).replace(/"/g, '""')}"`).join(',')).join('\n');
     const blob = new Blob(['﻿' + csv], { type: 'text/csv;charset=utf-8;' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
-    a.href = url;
-    a.download = `sin_visita_${semLabel.replace(/[^a-zA-Z0-9]/g, '_')}.csv`;
-    a.click();
+    a.href = url; a.download = filename; a.click();
     URL.revokeObjectURL(url);
+}
+
+function descargarSinVisita() {
+    const visitedSet = selectedRCFilter ? (visitsByRC[selectedRCFilter] || new Set()) : null;
+    const activos = _getActivosConFiltros();
+    const sinVisita = activos.filter(p => {
+        const id = normalizeID(p.ID);
+        return visitedSet ? !visitedSet.has(id) : !(visitCountsSemana[id] > 0);
+    });
+    const semLabel = document.getElementById('semanaFilter').options[document.getElementById('semanaFilter').selectedIndex]?.textContent || 'semana';
+    _descargarCSV(sinVisita, `sin_visita_${semLabel.replace(/[^a-zA-Z0-9]/g, '_')}.csv`);
+}
+
+function descargarVisitados() {
+    const visitedSet = selectedRCFilter ? (visitsByRC[selectedRCFilter] || new Set()) : null;
+    const activos = _getActivosConFiltros();
+    const visitados = activos.filter(p => {
+        const id = normalizeID(p.ID);
+        return visitedSet ? visitedSet.has(id) : (visitCountsSemana[id] > 0);
+    });
+    const semLabel = document.getElementById('semanaFilter').options[document.getElementById('semanaFilter').selectedIndex]?.textContent || 'semana';
+    _descargarCSV(visitados, `visitados_${semLabel.replace(/[^a-zA-Z0-9]/g, '_')}.csv`);
 }
 
 function buildSemanaFilter() {

@@ -81,13 +81,19 @@ body { font-family: 'Inter', 'Segoe UI', sans-serif; background: #0F172A; height
     text-transform: uppercase; letter-spacing: 1.2px;
     flex-shrink: 0; display: flex; align-items: center; justify-content: space-between;
 }
-#btnDescarga {
-    padding: 3px 10px; border-radius: 12px; border: 1px solid #334155;
-    background: #243447; color: #64748B;
+#btnDescarga, #btnDescargaVisitados {
+    padding: 3px 10px; border-radius: 12px;
     font-size: 10px; font-weight: 600; cursor: pointer;
     transition: all 0.2s; font-family: 'Inter', sans-serif;
 }
+#btnDescarga {
+    border: 1px solid #334155; background: #243447; color: #64748B;
+}
 #btnDescarga:hover { background: #2D3F55; color: #E2E8F0; border-color: #475569; }
+#btnDescargaVisitados {
+    border: 1px solid #166534; background: #14532d; color: #4ade80;
+}
+#btnDescargaVisitados:hover { background: #166534; color: #bbf7d0; border-color: #22c55e; }
 #coberturaList { overflow-y: auto; flex: 1; }
 
 .partner-row { padding: 9px 14px; border-bottom: 1px solid #243447; transition: background 0.15s; }
