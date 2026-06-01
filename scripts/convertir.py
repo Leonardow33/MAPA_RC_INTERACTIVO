@@ -2,7 +2,7 @@ import pandas as pd
 import json
 
 # 📂 Leer Excel
-df = pd.read_excel(r"C:\Users\elirg\Music\ESTRUCTURA TRANSVERSAL\MAPAS_RC_AUTO\BASE_PARA MAPAS.xlsx")
+df = pd.read_excel(r"C:\Users\elirg\Music\ESTRUCTURA TRANSVERSAL\MAPAS_RC_AUTO\sources\BASE_PARA MAPAS.xlsx")
 
 data = []
 
@@ -60,7 +60,7 @@ for _, row in df.iterrows():
         })
 
 # 💾 Guardar JSON
-with open("puntos.json", "w", encoding="utf-8") as f:
+with open("data/puntos.json", "w", encoding="utf-8") as f:
     json.dump(data, f, ensure_ascii=False, indent=4)
 
 print("Mapa actualizado OK")

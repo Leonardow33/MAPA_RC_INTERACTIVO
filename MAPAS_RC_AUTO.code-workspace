@@ -1,0 +1,33 @@
+{
+	"folders": [
+		{
+			"name": "MAPAS RC AUTO",
+			"path": "."
+		},
+		{
+			"name": "Calendario Interactivo",
+			"path": "../Calendario interactivo"
+		},
+		{
+			"name": "BI Asistente",
+			"path": "../ASISTENTE REPORTES/bi-asistente"
+		}
+	],
+	"settings": {
+		"files.exclude": {
+			"memory/": true,
+			".claude/": true,
+			"**/.git": true,
+			"sinventa.txt": true,
+			"MAPAS_RC_AUTO.code-workspace": true
+		},
+		"explorer.fileNesting.enabled": true,
+		"explorer.fileNesting.patterns": {
+			"mapa.html":     "mapa.js, mapa.css",
+			"visitas.html":  "visitas.js, visitas.css",
+			"SUPYCAP.html":  "supycap.js, supycap.css",
+			"manifest.json": "icons/"
+		},
+		"editor.formatOnSave": true
+	}
+}
