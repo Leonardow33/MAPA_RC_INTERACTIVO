@@ -1103,8 +1103,8 @@ function filtrarPorTipo(data) {
     if (!ft || ft === "ALL") return data;
     return data.filter(p => {
         const t = (p.tipo || "").toUpperCase();
-        if (ft === "TAMBO") return t !== "CASA DE APUESTA";
-        if (ft === "CASA DE APUESTA") return t !== "TAMBO";
+        if (ft === "TAMBO") return t !== "CASA DE APUESTA" && t !== "CENCOS";
+        if (ft === "CASA DE APUESTA") return t !== "TAMBO" && t !== "CENCOS";
         return true;
     });
 }
@@ -1396,8 +1396,8 @@ function renderMap(filterRC, filterDia, filterSup, filterPartner, filterZona, fi
     let filtered = allData.filter(p => {
         const tipo = (p.tipo || "").toUpperCase();
         const tipoOk = !filterTipo || filterTipo === "ALL" ||
-            (filterTipo === "TAMBO"           && tipo !== "CASA DE APUESTA") ||
-            (filterTipo === "CASA DE APUESTA" && tipo !== "TAMBO");
+            (filterTipo === "TAMBO"           && tipo !== "CASA DE APUESTA" && tipo !== "CENCOS") ||
+            (filterTipo === "CASA DE APUESTA" && tipo !== "TAMBO"           && tipo !== "CENCOS");
         return (
             !(p.nombre || "").toUpperCase().includes("OFICINA ELOT") &&
             (p.estado || "").toUpperCase() === "ACTIVO" &&
