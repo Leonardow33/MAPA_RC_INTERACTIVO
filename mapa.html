@@ -1117,7 +1117,7 @@ fetch('sabado30.json?v=' + new Date().getTime())
 // FETCH
 fetch('puntos.json?v=' + new Date().getTime())
 .then(res => res.json())
-.then(data => {
+.then(data => { try {
 
     allData = data;
 
@@ -1180,7 +1180,9 @@ fetch('puntos.json?v=' + new Date().getTime())
         document.getElementById("tipoFilter").value = _tipoActual;
     }
     updateFilters();
-});
+
+} catch(err) { console.error('ERROR en fetch puntos.json:', err); } })
+.catch(err => console.error('FETCH puntos.json falló:', err));
 
 // MAPA
 // ── ESTADO DE VISITAS (localStorage por día) ──────────────────────────────

@@ -33,27 +33,30 @@ for _, row in df.iterrows():
         if len(dias) == 0:
             dias = ["SIN RUTA"]
 
+        def s(val):
+            return str(val).strip() if pd.notnull(val) else ""
+
         # 🧩 construir registro
         data.append({
-            "nombre": row["NOMBRE DE TIENDA"],
-            "lat": float(row["LATITUD"]),
-            "lng": float(row["LONGITUD"]),
-            "estado": row["ESTATUS"],
-            "zona": row["ZONAL"],
-            "cluster": row["CLUSTER"],
-            "ID": str(row["ORG_CODE"]),
-            "rc": row["RC_NOMBRE"],
-            "username": str(row["USERNAME"]).strip() if pd.notnull(row.get("USERNAME")) else "",
-            "supervisor": str(row["SUPERVISOR"]).strip() if pd.notnull(row["SUPERVISOR"]) else "",
-            "capacitador": str(row["CAPACITADOR"]).strip() if pd.notnull(row.get("CAPACITADOR")) else "",
-            "responsable": row["P_RESPONSABLE"],
-            "frecuencia": row["FRECUENCIA-NORMAL"],
-            "dias": dias,
-            "distrito": str(row["DISTRITOS"]).strip() if pd.notnull(row.get("DISTRITOS")) else "",
-            "gz": str(row["GZ"]).strip() if pd.notnull(row.get("GZ")) else "",
-            "jz": str(row["JZ"]).strip() if pd.notnull(row.get("JZ")) else "",
-            "zonal_tipo": str(row["ZONAL_TIPO"]).strip().upper() if pd.notnull(row.get("ZONAL_TIPO")) else "",
-            "tipo": str(row["TIPO"]).strip().upper() if pd.notnull(row.get("TIPO")) else ""
+            "nombre":      s(row["NOMBRE DE TIENDA"]),
+            "lat":         float(row["LATITUD"]),
+            "lng":         float(row["LONGITUD"]),
+            "estado":      s(row["ESTATUS"]),
+            "zona":        s(row["ZONAL"]),
+            "cluster":     s(row["CLUSTER"]),
+            "ID":          str(row["ORG_CODE"]),
+            "rc":          s(row["RC_NOMBRE"]),
+            "username":    s(row.get("USERNAME")),
+            "supervisor":  s(row["SUPERVISOR"]),
+            "capacitador": s(row.get("CAPACITADOR")),
+            "responsable": s(row["P_RESPONSABLE"]),
+            "frecuencia":  s(row["FRECUENCIA-NORMAL"]),
+            "dias":        dias,
+            "distrito":    s(row.get("DISTRITOS")),
+            "gz":          s(row.get("GZ")),
+            "jz":          s(row.get("JZ")),
+            "zonal_tipo":  s(row.get("ZONAL_TIPO")).upper(),
+            "tipo":        s(row.get("TIPO")).upper()
         })
 
 # 💾 Guardar JSON
