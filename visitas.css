@@ -1,0 +1,285 @@
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Inter', 'Segoe UI', sans-serif; background: #0F172A; height: 100vh; display: flex; flex-direction: column; color: #F1F5F9; }
+
+#header {
+    background: linear-gradient(90deg, #0F172A 0%, #1E293B 100%);
+    color: #F1F5F9;
+    padding: 9px 16px;
+    display: flex; align-items: center; gap: 8px;
+    flex-shrink: 0;
+    border-bottom: 1px solid #334155;
+    box-shadow: 0 2px 20px rgba(0,0,0,0.5);
+}
+#header h1 { font-size: 14px; font-weight: 700; flex: 1; letter-spacing: -0.3px; color: #F1F5F9; white-space: nowrap; }
+
+#header select, #fechaFilter, #semanaFilter, #zonalTipoFilter {
+    padding: 5px 10px; border-radius: 8px; border: 1px solid #334155;
+    background: #243447; color: #CBD5E1;
+    font-size: 12px; font-weight: 500; cursor: pointer;
+    font-family: 'Inter', sans-serif;
+    transition: border-color 0.2s, background 0.2s;
+    outline: none;
+}
+#header select:hover, #fechaFilter:hover, #semanaFilter:hover, #zonalTipoFilter:hover { border-color: #475569; background: #2D3F55; }
+#header select option, #fechaFilter option, #semanaFilter option, #zonalTipoFilter option { background: #1E293B; color: #CBD5E1; }
+
+#lastUpdate { font-size: 11px; color: #475569; white-space: nowrap; }
+
+#btnTodosPuntos, #btnSinVenta, #btnRutaHoy {
+    padding: 5px 14px; border-radius: 20px; border: 1px solid #334155;
+    background: #243447; color: #94A3B8;
+    font-size: 12px; font-weight: 600; cursor: pointer;
+    transition: all 0.2s; font-family: 'Inter', sans-serif; white-space: nowrap;
+}
+#btnTodosPuntos:hover, #btnSinVenta:hover, #btnRutaHoy:hover { background: #2D3F55; border-color: #475569; color: #E2E8F0; }
+#btnTodosPuntos.activo { background: #059669; border-color: #059669; color: white; }
+#btnSinVenta.activo   { background: #DC2626; border-color: #DC2626; color: white; }
+#btnRutaHoy.activo    { background: #1565C0; border-color: #1565C0; color: white; }
+#btnSinVenta:disabled, #btnRutaHoy:disabled { opacity: 0.35; cursor: not-allowed; }
+
+#btnModoRC, #btnModoCap {
+    padding: 5px 14px; border-radius: 20px; border: 1px solid #334155;
+    background: #243447; color: #94A3B8;
+    font-size: 12px; font-weight: 600; cursor: pointer;
+    transition: all 0.2s; font-family: 'Inter', sans-serif; white-space: nowrap;
+}
+#btnModoRC.activo  { background: #1E88E5; border-color: #1E88E5; color: white; }
+#btnModoCap.activo { background: #8E24AA; border-color: #8E24AA; color: white; }
+
+#content { display: flex; flex: 1; overflow: hidden; }
+
+#panel {
+    width: 290px;
+    background: #1E293B;
+    border-right: 1px solid #334155;
+    display: flex; flex-direction: column;
+    overflow: hidden; flex-shrink: 0;
+}
+#panelHeader {
+    padding: 9px 14px;
+    background: #162032;
+    border-bottom: 1px solid #334155;
+    font-size: 10px; font-weight: 700; color: #475569;
+    text-transform: uppercase; letter-spacing: 1.2px; flex-shrink: 0;
+}
+#rcSection { flex: 1; display: flex; flex-direction: column; overflow: hidden; border-bottom: 1px solid #334155; min-height: 80px; max-height: 35%; }
+#rcList { overflow-y: auto; flex: 1; }
+#rcList::-webkit-scrollbar, #coberturaList::-webkit-scrollbar { width: 3px; }
+#rcList::-webkit-scrollbar-track, #coberturaList::-webkit-scrollbar-track { background: transparent; }
+#rcList::-webkit-scrollbar-thumb, #coberturaList::-webkit-scrollbar-thumb { background: #334155; border-radius: 2px; }
+
+#coberturaSection { flex: 2; display: flex; flex-direction: column; overflow: hidden; }
+#coberturaResumen { padding: 10px 14px; background: #162032; border-bottom: 1px solid #334155; flex-shrink: 0; }
+#coberturaResumen .res-total { font-size: 12px; font-weight: 600; color: #CBD5E1; margin-bottom: 6px; }
+#coberturaResumen .res-bar { height: 5px; background: #334155; border-radius: 3px; overflow: hidden; }
+#coberturaResumen .res-bar-fill { height: 100%; border-radius: 3px; transition: width 0.5s cubic-bezier(.4,0,.2,1); }
+
+#coberturaHeader {
+    padding: 8px 14px; background: #162032;
+    border-bottom: 1px solid #334155;
+    font-size: 10px; font-weight: 700; color: #475569;
+    text-transform: uppercase; letter-spacing: 1.2px;
+    flex-shrink: 0; display: flex; align-items: center; justify-content: space-between;
+}
+#btnDescarga {
+    padding: 3px 10px; border-radius: 12px; border: 1px solid #334155;
+    background: #243447; color: #64748B;
+    font-size: 10px; font-weight: 600; cursor: pointer;
+    transition: all 0.2s; font-family: 'Inter', sans-serif;
+}
+#btnDescarga:hover { background: #2D3F55; color: #E2E8F0; border-color: #475569; }
+#coberturaList { overflow-y: auto; flex: 1; }
+
+.partner-row { padding: 9px 14px; border-bottom: 1px solid #243447; transition: background 0.15s; }
+.partner-row:hover { background: #243447; }
+.partner-nombre { font-size: 12px; font-weight: 600; color: #E2E8F0; margin-bottom: 3px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.partner-stats { font-size: 11px; color: #64748B; margin-bottom: 5px; }
+.partner-bar { height: 4px; background: #334155; border-radius: 2px; overflow: hidden; }
+.partner-bar-fill { height: 100%; border-radius: 2px; transition: width 0.5s cubic-bezier(.4,0,.2,1); }
+
+.rc-card {
+    padding: 11px 14px; border-bottom: 1px solid #243447;
+    cursor: pointer; transition: background 0.15s;
+    display: flex; align-items: flex-start; gap: 10px;
+    border-left: 3px solid transparent;
+}
+.rc-card:hover { background: #243447; }
+.rc-card.activo { border-left-color: #10B981; }
+.rc-card.inactivo { border-left-color: #334155; opacity: 0.45; }
+.rc-card.seleccionado { background: #1A3049; border-left-color: #3B82F6; }
+
+.rc-dot {
+    width: 34px; height: 34px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    color: white; font-weight: 800; font-size: 12px;
+    flex-shrink: 0; margin-top: 1px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.35);
+}
+.rc-info { flex: 1; min-width: 0; }
+.rc-nombre { font-size: 13px; font-weight: 700; color: #F1F5F9; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.rc-sup { font-size: 11px; color: #475569; margin-bottom: 5px; font-weight: 400; }
+.rc-stats { display: flex; gap: 6px; flex-wrap: wrap; }
+.rc-stat { font-size: 10px; background: #243447; color: #94A3B8; padding: 2px 8px; border-radius: 10px; font-weight: 600; border: 1px solid #334155; }
+.rc-ultima { font-size: 10px; color: #475569; margin-top: 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+#noData { padding: 30px 20px; text-align: center; color: #475569; font-size: 13px; }
+#map { flex: 1; }
+
+.rc-popup { font-family: 'Inter', 'Segoe UI', sans-serif; min-width: 200px; }
+.rc-popup-nombre { font-size: 14px; font-weight: 700; margin-bottom: 8px; }
+.rc-popup-row { display: flex; justify-content: space-between; font-size: 12px; padding: 4px 0; border-bottom: 1px solid #f0f0f0; }
+.rc-popup-row:last-child { border-bottom: none; }
+.rc-popup-lbl { color: #999; font-weight: 600; text-transform: uppercase; font-size: 10px; letter-spacing: 0.5px; }
+.rc-popup-val { color: #222; font-weight: 600; }
+
+#panelToggle {
+    display: none; position: fixed;
+    bottom: 16px; left: 50%; transform: translateX(-50%);
+    z-index: 600; background: #1E293B; color: #F1F5F9;
+    border: 1px solid #334155; border-radius: 24px;
+    padding: 10px 22px; font-size: 13px; font-weight: 700;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.6); cursor: pointer;
+    font-family: 'Inter', sans-serif;
+}
+#panelHandle {
+    display: none; width: 40px; height: 4px;
+    background: #334155; border-radius: 2px;
+    margin: 8px auto 0; cursor: pointer;
+}
+
+@media (max-width: 768px) {
+    /* ── Header ── */
+    #header {
+        flex-wrap: wrap;
+        padding: 7px 10px;
+        gap: 5px;
+        align-items: center;
+    }
+    /* Fila 1: título + botones de modo */
+    #header h1 {
+        flex: 1 1 0;
+        font-size: 12px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        min-width: 0;
+    }
+    #btnModoRC, #btnModoCap {
+        flex: 0 0 auto;
+        padding: 6px 12px;
+        font-size: 11px;
+        border-radius: 10px;
+        min-height: 32px;
+    }
+    /* Fila 2: fecha + semana | Fila 3: supervisor + zonal */
+    #fechaFilter, #semanaFilter,
+    #supFilter, #zonalTipoFilter {
+        flex: 1 1 calc(50% - 3px);
+        min-height: 36px;
+        font-size: 12px;
+        padding: 5px 8px;
+    }
+    /* Fila 4: botones de acción */
+    #btnTodosPuntos, #btnRutaHoy, #btnSinVenta {
+        flex: 1 1 auto;
+        padding: 7px 8px;
+        font-size: 11px;
+        min-height: 36px;
+        border-radius: 10px;
+    }
+    #lastUpdate { display: none; }
+
+    /* ── Mapa full-screen detrás del header ── */
+    #content { position: relative; }
+    #map { position: absolute; inset: 0; width: 100%; height: 100%; }
+
+    /* ── Panel: bottom sheet ── */
+    #panel {
+        position: fixed; bottom: 0; left: 0; right: 0;
+        width: 100%; height: 60vh; border-right: none;
+        border-radius: 16px 16px 0 0;
+        box-shadow: 0 -8px 30px rgba(0,0,0,0.6);
+        transform: translateY(100%);
+        transition: transform 0.3s cubic-bezier(.4,0,.2,1);
+        z-index: 500;
+    }
+    #panel.abierto { transform: translateY(0); }
+    #panelHandle { display: block; }
+    #panelToggle { display: block; }
+    #panelToggle.abierto { bottom: calc(60vh + 8px); }
+
+    /* ── Popups del mapa ── */
+    .rc-popup { min-width: 160px; font-size: 12px; }
+    .rc-popup-nombre { font-size: 13px; }
+
+    /* ── Modales de auth/switch ── */
+    #authBox, #switchBox {
+        width: 92vw;
+        padding: 28px 20px;
+    }
+}
+
+#authOverlay {
+    position: fixed; inset: 0; z-index: 9999;
+    background: #0F172A;
+    display: flex; align-items: center; justify-content: center;
+}
+#authBox {
+    background: #1E293B; border-radius: 16px;
+    padding: 40px 36px; width: 340px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.6);
+    text-align: center; border: 1px solid #334155;
+}
+#authBox h2 { color: #F1F5F9; font-size: 18px; margin-bottom: 6px; font-weight: 700; }
+#authBox p  { color: #64748B; font-size: 13px; margin-bottom: 24px; }
+#authInput {
+    width: 100%; padding: 12px 16px; border-radius: 10px;
+    border: 1px solid #334155; background: #243447; color: #F1F5F9;
+    font-size: 14px; font-family: 'Inter', sans-serif;
+    outline: none; margin-bottom: 12px; transition: border-color 0.2s;
+}
+#authInput:focus { border-color: #3B82F6; }
+#authInput::placeholder { color: #475569; }
+#authBtn {
+    width: 100%; padding: 12px; border-radius: 10px; border: none;
+    background: linear-gradient(135deg, #3B82F6, #1D4ED8);
+    color: white; font-size: 14px; font-weight: 700;
+    cursor: pointer; transition: opacity 0.2s; font-family: 'Inter', sans-serif;
+}
+#authBtn:hover { opacity: 0.9; }
+#authError { color: #EF4444; font-size: 12px; margin-top: 8px; display: none; }
+
+#switchOverlay {
+    position: fixed; inset: 0; z-index: 9998;
+    background: rgba(15,23,42,0.85);
+    display: none; align-items: center; justify-content: center;
+}
+#switchBox {
+    background: #1E293B; border-radius: 16px;
+    padding: 32px 28px; width: 320px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.6);
+    text-align: center; border: 1px solid #334155;
+}
+#switchBox h3 { color: #F1F5F9; font-size: 16px; margin-bottom: 6px; font-weight: 700; }
+#switchBox p  { color: #64748B; font-size: 13px; margin-bottom: 20px; }
+#switchInput {
+    width: 100%; padding: 11px 14px; border-radius: 10px;
+    border: 1px solid #334155; background: #243447; color: #F1F5F9;
+    font-size: 14px; font-family: 'Inter', sans-serif;
+    outline: none; margin-bottom: 10px; transition: border-color 0.2s;
+}
+#switchInput:focus { border-color: #3B82F6; }
+#switchInput::placeholder { color: #475569; }
+.switch-btns { display: flex; gap: 8px; }
+#switchConfirm {
+    flex: 1; padding: 11px; border-radius: 10px; border: none;
+    background: linear-gradient(135deg, #3B82F6, #1D4ED8);
+    color: white; font-size: 13px; font-weight: 700;
+    cursor: pointer; font-family: 'Inter', sans-serif;
+}
+#switchCancel {
+    padding: 11px 16px; border-radius: 10px;
+    border: 1px solid #334155; background: #243447; color: #94A3B8;
+    font-size: 13px; font-weight: 600; cursor: pointer; font-family: 'Inter', sans-serif;
+}
+#switchError { color: #EF4444; font-size: 12px; margin-top: 8px; display: none; }
