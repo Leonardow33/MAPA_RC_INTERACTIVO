@@ -1,0 +1,33 @@
+name: Purgar caché jsDelivr
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'data/puntos.json'
+      - 'data/version.json'
+      - 'js/**'
+      - 'css/**'
+
+jobs:
+  purge:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Purgar jsDelivr
+        run: |
+          BASE="https://purge.jsdelivr.net/gh/Leonardow33/MAPA_RC_INTERACTIVO@main"
+          FILES=(
+            "data/puntos.json"
+            "data/version.json"
+            "js/mapa.js"
+            "js/visitas.js"
+            "js/supycap.js"
+            "css/mapa.css"
+            "css/visitas.css"
+            "css/supycap.css"
+          )
+          for f in "${FILES[@]}"; do
+            STATUS=$(curl -s -o /dev/null -w "%{http_code}" "$BASE/$f")
+            echo "$f: $STATUS"
+          done
+          echo "Purga completada"
