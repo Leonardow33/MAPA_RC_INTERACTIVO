@@ -1341,7 +1341,22 @@ const LIGA_COLOR = {
     'Premier League':   '#3D195B'
 };
 
+const TENNIS_LIGAS = new Set(['Roland Garros','Wimbledon','US Open','Australian Open']);
+const FUTBOL_LIGAS = new Set(['Mundial 2026','Amistosos','Liga 1 Perú','Libertadores','Sudamericana','Champions League','Europa League','Premier League']);
+
 let partidosLoaded = false;
+let ppTabActual = 'futbol';
+let ppAllMatchesRaw = [];
+
+function setPPTab(tab) {
+    ppTabActual = tab;
+    document.getElementById('ppTabFutbol').classList.toggle('active', tab === 'futbol');
+    document.getElementById('ppTabTenis').classList.toggle('active', tab === 'tenis');
+    const filtered = ppAllMatchesRaw.filter(m =>
+        tab === 'tenis' ? TENNIS_LIGAS.has(m.liga) : !TENNIS_LIGAS.has(m.liga)
+    );
+    buildPPDrum(filtered);
+}
 
 function getWeekRange() {
     const today = new Date(); today.setHours(0,0,0,0);
@@ -1515,24 +1530,24 @@ function buildPPDrum(allMatches) {
 async function loadPartidos() {
     const body = document.getElementById('ppBody');
     try {
-        const res  = await fetch(PARTIDOS_URL + '?v=' + Date.now());
-        const json = await res.json();
+        const res   = await fetch(PARTIDOS_URL + '?v=' + Date.now());
+        const json  = await res.json();
+        const today = new Date(); today.setHours(0,0,0,0);
         const { end } = getWeekRange();
-        const today   = new Date(); today.setHours(0,0,0,0);
-        const matches = (json.matches || []).filter(m => {
+        ppAllMatchesRaw = (json.matches || []).filter(m => {
             const d = parseMatchDay(m.day);
             return d >= today && d <= end;
         });
-        if (!matches.length) {
+        if (!ppAllMatchesRaw.length) {
             body.innerHTML = '<div class="pp-empty">No hay más partidos esta semana.</div>';
             return;
         }
-        buildPPDrum(matches);
-        const imp = matches.filter(m => m.importante).length;
+        const imp = ppAllMatchesRaw.filter(m => m.importante).length;
         const badge = document.getElementById('badgePartidos');
         badge.textContent = imp || '';
         badge.style.display = imp ? 'block' : 'none';
         partidosLoaded = true;
+        setPPTab(ppTabActual);
     } catch(e) {
         body.innerHTML = '<div class="pp-empty">No se pudieron cargar los partidos.</div>';
     }

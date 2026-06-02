@@ -139,7 +139,7 @@
 <button id="btnUbicacion" onclick="irAUbicacion()" title="Mi ubicación">📍</button>
 
 <!-- WIDGET PARTIDOS IMPORTANTES -->
-<button id="btnPartidos" onclick="window.open('https://leonardow33.github.io/CALENDARIO-INTERACTIVO-PARTIDOS/Calendario-1.html','_blank')" title="Ver calendario de partidos">
+<button id="btnPartidos" onclick="togglePanelPartidos()" title="Partidos importantes">
     ⚽
     <span class="badge" id="badgePartidos"></span>
 </button>
@@ -147,6 +147,10 @@
     <div class="pp-header">
         <span class="pp-title">⚽ Partidos importantes</span>
         <button class="pp-close" onclick="togglePanelPartidos()">×</button>
+    </div>
+    <div class="pp-tabs">
+        <button class="pp-tab active" id="ppTabFutbol" onclick="setPPTab('futbol')">⚽ Fútbol</button>
+        <button class="pp-tab" id="ppTabTenis" onclick="setPPTab('tenis')">🎾 Tenis</button>
     </div>
     <div class="pp-drum-vp" id="ppDrumVP">
         <div class="pp-drum-fade-left"></div>
