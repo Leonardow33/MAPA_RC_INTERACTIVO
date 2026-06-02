@@ -916,14 +916,14 @@ updateSinVentaBtn();
 document.getElementById('btnModoRC').classList.toggle('activo', modoVista === 'rc');
 document.getElementById('btnModoCap').classList.toggle('activo', modoVista === 'cap');
 document.getElementById('btnRutaHoy').style.display = modoVista === 'cap' ? 'none' : '';
-fetch('data/puntos.json?v=' + new Date().getTime())
+fetch('https://raw.githubusercontent.com/Leonardow33/MAPA_RC_INTERACTIVO/main/data/puntos.json?v=' + new Date().getTime())
     .then(r => r.json())
     .then(data => { puntosData = data; cargarDatos(); cargarDatosSemanales(); })
     .catch(e => console.error('Error cargando puntos.json:', e));
 
 // ── AUTO-REFRESH cuando cambia version.json ────────────────────────────────
 (function() {
-    const VERSION_URL = 'data/version.json';
+    const VERSION_URL = 'https://raw.githubusercontent.com/Leonardow33/MAPA_RC_INTERACTIVO/main/data/version.json';
     let _vActual = null;
     fetch(VERSION_URL).then(r => r.json()).then(d => { _vActual = d.v; }).catch(() => {});
     setInterval(function() {
@@ -932,7 +932,7 @@ fetch('data/puntos.json?v=' + new Date().getTime())
             .then(d => {
                 if (_vActual && d.v !== _vActual) {
                     _vActual = d.v;
-                    fetch('data/puntos.json?v=' + Date.now())
+                    fetch('https://raw.githubusercontent.com/Leonardow33/MAPA_RC_INTERACTIVO/main/data/puntos.json?v=' + Date.now())
                         .then(r => r.json())
                         .then(data => {
                             puntosData = data;
