@@ -1327,6 +1327,8 @@ document.getElementById("rcFilter").addEventListener("change", actualizarBtnReun
 // === WIDGET PARTIDOS IMPORTANTES ==========================================
 const PARTIDOS_URL = 'https://raw.githubusercontent.com/Leonardow33/CALENDARIO-INTERACTIVO-PARTIDOS/main/partidos.json';
 const LIGA_COLOR = {
+    'Mundial 2026':     '#C8A000',
+    'Amistosos':        '#7B5EA7',
     'Liga 1 Perú':      '#D4001A',
     'Libertadores':     '#1A3A6B',
     'Sudamericana':     '#0D7A4E',
