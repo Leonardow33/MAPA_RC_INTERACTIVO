@@ -70,6 +70,13 @@ let visitCountsSemana = {};
 let visitsByRC = {};
 let visitsByRCToday = {};
 let selectedRCFilter = null;
+
+function matchRCFilter(p) {
+    if (!selectedRCFilter) return true;
+    return modoVista === 'cap'
+        ? p.capacitador === selectedRCFilter
+        : matchRCFilter(p);
+}
 let semanaKeyCache = '';
 let selectedSemanaMonday = null;
 
@@ -384,7 +391,7 @@ function renderTodosLosPuntos() {
         (p.estado || '').toUpperCase() === 'ACTIVO' &&
         (zf === 'ALL' || (p.zonal_tipo || '').toUpperCase() === zf)
     );
-    if (selectedRCFilter) activos = activos.filter(p => p.rc === selectedRCFilter);
+    if (selectedRCFilter) activos = activos.filter(p => matchRCFilter(p));
     let visitados = 0;
     activos.forEach(p => {
         if (!p.lat || !p.lng) return;
@@ -417,7 +424,7 @@ function renderCobertura() {
         (zf === 'ALL' || (p.zonal_tipo || '').toUpperCase() === zf)
     );
     if (selectedRCFilter) {
-        activos = activos.filter(p => p.rc === selectedRCFilter);
+        activos = activos.filter(p => matchRCFilter(p));
     }
 
     const todayNorm = normDia(DIAS_SEMANA[new Date().getDay()]);
@@ -566,7 +573,7 @@ function renderSinVisitar() {
     const noVisitados = puntosData.filter(p =>
         (p.estado || '').toUpperCase() === 'ACTIVO' &&
         !fueVisitado(normalizeID(p.ID)) &&
-        (selectedRCFilter ? p.rc === selectedRCFilter : true) &&
+        (selectedRCFilter ? matchRCFilter(p) : true) &&
         p.responsable === selectedPartnerFilter &&
         (zf !== 'ALL' ? (p.zonal_tipo || '').toUpperCase() === zf : true) &&
         (!rutaHoyActive || (Array.isArray(p.dias) && p.dias.some(d => normDia(d) === todayNorm)))
@@ -599,7 +606,7 @@ function renderRutaHoy() {
 
     const rutaHoy = puntosData.filter(p =>
         (p.estado || '').toUpperCase() === 'ACTIVO' &&
-        p.rc === selectedRCFilter &&
+        matchRCFilter(p) &&
         Array.isArray(p.dias) && p.dias.some(d => normDia(d) === todayAbbr) &&
         (zf !== 'ALL' ? (p.zonal_tipo || '').toUpperCase() === zf : true)
     );
@@ -817,7 +824,7 @@ function _getActivosConFiltros() {
         (zf === 'ALL' || (p.zonal_tipo || '').toUpperCase() === zf) &&
         (sup === 'ALL' || p.supervisor === sup)
     );
-    if (selectedRCFilter)      activos = activos.filter(p => p.rc === selectedRCFilter);
+    if (selectedRCFilter)      activos = activos.filter(matchRCFilter);
     if (selectedPartnerFilter) activos = activos.filter(p => p.responsable === selectedPartnerFilter);
     return activos;
 }
