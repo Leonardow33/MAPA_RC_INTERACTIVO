@@ -1348,19 +1348,19 @@ let partidosLoaded = false;
 let ppTabActual = 'futbol';
 let ppAllMatchesRaw = [];
 
-const FUTBOL_SLUGS = new Set(['Mundial 2026','Amistosos','Liga 1 Perú','Libertadores','Sudamericana','Champions League','Europa League','Premier League','Liga 1 Peru']);
-
-function getSport(m) {
-    if (m.sport) return m.sport;
-    // fallback: si la liga es conocida de fútbol → futbol, si no → tenis
-    return FUTBOL_SLUGS.has(m.liga) ? 'futbol' : 'tenis';
-}
+const FUTBOL_LIGAS = new Set([
+    'Mundial 2026','Amistosos','Liga 1 Perú','Liga 1 Peru',
+    'Libertadores','Sudamericana','Champions League',
+    'Europa League','Premier League'
+]);
 
 function setPPTab(tab) {
     ppTabActual = tab;
     document.getElementById('ppTabFutbol').classList.toggle('active', tab === 'futbol');
     document.getElementById('ppTabTenis').classList.toggle('active', tab === 'tenis');
-    const filtered = ppAllMatchesRaw.filter(m => getSport(m) === tab);
+    const filtered = ppAllMatchesRaw.filter(m =>
+        tab === 'futbol' ? FUTBOL_LIGAS.has(m.liga) : !FUTBOL_LIGAS.has(m.liga)
+    );
     buildPPDrum(filtered);
 }
 
