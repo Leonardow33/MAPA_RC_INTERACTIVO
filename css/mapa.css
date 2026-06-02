@@ -366,28 +366,30 @@ html, body {
 }
 .pp-tabs {
     display: flex;
-    gap: 6px;
-    padding: 8px 12px;
-    background: #12274a;
+    background: #0f1f3d;
     flex-shrink: 0;
+    border-bottom: 2px solid #1A3A6B;
 }
 .pp-tab {
     flex: 1;
-    padding: 5px 0;
-    border-radius: 20px;
-    border: 1.5px solid rgba(255,255,255,0.15);
+    padding: 10px 0;
+    border: none;
+    border-bottom: 3px solid transparent;
+    margin-bottom: -2px;
     background: transparent;
-    color: rgba(255,255,255,0.5);
-    font-size: 11px;
+    color: rgba(255,255,255,0.45);
+    font-size: 13px;
     font-weight: 700;
     cursor: pointer;
-    transition: all 0.2s;
+    transition: all 0.18s;
     font-family: inherit;
+    letter-spacing: 0.3px;
 }
+.pp-tab:hover { color: rgba(255,255,255,0.75); }
 .pp-tab.active {
-    background: white;
-    color: #1A3A6B;
-    border-color: white;
+    color: #fff;
+    border-bottom-color: #4fc3f7;
+    background: rgba(79,195,247,0.08);
 }
 #panelPartidos .pp-body {
     overflow-y: auto;
