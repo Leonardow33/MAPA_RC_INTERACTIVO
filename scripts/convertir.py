@@ -1,5 +1,6 @@
 import pandas as pd
 import json
+from datetime import datetime
 
 # 📂 Leer Excel
 df = pd.read_excel(r"C:\Users\elirg\Music\ESTRUCTURA TRANSVERSAL\MAPAS_RC_AUTO\sources\BASE_PARA MAPAS.xlsx")
@@ -59,8 +60,12 @@ for _, row in df.iterrows():
             "tipo":        s(row.get("TIPO")).upper()
         })
 
-# 💾 Guardar JSON
+ts = datetime.now().strftime("%Y-%m-%dT%H:%M:%S")
+
 with open("data/puntos.json", "w", encoding="utf-8") as f:
     json.dump(data, f, ensure_ascii=False, indent=4)
 
-print("Mapa actualizado OK")
+with open("data/version.json", "w", encoding="utf-8") as f:
+    json.dump({"v": ts, "n": len(data)}, f)
+
+print(f"Mapa actualizado OK — {len(data)} puntos — v{ts}")

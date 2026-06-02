@@ -920,3 +920,27 @@ fetch('data/puntos.json?v=' + new Date().getTime())
     .then(r => r.json())
     .then(data => { puntosData = data; cargarDatos(); cargarDatosSemanales(); })
     .catch(e => console.error('Error cargando puntos.json:', e));
+
+// ── AUTO-REFRESH cuando cambia version.json ────────────────────────────────
+(function() {
+    const VERSION_URL = 'data/version.json';
+    let _vActual = null;
+    fetch(VERSION_URL).then(r => r.json()).then(d => { _vActual = d.v; }).catch(() => {});
+    setInterval(function() {
+        fetch(VERSION_URL + '?t=' + Date.now())
+            .then(r => r.json())
+            .then(d => {
+                if (_vActual && d.v !== _vActual) {
+                    _vActual = d.v;
+                    fetch('data/puntos.json?v=' + Date.now())
+                        .then(r => r.json())
+                        .then(data => {
+                            puntosData = data;
+                            scheduleFullRender();
+                            console.log('Datos actualizados automaticamente:', d.v);
+                        }).catch(() => {});
+                }
+            }).catch(() => {});
+    }, 5 * 60 * 1000);
+})();
+// ──────────────────────────────────────────────────────────────────────────
