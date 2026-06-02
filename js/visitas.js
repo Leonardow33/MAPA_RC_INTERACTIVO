@@ -824,7 +824,12 @@ function _getActivosConFiltros() {
         (zf === 'ALL' || (p.zonal_tipo || '').toUpperCase() === zf) &&
         (sup === 'ALL' || p.supervisor === sup)
     );
-    if (selectedRCFilter)      activos = activos.filter(matchRCFilter);
+    if (selectedRCFilter) {
+        const campo = modoVista === 'cap' ? 'capacitador' : 'rc';
+        const antes = activos.length;
+        activos = activos.filter(p => (p[campo] || '').trim().toUpperCase() === selectedRCFilter.trim().toUpperCase());
+        console.log(`Filtro RC: "${selectedRCFilter}" campo=${campo} antes=${antes} después=${activos.length}`);
+    }
     if (selectedPartnerFilter) activos = activos.filter(p => p.responsable === selectedPartnerFilter);
     return activos;
 }
