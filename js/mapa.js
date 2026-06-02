@@ -1352,9 +1352,7 @@ function setPPTab(tab) {
     ppTabActual = tab;
     document.getElementById('ppTabFutbol').classList.toggle('active', tab === 'futbol');
     document.getElementById('ppTabTenis').classList.toggle('active', tab === 'tenis');
-    const filtered = ppAllMatchesRaw.filter(m =>
-        tab === 'tenis' ? TENNIS_LIGAS.has(m.liga) : !TENNIS_LIGAS.has(m.liga)
-    );
+    const filtered = ppAllMatchesRaw.filter(m => (m.sport || 'futbol') === tab);
     buildPPDrum(filtered);
 }
 
