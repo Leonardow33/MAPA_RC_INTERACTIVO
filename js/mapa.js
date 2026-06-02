@@ -1329,6 +1329,10 @@ const PARTIDOS_URL = 'https://raw.githubusercontent.com/Leonardow33/CALENDARIO-I
 const LIGA_COLOR = {
     'Mundial 2026':     '#C8A000',
     'Amistosos':        '#7B5EA7',
+    'Roland Garros':    '#C8471B',
+    'Wimbledon':        '#006633',
+    'US Open':          '#003087',
+    'Australian Open':  '#0072CE',
     'Liga 1 Perú':      '#D4001A',
     'Libertadores':     '#1A3A6B',
     'Sudamericana':     '#0D7A4E',
