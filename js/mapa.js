@@ -1341,18 +1341,15 @@ const LIGA_COLOR = {
     'Premier League':   '#3D195B'
 };
 
-const TENNIS_LIGAS = new Set(['Roland Garros','Wimbledon','US Open','Australian Open']);
-const FUTBOL_LIGAS = new Set(['Mundial 2026','Amistosos','Liga 1 Perú','Libertadores','Sudamericana','Champions League','Europa League','Premier League']);
-
-let partidosLoaded = false;
-let ppTabActual = 'futbol';
-let ppAllMatchesRaw = [];
-
 const FUTBOL_LIGAS = new Set([
     'Mundial 2026','Amistosos','Liga 1 Perú','Liga 1 Peru',
     'Libertadores','Sudamericana','Champions League',
     'Europa League','Premier League'
 ]);
+
+let partidosLoaded = false;
+let ppTabActual = 'futbol';
+let ppAllMatchesRaw = [];
 
 function setPPTab(tab) {
     ppTabActual = tab;
