@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Distribución de Zonas RC</title>
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+<link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.css"/>
+<link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.Default.css"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Leonardow33/MAPA_RC_INTERACTIVO@main/css/zonas.css">
+</head>
+<body>
+
+<div id="topbar">
+    <h1>📍 Distribución de Zonas RC</h1>
+
+    <div class="fg">
+        <label>Supervisor</label>
+        <select id="fSup"><option value="ALL">Todos</option></select>
+    </div>
+    <div class="fg">
+        <label>RC</label>
+        <select id="fRC"><option value="ALL">Todos</option></select>
+    </div>
+    <div class="fg">
+        <label>Día</label>
+        <select id="fDia"><option value="ALL">Todos</option></select>
+    </div>
+    <div class="fg">
+        <label>Tipo</label>
+        <select id="fTipo">
+            <option value="ALL">Todos</option>
+            <option value="TAMBO">Tambo</option>
+            <option value="CASA DE APUESTA">Casa de Apuesta</option>
+        </select>
+    </div>
+    <div class="fg">
+        <label>Zona</label>
+        <select id="fZona">
+            <option value="ALL">Lima + Provincia</option>
+            <option value="LIMA">Solo Lima</option>
+            <option value="PROVINCIA">Solo Provincia</option>
+        </select>
+    </div>
+
+    <button id="btnReset" onclick="resetFiltros()">↺ Limpiar</button>
+    <span id="contador">— puntos</span>
+</div>
+
+<div id="layout">
+    <div id="panel">
+        <div id="panelHeader">Cargando...</div>
+        <div id="rcList"></div>
+    </div>
+    <div id="map"></div>
+</div>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/Leonardow33/MAPA_RC_INTERACTIVO@main/js/zonas.js"></script>
+
+</body>
+</html>
