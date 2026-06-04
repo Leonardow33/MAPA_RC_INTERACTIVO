@@ -44,6 +44,7 @@
     </div>
 
     <button id="btnReset" onclick="resetFiltros()">↺ Limpiar</button>
+    <button id="btnMalUbicados" onclick="descargarMalUbicados()" title="Detecta y descarga tiendas cuya coordenada no coincide con su distrito asignado">⚠ Mal ubicados</button>
     <span id="contador">— puntos</span>
 </div>
 
@@ -56,6 +57,7 @@
 </div>
 
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@turf/turf@6/turf.min.js"></script>
 <script src="js/zonas.js"></script>
 
 </body>
