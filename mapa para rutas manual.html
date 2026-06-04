@@ -412,7 +412,7 @@ const COLORES = {
 function colorPartner(r) { return COLORES[r] || "#757575"; }
 
 // ── DATOS ─────────────────────────────────────────────────────────────────
-fetch("puntos.json")
+fetch("https://raw.githubusercontent.com/Leonardow33/MAPA_RC_INTERACTIVO/main/data/puntos.json")
     .then(r => r.json())
     .then(data => { allData = data; poblarPartners(); });
 
