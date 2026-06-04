@@ -570,6 +570,52 @@ function districtOfPoint(pt, polyMap, centroids) {
     return minDist < 3 ? nearest : '—'; // solo si está a menos de 3km del centroide
 }
 
+function haversineKm(lat1, lng1, lat2, lng2) {
+    const R = 6371, toR = Math.PI/180;
+    const dLat = (lat2-lat1)*toR, dLng = (lng2-lng1)*toR;
+    const a = Math.sin(dLat/2)**2 + Math.cos(lat1*toR)*Math.cos(lat2*toR)*Math.sin(dLng/2)**2;
+    return R * 2 * Math.asin(Math.sqrt(a));
+}
+
+function descargarSugerenciasRC() {
+    if (!allData.length) { alert('Cargando datos, intenta en un momento.'); return; }
+    const btn = document.getElementById('btnSugerencias');
+    btn.textContent = '⏳ Calculando...'; btn.disabled = true;
+
+    setTimeout(() => {
+        const conRC   = allData.filter(p => p.rc && p.rc !== 'SIN RC');
+        const sinRC   = allData.filter(p => !p.rc || p.rc === 'SIN RC');
+
+        if (!sinRC.length) { alert('Todos los puntos tienen RC asignado.'); btn.textContent = '📋 Sugerir RC'; btn.disabled = false; return; }
+
+        const rows = [['ID','Nombre','Tipo','Distrito','RC Sugerido','Supervisor','Capacitador','Tienda Referencia','Distancia km','Lat','Lng']];
+        sinRC.forEach(p => {
+            let mejor = null, minDist = Infinity;
+            conRC.forEach(r => {
+                const d = haversineKm(p.lat, p.lng, r.lat, r.lng);
+                if (d < minDist) { minDist = d; mejor = r; }
+            });
+            if (!mejor) return;
+            rows.push([
+                p.ID, p.nombre, p.tipo || '', p.distrito || '',
+                mejor.rc, mejor.supervisor, mejor.capacitador || '',
+                mejor.nombre, minDist.toFixed(2), p.lat, p.lng
+            ]);
+        });
+
+        rows.sort((a,b) => parseFloat(a[7]) - parseFloat(b[7]));
+        const csv  = rows.map(r => r.map(v => `"${String(v||'').replace(/"/g,'""')}"`).join(',')).join('\n');
+        const blob = new Blob(['﻿'+csv], {type:'text/csv;charset=utf-8;'});
+        const url  = URL.createObjectURL(blob);
+        const a    = document.createElement('a');
+        a.href = url; a.download = 'sugerencias_rc.csv'; a.click();
+        URL.revokeObjectURL(url);
+
+        btn.textContent = '📋 Sugerir RC'; btn.disabled = false;
+        alert(`${sinRC.length} tiendas sin RC procesadas.\nRevisa el CSV con las sugerencias por cercanía.`);
+    }, 50);
+}
+
 function descargarMalUbicados() {
     if (!distritosGeo || !allData.length) { alert('Cargando datos, intenta en un momento.'); return; }
 

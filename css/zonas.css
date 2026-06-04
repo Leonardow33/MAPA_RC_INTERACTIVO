@@ -115,6 +115,13 @@ body { font-family: 'Inter', sans-serif; background: #0f172a; color: #e2e8f0; he
     font-weight: 600; cursor: pointer; font-family: inherit; white-space: nowrap;
 }
 #btnReset:hover { border-color: #3b82f6; color: #93c5fd; }
+#btnSugerencias {
+    background: transparent; border: 1px solid #334155; color: #94a3b8;
+    border-radius: 8px; padding: 5px 12px; font-size: 12px;
+    font-weight: 600; cursor: pointer; font-family: inherit; white-space: nowrap;
+}
+#btnSugerencias:hover { border-color: #a855f7; color: #d8b4fe; }
+
 #btnMalUbicados {
     background: transparent; border: 1px solid #92400e; color: #fbbf24;
     border-radius: 8px; padding: 5px 12px; font-size: 12px;
