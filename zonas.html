@@ -43,6 +43,13 @@
         </select>
     </div>
 
+    <div class="fg" id="buscarWrap">
+        <div id="buscarBox">
+            <input id="buscarInput" type="text" placeholder="🔍 Nombre o código..." autocomplete="off"
+                   oninput="onBuscar(this.value)" onblur="setTimeout(()=>cerrarSugerencias(),150)"/>
+            <div id="buscarSugerencias"></div>
+        </div>
+    </div>
     <button id="btnReset" onclick="resetFiltros()">↺ Limpiar</button>
     <button id="btnMalUbicados" onclick="descargarMalUbicados()" title="Detecta y descarga tiendas cuya coordenada no coincide con su distrito asignado" style="display:none">⚠ Mal ubicados</button>
     <span id="contador">— puntos</span>

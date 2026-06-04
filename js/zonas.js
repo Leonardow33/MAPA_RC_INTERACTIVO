@@ -347,6 +347,48 @@ function seleccionarDia(dia) {
     }
 }
 
+function onBuscar(q) {
+    const box = document.getElementById('buscarSugerencias');
+    q = q.trim().toUpperCase();
+    if (q.length < 2) { box.classList.remove('visible'); box.innerHTML = ''; return; }
+
+    const matches = allData.filter(p =>
+        (p.nombre || '').toUpperCase().includes(q) ||
+        String(p.ID || '').toUpperCase().includes(q)
+    ).slice(0, 12);
+
+    if (!matches.length) { box.classList.remove('visible'); box.innerHTML = ''; return; }
+
+    box.innerHTML = matches.map(p => {
+        const hl = (txt) => txt.replace(new RegExp(q.replace(/[.*+?^${}()|[\]\\]/g,'\\$&'), 'gi'),
+            m => `<span class="sug-match">${m}</span>`);
+        return `<div class="sug-item" onmousedown="seleccionarTienda('${p.ID}')">
+            <div class="sug-nombre">${hl(p.nombre || '')}</div>
+            <div class="sug-meta">Código: <b>${p.ID}</b> · RC: ${p.rc || '—'} · ${p.distrito || '—'}</div>
+        </div>`;
+    }).join('');
+    box.classList.add('visible');
+}
+
+function cerrarSugerencias() {
+    const box = document.getElementById('buscarSugerencias');
+    box.classList.remove('visible');
+}
+
+function seleccionarTienda(id) {
+    const p = allData.find(x => String(x.ID) === String(id));
+    if (!p) return;
+    cerrarSugerencias();
+    document.getElementById('buscarInput').value = p.nombre;
+    map.setView([p.lat, p.lng], 16, { animate: true });
+    // Abrir popup del marker correspondiente
+    markerLayer.eachLayer(m => {
+        if (m.getLatLng && Math.abs(m.getLatLng().lat - p.lat) < 0.0001 && Math.abs(m.getLatLng().lng - p.lng) < 0.0001) {
+            m.openPopup();
+        }
+    });
+}
+
 function fitToVisible() {
     const f = getFiltros();
     const pts = allData.filter(p => matchFiltros(p, f));
@@ -405,7 +447,10 @@ function poblarFiltros() {
 
 function resetFiltros() {
     ['fSup','fRC','fDia','fTipo','fZona'].forEach(id => document.getElementById(id).value = 'ALL');
-    rcSelected = null;
+    rcSelected = null; diaSelected = null;
+    document.getElementById('buscarInput').value = '';
+    cerrarSugerencias();
+    repoblarSupRC();
     render();
     map.setView([-9.19, -75.0], 6);
 }
