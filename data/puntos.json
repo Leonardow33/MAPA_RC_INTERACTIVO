@@ -16,9 +16,9 @@
         "dias": [
             "MIÉRCOLES",
             "JUEVES",
-            "VIERNES",
-            "SÁBADO",
             "LUNES",
+            "SÁBADO",
+            "VIERNES",
             "MARTES"
         ],
         "distrito": "SAN ISIDRO",
@@ -11097,9 +11097,9 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-MARTES-MIÉRCOLES",
         "dias": [
+            "MIÉRCOLES",
             "LUNES",
-            "MARTES",
-            "MIÉRCOLES"
+            "MARTES"
         ],
         "distrito": "ICA",
         "gz": "Juan",
@@ -13683,9 +13683,9 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-MARTES-MIÉRCOLES",
         "dias": [
+            "MIÉRCOLES",
             "LUNES",
-            "MARTES",
-            "MIÉRCOLES"
+            "MARTES"
         ],
         "distrito": "ICA",
         "gz": "Juan",
@@ -14616,9 +14616,9 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-MARTES-MIÉRCOLES",
         "dias": [
+            "MIÉRCOLES",
             "LUNES",
-            "MARTES",
-            "MIÉRCOLES"
+            "MARTES"
         ],
         "distrito": "ICA",
         "gz": "Juan",
@@ -15451,9 +15451,9 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-MARTES-MIÉRCOLES",
         "dias": [
+            "MIÉRCOLES",
             "LUNES",
-            "MARTES",
-            "MIÉRCOLES"
+            "MARTES"
         ],
         "distrito": "ICA",
         "gz": "Juan",
@@ -19436,9 +19436,9 @@
         "dias": [
             "MIÉRCOLES",
             "JUEVES",
-            "VIERNES",
-            "SÁBADO",
             "LUNES",
+            "SÁBADO",
+            "VIERNES",
             "MARTES"
         ],
         "distrito": "EL TAMBO",
@@ -19464,9 +19464,9 @@
         "dias": [
             "MIÉRCOLES",
             "JUEVES",
-            "VIERNES",
-            "SÁBADO",
             "LUNES",
+            "SÁBADO",
+            "VIERNES",
             "MARTES"
         ],
         "distrito": "HUANCAYO",
@@ -19963,9 +19963,9 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-MARTES-MIÉRCOLES",
         "dias": [
+            "MIÉRCOLES",
             "LUNES",
-            "MARTES",
-            "MIÉRCOLES"
+            "MARTES"
         ],
         "distrito": "ICA",
         "gz": "Juan",
@@ -22926,10 +22926,10 @@
         "frecuencia": "LUNES-JUEVES-MIÉRCOLES-JUEVES-VIERNES-SÁBADO",
         "dias": [
             "MIÉRCOLES",
-            "VIERNES",
-            "SÁBADO",
+            "JUEVES",
             "LUNES",
-            "JUEVES"
+            "SÁBADO",
+            "VIERNES"
         ],
         "distrito": "EL TAMBO",
         "gz": "INDEPENDIENTES",
@@ -22953,10 +22953,10 @@
         "frecuencia": "LUNES-JUEVES-MIÉRCOLES-JUEVES-VIERNES-SÁBADO",
         "dias": [
             "MIÉRCOLES",
-            "VIERNES",
-            "SÁBADO",
+            "JUEVES",
             "LUNES",
-            "JUEVES"
+            "SÁBADO",
+            "VIERNES"
         ],
         "distrito": "EL TAMBO",
         "gz": "INDEPENDIENTES",
@@ -22980,10 +22980,10 @@
         "frecuencia": "LUNES-JUEVES-MIÉRCOLES-JUEVES-VIERNES-SÁBADO",
         "dias": [
             "MIÉRCOLES",
-            "VIERNES",
-            "SÁBADO",
+            "JUEVES",
             "LUNES",
-            "JUEVES"
+            "SÁBADO",
+            "VIERNES"
         ],
         "distrito": "EL TAMBO",
         "gz": "INDEPENDIENTES",
@@ -23772,9 +23772,9 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-MARTES-MIÉRCOLES",
         "dias": [
+            "MIÉRCOLES",
             "LUNES",
-            "MARTES",
-            "MIÉRCOLES"
+            "MARTES"
         ],
         "distrito": "ICA",
         "gz": "Juan",
@@ -27013,10 +27013,10 @@
         "frecuencia": "LUNES-JUEVES-MIÉRCOLES-JUEVES-VIERNES-SÁBADO",
         "dias": [
             "MIÉRCOLES",
-            "VIERNES",
-            "SÁBADO",
+            "JUEVES",
             "LUNES",
-            "JUEVES"
+            "SÁBADO",
+            "VIERNES"
         ],
         "distrito": "JUNÍN",
         "gz": "GIAN MIRANDA",
@@ -28710,10 +28710,10 @@
         "frecuencia": "LUNES-JUEVES-MIÉRCOLES-JUEVES-VIERNES-SÁBADO",
         "dias": [
             "MIÉRCOLES",
-            "VIERNES",
-            "SÁBADO",
+            "JUEVES",
             "LUNES",
-            "JUEVES"
+            "SÁBADO",
+            "VIERNES"
         ],
         "distrito": "JUNÍN",
         "gz": "GAMING SOLUTIONS",
@@ -28737,10 +28737,10 @@
         "frecuencia": "LUNES-JUEVES-MIÉRCOLES-JUEVES-VIERNES-SÁBADO",
         "dias": [
             "MIÉRCOLES",
-            "VIERNES",
-            "SÁBADO",
+            "JUEVES",
             "LUNES",
-            "JUEVES"
+            "SÁBADO",
+            "VIERNES"
         ],
         "distrito": "JUNÍN",
         "gz": "GAMING SOLUTIONS",
@@ -36520,10 +36520,10 @@
         "frecuencia": "LUNES-JUEVES-MIÉRCOLES-JUEVES-VIERNES-SÁBADO",
         "dias": [
             "MIÉRCOLES",
-            "VIERNES",
-            "SÁBADO",
+            "JUEVES",
             "LUNES",
-            "JUEVES"
+            "SÁBADO",
+            "VIERNES"
         ],
         "distrito": "EL TAMBO",
         "gz": "Sheyla Gonzales",
@@ -36593,10 +36593,10 @@
         "frecuencia": "LUNES-JUEVES-MIÉRCOLES-JUEVES-VIERNES-SÁBADO",
         "dias": [
             "MIÉRCOLES",
-            "VIERNES",
-            "SÁBADO",
+            "JUEVES",
             "LUNES",
-            "JUEVES"
+            "SÁBADO",
+            "VIERNES"
         ],
         "distrito": "EL TAMBO",
         "gz": "Sheyla Gonzales",

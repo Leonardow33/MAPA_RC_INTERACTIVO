@@ -1,188 +1,194 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <title>Mapa Interactivo</title>
-    <meta charset="utf-8" />    
+    <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="manifest" href="manifest.json"/>
-    <link rel="apple-touch-icon" href="icons/icon-192.png"/>
-    <meta name="theme-color" content="#0F172A"/>
+    <link rel="manifest" href="manifest.json" />
+    <link rel="apple-touch-icon" href="icons/icon-192.png" />
+    <meta name="theme-color" content="#0F172A" />
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
 
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
-    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.css"/>
-    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.Default.css"/>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.Default.css" />
 
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Leonardow33/MAPA_RC_INTERACTIVO@main/css/mapa.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Leonardow33/MAPA_RC_INTERACTIVO@main/css/mapa.css">
 </head>
 
 <body>
 
-<!-- PANTALLA SELECCIÓN TIPO -->
-<div id="seleccionTipo">
-    <div class="st-logo">
-        <h1>Mapa RC · GeoDor</h1>
-        <p>Selecciona tu tipo de tienda para comenzar</p>
-    </div>
-    <div class="st-cards">
-        <div class="st-card" onclick="elegirTipo('TAMBO')">
-            <span class="st-icon">🏪</span>
-            <span class="st-name">Tambo</span>
-            <span class="st-desc">Tiendas Tambo<br>y Bodegas</span>
+    <!-- PANTALLA SELECCIÓN TIPO -->
+    <div id="seleccionTipo">
+        <div class="st-logo">
+            <h1>Mapa RC · GeoDor</h1>
+            <p>Selecciona tu tipo de tienda para comenzar</p>
         </div>
-        <div class="st-card" onclick="elegirTipo('CASA DE APUESTA')">
-            <span class="st-icon">🎰</span>
-            <span class="st-name">Casa de Apuesta</span>
-            <span class="st-desc">Casas de Apuesta</span>
+        <div class="st-cards">
+            <div class="st-card" onclick="elegirTipo('TAMBO')">
+                <span class="st-icon">🏪</span>
+                <span class="st-name">Tambo</span>
+                <span class="st-desc">Tiendas Tambo<br>y Bodegas</span>
+            </div>
+            <div class="st-card" onclick="elegirTipo('CASA DE APUESTA')">
+                <span class="st-icon">🎰</span>
+                <span class="st-name">Casa de Apuesta</span>
+                <span class="st-desc">Casas de Apuesta</span>
+            </div>
         </div>
+        <div class="st-footer"><span onclick="elegirTipo('ALL')"
+                style="cursor:pointer;text-decoration:underline;color:rgba(255,255,255,0.45);">Ver todos los
+                puntos</span></div>
     </div>
-    <div class="st-footer"><span onclick="elegirTipo('ALL')" style="cursor:pointer;text-decoration:underline;color:rgba(255,255,255,0.45);">Ver todos los puntos</span></div>
-</div>
 
-<div id="filtro">
+    <div id="filtro">
 
-    <!-- 🔍 BUSCADOR -->
-    <input type="text" id="buscador" placeholder="🔍 Buscar tienda o código..." />
-    <div id="resultados"></div>
+        <!-- 🔍 BUSCADOR -->
+        <input type="text" id="buscador" placeholder="🔍 Buscar tienda o código..." />
+        <div id="resultados"></div>
 
-    <!-- FILTROS -->
-    <label>Supervisor:</label>
-    <select id="supFilter">
-        <option value="ALL">Todos</option>
-    </select>
-
-    <label>RC:</label>
-    <select id="rcFilter">
-        <option value="ALL">Todos</option>
-    </select>
-
-    <label>Día:</label>
-    <select id="diaFilter">
-        <option value="ALL">Todos</option>
-    </select>
-
-    <label>Zona:</label>
-    <select id="zonaFilter">
-        <option value="ALL">Todas</option>
-    </select>
-
-    <label>Partner:</label>
-    <select id="partnerFilter">
-        <option value="ALL">Todos</option>
-    </select>
-
-    <div id="tipoFilterGroup" style="display:flex;align-items:center;gap:6px">
-        <label>Tipo:</label>
-        <select id="tipoFilter">
+        <!-- FILTROS -->
+        <label>Supervisor:</label>
+        <select id="supFilter">
             <option value="ALL">Todos</option>
-            <option value="TAMBO">Tambo</option>
-            <option value="CASA DE APUESTA">Casa de Apuesta</option>
         </select>
-    </div>
 
-    <button id="btnModo" onclick="toggleModo()" style="display:none">🚗 Auto</button>
-    <button id="btnRuta" onclick="generarRuta()" style="display:none">🗺️ Generar Ruta</button>
-    <button id="btnLimpiarRuta" onclick="limpiarRuta()" style="display:none">✕ Limpiar Ruta</button>
-    <button id="btnReunion" onclick="abrirModalReunion()" disabled style="display:none">📅 Reunión</button>
-    <button id="btnSinVenta" onclick="toggleSinVenta()" style="margin-left:auto">🔴 Sin Venta</button>
+        <label>RC:</label>
+        <select id="rcFilter">
+            <option value="ALL">Todos</option>
+        </select>
 
-    <div id="clusterBtns">
-        <span id="tamboClusterGroup" style="display:none;gap:4px;align-items:center;display:none">
-            <button class="btn-cluster bc-ta" data-cluster="TOP A" onclick="toggleCluster(this)">A</button>
-            <button class="btn-cluster bc-tb" data-cluster="TOP B" onclick="toggleCluster(this)">B</button>
-            <button class="btn-cluster bc-tc" data-cluster="TOP C" onclick="toggleCluster(this)">C</button>
-        </span>
-        <span id="atClusterGroup" style="display:none;gap:4px;align-items:center;display:none">
-            <button class="btn-cluster bc-bro" data-cluster="BRONCE"   onclick="toggleCluster(this)">B</button>
-            <button class="btn-cluster bc-pla" data-cluster="PLATA"    onclick="toggleCluster(this)">P</button>
-            <button class="btn-cluster bc-oro" data-cluster="ORO"      onclick="toggleCluster(this)">O</button>
-            <button class="btn-cluster bc-dia" data-cluster="DIAMANTE" onclick="toggleCluster(this)">D</button>
-        </span>
-    </div>
+        <label>Día:</label>
+        <select id="diaFilter">
+            <option value="ALL">Todos</option>
+        </select>
 
-</div>
-<div id="filtro-chips"></div>
-<div id="sinVentaBar">
-    <span>🔴 Sin venta hoy · <b id="sinVentaCount">0</b> tiendas</span>
-    <span style="margin-left:auto;font-weight:400;font-size:11px">Actualizado: <span id="sinVentaTs">--:--</span></span>
-</div>
+        <label>Zona:</label>
+        <select id="zonaFilter">
+            <option value="ALL">Todas</option>
+        </select>
 
-<!-- MODAL REUNIÓN MENSUAL -->
-<div id="modalReunion">
-    <div id="modalCard">
-        <h3>📅 Reunión Mensual</h3>
-        <div id="modalRCNombre"></div>
-        <div id="pinBoxes">
-            <input class="pin-digit" type="number" maxlength="1" min="0" max="9" inputmode="numeric"/>
-            <input class="pin-digit" type="number" maxlength="1" min="0" max="9" inputmode="numeric"/>
-            <input class="pin-digit" type="number" maxlength="1" min="0" max="9" inputmode="numeric"/>
-            <input class="pin-digit" type="number" maxlength="1" min="0" max="9" inputmode="numeric"/>
+        <label>Partner:</label>
+        <select id="partnerFilter">
+            <option value="ALL">Todos</option>
+        </select>
+
+        <div id="tipoFilterGroup" style="display:flex;align-items:center;gap:6px">
+            <label>Tipo:</label>
+            <select id="tipoFilter">
+                <option value="ALL">Todos</option>
+                <option value="TAMBO">Tambo</option>
+                <option value="CASA DE APUESTA">Casa de Apuesta</option>
+            </select>
         </div>
-        <div id="pinError"></div>
-        <div id="modalBtns">
-            <button id="btnPinCancel" onclick="cerrarModalReunion()">Cancelar</button>
-            <button id="btnPinConfirm" onclick="validarPinReunion()">✔ Confirmar</button>
+
+        <button id="btnModo" onclick="toggleModo()" style="display:none">🚗 Auto</button>
+        <button id="btnRuta" onclick="generarRuta()" style="display:none">🗺️ Generar Ruta</button>
+        <button id="btnLimpiarRuta" onclick="limpiarRuta()" style="display:none">✕ Limpiar Ruta</button>
+        <button id="btnReunion" onclick="abrirModalReunion()" disabled style="display:none">📅 Reunión</button>
+        <button id="btnSinVenta" onclick="toggleSinVenta()" style="margin-left:auto">🔴 Sin Venta</button>
+
+        <div id="clusterBtns">
+            <span id="tamboClusterGroup" style="display:none;gap:4px;align-items:center;display:none">
+                <button class="btn-cluster bc-ta" data-cluster="TOP A" onclick="toggleCluster(this)">A</button>
+                <button class="btn-cluster bc-tb" data-cluster="TOP B" onclick="toggleCluster(this)">B</button>
+                <button class="btn-cluster bc-tc" data-cluster="TOP C" onclick="toggleCluster(this)">C</button>
+            </span>
+            <span id="atClusterGroup" style="display:none;gap:4px;align-items:center;display:none">
+                <button class="btn-cluster bc-bro" data-cluster="BRONCE" onclick="toggleCluster(this)">B</button>
+                <button class="btn-cluster bc-pla" data-cluster="PLATA" onclick="toggleCluster(this)">P</button>
+                <button class="btn-cluster bc-oro" data-cluster="ORO" onclick="toggleCluster(this)">O</button>
+                <button class="btn-cluster bc-dia" data-cluster="DIAMANTE" onclick="toggleCluster(this)">D</button>
+            </span>
+        </div>
+
+    </div>
+    <div id="filtro-chips"></div>
+    <div id="sinVentaBar">
+        <span>🔴 Sin venta hoy · <b id="sinVentaCount">0</b> tiendas</span>
+        <span style="margin-left:auto;font-weight:400;font-size:11px">Actualizado: <span
+                id="sinVentaTs">--:--</span></span>
+    </div>
+
+    <!-- MODAL REUNIÓN MENSUAL -->
+    <div id="modalReunion">
+        <div id="modalCard">
+            <h3>📅 Reunión Mensual</h3>
+            <div id="modalRCNombre"></div>
+            <div id="pinBoxes">
+                <input class="pin-digit" type="number" maxlength="1" min="0" max="9" inputmode="numeric" />
+                <input class="pin-digit" type="number" maxlength="1" min="0" max="9" inputmode="numeric" />
+                <input class="pin-digit" type="number" maxlength="1" min="0" max="9" inputmode="numeric" />
+                <input class="pin-digit" type="number" maxlength="1" min="0" max="9" inputmode="numeric" />
+            </div>
+            <div id="pinError"></div>
+            <div id="modalBtns">
+                <button id="btnPinCancel" onclick="cerrarModalReunion()">Cancelar</button>
+                <button id="btnPinConfirm" onclick="validarPinReunion()">✔ Confirmar</button>
+            </div>
         </div>
     </div>
-</div>
 
-<div id="panelRuta">
-    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
-        <strong style="font-size:15px">🗺️ Ruta por cercanía</strong>
-        <button onclick="document.getElementById('panelRuta').style.display='none'" style="border:none;background:none;font-size:22px;cursor:pointer;color:#888;line-height:1">×</button>
+    <div id="panelRuta">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
+            <strong style="font-size:15px">🗺️ Ruta por cercanía</strong>
+            <button onclick="document.getElementById('panelRuta').style.display='none'"
+                style="border:none;background:none;font-size:22px;cursor:pointer;color:#888;line-height:1">×</button>
+        </div>
+        <div id="listaRuta"></div>
     </div>
-    <div id="listaRuta"></div>
-</div>
 
 
-<div id="map"></div>
+    <div id="map"></div>
 
-<button id="btnUbicacion" onclick="irAUbicacion()" title="Mi ubicación">📍</button>
+    <button id="btnUbicacion" onclick="irAUbicacion()" title="Mi ubicación">📍</button>
 
-<!-- WIDGET PARTIDOS IMPORTANTES -->
-<button id="btnPartidos" onclick="togglePanelPartidos()" title="Partidos importantes">
-    ⚽
-    <span class="badge" id="badgePartidos"></span>
-</button>
-<div id="panelPartidos">
-    <div class="pp-header">
-        <span class="pp-title">⚽ Partidos importantes</span>
-        <button class="pp-close" onclick="togglePanelPartidos()">×</button>
+    <!-- WIDGET PARTIDOS IMPORTANTES -->
+    <button id="btnPartidos" onclick="togglePanelPartidos()" title="Partidos importantes">
+        ⚽
+        <span class="badge" id="badgePartidos"></span>
+    </button>
+    <div id="panelPartidos">
+        <div class="pp-header">
+            <span class="pp-title">⚽ Partidos importantes</span>
+            <button class="pp-close" onclick="togglePanelPartidos()">×</button>
+        </div>
+        <div class="pp-tabs">
+            <button class="pp-tab active" id="ppTabFutbol" onclick="setPPTab('futbol')">⚽ Fútbol</button>
+            <button class="pp-tab" id="ppTabTenis" onclick="setPPTab('tenis')">🎾 Tenis</button>
+        </div>
+        <div class="pp-drum-vp" id="ppDrumVP">
+            <div class="pp-drum-fade-left"></div>
+            <div class="pp-drum-fade-right"></div>
+            <div class="pp-drum-line l"></div>
+            <div class="pp-drum-line r"></div>
+            <div class="pp-drum-scene">
+                <div id="ppDrumTrack"></div>
+            </div>
+        </div>
+        <div class="pp-body" id="ppBody">
+            <div class="pp-empty">Cargando...</div>
+        </div>
     </div>
-    <div class="pp-tabs">
-        <button class="pp-tab active" id="ppTabFutbol" onclick="setPPTab('futbol')">⚽ Fútbol</button>
-        <button class="pp-tab" id="ppTabTenis" onclick="setPPTab('tenis')">🎾 Tenis</button>
+    <div id="gpsBanner">
+        <div id="gpsBannerMsg"></div>
+        <button id="gpsBannerBtn"></button>
     </div>
-    <div class="pp-drum-vp" id="ppDrumVP">
-        <div class="pp-drum-fade-left"></div>
-        <div class="pp-drum-fade-right"></div>
-        <div class="pp-drum-line l"></div>
-        <div class="pp-drum-line r"></div>
-        <div class="pp-drum-scene"><div id="ppDrumTrack"></div></div>
-    </div>
-    <div class="pp-body" id="ppBody">
-        <div class="pp-empty">Cargando...</div>
-    </div>
-</div>
-<div id="gpsBanner">
-    <div id="gpsBannerMsg"></div>
-    <button id="gpsBannerBtn"></button>
-</div>
 
-<!-- Logo + crédito -->
-<div style="
+    <!-- Logo + crédito -->
+    <div style="
     position:fixed;
     bottom:10px;left:10px;
     z-index:1000;
     pointer-events:none;
     display:flex;flex-direction:column;align-items:flex-start;gap:3px;">
-    <img src="icons/GEODOR.png"
-         style="height:42px;object-fit:contain;
+        <img src="icons/GEODOR.png" style="height:42px;object-fit:contain;
                 opacity:0.88;
                 filter:drop-shadow(0 1px 4px rgba(0,0,0,0.35));" />
-    <span style="
+        <span style="
         font-family:sans-serif;
         font-size:10px;
         color:#555;
@@ -190,14 +196,15 @@
         padding:2px 7px;
         border-radius:4px;
         letter-spacing:0.3px;">
-        Desarrollado por <strong>Doriant C. F.</strong>
-    </span>
-</div>
+            Desarrollado por <strong>Doriant C. F.</strong>
+        </span>
+    </div>
 
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-<script src="https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js"></script>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js"></script>
 
-<script src="https://cdn.jsdelivr.net/gh/Leonardow33/MAPA_RC_INTERACTIVO@main/js/mapa.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/Leonardow33/MAPA_RC_INTERACTIVO@main/js/mapa.js"></script>
 
 </body>
+
 </html>
