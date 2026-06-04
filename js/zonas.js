@@ -21,14 +21,14 @@ let diaSelected  = null;
 let viewMode     = 'rc'; // 'rc' | 'dia'
 
 const DIA_COLORS = {
-    'LUNES':     '#3b82f6',
+    'LUNES':     '#1E88E5',
     'MARTES':    '#22c55e',
     'MIÉRCOLES': '#f97316',
     'MIERCOLES': '#f97316',
     'JUEVES':    '#a855f7',
     'VIERNES':   '#ef4444',
-    'SÁBADO':    '#06b6d4',
-    'SABADO':    '#06b6d4',
+    'SÁBADO':    '#F9A825',
+    'SABADO':    '#F9A825',
 };
 const DIAS_ORDEN = ['LUNES','MARTES','MIÉRCOLES','JUEVES','VIERNES','SÁBADO'];
 
@@ -55,10 +55,10 @@ function setViewMode(mode) {
 
 const PALETTE = [
     '#E53935','#8E24AA','#1E88E5','#43A047','#FB8C00',
-    '#00ACC1','#6D4C41','#F4511E','#3949AB','#00897B',
-    '#FDD835','#D81B60','#5E35B1','#039BE5','#7CB342',
-    '#FF7043','#26C6DA','#AB47BC','#66BB6A','#EF5350',
-    '#42A5F5','#EC407A','#26A69A','#FF6D00','#78909C'
+    '#6D4C41','#F4511E','#3949AB','#00897B','#FDD835',
+    '#D81B60','#5E35B1','#7CB342','#FF7043','#AB47BC',
+    '#66BB6A','#EF5350','#EC407A','#26A69A','#FF6D00',
+    '#78909C','#F9A825','#558B2F','#AD1457','#1565C0'
 ];
 
 function getColor(rc) {
@@ -67,6 +67,22 @@ function getColor(rc) {
         rcColorMap[rc] = PALETTE[idx];
     }
     return rcColorMap[rc];
+}
+
+function makePinIcon(color, dimmed) {
+    const op = dimmed ? 0.12 : 1;
+    const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="18" height="26" viewBox="0 0 18 26">
+        <path d="M9 0C4 0 0 4 0 9C0 15.5 9 26 9 26S18 15.5 18 9C18 4 14 0 9 0Z"
+              fill="${color}" opacity="${op}" stroke="rgba(0,0,0,0.25)" stroke-width="0.8"/>
+        <circle cx="9" cy="9" r="3.5" fill="white" opacity="${op * 0.85}"/>
+    </svg>`;
+    return L.divIcon({
+        className: '',
+        html: svg,
+        iconSize: [18, 26],
+        iconAnchor: [9, 26],
+        popupAnchor: [0, -26]
+    });
 }
 
 function hexToRgba(hex, alpha) {
@@ -206,10 +222,7 @@ function render() {
             color  = getColor(p.rc);
             dimmed = rcSelected && p.rc !== rcSelected;
         }
-        const marker = L.circleMarker([p.lat, p.lng], {
-            radius: 4, fillColor: color, color: 'rgba(0,0,0,0.4)',
-            weight: 1, fillOpacity: dimmed ? 0.08 : 0.85, opacity: dimmed ? 0.1 : 1,
-        });
+        const marker = L.marker([p.lat, p.lng], { icon: makePinIcon(color, dimmed) });
         marker.bindPopup(buildPopup(p), { maxWidth: 240 });
         markerLayer.addLayer(marker);
     });
