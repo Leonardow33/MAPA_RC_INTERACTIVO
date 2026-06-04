@@ -48,6 +48,28 @@
     <span id="contador">— puntos</span>
 </div>
 
+<div id="seleccionTipo">
+    <div class="st-logo">
+        <h1>Distribución de Zonas RC</h1>
+        <p>Selecciona el tipo de puntos a visualizar</p>
+    </div>
+    <div class="st-cards">
+        <div class="st-card" onclick="elegirTipoZona('TAMBO')">
+            <span class="st-icon">🏪</span>
+            <span class="st-name">Tambo</span>
+            <span class="st-desc">Tiendas Tambo</span>
+        </div>
+        <div class="st-card" onclick="elegirTipoZona('CASA DE APUESTA')">
+            <span class="st-icon">🎰</span>
+            <span class="st-name">Casa de Apuesta</span>
+            <span class="st-desc">Casas de Apuesta</span>
+        </div>
+    </div>
+    <div class="st-footer">
+        <span onclick="elegirTipoZona('ALL')">Ver todos los puntos</span>
+    </div>
+</div>
+
 <div id="layout">
     <div id="panel">
         <div id="panelHeader">Cargando...</div>

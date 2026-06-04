@@ -66,6 +66,14 @@ function getDiaColor(p) {
     return DIA_COLORS[dias[0]] || '#475569';
 }
 
+function elegirTipoZona(tipo) {
+    document.getElementById('seleccionTipo').classList.add('oculto');
+    document.getElementById('fTipo').value = tipo;
+    rcSelected = null;
+    repoblarSupRC();
+    render();
+}
+
 function setViewMode(mode) {
     viewMode    = mode;
     rcSelected  = null;
