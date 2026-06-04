@@ -10,7 +10,9 @@ data = []
 for _, row in df.iterrows():
 
     # ✅ Puntos con coordenadas, excluyendo solo CERRADO
-    if pd.notnull(row["LATITUD"]) and pd.notnull(row["LONGITUD"]) and str(row["ESTATUS"]).strip().upper() != "CERRADO":
+    if (pd.notnull(row["LATITUD"]) and pd.notnull(row["LONGITUD"])
+            and float(row["LATITUD"]) != 0 and float(row["LONGITUD"]) != 0
+            and str(row["ESTATUS"]).strip().upper() != "CERRADO"):
 
         # 🔥 PROCESAR DÍAS DESDE "FRECUENCIA-NORMAL"
         dias = []
