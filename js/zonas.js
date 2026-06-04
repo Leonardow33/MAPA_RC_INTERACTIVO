@@ -1,16 +1,22 @@
-const PUNTOS_URL = 'https://raw.githubusercontent.com/Leonardow33/MAPA_RC_INTERACTIVO/main/data/puntos.json';
+const PUNTOS_URL    = 'https://raw.githubusercontent.com/Leonardow33/MAPA_RC_INTERACTIVO/main/data/puntos.json';
+const DISTRITOS_URL = 'https://raw.githubusercontent.com/Leonardow33/MAPA_RC_INTERACTIVO/main/data/distritos.geojson';
 
 const map = L.map('map', { preferCanvas: true }).setView([-9.19, -75.0], 6);
-L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    attribution: '© OpenStreetMap', maxZoom: 19
+L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_nolabels/{z}/{x}/{y}{r}.png', {
+    attribution: '© OpenStreetMap © CARTO', maxZoom: 19
+}).addTo(map);
+// Capa de etiquetas encima de todo
+L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_only_labels/{z}/{x}/{y}{r}.png', {
+    attribution: '', maxZoom: 19, pane: 'shadowPane'
 }).addTo(map);
 
-const zonaLayer   = L.layerGroup().addTo(map);
-const markerLayer = L.layerGroup().addTo(map);
+const distritoLayer = L.layerGroup().addTo(map);
+const markerLayer   = L.layerGroup().addTo(map);
 
-let allData    = [];
-let rcColorMap = {};
-let rcSelected = null;
+let allData      = [];
+let distritosGeo = null;
+let rcColorMap   = {};
+let rcSelected   = null;
 
 const PALETTE = [
     '#E53935','#8E24AA','#1E88E5','#43A047','#FB8C00',
@@ -33,14 +39,6 @@ function hexToRgba(hex, alpha) {
     const g = parseInt(hex.slice(3,5),16);
     const b = parseInt(hex.slice(5,7),16);
     return `rgba(${r},${g},${b},${alpha})`;
-}
-
-function makeIcon(color, dimmed) {
-    const op = dimmed ? 0.12 : 1;
-    return L.circleMarker([0,0], {
-        radius: 5, fillColor: color, color: 'white',
-        weight: 1.5, fillOpacity: op * 0.9, opacity: op
-    });
 }
 
 function buildPopup(p) {
@@ -82,90 +80,100 @@ function matchFiltros(p, f) {
     return true;
 }
 
-function buildZone(pts, color, dimmed) {
-    if (pts.length < 2) return null;
-    const op = dimmed ? 0.04 : 0.18;
-    const borderOp = dimmed ? 0.1 : 0.7;
-    try {
-        const fc = turf.featureCollection(
-            pts.map(p => turf.point([p.lng, p.lat]))
-        );
-        // concave hull — maxEdge en km: más pequeño = más ajustado a los puntos
-        let poly = null;
-        if (pts.length >= 3) {
-            poly = turf.concave(fc, { maxEdge: 1.5, units: 'kilometers' });
-        }
-        if (!poly) {
-            poly = turf.convex(fc);
-        }
-        if (!poly) return null;
-
-        return L.geoJSON(poly, {
-            style: {
-                fillColor: color,
-                fillOpacity: op,
-                color: color,
-                weight: 2,
-                opacity: borderOp,
-                dashArray: dimmed ? '4 6' : null,
-            }
-        });
-    } catch(e) {
-        return null;
-    }
+// Calcula el RC dominante por distrito y la distribución completa
+function calcDistritoInfo(visible) {
+    const info = {};
+    visible.forEach(p => {
+        const dist = (p.distrito || '').toUpperCase().trim();
+        if (!dist) return;
+        if (!info[dist]) info[dist] = {};
+        info[dist][p.rc] = (info[dist][p.rc] || 0) + 1;
+    });
+    return info;
 }
 
 function render() {
     const f = getFiltros();
-    zonaLayer.clearLayers();
+    distritoLayer.clearLayers();
     markerLayer.clearLayers();
 
     const visible = allData.filter(p => matchFiltros(p, f));
+    const distInfo = calcDistritoInfo(visible);
 
-    // Agrupar por RC
-    const byRC = {};
-    visible.forEach(p => {
-        if (!byRC[p.rc]) byRC[p.rc] = [];
-        byRC[p.rc].push(p);
-    });
+    // Dibujar distritos con color del RC dominante
+    if (distritosGeo) {
+        L.geoJSON(distritosGeo, {
+            style: function(feature) {
+                const dist = (feature.properties.distrito || '').toUpperCase().trim();
+                const rcs  = distInfo[dist];
+                if (!rcs || Object.keys(rcs).length === 0) {
+                    return { fillColor: '#1e293b', fillOpacity: 0.3, color: '#334155', weight: 0.5, opacity: 0.5 };
+                }
+                const dominante = Object.entries(rcs).sort((a,b) => b[1]-a[1])[0][0];
+                const totalPts  = Object.values(rcs).reduce((a,b) => a+b, 0);
+                const maxPts    = Math.max(...Object.values(rcs));
+                const domRatio  = maxPts / totalPts;
+                const dimmed    = rcSelected && dominante !== rcSelected;
+                const color     = getColor(dominante);
+                return {
+                    fillColor:   color,
+                    fillOpacity: dimmed ? 0.03 : (0.15 + domRatio * 0.3),
+                    color:       color,
+                    weight:      dimmed ? 0.5 : 1.5,
+                    opacity:     dimmed ? 0.2 : 0.8,
+                    dashArray:   Object.keys(rcs).length > 1 ? '4 3' : null,
+                };
+            },
+            onEachFeature: function(feature, layer) {
+                const dist = (feature.properties.distrito || '').toUpperCase().trim();
+                const rcs  = distInfo[dist];
+                if (!rcs) return;
+                const sorted = Object.entries(rcs).sort((a,b) => b[1]-a[1]);
+                const total  = Object.values(rcs).reduce((a,b)=>a+b,0);
+                const rows   = sorted.map(([rc, n]) =>
+                    `<div style="display:flex;align-items:center;gap:6px;margin:2px 0">
+                        <div style="width:9px;height:9px;border-radius:50%;background:${getColor(rc)};flex-shrink:0"></div>
+                        <span style="font-size:11px;color:#1e293b">${rc}</span>
+                        <span style="font-size:11px;color:#64748b;margin-left:auto">${n}</span>
+                    </div>`
+                ).join('');
+                layer.bindPopup(`
+                    <div style="min-width:180px">
+                        <div style="font-weight:800;font-size:13px;margin-bottom:6px;color:#1e293b">📍 ${feature.properties.distrito}</div>
+                        <div style="font-size:11px;color:#64748b;margin-bottom:5px">${total} puntos · ${sorted.length} RC${sorted.length>1?'s':''}</div>
+                        ${rows}
+                    </div>`, { maxWidth: 240 });
+                layer.on('click', () => {
+                    const dom = sorted[0][0];
+                    seleccionarRC(dom);
+                });
+            }
+        }).addTo(distritoLayer);
+    }
 
-    // Dibujar zonas (polígonos) primero (capa inferior)
-    Object.entries(byRC).forEach(([rc, pts]) => {
-        const color  = getColor(rc);
-        const dimmed = rcSelected && rc !== rcSelected;
-        const zone   = buildZone(pts, color, dimmed);
-        if (zone) {
-            zone.on('click', () => seleccionarRC(rc));
-            zonaLayer.addLayer(zone);
-        }
-    });
-
-    // Dibujar puntos encima
+    // Puntos encima
     visible.forEach(p => {
         const color  = getColor(p.rc);
         const dimmed = rcSelected && p.rc !== rcSelected;
         const marker = L.circleMarker([p.lat, p.lng], {
-            radius: 5,
-            fillColor: color,
-            color: 'white',
-            weight: 1.5,
-            fillOpacity: dimmed ? 0.12 : 0.9,
-            opacity: dimmed ? 0.15 : 1,
+            radius: 4, fillColor: color, color: 'rgba(0,0,0,0.4)',
+            weight: 1, fillOpacity: dimmed ? 0.1 : 0.85, opacity: dimmed ? 0.1 : 1,
         });
         marker.bindPopup(buildPopup(p), { maxWidth: 240 });
         markerLayer.addLayer(marker);
     });
 
-    document.getElementById('contador').textContent = `${visible.length} puntos · ${Object.keys(byRC).length} RCs`;
+    const byRC = {};
+    visible.forEach(p => { byRC[p.rc] = (byRC[p.rc] || 0) + 1; });
+    document.getElementById('contador').textContent = `${visible.length} puntos`;
     renderPanel(byRC);
 }
 
 function renderPanel(byRC) {
-    const sorted = Object.entries(byRC).sort((a,b) => b[1].length - a[1].length);
+    const sorted = Object.entries(byRC).sort((a,b) => b[1]-a[1]);
     const list = document.getElementById('rcList');
     list.innerHTML = '';
-
-    sorted.forEach(([rc, pts]) => {
+    sorted.forEach(([rc, n]) => {
         const color = getColor(rc);
         const div = document.createElement('div');
         div.className = 'rc-item' + (rcSelected === rc ? ' activo' : '');
@@ -173,23 +181,22 @@ function renderPanel(byRC) {
         div.innerHTML = `
             <div class="rc-dot" style="background:${color}"></div>
             <span class="rc-nombre" title="${rc}">${rc}</span>
-            <span class="rc-count">${pts.length}</span>`;
+            <span class="rc-count">${n}</span>`;
         div.onclick = () => seleccionarRC(rc);
         list.appendChild(div);
     });
-
     document.getElementById('panelHeader').textContent =
-        `${sorted.length} RCs · ${Object.values(byRC).flat().length} puntos`;
+        `${sorted.length} RCs · ${Object.values(byRC).reduce((a,b)=>a+b,0)} puntos`;
 }
 
 function seleccionarRC(rc) {
     rcSelected = (rcSelected === rc) ? null : rc;
     render();
     if (rcSelected) {
-        const pts = allData.filter(p => p.rc === rcSelected && matchFiltros(p, getFiltros()));
+        const f = getFiltros();
+        const pts = allData.filter(p => p.rc === rcSelected && matchFiltros(p, f));
         if (pts.length) {
-            const bounds = L.latLngBounds(pts.map(p => [p.lat, p.lng]));
-            map.fitBounds(bounds, { padding: [60, 60], maxZoom: 14 });
+            map.fitBounds(L.latLngBounds(pts.map(p => [p.lat, p.lng])), { padding: [60,60], maxZoom: 13 });
         }
     }
 }
@@ -202,9 +209,7 @@ function poblarFiltros() {
         const sel = document.getElementById(id);
         items.forEach(v => { const o = document.createElement('option'); o.value = v; o.text = v; sel.appendChild(o); });
     }
-    fill('fSup', sups);
-    fill('fRC',  rcs);
-    fill('fDia', dias);
+    fill('fSup', sups); fill('fRC', rcs); fill('fDia', dias);
 }
 
 function resetFiltros() {
@@ -224,19 +229,20 @@ document.getElementById('fSup').addEventListener('change', function() {
         const o = document.createElement('option'); o.value = rc; o.text = rc; rcSel.appendChild(o);
     });
     rcSel.value = [...rcSel.options].some(o => o.value === prev) ? prev : 'ALL';
-    rcSelected = null;
-    render();
+    rcSelected = null; render();
 });
 
 ['fRC','fDia','fTipo','fZona'].forEach(id =>
     document.getElementById(id).addEventListener('change', () => { rcSelected = null; render(); })
 );
 
-fetch(PUNTOS_URL + '?v=' + Date.now())
-    .then(r => r.json())
-    .then(data => {
-        allData = data.filter(p => p.lat && p.lng && (p.estado || '').toUpperCase() === 'ACTIVO');
-        poblarFiltros();
-        render();
-    })
-    .catch(e => console.error('Error:', e));
+// Cargar datos y distritos en paralelo
+Promise.all([
+    fetch(PUNTOS_URL   + '?v=' + Date.now()).then(r => r.json()),
+    fetch(DISTRITOS_URL + '?v=' + Date.now()).then(r => r.json()),
+]).then(([puntos, distritos]) => {
+    allData      = puntos.filter(p => p.lat && p.lng && (p.estado||'').toUpperCase() === 'ACTIVO');
+    distritosGeo = distritos;
+    poblarFiltros();
+    render();
+}).catch(e => console.error('Error:', e));
