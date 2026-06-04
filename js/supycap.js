@@ -1,4 +1,4 @@
-const _BASE_DATA = (location.hostname === 'localhost' || location.hostname === '127.0.0.1') ? 'data/' : 'https://cdn.jsdelivr.net/gh/Leonardow33/MAPA_RC_INTERACTIVO@main/data/';
+const _BASE_DATA = (location.hostname === 'localhost' || location.hostname === '127.0.0.1') ? 'data/' : 'https://raw.githubusercontent.com/Leonardow33/MAPA_RC_INTERACTIVO/main/data/';
 var map = L.map('map', { preferCanvas: true }).setView([-9.19, -75.02], 6);
 
 // 🗺️ CAPAS
@@ -181,7 +181,7 @@ function repoblarPartner(nombre, rol) {
 }
 
 // FETCH
-fetch((_BASE_DATA + 'puntos.json?v=') + new Date().getTime())
+fetch((_BASE_DATA + 'puntos.json?v=') + new Date(, {cache: 'no-store'}).getTime())
 .then(res => res.json())
 .then(data => {
 
@@ -1011,7 +1011,7 @@ buscador.addEventListener("input", function () {
             .then(d => {
                 if (_vActual && d.v !== _vActual) {
                     _vActual = d.v;
-                    fetch((_BASE_DATA + 'puntos.json?v=') + Date.now())
+                    fetch((_BASE_DATA + 'puntos.json?v=') + Date.now(, {cache: 'no-store'}))
                         .then(r => r.json())
                         .then(data => {
                             allData = data;

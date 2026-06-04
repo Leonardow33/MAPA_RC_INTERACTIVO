@@ -1,4 +1,4 @@
-const _BASE_DATA = (location.hostname === 'localhost' || location.hostname === '127.0.0.1') ? 'data/' : 'https://cdn.jsdelivr.net/gh/Leonardow33/MAPA_RC_INTERACTIVO@main/data/';
+const _BASE_DATA = (location.hostname === 'localhost' || location.hostname === '127.0.0.1') ? 'data/' : 'https://raw.githubusercontent.com/Leonardow33/MAPA_RC_INTERACTIVO/main/data/';
 const PUNTOS_URL    = (_BASE_DATA + 'puntos.json');
 const DISTRITOS_URL = 'https://raw.githubusercontent.com/Leonardow33/MAPA_RC_INTERACTIVO/main/data/distritos.geojson';
 

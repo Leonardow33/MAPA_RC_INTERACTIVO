@@ -1,4 +1,4 @@
-const _BASE_DATA = (location.hostname === 'localhost' || location.hostname === '127.0.0.1') ? 'data/' : 'https://cdn.jsdelivr.net/gh/Leonardow33/MAPA_RC_INTERACTIVO@main/data/';
+const _BASE_DATA = (location.hostname === 'localhost' || location.hostname === '127.0.0.1') ? 'data/' : 'https://raw.githubusercontent.com/Leonardow33/MAPA_RC_INTERACTIVO/main/data/';
 // Auth / PWA redirect
 (function() {
     if (window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true) {
@@ -917,7 +917,7 @@ updateSinVentaBtn();
 document.getElementById('btnModoRC').classList.toggle('activo', modoVista === 'rc');
 document.getElementById('btnModoCap').classList.toggle('activo', modoVista === 'cap');
 document.getElementById('btnRutaHoy').style.display = modoVista === 'cap' ? 'none' : '';
-fetch((_BASE_DATA + 'puntos.json?v=') + new Date().getTime())
+fetch((_BASE_DATA + 'puntos.json?v=') + new Date(, {cache: 'no-store'}).getTime())
     .then(r => r.json())
     .then(data => { puntosData = data; cargarDatos(); cargarDatosSemanales(); })
     .catch(e => console.error('Error cargando puntos.json:', e));
@@ -933,7 +933,7 @@ fetch((_BASE_DATA + 'puntos.json?v=') + new Date().getTime())
             .then(d => {
                 if (_vActual && d.v !== _vActual) {
                     _vActual = d.v;
-                    fetch((_BASE_DATA + 'puntos.json?v=') + Date.now())
+                    fetch((_BASE_DATA + 'puntos.json?v=') + Date.now(, {cache: 'no-store'}))
                         .then(r => r.json())
                         .then(data => {
                             puntosData = data;
