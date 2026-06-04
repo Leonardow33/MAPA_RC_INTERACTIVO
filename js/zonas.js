@@ -109,7 +109,7 @@ function getColor(rc) {
 
 function makePinIcon(color, dimmed, rcDot) {
     const op = dimmed ? 0.12 : 1;
-    const dot = rcDot ? `<circle cx="6" cy="-2" r="3" fill="${rcDot}" stroke="white" stroke-width="1" opacity="${op}"/>` : '';
+    const dot = rcDot ? `<circle cx="6" cy="0" r="4" fill="${rcDot}" stroke="white" stroke-width="1.5" opacity="${op}"/>` : '';
     const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="12" height="22" viewBox="0 0 12 22">
         <path d="M6 4C2.7 4 0 6.7 0 10C0 15.5 6 22 6 22S12 15.5 12 10C12 6.7 9.3 4 6 4Z"
               fill="${color}" opacity="${op}" stroke="rgba(0,0,0,0.3)" stroke-width="0.7"/>
@@ -351,29 +351,54 @@ function seleccionarDia(dia) {
 }
 
 // ── POLÍGONO MANUAL ────────────────────────────────────────────────────────
+const ZONAS_URL = 'https://raw.githubusercontent.com/Leonardow33/MAPA_RC_INTERACTIVO/main/data/zonas-manuales.json';
 const zonasManuales = new L.FeatureGroup().addTo(map);
 let drawHandler = null;
 let dibujando = false;
+let colorDibujo = '#22c55e';
+let zonasData = []; // [{coords, color, label}]
 
-// Restaurar polígonos guardados en localStorage
-(function restaurarPoligonos() {
-    try {
-        const saved = JSON.parse(localStorage.getItem('zonas_manuales') || '[]');
-        saved.forEach(coords => {
-            const poly = L.polygon(coords, { color: '#22c55e', weight: 2, fillOpacity: 0.08 });
-            poly.on('click', () => { if (confirm('¿Eliminar esta zona?')) { zonasManuales.removeLayer(poly); guardarPoligonos(); } });
-            zonasManuales.addLayer(poly);
-        });
-    } catch(e) {}
-})();
-
-function guardarPoligonos() {
-    const data = [];
-    zonasManuales.eachLayer(l => {
-        if (l.getLatLngs) data.push(l.getLatLngs()[0].map(ll => [ll.lat, ll.lng]));
+function agregarPoligonoVisual(z) {
+    const poly = L.polygon(z.coords, {
+        color: z.color || '#22c55e', weight: 2.5,
+        fillColor: z.color || '#22c55e', fillOpacity: 0.1
     });
-    localStorage.setItem('zonas_manuales', JSON.stringify(data));
+    if (z.label) poly.bindTooltip(z.label, { permanent: true, direction: 'center', className: 'zona-label' });
+    poly.on('click', () => {
+        if (confirm(`¿Eliminar zona "${z.label || 'sin nombre'}"?`)) {
+            zonasManuales.removeLayer(poly);
+            zonasData = zonasData.filter(x => x !== z);
+            guardarZonasLocal();
+        }
+    });
+    zonasManuales.addLayer(poly);
+    return poly;
 }
+
+function guardarZonasLocal() {
+    localStorage.setItem('zonas_manuales_v2', JSON.stringify(zonasData));
+}
+
+function exportarZonas() {
+    const json = JSON.stringify(zonasData, null, 2);
+    const blob = new Blob([json], { type: 'application/json' });
+    const url  = URL.createObjectURL(blob);
+    const a    = document.createElement('a');
+    a.href = url; a.download = 'zonas-manuales.json'; a.click();
+    URL.revokeObjectURL(url);
+    alert('Guardado como zonas-manuales.json\nCópialo a la carpeta data/ y sube a GitHub para que aparezca en la web.');
+}
+
+// Cargar zonas: primero desde GitHub, luego completa con localStorage
+fetch(ZONAS_URL + '?v=' + Date.now())
+    .then(r => r.ok ? r.json() : [])
+    .catch(() => [])
+    .then(remote => {
+        const local = JSON.parse(localStorage.getItem('zonas_manuales_v2') || '[]');
+        // Unir: local tiene prioridad (puede tener más nuevas)
+        zonasData = local.length >= remote.length ? local : remote;
+        zonasData.forEach(z => agregarPoligonoVisual(z));
+    });
 
 function toggleDibujo() {
     const btn = document.getElementById('btnDibujar');
@@ -384,23 +409,29 @@ function toggleDibujo() {
         btn.textContent = '✏ Dibujar zona';
         return;
     }
+
+    // Pedir color y nombre antes de dibujar
+    const picker = document.getElementById('colorZona');
+    colorDibujo = picker ? picker.value : '#22c55e';
+
     dibujando = true;
     btn.classList.add('activo');
-    btn.textContent = '⏹ Cancelar dibujo';
+    btn.textContent = '⏹ Cancelar';
 
     drawHandler = new L.Draw.Polygon(map, {
-        shapeOptions: { color: '#22c55e', weight: 2, fillOpacity: 0.08 },
-        showArea: false,
-        allowIntersection: false,
+        shapeOptions: { color: colorDibujo, weight: 2.5, fillColor: colorDibujo, fillOpacity: 0.1 },
+        showArea: false, allowIntersection: false,
     });
     drawHandler.enable();
 
     map.once(L.Draw.Event.CREATED, function(e) {
-        zonasManuales.addLayer(e.layer);
-        e.layer.on('click', () => { if (confirm('¿Eliminar esta zona?')) { zonasManuales.removeLayer(e.layer); guardarPoligonos(); } });
-        guardarPoligonos();
-        dibujando = false;
-        drawHandler = null;
+        const coords = e.layer.getLatLngs()[0].map(ll => [ll.lat, ll.lng]);
+        const label  = prompt('Nombre para esta zona (opcional):') || '';
+        const z      = { coords, color: colorDibujo, label };
+        zonasData.push(z);
+        agregarPoligonoVisual(z);
+        guardarZonasLocal();
+        dibujando = false; drawHandler = null;
         btn.classList.remove('activo');
         btn.textContent = '✏ Dibujar zona';
     });

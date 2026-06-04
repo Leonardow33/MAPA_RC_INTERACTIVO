@@ -92,6 +92,14 @@ body { font-family: 'Inter', sans-serif; background: #0f172a; color: #e2e8f0; he
 .sug-meta   { font-size: 10px; color: #64748b; margin-top: 2px; }
 .sug-match  { color: #3b82f6; }
 
+#btnExportarZonas {
+    background: transparent; border: 1px solid #334155; color: #94a3b8;
+    border-radius: 8px; padding: 5px 10px; font-size: 12px;
+    font-weight: 600; cursor: pointer; font-family: inherit; white-space: nowrap;
+}
+#btnExportarZonas:hover { border-color: #3b82f6; color: #93c5fd; }
+.zona-label { background: transparent; border: none; box-shadow: none; font-size: 11px; font-weight: 700; color: #1e293b; }
+
 #btnDibujar {
     background: transparent; border: 1px solid #334155; color: #94a3b8;
     border-radius: 8px; padding: 5px 12px; font-size: 12px;

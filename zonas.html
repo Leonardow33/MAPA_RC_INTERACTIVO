@@ -51,7 +51,11 @@
             <div id="buscarSugerencias"></div>
         </div>
     </div>
-    <button id="btnDibujar" onclick="toggleDibujo()">✏ Dibujar zona</button>
+    <div class="fg">
+        <input type="color" id="colorZona" value="#22c55e" title="Color de la zona" style="width:28px;height:28px;border:none;background:none;cursor:pointer;padding:0;border-radius:6px">
+        <button id="btnDibujar" onclick="toggleDibujo()">✏ Dibujar zona</button>
+        <button id="btnExportarZonas" onclick="exportarZonas()" title="Descargar zonas-manuales.json para subir a GitHub">⬇ Exportar</button>
+    </div>
     <button id="btnReset" onclick="resetFiltros()">↺ Limpiar</button>
     <button id="btnMalUbicados" onclick="descargarMalUbicados()" title="Detecta y descarga tiendas cuya coordenada no coincide con su distrito asignado" style="display:none">⚠ Mal ubicados</button>
     <span id="contador">— puntos</span>
