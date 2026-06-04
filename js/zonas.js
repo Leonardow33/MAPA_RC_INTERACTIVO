@@ -1,4 +1,4 @@
-const PUNTOS_URL    = 'https://raw.githubusercontent.com/Leonardow33/MAPA_RC_INTERACTIVO/main/data/puntos.json';
+const PUNTOS_URL    = 'https://cdn.jsdelivr.net/gh/Leonardow33/MAPA_RC_INTERACTIVO@main/data/puntos.json';
 const DISTRITOS_URL = 'https://raw.githubusercontent.com/Leonardow33/MAPA_RC_INTERACTIVO/main/data/distritos.geojson';
 
 const BASEMAPS = {

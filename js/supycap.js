@@ -180,7 +180,7 @@ function repoblarPartner(nombre, rol) {
 }
 
 // FETCH
-fetch('https://raw.githubusercontent.com/Leonardow33/MAPA_RC_INTERACTIVO/main/data/puntos.json?v=' + new Date().getTime())
+fetch('https://cdn.jsdelivr.net/gh/Leonardow33/MAPA_RC_INTERACTIVO@main/data/puntos.json?v=' + new Date().getTime())
 .then(res => res.json())
 .then(data => {
 
@@ -1001,7 +1001,7 @@ buscador.addEventListener("input", function () {
 
 // ── AUTO-REFRESH cuando cambia version.json ────────────────────────────────
 (function() {
-    const VERSION_URL = 'https://raw.githubusercontent.com/Leonardow33/MAPA_RC_INTERACTIVO/main/data/version.json';
+    const VERSION_URL = 'https://cdn.jsdelivr.net/gh/Leonardow33/MAPA_RC_INTERACTIVO@main/data/version.json';
     let _vActual = null;
     fetch(VERSION_URL).then(r => r.json()).then(d => { _vActual = d.v; }).catch(() => {});
     setInterval(function() {
@@ -1010,7 +1010,7 @@ buscador.addEventListener("input", function () {
             .then(d => {
                 if (_vActual && d.v !== _vActual) {
                     _vActual = d.v;
-                    fetch('https://raw.githubusercontent.com/Leonardow33/MAPA_RC_INTERACTIVO/main/data/puntos.json?v=' + Date.now())
+                    fetch('https://cdn.jsdelivr.net/gh/Leonardow33/MAPA_RC_INTERACTIVO@main/data/puntos.json?v=' + Date.now())
                         .then(r => r.json())
                         .then(data => {
                             allData = data;
