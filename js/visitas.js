@@ -1,3 +1,4 @@
+const _BASE_DATA = (location.hostname === 'localhost' || location.hostname === '127.0.0.1') ? 'data/' : 'https://cdn.jsdelivr.net/gh/Leonardow33/MAPA_RC_INTERACTIVO@main/data/';
 // Auth / PWA redirect
 (function() {
     if (window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true) {
@@ -923,7 +924,7 @@ fetch('https://cdn.jsdelivr.net/gh/Leonardow33/MAPA_RC_INTERACTIVO@main/data/pun
 
 // ── AUTO-REFRESH cuando cambia version.json ────────────────────────────────
 (function() {
-    const VERSION_URL = (((location.hostname === 'localhost' || location.hostname === '127.0.0.1') ? 'data/' : 'https://cdn.jsdelivr.net/gh/Leonardow33/MAPA_RC_INTERACTIVO@main/data/) + 'version.json');
+    const VERSION_URL = (_BASE_DATA + 'version.json');
     let _vActual = null;
     fetch(VERSION_URL).then(r => r.json()).then(d => { _vActual = d.v; }).catch(() => {});
     setInterval(function() {
