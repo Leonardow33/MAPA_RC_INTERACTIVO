@@ -6,6 +6,7 @@
 <title>Distribución de Zonas RC</title>
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+<link rel="stylesheet" href="https://unpkg.com/leaflet-draw@1.0.4/dist/leaflet.draw.css"/>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/zonas.css">
 </head>
@@ -50,6 +51,7 @@
             <div id="buscarSugerencias"></div>
         </div>
     </div>
+    <button id="btnDibujar" onclick="toggleDibujo()">✏ Dibujar zona</button>
     <button id="btnReset" onclick="resetFiltros()">↺ Limpiar</button>
     <button id="btnMalUbicados" onclick="descargarMalUbicados()" title="Detecta y descarga tiendas cuya coordenada no coincide con su distrito asignado" style="display:none">⚠ Mal ubicados</button>
     <span id="contador">— puntos</span>
@@ -90,6 +92,7 @@
 </div>
 
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="https://unpkg.com/leaflet-draw@1.0.4/dist/leaflet.draw.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@turf/turf@6/turf.min.js"></script>
 <script src="js/zonas.js"></script>
 

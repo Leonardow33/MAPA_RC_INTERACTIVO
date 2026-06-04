@@ -107,19 +107,21 @@ function getColor(rc) {
     return rcColorMap[rc];
 }
 
-function makePinIcon(color, dimmed) {
+function makePinIcon(color, dimmed, rcDot) {
     const op = dimmed ? 0.12 : 1;
-    const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="12" height="18" viewBox="0 0 12 18">
-        <path d="M6 0C2.7 0 0 2.7 0 6C0 10.5 6 18 6 18S12 10.5 12 6C12 2.7 9.3 0 6 0Z"
+    const dot = rcDot ? `<circle cx="6" cy="-2" r="3" fill="${rcDot}" stroke="white" stroke-width="1" opacity="${op}"/>` : '';
+    const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="12" height="22" viewBox="0 0 12 22">
+        <path d="M6 4C2.7 4 0 6.7 0 10C0 15.5 6 22 6 22S12 15.5 12 10C12 6.7 9.3 4 6 4Z"
               fill="${color}" opacity="${op}" stroke="rgba(0,0,0,0.3)" stroke-width="0.7"/>
-        <circle cx="6" cy="6" r="2.2" fill="white" opacity="${op * 0.9}"/>
+        <circle cx="6" cy="10" r="2.2" fill="white" opacity="${op * 0.9}"/>
+        ${dot}
     </svg>`;
     return L.divIcon({
         className: '',
         html: svg,
-        iconSize: [12, 18],
-        iconAnchor: [6, 18],
-        popupAnchor: [0, -18]
+        iconSize: [12, 22],
+        iconAnchor: [6, 22],
+        popupAnchor: [0, -22]
     });
 }
 
@@ -260,7 +262,8 @@ function render() {
             color  = getColor(p.rc);
             dimmed = rcSelected && p.rc !== rcSelected;
         }
-        const marker = L.marker([p.lat, p.lng], { icon: makePinIcon(color, dimmed) });
+        const rcDot = viewMode === 'dia' ? getColor(p.rc) : null;
+        const marker = L.marker([p.lat, p.lng], { icon: makePinIcon(color, dimmed, rcDot) });
         marker.bindPopup(buildPopup(p), { maxWidth: 240 });
         markerLayer.addLayer(marker);
     });
@@ -346,6 +349,63 @@ function seleccionarDia(dia) {
         }
     }
 }
+
+// ── POLÍGONO MANUAL ────────────────────────────────────────────────────────
+const zonasManuales = new L.FeatureGroup().addTo(map);
+let drawHandler = null;
+let dibujando = false;
+
+// Restaurar polígonos guardados en localStorage
+(function restaurarPoligonos() {
+    try {
+        const saved = JSON.parse(localStorage.getItem('zonas_manuales') || '[]');
+        saved.forEach(coords => {
+            const poly = L.polygon(coords, { color: '#22c55e', weight: 2, fillOpacity: 0.08 });
+            poly.on('click', () => { if (confirm('¿Eliminar esta zona?')) { zonasManuales.removeLayer(poly); guardarPoligonos(); } });
+            zonasManuales.addLayer(poly);
+        });
+    } catch(e) {}
+})();
+
+function guardarPoligonos() {
+    const data = [];
+    zonasManuales.eachLayer(l => {
+        if (l.getLatLngs) data.push(l.getLatLngs()[0].map(ll => [ll.lat, ll.lng]));
+    });
+    localStorage.setItem('zonas_manuales', JSON.stringify(data));
+}
+
+function toggleDibujo() {
+    const btn = document.getElementById('btnDibujar');
+    if (dibujando) {
+        if (drawHandler) { drawHandler.disable(); drawHandler = null; }
+        dibujando = false;
+        btn.classList.remove('activo');
+        btn.textContent = '✏ Dibujar zona';
+        return;
+    }
+    dibujando = true;
+    btn.classList.add('activo');
+    btn.textContent = '⏹ Cancelar dibujo';
+
+    drawHandler = new L.Draw.Polygon(map, {
+        shapeOptions: { color: '#22c55e', weight: 2, fillOpacity: 0.08 },
+        showArea: false,
+        allowIntersection: false,
+    });
+    drawHandler.enable();
+
+    map.once(L.Draw.Event.CREATED, function(e) {
+        zonasManuales.addLayer(e.layer);
+        e.layer.on('click', () => { if (confirm('¿Eliminar esta zona?')) { zonasManuales.removeLayer(e.layer); guardarPoligonos(); } });
+        guardarPoligonos();
+        dibujando = false;
+        drawHandler = null;
+        btn.classList.remove('activo');
+        btn.textContent = '✏ Dibujar zona';
+    });
+}
+// ──────────────────────────────────────────────────────────────────────────
 
 function onBuscar(q) {
     const box = document.getElementById('buscarSugerencias');
