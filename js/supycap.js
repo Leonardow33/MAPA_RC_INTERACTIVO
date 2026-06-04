@@ -181,7 +181,7 @@ function repoblarPartner(nombre, rol) {
 }
 
 // FETCH
-fetch((_BASE_DATA + 'puntos.json?v=') + new Date(, {cache: 'no-store'}).getTime())
+fetch((_BASE_DATA + 'puntos.json?v=') + new Date().getTime(), {cache: 'no-store'})
 .then(res => res.json())
 .then(data => {
 
@@ -1011,7 +1011,7 @@ buscador.addEventListener("input", function () {
             .then(d => {
                 if (_vActual && d.v !== _vActual) {
                     _vActual = d.v;
-                    fetch((_BASE_DATA + 'puntos.json?v=') + Date.now(, {cache: 'no-store'}))
+                    fetch((_BASE_DATA + 'puntos.json?v=') + Date.now(), {cache: 'no-store'})
                         .then(r => r.json())
                         .then(data => {
                             allData = data;

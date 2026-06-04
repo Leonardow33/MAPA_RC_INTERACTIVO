@@ -917,7 +917,7 @@ updateSinVentaBtn();
 document.getElementById('btnModoRC').classList.toggle('activo', modoVista === 'rc');
 document.getElementById('btnModoCap').classList.toggle('activo', modoVista === 'cap');
 document.getElementById('btnRutaHoy').style.display = modoVista === 'cap' ? 'none' : '';
-fetch((_BASE_DATA + 'puntos.json?v=') + new Date(, {cache: 'no-store'}).getTime())
+fetch((_BASE_DATA + 'puntos.json?v=') + new Date().getTime(), {cache: 'no-store'})
     .then(r => r.json())
     .then(data => { puntosData = data; cargarDatos(); cargarDatosSemanales(); })
     .catch(e => console.error('Error cargando puntos.json:', e));
@@ -933,7 +933,7 @@ fetch((_BASE_DATA + 'puntos.json?v=') + new Date(, {cache: 'no-store'}).getTime(
             .then(d => {
                 if (_vActual && d.v !== _vActual) {
                     _vActual = d.v;
-                    fetch((_BASE_DATA + 'puntos.json?v=') + Date.now(, {cache: 'no-store'}))
+                    fetch((_BASE_DATA + 'puntos.json?v=') + Date.now(), {cache: 'no-store'})
                         .then(r => r.json())
                         .then(data => {
                             puntosData = data;
