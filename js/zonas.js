@@ -308,30 +308,30 @@ function seleccionarRC(rc) {
     }
 }
 
-function getBasePorTipo() {
+function getBaseConFiltrosGlobales() {
     const tipo = document.getElementById('fTipo').value;
-    if (tipo === 'ALL') return allData;
-    return allData.filter(p => matchFiltros(p, { sup:'ALL', rc:'ALL', dia:'ALL', tipo, zona:'ALL' }));
+    const zona = document.getElementById('fZona').value;
+    const dia  = document.getElementById('fDia').value;
+    return allData.filter(p =>
+        matchFiltros(p, { sup:'ALL', rc:'ALL', dia, tipo, zona })
+    );
 }
 
 function repoblarSupRC() {
-    const base = getBasePorTipo();
-    const sup  = document.getElementById('fSup').value;
-
-    // Supervisores filtrados por tipo
+    const base    = getBaseConFiltrosGlobales();
     const supSel  = document.getElementById('fSup');
     const prevSup = supSel.value;
+
     supSel.innerHTML = '<option value="ALL">Todos</option>';
     [...new Set(base.map(p => p.supervisor).filter(Boolean))].sort().forEach(v => {
         const o = document.createElement('option'); o.value = v; o.text = v; supSel.appendChild(o);
     });
     supSel.value = [...supSel.options].some(o => o.value === prevSup) ? prevSup : 'ALL';
 
-    // RCs filtrados por tipo + supervisor
-    const rcSel  = document.getElementById('fRC');
-    const prevRC = rcSel.value;
+    const rcSel    = document.getElementById('fRC');
+    const prevRC   = rcSel.value;
     const supActual = supSel.value;
-    const baseRC = supActual === 'ALL' ? base : base.filter(p => p.supervisor === supActual);
+    const baseRC   = supActual === 'ALL' ? base : base.filter(p => p.supervisor === supActual);
     rcSel.innerHTML = '<option value="ALL">Todos</option>';
     [...new Set(baseRC.map(p => p.rc).filter(Boolean))].sort().forEach(v => {
         const o = document.createElement('option'); o.value = v; o.text = v; rcSel.appendChild(o);
@@ -353,17 +353,15 @@ function resetFiltros() {
     map.setView([-9.19, -75.0], 6);
 }
 
-document.getElementById('fTipo').addEventListener('change', () => {
-    rcSelected = null; repoblarSupRC(); render();
-});
+['fTipo','fZona','fDia'].forEach(id =>
+    document.getElementById(id).addEventListener('change', () => { rcSelected = null; repoblarSupRC(); render(); })
+);
 
 document.getElementById('fSup').addEventListener('change', () => {
     rcSelected = null; repoblarSupRC(); render();
 });
 
-['fRC','fDia','fZona'].forEach(id =>
-    document.getElementById(id).addEventListener('change', () => { rcSelected = null; render(); })
-);
+document.getElementById('fRC').addEventListener('change', () => { rcSelected = null; render(); });
 
 function districtOfPoint(pt, polyMap, centroids) {
     // 1. Point-in-polygon exacto
