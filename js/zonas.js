@@ -72,6 +72,14 @@ function elegirTipoZona(tipo) {
     rcSelected = null;
     repoblarSupRC();
     render();
+    // Zoom a los puntos del tipo seleccionado
+    if (tipo !== 'ALL' && allData.length) {
+        const pts = allData.filter(p => matchFiltros(p, { sup:'ALL', rc:'ALL', dia:'ALL', tipo, zona:'ALL' }));
+        if (pts.length) {
+            const bounds = L.latLngBounds(pts.map(p => [p.lat, p.lng]));
+            map.fitBounds(bounds, { padding: [40, 40], maxZoom: 13, animate: true });
+        }
+    }
 }
 
 function setViewMode(mode) {
