@@ -588,7 +588,7 @@ function descargarSugerenciasRC() {
 
         if (!sinRC.length) { alert('Todos los puntos tienen RC asignado.'); btn.textContent = '📋 Sugerir RC'; btn.disabled = false; return; }
 
-        const rows = [['ID','Nombre','Tipo','Distrito','RC Sugerido','Supervisor','Capacitador','Tienda Referencia','Distancia km','Lat','Lng']];
+        const rows = [['ID','Nombre','Tipo','Distrito','RC Sugerido','Supervisor','Capacitador','Días Visita (ref)','Tienda Referencia','Distancia km','Lat','Lng']];
         sinRC.forEach(p => {
             let mejor = null, minDist = Infinity;
             conRC.forEach(r => {
@@ -596,10 +596,13 @@ function descargarSugerenciasRC() {
                 if (d < minDist) { minDist = d; mejor = r; }
             });
             if (!mejor) return;
+            const dias = Array.isArray(mejor.dias)
+                ? mejor.dias.filter(d => d !== 'SIN RUTA').join(' - ')
+                : (mejor.frecuencia || '');
             rows.push([
                 p.ID, p.nombre, p.tipo || '', p.distrito || '',
                 mejor.rc, mejor.supervisor, mejor.capacitador || '',
-                mejor.nombre, minDist.toFixed(2), p.lat, p.lng
+                dias, mejor.nombre, minDist.toFixed(2), p.lat, p.lng
             ]);
         });
 
