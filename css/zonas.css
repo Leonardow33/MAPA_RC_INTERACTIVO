@@ -50,6 +50,20 @@ body { font-family: 'Inter', sans-serif; background: #0f172a; color: #e2e8f0; he
     color: #475569; text-transform: uppercase; letter-spacing: 1px;
     border-bottom: 1px solid #334155; flex-shrink: 0;
 }
+#panelToggleBar {
+    display: flex; flex-shrink: 0;
+    border-bottom: 1px solid #334155;
+}
+.panel-tab {
+    flex: 1; padding: 8px 0; border: none;
+    background: transparent; color: #475569;
+    font-size: 11px; font-weight: 700; cursor: pointer;
+    font-family: inherit; border-bottom: 2px solid transparent;
+    margin-bottom: -1px; transition: all 0.15s;
+}
+.panel-tab:hover { color: #94a3b8; }
+.panel-tab.activo { color: #e2e8f0; border-bottom-color: #3b82f6; }
+
 #rcList { overflow-y: auto; flex: 1; }
 #rcList::-webkit-scrollbar { width: 3px; }
 #rcList::-webkit-scrollbar-thumb { background: #334155; border-radius: 4px; }

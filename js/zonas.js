@@ -17,6 +17,41 @@ let allData      = [];
 let distritosGeo = null;
 let rcColorMap   = {};
 let rcSelected   = null;
+let diaSelected  = null;
+let viewMode     = 'rc'; // 'rc' | 'dia'
+
+const DIA_COLORS = {
+    'LUNES':     '#3b82f6',
+    'MARTES':    '#22c55e',
+    'MIÉRCOLES': '#f97316',
+    'MIERCOLES': '#f97316',
+    'JUEVES':    '#a855f7',
+    'VIERNES':   '#ef4444',
+    'SÁBADO':    '#06b6d4',
+    'SABADO':    '#06b6d4',
+};
+const DIAS_ORDEN = ['LUNES','MARTES','MIÉRCOLES','JUEVES','VIERNES','SÁBADO'];
+
+function getDiaColor(p) {
+    const dias = (p.dias || []).filter(d => d !== 'SIN RUTA');
+    if (dias.length === 0) return '#475569';
+    // Usar el primer día asignado como color principal
+    for (const d of DIAS_ORDEN) {
+        if (dias.includes(d) || dias.includes(d.replace('É','E').replace('Á','A'))) {
+            return DIA_COLORS[d] || DIA_COLORS[d.replace('É','E').replace('Á','A')] || '#475569';
+        }
+    }
+    return DIA_COLORS[dias[0]] || '#475569';
+}
+
+function setViewMode(mode) {
+    viewMode    = mode;
+    rcSelected  = null;
+    diaSelected = null;
+    document.getElementById('tabRC').classList.toggle('activo',  mode === 'rc');
+    document.getElementById('tabDia').classList.toggle('activo', mode === 'dia');
+    render();
+}
 
 const PALETTE = [
     '#E53935','#8E24AA','#1E88E5','#43A047','#FB8C00',
@@ -163,20 +198,37 @@ function render() {
 
     // Puntos encima
     visible.forEach(p => {
-        const color  = getColor(p.rc);
-        const dimmed = rcSelected && p.rc !== rcSelected;
+        let color, dimmed;
+        if (viewMode === 'dia') {
+            color  = getDiaColor(p);
+            dimmed = diaSelected && !( (p.dias||[]).includes(diaSelected) || (p.dias||[]).includes(diaSelected.replace('É','E').replace('Á','A')) );
+        } else {
+            color  = getColor(p.rc);
+            dimmed = rcSelected && p.rc !== rcSelected;
+        }
         const marker = L.circleMarker([p.lat, p.lng], {
             radius: 4, fillColor: color, color: 'rgba(0,0,0,0.4)',
-            weight: 1, fillOpacity: dimmed ? 0.1 : 0.85, opacity: dimmed ? 0.1 : 1,
+            weight: 1, fillOpacity: dimmed ? 0.08 : 0.85, opacity: dimmed ? 0.1 : 1,
         });
         marker.bindPopup(buildPopup(p), { maxWidth: 240 });
         markerLayer.addLayer(marker);
     });
 
-    const byRC = {};
-    visible.forEach(p => { byRC[p.rc] = (byRC[p.rc] || 0) + 1; });
     document.getElementById('contador').textContent = `${visible.length} puntos`;
-    renderPanel(byRC);
+
+    if (viewMode === 'dia') {
+        const byDia = {};
+        visible.forEach(p => {
+            (p.dias || []).filter(d => d !== 'SIN RUTA').forEach(d => {
+                byDia[d] = (byDia[d] || 0) + 1;
+            });
+        });
+        renderPanelDia(byDia);
+    } else {
+        const byRC = {};
+        visible.forEach(p => { byRC[p.rc] = (byRC[p.rc] || 0) + 1; });
+        renderPanel(byRC);
+    }
 }
 
 function renderPanel(byRC) {
@@ -197,6 +249,51 @@ function renderPanel(byRC) {
     });
     document.getElementById('panelHeader').textContent =
         `${sorted.length} RCs · ${Object.values(byRC).reduce((a,b)=>a+b,0)} puntos`;
+}
+
+function renderPanelDia(byDia) {
+    const list = document.getElementById('rcList');
+    list.innerHTML = '';
+    const total = Object.values(byDia).reduce((a,b)=>a+b,0);
+
+    DIAS_ORDEN.forEach(dia => {
+        const n = byDia[dia] || byDia[dia.replace('É','E').replace('Á','A')] || 0;
+        if (!n) return;
+        const color = DIA_COLORS[dia] || '#475569';
+        const esActivo = diaSelected === dia;
+        const div = document.createElement('div');
+        div.className = 'rc-item' + (esActivo ? ' activo' : '');
+        div.style.setProperty('--c', color);
+        div.innerHTML = `
+            <div class="rc-dot" style="background:${color}"></div>
+            <span class="rc-nombre">${dia.charAt(0) + dia.slice(1).toLowerCase()}</span>
+            <span class="rc-count">${n}</span>`;
+        div.onclick = () => seleccionarDia(dia);
+        list.appendChild(div);
+    });
+
+    // Sin día
+    const sinDia = byDia['SIN RUTA'] || 0;
+    if (sinDia) {
+        const div = document.createElement('div');
+        div.className = 'rc-item';
+        div.innerHTML = `<div class="rc-dot" style="background:#475569"></div><span class="rc-nombre">Sin ruta</span><span class="rc-count">${sinDia}</span>`;
+        list.appendChild(div);
+    }
+
+    document.getElementById('panelHeader').textContent = `${Object.keys(byDia).length} días · ${total} asignaciones`;
+}
+
+function seleccionarDia(dia) {
+    diaSelected = (diaSelected === dia) ? null : dia;
+    render();
+    if (diaSelected) {
+        const f = getFiltros();
+        const pts = allData.filter(p => matchFiltros(p, f) && (p.dias||[]).includes(diaSelected));
+        if (pts.length) {
+            map.fitBounds(L.latLngBounds(pts.map(p => [p.lat, p.lng])), { padding: [60,60], maxZoom: 13 });
+        }
+    }
 }
 
 function seleccionarRC(rc) {
