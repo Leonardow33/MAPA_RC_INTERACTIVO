@@ -67,14 +67,25 @@ function getFiltros() {
     };
 }
 
+function getSupervisoresCA() {
+    return new Set(allData
+        .filter(p => (p.tipo || '').toUpperCase() === 'CASA DE APUESTA' && p.supervisor)
+        .map(p => p.supervisor));
+}
+
 function matchFiltros(p, f) {
     if (f.sup !== 'ALL' && p.supervisor !== f.sup) return false;
     if (f.rc  !== 'ALL' && p.rc         !== f.rc)  return false;
     if (f.dia !== 'ALL' && !(p.dias || []).includes(f.dia)) return false;
     if (f.tipo !== 'ALL') {
         const t = (p.tipo || '').toUpperCase();
-        if (f.tipo === 'TAMBO'           && t === 'CASA DE APUESTA') return false;
-        if (f.tipo === 'CASA DE APUESTA' && t !== 'CASA DE APUESTA') return false;
+        if (f.tipo === 'TAMBO') {
+            if (t === 'CASA DE APUESTA' || t === 'CENCOS') return false;
+            if (t === 'BODEGA' && getSupervisoresCA().has(p.supervisor)) return false;
+        }
+        if (f.tipo === 'CASA DE APUESTA') {
+            if (t !== 'CASA DE APUESTA') return false;
+        }
     }
     if (f.zona !== 'ALL' && (p.zonal_tipo || '').toUpperCase() !== f.zona) return false;
     return true;
