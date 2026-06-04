@@ -214,11 +214,11 @@ function repoblarRC(sup) {
     rcSelect.value = [...rcSelect.options].some(o => o.value === prevRC) ? prevRC : "ALL";
 }
 
-fetch('https://cdn.jsdelivr.net/gh/Leonardow33/MAPA_RC_INTERACTIVO@main/data/sabado30.json?v=' + new Date().getTime())
+fetch((_BASE_DATA + 'sabado30.json?v=') + new Date().getTime())
 .then(res => res.json()).then(data => { sabado30 = data; }).catch(() => {});
 
 // FETCH
-fetch('https://cdn.jsdelivr.net/gh/Leonardow33/MAPA_RC_INTERACTIVO@main/data/puntos.json?v=' + new Date().getTime())
+fetch((_BASE_DATA + 'puntos.json?v=') + new Date().getTime())
 .then(res => res.json())
 .then(data => { try {
 
@@ -1572,7 +1572,7 @@ loadPartidos();
             .then(d => {
                 if (_vActual && d.v !== _vActual) {
                     _vActual = d.v;
-                    fetch('https://cdn.jsdelivr.net/gh/Leonardow33/MAPA_RC_INTERACTIVO@main/data/puntos.json?v=' + Date.now())
+                    fetch((_BASE_DATA + 'puntos.json?v=') + Date.now())
                         .then(r => r.json())
                         .then(data => {
                             allData = data;

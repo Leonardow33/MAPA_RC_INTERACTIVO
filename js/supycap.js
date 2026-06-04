@@ -181,7 +181,7 @@ function repoblarPartner(nombre, rol) {
 }
 
 // FETCH
-fetch('https://cdn.jsdelivr.net/gh/Leonardow33/MAPA_RC_INTERACTIVO@main/data/puntos.json?v=' + new Date().getTime())
+fetch((_BASE_DATA + 'puntos.json?v=') + new Date().getTime())
 .then(res => res.json())
 .then(data => {
 
@@ -1011,7 +1011,7 @@ buscador.addEventListener("input", function () {
             .then(d => {
                 if (_vActual && d.v !== _vActual) {
                     _vActual = d.v;
-                    fetch('https://cdn.jsdelivr.net/gh/Leonardow33/MAPA_RC_INTERACTIVO@main/data/puntos.json?v=' + Date.now())
+                    fetch((_BASE_DATA + 'puntos.json?v=') + Date.now())
                         .then(r => r.json())
                         .then(data => {
                             allData = data;

@@ -917,7 +917,7 @@ updateSinVentaBtn();
 document.getElementById('btnModoRC').classList.toggle('activo', modoVista === 'rc');
 document.getElementById('btnModoCap').classList.toggle('activo', modoVista === 'cap');
 document.getElementById('btnRutaHoy').style.display = modoVista === 'cap' ? 'none' : '';
-fetch('https://cdn.jsdelivr.net/gh/Leonardow33/MAPA_RC_INTERACTIVO@main/data/puntos.json?v=' + new Date().getTime())
+fetch((_BASE_DATA + 'puntos.json?v=') + new Date().getTime())
     .then(r => r.json())
     .then(data => { puntosData = data; cargarDatos(); cargarDatosSemanales(); })
     .catch(e => console.error('Error cargando puntos.json:', e));
@@ -933,7 +933,7 @@ fetch('https://cdn.jsdelivr.net/gh/Leonardow33/MAPA_RC_INTERACTIVO@main/data/pun
             .then(d => {
                 if (_vActual && d.v !== _vActual) {
                     _vActual = d.v;
-                    fetch('https://cdn.jsdelivr.net/gh/Leonardow33/MAPA_RC_INTERACTIVO@main/data/puntos.json?v=' + Date.now())
+                    fetch((_BASE_DATA + 'puntos.json?v=') + Date.now())
                         .then(r => r.json())
                         .then(data => {
                             puntosData = data;
