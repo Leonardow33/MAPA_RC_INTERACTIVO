@@ -308,15 +308,42 @@ function seleccionarRC(rc) {
     }
 }
 
+function getBasePorTipo() {
+    const tipo = document.getElementById('fTipo').value;
+    if (tipo === 'ALL') return allData;
+    return allData.filter(p => matchFiltros(p, { sup:'ALL', rc:'ALL', dia:'ALL', tipo, zona:'ALL' }));
+}
+
+function repoblarSupRC() {
+    const base = getBasePorTipo();
+    const sup  = document.getElementById('fSup').value;
+
+    // Supervisores filtrados por tipo
+    const supSel  = document.getElementById('fSup');
+    const prevSup = supSel.value;
+    supSel.innerHTML = '<option value="ALL">Todos</option>';
+    [...new Set(base.map(p => p.supervisor).filter(Boolean))].sort().forEach(v => {
+        const o = document.createElement('option'); o.value = v; o.text = v; supSel.appendChild(o);
+    });
+    supSel.value = [...supSel.options].some(o => o.value === prevSup) ? prevSup : 'ALL';
+
+    // RCs filtrados por tipo + supervisor
+    const rcSel  = document.getElementById('fRC');
+    const prevRC = rcSel.value;
+    const supActual = supSel.value;
+    const baseRC = supActual === 'ALL' ? base : base.filter(p => p.supervisor === supActual);
+    rcSel.innerHTML = '<option value="ALL">Todos</option>';
+    [...new Set(baseRC.map(p => p.rc).filter(Boolean))].sort().forEach(v => {
+        const o = document.createElement('option'); o.value = v; o.text = v; rcSel.appendChild(o);
+    });
+    rcSel.value = [...rcSel.options].some(o => o.value === prevRC) ? prevRC : 'ALL';
+}
+
 function poblarFiltros() {
-    const sups = [...new Set(allData.map(p => p.supervisor).filter(Boolean))].sort();
-    const rcs  = [...new Set(allData.map(p => p.rc).filter(Boolean))].sort();
     const dias = ['LUNES','MARTES','MIÉRCOLES','JUEVES','VIERNES','SÁBADO'];
-    function fill(id, items) {
-        const sel = document.getElementById(id);
-        items.forEach(v => { const o = document.createElement('option'); o.value = v; o.text = v; sel.appendChild(o); });
-    }
-    fill('fSup', sups); fill('fRC', rcs); fill('fDia', dias);
+    const sel = document.getElementById('fDia');
+    dias.forEach(v => { const o = document.createElement('option'); o.value = v; o.text = v.charAt(0)+v.slice(1).toLowerCase(); sel.appendChild(o); });
+    repoblarSupRC();
 }
 
 function resetFiltros() {
@@ -326,20 +353,15 @@ function resetFiltros() {
     map.setView([-9.19, -75.0], 6);
 }
 
-document.getElementById('fSup').addEventListener('change', function() {
-    const sup = this.value;
-    const rcSel = document.getElementById('fRC');
-    const prev  = rcSel.value;
-    rcSel.innerHTML = '<option value="ALL">Todos</option>';
-    const base = sup === 'ALL' ? allData : allData.filter(p => p.supervisor === sup);
-    [...new Set(base.map(p => p.rc).filter(Boolean))].sort().forEach(rc => {
-        const o = document.createElement('option'); o.value = rc; o.text = rc; rcSel.appendChild(o);
-    });
-    rcSel.value = [...rcSel.options].some(o => o.value === prev) ? prev : 'ALL';
-    rcSelected = null; render();
+document.getElementById('fTipo').addEventListener('change', () => {
+    rcSelected = null; repoblarSupRC(); render();
 });
 
-['fRC','fDia','fTipo','fZona'].forEach(id =>
+document.getElementById('fSup').addEventListener('change', () => {
+    rcSelected = null; repoblarSupRC(); render();
+});
+
+['fRC','fDia','fZona'].forEach(id =>
     document.getElementById(id).addEventListener('change', () => { rcSelected = null; render(); })
 );
 
