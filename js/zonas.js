@@ -80,8 +80,7 @@ function matchFiltros(p, f) {
     if (f.tipo !== 'ALL') {
         const t = (p.tipo || '').toUpperCase();
         if (f.tipo === 'TAMBO') {
-            if (t === 'CASA DE APUESTA' || t === 'CENCOS') return false;
-            if (t === 'BODEGA' && getSupervisoresCA().has(p.supervisor)) return false;
+            if (t !== 'TAMBO' && t !== 'SUERTE') return false;
         }
         if (f.tipo === 'CASA DE APUESTA') {
             if (t !== 'CASA DE APUESTA') return false;
@@ -111,8 +110,8 @@ function render() {
     const visible = allData.filter(p => matchFiltros(p, f));
     const distInfo = calcDistritoInfo(visible);
 
-    // Dibujar distritos con color del RC dominante
-    if (distritosGeo) {
+    // Dibujar distritos (desactivado)
+    if (false && distritosGeo) {
         L.geoJSON(distritosGeo, {
             style: function(feature) {
                 const dist = (feature.properties.distrito || '').toUpperCase().trim();

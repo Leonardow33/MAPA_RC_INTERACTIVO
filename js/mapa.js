@@ -171,14 +171,9 @@ function filtrarPorTipo(data) {
     const ft = document.getElementById("tipoFilter").value;
     if (!ft || ft === "ALL") return data;
     if (ft === "TAMBO") {
-        const supsCA = new Set(allData
-            .filter(p => (p.tipo || "").toUpperCase() === "CASA DE APUESTA" && p.supervisor)
-            .map(p => p.supervisor));
         return data.filter(p => {
             const t = (p.tipo || "").toUpperCase();
-            if (t === "CASA DE APUESTA" || t === "CENCOS") return false;
-            if (t === "BODEGA" && supsCA.has(p.supervisor)) return false;
-            return true;
+            return t === "TAMBO" || t === "SUERTE";
         });
     }
     if (ft === "CASA DE APUESTA") {
@@ -483,8 +478,7 @@ function renderMap(filterRC, filterDia, filterSup, filterPartner, filterZona, fi
         let tipoOk = true;
         if (filterTipo && filterTipo !== "ALL") {
             if (filterTipo === "TAMBO") {
-                if (tipo === "CASA DE APUESTA" || tipo === "CENCOS") tipoOk = false;
-                else if (tipo === "BODEGA" && _supsCA.has(p.supervisor)) tipoOk = false;
+                tipoOk = tipo === "TAMBO" || tipo === "SUERTE";
             } else if (filterTipo === "CASA DE APUESTA") {
                 tipoOk = tipo !== "TAMBO" && tipo !== "CENCOS" && tipo !== "BODEGA";
             }
