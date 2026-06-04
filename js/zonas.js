@@ -49,8 +49,8 @@ const DIA_COLORS = {
     'MIERCOLES': '#f97316',
     'JUEVES':    '#a855f7',
     'VIERNES':   '#ef4444',
-    'SÁBADO':    '#F9A825',
-    'SABADO':    '#F9A825',
+    'SÁBADO':    '#e91e63',
+    'SABADO':    '#e91e63',
 };
 const DIAS_ORDEN = ['LUNES','MARTES','MIÉRCOLES','JUEVES','VIERNES','SÁBADO'];
 
