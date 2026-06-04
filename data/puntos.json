@@ -14,11 +14,11 @@
         "responsable": "LOTOBOLA",
         "frecuencia": "LUNES-MARTES-MIÉRCOLES-JUEVES-VIERNES-SÁBADO",
         "dias": [
+            "SÁBADO",
             "MIÉRCOLES",
+            "MARTES",
             "VIERNES",
             "LUNES",
-            "MARTES",
-            "SÁBADO",
             "JUEVES"
         ],
         "distrito": "SAN ISIDRO",
@@ -8726,8 +8726,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-MIÉRCOLES-VIERNES",
         "dias": [
-            "LUNES",
             "MIÉRCOLES",
+            "LUNES",
             "VIERNES"
         ],
         "distrito": "CHICLAYO",
@@ -9558,9 +9558,9 @@
         "responsable": "TAMBO",
         "frecuencia": "MARTES-JUEVES-SÁBADO",
         "dias": [
+            "SÁBADO",
             "MARTES",
-            "JUEVES",
-            "SÁBADO"
+            "JUEVES"
         ],
         "distrito": "PIURA",
         "gz": "Jesus",
@@ -9631,8 +9631,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-MIÉRCOLES-VIERNES",
         "dias": [
-            "LUNES",
             "MIÉRCOLES",
+            "LUNES",
             "VIERNES"
         ],
         "distrito": "PIURA",
@@ -9656,9 +9656,9 @@
         "responsable": "TAMBO",
         "frecuencia": "MARTES-JUEVES-SÁBADO",
         "dias": [
+            "SÁBADO",
             "MARTES",
-            "JUEVES",
-            "SÁBADO"
+            "JUEVES"
         ],
         "distrito": "PIURA",
         "gz": "Jesus",
@@ -9776,9 +9776,9 @@
         "responsable": "TAMBO",
         "frecuencia": "MARTES-JUEVES-SÁBADO",
         "dias": [
+            "SÁBADO",
             "MARTES",
-            "JUEVES",
-            "SÁBADO"
+            "JUEVES"
         ],
         "distrito": "CHICLAYO",
         "gz": "Jesus",
@@ -9801,9 +9801,9 @@
         "responsable": "TAMBO",
         "frecuencia": "MARTES-JUEVES-SÁBADO",
         "dias": [
+            "SÁBADO",
             "MARTES",
-            "JUEVES",
-            "SÁBADO"
+            "JUEVES"
         ],
         "distrito": "CHICLAYO",
         "gz": "Jesus",
@@ -9921,8 +9921,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-MIÉRCOLES-VIERNES",
         "dias": [
-            "LUNES",
             "MIÉRCOLES",
+            "LUNES",
             "VIERNES"
         ],
         "distrito": "LAMBAYEQUE",
@@ -9969,8 +9969,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-MIÉRCOLES-VIERNES",
         "dias": [
-            "LUNES",
             "MIÉRCOLES",
+            "LUNES",
             "VIERNES"
         ],
         "distrito": "LAMBAYEQUE",
@@ -10041,8 +10041,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-MIÉRCOLES-VIERNES",
         "dias": [
-            "LUNES",
             "MIÉRCOLES",
+            "LUNES",
             "VIERNES"
         ],
         "distrito": "ICA",
@@ -10137,9 +10137,9 @@
         "responsable": "TAMBO",
         "frecuencia": "MARTES-JUEVES-SÁBADO",
         "dias": [
+            "SÁBADO",
             "MARTES",
-            "JUEVES",
-            "SÁBADO"
+            "JUEVES"
         ],
         "distrito": "CHICLAYO",
         "gz": "Jesus",
@@ -10209,9 +10209,9 @@
         "responsable": "TAMBO",
         "frecuencia": "MARTES-JUEVES-SÁBADO",
         "dias": [
+            "SÁBADO",
             "MARTES",
-            "JUEVES",
-            "SÁBADO"
+            "JUEVES"
         ],
         "distrito": "PIURA",
         "gz": "Jesus",
@@ -10328,8 +10328,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-MIÉRCOLES-VIERNES",
         "dias": [
-            "LUNES",
             "MIÉRCOLES",
+            "LUNES",
             "VIERNES"
         ],
         "distrito": "PIURA",
@@ -10400,8 +10400,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-MIÉRCOLES-VIERNES",
         "dias": [
-            "LUNES",
             "MIÉRCOLES",
+            "LUNES",
             "VIERNES"
         ],
         "distrito": "CHICLAYO",
@@ -10448,8 +10448,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-MIÉRCOLES-VIERNES",
         "dias": [
-            "LUNES",
             "MIÉRCOLES",
+            "LUNES",
             "VIERNES"
         ],
         "distrito": "PIURA",
@@ -10473,9 +10473,9 @@
         "responsable": "TAMBO",
         "frecuencia": "MARTES-JUEVES-SÁBADO",
         "dias": [
+            "SÁBADO",
             "MARTES",
-            "JUEVES",
-            "SÁBADO"
+            "JUEVES"
         ],
         "distrito": "PIURA",
         "gz": "Jesus",
@@ -10592,8 +10592,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-MIÉRCOLES-VIERNES",
         "dias": [
-            "LUNES",
             "MIÉRCOLES",
+            "LUNES",
             "VIERNES"
         ],
         "distrito": "PIURA",
@@ -11097,9 +11097,9 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-MARTES-MIÉRCOLES",
         "dias": [
-            "LUNES",
+            "MIÉRCOLES",
             "MARTES",
-            "MIÉRCOLES"
+            "LUNES"
         ],
         "distrito": "ICA",
         "gz": "Juan",
@@ -11242,9 +11242,9 @@
         "responsable": "TAMBO",
         "frecuencia": "MARTES-JUEVES-SÁBADO",
         "dias": [
+            "SÁBADO",
             "MARTES",
-            "JUEVES",
-            "SÁBADO"
+            "JUEVES"
         ],
         "distrito": "CHICLAYO",
         "gz": "Jesus",
@@ -11769,8 +11769,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-MIÉRCOLES-VIERNES",
         "dias": [
-            "LUNES",
             "MIÉRCOLES",
+            "LUNES",
             "VIERNES"
         ],
         "distrito": "PIURA",
@@ -12010,8 +12010,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-MIÉRCOLES-VIERNES",
         "dias": [
-            "LUNES",
             "MIÉRCOLES",
+            "LUNES",
             "VIERNES"
         ],
         "distrito": "CHICLAYO",
@@ -12464,9 +12464,9 @@
         "responsable": "TAMBO",
         "frecuencia": "MARTES-JUEVES-SÁBADO",
         "dias": [
+            "SÁBADO",
             "MARTES",
-            "JUEVES",
-            "SÁBADO"
+            "JUEVES"
         ],
         "distrito": "CHICLAYO",
         "gz": "Jesus",
@@ -12560,9 +12560,9 @@
         "responsable": "TAMBO",
         "frecuencia": "MARTES-JUEVES-SÁBADO",
         "dias": [
+            "SÁBADO",
             "MARTES",
-            "JUEVES",
-            "SÁBADO"
+            "JUEVES"
         ],
         "distrito": "CHICLAYO",
         "gz": "Jesus",
@@ -13683,9 +13683,9 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-MARTES-MIÉRCOLES",
         "dias": [
-            "LUNES",
+            "MIÉRCOLES",
             "MARTES",
-            "MIÉRCOLES"
+            "LUNES"
         ],
         "distrito": "ICA",
         "gz": "Juan",
@@ -14424,8 +14424,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-MIÉRCOLES-VIERNES",
         "dias": [
-            "LUNES",
             "MIÉRCOLES",
+            "LUNES",
             "VIERNES"
         ],
         "distrito": "CHICLAYO",
@@ -14616,9 +14616,9 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-MARTES-MIÉRCOLES",
         "dias": [
-            "LUNES",
+            "MIÉRCOLES",
             "MARTES",
-            "MIÉRCOLES"
+            "LUNES"
         ],
         "distrito": "ICA",
         "gz": "Juan",
@@ -15451,9 +15451,9 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-MARTES-MIÉRCOLES",
         "dias": [
-            "LUNES",
+            "MIÉRCOLES",
             "MARTES",
-            "MIÉRCOLES"
+            "LUNES"
         ],
         "distrito": "ICA",
         "gz": "Juan",
@@ -18972,8 +18972,8 @@
         "responsable": "MCG BODEGA",
         "frecuencia": "LUNES-MIÉRCOLES-VIERNES",
         "dias": [
-            "LUNES",
             "MIÉRCOLES",
+            "LUNES",
             "VIERNES"
         ],
         "distrito": "JAEN",
@@ -19434,11 +19434,11 @@
         "responsable": "JS BODEGA",
         "frecuencia": "LUNES-MARTES-MIÉRCOLES-JUEVES-VIERNES-SÁBADO",
         "dias": [
+            "SÁBADO",
             "MIÉRCOLES",
+            "MARTES",
             "VIERNES",
             "LUNES",
-            "MARTES",
-            "SÁBADO",
             "JUEVES"
         ],
         "distrito": "EL TAMBO",
@@ -19462,11 +19462,11 @@
         "responsable": "JS BODEGA",
         "frecuencia": "LUNES-MARTES-MIÉRCOLES-JUEVES-VIERNES-SÁBADO",
         "dias": [
+            "SÁBADO",
             "MIÉRCOLES",
+            "MARTES",
             "VIERNES",
             "LUNES",
-            "MARTES",
-            "SÁBADO",
             "JUEVES"
         ],
         "distrito": "HUANCAYO",
@@ -19746,8 +19746,8 @@
         "responsable": "JS BODEGA",
         "frecuencia": "LUNES-MARTES",
         "dias": [
-            "LUNES",
-            "MARTES"
+            "MARTES",
+            "LUNES"
         ],
         "distrito": "ICA",
         "gz": "SIN INFO",
@@ -19963,9 +19963,9 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-MARTES-MIÉRCOLES",
         "dias": [
-            "LUNES",
+            "MIÉRCOLES",
             "MARTES",
-            "MIÉRCOLES"
+            "LUNES"
         ],
         "distrito": "ICA",
         "gz": "Juan",
@@ -21967,8 +21967,8 @@
         "responsable": "TINBET",
         "frecuencia": "LUNES-MIÉRCOLES-VIERNES",
         "dias": [
-            "LUNES",
             "MIÉRCOLES",
+            "LUNES",
             "VIERNES"
         ],
         "distrito": "CHICLAYO",
@@ -21992,8 +21992,8 @@
         "responsable": "TINBET",
         "frecuencia": "LUNES-MIÉRCOLES-VIERNES",
         "dias": [
-            "LUNES",
             "MIÉRCOLES",
+            "LUNES",
             "VIERNES"
         ],
         "distrito": "JOSE LEONARDO ORTIZ",
@@ -22348,8 +22348,8 @@
         "responsable": "TINBET",
         "frecuencia": "LUNES-MIÉRCOLES-VIERNES",
         "dias": [
-            "LUNES",
             "MIÉRCOLES",
+            "LUNES",
             "VIERNES"
         ],
         "distrito": "PIURA",
@@ -22444,9 +22444,9 @@
         "responsable": "TINBET",
         "frecuencia": "MARTES-JUEVES-SÁBADO",
         "dias": [
+            "SÁBADO",
             "MARTES",
-            "JUEVES",
-            "SÁBADO"
+            "JUEVES"
         ],
         "distrito": "PIURA",
         "gz": "FERNANDO ORBEGOZO",
@@ -22469,8 +22469,8 @@
         "responsable": "TINBET",
         "frecuencia": "LUNES-MIÉRCOLES-VIERNES",
         "dias": [
-            "LUNES",
             "MIÉRCOLES",
+            "LUNES",
             "VIERNES"
         ],
         "distrito": "CASTILLA",
@@ -22494,9 +22494,9 @@
         "responsable": "TINBET",
         "frecuencia": "MARTES-JUEVES-SÁBADO",
         "dias": [
+            "SÁBADO",
             "MARTES",
-            "JUEVES",
-            "SÁBADO"
+            "JUEVES"
         ],
         "distrito": "VEINTISEIS DE OCTUBRE",
         "gz": "FERNANDO ORBEGOZO",
@@ -22543,9 +22543,9 @@
         "responsable": "TINBET",
         "frecuencia": "MARTES-JUEVES-SÁBADO",
         "dias": [
+            "SÁBADO",
             "MARTES",
-            "JUEVES",
-            "SÁBADO"
+            "JUEVES"
         ],
         "distrito": "JOSE LEONARDO ORTIZ",
         "gz": "INDEPENDIENTES",
@@ -22925,10 +22925,10 @@
         "responsable": "TINBET",
         "frecuencia": "LUNES-JUEVES-MIÉRCOLES-JUEVES-VIERNES-SÁBADO",
         "dias": [
+            "SÁBADO",
             "MIÉRCOLES",
             "VIERNES",
             "LUNES",
-            "SÁBADO",
             "JUEVES"
         ],
         "distrito": "EL TAMBO",
@@ -22952,10 +22952,10 @@
         "responsable": "TINBET",
         "frecuencia": "LUNES-JUEVES-MIÉRCOLES-JUEVES-VIERNES-SÁBADO",
         "dias": [
+            "SÁBADO",
             "MIÉRCOLES",
             "VIERNES",
             "LUNES",
-            "SÁBADO",
             "JUEVES"
         ],
         "distrito": "EL TAMBO",
@@ -22979,10 +22979,10 @@
         "responsable": "TINBET",
         "frecuencia": "LUNES-JUEVES-MIÉRCOLES-JUEVES-VIERNES-SÁBADO",
         "dias": [
+            "SÁBADO",
             "MIÉRCOLES",
             "VIERNES",
             "LUNES",
-            "SÁBADO",
             "JUEVES"
         ],
         "distrito": "EL TAMBO",
@@ -23006,9 +23006,9 @@
         "responsable": "TINBET",
         "frecuencia": "MARTES-JUEVES-SÁBADO",
         "dias": [
+            "SÁBADO",
             "MARTES",
-            "JUEVES",
-            "SÁBADO"
+            "JUEVES"
         ],
         "distrito": "CHICLAYO",
         "gz": "INDEPENDIENTES",
@@ -23772,9 +23772,9 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-MARTES-MIÉRCOLES",
         "dias": [
-            "LUNES",
+            "MIÉRCOLES",
             "MARTES",
-            "MIÉRCOLES"
+            "LUNES"
         ],
         "distrito": "ICA",
         "gz": "Juan",
@@ -24247,8 +24247,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-MIÉRCOLES-VIERNES",
         "dias": [
-            "LUNES",
             "MIÉRCOLES",
+            "LUNES",
             "VIERNES"
         ],
         "distrito": "ICA",
@@ -24846,8 +24846,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-MIÉRCOLES-VIERNES",
         "dias": [
-            "LUNES",
             "MIÉRCOLES",
+            "LUNES",
             "VIERNES"
         ],
         "distrito": "CERRO COLORADO",
@@ -24871,8 +24871,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-MIÉRCOLES-VIERNES",
         "dias": [
-            "LUNES",
             "MIÉRCOLES",
+            "LUNES",
             "VIERNES"
         ],
         "distrito": "AREQUIPA",
@@ -25487,8 +25487,8 @@
         "responsable": "APUESTA TOTAL",
         "frecuencia": "LUNES-MIÉRCOLES-VIERNES",
         "dias": [
-            "LUNES",
             "MIÉRCOLES",
+            "LUNES",
             "VIERNES"
         ],
         "distrito": "CHICLAYO",
@@ -25512,9 +25512,9 @@
         "responsable": "APUESTA TOTAL",
         "frecuencia": "MARTES-JUEVES-SÁBADO",
         "dias": [
+            "SÁBADO",
             "MARTES",
-            "JUEVES",
-            "SÁBADO"
+            "JUEVES"
         ],
         "distrito": "CHICLAYO",
         "gz": "Kely Correa",
@@ -26033,9 +26033,9 @@
         "responsable": "LIVESPORT",
         "frecuencia": "MARTES-JUEVES-SÁBADO",
         "dias": [
+            "SÁBADO",
             "MARTES",
-            "JUEVES",
-            "SÁBADO"
+            "JUEVES"
         ],
         "distrito": "CHICLAYO",
         "gz": "GIULIANNA LAZARO",
@@ -27012,10 +27012,10 @@
         "responsable": "TINBET",
         "frecuencia": "LUNES-JUEVES-MIÉRCOLES-JUEVES-VIERNES-SÁBADO",
         "dias": [
+            "SÁBADO",
             "MIÉRCOLES",
             "VIERNES",
             "LUNES",
-            "SÁBADO",
             "JUEVES"
         ],
         "distrito": "JUNÍN",
@@ -28709,10 +28709,10 @@
         "responsable": "TINBET",
         "frecuencia": "LUNES-JUEVES-MIÉRCOLES-JUEVES-VIERNES-SÁBADO",
         "dias": [
+            "SÁBADO",
             "MIÉRCOLES",
             "VIERNES",
             "LUNES",
-            "SÁBADO",
             "JUEVES"
         ],
         "distrito": "JUNÍN",
@@ -28736,10 +28736,10 @@
         "responsable": "TINBET",
         "frecuencia": "LUNES-JUEVES-MIÉRCOLES-JUEVES-VIERNES-SÁBADO",
         "dias": [
+            "SÁBADO",
             "MIÉRCOLES",
             "VIERNES",
             "LUNES",
-            "SÁBADO",
             "JUEVES"
         ],
         "distrito": "JUNÍN",
@@ -31186,8 +31186,8 @@
         "responsable": "APUESTA TOTAL",
         "frecuencia": "LUNES-MARTES",
         "dias": [
-            "LUNES",
-            "MARTES"
+            "MARTES",
+            "LUNES"
         ],
         "distrito": "ICA",
         "gz": "Carolina Cespedes",
@@ -31256,8 +31256,8 @@
         "responsable": "APUESTA TOTAL",
         "frecuencia": "LUNES-MARTES",
         "dias": [
-            "LUNES",
-            "MARTES"
+            "MARTES",
+            "LUNES"
         ],
         "distrito": "ICA",
         "gz": "Carolina Cespedes",
@@ -36519,10 +36519,10 @@
         "responsable": "APUESTA TOTAL",
         "frecuencia": "LUNES-JUEVES-MIÉRCOLES-JUEVES-VIERNES-SÁBADO",
         "dias": [
+            "SÁBADO",
             "MIÉRCOLES",
             "VIERNES",
             "LUNES",
-            "SÁBADO",
             "JUEVES"
         ],
         "distrito": "EL TAMBO",
@@ -36592,10 +36592,10 @@
         "responsable": "APUESTA TOTAL",
         "frecuencia": "LUNES-JUEVES-MIÉRCOLES-JUEVES-VIERNES-SÁBADO",
         "dias": [
+            "SÁBADO",
             "MIÉRCOLES",
             "VIERNES",
             "LUNES",
-            "SÁBADO",
             "JUEVES"
         ],
         "distrito": "EL TAMBO",
