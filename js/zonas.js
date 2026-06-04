@@ -1,14 +1,36 @@
 const PUNTOS_URL    = 'https://raw.githubusercontent.com/Leonardow33/MAPA_RC_INTERACTIVO/main/data/puntos.json';
 const DISTRITOS_URL = 'https://raw.githubusercontent.com/Leonardow33/MAPA_RC_INTERACTIVO/main/data/distritos.geojson';
 
+const BASEMAPS = {
+    'Calles':    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',                                { attribution: '© OpenStreetMap', maxZoom: 19 }),
+    'Claro':     L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png',                  { attribution: '© CARTO', maxZoom: 19 }),
+    'Oscuro':    L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png',                   { attribution: '© CARTO', maxZoom: 19 }),
+    'Satélite':  L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', { attribution: '© Esri', maxZoom: 19 }),
+};
+
 const map = L.map('map', { preferCanvas: true }).setView([-9.19, -75.0], 6);
-L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_nolabels/{z}/{x}/{y}{r}.png', {
-    attribution: '© OpenStreetMap © CARTO', maxZoom: 19
-}).addTo(map);
-// Capa de etiquetas encima de todo
-L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_only_labels/{z}/{x}/{y}{r}.png', {
-    attribution: '', maxZoom: 19, pane: 'shadowPane'
-}).addTo(map);
+BASEMAPS['Calles'].addTo(map);
+
+// Control de mapa base
+let basemapActual = 'Calles';
+const bmControl = L.control({ position: 'topright' });
+bmControl.onAdd = function() {
+    const div = L.DomUtil.create('div', 'bm-control');
+    div.innerHTML = Object.keys(BASEMAPS).map(name =>
+        `<button class="bm-btn${name === basemapActual ? ' activo' : ''}" onclick="cambiarMapa('${name}')">${name}</button>`
+    ).join('');
+    L.DomEvent.disableClickPropagation(div);
+    return div;
+};
+bmControl.addTo(map);
+
+function cambiarMapa(name) {
+    if (name === basemapActual) return;
+    BASEMAPS[basemapActual].remove();
+    BASEMAPS[name].addTo(map);
+    basemapActual = name;
+    document.querySelectorAll('.bm-btn').forEach(b => b.classList.toggle('activo', b.textContent === name));
+}
 
 const distritoLayer = L.layerGroup().addTo(map);
 const markerLayer   = L.layerGroup().addTo(map);
@@ -71,17 +93,17 @@ function getColor(rc) {
 
 function makePinIcon(color, dimmed) {
     const op = dimmed ? 0.12 : 1;
-    const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="18" height="26" viewBox="0 0 18 26">
-        <path d="M9 0C4 0 0 4 0 9C0 15.5 9 26 9 26S18 15.5 18 9C18 4 14 0 9 0Z"
-              fill="${color}" opacity="${op}" stroke="rgba(0,0,0,0.25)" stroke-width="0.8"/>
-        <circle cx="9" cy="9" r="3.5" fill="white" opacity="${op * 0.85}"/>
+    const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="12" height="18" viewBox="0 0 12 18">
+        <path d="M6 0C2.7 0 0 2.7 0 6C0 10.5 6 18 6 18S12 10.5 12 6C12 2.7 9.3 0 6 0Z"
+              fill="${color}" opacity="${op}" stroke="rgba(0,0,0,0.3)" stroke-width="0.7"/>
+        <circle cx="6" cy="6" r="2.2" fill="white" opacity="${op * 0.9}"/>
     </svg>`;
     return L.divIcon({
         className: '',
         html: svg,
-        iconSize: [18, 26],
-        iconAnchor: [9, 26],
-        popupAnchor: [0, -26]
+        iconSize: [12, 18],
+        iconAnchor: [6, 18],
+        popupAnchor: [0, -18]
     });
 }
 
