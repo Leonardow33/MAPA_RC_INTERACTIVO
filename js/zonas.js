@@ -169,14 +169,20 @@ function matchFiltros(p, f) {
     if (f.sup !== 'ALL' && p.supervisor !== f.sup) return false;
     if (f.rc  !== 'ALL' && p.rc         !== f.rc)  return false;
     if (f.dia !== 'ALL' && !(p.dias || []).includes(f.dia)) return false;
+
+    const t = (p.tipo || '').toUpperCase();
+    const mostrarBodegas   = document.getElementById('chkBodegas')?.checked;
+    const mostrarInactivos = document.getElementById('chkInactivos')?.checked;
+
+    // Inactivos: ocultar si no está el checkbox marcado
+    if (!mostrarInactivos && (p.estado||'').toUpperCase() === 'INACTIVO') return false;
+
+    // Bodegas y Cencos: ocultar por defecto
+    if (!mostrarBodegas && (t === 'BODEGA' || t === 'CENCOS')) return false;
+
     if (f.tipo !== 'ALL') {
-        const t = (p.tipo || '').toUpperCase();
-        if (f.tipo === 'TAMBO') {
-            if (t !== 'TAMBO' && t !== 'SUERTE') return false;
-        }
-        if (f.tipo === 'CASA DE APUESTA') {
-            if (t !== 'CASA DE APUESTA') return false;
-        }
+        if (f.tipo === 'TAMBO'           && t !== 'TAMBO' && t !== 'SUERTE' && t !== 'BODEGA' && t !== 'CENCOS') return false;
+        if (f.tipo === 'CASA DE APUESTA' && t !== 'CASA DE APUESTA' && t !== 'BODEGA' && t !== 'CENCOS') return false;
     }
     if (f.zona !== 'ALL' && (p.zonal_tipo || '').toUpperCase() !== f.zona) return false;
     return true;
@@ -263,7 +269,9 @@ function render() {
             color  = getColor(p.rc);
             dimmed = rcSelected && p.rc !== rcSelected;
         }
-        const marker = L.marker([p.lat, p.lng], { icon: makePinIcon(color, dimmed) });
+        const inactivo = (p.estado||'').toUpperCase() === 'INACTIVO';
+        const finalDimmed = dimmed || inactivo;
+        const marker = L.marker([p.lat, p.lng], { icon: makePinIcon(inactivo && !dimmed ? '#888888' : color, finalDimmed) });
         marker.bindPopup(buildPopup(p), { maxWidth: 240 });
         markerLayer.addLayer(marker);
     });
@@ -679,7 +687,7 @@ Promise.all([
     fetch(PUNTOS_URL   + '?v=' + Date.now()).then(r => r.json()),
     fetch(DISTRITOS_URL + '?v=' + Date.now()).then(r => r.json()),
 ]).then(([puntos, distritos]) => {
-    allData      = puntos.filter(p => p.lat && p.lng && (p.estado||'').toUpperCase() === 'ACTIVO');
+    allData      = puntos.filter(p => p.lat && p.lng && (p.estado||'').toUpperCase() !== 'CERRADO');
     distritosGeo = distritos;
     poblarFiltros();
     render();
