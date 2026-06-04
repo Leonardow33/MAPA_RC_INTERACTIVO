@@ -347,15 +347,21 @@ function seleccionarDia(dia) {
     }
 }
 
+function fitToVisible() {
+    const f = getFiltros();
+    const pts = allData.filter(p => matchFiltros(p, f));
+    if (pts.length > 0) {
+        map.fitBounds(L.latLngBounds(pts.map(p => [p.lat, p.lng])), { padding: [40, 40], maxZoom: 13, animate: true });
+    }
+}
+
 function seleccionarRC(rc) {
     rcSelected = (rcSelected === rc) ? null : rc;
     render();
-    if (rcSelected) {
-        const f = getFiltros();
-        const pts = allData.filter(p => p.rc === rcSelected && matchFiltros(p, f));
-        if (pts.length) {
-            map.fitBounds(L.latLngBounds(pts.map(p => [p.lat, p.lng])), { padding: [60,60], maxZoom: 13 });
-        }
+    const f = getFiltros();
+    const pts = allData.filter(p => matchFiltros(p, f) && (rcSelected ? p.rc === rcSelected : true));
+    if (pts.length) {
+        map.fitBounds(L.latLngBounds(pts.map(p => [p.lat, p.lng])), { padding: [60,60], maxZoom: 13 });
     }
 }
 
@@ -405,14 +411,14 @@ function resetFiltros() {
 }
 
 ['fTipo','fZona','fDia'].forEach(id =>
-    document.getElementById(id).addEventListener('change', () => { rcSelected = null; repoblarSupRC(); render(); })
+    document.getElementById(id).addEventListener('change', () => { rcSelected = null; diaSelected = null; repoblarSupRC(); render(); fitToVisible(); })
 );
 
 document.getElementById('fSup').addEventListener('change', () => {
-    rcSelected = null; repoblarSupRC(); render();
+    rcSelected = null; diaSelected = null; repoblarSupRC(); render(); fitToVisible();
 });
 
-document.getElementById('fRC').addEventListener('change', () => { rcSelected = null; render(); });
+document.getElementById('fRC').addEventListener('change', () => { rcSelected = null; diaSelected = null; render(); fitToVisible(); });
 
 function districtOfPoint(pt, polyMap, centroids) {
     // 1. Point-in-polygon exacto
