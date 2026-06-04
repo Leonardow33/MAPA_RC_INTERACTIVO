@@ -262,8 +262,7 @@ function render() {
             color  = getColor(p.rc);
             dimmed = rcSelected && p.rc !== rcSelected;
         }
-        const rcDot = viewMode === 'dia' ? getColor(p.rc) : null;
-        const marker = L.marker([p.lat, p.lng], { icon: makePinIcon(color, dimmed, rcDot) });
+        const marker = L.marker([p.lat, p.lng], { icon: makePinIcon(color, dimmed) });
         marker.bindPopup(buildPopup(p), { maxWidth: 240 });
         markerLayer.addLayer(marker);
     });
