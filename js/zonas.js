@@ -247,6 +247,20 @@ document.getElementById('fSup').addEventListener('change', function() {
     document.getElementById(id).addEventListener('change', () => { rcSelected = null; render(); })
 );
 
+function districtOfPoint(pt, polyMap, centroids) {
+    // 1. Point-in-polygon exacto
+    for (const [d, feat] of Object.entries(polyMap)) {
+        try { if (turf.booleanPointInPolygon(pt, feat)) return d; } catch(e) {}
+    }
+    // 2. Fallback: distrito más cercano por centroide
+    let minDist = Infinity, nearest = '—';
+    for (const [d, c] of Object.entries(centroids)) {
+        const dist = turf.distance(pt, c, { units: 'kilometers' });
+        if (dist < minDist) { minDist = dist; nearest = d; }
+    }
+    return minDist < 3 ? nearest : '—'; // solo si está a menos de 3km del centroide
+}
+
 function descargarMalUbicados() {
     if (!distritosGeo || !allData.length) { alert('Cargando datos, intenta en un momento.'); return; }
 
@@ -254,52 +268,49 @@ function descargarMalUbicados() {
     btn.textContent = '⏳ Analizando...';
     btn.disabled = true;
 
-    // Construir mapa de polígonos por distrito
-    const polyMap = {};
-    distritosGeo.features.forEach(f => {
-        const d = (f.properties.distrito || '').toUpperCase().trim();
-        if (d) polyMap[d] = f;
-    });
+    setTimeout(() => {
+        const polyMap  = {};
+        const centroids = {};
+        distritosGeo.features.forEach(f => {
+            const d = (f.properties.distrito || '').toUpperCase().trim();
+            if (!d) return;
+            polyMap[d] = f;
+            try { centroids[d] = turf.centroid(f); } catch(e) {}
+        });
 
-    const malUbicados = [];
-    allData.forEach(p => {
-        const dist = (p.distrito || '').toUpperCase().trim();
-        if (!dist || !polyMap[dist]) return;
-        const pt = turf.point([p.lng, p.lat]);
-        try {
-            const dentro = turf.booleanPointInPolygon(pt, polyMap[dist]);
-            if (!dentro) {
-                // Buscar en qué distrito SÍ está
-                let distReal = '—';
-                for (const [d, feat] of Object.entries(polyMap)) {
-                    try {
-                        if (turf.booleanPointInPolygon(pt, feat)) { distReal = d; break; }
-                    } catch(e) {}
+        const malUbicados = [];
+        allData.forEach(p => {
+            const dist = (p.distrito || '').toUpperCase().trim();
+            if (!dist || !polyMap[dist]) return;
+            const pt = turf.point([p.lng, p.lat]);
+            try {
+                if (!turf.booleanPointInPolygon(pt, polyMap[dist])) {
+                    const distReal = districtOfPoint(pt, polyMap, centroids);
+                    malUbicados.push({
+                        ID: p.ID, nombre: p.nombre,
+                        rc: p.rc, supervisor: p.supervisor,
+                        distrito_excel: dist, distrito_real: distReal,
+                        lat: p.lat, lng: p.lng
+                    });
                 }
-                malUbicados.push({
-                    ID: p.ID, nombre: p.nombre,
-                    rc: p.rc, supervisor: p.supervisor,
-                    distrito_excel: dist, distrito_real: distReal,
-                    lat: p.lat, lng: p.lng
-                });
-            }
-        } catch(e) {}
-    });
+            } catch(e) {}
+        });
 
-    btn.textContent = '⚠ Mal ubicados';
-    btn.disabled = false;
+        btn.textContent = '⚠ Mal ubicados';
+        btn.disabled = false;
 
-    if (!malUbicados.length) { alert('No se detectaron puntos fuera de su distrito.'); return; }
+        if (!malUbicados.length) { alert('No se detectaron puntos fuera de su distrito.'); return; }
 
-    const rows = [['Org ID','Nombre','RC','Supervisor','Distrito Excel','Distrito Real (por coord)','Lat','Lng']];
-    malUbicados.forEach(m => rows.push([m.ID, m.nombre, m.rc, m.supervisor, m.distrito_excel, m.distrito_real, m.lat, m.lng]));
-    const csv = rows.map(r => r.map(v => `"${String(v||'').replace(/"/g,'""')}"`).join(',')).join('\n');
-    const blob = new Blob(['﻿' + csv], { type: 'text/csv;charset=utf-8;' });
-    const url  = URL.createObjectURL(blob);
-    const a    = document.createElement('a');
-    a.href = url; a.download = 'tiendas_mal_ubicadas.csv'; a.click();
-    URL.revokeObjectURL(url);
-    alert(`${malUbicados.length} tiendas con posible distrito incorrecto descargadas.`);
+        const rows = [['Org ID','Nombre','RC','Supervisor','Distrito Excel','Distrito Real (por coord)','Lat','Lng']];
+        malUbicados.forEach(m => rows.push([m.ID, m.nombre, m.rc, m.supervisor, m.distrito_excel, m.distrito_real, m.lat, m.lng]));
+        const csv = rows.map(r => r.map(v => `"${String(v||'').replace(/"/g,'""')}"`).join(',')).join('\n');
+        const blob = new Blob(['﻿' + csv], { type: 'text/csv;charset=utf-8;' });
+        const url  = URL.createObjectURL(blob);
+        const a    = document.createElement('a');
+        a.href = url; a.download = 'tiendas_mal_ubicadas.csv'; a.click();
+        URL.revokeObjectURL(url);
+        alert(`${malUbicados.length} tiendas con posible distrito incorrecto descargadas.`);
+    }, 50);
 }
 
 // Cargar datos y distritos en paralelo
