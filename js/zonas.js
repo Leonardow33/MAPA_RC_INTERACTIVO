@@ -270,8 +270,8 @@ function render() {
             dimmed = rcSelected && p.rc !== rcSelected;
         }
         const inactivo = (p.estado||'').toUpperCase() === 'INACTIVO';
-        const finalDimmed = dimmed || inactivo;
-        const marker = L.marker([p.lat, p.lng], { icon: makePinIcon(inactivo && !dimmed ? '#888888' : color, finalDimmed) });
+        const pinColor = inactivo ? '#78909C' : color;
+        const marker = L.marker([p.lat, p.lng], { icon: makePinIcon(pinColor, dimmed) });
         marker.bindPopup(buildPopup(p), { maxWidth: 240 });
         markerLayer.addLayer(marker);
     });
