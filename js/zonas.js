@@ -589,8 +589,11 @@ function descargarSugerenciasRC() {
 
         const rows = [['ID','Nombre','Tipo','Distrito','RC Sugerido','Supervisor','Capacitador','Días Visita (ref)','Tienda Referencia','Distancia km','Lat','Lng']];
         sinRC.forEach(p => {
+            const tipoP = (p.tipo || '').toUpperCase();
+            const pool  = conRC.filter(r => (r.tipo||'').toUpperCase() === tipoP);
+            const base  = pool.length ? pool : conRC;
             let mejor = null, minDist = Infinity;
-            conRC.forEach(r => {
+            base.forEach(r => {
                 const d = haversineKm(p.lat, p.lng, r.lat, r.lng);
                 if (d < minDist) { minDist = d; mejor = r; }
             });
