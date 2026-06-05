@@ -23,7 +23,20 @@ let userLat = null, userLng = null;
 let userMarker = null;
 let routeLayer = null;
 let routeMarkersLayer = L.layerGroup().addTo(map);
-let markersLayer = L.markerClusterGroup({ chunkedLoading: true, maxClusterRadius: 45, removeOutsideVisibleBounds: false }).addTo(map);
+let sinAgrupacion = false;
+let markersLayer      = L.markerClusterGroup({ chunkedLoading: true, maxClusterRadius: 45, removeOutsideVisibleBounds: false }).addTo(map);
+let markersLayerPlano = L.layerGroup();
+
+function toggleSinAgrupacion() {
+    sinAgrupacion = !sinAgrupacion;
+    const btn = document.getElementById('btnSinAgrup');
+    btn.style.background = sinAgrupacion ? '#1565C0' : 'transparent';
+    btn.style.color      = sinAgrupacion ? 'white'   : '#42A5F5';
+    if (sinAgrupacion) { markersLayer.remove(); markersLayerPlano.addTo(map); }
+    else               { markersLayerPlano.remove(); markersLayer.addTo(map); }
+    updateFilters();
+}
+
 let elotLayer  = L.layerGroup().addTo(map);
 let elotMarker = null;
 let routeMode = 'driving'; // 'driving' | 'foot'
@@ -468,7 +481,21 @@ function attachPopupOpen(marker, p) {
 
 function renderMap(filterRC, filterDia, filterSup, filterPartner, filterZona, filterTipo) {
 
-    markersLayer.clearLayers();
+    // Mostrar botón solo cuando hay RC seleccionado
+    const btnSA = document.getElementById('btnSinAgrup');
+    if (filterRC && filterRC !== 'ALL') {
+        btnSA.style.display = '';
+    } else {
+        btnSA.style.display = 'none';
+        if (sinAgrupacion) {
+            sinAgrupacion = false;
+            btnSA.style.background = 'transparent'; btnSA.style.color = '#42A5F5';
+            markersLayerPlano.remove(); markersLayer.addTo(map);
+        }
+    }
+
+    const activeLayer = sinAgrupacion ? markersLayerPlano : markersLayer;
+    activeLayer.clearLayers();
 
     const _supsCA = new Set(allData
         .filter(p => (p.tipo || "").toUpperCase() === "CASA DE APUESTA" && p.supervisor)
@@ -507,7 +534,7 @@ function renderMap(filterRC, filterDia, filterSup, filterPartner, filterZona, fi
     let marker = L.marker([p.lat, p.lng], { icon: icon });
     marker.bindPopup(buildPopupContent(p), { autoPan: false });
     attachPopupOpen(marker, p);
-    markersLayer.addLayer(marker);
+    activeLayer.addLayer(marker);
     group.addLayer(marker);
 });
 
