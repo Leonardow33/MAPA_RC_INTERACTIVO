@@ -701,7 +701,7 @@ fetchSinVenta();
 // ─────────────────────────────────────────────────────────────────────────
 
 // ── GOOGLE SHEET ──────────────────────────────────────────────────────────
-const SHEET_URL  = "https://script.google.com/macros/s/AKfycby2f2uW9E2_CUBr9OiKVT4Sp-ubP2sRIXlWig-GPuKTGyDxi-zx724ZGtkOFaWW0jnqjw/exec";
+const SHEET_URL  = "https://script.google.com/macros/s/AKfycby-MqefpGnmgJWvy2E6gFc6caMid6quxDsuGtSyOHyFY1WFVqOSay4sMTbadDnYgKTT/exec";
 const SHEET_HOJA = "Visitas_Mapa2";
 // ─────────────────────────────────────────────────────────────────────────
 
