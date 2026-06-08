@@ -395,21 +395,26 @@ function renderTodosLosPuntos() {
         (zf === 'ALL' || (p.zonal_tipo || '').toUpperCase() === zf)
     );
     if (selectedRCFilter) activos = activos.filter(p => matchRCFilter(p));
+    // Filtrar por día si hay uno seleccionado en el panel
+    if (selectedDiaFilter) {
+        activos = activos.filter(p => (p.dias || []).some(d => normDia(d) === selectedDiaFilter));
+    }
     let visitados = 0;
+    const visitedSet = selectedRCFilter ? (visitsByRC[selectedRCFilter] || new Set()) : null;
     activos.forEach(p => {
         if (!p.lat || !p.lng) return;
         const id    = normalizeID(p.ID);
-        const count = visitCountsSemana[id] || 0;
-        if (count > 0) visitados++;
-        const color = count > 0 ? '#43A047' : '#78909C';
-        const visitaLabel = count > 0
-            ? `<b style="color:#43A047">✅ ${count} visita${count > 1 ? 's' : ''} esta semana</b>`
-            : `<span style="color:#aaa">Sin visitas esta semana</span>`;
+        const fueVisit = visitedSet ? visitedSet.has(id) : (visitCountsSemana[id] || 0) > 0;
+        if (fueVisit) visitados++;
+        const color = fueVisit ? '#43A047' : '#E53935';
+        const visitaLabel = fueVisit
+            ? `<b style="color:#43A047">✅ Visitado</b>`
+            : `<span style="color:#E53935">⚠️ Sin visitar</span>`;
         L.circleMarker([parseFloat(p.lat), parseFloat(p.lng)], {
-            radius: 6, fillColor: color, color: '#fff',
-            weight: 1, fillOpacity: count > 0 ? 0.85 : 0.65, opacity: 0.9
+            radius: 7, fillColor: color, color: '#fff',
+            weight: 1.5, fillOpacity: 0.88, opacity: 1
         }).addTo(todosLosPointsLayer)
-          .bindPopup(`<b>${p.nombre}</b><br><small>ID: ${p.ID} · RC: ${p.rc || '-'} · ${p.zona || '-'}</small><br>${visitaLabel}`);
+          .bindPopup(`<b>${p.nombre}</b><br><small>ID: ${p.ID} · RC: ${p.rc || '-'}</small><br>${visitaLabel}`);
     });
     const pct = activos.length > 0 ? Math.round(visitados / activos.length * 100) : 0;
     const rcLabel = selectedRCFilter ? ` · ${selectedRCFilter}` : '';
@@ -507,8 +512,17 @@ function renderCobertura() {
             <div class="partner-bar"><div class="partner-bar-fill" style="width:${pct}%;background:${barColor}"></div></div>`;
         div.addEventListener('click', () => {
             selectedDiaFilter = selectedDiaFilter === r.dia ? null : r.dia;
+            renderTodosLosPuntos();
             renderSinVisitar();
             renderCobertura();
+            // Zoom a los puntos del día seleccionado
+            if (selectedDiaFilter && selectedRCFilter) {
+                const pts = activos.filter(p => (p.dias||[]).some(d => normDia(d) === selectedDiaFilter));
+                if (pts.length) {
+                    const bounds = L.latLngBounds(pts.map(p => [p.lat, p.lng]));
+                    map.fitBounds(bounds, { padding: [40,40], maxZoom: 14 });
+                }
+            }
         });
         list.appendChild(div);
     });
