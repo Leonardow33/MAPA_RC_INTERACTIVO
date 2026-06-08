@@ -77,7 +77,7 @@ function matchRCFilter(p) {
     if (!selectedRCFilter) return true;
     return modoVista === 'cap'
         ? p.capacitador === selectedRCFilter
-        : matchRCFilter(p);
+        : p.rc === selectedRCFilter;
 }
 let semanaKeyCache = '';
 let selectedSemanaMonday = null;
