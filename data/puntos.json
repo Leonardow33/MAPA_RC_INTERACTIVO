@@ -14,12 +14,12 @@
         "responsable": "LOTOBOLA",
         "frecuencia": "LUNES-MARTES-MIÉRCOLES-JUEVES-VIERNES-SÁBADO",
         "dias": [
-            "SÁBADO",
             "MARTES",
-            "VIERNES",
             "JUEVES",
+            "VIERNES",
             "MIÉRCOLES",
-            "LUNES"
+            "LUNES",
+            "SÁBADO"
         ],
         "distrito": "SAN ISIDRO",
         "gz": "SIN INFO",
@@ -42,8 +42,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "COMAS",
         "gz": "Claudio",
@@ -66,8 +66,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "RIMAC",
         "gz": "Valentina",
@@ -90,8 +90,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "LIMA",
         "gz": "Valentina",
@@ -162,8 +162,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "COMAS",
         "gz": "Claudio",
@@ -256,9 +256,9 @@
         "supervisor": "RODRIGO MARTINEZ",
         "capacitador": "JESUS OLIVEROS",
         "responsable": "TAMBO",
-        "frecuencia": "LUNES",
+        "frecuencia": "JUEVES",
         "dias": [
-            "LUNES"
+            "JUEVES"
         ],
         "distrito": "ATE",
         "gz": "Patricia",
@@ -305,8 +305,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "VILLA EL SALVADOR",
         "gz": "Alejandro",
@@ -329,8 +329,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "PUEBLO LIBRE",
         "gz": "Yanira",
@@ -353,8 +353,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "SAN MARTIN DE PORRES",
         "gz": "Claudio",
@@ -497,8 +497,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "LOS OLIVOS",
         "gz": "Valentina",
@@ -545,8 +545,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "CALLAO",
         "gz": "Yanira",
@@ -574,7 +574,7 @@
         ],
         "distrito": "SAN MARTIN DE PORRES",
         "gz": "Claudio",
-        "jz": "Z23 Katerine Q.",
+        "jz": "Z24 Daniel B.",
         "zonal_tipo": "LIMA",
         "tipo": "TAMBO"
     },
@@ -665,8 +665,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "SAN JUAN DE LURIGANCHO",
         "gz": "Joel",
@@ -689,8 +689,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "LINCE",
         "gz": "Valentina",
@@ -713,8 +713,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "ATE",
         "gz": "Patricia",
@@ -761,8 +761,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "CALLAO",
         "gz": "Yanira",
@@ -904,8 +904,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "RIMAC",
         "gz": "Valentina",
@@ -952,8 +952,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "SAN JUAN DE LURIGANCHO",
         "gz": "Joel",
@@ -1023,8 +1023,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "SANTIAGO DE SURCO",
         "gz": "Patricia",
@@ -1166,8 +1166,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "COMAS",
         "gz": "Claudio",
@@ -1190,8 +1190,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "SAN MARTIN DE PORRES",
         "gz": "Claudio",
@@ -1286,8 +1286,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "COMAS",
         "gz": "Claudio",
@@ -1382,8 +1382,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "ATE",
         "gz": "Patricia",
@@ -1430,8 +1430,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "BARRANCO",
         "gz": "Juan",
@@ -1526,8 +1526,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "SAN LUIS",
         "gz": "Patricia",
@@ -1550,8 +1550,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "SAN MARTIN DE PORRES",
         "gz": "Claudio",
@@ -1574,8 +1574,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "MIRAFLORES",
         "gz": "Juan",
@@ -1694,8 +1694,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "SAN JUAN DE LURIGANCHO",
         "gz": "Joel",
@@ -1718,8 +1718,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "SANTIAGO DE SURCO",
         "gz": "Patricia",
@@ -1742,8 +1742,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "LINCE",
         "gz": "Valentina",
@@ -1790,8 +1790,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "SAN LUIS",
         "gz": "Patricia",
@@ -1862,8 +1862,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "LA MOLINA",
         "gz": "Patricia",
@@ -1910,8 +1910,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "PUEBLO LIBRE",
         "gz": "Yanira",
@@ -1982,8 +1982,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "LIMA",
         "gz": "Yanira",
@@ -2006,8 +2006,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "LOS OLIVOS",
         "gz": "Valentina",
@@ -2174,8 +2174,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "SANTIAGO DE SURCO",
         "gz": "Alejandro",
@@ -2198,8 +2198,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MIÉRCOLES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "VIERNES"
         ],
         "distrito": "TRUJILLO",
         "gz": "Jesus",
@@ -2246,8 +2246,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "MIRAFLORES",
         "gz": "Juan",
@@ -2270,8 +2270,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "LIMA",
         "gz": "Yanira",
@@ -2390,8 +2390,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "JESUS MARIA",
         "gz": "Valentina",
@@ -2414,8 +2414,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "BARRANCO",
         "gz": "Juan",
@@ -2486,8 +2486,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "LA MOLINA",
         "gz": "Patricia",
@@ -2606,8 +2606,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "BARRANCO",
         "gz": "Juan",
@@ -2678,8 +2678,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "LA MOLINA",
         "gz": "Patricia",
@@ -2726,8 +2726,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "SURQUILLO",
         "gz": "Joel",
@@ -2750,8 +2750,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "LINCE",
         "gz": "Valentina",
@@ -2774,8 +2774,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "SANTIAGO DE SURCO",
         "gz": "Alejandro",
@@ -2918,8 +2918,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "SAN MIGUEL",
         "gz": "Yanira",
@@ -3014,8 +3014,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "VILLA EL SALVADOR",
         "gz": "Alejandro",
@@ -3086,8 +3086,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "SURQUILLO",
         "gz": "Joel",
@@ -3134,8 +3134,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "CALLAO",
         "gz": "Yanira",
@@ -3348,8 +3348,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "MIRAFLORES",
         "gz": "Juan",
@@ -3372,8 +3372,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "VILLA EL SALVADOR",
         "gz": "Alejandro",
@@ -3468,8 +3468,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "COMAS",
         "gz": "Claudio",
@@ -3516,8 +3516,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "SAN MIGUEL",
         "gz": "Yanira",
@@ -3588,8 +3588,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "SANTIAGO DE SURCO",
         "gz": "Alejandro",
@@ -3660,8 +3660,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "SANTIAGO DE SURCO",
         "gz": "Patricia",
@@ -3684,8 +3684,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "LA MOLINA",
         "gz": "Patricia",
@@ -3732,8 +3732,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "SAN MARTIN DE PORRES",
         "gz": "Claudio",
@@ -3756,8 +3756,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "MIRAFLORES",
         "gz": "Juan",
@@ -3804,8 +3804,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "SANTIAGO DE SURCO",
         "gz": "Alejandro",
@@ -3924,8 +3924,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "MIRAFLORES",
         "gz": "Juan",
@@ -4020,8 +4020,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "CALLAO",
         "gz": "Yanira",
@@ -4044,8 +4044,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "CALLAO",
         "gz": "Yanira",
@@ -4116,8 +4116,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "SANTIAGO DE SURCO",
         "gz": "Patricia",
@@ -4188,8 +4188,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "SAN MARTIN DE PORRES",
         "gz": "Claudio",
@@ -4212,8 +4212,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "SANTIAGO DE SURCO",
         "gz": "Alejandro",
@@ -4308,8 +4308,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "MIRAFLORES",
         "gz": "Juan",
@@ -4332,8 +4332,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "SAN MARTIN DE PORRES",
         "gz": "Claudio",
@@ -4476,8 +4476,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "SAN JUAN DE MIRAFLORES",
         "gz": "Alejandro",
@@ -4500,8 +4500,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "SANTIAGO DE SURCO",
         "gz": "Alejandro",
@@ -4529,7 +4529,7 @@
         ],
         "distrito": "SANTIAGO DE SURCO",
         "gz": "Alejandro",
-        "jz": "Z12 Maritza B.",
+        "jz": "Z9 Maritza C.",
         "zonal_tipo": "LIMA",
         "tipo": "TAMBO"
     },
@@ -4548,12 +4548,12 @@
         "responsable": "TAMBO",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "SAN JUAN DE MIRAFLORES",
         "gz": "Alejandro",
-        "jz": "Z35 Maybe Q.",
+        "jz": "Z12 Maritza B.",
         "zonal_tipo": "LIMA",
         "tipo": "TAMBO"
     },
@@ -4572,8 +4572,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "ATE",
         "gz": "Patricia",
@@ -4596,8 +4596,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "RIMAC",
         "gz": "Valentina",
@@ -4788,8 +4788,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "CALLAO",
         "gz": "Yanira",
@@ -4836,8 +4836,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "SAN JUAN DE LURIGANCHO",
         "gz": "Joel",
@@ -4860,8 +4860,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "SAN MARTIN DE PORRES",
         "gz": "Claudio",
@@ -4884,8 +4884,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "SANTIAGO DE SURCO",
         "gz": "Patricia",
@@ -4908,8 +4908,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "LOS OLIVOS",
         "gz": "Valentina",
@@ -4932,8 +4932,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "COMAS",
         "gz": "Claudio",
@@ -4956,8 +4956,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "SANTIAGO DE SURCO",
         "gz": "Alejandro",
@@ -5099,8 +5099,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "CALLAO",
         "gz": "Yanira",
@@ -5123,8 +5123,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "SANTIAGO DE SURCO",
         "gz": "Alejandro",
@@ -5147,8 +5147,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "LA MOLINA",
         "gz": "Patricia",
@@ -5195,8 +5195,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "SAN MARTIN DE PORRES",
         "gz": "Claudio",
@@ -5219,8 +5219,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "SURQUILLO",
         "gz": "Joel",
@@ -5291,8 +5291,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "LOS OLIVOS",
         "gz": "Valentina",
@@ -5362,8 +5362,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "MIRAFLORES",
         "gz": "Juan",
@@ -5434,8 +5434,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "SANTIAGO DE SURCO",
         "gz": "Alejandro",
@@ -5576,8 +5576,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "COMAS",
         "gz": "Claudio",
@@ -5839,8 +5839,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "BREÑA",
         "gz": "Valentina",
@@ -5935,8 +5935,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "COMAS",
         "gz": "Claudio",
@@ -6079,8 +6079,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "RIMAC",
         "gz": "Valentina",
@@ -6317,8 +6317,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "LA MOLINA",
         "gz": "Patricia",
@@ -6339,7 +6339,7 @@
         "supervisor": "JORGE SANCHEZ",
         "capacitador": "RODRIGO BRAVO",
         "responsable": "TAMBO",
-        "frecuencia": "MARTES-VIERNES",
+        "frecuencia": "VIERNES-MARTES",
         "dias": [
             "VIERNES",
             "MARTES"
@@ -6389,8 +6389,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "COMAS",
         "gz": "Claudio",
@@ -6460,8 +6460,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "LA MOLINA",
         "gz": "Patricia",
@@ -6506,9 +6506,9 @@
         "supervisor": "RODRIGO MARTINEZ",
         "capacitador": "JESUS OLIVEROS",
         "responsable": "TAMBO",
-        "frecuencia": "LUNES",
+        "frecuencia": "JUEVES",
         "dias": [
-            "LUNES"
+            "JUEVES"
         ],
         "distrito": "CHACLACAYO",
         "gz": "Patricia",
@@ -6553,10 +6553,9 @@
         "supervisor": "RODRIGO MARTINEZ",
         "capacitador": "JESUS OLIVEROS",
         "responsable": "TAMBO",
-        "frecuencia": "LUNES-JUEVES",
+        "frecuencia": "LUNES-SIN ASIGNAR",
         "dias": [
-            "LUNES",
-            "JUEVES"
+            "LUNES"
         ],
         "distrito": "ATE",
         "gz": "Patricia",
@@ -6577,9 +6576,9 @@
         "supervisor": "RODRIGO MARTINEZ",
         "capacitador": "JESUS OLIVEROS",
         "responsable": "TAMBO",
-        "frecuencia": "LUNES",
+        "frecuencia": "JUEVES",
         "dias": [
-            "LUNES"
+            "JUEVES"
         ],
         "distrito": "CHOSICA",
         "gz": "Patricia",
@@ -6602,8 +6601,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "SAN JUAN DE LURIGANCHO",
         "gz": "Joel",
@@ -6674,8 +6673,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "SANTIAGO DE SURCO",
         "gz": "Patricia",
@@ -6698,8 +6697,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "CALLAO",
         "gz": "Yanira",
@@ -6720,10 +6719,9 @@
         "supervisor": "RODRIGO MARTINEZ",
         "capacitador": "JESUS OLIVEROS",
         "responsable": "TAMBO",
-        "frecuencia": "LUNES-JUEVES",
+        "frecuencia": "LUNES-SIN ASIGNAR",
         "dias": [
-            "LUNES",
-            "JUEVES"
+            "LUNES"
         ],
         "distrito": "ATE",
         "gz": "Patricia",
@@ -6770,8 +6768,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "VILLA EL SALVADOR",
         "gz": "Alejandro",
@@ -6794,8 +6792,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "LINCE",
         "gz": "Valentina",
@@ -6912,9 +6910,8 @@
         "supervisor": "JORGE SANCHEZ",
         "capacitador": "RODRIGO BRAVO",
         "responsable": "TAMBO",
-        "frecuencia": "MARTES-VIERNES",
+        "frecuencia": "MARTES-SIN ASIGNAR",
         "dias": [
-            "VIERNES",
             "MARTES"
         ],
         "distrito": "SAN JUAN DE LURIGANCHO",
@@ -6938,8 +6935,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "LINCE",
         "gz": "Valentina",
@@ -6960,10 +6957,9 @@
         "supervisor": "RODRIGO MARTINEZ",
         "capacitador": "JESUS OLIVEROS",
         "responsable": "TAMBO",
-        "frecuencia": "LUNES-JUEVES",
+        "frecuencia": "LUNES-SIN ASIGNAR",
         "dias": [
-            "LUNES",
-            "JUEVES"
+            "LUNES"
         ],
         "distrito": "LURIGANCHO",
         "gz": "Patricia",
@@ -7034,8 +7030,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "VILLA EL SALVADOR",
         "gz": "Alejandro",
@@ -7106,8 +7102,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "VILLA EL SALVADOR",
         "gz": "Alejandro",
@@ -7154,8 +7150,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "BELLAVISTA",
         "gz": "Yanira",
@@ -7225,8 +7221,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "BREÑA",
         "gz": "Valentina",
@@ -7559,8 +7555,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "VILLA EL SALVADOR",
         "gz": "Alejandro",
@@ -7612,7 +7608,7 @@
         ],
         "distrito": "SAN MARTIN DE PORRES",
         "gz": "Claudio",
-        "jz": "Z23 Katerine Q.",
+        "jz": "Z24 Daniel B.",
         "zonal_tipo": "LIMA",
         "tipo": "TAMBO"
     },
@@ -7631,8 +7627,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "ATE",
         "gz": "Patricia",
@@ -7796,8 +7792,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "SAN JUAN DE LURIGANCHO",
         "gz": "Joel",
@@ -7820,8 +7816,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "CALLAO",
         "gz": "Yanira",
@@ -7868,8 +7864,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "LOS OLIVOS",
         "gz": "Valentina",
@@ -7988,8 +7984,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "ATE",
         "gz": "Patricia",
@@ -8058,10 +8054,9 @@
         "supervisor": "JORGE SANCHEZ",
         "capacitador": "RODRIGO BRAVO",
         "responsable": "TAMBO",
-        "frecuencia": "MARTES-VIERNES",
+        "frecuencia": "VIERNES-SIN ASIGNAR",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "VIERNES"
         ],
         "distrito": "SAN JUAN DE LURIGANCHO",
         "gz": "Joel",
@@ -8084,8 +8079,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "RIMAC",
         "gz": "Valentina",
@@ -8136,7 +8131,7 @@
         ],
         "distrito": "SAN JUAN DE MIRAFLORES",
         "gz": "Alejandro",
-        "jz": "Z35 Maybe Q.",
+        "jz": "Z12 Maritza B.",
         "zonal_tipo": "LIMA",
         "tipo": "TAMBO"
     },
@@ -8179,8 +8174,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "SAN JUAN DE LURIGANCHO",
         "gz": "Joel",
@@ -8296,9 +8291,9 @@
         "supervisor": "RODRIGO MARTINEZ",
         "capacitador": "JESUS OLIVEROS",
         "responsable": "TAMBO",
-        "frecuencia": "LUNES",
+        "frecuencia": "JUEVES",
         "dias": [
-            "LUNES"
+            "JUEVES"
         ],
         "distrito": "ATE",
         "gz": "Patricia",
@@ -8345,8 +8340,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "LOS OLIVOS",
         "gz": "Valentina",
@@ -8369,8 +8364,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "SAN JUAN DE LURIGANCHO",
         "gz": "Joel",
@@ -8487,8 +8482,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "JESUS MARIA",
         "gz": "Valentina",
@@ -8581,10 +8576,9 @@
         "supervisor": "JORGE SANCHEZ",
         "capacitador": "SELEN CASTRO",
         "responsable": "TAMBO",
-        "frecuencia": "MARTES-VIERNES",
+        "frecuencia": "VIERNES-SIN ASIGNAR",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "VIERNES"
         ],
         "distrito": "LOS OLIVOS",
         "gz": "Valentina",
@@ -8654,8 +8648,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "SAN JUAN DE MIRAFLORES",
         "gz": "Alejandro",
@@ -8702,8 +8696,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "LINCE",
         "gz": "Valentina",
@@ -8727,8 +8721,8 @@
         "frecuencia": "LUNES-MIÉRCOLES-VIERNES",
         "dias": [
             "LUNES",
-            "VIERNES",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "VIERNES"
         ],
         "distrito": "CHICLAYO",
         "gz": "Jesus",
@@ -8799,8 +8793,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "SAN JUAN DE LURIGANCHO",
         "gz": "Joel",
@@ -8823,8 +8817,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "MIRAFLORES",
         "gz": "Juan",
@@ -8921,7 +8915,7 @@
         ],
         "distrito": "SANTIAGO DE SURCO",
         "gz": "Alejandro",
-        "jz": "Z12 Maritza B.",
+        "jz": "Z9 Maritza C.",
         "zonal_tipo": "LIMA",
         "tipo": "TAMBO"
     },
@@ -8940,8 +8934,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "SAN JUAN DE LURIGANCHO",
         "gz": "Joel",
@@ -8988,8 +8982,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "COMAS",
         "gz": "Claudio",
@@ -9083,8 +9077,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "COMAS",
         "gz": "Claudio",
@@ -9226,8 +9220,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "VILLA EL SALVADOR",
         "gz": "Alejandro",
@@ -9296,9 +9290,9 @@
         "supervisor": "RODRIGO MARTINEZ",
         "capacitador": "JESUS OLIVEROS",
         "responsable": "TAMBO",
-        "frecuencia": "LUNES",
+        "frecuencia": "JUEVES",
         "dias": [
-            "LUNES"
+            "JUEVES"
         ],
         "distrito": "ATE",
         "gz": "Patricia",
@@ -9321,8 +9315,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "COMAS",
         "gz": "Claudio",
@@ -9345,8 +9339,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "COMAS",
         "gz": "Claudio",
@@ -9438,10 +9432,9 @@
         "supervisor": "RODRIGO MARTINEZ",
         "capacitador": "RAMON RAZURI",
         "responsable": "TAMBO",
-        "frecuencia": "LUNES-JUEVES",
+        "frecuencia": "LUNES-SIN ASIGNAR",
         "dias": [
-            "LUNES",
-            "JUEVES"
+            "LUNES"
         ],
         "distrito": "MIRAFLORES",
         "gz": "Juan",
@@ -9464,8 +9457,8 @@
         "responsable": "TAMBO",
         "frecuencia": "SÁBADO-MIÉRCOLES",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "CHIMBOTE",
         "gz": "Jesus",
@@ -9558,8 +9551,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MARTES-JUEVES-SÁBADO",
         "dias": [
-            "SÁBADO",
             "MARTES",
+            "SÁBADO",
             "JUEVES"
         ],
         "distrito": "PIURA",
@@ -9632,8 +9625,8 @@
         "frecuencia": "LUNES-MIÉRCOLES-VIERNES",
         "dias": [
             "LUNES",
-            "VIERNES",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "VIERNES"
         ],
         "distrito": "PIURA",
         "gz": "Jesus",
@@ -9656,8 +9649,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MARTES-JUEVES-SÁBADO",
         "dias": [
-            "SÁBADO",
             "MARTES",
+            "SÁBADO",
             "JUEVES"
         ],
         "distrito": "PIURA",
@@ -9681,8 +9674,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "BREÑA",
         "gz": "Valentina",
@@ -9776,8 +9769,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MARTES-JUEVES-SÁBADO",
         "dias": [
-            "SÁBADO",
             "MARTES",
+            "SÁBADO",
             "JUEVES"
         ],
         "distrito": "CHICLAYO",
@@ -9801,8 +9794,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MARTES-JUEVES-SÁBADO",
         "dias": [
-            "SÁBADO",
             "MARTES",
+            "SÁBADO",
             "JUEVES"
         ],
         "distrito": "CHICLAYO",
@@ -9826,8 +9819,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MIÉRCOLES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "VIERNES"
         ],
         "distrito": "TRUJILLO",
         "gz": "Jesus",
@@ -9922,8 +9915,8 @@
         "frecuencia": "LUNES-MIÉRCOLES-VIERNES",
         "dias": [
             "LUNES",
-            "VIERNES",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "VIERNES"
         ],
         "distrito": "LAMBAYEQUE",
         "gz": "Jesus",
@@ -9970,8 +9963,8 @@
         "frecuencia": "LUNES-MIÉRCOLES-VIERNES",
         "dias": [
             "LUNES",
-            "VIERNES",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "VIERNES"
         ],
         "distrito": "LAMBAYEQUE",
         "gz": "Jesus",
@@ -10017,8 +10010,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "MIRAFLORES",
         "gz": "Juan",
@@ -10042,8 +10035,8 @@
         "frecuencia": "LUNES-MIÉRCOLES-VIERNES",
         "dias": [
             "LUNES",
-            "VIERNES",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "VIERNES"
         ],
         "distrito": "ICA",
         "gz": "Juan",
@@ -10090,8 +10083,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "SAN JUAN DE LURIGANCHO",
         "gz": "Joel",
@@ -10137,8 +10130,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MARTES-JUEVES-SÁBADO",
         "dias": [
-            "SÁBADO",
             "MARTES",
+            "SÁBADO",
             "JUEVES"
         ],
         "distrito": "CHICLAYO",
@@ -10209,8 +10202,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MARTES-JUEVES-SÁBADO",
         "dias": [
-            "SÁBADO",
             "MARTES",
+            "SÁBADO",
             "JUEVES"
         ],
         "distrito": "PIURA",
@@ -10329,8 +10322,8 @@
         "frecuencia": "LUNES-MIÉRCOLES-VIERNES",
         "dias": [
             "LUNES",
-            "VIERNES",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "VIERNES"
         ],
         "distrito": "PIURA",
         "gz": "Jesus",
@@ -10351,10 +10344,9 @@
         "supervisor": "JORGE SANCHEZ",
         "capacitador": "SELEN CASTRO",
         "responsable": "TAMBO",
-        "frecuencia": "MARTES-VIERNES",
+        "frecuencia": "VIERNES-SIN ASIGNAR",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "VIERNES"
         ],
         "distrito": "INDEPENDENCIA",
         "gz": "Valentina",
@@ -10401,8 +10393,8 @@
         "frecuencia": "LUNES-MIÉRCOLES-VIERNES",
         "dias": [
             "LUNES",
-            "VIERNES",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "VIERNES"
         ],
         "distrito": "CHICLAYO",
         "gz": "Jesus",
@@ -10449,8 +10441,8 @@
         "frecuencia": "LUNES-MIÉRCOLES-VIERNES",
         "dias": [
             "LUNES",
-            "VIERNES",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "VIERNES"
         ],
         "distrito": "PIURA",
         "gz": "Jesus",
@@ -10473,8 +10465,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MARTES-JUEVES-SÁBADO",
         "dias": [
-            "SÁBADO",
             "MARTES",
+            "SÁBADO",
             "JUEVES"
         ],
         "distrito": "PIURA",
@@ -10519,10 +10511,9 @@
         "supervisor": "RODRIGO MARTINEZ",
         "capacitador": "JESUS OLIVEROS",
         "responsable": "TAMBO",
-        "frecuencia": "LUNES-JUEVES",
+        "frecuencia": "LUNES-SIN ASIGNAR",
         "dias": [
-            "LUNES",
-            "JUEVES"
+            "LUNES"
         ],
         "distrito": "ATE",
         "gz": "Patricia",
@@ -10545,8 +10536,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "LIMA",
         "gz": "Yanira",
@@ -10593,8 +10584,8 @@
         "frecuencia": "LUNES-MIÉRCOLES-VIERNES",
         "dias": [
             "LUNES",
-            "VIERNES",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "VIERNES"
         ],
         "distrito": "PIURA",
         "gz": "Jesus",
@@ -10617,8 +10608,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MIÉRCOLES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "VIERNES"
         ],
         "distrito": "TRUJILLO",
         "gz": "Jesus",
@@ -10689,8 +10680,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "SURQUILLO",
         "gz": "Joel",
@@ -10737,8 +10728,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "COMAS",
         "gz": "Claudio",
@@ -10761,8 +10752,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "BELLAVISTA",
         "gz": "Yanira",
@@ -10881,8 +10872,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "SANTIAGO DE SURCO",
         "gz": "Alejandro",
@@ -10929,8 +10920,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "SAN JUAN DE LURIGANCHO",
         "gz": "Joel",
@@ -10953,8 +10944,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "SAN MARTIN DE PORRES",
         "gz": "Claudio",
@@ -10977,8 +10968,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MIÉRCOLES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "VIERNES"
         ],
         "distrito": "TRUJILLO",
         "gz": "Jesus",
@@ -11049,8 +11040,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "BREÑA",
         "gz": "Valentina",
@@ -11071,10 +11062,9 @@
         "supervisor": "JORGE SANCHEZ",
         "capacitador": "RODRIGO BRAVO",
         "responsable": "TAMBO",
-        "frecuencia": "MARTES-VIERNES",
+        "frecuencia": "VIERNES-SIN ASIGNAR",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "VIERNES"
         ],
         "distrito": "SAN JUAN DE LURIGANCHO",
         "gz": "Joel",
@@ -11144,10 +11134,9 @@
         "supervisor": "JORGE SANCHEZ",
         "capacitador": "SELEN CASTRO",
         "responsable": "TAMBO",
-        "frecuencia": "MARTES-VIERNES",
+        "frecuencia": "VIERNES-SIN ASIGNAR",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "VIERNES"
         ],
         "distrito": "LOS OLIVOS",
         "gz": "Valentina",
@@ -11170,8 +11159,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "LIMA",
         "gz": "Yanira",
@@ -11242,8 +11231,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MARTES-JUEVES-SÁBADO",
         "dias": [
-            "SÁBADO",
             "MARTES",
+            "SÁBADO",
             "JUEVES"
         ],
         "distrito": "CHICLAYO",
@@ -11267,8 +11256,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "JESUS MARIA",
         "gz": "Valentina",
@@ -11291,8 +11280,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "LIMA",
         "gz": "Valentina",
@@ -11507,8 +11496,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "SANTIAGO DE SURCO",
         "gz": "Alejandro",
@@ -11649,8 +11638,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "EL AGUSTINO",
         "gz": "Patricia",
@@ -11770,8 +11759,8 @@
         "frecuencia": "LUNES-MIÉRCOLES-VIERNES",
         "dias": [
             "LUNES",
-            "VIERNES",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "VIERNES"
         ],
         "distrito": "PIURA",
         "gz": "Jesus",
@@ -11794,8 +11783,8 @@
         "responsable": "TAMBO",
         "frecuencia": "SÁBADO-MIÉRCOLES",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "NUEVO CHIMBOTE",
         "gz": "Jesus",
@@ -11842,8 +11831,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "SANTIAGO DE SURCO",
         "gz": "Alejandro",
@@ -11866,8 +11855,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "ATE",
         "gz": "Patricia",
@@ -11962,8 +11951,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "JESUS MARIA",
         "gz": "Valentina",
@@ -12011,8 +12000,8 @@
         "frecuencia": "LUNES-MIÉRCOLES-VIERNES",
         "dias": [
             "LUNES",
-            "VIERNES",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "VIERNES"
         ],
         "distrito": "CHICLAYO",
         "gz": "Jesus",
@@ -12035,8 +12024,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "MIRAFLORES",
         "gz": "Juan",
@@ -12106,8 +12095,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "AREQUIPA",
         "gz": "Jesus",
@@ -12128,9 +12117,8 @@
         "supervisor": "RODRIGO MARTINEZ",
         "capacitador": "RAMON RAZURI",
         "responsable": "TAMBO",
-        "frecuencia": "LUNES-JUEVES",
+        "frecuencia": "JUEVES-SIN ASIGNAR",
         "dias": [
-            "LUNES",
             "JUEVES"
         ],
         "distrito": "MIRAFLORES",
@@ -12152,10 +12140,9 @@
         "supervisor": "RODRIGO MARTINEZ",
         "capacitador": "JESUS OLIVEROS",
         "responsable": "TAMBO",
-        "frecuencia": "LUNES-JUEVES",
+        "frecuencia": "LUNES-SIN ASIGNAR",
         "dias": [
-            "LUNES",
-            "JUEVES"
+            "LUNES"
         ],
         "distrito": "ATE",
         "gz": "Patricia",
@@ -12201,8 +12188,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MIÉRCOLES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "VIERNES"
         ],
         "distrito": "TRUJILLO",
         "gz": "Jesus",
@@ -12271,10 +12258,9 @@
         "supervisor": "JORGE SANCHEZ",
         "capacitador": "RODRIGO BRAVO",
         "responsable": "TAMBO",
-        "frecuencia": "MARTES-VIERNES",
+        "frecuencia": "VIERNES-SIN ASIGNAR",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "VIERNES"
         ],
         "distrito": "SAN JUAN DE LURIGANCHO",
         "gz": "Joel",
@@ -12344,8 +12330,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "BARRANCO",
         "gz": "Juan",
@@ -12414,10 +12400,9 @@
         "supervisor": "JORGE SANCHEZ",
         "capacitador": "RODRIGO BRAVO",
         "responsable": "TAMBO",
-        "frecuencia": "MARTES-VIERNES",
+        "frecuencia": "VIERNES-SIN ASIGNAR",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "VIERNES"
         ],
         "distrito": "SAN JUAN DE LURIGANCHO",
         "gz": "Joel",
@@ -12464,8 +12449,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MARTES-JUEVES-SÁBADO",
         "dias": [
-            "SÁBADO",
             "MARTES",
+            "SÁBADO",
             "JUEVES"
         ],
         "distrito": "CHICLAYO",
@@ -12487,10 +12472,9 @@
         "supervisor": "RODRIGO MARTINEZ",
         "capacitador": "JESUS OLIVEROS",
         "responsable": "TAMBO",
-        "frecuencia": "LUNES-JUEVES",
+        "frecuencia": "LUNES-SIN ASIGNAR",
         "dias": [
-            "LUNES",
-            "JUEVES"
+            "LUNES"
         ],
         "distrito": "ATE",
         "gz": "Patricia",
@@ -12560,8 +12544,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MARTES-JUEVES-SÁBADO",
         "dias": [
-            "SÁBADO",
             "MARTES",
+            "SÁBADO",
             "JUEVES"
         ],
         "distrito": "CHICLAYO",
@@ -12609,8 +12593,8 @@
         "responsable": "TAMBO",
         "frecuencia": "SÁBADO-MIÉRCOLES",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "CUSCO",
         "gz": "Jesus",
@@ -12633,8 +12617,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "AREQUIPA",
         "gz": "Jesus",
@@ -12703,10 +12687,9 @@
         "supervisor": "JORGE SANCHEZ",
         "capacitador": "RODRIGO BRAVO",
         "responsable": "TAMBO",
-        "frecuencia": "LUNES-JUEVES",
+        "frecuencia": "LUNES-SIN ASIGNAR",
         "dias": [
-            "LUNES",
-            "JUEVES"
+            "LUNES"
         ],
         "distrito": "SAN JUAN DE LURIGANCHO",
         "gz": "Joel",
@@ -12775,9 +12758,8 @@
         "supervisor": "RODRIGO MARTINEZ",
         "capacitador": "RAMON RAZURI",
         "responsable": "TAMBO",
-        "frecuencia": "LUNES-JUEVES",
+        "frecuencia": "JUEVES-SIN ASIGNAR",
         "dias": [
-            "LUNES",
             "JUEVES"
         ],
         "distrito": "MIRAFLORES",
@@ -12848,8 +12830,8 @@
         "responsable": "TAMBO",
         "frecuencia": "SÁBADO-MIÉRCOLES",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "CUSCO",
         "gz": "Jesus",
@@ -12988,9 +12970,8 @@
         "supervisor": "RODRIGO MARTINEZ",
         "capacitador": "RAMON RAZURI",
         "responsable": "TAMBO",
-        "frecuencia": "LUNES-JUEVES",
+        "frecuencia": "JUEVES-SIN ASIGNAR",
         "dias": [
-            "LUNES",
             "JUEVES"
         ],
         "distrito": "MIRAFLORES",
@@ -13108,8 +13089,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "SANTIAGO DE SURCO",
         "gz": "Alejandro",
@@ -13132,8 +13113,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "LIMA",
         "gz": "Yanira",
@@ -13275,8 +13256,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "CALLAO",
         "gz": "Yanira",
@@ -13347,8 +13328,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "JESUS MARIA",
         "gz": "Valentina",
@@ -13393,10 +13374,9 @@
         "supervisor": "JORGE SANCHEZ",
         "capacitador": "JOEL VENTURA",
         "responsable": "TAMBO",
-        "frecuencia": "MIÉRCOLES-SÁBADO",
+        "frecuencia": "SÁBADO-SIN ASIGNAR",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "SÁBADO"
         ],
         "distrito": "COMAS",
         "gz": "Claudio",
@@ -13419,8 +13399,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "AREQUIPA",
         "gz": "Jesus",
@@ -13443,8 +13423,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "SAN MARTIN DE PORRES",
         "gz": "Claudio",
@@ -13465,10 +13445,9 @@
         "supervisor": "JORGE SANCHEZ",
         "capacitador": "RODRIGO BRAVO",
         "responsable": "TAMBO",
-        "frecuencia": "MIÉRCOLES-SÁBADO",
+        "frecuencia": "SÁBADO-SIN ASIGNAR",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "SÁBADO"
         ],
         "distrito": "SAN JUAN DE LURIGANCHO",
         "gz": "Joel",
@@ -13537,10 +13516,9 @@
         "supervisor": "JORGE SANCHEZ",
         "capacitador": "RODRIGO BRAVO",
         "responsable": "TAMBO",
-        "frecuencia": "LUNES-JUEVES",
+        "frecuencia": "LUNES-SIN ASIGNAR",
         "dias": [
-            "LUNES",
-            "JUEVES"
+            "LUNES"
         ],
         "distrito": "EL AGUSTINO",
         "gz": "Patricia",
@@ -13611,8 +13589,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "CALLAO",
         "gz": "Yanira",
@@ -13635,8 +13613,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "VILLA EL SALVADOR",
         "gz": "Alejandro",
@@ -13657,10 +13635,9 @@
         "supervisor": "JORGE SANCHEZ",
         "capacitador": "RODRIGO BRAVO",
         "responsable": "TAMBO",
-        "frecuencia": "LUNES-JUEVES",
+        "frecuencia": "LUNES-SIN ASIGNAR",
         "dias": [
-            "LUNES",
-            "JUEVES"
+            "LUNES"
         ],
         "distrito": "SAN JUAN DE LURIGANCHO",
         "gz": "Joel",
@@ -13706,10 +13683,9 @@
         "supervisor": "JORGE SANCHEZ",
         "capacitador": "RODRIGO BRAVO",
         "responsable": "TAMBO",
-        "frecuencia": "LUNES-JUEVES",
+        "frecuencia": "LUNES-SIN ASIGNAR",
         "dias": [
-            "LUNES",
-            "JUEVES"
+            "LUNES"
         ],
         "distrito": "SAN JUAN DE LURIGANCHO",
         "gz": "Joel",
@@ -13779,8 +13755,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "SOCABAYA",
         "gz": "Jesus",
@@ -13801,10 +13777,9 @@
         "supervisor": "JORGE SANCHEZ",
         "capacitador": "RODRIGO BRAVO",
         "responsable": "TAMBO",
-        "frecuencia": "MARTES-VIERNES",
+        "frecuencia": "VIERNES-SIN ASIGNAR",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "VIERNES"
         ],
         "distrito": "SAN JUAN DE LURIGANCHO",
         "gz": "Joel",
@@ -13874,8 +13849,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "SANTIAGO DE SURCO",
         "gz": "Alejandro",
@@ -13898,8 +13873,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "MIRAFLORES",
         "gz": "Juan",
@@ -14016,10 +13991,9 @@
         "supervisor": "RODRIGO MARTINEZ",
         "capacitador": "JESUS OLIVEROS",
         "responsable": "TAMBO",
-        "frecuencia": "LUNES-JUEVES",
+        "frecuencia": "LUNES-SIN ASIGNAR",
         "dias": [
-            "LUNES",
-            "JUEVES"
+            "LUNES"
         ],
         "distrito": "LURIGANCHO",
         "gz": "Patricia",
@@ -14088,8 +14062,8 @@
         "responsable": "TAMBO",
         "frecuencia": "SÁBADO-MIÉRCOLES",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "SAN JERONIMO",
         "gz": "Jesus",
@@ -14136,8 +14110,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "VILLA EL SALVADOR",
         "gz": "Alejandro",
@@ -14208,8 +14182,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "AREQUIPA",
         "gz": "Jesus",
@@ -14302,9 +14276,8 @@
         "supervisor": "JORGE SANCHEZ",
         "capacitador": "JESUS OLIVEROS",
         "responsable": "TAMBO",
-        "frecuencia": "LUNES-JUEVES",
+        "frecuencia": "JUEVES-SIN ASIGNAR",
         "dias": [
-            "LUNES",
             "JUEVES"
         ],
         "distrito": "EL AGUSTINO",
@@ -14326,10 +14299,9 @@
         "supervisor": "JORGE SANCHEZ",
         "capacitador": "SELEN CASTRO",
         "responsable": "TAMBO",
-        "frecuencia": "MARTES-VIERNES",
+        "frecuencia": "VIERNES-SIN ASIGNAR",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "VIERNES"
         ],
         "distrito": "INDEPENDENCIA",
         "gz": "Valentina",
@@ -14425,8 +14397,8 @@
         "frecuencia": "LUNES-MIÉRCOLES-VIERNES",
         "dias": [
             "LUNES",
-            "VIERNES",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "VIERNES"
         ],
         "distrito": "CHICLAYO",
         "gz": "Jesus",
@@ -14449,8 +14421,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "BELLAVISTA",
         "gz": "Yanira",
@@ -14663,9 +14635,8 @@
         "supervisor": "RODRIGO MARTINEZ",
         "capacitador": "JESUS OLIVEROS",
         "responsable": "TAMBO",
-        "frecuencia": "LUNES-JUEVES",
+        "frecuencia": "JUEVES-SIN ASIGNAR",
         "dias": [
-            "LUNES",
             "JUEVES"
         ],
         "distrito": "ATE",
@@ -14711,9 +14682,8 @@
         "supervisor": "JORGE SANCHEZ",
         "capacitador": "JOEL VENTURA",
         "responsable": "TAMBO",
-        "frecuencia": "MIÉRCOLES-SÁBADO",
+        "frecuencia": "MIÉRCOLES-SIN ASIGNAR",
         "dias": [
-            "SÁBADO",
             "MIÉRCOLES"
         ],
         "distrito": "COMAS",
@@ -14806,9 +14776,8 @@
         "supervisor": "JORGE SANCHEZ",
         "capacitador": "SELEN CASTRO",
         "responsable": "TAMBO",
-        "frecuencia": "MARTES-VIERNES",
+        "frecuencia": "MARTES-SIN ASIGNAR",
         "dias": [
-            "VIERNES",
             "MARTES"
         ],
         "distrito": "LOS OLIVOS",
@@ -14832,8 +14801,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "MIRAFLORES",
         "gz": "Juan",
@@ -14880,8 +14849,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "SURQUILLO",
         "gz": "Joel",
@@ -14904,8 +14873,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "LA MOLINA",
         "gz": "Patricia",
@@ -14928,8 +14897,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "MIRAFLORES",
         "gz": "Juan",
@@ -14974,10 +14943,9 @@
         "supervisor": "JORGE SANCHEZ",
         "capacitador": "SELEN CASTRO",
         "responsable": "TAMBO",
-        "frecuencia": "MIÉRCOLES-SÁBADO",
+        "frecuencia": "SÁBADO-SIN ASIGNAR",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "SÁBADO"
         ],
         "distrito": "LOS OLIVOS",
         "gz": "Valentina",
@@ -15000,8 +14968,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "ATE",
         "gz": "Patricia",
@@ -15143,8 +15111,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "SANTIAGO DE SURCO",
         "gz": "Patricia",
@@ -15167,12 +15135,12 @@
         "responsable": "TAMBO",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "SAN MARTIN DE PORRES",
         "gz": "Claudio",
-        "jz": "Z24 Daniel B.",
+        "jz": "Z23 Katerine Q.",
         "zonal_tipo": "LIMA",
         "tipo": "TAMBO"
     },
@@ -15189,9 +15157,9 @@
         "supervisor": "RODRIGO MARTINEZ",
         "capacitador": "JESUS OLIVEROS",
         "responsable": "TAMBO",
-        "frecuencia": "LUNES",
+        "frecuencia": "JUEVES",
         "dias": [
-            "LUNES"
+            "JUEVES"
         ],
         "distrito": "CHOSICA",
         "gz": "Patricia",
@@ -15309,8 +15277,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "SANTIAGO DE SURCO",
         "gz": "Alejandro",
@@ -15356,8 +15324,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "COMAS",
         "gz": "Claudio",
@@ -15380,8 +15348,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "JESUS MARIA",
         "gz": "Valentina",
@@ -15404,8 +15372,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "LINCE",
         "gz": "Valentina",
@@ -15500,8 +15468,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "VILLA EL SALVADOR",
         "gz": "Alejandro",
@@ -15524,8 +15492,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "SAN MIGUEL",
         "gz": "Yanira",
@@ -15572,8 +15540,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "SOCABAYA",
         "gz": "Jesus",
@@ -15596,8 +15564,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "LA MOLINA",
         "gz": "Patricia",
@@ -15620,8 +15588,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "SAN MARTIN DE PORRES",
         "gz": "Claudio",
@@ -15665,10 +15633,9 @@
         "supervisor": "JORGE SANCHEZ",
         "capacitador": "RODRIGO BRAVO",
         "responsable": "TAMBO",
-        "frecuencia": "MIÉRCOLES-SÁBADO",
+        "frecuencia": "SÁBADO-SIN ASIGNAR",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "SÁBADO"
         ],
         "distrito": "SAN JUAN DE LURIGANCHO",
         "gz": "Joel",
@@ -15737,8 +15704,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "SURQUILLO",
         "gz": "Joel",
@@ -15766,7 +15733,7 @@
         ],
         "distrito": "SAN MARTIN DE PORRES",
         "gz": "Claudio",
-        "jz": "Z23 Katerine Q.",
+        "jz": "Z24 Daniel B.",
         "zonal_tipo": "LIMA",
         "tipo": "TAMBO"
     },
@@ -15785,8 +15752,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "LA PERLA",
         "gz": "Yanira",
@@ -15857,8 +15824,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "SURQUILLO",
         "gz": "Joel",
@@ -15905,8 +15872,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "LA MOLINA",
         "gz": "Patricia",
@@ -15929,8 +15896,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "MIRAFLORES",
         "gz": "Juan",
@@ -16001,8 +15968,8 @@
         "responsable": "AUR BODEGA",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "BELLAVISTA",
         "gz": "SIN INFO",
@@ -16049,8 +16016,8 @@
         "responsable": "AUR BODEGA",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "ATE",
         "gz": "SIN INFO",
@@ -16073,8 +16040,8 @@
         "responsable": "AUR BODEGA",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "BELLAVISTA",
         "gz": "SIN INFO",
@@ -16097,8 +16064,8 @@
         "responsable": "AUR BODEGA",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "BELLAVISTA",
         "gz": "SIN INFO",
@@ -16121,8 +16088,8 @@
         "responsable": "AUR BODEGA",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "BELLAVISTA",
         "gz": "SIN INFO",
@@ -16169,8 +16136,8 @@
         "responsable": "AUR BODEGA",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "CALLAO",
         "gz": "SIN INFO",
@@ -16191,10 +16158,9 @@
         "supervisor": "JORGE SANCHEZ",
         "capacitador": "SELEN CASTRO",
         "responsable": "AUR BODEGA",
-        "frecuencia": "MARTES-VIERNES",
+        "frecuencia": "VIERNES-SIN ASIGNAR",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "VIERNES"
         ],
         "distrito": "CALLAO",
         "gz": "SIN INFO",
@@ -16336,8 +16302,8 @@
         "responsable": "AUR BODEGA",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "LA MOLINA",
         "gz": "SIN INFO",
@@ -16360,8 +16326,8 @@
         "responsable": "AUR BODEGA",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "LA MOLINA",
         "gz": "SIN INFO",
@@ -16382,10 +16348,9 @@
         "supervisor": "JORGE SANCHEZ",
         "capacitador": "SELEN CASTRO",
         "responsable": "AUR BODEGA",
-        "frecuencia": "LUNES-JUEVES",
+        "frecuencia": "LUNES-SIN ASIGNAR",
         "dias": [
-            "LUNES",
-            "JUEVES"
+            "LUNES"
         ],
         "distrito": "BELLAVISTA",
         "gz": "SIN INFO",
@@ -16478,9 +16443,8 @@
         "supervisor": "RODRIGO MARTINEZ",
         "capacitador": "JESUS OLIVEROS",
         "responsable": "AUR BODEGA",
-        "frecuencia": "LUNES-JUEVES",
+        "frecuencia": "JUEVES-SIN ASIGNAR",
         "dias": [
-            "LUNES",
             "JUEVES"
         ],
         "distrito": "PUCUSANA",
@@ -16502,10 +16466,9 @@
         "supervisor": "JORGE SANCHEZ",
         "capacitador": "SELEN CASTRO",
         "responsable": "AUR BODEGA",
-        "frecuencia": "MIÉRCOLES-SÁBADO",
+        "frecuencia": "SÁBADO-SIN ASIGNAR",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "SÁBADO"
         ],
         "distrito": "INDEPENDENCIA",
         "gz": "SIN INFO",
@@ -16552,8 +16515,8 @@
         "responsable": "AUR BODEGA",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "SAN JUAN DE MIRAFLORES",
         "gz": "SIN INFO",
@@ -16720,8 +16683,8 @@
         "responsable": "AUR BODEGA",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "SAN JUAN DE MIRAFLORES",
         "gz": "SIN INFO",
@@ -16742,9 +16705,8 @@
         "supervisor": "JORGE SANCHEZ",
         "capacitador": "RODRIGO BRAVO",
         "responsable": "AUR BODEGA",
-        "frecuencia": "MIÉRCOLES-SÁBADO",
+        "frecuencia": "MIÉRCOLES-SIN ASIGNAR",
         "dias": [
-            "SÁBADO",
             "MIÉRCOLES"
         ],
         "distrito": "SAN JUAN DE LURIGANCHO",
@@ -16814,9 +16776,8 @@
         "supervisor": "JORGE SANCHEZ",
         "capacitador": "RAMON RAZURI",
         "responsable": "AUR BODEGA",
-        "frecuencia": "LUNES-JUEVES",
+        "frecuencia": "JUEVES-SIN ASIGNAR",
         "dias": [
-            "LUNES",
             "JUEVES"
         ],
         "distrito": "PUEBLO LIBRE",
@@ -16862,10 +16823,9 @@
         "supervisor": "JORGE SANCHEZ",
         "capacitador": "RODRIGO BRAVO",
         "responsable": "AUR BODEGA",
-        "frecuencia": "MIÉRCOLES-SÁBADO",
+        "frecuencia": "SÁBADO-SIN ASIGNAR",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "SÁBADO"
         ],
         "distrito": "SAN JUAN DE LURIGANCHO",
         "gz": "SIN INFO",
@@ -16886,10 +16846,9 @@
         "supervisor": "JORGE SANCHEZ",
         "capacitador": "RODRIGO BRAVO",
         "responsable": "AUR BODEGA",
-        "frecuencia": "MIÉRCOLES-SÁBADO",
+        "frecuencia": "SÁBADO-SIN ASIGNAR",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "SÁBADO"
         ],
         "distrito": "SAN JUAN DE LURIGANCHO",
         "gz": "SIN INFO",
@@ -16910,9 +16869,8 @@
         "supervisor": "JORGE SANCHEZ",
         "capacitador": "SELEN CASTRO",
         "responsable": "AUR BODEGA",
-        "frecuencia": "MIÉRCOLES-SÁBADO",
+        "frecuencia": "MIÉRCOLES-SIN ASIGNAR",
         "dias": [
-            "SÁBADO",
             "MIÉRCOLES"
         ],
         "distrito": "SAN MARTIN DE PORRES",
@@ -16936,8 +16894,8 @@
         "responsable": "AUR BODEGA",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "LA MOLINA",
         "gz": "SIN INFO",
@@ -16960,8 +16918,8 @@
         "responsable": "AUR BODEGA",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "LA MOLINA",
         "gz": "SIN INFO",
@@ -16984,8 +16942,8 @@
         "responsable": "AUR BODEGA",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "LOS OLIVOS",
         "gz": "SIN INFO",
@@ -17080,8 +17038,8 @@
         "responsable": "AUR BODEGA",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "BELLAVISTA",
         "gz": "SIN INFO",
@@ -17104,8 +17062,8 @@
         "responsable": "AUR BODEGA",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "LA MOLINA",
         "gz": "SIN INFO",
@@ -17222,9 +17180,8 @@
         "supervisor": "JORGE SANCHEZ",
         "capacitador": "SELEN CASTRO",
         "responsable": "AUR BODEGA",
-        "frecuencia": "LUNES-JUEVES",
+        "frecuencia": "JUEVES-SIN ASIGNAR",
         "dias": [
-            "LUNES",
             "JUEVES"
         ],
         "distrito": "CALLAO",
@@ -17246,10 +17203,9 @@
         "supervisor": "JORGE SANCHEZ",
         "capacitador": "JOEL VENTURA",
         "responsable": "AUR BODEGA",
-        "frecuencia": "MARTES-VIERNES",
+        "frecuencia": "VIERNES-SIN ASIGNAR",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "VIERNES"
         ],
         "distrito": "VENTANILLA",
         "gz": "SIN INFO",
@@ -17272,8 +17228,8 @@
         "responsable": "AUR BODEGA",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "VILLA EL SALVADOR",
         "gz": "SIN INFO",
@@ -17296,8 +17252,8 @@
         "responsable": "AUR BODEGA",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "VILLA EL SALVADOR",
         "gz": "SIN INFO",
@@ -17438,9 +17394,8 @@
         "supervisor": "JORGE SANCHEZ",
         "capacitador": "SELEN CASTRO",
         "responsable": "AUR BODEGA",
-        "frecuencia": "MARTES-VIERNES",
+        "frecuencia": "MARTES-SIN ASIGNAR",
         "dias": [
-            "VIERNES",
             "MARTES"
         ],
         "distrito": "INDEPENDENCIA",
@@ -17462,10 +17417,9 @@
         "supervisor": "JORGE SANCHEZ",
         "capacitador": "SELEN CASTRO",
         "responsable": "AUR BODEGA",
-        "frecuencia": "MIÉRCOLES-SÁBADO",
+        "frecuencia": "SÁBADO-SIN ASIGNAR",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "SÁBADO"
         ],
         "distrito": "CALLAO",
         "gz": "SIN INFO",
@@ -17510,9 +17464,8 @@
         "supervisor": "RODRIGO MARTINEZ",
         "capacitador": "JESUS OLIVEROS",
         "responsable": "AUR BODEGA",
-        "frecuencia": "LUNES-JUEVES",
+        "frecuencia": "JUEVES-SIN ASIGNAR",
         "dias": [
-            "LUNES",
             "JUEVES"
         ],
         "distrito": "ATE",
@@ -17680,8 +17633,8 @@
         "responsable": "AUR BODEGA",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "SAN MARTIN DE PORRES",
         "gz": "SIN INFO",
@@ -17704,8 +17657,8 @@
         "responsable": "AUR BODEGA",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "LOS OLIVOS",
         "gz": "SIN INFO",
@@ -17728,8 +17681,8 @@
         "responsable": "AUR BODEGA",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "SAN MARTIN DE PORRES",
         "gz": "SIN INFO",
@@ -17800,8 +17753,8 @@
         "responsable": "AUR BODEGA",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "SAN MARTIN DE PORRES",
         "gz": "SIN INFO",
@@ -17846,10 +17799,9 @@
         "supervisor": "JORGE SANCHEZ",
         "capacitador": "SELEN CASTRO",
         "responsable": "AUR BODEGA",
-        "frecuencia": "MIÉRCOLES-SÁBADO",
+        "frecuencia": "SÁBADO-SIN ASIGNAR",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "SÁBADO"
         ],
         "distrito": "SAN MARTIN DE PORRES",
         "gz": "SIN INFO",
@@ -18014,9 +17966,8 @@
         "supervisor": "JORGE SANCHEZ",
         "capacitador": "SELEN CASTRO",
         "responsable": "AUR BODEGA",
-        "frecuencia": "MARTES-VIERNES",
+        "frecuencia": "MARTES-SIN ASIGNAR",
         "dias": [
-            "VIERNES",
             "MARTES"
         ],
         "distrito": "INDEPENDENCIA",
@@ -18040,8 +17991,8 @@
         "responsable": "AUR BODEGA",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "LOS OLIVOS",
         "gz": "SIN INFO",
@@ -18088,8 +18039,8 @@
         "responsable": "AUR BODEGA",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "SAN MARTIN DE PORRES",
         "gz": "SIN INFO",
@@ -18134,10 +18085,9 @@
         "supervisor": "JORGE SANCHEZ",
         "capacitador": "SELEN CASTRO",
         "responsable": "AUR BODEGA",
-        "frecuencia": "LUNES-JUEVES",
+        "frecuencia": "LUNES-SIN ASIGNAR",
         "dias": [
-            "LUNES",
-            "JUEVES"
+            "LUNES"
         ],
         "distrito": "CALLAO",
         "gz": "SIN INFO",
@@ -18158,10 +18108,9 @@
         "supervisor": "JORGE SANCHEZ",
         "capacitador": "SELEN CASTRO",
         "responsable": "AUR BODEGA",
-        "frecuencia": "MIÉRCOLES-SÁBADO",
+        "frecuencia": "SÁBADO-SIN ASIGNAR",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "SÁBADO"
         ],
         "distrito": "CALLAO",
         "gz": "SIN INFO",
@@ -18184,8 +18133,8 @@
         "responsable": "AUR BODEGA",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "RIMAC",
         "gz": "SIN INFO",
@@ -18232,8 +18181,8 @@
         "responsable": "AUR BODEGA",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "LOS OLIVOS",
         "gz": "SIN INFO",
@@ -18256,8 +18205,8 @@
         "responsable": "AUR BODEGA",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "RIMAC",
         "gz": "SIN INFO",
@@ -18278,10 +18227,9 @@
         "supervisor": "JORGE SANCHEZ",
         "capacitador": "JOEL VENTURA",
         "responsable": "AUR BODEGA",
-        "frecuencia": "MARTES-VIERNES",
+        "frecuencia": "VIERNES-SIN ASIGNAR",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "VIERNES"
         ],
         "distrito": "VENTANILLA",
         "gz": "SIN INFO",
@@ -18326,10 +18274,9 @@
         "supervisor": "JORGE SANCHEZ",
         "capacitador": "SELEN CASTRO",
         "responsable": "AUR BODEGA",
-        "frecuencia": "MIÉRCOLES-SÁBADO",
+        "frecuencia": "SÁBADO-SIN ASIGNAR",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "SÁBADO"
         ],
         "distrito": "CALLAO",
         "gz": "SIN INFO",
@@ -18398,9 +18345,8 @@
         "supervisor": "JORGE SANCHEZ",
         "capacitador": "SELEN CASTRO",
         "responsable": "AUR BODEGA",
-        "frecuencia": "LUNES-JUEVES",
+        "frecuencia": "JUEVES-SIN ASIGNAR",
         "dias": [
-            "LUNES",
             "JUEVES"
         ],
         "distrito": "CALLAO",
@@ -18422,9 +18368,8 @@
         "supervisor": "JORGE SANCHEZ",
         "capacitador": "SELEN CASTRO",
         "responsable": "AUR BODEGA",
-        "frecuencia": "MIÉRCOLES-SÁBADO",
+        "frecuencia": "MIÉRCOLES-SIN ASIGNAR",
         "dias": [
-            "SÁBADO",
             "MIÉRCOLES"
         ],
         "distrito": "SAN MARTIN DE PORRES",
@@ -18470,10 +18415,9 @@
         "supervisor": "JORGE SANCHEZ",
         "capacitador": "JOEL VENTURA",
         "responsable": "AUR BODEGA",
-        "frecuencia": "MARTES-VIERNES",
+        "frecuencia": "VIERNES-SIN ASIGNAR",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "VIERNES"
         ],
         "distrito": "CARABAYLLO",
         "gz": "SIN INFO",
@@ -18542,9 +18486,8 @@
         "supervisor": "JORGE SANCHEZ",
         "capacitador": "SELEN CASTRO",
         "responsable": "AUR BODEGA",
-        "frecuencia": "LUNES-JUEVES",
+        "frecuencia": "JUEVES-SIN ASIGNAR",
         "dias": [
-            "LUNES",
             "JUEVES"
         ],
         "distrito": "LA PUNTA",
@@ -18566,9 +18509,8 @@
         "supervisor": "JORGE SANCHEZ",
         "capacitador": "SELEN CASTRO",
         "responsable": "AUR BODEGA",
-        "frecuencia": "LUNES-JUEVES",
+        "frecuencia": "JUEVES-SIN ASIGNAR",
         "dias": [
-            "LUNES",
             "JUEVES"
         ],
         "distrito": "LA PERLA",
@@ -18590,9 +18532,8 @@
         "supervisor": "JORGE SANCHEZ",
         "capacitador": "RAMON RAZURI",
         "responsable": "AUR BODEGA",
-        "frecuencia": "LUNES-JUEVES",
+        "frecuencia": "JUEVES-SIN ASIGNAR",
         "dias": [
-            "LUNES",
             "JUEVES"
         ],
         "distrito": "PUEBLO LIBRE",
@@ -18638,10 +18579,9 @@
         "supervisor": "JORGE SANCHEZ",
         "capacitador": "JOEL VENTURA",
         "responsable": "AUR BODEGA",
-        "frecuencia": "MARTES-VIERNES",
+        "frecuencia": "VIERNES-SIN ASIGNAR",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "VIERNES"
         ],
         "distrito": "CARABAYLLO",
         "gz": "SIN INFO",
@@ -18712,8 +18652,8 @@
         "responsable": "AUR BODEGA",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "LURIGANCHO",
         "gz": "SIN INFO",
@@ -18734,9 +18674,8 @@
         "supervisor": "JORGE SANCHEZ",
         "capacitador": "SELEN CASTRO",
         "responsable": "AUR BODEGA",
-        "frecuencia": "MARTES-VIERNES",
+        "frecuencia": "MARTES-SIN ASIGNAR",
         "dias": [
-            "VIERNES",
             "MARTES"
         ],
         "distrito": "CALLAO",
@@ -18806,10 +18745,9 @@
         "supervisor": "RODRIGO MARTINEZ",
         "capacitador": "JESUS OLIVEROS",
         "responsable": "AUR BODEGA",
-        "frecuencia": "LUNES-JUEVES",
+        "frecuencia": "LUNES-SIN ASIGNAR",
         "dias": [
-            "LUNES",
-            "JUEVES"
+            "LUNES"
         ],
         "distrito": "ATE",
         "gz": "SIN INFO",
@@ -18832,8 +18770,8 @@
         "responsable": "AUR BODEGA",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "COMAS",
         "gz": "SIN INFO",
@@ -18856,8 +18794,8 @@
         "responsable": "AUR BODEGA",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "LA VICTORIA",
         "gz": "SIN INFO",
@@ -18973,8 +18911,8 @@
         "frecuencia": "LUNES-MIÉRCOLES-VIERNES",
         "dias": [
             "LUNES",
-            "VIERNES",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "VIERNES"
         ],
         "distrito": "JAEN",
         "gz": "SIN INFO",
@@ -19434,12 +19372,12 @@
         "responsable": "JS BODEGA",
         "frecuencia": "LUNES-MARTES-MIÉRCOLES-JUEVES-VIERNES-SÁBADO",
         "dias": [
-            "SÁBADO",
             "MARTES",
-            "VIERNES",
             "JUEVES",
+            "VIERNES",
             "MIÉRCOLES",
-            "LUNES"
+            "LUNES",
+            "SÁBADO"
         ],
         "distrito": "EL TAMBO",
         "gz": "SIN INFO",
@@ -19462,12 +19400,12 @@
         "responsable": "JS BODEGA",
         "frecuencia": "LUNES-MARTES-MIÉRCOLES-JUEVES-VIERNES-SÁBADO",
         "dias": [
-            "SÁBADO",
             "MARTES",
-            "VIERNES",
             "JUEVES",
+            "VIERNES",
             "MIÉRCOLES",
-            "LUNES"
+            "LUNES",
+            "SÁBADO"
         ],
         "distrito": "HUANCAYO",
         "gz": "SIN INFO",
@@ -19674,8 +19612,8 @@
         "responsable": "JS BODEGA",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "JACOBO HUNTER",
         "gz": "SIN INFO",
@@ -19889,10 +19827,9 @@
         "supervisor": "JORGE SANCHEZ",
         "capacitador": "RAMON RAZURI",
         "responsable": "TAMBO",
-        "frecuencia": "LUNES-JUEVES",
+        "frecuencia": "LUNES-SIN ASIGNAR",
         "dias": [
-            "LUNES",
-            "JUEVES"
+            "LUNES"
         ],
         "distrito": "PUEBLO LIBRE",
         "gz": "Yanira",
@@ -19939,8 +19876,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "MIRAFLORES",
         "gz": "Juan",
@@ -19986,10 +19923,9 @@
         "supervisor": "JORGE SANCHEZ",
         "capacitador": "JOEL VENTURA",
         "responsable": "TAMBO",
-        "frecuencia": "MARTES-VIERNES",
+        "frecuencia": "VIERNES-SIN ASIGNAR",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "VIERNES"
         ],
         "distrito": "COMAS",
         "gz": "Claudio",
@@ -20012,8 +19948,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "SANTIAGO DE SURCO",
         "gz": "Patricia",
@@ -20036,8 +19972,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "SURQUILLO",
         "gz": "Joel",
@@ -20058,10 +19994,9 @@
         "supervisor": "JORGE SANCHEZ",
         "capacitador": "SELEN CASTRO",
         "responsable": "TAMBO",
-        "frecuencia": "MIÉRCOLES-SÁBADO",
+        "frecuencia": "SÁBADO-SIN ASIGNAR",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "SÁBADO"
         ],
         "distrito": "LOS OLIVOS",
         "gz": "Valentina",
@@ -20084,8 +20019,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "LINCE",
         "gz": "Valentina",
@@ -20154,9 +20089,8 @@
         "supervisor": "JORGE SANCHEZ",
         "capacitador": "SELEN CASTRO",
         "responsable": "TAMBO",
-        "frecuencia": "LUNES-JUEVES",
+        "frecuencia": "JUEVES-SIN ASIGNAR",
         "dias": [
-            "LUNES",
             "JUEVES"
         ],
         "distrito": "BELLAVISTA",
@@ -20178,10 +20112,9 @@
         "supervisor": "JORGE SANCHEZ",
         "capacitador": "SELEN CASTRO",
         "responsable": "TAMBO",
-        "frecuencia": "MIÉRCOLES-SÁBADO",
+        "frecuencia": "SÁBADO-SIN ASIGNAR",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "SÁBADO"
         ],
         "distrito": "LOS OLIVOS",
         "gz": "Valentina",
@@ -20204,8 +20137,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "SURQUILLO",
         "gz": "Joel",
@@ -20275,8 +20208,8 @@
         "responsable": "TAMBO",
         "frecuencia": "SÁBADO-MIÉRCOLES",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "CHIMBOTE",
         "gz": "Jesus",
@@ -20345,10 +20278,9 @@
         "supervisor": "JORGE SANCHEZ",
         "capacitador": "SELEN CASTRO",
         "responsable": "TAMBO",
-        "frecuencia": "MIÉRCOLES-SÁBADO",
+        "frecuencia": "SÁBADO-SIN ASIGNAR",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "SÁBADO"
         ],
         "distrito": "SAN MARTIN DE PORRES",
         "gz": "Claudio",
@@ -20371,8 +20303,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MIÉRCOLES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "VIERNES"
         ],
         "distrito": "VICTOR LARCO HERRERA",
         "gz": "Jesus",
@@ -20441,10 +20373,9 @@
         "supervisor": "JORGE SANCHEZ",
         "capacitador": "RODRIGO BRAVO",
         "responsable": "TAMBO",
-        "frecuencia": "MIÉRCOLES-SÁBADO",
+        "frecuencia": "SÁBADO-SIN ASIGNAR",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "SÁBADO"
         ],
         "distrito": "SAN JUAN DE LURIGANCHO",
         "gz": "Joel",
@@ -20467,8 +20398,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "PUEBLO LIBRE",
         "gz": "Yanira",
@@ -20609,8 +20540,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "MIRAFLORES",
         "gz": "Juan",
@@ -20655,9 +20586,8 @@
         "supervisor": "JORGE SANCHEZ",
         "capacitador": "SELEN CASTRO",
         "responsable": "TAMBO",
-        "frecuencia": "MIÉRCOLES-SÁBADO",
+        "frecuencia": "MIÉRCOLES-SIN ASIGNAR",
         "dias": [
-            "SÁBADO",
             "MIÉRCOLES"
         ],
         "distrito": "CALLAO",
@@ -20681,8 +20611,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "LINCE",
         "gz": "Valentina",
@@ -20753,8 +20683,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "PUEBLO LIBRE",
         "gz": "Yanira",
@@ -20775,9 +20705,8 @@
         "supervisor": "JORGE SANCHEZ",
         "capacitador": "SELEN CASTRO",
         "responsable": "TAMBO",
-        "frecuencia": "MARTES-VIERNES",
+        "frecuencia": "MARTES-SIN ASIGNAR",
         "dias": [
-            "VIERNES",
             "MARTES"
         ],
         "distrito": "SAN MARTIN DE PORRES",
@@ -20801,8 +20730,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "VILLA EL SALVADOR",
         "gz": "Alejandro",
@@ -20847,9 +20776,8 @@
         "supervisor": "JORGE SANCHEZ",
         "capacitador": "RODRIGO BRAVO",
         "responsable": "TAMBO",
-        "frecuencia": "LUNES-JUEVES",
+        "frecuencia": "JUEVES-SIN ASIGNAR",
         "dias": [
-            "LUNES",
             "JUEVES"
         ],
         "distrito": "SAN JUAN DE LURIGANCHO",
@@ -20896,8 +20824,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "SANTIAGO DE SURCO",
         "gz": "Alejandro",
@@ -20918,9 +20846,9 @@
         "supervisor": "RODRIGO MARTINEZ",
         "capacitador": "JESUS OLIVEROS",
         "responsable": "TAMBO",
-        "frecuencia": "LUNES",
+        "frecuencia": "JUEVES",
         "dias": [
-            "LUNES"
+            "JUEVES"
         ],
         "distrito": "CHOSICA",
         "gz": "Patricia",
@@ -20941,9 +20869,8 @@
         "supervisor": "JORGE SANCHEZ",
         "capacitador": "RODRIGO BRAVO",
         "responsable": "TAMBO",
-        "frecuencia": "MIÉRCOLES-SÁBADO",
+        "frecuencia": "MIÉRCOLES-SIN ASIGNAR",
         "dias": [
-            "SÁBADO",
             "MIÉRCOLES"
         ],
         "distrito": "SAN JUAN DE LURIGANCHO",
@@ -20967,8 +20894,8 @@
         "responsable": "TAMBO",
         "frecuencia": "SÁBADO-MIÉRCOLES",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "WANCHAQ",
         "gz": "Jesus",
@@ -21013,9 +20940,8 @@
         "supervisor": "JORGE SANCHEZ",
         "capacitador": "RODRIGO BRAVO",
         "responsable": "TAMBO",
-        "frecuencia": "MIÉRCOLES-SÁBADO",
+        "frecuencia": "MIÉRCOLES-SIN ASIGNAR",
         "dias": [
-            "SÁBADO",
             "MIÉRCOLES"
         ],
         "distrito": "SAN JUAN DE LURIGANCHO",
@@ -21039,8 +20965,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "SANTIAGO DE SURCO",
         "gz": "Alejandro",
@@ -21063,8 +20989,8 @@
         "responsable": "TAMBO",
         "frecuencia": "SÁBADO-MIÉRCOLES",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "WANCHAQ",
         "gz": "Jesus",
@@ -21087,8 +21013,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "JESUS MARIA",
         "gz": "Valentina",
@@ -21109,9 +21035,8 @@
         "supervisor": "RODRIGO MARTINEZ",
         "capacitador": "RAMON RAZURI",
         "responsable": "TAMBO",
-        "frecuencia": "LUNES-JUEVES",
+        "frecuencia": "JUEVES-SIN ASIGNAR",
         "dias": [
-            "LUNES",
             "JUEVES"
         ],
         "distrito": "MIRAFLORES",
@@ -21133,10 +21058,9 @@
         "supervisor": "JORGE SANCHEZ",
         "capacitador": "SELEN CASTRO",
         "responsable": "TAMBO",
-        "frecuencia": "LUNES-JUEVES",
+        "frecuencia": "LUNES-SIN ASIGNAR",
         "dias": [
-            "LUNES",
-            "JUEVES"
+            "LUNES"
         ],
         "distrito": "LOS OLIVOS",
         "gz": "Valentina",
@@ -21205,8 +21129,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "BARRANCO",
         "gz": "Juan",
@@ -21276,8 +21200,8 @@
         "responsable": "TINBET",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "LOS OLIVOS",
         "gz": "Andrea Ramirez",
@@ -21324,8 +21248,8 @@
         "responsable": "TINBET",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "INDEPENDENCIA",
         "gz": "Andrea Ramirez",
@@ -21466,8 +21390,8 @@
         "responsable": "TINBET",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "INDEPENDENCIA",
         "gz": "Andrea Ramirez",
@@ -21609,8 +21533,8 @@
         "responsable": "TINBET",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "INDEPENDENCIA",
         "gz": "Andrea Ramirez",
@@ -21657,8 +21581,8 @@
         "responsable": "TINBET",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "LA VICTORIA",
         "gz": "Andrea Ramirez",
@@ -21847,8 +21771,8 @@
         "responsable": "TINBET",
         "frecuencia": "SÁBADO-MIÉRCOLES",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "HUARAZ",
         "gz": "Andrea Ramirez",
@@ -21871,8 +21795,8 @@
         "responsable": "TINBET",
         "frecuencia": "SÁBADO-MIÉRCOLES",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "HUARAZ",
         "gz": "Andrea Ramirez",
@@ -21968,8 +21892,8 @@
         "frecuencia": "LUNES-MIÉRCOLES-VIERNES",
         "dias": [
             "LUNES",
-            "VIERNES",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "VIERNES"
         ],
         "distrito": "CHICLAYO",
         "gz": "BEASPORT",
@@ -21993,8 +21917,8 @@
         "frecuencia": "LUNES-MIÉRCOLES-VIERNES",
         "dias": [
             "LUNES",
-            "VIERNES",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "VIERNES"
         ],
         "distrito": "JOSE LEONARDO ORTIZ",
         "gz": "BEASPORT",
@@ -22040,8 +21964,8 @@
         "responsable": "TINBET",
         "frecuencia": "SÁBADO-MIÉRCOLES",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "CASMA",
         "gz": "Andrea Ramirez",
@@ -22135,8 +22059,8 @@
         "responsable": "TINBET",
         "frecuencia": "SÁBADO-MIÉRCOLES",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "AGUAS VERDES",
         "gz": "FERNANDO ORBEGOZO",
@@ -22206,8 +22130,8 @@
         "responsable": "TINBET",
         "frecuencia": "SÁBADO-MIÉRCOLES",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "TUMBES",
         "gz": "FERNANDO ORBEGOZO",
@@ -22230,8 +22154,8 @@
         "responsable": "TINBET",
         "frecuencia": "SÁBADO-MIÉRCOLES",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "ZARUMILLA",
         "gz": "FERNANDO ORBEGOZO",
@@ -22254,8 +22178,8 @@
         "responsable": "TINBET",
         "frecuencia": "SÁBADO-MIÉRCOLES",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "ZORRITOS",
         "gz": "FERNANDO ORBEGOZO",
@@ -22278,8 +22202,8 @@
         "responsable": "TINBET",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "RIMAC",
         "gz": "FERNANDO ORBEGOZO",
@@ -22349,8 +22273,8 @@
         "frecuencia": "LUNES-MIÉRCOLES-VIERNES",
         "dias": [
             "LUNES",
-            "VIERNES",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "VIERNES"
         ],
         "distrito": "PIURA",
         "gz": "FERNANDO ORBEGOZO",
@@ -22396,8 +22320,8 @@
         "responsable": "TINBET",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "SAN MARTIN DE PORRES",
         "gz": "Andrea Ramirez",
@@ -22444,8 +22368,8 @@
         "responsable": "TINBET",
         "frecuencia": "MARTES-JUEVES-SÁBADO",
         "dias": [
-            "SÁBADO",
             "MARTES",
+            "SÁBADO",
             "JUEVES"
         ],
         "distrito": "PIURA",
@@ -22470,8 +22394,8 @@
         "frecuencia": "LUNES-MIÉRCOLES-VIERNES",
         "dias": [
             "LUNES",
-            "VIERNES",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "VIERNES"
         ],
         "distrito": "CASTILLA",
         "gz": "FERNANDO ORBEGOZO",
@@ -22494,8 +22418,8 @@
         "responsable": "TINBET",
         "frecuencia": "MARTES-JUEVES-SÁBADO",
         "dias": [
-            "SÁBADO",
             "MARTES",
+            "SÁBADO",
             "JUEVES"
         ],
         "distrito": "VEINTISEIS DE OCTUBRE",
@@ -22543,8 +22467,8 @@
         "responsable": "TINBET",
         "frecuencia": "MARTES-JUEVES-SÁBADO",
         "dias": [
-            "SÁBADO",
             "MARTES",
+            "SÁBADO",
             "JUEVES"
         ],
         "distrito": "JOSE LEONARDO ORTIZ",
@@ -22568,8 +22492,8 @@
         "responsable": "TINBET",
         "frecuencia": "SÁBADO-MIÉRCOLES",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "MORO",
         "gz": "INDEPENDIENTES",
@@ -22592,8 +22516,8 @@
         "responsable": "TINBET",
         "frecuencia": "SÁBADO-MIÉRCOLES",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "YURIMAGUAS",
         "gz": "RICARDO MARREROS",
@@ -22616,8 +22540,8 @@
         "responsable": "TINBET",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "JAEN",
         "gz": "RICARDO MARREROS",
@@ -22640,8 +22564,8 @@
         "responsable": "TINBET",
         "frecuencia": "SÁBADO-MIÉRCOLES",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "YURIMAGUAS",
         "gz": "RICARDO MARREROS",
@@ -22664,8 +22588,8 @@
         "responsable": "TINBET",
         "frecuencia": "SÁBADO-MIÉRCOLES",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "YURIMAGUAS",
         "gz": "RICARDO MARREROS",
@@ -22688,8 +22612,8 @@
         "responsable": "TINBET",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "JAEN",
         "gz": "RICARDO MARREROS",
@@ -22712,8 +22636,8 @@
         "responsable": "TINBET",
         "frecuencia": "SÁBADO-MIÉRCOLES",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "YURIMAGUAS",
         "gz": "RICARDO MARREROS",
@@ -22759,8 +22683,8 @@
         "responsable": "TINBET",
         "frecuencia": "SÁBADO-MIÉRCOLES",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "YURIMAGUAS",
         "gz": "RICARDO MARREROS",
@@ -22806,8 +22730,8 @@
         "responsable": "TINBET",
         "frecuencia": "SÁBADO-MIÉRCOLES",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "YURIMAGUAS",
         "gz": "RICARDO MARREROS",
@@ -22830,8 +22754,8 @@
         "responsable": "TINBET",
         "frecuencia": "SÁBADO-MIÉRCOLES",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "YURIMAGUAS",
         "gz": "RICARDO MARREROS",
@@ -22877,8 +22801,8 @@
         "responsable": "TINBET",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "LURIN",
         "gz": "YEISON DOMINGUEZ",
@@ -22901,8 +22825,8 @@
         "responsable": "TINBET",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "LURIN",
         "gz": "YEISON DOMINGUEZ",
@@ -22925,11 +22849,11 @@
         "responsable": "TINBET",
         "frecuencia": "LUNES-JUEVES-MIÉRCOLES-JUEVES-VIERNES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "VIERNES",
             "JUEVES",
             "MIÉRCOLES",
-            "LUNES"
+            "VIERNES",
+            "LUNES",
+            "SÁBADO"
         ],
         "distrito": "EL TAMBO",
         "gz": "INDEPENDIENTES",
@@ -22952,11 +22876,11 @@
         "responsable": "TINBET",
         "frecuencia": "LUNES-JUEVES-MIÉRCOLES-JUEVES-VIERNES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "VIERNES",
             "JUEVES",
             "MIÉRCOLES",
-            "LUNES"
+            "VIERNES",
+            "LUNES",
+            "SÁBADO"
         ],
         "distrito": "EL TAMBO",
         "gz": "INDEPENDIENTES",
@@ -22979,11 +22903,11 @@
         "responsable": "TINBET",
         "frecuencia": "LUNES-JUEVES-MIÉRCOLES-JUEVES-VIERNES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "VIERNES",
             "JUEVES",
             "MIÉRCOLES",
-            "LUNES"
+            "VIERNES",
+            "LUNES",
+            "SÁBADO"
         ],
         "distrito": "EL TAMBO",
         "gz": "INDEPENDIENTES",
@@ -23006,8 +22930,8 @@
         "responsable": "TINBET",
         "frecuencia": "MARTES-JUEVES-SÁBADO",
         "dias": [
-            "SÁBADO",
             "MARTES",
+            "SÁBADO",
             "JUEVES"
         ],
         "distrito": "CHICLAYO",
@@ -23055,8 +22979,8 @@
         "responsable": "TINBET",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "SAN JUAN DE LURIGANCHO",
         "gz": "LENIN MORALES",
@@ -23222,8 +23146,8 @@
         "responsable": "TINBET",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "MANANTAY",
         "gz": "FRANCISCO VASQUEZ JURADO",
@@ -23293,8 +23217,8 @@
         "responsable": "TINBET",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "MANANTAY",
         "gz": "FRANCISCO VASQUEZ JURADO",
@@ -23341,8 +23265,8 @@
         "responsable": "TINBET",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "MANANTAY",
         "gz": "FRANCISCO VASQUEZ JURADO",
@@ -23365,8 +23289,8 @@
         "responsable": "TINBET",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "MANANTAY",
         "gz": "FRANCISCO VASQUEZ JURADO",
@@ -23413,8 +23337,8 @@
         "responsable": "TINBET",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "MANANTAY",
         "gz": "FRANCISCO VASQUEZ JURADO",
@@ -23437,8 +23361,8 @@
         "responsable": "TINBET",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "MANANTAY",
         "gz": "FRANCISCO VASQUEZ JURADO",
@@ -23533,8 +23457,8 @@
         "responsable": "TAMBO",
         "frecuencia": "SÁBADO-MIÉRCOLES",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "NUEVO CHIMBOTE",
         "gz": "Jesus",
@@ -23555,10 +23479,9 @@
         "supervisor": "JORGE SANCHEZ",
         "capacitador": "SELEN CASTRO",
         "responsable": "TAMBO",
-        "frecuencia": "MIÉRCOLES-SÁBADO",
+        "frecuencia": "SÁBADO-SIN ASIGNAR",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "SÁBADO"
         ],
         "distrito": "LOS OLIVOS",
         "gz": "Valentina",
@@ -23579,10 +23502,9 @@
         "supervisor": "JORGE SANCHEZ",
         "capacitador": "SELEN CASTRO",
         "responsable": "TAMBO",
-        "frecuencia": "LUNES-JUEVES",
+        "frecuencia": "LUNES-SIN ASIGNAR",
         "dias": [
-            "LUNES",
-            "JUEVES"
+            "LUNES"
         ],
         "distrito": "SAN MARTIN DE PORRES",
         "gz": "Claudio",
@@ -23605,8 +23527,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "LA MOLINA",
         "gz": "Patricia",
@@ -23627,9 +23549,9 @@
         "supervisor": "RODRIGO MARTINEZ",
         "capacitador": "JESUS OLIVEROS",
         "responsable": "TAMBO",
-        "frecuencia": "LUNES",
+        "frecuencia": "JUEVES",
         "dias": [
-            "LUNES"
+            "JUEVES"
         ],
         "distrito": "CHACLACAYO",
         "gz": "Patricia",
@@ -23676,8 +23598,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "BARRANCO",
         "gz": "Juan",
@@ -23700,8 +23622,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "COMAS",
         "gz": "Claudio",
@@ -23722,9 +23644,8 @@
         "supervisor": "JORGE SANCHEZ",
         "capacitador": "JOEL VENTURA",
         "responsable": "TAMBO",
-        "frecuencia": "MARTES-VIERNES",
+        "frecuencia": "MARTES-SIN ASIGNAR",
         "dias": [
-            "VIERNES",
             "MARTES"
         ],
         "distrito": "CARABAYLLO",
@@ -23746,9 +23667,8 @@
         "supervisor": "JORGE SANCHEZ",
         "capacitador": "JOEL VENTURA",
         "responsable": "TAMBO",
-        "frecuencia": "MARTES-VIERNES",
+        "frecuencia": "MARTES-SIN ASIGNAR",
         "dias": [
-            "VIERNES",
             "MARTES"
         ],
         "distrito": "CARABAYLLO",
@@ -23795,9 +23715,8 @@
         "supervisor": "JORGE SANCHEZ",
         "capacitador": "SELEN CASTRO",
         "responsable": "TAMBO",
-        "frecuencia": "MARTES-VIERNES",
+        "frecuencia": "MARTES-SIN ASIGNAR",
         "dias": [
-            "VIERNES",
             "MARTES"
         ],
         "distrito": "INDEPENDENCIA",
@@ -23821,8 +23740,8 @@
         "responsable": "TAMBO",
         "frecuencia": "SÁBADO-MIÉRCOLES",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "NUEVO CHIMBOTE",
         "gz": "Jesus",
@@ -23940,8 +23859,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "VILLA MARIA DEL TRIUNFO",
         "gz": "Alejandro",
@@ -23985,9 +23904,8 @@
         "supervisor": "JORGE SANCHEZ",
         "capacitador": "JOEL VENTURA",
         "responsable": "TAMBO",
-        "frecuencia": "MIÉRCOLES-SÁBADO",
+        "frecuencia": "MIÉRCOLES-SIN ASIGNAR",
         "dias": [
-            "SÁBADO",
             "MIÉRCOLES"
         ],
         "distrito": "COMAS",
@@ -24009,10 +23927,9 @@
         "supervisor": "RODRIGO MARTINEZ",
         "capacitador": "RAMON RAZURI",
         "responsable": "TAMBO",
-        "frecuencia": "MARTES-VIERNES",
+        "frecuencia": "VIERNES-SIN ASIGNAR",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "VIERNES"
         ],
         "distrito": "MIRAFLORES",
         "gz": "Juan",
@@ -24102,10 +24019,9 @@
         "supervisor": "JORGE SANCHEZ",
         "capacitador": "RODRIGO BRAVO",
         "responsable": "TAMBO",
-        "frecuencia": "MARTES-VIERNES",
+        "frecuencia": "VIERNES-SIN ASIGNAR",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "VIERNES"
         ],
         "distrito": "SAN JUAN DE LURIGANCHO",
         "gz": "Joel",
@@ -24126,9 +24042,8 @@
         "supervisor": "JORGE SANCHEZ",
         "capacitador": "SELEN CASTRO",
         "responsable": "TAMBO",
-        "frecuencia": "LUNES-JUEVES",
+        "frecuencia": "JUEVES-SIN ASIGNAR",
         "dias": [
-            "LUNES",
             "JUEVES"
         ],
         "distrito": "SAN MARTIN DE PORRES",
@@ -24174,9 +24089,9 @@
         "supervisor": "RODRIGO MARTINEZ",
         "capacitador": "JESUS OLIVEROS",
         "responsable": "TAMBO",
-        "frecuencia": "LUNES",
+        "frecuencia": "JUEVES",
         "dias": [
-            "LUNES"
+            "JUEVES"
         ],
         "distrito": "LURIGANCHO",
         "gz": "Patricia",
@@ -24199,8 +24114,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "BARRANCO",
         "gz": "Juan",
@@ -24248,8 +24163,8 @@
         "frecuencia": "LUNES-MIÉRCOLES-VIERNES",
         "dias": [
             "LUNES",
-            "VIERNES",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "VIERNES"
         ],
         "distrito": "ICA",
         "gz": "Juan",
@@ -24272,8 +24187,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "SAN MARTIN DE PORRES",
         "gz": "Claudio",
@@ -24296,8 +24211,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "SANTIAGO DE SURCO",
         "gz": "Alejandro",
@@ -24344,8 +24259,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "COMAS",
         "gz": "Claudio",
@@ -24368,8 +24283,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "VILLA EL SALVADOR",
         "gz": "Alejandro",
@@ -24392,8 +24307,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "CERCADO DE LIMA",
         "gz": "Yanira",
@@ -24414,10 +24329,9 @@
         "supervisor": "RODRIGO MARTINEZ",
         "capacitador": "RAMON RAZURI",
         "responsable": "TAMBO",
-        "frecuencia": "LUNES-JUEVES",
+        "frecuencia": "LUNES-SIN ASIGNAR",
         "dias": [
-            "LUNES",
-            "JUEVES"
+            "LUNES"
         ],
         "distrito": "MIRAFLORES",
         "gz": "Juan",
@@ -24559,8 +24473,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "SANTIAGO DE SURCO",
         "gz": "Alejandro",
@@ -24581,10 +24495,9 @@
         "supervisor": "JORGE SANCHEZ",
         "capacitador": "RODRIGO BRAVO",
         "responsable": "TAMBO",
-        "frecuencia": "MIÉRCOLES-SÁBADO",
+        "frecuencia": "SÁBADO-SIN ASIGNAR",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "SÁBADO"
         ],
         "distrito": "BREÑA",
         "gz": "Valentina",
@@ -24629,14 +24542,13 @@
         "supervisor": "JORGE SANCHEZ",
         "capacitador": "SELEN CASTRO",
         "responsable": "TAMBO",
-        "frecuencia": "MARTES-VIERNES",
+        "frecuencia": "VIERNES-SIN ASIGNAR",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "VIERNES"
         ],
         "distrito": "SAN MARTIN DE PORRES",
         "gz": "Claudio",
-        "jz": "Z24 Daniel B.",
+        "jz": "Z23 Katerine Q.",
         "zonal_tipo": "LIMA",
         "tipo": "TAMBO"
     },
@@ -24822,8 +24734,8 @@
         "responsable": "TINBET",
         "frecuencia": "MIÉRCOLES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "VIERNES"
         ],
         "distrito": "VICTOR LARCO HERRERA",
         "gz": "Andrea Ramirez",
@@ -24847,8 +24759,8 @@
         "frecuencia": "LUNES-MIÉRCOLES-VIERNES",
         "dias": [
             "LUNES",
-            "VIERNES",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "VIERNES"
         ],
         "distrito": "CERRO COLORADO",
         "gz": "Jesus",
@@ -24872,8 +24784,8 @@
         "frecuencia": "LUNES-MIÉRCOLES-VIERNES",
         "dias": [
             "LUNES",
-            "VIERNES",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "VIERNES"
         ],
         "distrito": "AREQUIPA",
         "gz": "Jesus",
@@ -24941,10 +24853,9 @@
         "supervisor": "RODRIGO MARTINEZ",
         "capacitador": "RAMON RAZURI",
         "responsable": "TAMBO",
-        "frecuencia": "LUNES-JUEVES",
+        "frecuencia": "LUNES-SIN ASIGNAR",
         "dias": [
-            "LUNES",
-            "JUEVES"
+            "LUNES"
         ],
         "distrito": "MIRAFLORES",
         "gz": "POR ABRIR",
@@ -25012,10 +24923,9 @@
         "supervisor": "RODRIGO MARTINEZ",
         "capacitador": "JESUS OLIVEROS",
         "responsable": "TAMBO",
-        "frecuencia": "MARTES-VIERNES",
+        "frecuencia": "VIERNES-SIN ASIGNAR",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "VIERNES"
         ],
         "distrito": "ATE",
         "gz": "Patricia",
@@ -25036,9 +24946,8 @@
         "supervisor": "RODRIGO MARTINEZ",
         "capacitador": "RAMON RAZURI",
         "responsable": "TAMBO",
-        "frecuencia": "MARTES-VIERNES",
+        "frecuencia": "MARTES-SIN ASIGNAR",
         "dias": [
-            "VIERNES",
             "MARTES"
         ],
         "distrito": "MIRAFLORES",
@@ -25060,9 +24969,8 @@
         "supervisor": "JORGE SANCHEZ",
         "capacitador": "SELEN CASTRO",
         "responsable": "TAMBO",
-        "frecuencia": "LUNES-JUEVES",
+        "frecuencia": "JUEVES-SIN ASIGNAR",
         "dias": [
-            "LUNES",
             "JUEVES"
         ],
         "distrito": "SAN MARTÍN DE PORRES",
@@ -25084,9 +24992,8 @@
         "supervisor": "JORGE SANCHEZ",
         "capacitador": "SELEN CASTRO",
         "responsable": "TAMBO",
-        "frecuencia": "MARTES-VIERNES",
+        "frecuencia": "MARTES-SIN ASIGNAR",
         "dias": [
-            "VIERNES",
             "MARTES"
         ],
         "distrito": "SAN MARTÍN DE PORRES",
@@ -25158,8 +25065,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "LA MOLINA",
         "gz": "Patricia",
@@ -25206,8 +25113,8 @@
         "responsable": "TINBET",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "JAEN",
         "gz": "ARTURO ALVARADO",
@@ -25488,8 +25395,8 @@
         "frecuencia": "LUNES-MIÉRCOLES-VIERNES",
         "dias": [
             "LUNES",
-            "VIERNES",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "VIERNES"
         ],
         "distrito": "CHICLAYO",
         "gz": "Kelly Ballena",
@@ -25512,8 +25419,8 @@
         "responsable": "APUESTA TOTAL",
         "frecuencia": "MARTES-JUEVES-SÁBADO",
         "dias": [
-            "SÁBADO",
             "MARTES",
+            "SÁBADO",
             "JUEVES"
         ],
         "distrito": "CHICLAYO",
@@ -25584,8 +25491,8 @@
         "responsable": "APUESTA TOTAL",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "LA VICTORIA",
         "gz": "Romina Saboya",
@@ -25750,8 +25657,8 @@
         "responsable": "APUESTA TOTAL",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "LA VICTORIA",
         "gz": "Romina Saboya",
@@ -25774,8 +25681,8 @@
         "responsable": "APUESTA TOTAL",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "COMAS",
         "gz": "Mily Vanessa Valerin",
@@ -25798,8 +25705,8 @@
         "responsable": "APUESTA TOTAL",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "LA VICTORIA",
         "gz": "Nadia Benites",
@@ -25939,8 +25846,8 @@
         "responsable": "APUESTA TOTAL",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "SAN JUAN DE LURIGANCHO",
         "gz": "Andrea Rafael",
@@ -26033,8 +25940,8 @@
         "responsable": "LIVESPORT",
         "frecuencia": "MARTES-JUEVES-SÁBADO",
         "dias": [
-            "SÁBADO",
             "MARTES",
+            "SÁBADO",
             "JUEVES"
         ],
         "distrito": "CHICLAYO",
@@ -26106,8 +26013,8 @@
         "responsable": "LIVESPORT",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "SANTA ANITA",
         "gz": "LILIANA LOPEZ",
@@ -26130,8 +26037,8 @@
         "responsable": "LIVESPORT",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "SAN JUAN DE LURIGANCHO",
         "gz": "LILIANA LOPEZ",
@@ -26154,8 +26061,8 @@
         "responsable": "LIVESPORT",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "SAN MARTIN DE PORRES",
         "gz": "LORENA SAENZ",
@@ -26178,8 +26085,8 @@
         "responsable": "LIVESPORT",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "LOS OLIVOS",
         "gz": "LORENA SAENZ",
@@ -26345,8 +26252,8 @@
         "responsable": "TINBET",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "CHOTA",
         "gz": "ROBERTO BERMUDEZ",
@@ -26369,8 +26276,8 @@
         "responsable": "LIVESPORT",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "VILLA EL SALVADOR",
         "gz": "FANNY CHAVEZ",
@@ -26416,8 +26323,8 @@
         "responsable": "LIVESPORT",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "VILLA EL SALVADOR",
         "gz": "FANNY CHAVEZ",
@@ -26632,8 +26539,8 @@
         "responsable": "LIVESPORT",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "SAN JUAN DE LURIGANCHO",
         "gz": "LILIANNA LOPEZ",
@@ -26680,8 +26587,8 @@
         "responsable": "LIVESPORT",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "INDEPENDENCIA",
         "gz": "LORENA SAENZ",
@@ -26704,8 +26611,8 @@
         "responsable": "LIVESPORT",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "SAN MARTIN DE PORRES",
         "gz": "LORENA SAENZ",
@@ -26728,8 +26635,8 @@
         "responsable": "LIVESPORT",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "LOS OLIVOS",
         "gz": "LORENA SAENZ",
@@ -26752,8 +26659,8 @@
         "responsable": "LIVESPORT",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "INDEPENDENCIA",
         "gz": "LORENA SAENZ",
@@ -26776,8 +26683,8 @@
         "responsable": "LIVESPORT",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "SAN MARTIN DE PORRES",
         "gz": "LORENA SAENZ",
@@ -27012,11 +26919,11 @@
         "responsable": "TINBET",
         "frecuencia": "LUNES-JUEVES-MIÉRCOLES-JUEVES-VIERNES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "VIERNES",
             "JUEVES",
             "MIÉRCOLES",
-            "LUNES"
+            "VIERNES",
+            "LUNES",
+            "SÁBADO"
         ],
         "distrito": "JUNÍN",
         "gz": "GIAN MIRANDA",
@@ -27272,8 +27179,8 @@
         "responsable": "TINBET",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "COMAS",
         "gz": "CARLOS ALVARADO",
@@ -27320,8 +27227,8 @@
         "responsable": "TINBET",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "LIMA",
         "gz": "CARLOS ALVARADO",
@@ -28174,8 +28081,8 @@
         "responsable": "TINBET",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "UCAYALI",
         "gz": "GAMING SOLUTIONS",
@@ -28592,8 +28499,8 @@
         "responsable": "TINBET",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "COMAS",
         "gz": "INDEPENDIENTES",
@@ -28709,11 +28616,11 @@
         "responsable": "TINBET",
         "frecuencia": "LUNES-JUEVES-MIÉRCOLES-JUEVES-VIERNES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "VIERNES",
             "JUEVES",
             "MIÉRCOLES",
-            "LUNES"
+            "VIERNES",
+            "LUNES",
+            "SÁBADO"
         ],
         "distrito": "JUNÍN",
         "gz": "GAMING SOLUTIONS",
@@ -28736,11 +28643,11 @@
         "responsable": "TINBET",
         "frecuencia": "LUNES-JUEVES-MIÉRCOLES-JUEVES-VIERNES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "VIERNES",
             "JUEVES",
             "MIÉRCOLES",
-            "LUNES"
+            "VIERNES",
+            "LUNES",
+            "SÁBADO"
         ],
         "distrito": "JUNÍN",
         "gz": "GAMING SOLUTIONS",
@@ -28809,8 +28716,8 @@
         "responsable": "TINBET",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "SANTA ANITA",
         "gz": "GIAN MIRANDA",
@@ -28877,10 +28784,9 @@
         "supervisor": "JORGE SANCHEZ",
         "capacitador": "RODRIGO BRAVO",
         "responsable": "TAMBO",
-        "frecuencia": "MARTES-VIERNES",
+        "frecuencia": "VIERNES-SIN ASIGNAR",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "VIERNES"
         ],
         "distrito": "LIMA",
         "gz": "Joel",
@@ -28973,10 +28879,9 @@
         "supervisor": "RODRIGO MARTINEZ",
         "capacitador": "JESUS OLIVEROS",
         "responsable": "TAMBO",
-        "frecuencia": "LUNES-JUEVES",
+        "frecuencia": "LUNES-SIN ASIGNAR",
         "dias": [
-            "LUNES",
-            "JUEVES"
+            "LUNES"
         ],
         "distrito": "LIMA",
         "gz": "Patricia",
@@ -28997,10 +28902,9 @@
         "supervisor": "JORGE SANCHEZ",
         "capacitador": "RAMON RAZURI",
         "responsable": "TAMBO",
-        "frecuencia": "LUNES-JUEVES",
+        "frecuencia": "LUNES-SIN ASIGNAR",
         "dias": [
-            "LUNES",
-            "JUEVES"
+            "LUNES"
         ],
         "distrito": "LIMA",
         "gz": "Yanira",
@@ -29021,9 +28925,8 @@
         "supervisor": "JORGE SANCHEZ",
         "capacitador": "SELEN CASTRO",
         "responsable": "TAMBO",
-        "frecuencia": "MIÉRCOLES-SÁBADO",
+        "frecuencia": "MIÉRCOLES-SIN ASIGNAR",
         "dias": [
-            "SÁBADO",
             "MIÉRCOLES"
         ],
         "distrito": "CALLAO",
@@ -29045,9 +28948,8 @@
         "supervisor": "RODRIGO MARTINEZ",
         "capacitador": "JESUS OLIVEROS",
         "responsable": "TAMBO",
-        "frecuencia": "MARTES-VIERNES",
+        "frecuencia": "MARTES-SIN ASIGNAR",
         "dias": [
-            "VIERNES",
             "MARTES"
         ],
         "distrito": "LIMA",
@@ -29143,8 +29045,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "COMAS",
         "gz": "Claudio",
@@ -29165,10 +29067,9 @@
         "supervisor": "JORGE SANCHEZ",
         "capacitador": "SELEN CASTRO",
         "responsable": "TAMBO",
-        "frecuencia": "MARTES-VIERNES",
+        "frecuencia": "VIERNES-SIN ASIGNAR",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "VIERNES"
         ],
         "distrito": "INDEPENDENCIA",
         "gz": "Valentina",
@@ -29310,8 +29211,8 @@
         "responsable": "APUESTA TOTAL",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "SAN JUAN DE LURIGANCHO",
         "gz": "Andrea Rafael",
@@ -29358,8 +29259,8 @@
         "responsable": "APUESTA TOTAL",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "SAN JUAN DE LURIGANCHO",
         "gz": "Andrea Rafael",
@@ -29382,8 +29283,8 @@
         "responsable": "APUESTA TOTAL",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "SAN JUAN DE LURIGANCHO",
         "gz": "Andrea Rafael",
@@ -29406,8 +29307,8 @@
         "responsable": "APUESTA TOTAL",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "SAN JUAN DE LURIGANCHO",
         "gz": "Andrea Rafael",
@@ -29454,8 +29355,8 @@
         "responsable": "APUESTA TOTAL",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "SAN JUAN DE LURIGANCHO",
         "gz": "Andrea Rafael",
@@ -29644,8 +29545,8 @@
         "responsable": "APUESTA TOTAL",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "RIMAC",
         "gz": "Kimberly Espinoza",
@@ -29836,8 +29737,8 @@
         "responsable": "APUESTA TOTAL",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "LA VICTORIA",
         "gz": "Nadia Benites",
@@ -29908,8 +29809,8 @@
         "responsable": "APUESTA TOTAL",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "LOS OLIVOS",
         "gz": "Mily Vanessa Valerin",
@@ -29932,8 +29833,8 @@
         "responsable": "APUESTA TOTAL",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "INDEPENDENCIA",
         "gz": "Mily Vanessa Valerin",
@@ -29956,8 +29857,8 @@
         "responsable": "APUESTA TOTAL",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "COMAS",
         "gz": "Mily Vanessa Valerin",
@@ -29980,8 +29881,8 @@
         "responsable": "APUESTA TOTAL",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "INDEPENDENCIA",
         "gz": "Mily Vanessa Valerin",
@@ -30004,8 +29905,8 @@
         "responsable": "APUESTA TOTAL",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "COMAS",
         "gz": "Mily Vanessa Valerin",
@@ -30052,8 +29953,8 @@
         "responsable": "APUESTA TOTAL",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "LOS OLIVOS",
         "gz": "Mily Vanessa Valerin",
@@ -30076,8 +29977,8 @@
         "responsable": "APUESTA TOTAL",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "COMAS",
         "gz": "Mily Vanessa Valerin",
@@ -30100,8 +30001,8 @@
         "responsable": "APUESTA TOTAL",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "COMAS",
         "gz": "Mily Vanessa Valerin",
@@ -30427,8 +30328,8 @@
         "responsable": "APUESTA TOTAL",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "SAN JUAN DE MIRAFLORES",
         "gz": "Jannete Reyes",
@@ -30543,8 +30444,8 @@
         "responsable": "APUESTA TOTAL",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "SANTA ANITA",
         "gz": "Jim Zevallos",
@@ -30591,8 +30492,8 @@
         "responsable": "APUESTA TOTAL",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "SANTA ANITA",
         "gz": "Jim Zevallos",
@@ -30615,8 +30516,8 @@
         "responsable": "APUESTA TOTAL",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "SANTA ANITA",
         "gz": "Jim Zevallos",
@@ -30662,8 +30563,8 @@
         "responsable": "APUESTA TOTAL",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "SANTA ANITA",
         "gz": "Jim Zevallos",
@@ -30710,8 +30611,8 @@
         "responsable": "APUESTA TOTAL",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "SANTA ANITA",
         "gz": "Jim Zevallos",
@@ -31019,8 +30920,8 @@
         "responsable": "APUESTA TOTAL",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "ATE",
         "gz": "Romina Saboya",
@@ -31043,8 +30944,8 @@
         "responsable": "APUESTA TOTAL",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "SAN LUIS",
         "gz": "Romina Saboya",
@@ -31067,8 +30968,8 @@
         "responsable": "APUESTA TOTAL",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "LA VICTORIA",
         "gz": "Romina Saboya",
@@ -31091,8 +30992,8 @@
         "responsable": "APUESTA TOTAL",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "ATE",
         "gz": "Romina Saboya",
@@ -31115,8 +31016,8 @@
         "responsable": "APUESTA TOTAL",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "ATE",
         "gz": "Romina Saboya",
@@ -31139,8 +31040,8 @@
         "responsable": "APUESTA TOTAL",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "SAN LUIS",
         "gz": "Romina Saboya",
@@ -31763,8 +31664,8 @@
         "responsable": "APUESTA TOTAL",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "SAN LUIS",
         "gz": "Romina Saboya",
@@ -31787,8 +31688,8 @@
         "responsable": "APUESTA TOTAL",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "ATE",
         "gz": "Romina Saboya",
@@ -31858,8 +31759,8 @@
         "responsable": "APUESTA TOTAL",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "VILLA EL SALVADOR",
         "gz": "Roxana Coello",
@@ -31882,8 +31783,8 @@
         "responsable": "APUESTA TOTAL",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "VILLA EL SALVADOR",
         "gz": "Roxana Coello",
@@ -31906,8 +31807,8 @@
         "responsable": "APUESTA TOTAL",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "VILLA EL SALVADOR",
         "gz": "Roxana Coello",
@@ -31930,8 +31831,8 @@
         "responsable": "APUESTA TOTAL",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "VILLA EL SALVADOR",
         "gz": "Roxana Coello",
@@ -31954,8 +31855,8 @@
         "responsable": "APUESTA TOTAL",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "VILLA EL SALVADOR",
         "gz": "Roxana Coello",
@@ -32001,8 +31902,8 @@
         "responsable": "APUESTA TOTAL",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "VILLA EL SALVADOR",
         "gz": "Roxana Coello",
@@ -36519,11 +36420,11 @@
         "responsable": "APUESTA TOTAL",
         "frecuencia": "LUNES-JUEVES-MIÉRCOLES-JUEVES-VIERNES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "VIERNES",
             "JUEVES",
             "MIÉRCOLES",
-            "LUNES"
+            "VIERNES",
+            "LUNES",
+            "SÁBADO"
         ],
         "distrito": "EL TAMBO",
         "gz": "Sheyla Gonzales",
@@ -36592,11 +36493,11 @@
         "responsable": "APUESTA TOTAL",
         "frecuencia": "LUNES-JUEVES-MIÉRCOLES-JUEVES-VIERNES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "VIERNES",
             "JUEVES",
             "MIÉRCOLES",
-            "LUNES"
+            "VIERNES",
+            "LUNES",
+            "SÁBADO"
         ],
         "distrito": "EL TAMBO",
         "gz": "Sheyla Gonzales",
@@ -36939,10 +36840,9 @@
         "supervisor": "JORGE SANCHEZ",
         "capacitador": "SELEN CASTRO",
         "responsable": "TAMBO",
-        "frecuencia": "MARTES-VIERNES",
+        "frecuencia": "VIERNES-SIN ASIGNAR",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "VIERNES"
         ],
         "distrito": "INDEPENDENCIA",
         "gz": "Valentina",
@@ -36963,9 +36863,8 @@
         "supervisor": "JORGE SANCHEZ",
         "capacitador": "JOEL VENTURA",
         "responsable": "TAMBO",
-        "frecuencia": "MARTES-VIERNES",
+        "frecuencia": "MARTES-SIN ASIGNAR",
         "dias": [
-            "VIERNES",
             "MARTES"
         ],
         "distrito": "CARABAYLLO",
@@ -37013,8 +36912,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "SANTIAGO DE SURCO",
         "gz": "Alejandro",
@@ -37059,9 +36958,8 @@
         "supervisor": "JORGE SANCHEZ",
         "capacitador": "SELEN CASTRO",
         "responsable": "TAMBO",
-        "frecuencia": "MIÉRCOLES-SÁBADO",
+        "frecuencia": "MIÉRCOLES-SIN ASIGNAR",
         "dias": [
-            "SÁBADO",
             "MIÉRCOLES"
         ],
         "distrito": "LOS OLIVOS",
@@ -37083,10 +36981,9 @@
         "supervisor": "JORGE SANCHEZ",
         "capacitador": "JOEL VENTURA",
         "responsable": "TAMBO",
-        "frecuencia": "MIÉRCOLES-SÁBADO",
+        "frecuencia": "SÁBADO-SIN ASIGNAR",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "SÁBADO"
         ],
         "distrito": "COMAS",
         "gz": "Claudio",
@@ -37107,9 +37004,8 @@
         "supervisor": "JORGE SANCHEZ",
         "capacitador": "RODRIGO BRAVO",
         "responsable": "TAMBO",
-        "frecuencia": "LUNES-JUEVES",
+        "frecuencia": "JUEVES-SIN ASIGNAR",
         "dias": [
-            "LUNES",
             "JUEVES"
         ],
         "distrito": "EL AGUSTINO",
@@ -37131,9 +37027,8 @@
         "supervisor": "JORGE SANCHEZ",
         "capacitador": "PENDING",
         "responsable": "TAMBO",
-        "frecuencia": "MARTES-VIERNES",
+        "frecuencia": "MARTES-SIN ASIGNAR",
         "dias": [
-            "VIERNES",
             "MARTES"
         ],
         "distrito": "SAN JUAN DE LURIGANCHO",
@@ -37179,9 +37074,8 @@
         "supervisor": "JORGE SANCHEZ",
         "capacitador": "PENDING",
         "responsable": "TAMBO",
-        "frecuencia": "MARTES-VIERNES",
+        "frecuencia": "MARTES-SIN ASIGNAR",
         "dias": [
-            "VIERNES",
             "MARTES"
         ],
         "distrito": "SAN JUAN DE LURIGANCHO",
@@ -37205,8 +37099,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "SANTIAGO DE SURCO",
         "gz": "Alejandro",
@@ -37227,9 +37121,8 @@
         "supervisor": "JORGE SANCHEZ",
         "capacitador": "PENDING",
         "responsable": "TAMBO",
-        "frecuencia": "MIÉRCOLES-SÁBADO",
+        "frecuencia": "MIÉRCOLES-SIN ASIGNAR",
         "dias": [
-            "SÁBADO",
             "MIÉRCOLES"
         ],
         "distrito": "SAN JUAN DE LURIGANCHO",
@@ -37251,9 +37144,8 @@
         "supervisor": "JORGE SANCHEZ",
         "capacitador": "RODRIGO BRAVO",
         "responsable": "TAMBO",
-        "frecuencia": "LUNES-JUEVES",
+        "frecuencia": "JUEVES-SIN ASIGNAR",
         "dias": [
-            "LUNES",
             "JUEVES"
         ],
         "distrito": "EL AGUSTINO",
@@ -37275,9 +37167,8 @@
         "supervisor": "JORGE SANCHEZ",
         "capacitador": "PENDING",
         "responsable": "TAMBO",
-        "frecuencia": "MARTES-VIERNES",
+        "frecuencia": "MARTES-SIN ASIGNAR",
         "dias": [
-            "VIERNES",
             "MARTES"
         ],
         "distrito": "SAN JUAN DE LURIGANCHO",
@@ -37299,9 +37190,8 @@
         "supervisor": "RODRIGO MARTINEZ",
         "capacitador": "JESUS OLIVEROS",
         "responsable": "TAMBO",
-        "frecuencia": "LUNES-JUEVES",
+        "frecuencia": "JUEVES-SIN ASIGNAR",
         "dias": [
-            "LUNES",
             "JUEVES"
         ],
         "distrito": "SANTIAGO DE SURCO",
@@ -37323,10 +37213,9 @@
         "supervisor": "JORGE SANCHEZ",
         "capacitador": "SELEN CASTRO",
         "responsable": "TAMBO",
-        "frecuencia": "LUNES-JUEVES",
+        "frecuencia": "LUNES-SIN ASIGNAR",
         "dias": [
-            "LUNES",
-            "JUEVES"
+            "LUNES"
         ],
         "distrito": "LA PERLA",
         "gz": "Yanira",
@@ -37347,10 +37236,9 @@
         "supervisor": "RODRIGO MARTINEZ",
         "capacitador": "RAMON RAZURI",
         "responsable": "TAMBO",
-        "frecuencia": "LUNES-JUEVES",
+        "frecuencia": "LUNES-SIN ASIGNAR",
         "dias": [
-            "LUNES",
-            "JUEVES"
+            "LUNES"
         ],
         "distrito": "MIRAFLORES",
         "gz": "Juan",
@@ -37371,9 +37259,8 @@
         "supervisor": "JORGE SANCHEZ",
         "capacitador": "JOEL VENTURA",
         "responsable": "TAMBO",
-        "frecuencia": "MIÉRCOLES-SÁBADO",
+        "frecuencia": "MIÉRCOLES-SIN ASIGNAR",
         "dias": [
-            "SÁBADO",
             "MIÉRCOLES"
         ],
         "distrito": "PUENTE PIEDRA",
@@ -37395,10 +37282,9 @@
         "supervisor": "JORGE SANCHEZ",
         "capacitador": "SELEN CASTRO",
         "responsable": "TAMBO",
-        "frecuencia": "LUNES-JUEVES",
+        "frecuencia": "LUNES-SIN ASIGNAR",
         "dias": [
-            "LUNES",
-            "JUEVES"
+            "LUNES"
         ],
         "distrito": "CALLAO",
         "gz": "Yanira",
@@ -37517,8 +37403,8 @@
         "responsable": "LIVESPORT",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "SAN JUAN DE LURIGANCHO",
         "gz": "SIN INFO",
@@ -37541,8 +37427,8 @@
         "responsable": "LIVESPORT",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "LA VICTORIA",
         "gz": "SIN INFO",
@@ -37565,8 +37451,8 @@
         "responsable": "LIVESPORT",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "LOS OLIVOS",
         "gz": "SIN INFO",
@@ -37589,8 +37475,8 @@
         "responsable": "LIVESPORT",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "SAN MARTIN DE PORRES",
         "gz": "SIN INFO",
@@ -37889,10 +37775,9 @@
         "supervisor": "JORGE SANCHEZ",
         "capacitador": "SELEN CASTRO",
         "responsable": "TAMBO",
-        "frecuencia": "LUNES-JUEVES",
+        "frecuencia": "LUNES-SIN ASIGNAR",
         "dias": [
-            "LUNES",
-            "JUEVES"
+            "LUNES"
         ],
         "distrito": "CALLAO",
         "gz": "Yanira",
@@ -37915,8 +37800,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "BARRANCO",
         "gz": "Juan",
@@ -37939,8 +37824,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "LIMA",
         "gz": "Yanira",
@@ -37987,8 +37872,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "VILLA EL SALVADOR",
         "gz": "Alejandro",
@@ -38011,8 +37896,8 @@
         "responsable": "TINBET",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "SAN MARTIN DE PORRES",
         "gz": "KEVIN ALVARADO",
@@ -38382,8 +38267,8 @@
         "responsable": "DORADOBET",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "LA VICTORIA",
         "gz": "SIN INFO",
@@ -38452,10 +38337,9 @@
         "supervisor": "JORGE SANCHEZ",
         "capacitador": "PENDING",
         "responsable": "TAMBO",
-        "frecuencia": "MARTES-VIERNES",
+        "frecuencia": "VIERNES-SIN ASIGNAR",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "VIERNES"
         ],
         "distrito": "LOS OLIVOS",
         "gz": "Valentina",
@@ -38502,8 +38386,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "LINCE",
         "gz": "Valentina",
@@ -38550,8 +38434,8 @@
         "responsable": "RETABET",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "LA VICTORIA",
         "gz": "SIN INFO",
@@ -38598,8 +38482,8 @@
         "responsable": "RETABET",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "LOS OLIVOS",
         "gz": "SIN INFO",
@@ -39821,8 +39705,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "LA PERLA",
         "gz": "Yanira",
@@ -39868,8 +39752,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "ATE",
         "gz": "Patricia",
@@ -39897,7 +39781,7 @@
         ],
         "distrito": "SAN JUAN DE MIRAFLORES",
         "gz": "Alejandro",
-        "jz": "Z35 Maybe Q.",
+        "jz": "Z12 Maritza B.",
         "zonal_tipo": "LIMA",
         "tipo": "TAMBO"
     },
@@ -39914,9 +39798,8 @@
         "supervisor": "JORGE SANCHEZ",
         "capacitador": "JOEL VENTURA",
         "responsable": "TAMBO",
-        "frecuencia": "MIÉRCOLES-SÁBADO",
+        "frecuencia": "MIÉRCOLES-SIN ASIGNAR",
         "dias": [
-            "SÁBADO",
             "MIÉRCOLES"
         ],
         "distrito": "COMAS",
@@ -39938,9 +39821,8 @@
         "supervisor": "RODRIGO MARTINEZ",
         "capacitador": "BEATRIZ HUAMAN",
         "responsable": "TAMBO",
-        "frecuencia": "LUNES-JUEVES",
+        "frecuencia": "JUEVES-SIN ASIGNAR",
         "dias": [
-            "LUNES",
             "JUEVES"
         ],
         "distrito": "SAN JUAN DE MIRAFLORES",
@@ -39962,9 +39844,8 @@
         "supervisor": "JORGE SANCHEZ",
         "capacitador": "RODRIGO BRAVO",
         "responsable": "TAMBO",
-        "frecuencia": "MIÉRCOLES-SÁBADO",
+        "frecuencia": "MIÉRCOLES-SIN ASIGNAR",
         "dias": [
-            "SÁBADO",
             "MIÉRCOLES"
         ],
         "distrito": "LIMA",
@@ -39986,9 +39867,8 @@
         "supervisor": "JORGE SANCHEZ",
         "capacitador": "RODRIGO BRAVO",
         "responsable": "TAMBO",
-        "frecuencia": "MARTES-VIERNES",
+        "frecuencia": "MARTES-SIN ASIGNAR",
         "dias": [
-            "VIERNES",
             "MARTES"
         ],
         "distrito": "SAN JUAN DE LURIGANCHO",
@@ -40733,8 +40613,8 @@
         "responsable": "RETABET",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "COMAS",
         "gz": "SIN INFO",
@@ -40757,8 +40637,8 @@
         "responsable": "RETABET",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "SAN MARTIN DE PORRES",
         "gz": "SIN INFO",
@@ -40853,8 +40733,8 @@
         "responsable": "RETABET",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "INDEPENDENCIA",
         "gz": "SIN INFO",
@@ -40901,8 +40781,8 @@
         "responsable": "RETABET",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "SAN LUIS",
         "gz": "SIN INFO",
@@ -40925,8 +40805,8 @@
         "responsable": "RETABET",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "LA MOLINA",
         "gz": "SIN INFO",
@@ -41069,8 +40949,8 @@
         "responsable": "RETABET",
         "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "VILLA EL SALVADOR",
         "gz": "SIN INFO",

@@ -72,27 +72,28 @@ function toggleModo() {
 }
 
 // ICONOS
-const PIN_BORDER = {
-    "APUESTA TOTAL": "#FDD835",
-    "TAMBO":         "#8E24AA",
-    "TINBET":        "#43A047",
-    "LIVESPORT":     "#1E88E5",
-    "BODEGA":        "#29B6F6",
-    "CENCOSUD":      "#FB8C00",
-    "DEFAULT":       "#546E7A"
+const DIA_PIN_COLORS = {
+    'LUNES':     '#1E88E5',
+    'MARTES':    '#43A047',
+    'MIÉRCOLES': '#F4511E',
+    'MIERCOLES': '#F4511E',
+    'JUEVES':    '#8E24AA',
+    'VIERNES':   '#E53935',
+    'SÁBADO':    '#e91e63',
+    'SABADO':    '#e91e63',
 };
+const DIA_ORDER_PIN = ['LUNES','MARTES','MIÉRCOLES','JUEVES','VIERNES','SÁBADO'];
 
-function getPinBorder(responsable) {
-    if (!responsable) return PIN_BORDER["DEFAULT"];
-    const r = responsable.trim().toUpperCase();
-    if (r.includes("APUESTA TOTAL")) return PIN_BORDER["APUESTA TOTAL"];
-    if (r.includes("TAMBO"))         return PIN_BORDER["TAMBO"];
-    if (r.includes("TINBET"))        return PIN_BORDER["TINBET"];
-    if (r.includes("LIVESPORT"))     return PIN_BORDER["LIVESPORT"];
-    if (r.includes("CENCOSUD"))      return PIN_BORDER["CENCOSUD"];
-    if (r.includes("BODEGA"))        return PIN_BORDER["BODEGA"];
-    return PIN_BORDER["DEFAULT"];
+function getDiaColorPin(dias) {
+    if (!dias || !dias.length) return '#546E7A';
+    for (const d of DIA_ORDER_PIN) {
+        if (dias.includes(d) || dias.includes(d.replace('É','E').replace('Á','A')))
+            return DIA_PIN_COLORS[d] || DIA_PIN_COLORS[d.replace('É','E').replace('Á','A')] || '#546E7A';
+    }
+    return DIA_PIN_COLORS[dias[0]] || '#546E7A';
 }
+
+function getPinBorder(responsable) { return '#546E7A'; } // mantenido por compatibilidad
 
 function getIconUrl(responsable) {
     if (!responsable) return "icons/default.png";
@@ -105,19 +106,19 @@ function getIconUrl(responsable) {
     return "icons/default.png";
 }
 
-function makePinIcon(responsable, estado) {
+function makePinIcon(responsable, estado, dias) {
     const url = getIconUrl(responsable);
     let color, extraStyle = "", imgStyle = "width:100%;height:100%;object-fit:cover;";
 
     if (estado === "completado") {
-        color    = "#9E9E9E";
+        color      = "#9E9E9E";
         extraStyle = "opacity:0.45;";
         imgStyle  += "filter:grayscale(1);";
     } else if (estado === "en_visita") {
-        color    = "#FF9800";
+        color      = "#FF9800";
         extraStyle = "";
     } else {
-        color = getPinBorder(responsable);
+        color = getDiaColorPin(dias);
     }
 
     const html = `
@@ -529,7 +530,7 @@ function renderMap(filterRC, filterDia, filterSup, filterPartner, filterZona, fi
 
     filtered.forEach(p => {
 
-    let icon = makePinIcon(p.responsable, getEstadoPunto(p.ID));
+    let icon = makePinIcon(p.responsable, getEstadoPunto(p.ID), p.dias);
 
     let marker = L.marker([p.lat, p.lng], { icon: icon });
     marker.bindPopup(buildPopupContent(p), { autoPan: false });
@@ -1121,7 +1122,7 @@ buscador.addEventListener("input", function () {
 
     resultadoUnico.forEach(p => {
 
-        let icon = makePinIcon(p.responsable, getEstadoPunto(p.ID));
+        let icon = makePinIcon(p.responsable, getEstadoPunto(p.ID), p.dias);
         let marker = L.marker([p.lat, p.lng], { icon: icon });
         marker.bindPopup(buildPopupContent(p), { autoPan: false });
         attachPopupOpen(marker, p);
