@@ -79,8 +79,8 @@ const DIA_PIN_COLORS = {
     'MIERCOLES': '#F4511E',
     'JUEVES':    '#8E24AA',
     'VIERNES':   '#E53935',
-    'SÁBADO':    '#e91e63',
-    'SABADO':    '#e91e63',
+    'SÁBADO':    '#FDD835',
+    'SABADO':    '#FDD835',
 };
 const DIA_ORDER_PIN = ['LUNES','MARTES','MIÉRCOLES','JUEVES','VIERNES','SÁBADO'];
 
