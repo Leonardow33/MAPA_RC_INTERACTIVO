@@ -85,12 +85,15 @@ const DIA_PIN_COLORS = {
 const DIA_ORDER_PIN = ['LUNES','MARTES','MIÉRCOLES','JUEVES','VIERNES','SÁBADO'];
 
 function getDiaColorPin(dias) {
-    if (!dias || !dias.length) return '#546E7A';
+    const PLOMO = '#9E9E9E';
+    if (!dias || !dias.length) return PLOMO;
+    const validos = dias.filter(d => d !== 'SIN RUTA');
+    if (!validos.length) return PLOMO;
     for (const d of DIA_ORDER_PIN) {
-        if (dias.includes(d) || dias.includes(d.replace('É','E').replace('Á','A')))
-            return DIA_PIN_COLORS[d] || DIA_PIN_COLORS[d.replace('É','E').replace('Á','A')] || '#546E7A';
+        if (validos.includes(d) || validos.includes(d.replace('É','E').replace('Á','A')))
+            return DIA_PIN_COLORS[d] || DIA_PIN_COLORS[d.replace('É','E').replace('Á','A')] || PLOMO;
     }
-    return DIA_PIN_COLORS[dias[0]] || '#546E7A';
+    return DIA_PIN_COLORS[validos[0]] || PLOMO;
 }
 
 function getPinBorder(responsable) { return '#546E7A'; } // mantenido por compatibilidad
