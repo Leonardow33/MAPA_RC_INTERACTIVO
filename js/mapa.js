@@ -838,7 +838,7 @@ initGeolocation();
 const ORS_KEY = 'eyJvcmciOiI1YjNjZTM1OTc4NTExMTAwMDFjZjYyNDgiLCJpZCI6IjZmZTFlYjBiMDM1YjQxMDRhOWJkNGFiNjM0MTg4ZmZhIiwiaCI6Im11cm11cjY0In0=';
 
 // ── GOOGLE SHEET (reemplaza con tu URL de Apps Script desplegado) ──────────
-const SHEET_URL = "https://script.google.com/macros/s/AKfycby-MqefpGnmgJWvy2E6gFc6caMid6quxDsuGtSyOHyFY1WFVqOSay4sMTbadDnYgKTT/exec";
+const SHEET_URL = "https://script.google.com/macros/s/AKfycby2f2uW9E2_CUBr9OiKVT4Sp-ubP2sRIXlWig-GPuKTGyDxi-zx724ZGtkOFaWW0jnqjw/exec";
 const SIN_VENTA_URL = "https://raw.githubusercontent.com/Leonardow33/MAPA_RC_INTERACTIVO/main/sinventa.txt";
 const REUNION_PIN = "0810"; // ← cambia este código cada mes
 // ─────────────────────────────────────────────────────────────────────────

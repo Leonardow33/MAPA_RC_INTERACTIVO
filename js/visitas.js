@@ -28,7 +28,7 @@ function checkAuth() {
 }
 
 // Lógica principal
-const SHEET_URL    = "https://script.google.com/macros/s/AKfycby-MqefpGnmgJWvy2E6gFc6caMid6quxDsuGtSyOHyFY1WFVqOSay4sMTbadDnYgKTT/exec";
+const SHEET_URL    = "https://script.google.com/macros/s/AKfycby2f2uW9E2_CUBr9OiKVT4Sp-ubP2sRIXlWig-GPuKTGyDxi-zx724ZGtkOFaWW0jnqjw/exec";
 let modoVista = (window._authModo === 'cap') ? 'cap' : 'rc';
 const SIN_VENTA_URL = "https://raw.githubusercontent.com/Leonardow33/MAPA_RC_INTERACTIVO/main/sinventa.txt";
 
