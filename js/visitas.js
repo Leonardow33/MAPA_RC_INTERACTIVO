@@ -59,7 +59,8 @@ const rutaHoyLayer     = L.layerGroup().addTo(map);
 const sinVisitarLayer  = L.layerGroup().addTo(map);
 let todosLosPointsActive = true;
 let rutaHoyActive        = false;
-let selectedPartnerFilter = null;
+let selectedPartnerFilter = null; // mantenido por compatibilidad
+let selectedDiaFilter = null;
 const DIAS_SEMANA = ['DOMINGO','LUNES','MARTES','MIERCOLES','JUEVES','VIERNES','SABADO'];
 function normDia(d) {
     return d.trim().toUpperCase()
@@ -280,9 +281,10 @@ function enfocarRC(nombre) {
     }
 
     document.querySelector('#coberturaHeader span').textContent = selectedRCFilter
-        ? `📊 Cobertura · ${selectedRCFilter}`
-        : '📊 Cobertura por partner';
+        ? `📅 Días de visita · ${selectedRCFilter}`
+        : '📅 Días de visita';
     selectedPartnerFilter = null;
+    selectedDiaFilter = null;
     rutaHoyActive = false;
     document.getElementById('btnRutaHoy').classList.remove('activo');
     renderRC(todosRCs);
@@ -415,6 +417,16 @@ function renderTodosLosPuntos() {
     renderCobertura();
 }
 
+const DIA_COLORES_VIS = {
+    'LUNES':     '#1E88E5',
+    'MARTES':    '#43A047',
+    'MIÉRCOLES': '#F4511E', 'MIERCOLES': '#F4511E',
+    'JUEVES':    '#8E24AA',
+    'VIERNES':   '#E53935',
+    'SÁBADO':    '#FDD835', 'SABADO': '#FDD835',
+};
+const DIAS_ORDEN_VIS = ['LUNES','MARTES','MIÉRCOLES','JUEVES','VIERNES','SÁBADO'];
+
 function renderCobertura() {
     const list = document.getElementById('coberturaList');
     if (!puntosData.length) return;
@@ -424,9 +436,7 @@ function renderCobertura() {
         (p.estado || '').toUpperCase() === 'ACTIVO' &&
         (zf === 'ALL' || (p.zonal_tipo || '').toUpperCase() === zf)
     );
-    if (selectedRCFilter) {
-        activos = activos.filter(p => matchRCFilter(p));
-    }
+    if (selectedRCFilter) activos = activos.filter(p => matchRCFilter(p));
 
     const todayNorm = normDia(DIAS_SEMANA[new Date().getDay()]);
     if (rutaHoyActive && selectedRCFilter) {
@@ -439,21 +449,26 @@ function renderCobertura() {
             ? (visitsByRC[selectedRCFilter] || new Set())
             : null;
 
-    const byPartner = {};
+    // Agrupar por DÍA de visita
+    const byDia = {};
     activos.forEach(p => {
-        const partner = p.responsable || 'Sin partner';
-        if (!byPartner[partner]) byPartner[partner] = { total: 0, visitados: 0 };
-        byPartner[partner].total++;
-        const id = normalizeID(p.ID);
-        const visitado = visitedSet
-            ? visitedSet.has(id)
-            : (visitCountsSemana[id] || 0) > 0;
-        if (visitado) byPartner[partner].visitados++;
+        const dias = (p.dias || []).filter(d => d !== 'SIN RUTA');
+        if (!dias.length) dias.push('SIN RUTA');
+        dias.forEach(d => {
+            const dn = normDia(d);
+            if (!byDia[dn]) byDia[dn] = { label: d.toUpperCase(), total: 0, visitados: 0 };
+            byDia[dn].total++;
+            const id = normalizeID(p.ID);
+            const visitado = visitedSet ? visitedSet.has(id) : (visitCountsSemana[id] || 0) > 0;
+            if (visitado) byDia[dn].visitados++;
+        });
     });
 
-    const rows = Object.entries(byPartner)
-        .map(([nombre, d]) => ({ nombre, ...d, pct: d.total > 0 ? d.visitados / d.total : 0 }))
-        .sort((a, b) => b.pct - a.pct);
+    // Ordenar por semana
+    const rows = DIAS_ORDEN_VIS
+        .map(d => byDia[normDia(d)] ? { dia: normDia(d), ...byDia[normDia(d)] } : null)
+        .filter(Boolean);
+    if (byDia['SIN RUTA']) rows.push({ dia: 'SIN RUTA', ...byDia['SIN RUTA'] });
 
     // Resumen general
     const totalGral     = activos.length;
@@ -461,10 +476,10 @@ function renderCobertura() {
         const id = normalizeID(p.ID);
         return visitedSet ? visitedSet.has(id) : (visitCountsSemana[id] || 0) > 0;
     }).length;
-    const pctGral = totalGral > 0 ? Math.round(visitadosGral / totalGral * 100) : 0;
+    const pctGral  = totalGral > 0 ? Math.round(visitadosGral / totalGral * 100) : 0;
     const colorGral = pctGral >= 60 ? '#43A047' : pctGral >= 30 ? '#FB8C00' : '#E53935';
-    const resTexto = document.getElementById('resumenTexto');
-    const resBar   = document.getElementById('resumenBar');
+    const resTexto  = document.getElementById('resumenTexto');
+    const resBar    = document.getElementById('resumenBar');
     if (resTexto) resTexto.innerHTML = `<span style="color:${colorGral}">${visitadosGral} / ${totalGral} visitados &nbsp;·&nbsp; <b>${pctGral}%</b></span>`;
     if (resBar)   { resBar.style.width = pctGral + '%'; resBar.style.background = colorGral; }
 
@@ -473,23 +488,27 @@ function renderCobertura() {
         list.innerHTML = '<div style="padding:16px;color:#aaa;font-size:12px;text-align:center">Sin datos</div>';
         return;
     }
+
     rows.forEach(r => {
-        const pct = Math.round(r.pct * 100);
-        const color = pct >= 60 ? '#43A047' : pct >= 30 ? '#FB8C00' : '#E53935';
-        const esSeleccionado = selectedPartnerFilter === r.nombre;
+        const pct     = r.total > 0 ? Math.round(r.visitados / r.total * 100) : 0;
+        const barColor = pct >= 60 ? '#43A047' : pct >= 30 ? '#FB8C00' : '#E53935';
+        const dotColor = DIA_COLORES_VIS[r.dia] || '#78909C';
+        const esSel   = selectedDiaFilter === r.dia;
         const div = document.createElement('div');
-        div.className = 'partner-row' + (esSeleccionado ? ' seleccionado' : '');
+        div.className = 'partner-row' + (esSel ? ' seleccionado' : '');
         div.style.cursor = 'pointer';
-        if (esSeleccionado) div.style.background = '#fff3e0';
+        if (esSel) div.style.background = '#0f2040';
         div.innerHTML = `
-            <div class="partner-nombre">${r.nombre}${esSeleccionado ? ' <span style="color:#FB8C00;font-size:10px">● filtrado</span>' : ''}</div>
-            <div class="partner-stats">${r.visitados} de ${r.total} puntos &nbsp;·&nbsp; <b style="color:${color}">${pct}%</b></div>
-            <div class="partner-bar"><div class="partner-bar-fill" style="width:${pct}%;background:${color}"></div></div>`;
+            <div class="partner-nombre" style="display:flex;align-items:center;gap:6px">
+                <span style="width:9px;height:9px;border-radius:50%;background:${dotColor};flex-shrink:0;display:inline-block"></span>
+                ${r.label}${esSel ? ' <span style="color:#FB8C00;font-size:10px">● filtrado</span>' : ''}
+            </div>
+            <div class="partner-stats">${r.visitados} de ${r.total} puntos &nbsp;·&nbsp; <b style="color:${barColor}">${pct}%</b></div>
+            <div class="partner-bar"><div class="partner-bar-fill" style="width:${pct}%;background:${barColor}"></div></div>`;
         div.addEventListener('click', () => {
-            selectedPartnerFilter = selectedPartnerFilter === r.nombre ? null : r.nombre;
+            selectedDiaFilter = selectedDiaFilter === r.dia ? null : r.dia;
             renderSinVisitar();
             renderCobertura();
-            if (rutaHoyActive) renderRutaHoy();
         });
         list.appendChild(div);
     });
@@ -559,7 +578,7 @@ function normalizeID(val) {
 
 function renderSinVisitar() {
     sinVisitarLayer.clearLayers();
-    if (!selectedPartnerFilter) return;
+    if (!selectedDiaFilter) return;
 
     const zf = getZonalFiltro();
     const todayNorm = normDia(DIAS_SEMANA[new Date().getDay()]);
@@ -575,7 +594,7 @@ function renderSinVisitar() {
         (p.estado || '').toUpperCase() === 'ACTIVO' &&
         !fueVisitado(normalizeID(p.ID)) &&
         (selectedRCFilter ? matchRCFilter(p) : true) &&
-        p.responsable === selectedPartnerFilter &&
+        (p.dias || []).some(d => normDia(d) === selectedDiaFilter) &&
         (zf !== 'ALL' ? (p.zonal_tipo || '').toUpperCase() === zf : true) &&
         (!rutaHoyActive || (Array.isArray(p.dias) && p.dias.some(d => normDia(d) === todayNorm)))
     );
