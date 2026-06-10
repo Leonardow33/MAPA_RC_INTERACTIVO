@@ -50,60 +50,49 @@
         <input type="text" id="buscador" placeholder="🔍 Buscar tienda o código..." />
         <div id="resultados"></div>
 
-        <!-- FILTROS -->
-        <label>Supervisor:</label>
-        <select id="supFilter">
-            <option value="ALL">Todos</option>
-        </select>
-
-        <label>RC:</label>
-        <select id="rcFilter">
-            <option value="ALL">Todos</option>
-        </select>
-
-        <label>Día:</label>
-        <select id="diaFilter">
-            <option value="ALL">Todos</option>
-        </select>
-
-        <label>Zona:</label>
-        <select id="zonaFilter">
-            <option value="ALL">Todas</option>
-        </select>
-
-        <label>Partner:</label>
-        <select id="partnerFilter">
-            <option value="ALL">Todos</option>
-        </select>
-
-        <div id="tipoFilterGroup" style="display:flex;align-items:center;gap:6px">
-            <label>Tipo:</label>
-            <select id="tipoFilter">
-                <option value="ALL">Todos</option>
-                <option value="TAMBO">Tambo</option>
-                <option value="CASA DE APUESTA">Casa de Apuesta</option>
-            </select>
+        <!-- SELECTS: en desktop actúan como hijos directos (display:contents), en móvil se hacen scrollables -->
+        <div id="filtro-selects">
+            <label>Supervisor:</label>
+            <select id="supFilter"><option value="ALL">Todos</option></select>
+            <label>RC:</label>
+            <select id="rcFilter"><option value="ALL">Todos</option></select>
+            <label>Día:</label>
+            <select id="diaFilter"><option value="ALL">Todos</option></select>
+            <label>Zona:</label>
+            <select id="zonaFilter"><option value="ALL">Todas</option></select>
+            <label class="lbl-partner">Partner:</label>
+            <select id="partnerFilter"><option value="ALL">Todos</option></select>
+            <div id="tipoFilterGroup" style="display:flex;align-items:center;gap:6px">
+                <label>Tipo:</label>
+                <select id="tipoFilter">
+                    <option value="ALL">Todos</option>
+                    <option value="TAMBO">Tambo</option>
+                    <option value="CASA DE APUESTA">Casa de Apuesta</option>
+                </select>
+            </div>
         </div>
 
-        <button id="btnModo" onclick="toggleModo()" style="display:none">🚗 Auto</button>
-        <button id="btnRuta" onclick="generarRuta()" style="display:none">🗺️ Generar Ruta</button>
-        <button id="btnLimpiarRuta" onclick="limpiarRuta()" style="display:none">✕ Limpiar Ruta</button>
-        <button id="btnReunion" onclick="abrirModalReunion()" disabled style="display:none">📅 Reunión</button>
-        <button id="btnSinAgrup" onclick="toggleSinAgrupacion()" style="display:none;font-size:11px;height:26px;border-radius:20px;border:1.5px solid #1565C0;background:transparent;color:#42A5F5;padding:0 10px;cursor:pointer;font-family:inherit;font-weight:600" title="Solo disponible al seleccionar un RC">⊙ Sin agrupación</button>
-        <button id="btnSinVenta" onclick="toggleSinVenta()" style="margin-left:auto">🔴 Sin Venta</button>
-
-        <div id="clusterBtns">
-            <span id="tamboClusterGroup" style="display:none;gap:4px;align-items:center;display:none">
-                <button class="btn-cluster bc-ta" data-cluster="TOP A" onclick="toggleCluster(this)">A</button>
-                <button class="btn-cluster bc-tb" data-cluster="TOP B" onclick="toggleCluster(this)">B</button>
-                <button class="btn-cluster bc-tc" data-cluster="TOP C" onclick="toggleCluster(this)">C</button>
-            </span>
-            <span id="atClusterGroup" style="display:none;gap:4px;align-items:center;display:none">
-                <button class="btn-cluster bc-bro" data-cluster="BRONCE" onclick="toggleCluster(this)">B</button>
-                <button class="btn-cluster bc-pla" data-cluster="PLATA" onclick="toggleCluster(this)">P</button>
-                <button class="btn-cluster bc-oro" data-cluster="ORO" onclick="toggleCluster(this)">O</button>
-                <button class="btn-cluster bc-dia" data-cluster="DIAMANTE" onclick="toggleCluster(this)">D</button>
-            </span>
+        <!-- BOTONES -->
+        <div id="filtro-btns">
+            <button id="btnModo" onclick="toggleModo()" style="display:none">🚗 Auto</button>
+            <button id="btnRuta" onclick="generarRuta()" style="display:none">🗺️ Generar Ruta</button>
+            <button id="btnLimpiarRuta" onclick="limpiarRuta()" style="display:none">✕ Limpiar Ruta</button>
+            <button id="btnReunion" onclick="abrirModalReunion()" disabled style="display:none">📅 Reunión</button>
+            <button id="btnSinAgrup" onclick="toggleSinAgrupacion()" style="display:none;font-size:11px;height:26px;border-radius:20px;border:1.5px solid #1565C0;background:transparent;color:#42A5F5;padding:0 10px;cursor:pointer;font-family:inherit;font-weight:600" title="Solo disponible al seleccionar un RC">⊙ Sin agrupación</button>
+            <button id="btnSinVenta" onclick="toggleSinVenta()" style="margin-left:auto">🔴 Sin Venta</button>
+            <div id="clusterBtns">
+                <span id="tamboClusterGroup" style="display:none;gap:4px;align-items:center">
+                    <button class="btn-cluster bc-ta" data-cluster="TOP A" onclick="toggleCluster(this)">A</button>
+                    <button class="btn-cluster bc-tb" data-cluster="TOP B" onclick="toggleCluster(this)">B</button>
+                    <button class="btn-cluster bc-tc" data-cluster="TOP C" onclick="toggleCluster(this)">C</button>
+                </span>
+                <span id="atClusterGroup" style="display:none;gap:4px;align-items:center">
+                    <button class="btn-cluster bc-bro" data-cluster="BRONCE" onclick="toggleCluster(this)">B</button>
+                    <button class="btn-cluster bc-pla" data-cluster="PLATA" onclick="toggleCluster(this)">P</button>
+                    <button class="btn-cluster bc-oro" data-cluster="ORO" onclick="toggleCluster(this)">O</button>
+                    <button class="btn-cluster bc-dia" data-cluster="DIAMANTE" onclick="toggleCluster(this)">D</button>
+                </span>
+            </div>
         </div>
 
     </div>
