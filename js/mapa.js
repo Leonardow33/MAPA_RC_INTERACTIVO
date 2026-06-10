@@ -16,7 +16,6 @@ L.control.layers({
 }, null, { position: 'bottomright' }).addTo(map);
 
 let allData = [];
-let sabado30 = {};
 let currentFiltered = [];
 let materialPopCodes = new Set();
 let activeCluster = null;
@@ -232,8 +231,6 @@ function repoblarRC(sup) {
     rcSelect.value = [...rcSelect.options].some(o => o.value === prevRC) ? prevRC : "ALL";
 }
 
-fetch((_BASE_DATA + 'sabado30.json?v=') + new Date().getTime())
-    .then(res => res.json()).then(data => { sabado30 = data; }).catch(() => { });
 
 // FETCH
 fetch((_BASE_DATA + 'puntos.json?v=') + new Date().getTime(), { cache: 'no-store' })
@@ -381,13 +378,6 @@ function buildPopupContent(p) {
     const safeId = String(p.ID).replace(/[^a-zA-Z0-9_-]/g, "_");
     const isElot = (p.nombre || "").toUpperCase().includes("OFICINA ELOT");
     const color = isElot ? "#B8860B" : getPinBorder(p.responsable);
-    const visita = sabado30[String(p.ID)];
-    const visitaBanner = visita ? `
-      <div class="popup-visita-sab">
-        <span class="popup-visita-sab-titulo">Visita Sábado 30</span>
-        <span class="popup-visita-sab-rep">${visita.representante}</span>
-        <span class="popup-visita-sab-hora">${visita.horario}</span>
-      </div>` : '';
     const FORM_POP_URL = "https://forms.gle/Vy1pKTFBvSob4rB18";
     const popBanner = MATERIAL_POP_URL ? (materialPopCodes.has(String(p.ID))
         ? `<div style="background:linear-gradient(135deg,#1B5E20,#2E7D32);padding:9px 12px;display:flex;align-items:center;gap:8px;border-radius:4px 4px 0 0">
@@ -416,7 +406,6 @@ function buildPopupContent(p) {
     return `
     <div class="popup-card">
       ${popBanner}
-      ${visitaBanner}
       <div class="popup-header" style="background:${color}">
         <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:6px">
           <div>
