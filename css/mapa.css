@@ -10,8 +10,6 @@ html, body {
     html, body { height: -webkit-fill-available; }
 }
 
-/* Wrappers transparentes en desktop (los hijos participan directamente en #filtro flex) */
-#filtro-selects, #filtro-btns { display: contents; }
 
 #map {
     flex: 1;
@@ -223,57 +221,29 @@ html, body {
 .stop-nav:hover { text-decoration: underline; }
 
 @media (max-width: 600px) {
-    /* Filtro: columna compacta en móvil */
     #filtro {
-        padding: 6px 8px;
-        gap: 4px;
-        flex-direction: column;
-        align-items: stretch;
+        padding: 8px 10px;
+        gap: 5px 6px;
+    }
+    #filtro label { font-size: 10px; }
+    #filtro select {
+        font-size: 12px;
+        padding: 5px 6px;
+        min-width: 0;
+        flex: 1;
+        height: 32px;
+        max-width: none;
     }
     #buscador {
+        font-size: 13px;
+        padding: 6px 10px;
+        min-width: 0;
         width: 100%;
         box-sizing: border-box;
-        font-size: 13px;
         height: 34px;
     }
-
-    /* Strip horizontal scrollable de selects */
-    #filtro-selects {
-        display: flex;
-        flex-wrap: nowrap;
-        overflow-x: auto;
-        -webkit-overflow-scrolling: touch;
-        scrollbar-width: none;
-        gap: 4px;
-        width: 100%;
-        align-items: center;
-    }
-    #filtro-selects::-webkit-scrollbar { display: none; }
-    #filtro-selects label,
-    #filtro-selects .lbl-partner { display: none; }
-    #tipoFilterGroup > label { display: none; }
-    #filtro-selects select {
-        font-size: 12px;
-        height: 30px;
-        flex-shrink: 0;
-        min-width: 80px;
-        max-width: none;
-        padding: 4px 6px;
-    }
-    /* Partner es poco usado en móvil */
-    .lbl-partner, #partnerFilter { display: none; }
-    #tipoFilterGroup { flex-shrink: 0; }
-
-    /* Fila de botones */
-    #filtro-btns {
-        display: flex;
-        align-items: center;
-        gap: 5px;
-        width: 100%;
-    }
-    #btnSinVenta { font-size: 11px; height: 28px; padding: 0 10px; }
-    #btnRuta, #btnLimpiarRuta { font-size: 12px; padding: 5px 8px; }
-
+    #btnSinVenta { font-size: 10px; height: 24px; padding: 0 8px; }
+    #btnRuta, #btnLimpiarRuta { font-size: 13px; padding: 6px 10px; }
     #panelRuta {
         width: 100%;
         height: 50%;
