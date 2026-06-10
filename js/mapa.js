@@ -1149,7 +1149,7 @@ buscador.addEventListener("input", function () {
 
             resultadosDiv.innerHTML = "";
             buscador.value = p.nombre;
-            buscador.blur(); // cerrar teclado en móvil antes de mover el mapa
+            buscador.blur(); // cerrar teclado iOS
 
             markersLayer.clearLayers();
 
@@ -1160,9 +1160,11 @@ buscador.addEventListener("input", function () {
             marker.addTo(markersLayer);
             markersLayer.addLayer(marker);
 
-            // Primero mover el mapa, abrir popup cuando la animación termina
-            map.once('moveend', function () { marker.openPopup(); });
-            map.setView([p.lat, p.lng], 16);
+            // Esperar 350ms a que el teclado iOS termine de cerrarse y el viewport se estabilice
+            setTimeout(function () {
+                map.once('moveend', function () { marker.openPopup(); });
+                map.setView([p.lat, p.lng], 16);
+            }, 350);
         };
 
         resultadosDiv.appendChild(item);
