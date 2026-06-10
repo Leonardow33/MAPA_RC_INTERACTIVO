@@ -41,31 +41,20 @@ let elotLayer = L.layerGroup().addTo(map);
 let elotMarker = null;
 let routeMode = 'driving'; // 'driving' | 'foot'
 
-// Centrar popup: asegurar que el banner superior sea visible sin invadir la pantalla
+// Centrar popup en pantalla sin perder el marcador
 map.on('popupopen', function (e) {
     const marker = e.popup._source;
     if (!marker) return;
     const latlng = marker.getLatLng ? marker.getLatLng() : e.popup.getLatLng();
     if (!latlng) return;
-    // Esperar al render real para leer altura correcta
-    setTimeout(function () {
-        const mapH     = map.getSize().y;
-        const container = e.popup._container;
-        if (!container) return;
-        const popupH   = container.offsetHeight || 300;
-        const markerPx = map.latLngToContainerPoint(latlng);
-        const TOP_SAFE   = 62;  // altura barra de filtros
-        const PIN_ANCHOR = 41;  // popupAnchor del pin
-        const PAD        = 8;
-        // Tope superior actual del popup en pantalla
-        const popupTop = markerPx.y - PIN_ANCHOR - popupH;
-        if (popupTop < TOP_SAFE) {
-            // Popup se sale por arriba — mover marcador hacia abajo
-            const desiredMarkerY = TOP_SAFE + PAD + PIN_ANCHOR + popupH;
-            const offsetY = markerPx.y - desiredMarkerY;
-            map.panBy([0, offsetY], { animate: true, duration: 0.28 });
-        }
-    }, 60);
+    const mapH = map.getSize().y;
+    const popupH = (e.popup._container && e.popup._container.offsetHeight) || 260;
+    const markerPx = map.latLngToContainerPoint(latlng);
+    const targetY = mapH * 0.70;
+    const offsetY = markerPx.y - targetY;
+    if (Math.abs(offsetY) > 20) {
+        map.panBy([0, offsetY], { animate: true, duration: 0.25 });
+    }
 });
 
 function toggleModo() {
