@@ -261,7 +261,7 @@ html, body {
 
 /* === LEAFLET POPUP WRAPPER === */
 .leaflet-popup-content-wrapper { padding: 0 !important; border-radius: 10px !important; box-shadow: 0 4px 22px rgba(0,0,0,0.26) !important; overflow: hidden; }
-.leaflet-popup-content { margin: 0 !important; width: auto !important; line-height: 1 !important; }
+.leaflet-popup-content { margin: 0 !important; }
 .leaflet-popup-close-button { color: rgba(255,255,255,0.92) !important; font-size: 20px !important; font-weight: 700 !important; top: 5px !important; right: 7px !important; z-index: 10; text-shadow: 0 1px 4px rgba(0,0,0,0.5) !important; }
 
 /* === POPUP CARD === */
