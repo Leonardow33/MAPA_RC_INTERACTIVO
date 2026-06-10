@@ -1149,24 +1149,19 @@ buscador.addEventListener("input", function () {
 
             resultadosDiv.innerHTML = "";
             buscador.value = p.nombre;
-
-            // 🔥 filtrar SOLO esa tienda
-            let resultadoUnico = [p];
+            buscador.blur(); // cerrar teclado en móvil antes de mover el mapa
 
             markersLayer.clearLayers();
 
-            resultadoUnico.forEach(p => {
+            let icon = makePinIcon(p.responsable, getEstadoPunto(p.ID), p.dias);
+            let marker = L.marker([p.lat, p.lng], { icon: icon });
+            marker.bindPopup(buildPopupContent(p), { autoPan: false });
+            attachPopupOpen(marker, p);
+            marker.addTo(markersLayer);
+            markersLayer.addLayer(marker);
 
-                let icon = makePinIcon(p.responsable, getEstadoPunto(p.ID), p.dias);
-                let marker = L.marker([p.lat, p.lng], { icon: icon });
-                marker.bindPopup(buildPopupContent(p), { autoPan: false });
-                attachPopupOpen(marker, p);
-                marker.addTo(markersLayer);
-                marker.openPopup();
-
-                markersLayer.addLayer(marker);
-            });
-
+            // Primero mover el mapa, abrir popup cuando la animación termina
+            map.once('moveend', function () { marker.openPopup(); });
             map.setView([p.lat, p.lng], 16);
         };
 
