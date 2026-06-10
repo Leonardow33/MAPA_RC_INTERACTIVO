@@ -871,6 +871,7 @@ function cargarMaterialPop() {
         .catch(() => { });
 }
 cargarMaterialPop();
+setInterval(cargarMaterialPop, 10 * 60 * 1000); // actualiza cada 10 min
 // ─────────────────────────────────────────────────────────────────────────
 // ──────────────────────────────────────────────────────────────────────────
 
