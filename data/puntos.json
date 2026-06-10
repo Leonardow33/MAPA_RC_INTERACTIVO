@@ -14,12 +14,12 @@
         "responsable": "LOTOBOLA",
         "frecuencia": "LUNES-MARTES-MIÉRCOLES-JUEVES-VIERNES-SÁBADO",
         "dias": [
+            "VIERNES",
+            "JUEVES",
+            "LUNES",
             "SÁBADO",
             "MIÉRCOLES",
-            "JUEVES",
-            "VIERNES",
-            "MARTES",
-            "LUNES"
+            "MARTES"
         ],
         "distrito": "SAN ISIDRO",
         "gz": "SIN INFO",
@@ -131,7 +131,7 @@
         "zona": "LIMA ESTE",
         "cluster": "TOP D",
         "ID": "106",
-        "rc": "KARINA SANCHEZ",
+        "rc": "VACANTE_ESTE",
         "username": "TAMBO_106",
         "supervisor": "RODRIGO MARTINEZ",
         "capacitador": "JESUS OLIVEROS",
@@ -251,7 +251,7 @@
         "zona": "LIMA ESTE",
         "cluster": "TOP D",
         "ID": "111",
-        "rc": "KARINA SANCHEZ",
+        "rc": "VACANTE_ESTE",
         "username": "TAMBO_111",
         "supervisor": "RODRIGO MARTINEZ",
         "capacitador": "JESUS OLIVEROS",
@@ -298,7 +298,7 @@
         "zona": "LIMA SUR",
         "cluster": "TOP D",
         "ID": "113",
-        "rc": "GUADALUPE KIMURA",
+        "rc": "PIERINA OSCO",
         "username": "TAMBO_113",
         "supervisor": "RODRIGO MARTINEZ",
         "capacitador": "BEATRIZ HUAMAN",
@@ -418,7 +418,7 @@
         "zona": "LIMA ESTE",
         "cluster": "TOP D",
         "ID": "118",
-        "rc": "KARINA SANCHEZ",
+        "rc": "VACANTE_ESTE",
         "username": "TAMBO_118",
         "supervisor": "RODRIGO MARTINEZ",
         "capacitador": "JESUS OLIVEROS",
@@ -706,7 +706,7 @@
         "zona": "LIMA CENTRO",
         "cluster": "TOP C",
         "ID": "130",
-        "rc": "KARINA SANCHEZ",
+        "rc": "VACANTE_ESTE",
         "username": "TAMBO_130",
         "supervisor": "RODRIGO MARTINEZ",
         "capacitador": "JESUS OLIVEROS",
@@ -850,7 +850,7 @@
         "zona": "LIMA SUR",
         "cluster": "TOP D",
         "ID": "136",
-        "rc": "GUADALUPE KIMURA",
+        "rc": "PIERINA OSCO",
         "username": "TAMBO_136",
         "supervisor": "RODRIGO MARTINEZ",
         "capacitador": "BEATRIZ HUAMAN",
@@ -921,7 +921,7 @@
         "zona": "LIMA ESTE",
         "cluster": "TOP C",
         "ID": "139",
-        "rc": "KARINA SANCHEZ",
+        "rc": "VACANTE_ESTE",
         "username": "TAMBO_139",
         "supervisor": "RODRIGO MARTINEZ",
         "capacitador": "JESUS OLIVEROS",
@@ -1351,7 +1351,7 @@
         "zona": "LIMA ESTE",
         "cluster": "TOP D",
         "ID": "157",
-        "rc": "KARINA SANCHEZ",
+        "rc": "VACANTE_ESTE",
         "username": "TAMBO_157",
         "supervisor": "RODRIGO MARTINEZ",
         "capacitador": "JESUS OLIVEROS",
@@ -1375,7 +1375,7 @@
         "zona": "LIMA CENTRO",
         "cluster": "TOP D",
         "ID": "158",
-        "rc": "KARINA SANCHEZ",
+        "rc": "VACANTE_ESTE",
         "username": "TAMBO_158",
         "supervisor": "RODRIGO MARTINEZ",
         "capacitador": "JESUS OLIVEROS",
@@ -1519,7 +1519,7 @@
         "zona": "LIMA CENTRO",
         "cluster": "TOP D",
         "ID": "164",
-        "rc": "KARINA SANCHEZ",
+        "rc": "VACANTE_ESTE",
         "username": "TAMBO_164",
         "supervisor": "RODRIGO MARTINEZ",
         "capacitador": "JESUS OLIVEROS",
@@ -1783,7 +1783,7 @@
         "zona": "LIMA CENTRO",
         "cluster": "TOP D",
         "ID": "175",
-        "rc": "KARINA SANCHEZ",
+        "rc": "VACANTE_ESTE",
         "username": "TAMBO_175",
         "supervisor": "RODRIGO MARTINEZ",
         "capacitador": "JESUS OLIVEROS",
@@ -3007,7 +3007,7 @@
         "zona": "LIMA SUR",
         "cluster": "TOP D",
         "ID": "226",
-        "rc": "GUADALUPE KIMURA",
+        "rc": "PIERINA OSCO",
         "username": "TAMBO_226",
         "supervisor": "RODRIGO MARTINEZ",
         "capacitador": "BEATRIZ HUAMAN",
@@ -3175,7 +3175,7 @@
         "zona": "LIMA SUR",
         "cluster": "TOP A",
         "ID": "234",
-        "rc": "GUADALUPE KIMURA",
+        "rc": "PIERINA OSCO",
         "username": "TAMBO_234",
         "supervisor": "RODRIGO MARTINEZ",
         "capacitador": "BEATRIZ HUAMAN",
@@ -3365,7 +3365,7 @@
         "zona": "LIMA SUR",
         "cluster": "TOP C",
         "ID": "242",
-        "rc": "GUADALUPE KIMURA",
+        "rc": "PIERINA OSCO",
         "username": "TAMBO_242",
         "supervisor": "RODRIGO MARTINEZ",
         "capacitador": "BEATRIZ HUAMAN",
@@ -3485,7 +3485,7 @@
         "zona": "LIMA ESTE",
         "cluster": "TOP D",
         "ID": "247",
-        "rc": "KARINA SANCHEZ",
+        "rc": "VACANTE_ESTE",
         "username": "TAMBO_247",
         "supervisor": "RODRIGO MARTINEZ",
         "capacitador": "JESUS OLIVEROS",
@@ -4565,7 +4565,7 @@
         "zona": "LIMA CENTRO",
         "cluster": "TOP C",
         "ID": "292",
-        "rc": "KARINA SANCHEZ",
+        "rc": "VACANTE_ESTE",
         "username": "TAMBO_292",
         "supervisor": "RODRIGO MARTINEZ",
         "capacitador": "JESUS OLIVEROS",
@@ -4637,7 +4637,7 @@
         "zona": "LIMA ESTE",
         "cluster": "TOP C",
         "ID": "295",
-        "rc": "KARINA SANCHEZ",
+        "rc": "VACANTE_ESTE",
         "username": "TAMBO_295",
         "supervisor": "RODRIGO MARTINEZ",
         "capacitador": "JESUS OLIVEROS",
@@ -4973,7 +4973,7 @@
         "zona": "LIMA ESTE",
         "cluster": "TOP D",
         "ID": "309",
-        "rc": "KARINA SANCHEZ",
+        "rc": "VACANTE_ESTE",
         "username": "TAMBO_309",
         "supervisor": "RODRIGO MARTINEZ",
         "capacitador": "JESUS OLIVEROS",
@@ -5546,7 +5546,7 @@
         "zona": "LIMA SUR",
         "cluster": "TOP D",
         "ID": "333",
-        "rc": "GUADALUPE KIMURA",
+        "rc": "PIERINA OSCO",
         "username": "TAMBO_333",
         "supervisor": "RODRIGO MARTINEZ",
         "capacitador": "BEATRIZ HUAMAN",
@@ -5689,7 +5689,7 @@
         "zona": "LIMA SUR",
         "cluster": "TOP D",
         "ID": "339",
-        "rc": "GUADALUPE KIMURA",
+        "rc": "PIERINA OSCO",
         "username": "TAMBO_339",
         "supervisor": "RODRIGO MARTINEZ",
         "capacitador": "BEATRIZ HUAMAN",
@@ -5808,7 +5808,7 @@
         "zona": "LIMA ESTE",
         "cluster": "TOP D",
         "ID": "344",
-        "rc": "KARINA SANCHEZ",
+        "rc": "VACANTE_ESTE",
         "username": "TAMBO_344",
         "supervisor": "RODRIGO MARTINEZ",
         "capacitador": "JESUS OLIVEROS",
@@ -6501,7 +6501,7 @@
         "zona": "LIMA ESTE",
         "cluster": "TOP D",
         "ID": "373",
-        "rc": "KARINA SANCHEZ",
+        "rc": "VACANTE_ESTE",
         "username": "TAMBO_373",
         "supervisor": "RODRIGO MARTINEZ",
         "capacitador": "JESUS OLIVEROS",
@@ -6548,7 +6548,7 @@
         "zona": "LIMA ESTE",
         "cluster": "TOP D",
         "ID": "375",
-        "rc": "KARINA SANCHEZ",
+        "rc": "VACANTE_ESTE",
         "username": "TAMBO_375",
         "supervisor": "RODRIGO MARTINEZ",
         "capacitador": "JESUS OLIVEROS",
@@ -6571,7 +6571,7 @@
         "zona": "LIMA ESTE",
         "cluster": "TOP D",
         "ID": "376",
-        "rc": "KARINA SANCHEZ",
+        "rc": "VACANTE_ESTE",
         "username": "TAMBO_376",
         "supervisor": "RODRIGO MARTINEZ",
         "capacitador": "JESUS OLIVEROS",
@@ -6714,7 +6714,7 @@
         "zona": "LIMA ESTE",
         "cluster": "TOP D",
         "ID": "382",
-        "rc": "KARINA SANCHEZ",
+        "rc": "VACANTE_ESTE",
         "username": "TAMBO_382",
         "supervisor": "RODRIGO MARTINEZ",
         "capacitador": "JESUS OLIVEROS",
@@ -6761,7 +6761,7 @@
         "zona": "LIMA SUR",
         "cluster": "TOP D",
         "ID": "384",
-        "rc": "GUADALUPE KIMURA",
+        "rc": "PIERINA OSCO",
         "username": "TAMBO_384",
         "supervisor": "RODRIGO MARTINEZ",
         "capacitador": "BEATRIZ HUAMAN",
@@ -6833,7 +6833,7 @@
         "zona": "LIMA ESTE",
         "cluster": "TOP D",
         "ID": "387",
-        "rc": "KARINA SANCHEZ",
+        "rc": "VACANTE_ESTE",
         "username": "TAMBO_387",
         "supervisor": "RODRIGO MARTINEZ",
         "capacitador": "JESUS OLIVEROS",
@@ -6881,7 +6881,7 @@
         "zona": "LIMA SUR",
         "cluster": "TOP B",
         "ID": "389",
-        "rc": "GUADALUPE KIMURA",
+        "rc": "PIERINA OSCO",
         "username": "TAMBO_389",
         "supervisor": "RODRIGO MARTINEZ",
         "capacitador": "BEATRIZ HUAMAN",
@@ -6952,7 +6952,7 @@
         "zona": "LIMA ESTE",
         "cluster": "TOP D",
         "ID": "393",
-        "rc": "KARINA SANCHEZ",
+        "rc": "VACANTE_ESTE",
         "username": "TAMBO_393",
         "supervisor": "RODRIGO MARTINEZ",
         "capacitador": "JESUS OLIVEROS",
@@ -7023,7 +7023,7 @@
         "zona": "LIMA SUR",
         "cluster": "TOP D",
         "ID": "396",
-        "rc": "GUADALUPE KIMURA",
+        "rc": "PIERINA OSCO",
         "username": "TAMBO_396",
         "supervisor": "RODRIGO MARTINEZ",
         "capacitador": "BEATRIZ HUAMAN",
@@ -7095,7 +7095,7 @@
         "zona": "LIMA SUR",
         "cluster": "TOP D",
         "ID": "399",
-        "rc": "GUADALUPE KIMURA",
+        "rc": "PIERINA OSCO",
         "username": "TAMBO_399",
         "supervisor": "RODRIGO MARTINEZ",
         "capacitador": "BEATRIZ HUAMAN",
@@ -7500,7 +7500,7 @@
         "zona": "LIMA SUR",
         "cluster": "TOP D",
         "ID": "417",
-        "rc": "GUADALUPE KIMURA",
+        "rc": "PIERINA OSCO",
         "username": "TAMBO_417",
         "supervisor": "RODRIGO MARTINEZ",
         "capacitador": "BEATRIZ HUAMAN",
@@ -7548,7 +7548,7 @@
         "zona": "LIMA SUR",
         "cluster": "TOP D",
         "ID": "419",
-        "rc": "GUADALUPE KIMURA",
+        "rc": "PIERINA OSCO",
         "username": "TAMBO_419",
         "supervisor": "RODRIGO MARTINEZ",
         "capacitador": "BEATRIZ HUAMAN",
@@ -7620,7 +7620,7 @@
         "zona": "LIMA CENTRO",
         "cluster": "TOP D",
         "ID": "422",
-        "rc": "KARINA SANCHEZ",
+        "rc": "VACANTE_ESTE",
         "username": "TAMBO_422",
         "supervisor": "RODRIGO MARTINEZ",
         "capacitador": "JESUS OLIVEROS",
@@ -7668,7 +7668,7 @@
         "zona": "LIMA SUR",
         "cluster": "TOP D",
         "ID": "424",
-        "rc": "GUADALUPE KIMURA",
+        "rc": "PIERINA OSCO",
         "username": "TAMBO_424",
         "supervisor": "RODRIGO MARTINEZ",
         "capacitador": "BEATRIZ HUAMAN",
@@ -7977,7 +7977,7 @@
         "zona": "LIMA CENTRO",
         "cluster": "TOP D",
         "ID": "437",
-        "rc": "KARINA SANCHEZ",
+        "rc": "VACANTE_ESTE",
         "username": "TAMBO_437",
         "supervisor": "RODRIGO MARTINEZ",
         "capacitador": "JESUS OLIVEROS",
@@ -8286,7 +8286,7 @@
         "zona": "LIMA ESTE",
         "cluster": "TOP D",
         "ID": "452",
-        "rc": "KARINA SANCHEZ",
+        "rc": "VACANTE_ESTE",
         "username": "TAMBO_452",
         "supervisor": "RODRIGO MARTINEZ",
         "capacitador": "JESUS OLIVEROS",
@@ -8452,7 +8452,7 @@
         "zona": "LIMA SUR",
         "cluster": "TOP D",
         "ID": "459",
-        "rc": "GUADALUPE KIMURA",
+        "rc": "PIERINA OSCO",
         "username": "TAMBO_459",
         "supervisor": "RODRIGO MARTINEZ",
         "capacitador": "BEATRIZ HUAMAN",
@@ -8618,7 +8618,7 @@
         "zona": "LIMA SUR",
         "cluster": "TOP D",
         "ID": "466",
-        "rc": "GUADALUPE KIMURA",
+        "rc": "PIERINA OSCO",
         "username": "TAMBO_466",
         "supervisor": "RODRIGO MARTINEZ",
         "capacitador": "BEATRIZ HUAMAN",
@@ -8720,8 +8720,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-MIÉRCOLES-VIERNES",
         "dias": [
-            "VIERNES",
             "MIÉRCOLES",
+            "VIERNES",
             "LUNES"
         ],
         "distrito": "CHICLAYO",
@@ -9023,7 +9023,7 @@
         "zona": "LIMA SUR",
         "cluster": "TOP D",
         "ID": "484",
-        "rc": "GUADALUPE KIMURA",
+        "rc": "PIERINA OSCO",
         "username": "TAMBO_484",
         "supervisor": "RODRIGO MARTINEZ",
         "capacitador": "BEATRIZ HUAMAN",
@@ -9046,7 +9046,7 @@
         "zona": "LIMA SUR",
         "cluster": "TOP B",
         "ID": "485",
-        "rc": "GUADALUPE KIMURA",
+        "rc": "PIERINA OSCO",
         "username": "TAMBO_485",
         "supervisor": "RODRIGO MARTINEZ",
         "capacitador": "BEATRIZ HUAMAN",
@@ -9213,7 +9213,7 @@
         "zona": "LIMA SUR",
         "cluster": "TOP C",
         "ID": "492",
-        "rc": "GUADALUPE KIMURA",
+        "rc": "PIERINA OSCO",
         "username": "TAMBO_492",
         "supervisor": "RODRIGO MARTINEZ",
         "capacitador": "BEATRIZ HUAMAN",
@@ -9245,8 +9245,8 @@
         "frecuencia": "MARTES-JUEVES-VIERNES",
         "dias": [
             "VIERNES",
-            "MARTES",
-            "JUEVES"
+            "JUEVES",
+            "MARTES"
         ],
         "distrito": "ICA",
         "gz": "Juan",
@@ -9285,7 +9285,7 @@
         "zona": "LIMA ESTE",
         "cluster": "TOP D",
         "ID": "495",
-        "rc": "KARINA SANCHEZ",
+        "rc": "VACANTE_ESTE",
         "username": "TAMBO_495",
         "supervisor": "RODRIGO MARTINEZ",
         "capacitador": "JESUS OLIVEROS",
@@ -9380,7 +9380,7 @@
         "zona": "LIMA SUR",
         "cluster": "TOP D",
         "ID": "499",
-        "rc": "GUADALUPE KIMURA",
+        "rc": "PIERINA OSCO",
         "username": "TAMBO_499",
         "supervisor": "RODRIGO MARTINEZ",
         "capacitador": "BEATRIZ HUAMAN",
@@ -9457,8 +9457,8 @@
         "responsable": "TAMBO",
         "frecuencia": "SÁBADO-MIÉRCOLES",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "CHIMBOTE",
         "gz": "Jesus",
@@ -9552,8 +9552,8 @@
         "frecuencia": "MARTES-JUEVES-SÁBADO",
         "dias": [
             "SÁBADO",
-            "MARTES",
-            "JUEVES"
+            "JUEVES",
+            "MARTES"
         ],
         "distrito": "PIURA",
         "gz": "Jesus",
@@ -9624,8 +9624,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-MIÉRCOLES-VIERNES",
         "dias": [
-            "VIERNES",
             "MIÉRCOLES",
+            "VIERNES",
             "LUNES"
         ],
         "distrito": "PIURA",
@@ -9650,8 +9650,8 @@
         "frecuencia": "MARTES-JUEVES-SÁBADO",
         "dias": [
             "SÁBADO",
-            "MARTES",
-            "JUEVES"
+            "JUEVES",
+            "MARTES"
         ],
         "distrito": "PIURA",
         "gz": "Jesus",
@@ -9715,7 +9715,7 @@
         "zona": "LIMA SUR",
         "cluster": "TOP D",
         "ID": "513",
-        "rc": "GUADALUPE KIMURA",
+        "rc": "PIERINA OSCO",
         "username": "TAMBO_513",
         "supervisor": "RODRIGO MARTINEZ",
         "capacitador": "BEATRIZ HUAMAN",
@@ -9770,8 +9770,8 @@
         "frecuencia": "MARTES-JUEVES-SÁBADO",
         "dias": [
             "SÁBADO",
-            "MARTES",
-            "JUEVES"
+            "JUEVES",
+            "MARTES"
         ],
         "distrito": "CHICLAYO",
         "gz": "Jesus",
@@ -9795,8 +9795,8 @@
         "frecuencia": "MARTES-JUEVES-SÁBADO",
         "dias": [
             "SÁBADO",
-            "MARTES",
-            "JUEVES"
+            "JUEVES",
+            "MARTES"
         ],
         "distrito": "CHICLAYO",
         "gz": "Jesus",
@@ -9914,8 +9914,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-MIÉRCOLES-VIERNES",
         "dias": [
-            "VIERNES",
             "MIÉRCOLES",
+            "VIERNES",
             "LUNES"
         ],
         "distrito": "LAMBAYEQUE",
@@ -9962,8 +9962,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-MIÉRCOLES-VIERNES",
         "dias": [
-            "VIERNES",
             "MIÉRCOLES",
+            "VIERNES",
             "LUNES"
         ],
         "distrito": "LAMBAYEQUE",
@@ -10034,8 +10034,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-MIÉRCOLES-VIERNES",
         "dias": [
-            "VIERNES",
             "MIÉRCOLES",
+            "VIERNES",
             "LUNES"
         ],
         "distrito": "ICA",
@@ -10100,7 +10100,7 @@
         "zona": "LIMA SUR",
         "cluster": "TOP D",
         "ID": "529",
-        "rc": "GUADALUPE KIMURA",
+        "rc": "PIERINA OSCO",
         "username": "TAMBO_529",
         "supervisor": "RODRIGO MARTINEZ",
         "capacitador": "BEATRIZ HUAMAN",
@@ -10131,8 +10131,8 @@
         "frecuencia": "MARTES-JUEVES-SÁBADO",
         "dias": [
             "SÁBADO",
-            "MARTES",
-            "JUEVES"
+            "JUEVES",
+            "MARTES"
         ],
         "distrito": "CHICLAYO",
         "gz": "Jesus",
@@ -10203,8 +10203,8 @@
         "frecuencia": "MARTES-JUEVES-SÁBADO",
         "dias": [
             "SÁBADO",
-            "MARTES",
-            "JUEVES"
+            "JUEVES",
+            "MARTES"
         ],
         "distrito": "PIURA",
         "gz": "Jesus",
@@ -10321,8 +10321,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-MIÉRCOLES-VIERNES",
         "dias": [
-            "VIERNES",
             "MIÉRCOLES",
+            "VIERNES",
             "LUNES"
         ],
         "distrito": "PIURA",
@@ -10362,7 +10362,7 @@
         "zona": "SUR CHICO",
         "cluster": "TOP D",
         "ID": "540",
-        "rc": "GUADALUPE KIMURA",
+        "rc": "PIERINA OSCO",
         "username": "TAMBO_540",
         "supervisor": "RODRIGO MARTINEZ",
         "capacitador": "PENDING",
@@ -10392,8 +10392,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-MIÉRCOLES-VIERNES",
         "dias": [
-            "VIERNES",
             "MIÉRCOLES",
+            "VIERNES",
             "LUNES"
         ],
         "distrito": "CHICLAYO",
@@ -10440,8 +10440,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-MIÉRCOLES-VIERNES",
         "dias": [
-            "VIERNES",
             "MIÉRCOLES",
+            "VIERNES",
             "LUNES"
         ],
         "distrito": "PIURA",
@@ -10466,8 +10466,8 @@
         "frecuencia": "MARTES-JUEVES-SÁBADO",
         "dias": [
             "SÁBADO",
-            "MARTES",
-            "JUEVES"
+            "JUEVES",
+            "MARTES"
         ],
         "distrito": "PIURA",
         "gz": "Jesus",
@@ -10506,7 +10506,7 @@
         "zona": "LIMA ESTE",
         "cluster": "TOP D",
         "ID": "546",
-        "rc": "KARINA SANCHEZ",
+        "rc": "VACANTE_ESTE",
         "username": "TAMBO_546",
         "supervisor": "RODRIGO MARTINEZ",
         "capacitador": "JESUS OLIVEROS",
@@ -10583,8 +10583,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-MIÉRCOLES-VIERNES",
         "dias": [
-            "VIERNES",
             "MIÉRCOLES",
+            "VIERNES",
             "LUNES"
         ],
         "distrito": "PIURA",
@@ -10793,7 +10793,7 @@
         "zona": "LIMA ESTE",
         "cluster": "TOP D",
         "ID": "558",
-        "rc": "KARINA SANCHEZ",
+        "rc": "VACANTE_ESTE",
         "username": "TAMBO_558",
         "supervisor": "RODRIGO MARTINEZ",
         "capacitador": "JESUS OLIVEROS",
@@ -11087,9 +11087,9 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-MARTES-MIÉRCOLES",
         "dias": [
-            "MARTES",
             "MIÉRCOLES",
-            "LUNES"
+            "LUNES",
+            "MARTES"
         ],
         "distrito": "ICA",
         "gz": "Juan",
@@ -11232,8 +11232,8 @@
         "frecuencia": "MARTES-JUEVES-SÁBADO",
         "dias": [
             "SÁBADO",
-            "MARTES",
-            "JUEVES"
+            "JUEVES",
+            "MARTES"
         ],
         "distrito": "CHICLAYO",
         "gz": "Jesus",
@@ -11321,7 +11321,7 @@
         "zona": "LIMA SUR",
         "cluster": "TOP D",
         "ID": "580",
-        "rc": "GUADALUPE KIMURA",
+        "rc": "PIERINA OSCO",
         "username": "TAMBO_580",
         "supervisor": "RODRIGO MARTINEZ",
         "capacitador": "BEATRIZ HUAMAN",
@@ -11353,8 +11353,8 @@
         "frecuencia": "MARTES-JUEVES-VIERNES",
         "dias": [
             "VIERNES",
-            "MARTES",
-            "JUEVES"
+            "JUEVES",
+            "MARTES"
         ],
         "distrito": "ICA",
         "gz": "Juan",
@@ -11417,7 +11417,7 @@
         "zona": "LIMA ESTE",
         "cluster": "TOP D",
         "ID": "584",
-        "rc": "KARINA SANCHEZ",
+        "rc": "VACANTE_ESTE",
         "username": "TAMBO_584",
         "supervisor": "RODRIGO MARTINEZ",
         "capacitador": "JESUS OLIVEROS",
@@ -11608,7 +11608,7 @@
         "zona": "LIMA SUR",
         "cluster": "TOP D",
         "ID": "592",
-        "rc": "GUADALUPE KIMURA",
+        "rc": "PIERINA OSCO",
         "username": "TAMBO_592",
         "supervisor": "RODRIGO MARTINEZ",
         "capacitador": "BEATRIZ HUAMAN",
@@ -11631,7 +11631,7 @@
         "zona": "LIMA CENTRO",
         "cluster": "TOP D",
         "ID": "593",
-        "rc": "KARINA SANCHEZ",
+        "rc": "VACANTE_ESTE",
         "username": "TAMBO_593",
         "supervisor": "RODRIGO MARTINEZ",
         "capacitador": "JESUS OLIVEROS",
@@ -11758,8 +11758,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-MIÉRCOLES-VIERNES",
         "dias": [
-            "VIERNES",
             "MIÉRCOLES",
+            "VIERNES",
             "LUNES"
         ],
         "distrito": "PIURA",
@@ -11783,8 +11783,8 @@
         "responsable": "TAMBO",
         "frecuencia": "SÁBADO-MIÉRCOLES",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "NUEVO CHIMBOTE",
         "gz": "Jesus",
@@ -11848,7 +11848,7 @@
         "zona": "LIMA CENTRO",
         "cluster": "TOP D",
         "ID": "602",
-        "rc": "KARINA SANCHEZ",
+        "rc": "VACANTE_ESTE",
         "username": "TAMBO_602",
         "supervisor": "RODRIGO MARTINEZ",
         "capacitador": "JESUS OLIVEROS",
@@ -11999,8 +11999,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-MIÉRCOLES-VIERNES",
         "dias": [
-            "VIERNES",
             "MIÉRCOLES",
+            "VIERNES",
             "LUNES"
         ],
         "distrito": "CHICLAYO",
@@ -12135,7 +12135,7 @@
         "zona": "LIMA ESTE",
         "cluster": "TOP D",
         "ID": "614",
-        "rc": "KARINA SANCHEZ",
+        "rc": "VACANTE_ESTE",
         "username": "TAMBO_614",
         "supervisor": "RODRIGO MARTINEZ",
         "capacitador": "JESUS OLIVEROS",
@@ -12158,7 +12158,7 @@
         "zona": "SUR CHICO",
         "cluster": "TOP D",
         "ID": "615",
-        "rc": "GUADALUPE KIMURA",
+        "rc": "PIERINA OSCO",
         "username": "TAMBO_615",
         "supervisor": "RODRIGO MARTINEZ",
         "capacitador": "PENDING",
@@ -12450,8 +12450,8 @@
         "frecuencia": "MARTES-JUEVES-SÁBADO",
         "dias": [
             "SÁBADO",
-            "MARTES",
-            "JUEVES"
+            "JUEVES",
+            "MARTES"
         ],
         "distrito": "CHICLAYO",
         "gz": "Jesus",
@@ -12467,7 +12467,7 @@
         "zona": "LIMA ESTE",
         "cluster": "TOP D",
         "ID": "628",
-        "rc": "KARINA SANCHEZ",
+        "rc": "VACANTE_ESTE",
         "username": "TAMBO_628",
         "supervisor": "RODRIGO MARTINEZ",
         "capacitador": "JESUS OLIVEROS",
@@ -12545,8 +12545,8 @@
         "frecuencia": "MARTES-JUEVES-SÁBADO",
         "dias": [
             "SÁBADO",
-            "MARTES",
-            "JUEVES"
+            "JUEVES",
+            "MARTES"
         ],
         "distrito": "CHICLAYO",
         "gz": "Jesus",
@@ -12593,8 +12593,8 @@
         "responsable": "TAMBO",
         "frecuencia": "SÁBADO-MIÉRCOLES",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "CUSCO",
         "gz": "Jesus",
@@ -12830,8 +12830,8 @@
         "responsable": "TAMBO",
         "frecuencia": "SÁBADO-MIÉRCOLES",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "CUSCO",
         "gz": "Jesus",
@@ -13487,7 +13487,7 @@
         "zona": "LIMA ESTE",
         "cluster": "TOP D",
         "ID": "671",
-        "rc": "KARINA SANCHEZ",
+        "rc": "VACANTE_ESTE",
         "username": "TAMBO_671",
         "supervisor": "RODRIGO MARTINEZ",
         "capacitador": "JESUS OLIVEROS",
@@ -13606,7 +13606,7 @@
         "zona": "LIMA SUR",
         "cluster": "TOP D",
         "ID": "676",
-        "rc": "GUADALUPE KIMURA",
+        "rc": "PIERINA OSCO",
         "username": "TAMBO_676",
         "supervisor": "RODRIGO MARTINEZ",
         "capacitador": "BEATRIZ HUAMAN",
@@ -13660,9 +13660,9 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-MARTES-MIÉRCOLES",
         "dias": [
-            "MARTES",
             "MIÉRCOLES",
-            "LUNES"
+            "LUNES",
+            "MARTES"
         ],
         "distrito": "ICA",
         "gz": "Juan",
@@ -13914,7 +13914,7 @@
         "zona": "LIMA ESTE",
         "cluster": "TOP D",
         "ID": "689",
-        "rc": "KARINA SANCHEZ",
+        "rc": "VACANTE_ESTE",
         "username": "TAMBO_689",
         "supervisor": "RODRIGO MARTINEZ",
         "capacitador": "JESUS OLIVEROS",
@@ -13986,7 +13986,7 @@
         "zona": "LIMA ESTE",
         "cluster": "TOP D",
         "ID": "693",
-        "rc": "KARINA SANCHEZ",
+        "rc": "VACANTE_ESTE",
         "username": "TAMBO_693",
         "supervisor": "RODRIGO MARTINEZ",
         "capacitador": "JESUS OLIVEROS",
@@ -14062,8 +14062,8 @@
         "responsable": "TAMBO",
         "frecuencia": "SÁBADO-MIÉRCOLES",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "SAN JERONIMO",
         "gz": "Jesus",
@@ -14103,7 +14103,7 @@
         "zona": "LIMA SUR",
         "cluster": "TOP D",
         "ID": "698",
-        "rc": "GUADALUPE KIMURA",
+        "rc": "PIERINA OSCO",
         "username": "TAMBO_698",
         "supervisor": "RODRIGO MARTINEZ",
         "capacitador": "BEATRIZ HUAMAN",
@@ -14127,7 +14127,7 @@
         "zona": "LIMA SUR",
         "cluster": "TOP D",
         "ID": "699",
-        "rc": "GUADALUPE KIMURA",
+        "rc": "PIERINA OSCO",
         "username": "TAMBO_699",
         "supervisor": "RODRIGO MARTINEZ",
         "capacitador": "BEATRIZ HUAMAN",
@@ -14396,8 +14396,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-MIÉRCOLES-VIERNES",
         "dias": [
-            "VIERNES",
             "MIÉRCOLES",
+            "VIERNES",
             "LUNES"
         ],
         "distrito": "CHICLAYO",
@@ -14588,9 +14588,9 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-MARTES-MIÉRCOLES",
         "dias": [
-            "MARTES",
             "MIÉRCOLES",
-            "LUNES"
+            "LUNES",
+            "MARTES"
         ],
         "distrito": "ICA",
         "gz": "Juan",
@@ -14630,7 +14630,7 @@
         "zona": "LIMA ESTE",
         "cluster": "TOP D",
         "ID": "720",
-        "rc": "KARINA SANCHEZ",
+        "rc": "VACANTE_ESTE",
         "username": "TAMBO_720",
         "supervisor": "RODRIGO MARTINEZ",
         "capacitador": "JESUS OLIVEROS",
@@ -14700,7 +14700,7 @@
         "zona": "LIMA SUR",
         "cluster": "TOP D",
         "ID": "723",
-        "rc": "GUADALUPE KIMURA",
+        "rc": "PIERINA OSCO",
         "username": "TAMBO_723",
         "supervisor": "RODRIGO MARTINEZ",
         "capacitador": "BEATRIZ HUAMAN",
@@ -14961,7 +14961,7 @@
         "zona": "LIMA CENTRO",
         "cluster": "TOP D",
         "ID": "734",
-        "rc": "KARINA SANCHEZ",
+        "rc": "VACANTE_ESTE",
         "username": "TAMBO_734",
         "supervisor": "RODRIGO MARTINEZ",
         "capacitador": "JESUS OLIVEROS",
@@ -15017,8 +15017,8 @@
         "frecuencia": "MARTES-JUEVES-VIERNES",
         "dias": [
             "VIERNES",
-            "MARTES",
-            "JUEVES"
+            "JUEVES",
+            "MARTES"
         ],
         "distrito": "ICA",
         "gz": "Juan",
@@ -15034,7 +15034,7 @@
         "zona": "LIMA SUR",
         "cluster": "TOP D",
         "ID": "737",
-        "rc": "GUADALUPE KIMURA",
+        "rc": "PIERINA OSCO",
         "username": "TAMBO_737",
         "supervisor": "RODRIGO MARTINEZ",
         "capacitador": "BEATRIZ HUAMAN",
@@ -15057,7 +15057,7 @@
         "zona": "SUR CHICO",
         "cluster": "TOP D",
         "ID": "738",
-        "rc": "GUADALUPE KIMURA",
+        "rc": "PIERINA OSCO",
         "username": "TAMBO_738",
         "supervisor": "RODRIGO MARTINEZ",
         "capacitador": "PENDING",
@@ -15152,7 +15152,7 @@
         "zona": "LIMA ESTE",
         "cluster": "TOP D",
         "ID": "743",
-        "rc": "KARINA SANCHEZ",
+        "rc": "VACANTE_ESTE",
         "username": "TAMBO_743",
         "supervisor": "RODRIGO MARTINEZ",
         "capacitador": "JESUS OLIVEROS",
@@ -15175,7 +15175,7 @@
         "zona": "SUR CHICO",
         "cluster": "TOP D",
         "ID": "744",
-        "rc": "GUADALUPE KIMURA",
+        "rc": "PIERINA OSCO",
         "username": "TAMBO_744",
         "supervisor": "RODRIGO MARTINEZ",
         "capacitador": "PENDING",
@@ -15198,7 +15198,7 @@
         "zona": "LIMA SUR",
         "cluster": "TOP C",
         "ID": "745",
-        "rc": "GUADALUPE KIMURA",
+        "rc": "PIERINA OSCO",
         "username": "TAMBO_745",
         "supervisor": "RODRIGO MARTINEZ",
         "capacitador": "BEATRIZ HUAMAN",
@@ -15246,7 +15246,7 @@
         "zona": "LIMA ESTE",
         "cluster": "TOP D",
         "ID": "747",
-        "rc": "KARINA SANCHEZ",
+        "rc": "VACANTE_ESTE",
         "username": "TAMBO_747",
         "supervisor": "RODRIGO MARTINEZ",
         "capacitador": "JESUS OLIVEROS",
@@ -15419,9 +15419,9 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-MARTES-MIÉRCOLES",
         "dias": [
-            "MARTES",
             "MIÉRCOLES",
-            "LUNES"
+            "LUNES",
+            "MARTES"
         ],
         "distrito": "ICA",
         "gz": "Juan",
@@ -15461,7 +15461,7 @@
         "zona": "LIMA SUR",
         "cluster": "TOP D",
         "ID": "756",
-        "rc": "GUADALUPE KIMURA",
+        "rc": "PIERINA OSCO",
         "username": "TAMBO_756",
         "supervisor": "RODRIGO MARTINEZ",
         "capacitador": "BEATRIZ HUAMAN",
@@ -15913,7 +15913,7 @@
         "zona": "LIMA CENTRO",
         "cluster": "SIN CLUSTER",
         "ID": "776",
-        "rc": "KARINA SANCHEZ",
+        "rc": "VACANTE_ESTE",
         "username": "AUREN_776",
         "supervisor": "RODRIGO MARTINEZ",
         "capacitador": "JESUS OLIVEROS",
@@ -16009,7 +16009,7 @@
         "zona": "LIMA ESTE",
         "cluster": "SIN CLUSTER",
         "ID": "794",
-        "rc": "KARINA SANCHEZ",
+        "rc": "VACANTE_ESTE",
         "username": "AUREN_794",
         "supervisor": "RODRIGO MARTINEZ",
         "capacitador": "JESUS OLIVEROS",
@@ -16248,7 +16248,7 @@
         "zona": "LIMA SUR",
         "cluster": "SIN CLUSTER",
         "ID": "822",
-        "rc": "GUADALUPE KIMURA",
+        "rc": "PIERINA OSCO",
         "username": "AUREN_822",
         "supervisor": "RODRIGO MARTINEZ",
         "capacitador": "BEATRIZ HUAMAN",
@@ -16438,7 +16438,7 @@
         "zona": "LIMA SUR",
         "cluster": "SIN CLUSTER",
         "ID": "853",
-        "rc": "KARINA SANCHEZ",
+        "rc": "VACANTE_ESTE",
         "username": "AUREN_853",
         "supervisor": "RODRIGO MARTINEZ",
         "capacitador": "JESUS OLIVEROS",
@@ -16484,7 +16484,7 @@
         "zona": "LIMA CENTRO",
         "cluster": "SIN CLUSTER",
         "ID": "858",
-        "rc": "KARINA SANCHEZ",
+        "rc": "VACANTE_ESTE",
         "username": "AUREN_858",
         "supervisor": "RODRIGO MARTINEZ",
         "capacitador": "RODRIGO BRAVO",
@@ -17346,10 +17346,10 @@
         "supervisor": "IVAN SALCEDO",
         "capacitador": "RODRIGO BRAVO",
         "responsable": "AUR BODEGA",
-        "frecuencia": "LUNES-JUEVES",
+        "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "SÁBADO",
+            "MIÉRCOLES"
         ],
         "distrito": "SAN JUAN DE LURIGANCHO",
         "gz": "SIN INFO",
@@ -17459,7 +17459,7 @@
         "zona": "LIMA ESTE",
         "cluster": "SIN CLUSTER",
         "ID": "1074",
-        "rc": "KARINA SANCHEZ",
+        "rc": "VACANTE_ESTE",
         "username": "AUREN_1074",
         "supervisor": "RODRIGO MARTINEZ",
         "capacitador": "JESUS OLIVEROS",
@@ -17511,10 +17511,10 @@
         "supervisor": "IVAN SALCEDO",
         "capacitador": "RODRIGO BRAVO",
         "responsable": "AUR BODEGA",
-        "frecuencia": "LUNES-JUEVES",
+        "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "SÁBADO",
+            "MIÉRCOLES"
         ],
         "distrito": "SAN JUAN DE LURIGANCHO",
         "gz": "SIN INFO",
@@ -17578,7 +17578,7 @@
         "zona": "LIMA CENTRO",
         "cluster": "SIN CLUSTER",
         "ID": "1107",
-        "rc": "KARINA SANCHEZ",
+        "rc": "VACANTE_ESTE",
         "username": "AUREN_1107",
         "supervisor": "RODRIGO MARTINEZ",
         "capacitador": "JESUS OLIVEROS",
@@ -17937,7 +17937,7 @@
         "zona": "LIMA CENTRO",
         "cluster": "SIN CLUSTER",
         "ID": "1177",
-        "rc": "KARINA SANCHEZ",
+        "rc": "VACANTE_ESTE",
         "username": "AUREN_1177",
         "supervisor": "RODRIGO MARTINEZ",
         "capacitador": "RODRIGO BRAVO",
@@ -18740,7 +18740,7 @@
         "zona": "LIMA ESTE",
         "cluster": "SIN CLUSTER",
         "ID": "1368",
-        "rc": "KARINA SANCHEZ",
+        "rc": "VACANTE_ESTE",
         "username": "AUREN_1368",
         "supervisor": "RODRIGO MARTINEZ",
         "capacitador": "JESUS OLIVEROS",
@@ -18910,8 +18910,8 @@
         "responsable": "MCG BODEGA",
         "frecuencia": "LUNES-MIÉRCOLES-VIERNES",
         "dias": [
-            "VIERNES",
             "MIÉRCOLES",
+            "VIERNES",
             "LUNES"
         ],
         "distrito": "JAEN",
@@ -19372,12 +19372,12 @@
         "responsable": "JS BODEGA",
         "frecuencia": "LUNES-MARTES-MIÉRCOLES-JUEVES-VIERNES-SÁBADO",
         "dias": [
+            "VIERNES",
+            "JUEVES",
+            "LUNES",
             "SÁBADO",
             "MIÉRCOLES",
-            "JUEVES",
-            "VIERNES",
-            "MARTES",
-            "LUNES"
+            "MARTES"
         ],
         "distrito": "EL TAMBO",
         "gz": "SIN INFO",
@@ -19400,12 +19400,12 @@
         "responsable": "JS BODEGA",
         "frecuencia": "LUNES-MARTES-MIÉRCOLES-JUEVES-VIERNES-SÁBADO",
         "dias": [
+            "VIERNES",
+            "JUEVES",
+            "LUNES",
             "SÁBADO",
             "MIÉRCOLES",
-            "JUEVES",
-            "VIERNES",
-            "MARTES",
-            "LUNES"
+            "MARTES"
         ],
         "distrito": "HUANCAYO",
         "gz": "SIN INFO",
@@ -19684,8 +19684,8 @@
         "responsable": "JS BODEGA",
         "frecuencia": "LUNES-MARTES",
         "dias": [
-            "MARTES",
-            "LUNES"
+            "LUNES",
+            "MARTES"
         ],
         "distrito": "ICA",
         "gz": "SIN INFO",
@@ -19733,8 +19733,8 @@
         "frecuencia": "MARTES-JUEVES-VIERNES",
         "dias": [
             "VIERNES",
-            "MARTES",
-            "JUEVES"
+            "JUEVES",
+            "MARTES"
         ],
         "distrito": "ICA",
         "gz": "Juan",
@@ -19798,7 +19798,7 @@
         "zona": "LIMA SUR",
         "cluster": "TOP D",
         "ID": "2739",
-        "rc": "GUADALUPE KIMURA",
+        "rc": "PIERINA OSCO",
         "username": "TAMBO_2739",
         "supervisor": "RODRIGO MARTINEZ",
         "capacitador": "BEATRIZ HUAMAN",
@@ -19900,9 +19900,9 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-MARTES-MIÉRCOLES",
         "dias": [
-            "MARTES",
             "MIÉRCOLES",
-            "LUNES"
+            "LUNES",
+            "MARTES"
         ],
         "distrito": "ICA",
         "gz": "Juan",
@@ -20177,7 +20177,7 @@
         "zona": "LIMA SUR",
         "cluster": "TOP D",
         "ID": "2756",
-        "rc": "GUADALUPE KIMURA",
+        "rc": "PIERINA OSCO",
         "username": "TAMBO_2756",
         "supervisor": "RODRIGO MARTINEZ",
         "capacitador": "BEATRIZ HUAMAN",
@@ -20208,8 +20208,8 @@
         "responsable": "TAMBO",
         "frecuencia": "SÁBADO-MIÉRCOLES",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "CHIMBOTE",
         "gz": "Jesus",
@@ -20723,7 +20723,7 @@
         "zona": "LIMA SUR",
         "cluster": "TOP D",
         "ID": "2826",
-        "rc": "GUADALUPE KIMURA",
+        "rc": "PIERINA OSCO",
         "username": "TAMBO_2826",
         "supervisor": "RODRIGO MARTINEZ",
         "capacitador": "BEATRIZ HUAMAN",
@@ -20841,7 +20841,7 @@
         "zona": "LIMA ESTE",
         "cluster": "TOP D",
         "ID": "2831",
-        "rc": "KARINA SANCHEZ",
+        "rc": "VACANTE_ESTE",
         "username": "TAMBO_2831",
         "supervisor": "RODRIGO MARTINEZ",
         "capacitador": "JESUS OLIVEROS",
@@ -20894,8 +20894,8 @@
         "responsable": "TAMBO",
         "frecuencia": "SÁBADO-MIÉRCOLES",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "WANCHAQ",
         "gz": "Jesus",
@@ -20989,8 +20989,8 @@
         "responsable": "TAMBO",
         "frecuencia": "SÁBADO-MIÉRCOLES",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "WANCHAQ",
         "gz": "Jesus",
@@ -21265,7 +21265,7 @@
         "zona": "LIMA SUR",
         "cluster": "SIN CLUSTER",
         "ID": "2939",
-        "rc": "JOSELYN CALDERON",
+        "rc": "KARINA SANCHEZ",
         "username": "TINBET_2939",
         "supervisor": "IVAN SALCEDO",
         "capacitador": "BEATRIZ HUAMAN",
@@ -21288,7 +21288,7 @@
         "zona": "LIMA CENTRO",
         "cluster": "SIN CLUSTER",
         "ID": "2940",
-        "rc": "JOSELYN CALDERON",
+        "rc": "KARINA SANCHEZ",
         "username": "TINBET_2940",
         "supervisor": "IVAN SALCEDO",
         "capacitador": "RODRIGO BRAVO",
@@ -21574,7 +21574,7 @@
         "zona": "LIMA CENTRO",
         "cluster": "SIN CLUSTER",
         "ID": "2953",
-        "rc": "JOSELYN CALDERON",
+        "rc": "KARINA SANCHEZ",
         "username": "TINBET_2953",
         "supervisor": "IVAN SALCEDO",
         "capacitador": "RODRIGO BRAVO",
@@ -21771,8 +21771,8 @@
         "responsable": "TINBET",
         "frecuencia": "SÁBADO-MIÉRCOLES",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "HUARAZ",
         "gz": "Andrea Ramirez",
@@ -21795,8 +21795,8 @@
         "responsable": "TINBET",
         "frecuencia": "SÁBADO-MIÉRCOLES",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "HUARAZ",
         "gz": "Andrea Ramirez",
@@ -21891,8 +21891,8 @@
         "responsable": "TINBET",
         "frecuencia": "LUNES-MIÉRCOLES-VIERNES",
         "dias": [
-            "VIERNES",
             "MIÉRCOLES",
+            "VIERNES",
             "LUNES"
         ],
         "distrito": "CHICLAYO",
@@ -21916,8 +21916,8 @@
         "responsable": "TINBET",
         "frecuencia": "LUNES-MIÉRCOLES-VIERNES",
         "dias": [
-            "VIERNES",
             "MIÉRCOLES",
+            "VIERNES",
             "LUNES"
         ],
         "distrito": "JOSE LEONARDO ORTIZ",
@@ -21964,8 +21964,8 @@
         "responsable": "TINBET",
         "frecuencia": "SÁBADO-MIÉRCOLES",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "CASMA",
         "gz": "Andrea Ramirez",
@@ -22029,7 +22029,7 @@
         "zona": "LIMA SUR",
         "cluster": "SIN CLUSTER",
         "ID": "2973",
-        "rc": "JOSELYN CALDERON",
+        "rc": "KARINA SANCHEZ",
         "username": "TINBET_2973",
         "supervisor": "IVAN SALCEDO",
         "capacitador": "BEATRIZ HUAMAN",
@@ -22059,8 +22059,8 @@
         "responsable": "TINBET",
         "frecuencia": "SÁBADO-MIÉRCOLES",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "AGUAS VERDES",
         "gz": "FERNANDO ORBEGOZO",
@@ -22130,8 +22130,8 @@
         "responsable": "TINBET",
         "frecuencia": "SÁBADO-MIÉRCOLES",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "TUMBES",
         "gz": "FERNANDO ORBEGOZO",
@@ -22154,8 +22154,8 @@
         "responsable": "TINBET",
         "frecuencia": "SÁBADO-MIÉRCOLES",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "ZARUMILLA",
         "gz": "FERNANDO ORBEGOZO",
@@ -22178,8 +22178,8 @@
         "responsable": "TINBET",
         "frecuencia": "SÁBADO-MIÉRCOLES",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "ZORRITOS",
         "gz": "FERNANDO ORBEGOZO",
@@ -22272,8 +22272,8 @@
         "responsable": "TINBET",
         "frecuencia": "LUNES-MIÉRCOLES-VIERNES",
         "dias": [
-            "VIERNES",
             "MIÉRCOLES",
+            "VIERNES",
             "LUNES"
         ],
         "distrito": "PIURA",
@@ -22369,8 +22369,8 @@
         "frecuencia": "MARTES-JUEVES-SÁBADO",
         "dias": [
             "SÁBADO",
-            "MARTES",
-            "JUEVES"
+            "JUEVES",
+            "MARTES"
         ],
         "distrito": "PIURA",
         "gz": "FERNANDO ORBEGOZO",
@@ -22393,8 +22393,8 @@
         "responsable": "TINBET",
         "frecuencia": "LUNES-MIÉRCOLES-VIERNES",
         "dias": [
-            "VIERNES",
             "MIÉRCOLES",
+            "VIERNES",
             "LUNES"
         ],
         "distrito": "CASTILLA",
@@ -22419,8 +22419,8 @@
         "frecuencia": "MARTES-JUEVES-SÁBADO",
         "dias": [
             "SÁBADO",
-            "MARTES",
-            "JUEVES"
+            "JUEVES",
+            "MARTES"
         ],
         "distrito": "VEINTISEIS DE OCTUBRE",
         "gz": "FERNANDO ORBEGOZO",
@@ -22468,8 +22468,8 @@
         "frecuencia": "MARTES-JUEVES-SÁBADO",
         "dias": [
             "SÁBADO",
-            "MARTES",
-            "JUEVES"
+            "JUEVES",
+            "MARTES"
         ],
         "distrito": "JOSE LEONARDO ORTIZ",
         "gz": "INDEPENDIENTES",
@@ -22492,8 +22492,8 @@
         "responsable": "TINBET",
         "frecuencia": "SÁBADO-MIÉRCOLES",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "MORO",
         "gz": "INDEPENDIENTES",
@@ -22516,8 +22516,8 @@
         "responsable": "TINBET",
         "frecuencia": "SÁBADO-MIÉRCOLES",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "YURIMAGUAS",
         "gz": "RICARDO MARREROS",
@@ -22564,8 +22564,8 @@
         "responsable": "TINBET",
         "frecuencia": "SÁBADO-MIÉRCOLES",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "YURIMAGUAS",
         "gz": "RICARDO MARREROS",
@@ -22588,8 +22588,8 @@
         "responsable": "TINBET",
         "frecuencia": "SÁBADO-MIÉRCOLES",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "YURIMAGUAS",
         "gz": "RICARDO MARREROS",
@@ -22636,8 +22636,8 @@
         "responsable": "TINBET",
         "frecuencia": "SÁBADO-MIÉRCOLES",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "YURIMAGUAS",
         "gz": "RICARDO MARREROS",
@@ -22683,8 +22683,8 @@
         "responsable": "TINBET",
         "frecuencia": "SÁBADO-MIÉRCOLES",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "YURIMAGUAS",
         "gz": "RICARDO MARREROS",
@@ -22730,8 +22730,8 @@
         "responsable": "TINBET",
         "frecuencia": "SÁBADO-MIÉRCOLES",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "YURIMAGUAS",
         "gz": "RICARDO MARREROS",
@@ -22754,8 +22754,8 @@
         "responsable": "TINBET",
         "frecuencia": "SÁBADO-MIÉRCOLES",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "YURIMAGUAS",
         "gz": "RICARDO MARREROS",
@@ -22849,11 +22849,11 @@
         "responsable": "TINBET",
         "frecuencia": "LUNES-JUEVES-MIÉRCOLES-JUEVES-VIERNES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES",
-            "JUEVES",
             "VIERNES",
-            "LUNES"
+            "SÁBADO",
+            "JUEVES",
+            "LUNES",
+            "MIÉRCOLES"
         ],
         "distrito": "EL TAMBO",
         "gz": "INDEPENDIENTES",
@@ -22876,11 +22876,11 @@
         "responsable": "TINBET",
         "frecuencia": "LUNES-JUEVES-MIÉRCOLES-JUEVES-VIERNES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES",
-            "JUEVES",
             "VIERNES",
-            "LUNES"
+            "SÁBADO",
+            "JUEVES",
+            "LUNES",
+            "MIÉRCOLES"
         ],
         "distrito": "EL TAMBO",
         "gz": "INDEPENDIENTES",
@@ -22903,11 +22903,11 @@
         "responsable": "TINBET",
         "frecuencia": "LUNES-JUEVES-MIÉRCOLES-JUEVES-VIERNES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES",
-            "JUEVES",
             "VIERNES",
-            "LUNES"
+            "SÁBADO",
+            "JUEVES",
+            "LUNES",
+            "MIÉRCOLES"
         ],
         "distrito": "EL TAMBO",
         "gz": "INDEPENDIENTES",
@@ -22931,8 +22931,8 @@
         "frecuencia": "MARTES-JUEVES-SÁBADO",
         "dias": [
             "SÁBADO",
-            "MARTES",
-            "JUEVES"
+            "JUEVES",
+            "MARTES"
         ],
         "distrito": "CHICLAYO",
         "gz": "INDEPENDIENTES",
@@ -22977,10 +22977,10 @@
         "supervisor": "IVAN SALCEDO",
         "capacitador": "RODRIGO BRAVO",
         "responsable": "TINBET",
-        "frecuencia": "MIÉRCOLES-SÁBADO",
+        "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "JUEVES",
+            "LUNES"
         ],
         "distrito": "SAN JUAN DE LURIGANCHO",
         "gz": "LENIN MORALES",
@@ -23457,8 +23457,8 @@
         "responsable": "TAMBO",
         "frecuencia": "SÁBADO-MIÉRCOLES",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "NUEVO CHIMBOTE",
         "gz": "Jesus",
@@ -23544,7 +23544,7 @@
         "zona": "LIMA ESTE",
         "cluster": "TOP D",
         "ID": "3053",
-        "rc": "KARINA SANCHEZ",
+        "rc": "VACANTE_ESTE",
         "username": "TAMBO_3053",
         "supervisor": "RODRIGO MARTINEZ",
         "capacitador": "JESUS OLIVEROS",
@@ -23692,9 +23692,9 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-MARTES-MIÉRCOLES",
         "dias": [
-            "MARTES",
             "MIÉRCOLES",
-            "LUNES"
+            "LUNES",
+            "MARTES"
         ],
         "distrito": "ICA",
         "gz": "Juan",
@@ -23740,8 +23740,8 @@
         "responsable": "TAMBO",
         "frecuencia": "SÁBADO-MIÉRCOLES",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "distrito": "NUEVO CHIMBOTE",
         "gz": "Jesus",
@@ -23852,7 +23852,7 @@
         "zona": "LIMA SUR",
         "cluster": "TOP D",
         "ID": "3068",
-        "rc": "GUADALUPE KIMURA",
+        "rc": "PIERINA OSCO",
         "username": "TAMBO_3068",
         "supervisor": "RODRIGO MARTINEZ",
         "capacitador": "BEATRIZ HUAMAN",
@@ -24084,7 +24084,7 @@
         "zona": "LIMA ESTE",
         "cluster": "TOP D",
         "ID": "3078",
-        "rc": "KARINA SANCHEZ",
+        "rc": "VACANTE_ESTE",
         "username": "TAMBO_3078",
         "supervisor": "RODRIGO MARTINEZ",
         "capacitador": "JESUS OLIVEROS",
@@ -24162,8 +24162,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-MIÉRCOLES-VIERNES",
         "dias": [
-            "VIERNES",
             "MIÉRCOLES",
+            "VIERNES",
             "LUNES"
         ],
         "distrito": "ICA",
@@ -24228,7 +24228,7 @@
         "zona": "LIMA SUR",
         "cluster": "TOP D",
         "ID": "3084",
-        "rc": "GUADALUPE KIMURA",
+        "rc": "PIERINA OSCO",
         "username": "TAMBO_3084",
         "supervisor": "RODRIGO MARTINEZ",
         "capacitador": "BEATRIZ HUAMAN",
@@ -24276,7 +24276,7 @@
         "zona": "LIMA SUR",
         "cluster": "TOP D",
         "ID": "3086",
-        "rc": "GUADALUPE KIMURA",
+        "rc": "PIERINA OSCO",
         "username": "TAMBO_3086",
         "supervisor": "RODRIGO MARTINEZ",
         "capacitador": "BEATRIZ HUAMAN",
@@ -24419,7 +24419,7 @@
         "zona": "LIMA SUR",
         "cluster": "TOP D",
         "ID": "3092",
-        "rc": "GUADALUPE KIMURA",
+        "rc": "PIERINA OSCO",
         "username": "TAMBO_3092",
         "supervisor": "RODRIGO MARTINEZ",
         "capacitador": "BEATRIZ HUAMAN",
@@ -24758,8 +24758,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-MIÉRCOLES-VIERNES",
         "dias": [
-            "VIERNES",
             "MIÉRCOLES",
+            "VIERNES",
             "LUNES"
         ],
         "distrito": "CERRO COLORADO",
@@ -24783,8 +24783,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-MIÉRCOLES-VIERNES",
         "dias": [
-            "VIERNES",
             "MIÉRCOLES",
+            "VIERNES",
             "LUNES"
         ],
         "distrito": "AREQUIPA",
@@ -24918,7 +24918,7 @@
         "zona": "LIMA ESTE",
         "cluster": "TOP D",
         "ID": "3113",
-        "rc": "KARINA SANCHEZ",
+        "rc": "VACANTE_ESTE",
         "username": "TAMBO_3113",
         "supervisor": "RODRIGO MARTINEZ",
         "capacitador": "JESUS OLIVEROS",
@@ -25394,8 +25394,8 @@
         "responsable": "APUESTA TOTAL",
         "frecuencia": "LUNES-MIÉRCOLES-VIERNES",
         "dias": [
-            "VIERNES",
             "MIÉRCOLES",
+            "VIERNES",
             "LUNES"
         ],
         "distrito": "CHICLAYO",
@@ -25420,8 +25420,8 @@
         "frecuencia": "MARTES-JUEVES-SÁBADO",
         "dias": [
             "SÁBADO",
-            "MARTES",
-            "JUEVES"
+            "JUEVES",
+            "MARTES"
         ],
         "distrito": "CHICLAYO",
         "gz": "Kely Correa",
@@ -25484,7 +25484,7 @@
         "zona": "LIMA CENTRO",
         "cluster": "BRONCE",
         "ID": "3141",
-        "rc": "JOSELYN CALDERON",
+        "rc": "KARINA SANCHEZ",
         "username": "APUESTATOTAL_3141",
         "supervisor": "IVAN SALCEDO",
         "capacitador": "RODRIGO BRAVO",
@@ -25585,9 +25585,9 @@
         "supervisor": "IVAN SALCEDO",
         "capacitador": "JESUS OLIVEROS",
         "responsable": "APUESTA TOTAL",
-        "frecuencia": "MIÉRCOLES",
+        "frecuencia": "LUNES",
         "dias": [
-            "MIÉRCOLES"
+            "LUNES"
         ],
         "distrito": "SAN BORJA",
         "gz": "Jannete Reyes",
@@ -25603,7 +25603,7 @@
         "zona": "LIMA CENTRO",
         "cluster": "BRONCE",
         "ID": "3146",
-        "rc": "JOSELYN CALDERON",
+        "rc": "KARINA SANCHEZ",
         "username": "APUESTATOTAL_3146",
         "supervisor": "IVAN SALCEDO",
         "capacitador": "RODRIGO BRAVO",
@@ -25627,7 +25627,7 @@
         "zona": "LIMA CENTRO",
         "cluster": "BRONCE",
         "ID": "3147",
-        "rc": "JOSELYN CALDERON",
+        "rc": "KARINA SANCHEZ",
         "username": "APUESTATOTAL_3147",
         "supervisor": "IVAN SALCEDO",
         "capacitador": "JESUS OLIVEROS",
@@ -25650,7 +25650,7 @@
         "zona": "LIMA CENTRO",
         "cluster": "BRONCE",
         "ID": "3148",
-        "rc": "JOSELYN CALDERON",
+        "rc": "KARINA SANCHEZ",
         "username": "APUESTATOTAL_3148",
         "supervisor": "IVAN SALCEDO",
         "capacitador": "RODRIGO BRAVO",
@@ -25698,7 +25698,7 @@
         "zona": "LIMA CENTRO",
         "cluster": "BRONCE",
         "ID": "3150",
-        "rc": "JOSELYN CALDERON",
+        "rc": "KARINA SANCHEZ",
         "username": "APUESTATOTAL_3150",
         "supervisor": "IVAN SALCEDO",
         "capacitador": "RODRIGO BRAVO",
@@ -25722,7 +25722,7 @@
         "zona": "LIMA CENTRO",
         "cluster": "BRONCE",
         "ID": "3151",
-        "rc": "JOSELYN CALDERON",
+        "rc": "KARINA SANCHEZ",
         "username": "APUESTATOTAL_3151",
         "supervisor": "IVAN SALCEDO",
         "capacitador": "RODRIGO BRAVO",
@@ -25746,7 +25746,7 @@
         "zona": "LIMA CENTRO",
         "cluster": "BRONCE",
         "ID": "3152",
-        "rc": "JOSELYN CALDERON",
+        "rc": "KARINA SANCHEZ",
         "username": "APUESTATOTAL_3152",
         "supervisor": "IVAN SALCEDO",
         "capacitador": "JESUS OLIVEROS",
@@ -25844,10 +25844,10 @@
         "supervisor": "IVAN SALCEDO",
         "capacitador": "PENDING",
         "responsable": "APUESTA TOTAL",
-        "frecuencia": "MIÉRCOLES-SÁBADO",
+        "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "JUEVES",
+            "LUNES"
         ],
         "distrito": "SAN JUAN DE LURIGANCHO",
         "gz": "Andrea Rafael",
@@ -25887,7 +25887,7 @@
         "zona": "LIMA SUR",
         "cluster": "SIN CLUSTER",
         "ID": "3158",
-        "rc": "JOSELYN CALDERON",
+        "rc": "KARINA SANCHEZ",
         "username": "LIVESPORT_3158",
         "supervisor": "IVAN SALCEDO",
         "capacitador": "BEATRIZ HUAMAN",
@@ -25910,7 +25910,7 @@
         "zona": "LIMA SUR",
         "cluster": "SIN CLUSTER",
         "ID": "3159",
-        "rc": "JOSELYN CALDERON",
+        "rc": "KARINA SANCHEZ",
         "username": "LIVESPORT_3159",
         "supervisor": "IVAN SALCEDO",
         "capacitador": "BEATRIZ HUAMAN",
@@ -25941,8 +25941,8 @@
         "frecuencia": "MARTES-JUEVES-SÁBADO",
         "dias": [
             "SÁBADO",
-            "MARTES",
-            "JUEVES"
+            "JUEVES",
+            "MARTES"
         ],
         "distrito": "CHICLAYO",
         "gz": "GIULIANNA LAZARO",
@@ -25987,10 +25987,10 @@
         "supervisor": "IVAN SALCEDO",
         "capacitador": "RODRIGO BRAVO",
         "responsable": "LIVESPORT",
-        "frecuencia": "LUNES-JUEVES",
+        "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "SÁBADO",
+            "MIÉRCOLES"
         ],
         "distrito": "SAN JUAN DE LURIGANCHO",
         "gz": "LILIANA LOPEZ",
@@ -26035,10 +26035,10 @@
         "supervisor": "IVAN SALCEDO",
         "capacitador": "RODRIGO BRAVO",
         "responsable": "LIVESPORT",
-        "frecuencia": "MIÉRCOLES-SÁBADO",
+        "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "JUEVES",
+            "LUNES"
         ],
         "distrito": "SAN JUAN DE LURIGANCHO",
         "gz": "LILIANA LOPEZ",
@@ -26182,8 +26182,8 @@
         "frecuencia": "MARTES-JUEVES-VIERNES",
         "dias": [
             "VIERNES",
-            "MARTES",
-            "JUEVES"
+            "JUEVES",
+            "MARTES"
         ],
         "distrito": "ICA",
         "gz": "ANDRÉS PINTO",
@@ -26293,7 +26293,7 @@
         "zona": "LIMA SUR",
         "cluster": "SIN CLUSTER",
         "ID": "3176",
-        "rc": "JOSELYN CALDERON",
+        "rc": "KARINA SANCHEZ",
         "username": "LIVESPORT_3176",
         "supervisor": "IVAN SALCEDO",
         "capacitador": "BEATRIZ HUAMAN",
@@ -26364,7 +26364,7 @@
         "zona": "LIMA CENTRO",
         "cluster": "SIN CLUSTER",
         "ID": "3179",
-        "rc": "JOSELYN CALDERON",
+        "rc": "KARINA SANCHEZ",
         "username": "LIVESPORT_3179",
         "supervisor": "IVAN SALCEDO",
         "capacitador": "JESUS OLIVEROS",
@@ -26417,10 +26417,10 @@
         "supervisor": "IVAN SALCEDO",
         "capacitador": "RODRIGO BRAVO",
         "responsable": "LIVESPORT",
-        "frecuencia": "LUNES-JUEVES",
+        "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "SÁBADO",
+            "MIÉRCOLES"
         ],
         "distrito": "EL AGUSTINO",
         "gz": "LILIANNA LOPEZ",
@@ -26465,10 +26465,10 @@
         "supervisor": "IVAN SALCEDO",
         "capacitador": "RODRIGO BRAVO",
         "responsable": "LIVESPORT",
-        "frecuencia": "LUNES-JUEVES",
+        "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "SÁBADO",
+            "MIÉRCOLES"
         ],
         "distrito": "EL AGUSTINO",
         "gz": "LILIANNA LOPEZ",
@@ -26537,10 +26537,10 @@
         "supervisor": "IVAN SALCEDO",
         "capacitador": "RODRIGO BRAVO",
         "responsable": "LIVESPORT",
-        "frecuencia": "MIÉRCOLES-SÁBADO",
+        "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "JUEVES",
+            "LUNES"
         ],
         "distrito": "SAN JUAN DE LURIGANCHO",
         "gz": "LILIANNA LOPEZ",
@@ -26705,10 +26705,10 @@
         "supervisor": "IVAN SALCEDO",
         "capacitador": "RODRIGO BRAVO",
         "responsable": "LIVESPORT",
-        "frecuencia": "LUNES-JUEVES",
+        "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "SÁBADO",
+            "MIÉRCOLES"
         ],
         "distrito": "SAN JUAN DE LURIGANCHO",
         "gz": "LILIANA LOPEZ",
@@ -26724,7 +26724,7 @@
         "zona": "LIMA CENTRO",
         "cluster": "SIN CLUSTER",
         "ID": "3194",
-        "rc": "JOSELYN CALDERON",
+        "rc": "KARINA SANCHEZ",
         "username": "LIVESPORT_3194",
         "supervisor": "IVAN SALCEDO",
         "capacitador": "JESUS OLIVEROS",
@@ -26919,11 +26919,11 @@
         "responsable": "TINBET",
         "frecuencia": "LUNES-JUEVES-MIÉRCOLES-JUEVES-VIERNES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES",
-            "JUEVES",
             "VIERNES",
-            "LUNES"
+            "SÁBADO",
+            "JUEVES",
+            "LUNES",
+            "MIÉRCOLES"
         ],
         "distrito": "JUNÍN",
         "gz": "GIAN MIRANDA",
@@ -27591,9 +27591,9 @@
         "zona": "NORTE",
         "cluster": "SIN CLUSTER",
         "ID": "3231",
-        "rc": "IRIS CAMPOS",
+        "rc": "SIN RC",
         "username": "TINBET_3231",
-        "supervisor": "JENY LAZO",
+        "supervisor": "SIN SUPERVISOR",
         "capacitador": "PENDING",
         "responsable": "TINBET",
         "frecuencia": "LUNES-LUNES",
@@ -28446,7 +28446,7 @@
         "zona": "LIMA CENTRO",
         "cluster": "SIN CLUSTER",
         "ID": "3268",
-        "rc": "JOSELYN CALDERON",
+        "rc": "KARINA SANCHEZ",
         "username": "TINBET_3268",
         "supervisor": "IVAN SALCEDO",
         "capacitador": "RAMON RAZURI",
@@ -28616,11 +28616,11 @@
         "responsable": "TINBET",
         "frecuencia": "LUNES-JUEVES-MIÉRCOLES-JUEVES-VIERNES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES",
-            "JUEVES",
             "VIERNES",
-            "LUNES"
+            "SÁBADO",
+            "JUEVES",
+            "LUNES",
+            "MIÉRCOLES"
         ],
         "distrito": "JUNÍN",
         "gz": "GAMING SOLUTIONS",
@@ -28643,11 +28643,11 @@
         "responsable": "TINBET",
         "frecuencia": "LUNES-JUEVES-MIÉRCOLES-JUEVES-VIERNES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES",
-            "JUEVES",
             "VIERNES",
-            "LUNES"
+            "SÁBADO",
+            "JUEVES",
+            "LUNES",
+            "MIÉRCOLES"
         ],
         "distrito": "JUNÍN",
         "gz": "GAMING SOLUTIONS",
@@ -28850,7 +28850,7 @@
         "zona": "LIMA CENTRO",
         "cluster": "TOP D",
         "ID": "3285",
-        "rc": "GUADALUPE KIMURA",
+        "rc": "PIERINA OSCO",
         "username": "TAMBO_3285",
         "supervisor": "RODRIGO MARTINEZ",
         "capacitador": "BEATRIZ HUAMAN",
@@ -28874,7 +28874,7 @@
         "zona": "LIMA CENTRO",
         "cluster": "TOP D",
         "ID": "3286",
-        "rc": "KARINA SANCHEZ",
+        "rc": "VACANTE_ESTE",
         "username": "TAMBO_3286",
         "supervisor": "RODRIGO MARTINEZ",
         "capacitador": "JESUS OLIVEROS",
@@ -28943,7 +28943,7 @@
         "zona": "LIMA CENTRO",
         "cluster": "TOP B",
         "ID": "3289",
-        "rc": "KARINA SANCHEZ",
+        "rc": "VACANTE_ESTE",
         "username": "TAMBO_3289",
         "supervisor": "RODRIGO MARTINEZ",
         "capacitador": "JESUS OLIVEROS",
@@ -29185,10 +29185,10 @@
         "supervisor": "IVAN SALCEDO",
         "capacitador": "RODRIGO BRAVO",
         "responsable": "APUESTA TOTAL",
-        "frecuencia": "LUNES-JUEVES",
+        "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "SÁBADO",
+            "MIÉRCOLES"
         ],
         "distrito": "SAN JUAN DE LURIGANCHO",
         "gz": "Andrea Rafael",
@@ -29209,10 +29209,10 @@
         "supervisor": "IVAN SALCEDO",
         "capacitador": "RODRIGO BRAVO",
         "responsable": "APUESTA TOTAL",
-        "frecuencia": "MIÉRCOLES-SÁBADO",
+        "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "JUEVES",
+            "LUNES"
         ],
         "distrito": "SAN JUAN DE LURIGANCHO",
         "gz": "Andrea Rafael",
@@ -29257,10 +29257,10 @@
         "supervisor": "IVAN SALCEDO",
         "capacitador": "RODRIGO BRAVO",
         "responsable": "APUESTA TOTAL",
-        "frecuencia": "MIÉRCOLES-SÁBADO",
+        "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "JUEVES",
+            "LUNES"
         ],
         "distrito": "SAN JUAN DE LURIGANCHO",
         "gz": "Andrea Rafael",
@@ -29281,10 +29281,10 @@
         "supervisor": "IVAN SALCEDO",
         "capacitador": "RODRIGO BRAVO",
         "responsable": "APUESTA TOTAL",
-        "frecuencia": "MIÉRCOLES-SÁBADO",
+        "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "JUEVES",
+            "LUNES"
         ],
         "distrito": "SAN JUAN DE LURIGANCHO",
         "gz": "Andrea Rafael",
@@ -29305,10 +29305,10 @@
         "supervisor": "IVAN SALCEDO",
         "capacitador": "RODRIGO BRAVO",
         "responsable": "APUESTA TOTAL",
-        "frecuencia": "MIÉRCOLES-SÁBADO",
+        "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "JUEVES",
+            "LUNES"
         ],
         "distrito": "SAN JUAN DE LURIGANCHO",
         "gz": "Andrea Rafael",
@@ -29353,10 +29353,10 @@
         "supervisor": "IVAN SALCEDO",
         "capacitador": "RODRIGO BRAVO",
         "responsable": "APUESTA TOTAL",
-        "frecuencia": "MIÉRCOLES-SÁBADO",
+        "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "JUEVES",
+            "LUNES"
         ],
         "distrito": "SAN JUAN DE LURIGANCHO",
         "gz": "Andrea Rafael",
@@ -29663,10 +29663,10 @@
         "supervisor": "IVAN SALCEDO",
         "capacitador": "RODRIGO BRAVO",
         "responsable": "APUESTA TOTAL",
-        "frecuencia": "LUNES-JUEVES",
+        "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "SÁBADO",
+            "MIÉRCOLES"
         ],
         "distrito": "EL AGUSTINO",
         "gz": "Nadia Benites",
@@ -29730,7 +29730,7 @@
         "zona": "LIMA CENTRO",
         "cluster": "BRONCE",
         "ID": "3323",
-        "rc": "JOSELYN CALDERON",
+        "rc": "KARINA SANCHEZ",
         "username": "APUESTATOTAL_3323",
         "supervisor": "IVAN SALCEDO",
         "capacitador": "RODRIGO BRAVO",
@@ -29759,10 +29759,10 @@
         "supervisor": "IVAN SALCEDO",
         "capacitador": "RODRIGO BRAVO",
         "responsable": "APUESTA TOTAL",
-        "frecuencia": "LUNES-JUEVES",
+        "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "SÁBADO",
+            "MIÉRCOLES"
         ],
         "distrito": "EL AGUSTINO",
         "gz": "Nadia Benites",
@@ -30250,7 +30250,7 @@
         "zona": "LIMA CENTRO",
         "cluster": "BRONCE",
         "ID": "3345",
-        "rc": "JOSELYN CALDERON",
+        "rc": "KARINA SANCHEZ",
         "username": "APUESTATOTAL_3345",
         "supervisor": "IVAN SALCEDO",
         "capacitador": "JESUS OLIVEROS",
@@ -30274,7 +30274,7 @@
         "zona": "LIMA CENTRO",
         "cluster": "BRONCE",
         "ID": "3346",
-        "rc": "JOSELYN CALDERON",
+        "rc": "KARINA SANCHEZ",
         "username": "APUESTATOTAL_3346",
         "supervisor": "IVAN SALCEDO",
         "capacitador": "JESUS OLIVEROS",
@@ -30345,7 +30345,7 @@
         "zona": "LIMA CENTRO",
         "cluster": "BRONCE",
         "ID": "3349",
-        "rc": "JOSELYN CALDERON",
+        "rc": "KARINA SANCHEZ",
         "username": "APUESTATOTAL_3349",
         "supervisor": "IVAN SALCEDO",
         "capacitador": "JESUS OLIVEROS",
@@ -30368,7 +30368,7 @@
         "zona": "LIMA CENTRO",
         "cluster": "BRONCE",
         "ID": "3350",
-        "rc": "JOSELYN CALDERON",
+        "rc": "KARINA SANCHEZ",
         "username": "APUESTATOTAL_3350",
         "supervisor": "IVAN SALCEDO",
         "capacitador": "JESUS OLIVEROS",
@@ -30391,7 +30391,7 @@
         "zona": "LIMA CENTRO",
         "cluster": "BRONCE",
         "ID": "3351",
-        "rc": "JOSELYN CALDERON",
+        "rc": "KARINA SANCHEZ",
         "username": "APUESTATOTAL_3351",
         "supervisor": "IVAN SALCEDO",
         "capacitador": "JESUS OLIVEROS",
@@ -30747,7 +30747,7 @@
         "zona": "LIMA SUR",
         "cluster": "ORO",
         "ID": "3366",
-        "rc": "JOSELYN CALDERON",
+        "rc": "KARINA SANCHEZ",
         "username": "APUESTATOTAL_3366",
         "supervisor": "IVAN SALCEDO",
         "capacitador": "BEATRIZ HUAMAN",
@@ -30842,7 +30842,7 @@
         "zona": "LIMA SUR",
         "cluster": "BRONCE",
         "ID": "3370",
-        "rc": "JOSELYN CALDERON",
+        "rc": "KARINA SANCHEZ",
         "username": "APUESTATOTAL_3370",
         "supervisor": "IVAN SALCEDO",
         "capacitador": "BEATRIZ HUAMAN",
@@ -30937,7 +30937,7 @@
         "zona": "LIMA CENTRO",
         "cluster": "BRONCE",
         "ID": "3374",
-        "rc": "JOSELYN CALDERON",
+        "rc": "KARINA SANCHEZ",
         "username": "APUESTATOTAL_3374",
         "supervisor": "IVAN SALCEDO",
         "capacitador": "JESUS OLIVEROS",
@@ -30961,7 +30961,7 @@
         "zona": "LIMA CENTRO",
         "cluster": "BRONCE",
         "ID": "3375",
-        "rc": "JOSELYN CALDERON",
+        "rc": "KARINA SANCHEZ",
         "username": "APUESTATOTAL_3375",
         "supervisor": "IVAN SALCEDO",
         "capacitador": "RODRIGO BRAVO",
@@ -31033,7 +31033,7 @@
         "zona": "LIMA CENTRO",
         "cluster": "BRONCE",
         "ID": "3378",
-        "rc": "JOSELYN CALDERON",
+        "rc": "KARINA SANCHEZ",
         "username": "APUESTATOTAL_3378",
         "supervisor": "IVAN SALCEDO",
         "capacitador": "JESUS OLIVEROS",
@@ -31087,8 +31087,8 @@
         "responsable": "APUESTA TOTAL",
         "frecuencia": "LUNES-MARTES",
         "dias": [
-            "MARTES",
-            "LUNES"
+            "LUNES",
+            "MARTES"
         ],
         "distrito": "ICA",
         "gz": "Carolina Cespedes",
@@ -31157,8 +31157,8 @@
         "responsable": "APUESTA TOTAL",
         "frecuencia": "LUNES-MARTES",
         "dias": [
-            "MARTES",
-            "LUNES"
+            "LUNES",
+            "MARTES"
         ],
         "distrito": "ICA",
         "gz": "Carolina Cespedes",
@@ -31657,7 +31657,7 @@
         "zona": "LIMA CENTRO",
         "cluster": "BRONCE",
         "ID": "3405",
-        "rc": "JOSELYN CALDERON",
+        "rc": "KARINA SANCHEZ",
         "username": "APUESTATOTAL_3405",
         "supervisor": "IVAN SALCEDO",
         "capacitador": "JESUS OLIVEROS",
@@ -32135,7 +32135,7 @@
         "zona": "LIMA CENTRO",
         "cluster": "BRONCE",
         "ID": "3425",
-        "rc": "JOSELYN CALDERON",
+        "rc": "KARINA SANCHEZ",
         "username": "APUESTATOTAL_3425",
         "supervisor": "IVAN SALCEDO",
         "capacitador": "JESUS OLIVEROS",
@@ -36420,11 +36420,11 @@
         "responsable": "APUESTA TOTAL",
         "frecuencia": "LUNES-JUEVES-MIÉRCOLES-JUEVES-VIERNES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES",
-            "JUEVES",
             "VIERNES",
-            "LUNES"
+            "SÁBADO",
+            "JUEVES",
+            "LUNES",
+            "MIÉRCOLES"
         ],
         "distrito": "EL TAMBO",
         "gz": "Sheyla Gonzales",
@@ -36493,11 +36493,11 @@
         "responsable": "APUESTA TOTAL",
         "frecuencia": "LUNES-JUEVES-MIÉRCOLES-JUEVES-VIERNES-SÁBADO",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES",
-            "JUEVES",
             "VIERNES",
-            "LUNES"
+            "SÁBADO",
+            "JUEVES",
+            "LUNES",
+            "MIÉRCOLES"
         ],
         "distrito": "EL TAMBO",
         "gz": "Sheyla Gonzales",
@@ -37377,10 +37377,10 @@
         "supervisor": "IVAN SALCEDO",
         "capacitador": "RODRIGO BRAVO",
         "responsable": "LIVESPORT",
-        "frecuencia": "LUNES-JUEVES",
+        "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "SÁBADO",
+            "MIÉRCOLES"
         ],
         "distrito": "SAN JUAN DE LURIGANCHO",
         "gz": "SIN INFO",
@@ -37401,10 +37401,10 @@
         "supervisor": "IVAN SALCEDO",
         "capacitador": "RODRIGO BRAVO",
         "responsable": "LIVESPORT",
-        "frecuencia": "MIÉRCOLES-SÁBADO",
+        "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "JUEVES",
+            "LUNES"
         ],
         "distrito": "SAN JUAN DE LURIGANCHO",
         "gz": "SIN INFO",
@@ -37420,7 +37420,7 @@
         "zona": "LIMA CENTRO",
         "cluster": "SIN CLUSTER",
         "ID": "3669",
-        "rc": "JOSELYN CALDERON",
+        "rc": "KARINA SANCHEZ",
         "username": "LIVESPORT_3669",
         "supervisor": "IVAN SALCEDO",
         "capacitador": "RODRIGO BRAVO",
@@ -37865,7 +37865,7 @@
         "zona": "LIMA SUR",
         "cluster": "TOP D",
         "ID": "3688",
-        "rc": "GUADALUPE KIMURA",
+        "rc": "PIERINA OSCO",
         "username": "TAMBO_3688",
         "supervisor": "RODRIGO MARTINEZ",
         "capacitador": "BEATRIZ HUAMAN",
@@ -38236,7 +38236,7 @@
         "zona": "LIMA CENTRO",
         "cluster": "SIN CLUSTER",
         "ID": "3704",
-        "rc": "JOSELYN CALDERON",
+        "rc": "KARINA SANCHEZ",
         "username": "DORADOBET_3704",
         "supervisor": "IVAN SALCEDO",
         "capacitador": "PENDING",
@@ -38260,7 +38260,7 @@
         "zona": "LIMA CENTRO",
         "cluster": "SIN CLUSTER",
         "ID": "3705",
-        "rc": "JOSELYN CALDERON",
+        "rc": "KARINA SANCHEZ",
         "username": "DORADOBET_3705",
         "supervisor": "IVAN SALCEDO",
         "capacitador": "PENDING",
@@ -38427,7 +38427,7 @@
         "zona": "LIMA CENTRO",
         "cluster": "SIN CLUSTER",
         "ID": "3712",
-        "rc": "JOSELYN CALDERON",
+        "rc": "KARINA SANCHEZ",
         "username": "RETABET_3712",
         "supervisor": "IVAN SALCEDO",
         "capacitador": "RODRIGO BRAVO",
@@ -38451,7 +38451,7 @@
         "zona": "LIMA CENTRO",
         "cluster": "SIN CLUSTER",
         "ID": "3713",
-        "rc": "JOSELYN CALDERON",
+        "rc": "KARINA SANCHEZ",
         "username": "RETABET_3713",
         "supervisor": "IVAN SALCEDO",
         "capacitador": "RODRIGO BRAVO",
@@ -39722,7 +39722,7 @@
         "zona": "SUR CHICO",
         "cluster": "TOP D",
         "ID": "3719",
-        "rc": "GUADALUPE KIMURA",
+        "rc": "PIERINA OSCO",
         "username": "TAMBO_3719",
         "supervisor": "RODRIGO MARTINEZ",
         "capacitador": "PENDING",
@@ -39745,7 +39745,7 @@
         "zona": "LIMA ESTE",
         "cluster": "TOP D",
         "ID": "3720",
-        "rc": "KARINA SANCHEZ",
+        "rc": "VACANTE_ESTE",
         "username": "TAMBO_3720",
         "supervisor": "RODRIGO MARTINEZ",
         "capacitador": "JESUS OLIVEROS",
@@ -39962,10 +39962,10 @@
         "supervisor": "IVAN SALCEDO",
         "capacitador": "JESUS OLIVEROS",
         "responsable": "TINBET",
-        "frecuencia": "LUNES-JUEVES",
+        "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "SÁBADO",
+            "MIÉRCOLES"
         ],
         "distrito": "EL AGUSTINO",
         "gz": "Andrea Ramirez",
@@ -40009,10 +40009,10 @@
         "supervisor": "IVAN SALCEDO",
         "capacitador": "JESUS OLIVEROS",
         "responsable": "TINBET",
-        "frecuencia": "LUNES-JUEVES",
+        "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "SÁBADO",
+            "MIÉRCOLES"
         ],
         "distrito": "EL AGUSTINO",
         "gz": "PLAY WORLD E.I.R.L",
@@ -40564,10 +40564,10 @@
         "supervisor": "IVAN SALCEDO",
         "capacitador": "RODRIGO BRAVO",
         "responsable": "RETABET",
-        "frecuencia": "LUNES-JUEVES",
+        "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "SÁBADO",
+            "MIÉRCOLES"
         ],
         "distrito": "SAN JUAN DE LURIGANCHO",
         "gz": "SIN INFO",
@@ -40583,7 +40583,7 @@
         "zona": "LIMA SUR",
         "cluster": "SIN CLUSTER",
         "ID": "3756",
-        "rc": "JOSELYN CALDERON",
+        "rc": "KARINA SANCHEZ",
         "username": "RETABET_3756",
         "supervisor": "IVAN SALCEDO",
         "capacitador": "BEATRIZ HUAMAN",
@@ -40654,7 +40654,7 @@
         "zona": "LIMA OESTE",
         "cluster": "SIN CLUSTER",
         "ID": "3759",
-        "rc": "JOSELYN CALDERON",
+        "rc": "KARINA SANCHEZ",
         "username": "RETABET_3759",
         "supervisor": "IVAN SALCEDO",
         "capacitador": "RAMON RAZURI",
@@ -40750,7 +40750,7 @@
         "zona": "LIMA OESTE",
         "cluster": "SIN CLUSTER",
         "ID": "3763",
-        "rc": "JOSELYN CALDERON",
+        "rc": "KARINA SANCHEZ",
         "username": "RETABET_3763",
         "supervisor": "IVAN SALCEDO",
         "capacitador": "RAMON RAZURI",
@@ -40774,7 +40774,7 @@
         "zona": "LIMA CENTRO",
         "cluster": "SIN CLUSTER",
         "ID": "3764",
-        "rc": "JOSELYN CALDERON",
+        "rc": "KARINA SANCHEZ",
         "username": "RETABET_3764",
         "supervisor": "IVAN SALCEDO",
         "capacitador": "JESUS OLIVEROS",
@@ -40822,7 +40822,7 @@
         "zona": "LIMA CENTRO",
         "cluster": "SIN CLUSTER",
         "ID": "3766",
-        "rc": "JOSELYN CALDERON",
+        "rc": "KARINA SANCHEZ",
         "username": "RETABET_3766",
         "supervisor": "IVAN SALCEDO",
         "capacitador": "RAMON RAZURI",
@@ -40918,7 +40918,7 @@
         "zona": "LIMA CENTRO",
         "cluster": "SIN CLUSTER",
         "ID": "3770",
-        "rc": "JOSELYN CALDERON",
+        "rc": "KARINA SANCHEZ",
         "username": "RETABET_3770",
         "supervisor": "IVAN SALCEDO",
         "capacitador": "JESUS OLIVEROS",
@@ -40966,7 +40966,7 @@
         "zona": "LIMA CENTRO",
         "cluster": "SIN CLUSTER",
         "ID": "3772",
-        "rc": "JOSELYN CALDERON",
+        "rc": "KARINA SANCHEZ",
         "username": "RETABET_3772",
         "supervisor": "IVAN SALCEDO",
         "capacitador": "JESUS OLIVEROS",
@@ -42284,9 +42284,9 @@
         "supervisor": "IVAN SALCEDO",
         "capacitador": "RODRIGO BRAVO",
         "responsable": "ACIERTALA",
-        "frecuencia": "LUNES",
+        "frecuencia": "MIÉRCOLES",
         "dias": [
-            "LUNES"
+            "MIÉRCOLES"
         ],
         "distrito": "EL AGUSTINO",
         "gz": "SIN INFO",
@@ -42307,9 +42307,9 @@
         "supervisor": "IVAN SALCEDO",
         "capacitador": "RODRIGO BRAVO",
         "responsable": "ACIERTALA",
-        "frecuencia": "LUNES",
+        "frecuencia": "MIÉRCOLES",
         "dias": [
-            "LUNES"
+            "MIÉRCOLES"
         ],
         "distrito": "SAN JUAN DE LURIGANCHO",
         "gz": "SIN INFO",
@@ -42353,9 +42353,9 @@
         "supervisor": "IVAN SALCEDO",
         "capacitador": "RODRIGO BRAVO",
         "responsable": "ACIERTALA",
-        "frecuencia": "SÁBADO",
+        "frecuencia": "LUNES",
         "dias": [
-            "SÁBADO"
+            "LUNES"
         ],
         "distrito": "SAN JUAN DE LURIGANCHO",
         "gz": "SIN INFO",
@@ -42399,9 +42399,9 @@
         "supervisor": "IVAN SALCEDO",
         "capacitador": "RODRIGO BRAVO",
         "responsable": "ACIERTALA",
-        "frecuencia": "LUNES",
+        "frecuencia": "MIÉRCOLES",
         "dias": [
-            "LUNES"
+            "MIÉRCOLES"
         ],
         "distrito": "SAN JUAN DE LURIGANCHO",
         "gz": "SIN INFO",
@@ -42555,7 +42555,7 @@
         "zona": "LIMA SUR",
         "cluster": "SIN CLUSTER",
         "ID": "3853",
-        "rc": "GUADALUPE KIMURA",
+        "rc": "PIERINA OSCO",
         "username": "TAMBO_3853",
         "supervisor": "RODRIGO MARTINEZ",
         "capacitador": "BEATRIZ HUAMAN",
