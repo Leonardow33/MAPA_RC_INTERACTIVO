@@ -18,36 +18,37 @@ L.control.layers({
 let allData = [];
 let sabado30 = {};
 let currentFiltered = [];
+let materialPopCodes = new Set();
 let activeCluster = null;
 let userLat = null, userLng = null;
 let userMarker = null;
 let routeLayer = null;
 let routeMarkersLayer = L.layerGroup().addTo(map);
 let sinAgrupacion = false;
-let markersLayer      = L.markerClusterGroup({ chunkedLoading: true, maxClusterRadius: 45, removeOutsideVisibleBounds: false }).addTo(map);
+let markersLayer = L.markerClusterGroup({ chunkedLoading: true, maxClusterRadius: 45, removeOutsideVisibleBounds: false }).addTo(map);
 let markersLayerPlano = L.layerGroup();
 
 function toggleSinAgrupacion() {
     sinAgrupacion = !sinAgrupacion;
     const btn = document.getElementById('btnSinAgrup');
     btn.style.background = sinAgrupacion ? '#1565C0' : 'transparent';
-    btn.style.color      = sinAgrupacion ? 'white'   : '#42A5F5';
+    btn.style.color = sinAgrupacion ? 'white' : '#42A5F5';
     if (sinAgrupacion) { markersLayer.remove(); markersLayerPlano.addTo(map); }
-    else               { markersLayerPlano.remove(); markersLayer.addTo(map); }
+    else { markersLayerPlano.remove(); markersLayer.addTo(map); }
     updateFilters();
 }
 
-let elotLayer  = L.layerGroup().addTo(map);
+let elotLayer = L.layerGroup().addTo(map);
 let elotMarker = null;
 let routeMode = 'driving'; // 'driving' | 'foot'
 
 // Centrar popup en pantalla sin perder el marcador
-map.on('popupopen', function(e) {
+map.on('popupopen', function (e) {
     const marker = e.popup._source;
     if (!marker) return;
     const latlng = marker.getLatLng ? marker.getLatLng() : e.popup.getLatLng();
     if (!latlng) return;
-    const mapH  = map.getSize().y;
+    const mapH = map.getSize().y;
     const popupH = (e.popup._container && e.popup._container.offsetHeight) || 260;
     const markerPx = map.latLngToContainerPoint(latlng);
     // mover el marcador al 70% inferior de la pantalla para que el popup quede centrado arriba
@@ -73,16 +74,16 @@ function toggleModo() {
 
 // ICONOS
 const DIA_PIN_COLORS = {
-    'LUNES':     '#1E88E5',
-    'MARTES':    '#43A047',
+    'LUNES': '#1E88E5',
+    'MARTES': '#43A047',
     'MIÉRCOLES': '#F4511E',
     'MIERCOLES': '#F4511E',
-    'JUEVES':    '#8E24AA',
-    'VIERNES':   '#E53935',
-    'SÁBADO':    '#FDD835',
-    'SABADO':    '#FDD835',
+    'JUEVES': '#8E24AA',
+    'VIERNES': '#E53935',
+    'SÁBADO': '#FDD835',
+    'SABADO': '#FDD835',
 };
-const DIA_ORDER_PIN = ['LUNES','MARTES','MIÉRCOLES','JUEVES','VIERNES','SÁBADO'];
+const DIA_ORDER_PIN = ['LUNES', 'MARTES', 'MIÉRCOLES', 'JUEVES', 'VIERNES', 'SÁBADO'];
 
 function getDiaColorPin(dias) {
     const PLOMO = '#9E9E9E';
@@ -90,8 +91,8 @@ function getDiaColorPin(dias) {
     const validos = dias.filter(d => d !== 'SIN RUTA');
     if (!validos.length) return PLOMO;
     for (const d of DIA_ORDER_PIN) {
-        if (validos.includes(d) || validos.includes(d.replace('É','E').replace('Á','A')))
-            return DIA_PIN_COLORS[d] || DIA_PIN_COLORS[d.replace('É','E').replace('Á','A')] || PLOMO;
+        if (validos.includes(d) || validos.includes(d.replace('É', 'E').replace('Á', 'A')))
+            return DIA_PIN_COLORS[d] || DIA_PIN_COLORS[d.replace('É', 'E').replace('Á', 'A')] || PLOMO;
     }
     return DIA_PIN_COLORS[validos[0]] || PLOMO;
 }
@@ -102,9 +103,9 @@ function getIconUrl(responsable) {
     if (!responsable) return "icons/default.png";
     const r = responsable.trim().toUpperCase();
     if (r.includes("APUESTA TOTAL")) return "icons/apuesta.png";
-    if (r.includes("TAMBO"))         return "icons/tambo.png";
-    if (r.includes("TINBET"))        return "icons/tinbet.png";
-    if (r.includes("LIVESPORT"))     return "icons/livesport.png";
+    if (r.includes("TAMBO")) return "icons/tambo.png";
+    if (r.includes("TINBET")) return "icons/tinbet.png";
+    if (r.includes("LIVESPORT")) return "icons/livesport.png";
     if (r.includes("AUR BODEGA") || r.includes("JS BODEGA") || r.includes("MCG BODEGA")) return "icons/bodega.png";
     return "icons/default.png";
 }
@@ -114,11 +115,11 @@ function makePinIcon(responsable, estado, dias) {
     let color, extraStyle = "", imgStyle = "width:100%;height:100%;object-fit:cover;";
 
     if (estado === "completado") {
-        color      = "#9E9E9E";
+        color = "#9E9E9E";
         extraStyle = "opacity:0.45;";
-        imgStyle  += "filter:grayscale(1);";
+        imgStyle += "filter:grayscale(1);";
     } else if (estado === "en_visita") {
-        color      = "#FF9800";
+        color = "#FF9800";
         extraStyle = "";
     } else {
         color = getDiaColorPin(dias);
@@ -134,7 +135,7 @@ function makePinIcon(responsable, estado, dias) {
                 border-right:6px solid transparent;border-top:9px solid ${color};
                 margin-top:-2px;filter:drop-shadow(0 2px 2px rgba(0,0,0,0.3));"></div>
         </div>`;
-    return L.divIcon({ html, className: '', iconSize: [34,41], iconAnchor: [17,41], popupAnchor: [0,-41] });
+    return L.divIcon({ html, className: '', iconSize: [34, 41], iconAnchor: [17, 41], popupAnchor: [0, -41] });
 }
 
 function makeElotIcon() {
@@ -161,7 +162,7 @@ function makeElotIcon() {
 }
 
 // HELPERS DE ORDENAMIENTO
-const DIA_ORDER = ["LUNES","MARTES","MIERCOLES","MIÉRCOLES","JUEVES","VIERNES","SABADO","SÁBADO","DOMINGO","SIN RUTA"];
+const DIA_ORDER = ["LUNES", "MARTES", "MIERCOLES", "MIÉRCOLES", "JUEVES", "VIERNES", "SABADO", "SÁBADO", "DOMINGO", "SIN RUTA"];
 
 function sortedLast(arr, lastValues) {
     const lasts = lastValues.map(v => v.toUpperCase());
@@ -232,61 +233,63 @@ function repoblarRC(sup) {
 }
 
 fetch((_BASE_DATA + 'sabado30.json?v=') + new Date().getTime())
-.then(res => res.json()).then(data => { sabado30 = data; }).catch(() => {});
+    .then(res => res.json()).then(data => { sabado30 = data; }).catch(() => { });
 
 // FETCH
-fetch((_BASE_DATA + 'puntos.json?v=') + new Date().getTime(), {cache: 'no-store'})
-.then(res => res.json())
-.then(data => { try {
+fetch((_BASE_DATA + 'puntos.json?v=') + new Date().getTime(), { cache: 'no-store' })
+    .then(res => res.json())
+    .then(data => {
+        try {
 
-    allData = data;
+            allData = data;
 
-    // PIN ESPECIAL ELOT (nunca se agrupa)
-    const elotPoint = data.find(p => (p.nombre || "").toUpperCase().includes("OFICINA ELOT"));
-    if (elotPoint && !elotMarker) {
-        elotMarker = L.marker([elotPoint.lat, elotPoint.lng], { icon: makeElotIcon(), zIndexOffset: 1000 });
-        elotMarker.bindPopup(buildPopupContent(elotPoint), { autoPan: false });
-        attachPopupOpen(elotMarker, elotPoint);
-        elotMarker.on('click', function() {
-            map.flyTo([elotPoint.lat, elotPoint.lng], map.getMaxZoom(), { duration: 1.4 });
-        });
-        elotLayer.addLayer(elotMarker);
-    }
+            // PIN ESPECIAL ELOT (nunca se agrupa)
+            const elotPoint = data.find(p => (p.nombre || "").toUpperCase().includes("OFICINA ELOT"));
+            if (elotPoint && !elotMarker) {
+                elotMarker = L.marker([elotPoint.lat, elotPoint.lng], { icon: makeElotIcon(), zIndexOffset: 1000 });
+                elotMarker.bindPopup(buildPopupContent(elotPoint), { autoPan: false });
+                attachPopupOpen(elotMarker, elotPoint);
+                elotMarker.on('click', function () {
+                    map.flyTo([elotPoint.lat, elotPoint.lng], map.getMaxZoom(), { duration: 1.4 });
+                });
+                elotLayer.addLayer(elotMarker);
+            }
 
-    let diaSet  = new Set();
-    let zonaSet = new Set();
+            let diaSet = new Set();
+            let zonaSet = new Set();
 
-    data.forEach(p => {
-        if (p.dias) p.dias.forEach(d => diaSet.add(d));
-        if (p.zona) zonaSet.add(p.zona);
-    });
+            data.forEach(p => {
+                if (p.dias) p.dias.forEach(d => diaSet.add(d));
+                if (p.zona) zonaSet.add(p.zona);
+            });
 
-    let diaSelect = document.getElementById("diaFilter");
-    sortDias([...diaSet]).forEach(dia => {
-        let option = document.createElement("option");
-        option.value = dia; option.text = dia;
-        diaSelect.appendChild(option);
-    });
+            let diaSelect = document.getElementById("diaFilter");
+            sortDias([...diaSet]).forEach(dia => {
+                let option = document.createElement("option");
+                option.value = dia; option.text = dia;
+                diaSelect.appendChild(option);
+            });
 
-    let zonaSelect = document.getElementById("zonaFilter");
-    [...zonaSet].sort().forEach(zona => {
-        let option = document.createElement("option");
-        option.value = zona; option.text = zona;
-        zonaSelect.appendChild(option);
-    });
+            let zonaSelect = document.getElementById("zonaFilter");
+            [...zonaSet].sort().forEach(zona => {
+                let option = document.createElement("option");
+                option.value = zona; option.text = zona;
+                zonaSelect.appendChild(option);
+            });
 
-    const _tipoActual = localStorage.getItem('geodor_tipo');
-    if (_tipoActual) {
-        document.getElementById("tipoFilter").value = _tipoActual;
-    }
-    repoblarSup();
-    repoblarRC("ALL");
-    repoblarPartner("ALL", "ALL");
-    restoreFilters();
-    updateFilters();
+            const _tipoActual = localStorage.getItem('geodor_tipo');
+            if (_tipoActual) {
+                document.getElementById("tipoFilter").value = _tipoActual;
+            }
+            repoblarSup();
+            repoblarRC("ALL");
+            repoblarPartner("ALL", "ALL");
+            restoreFilters();
+            updateFilters();
 
-} catch(err) { console.error('ERROR en fetch puntos.json:', err); } })
-.catch(err => console.error('FETCH puntos.json falló:', err));
+        } catch (err) { console.error('ERROR en fetch puntos.json:', err); }
+    })
+    .catch(err => console.error('FETCH puntos.json falló:', err));
 
 // MAPA
 // ── ESTADO DE VISITAS (localStorage por día) ──────────────────────────────
@@ -299,8 +302,8 @@ function getVisitasHoy() {
 }
 function getEstadoPunto(id) {
     const v = getVisitasHoy()[String(id)];
-    if (!v)        return "libre";
-    if (v.salida)  return "completado";
+    if (!v) return "libre";
+    if (v.salida) return "completado";
     return "en_visita";
 }
 function guardarEstadoLocal(id, tipo, hora) {
@@ -328,10 +331,10 @@ function enviarAlSheet(p, tipo, distM) {
 
 function registrarMovimiento(p, tipo, marker) {
     const safeId = String(p.ID).replace(/[^a-zA-Z0-9_-]/g, "_");
-    const btn    = document.getElementById("btn-visita-" + safeId);
-    const msg    = document.getElementById("msg-visita-" + safeId);
-    const hora   = new Date().toTimeString().slice(0, 5);
-    const distM  = haversine(userLat, userLng, p.lat, p.lng) * 1000;
+    const btn = document.getElementById("btn-visita-" + safeId);
+    const msg = document.getElementById("msg-visita-" + safeId);
+    const hora = new Date().toTimeString().slice(0, 5);
+    const distM = haversine(userLat, userLng, p.lat, p.lng) * 1000;
 
     if (btn) { btn.textContent = "⏳ Registrando..."; btn.disabled = true; }
 
@@ -375,18 +378,22 @@ function registrarMovimiento(p, tipo, marker) {
 }
 
 function buildPopupContent(p) {
-    const safeId  = String(p.ID).replace(/[^a-zA-Z0-9_-]/g, "_");
-    const isElot  = (p.nombre || "").toUpperCase().includes("OFICINA ELOT");
-    const color   = isElot ? "#B8860B" : getPinBorder(p.responsable);
-    const visita  = sabado30[String(p.ID)];
+    const safeId = String(p.ID).replace(/[^a-zA-Z0-9_-]/g, "_");
+    const isElot = (p.nombre || "").toUpperCase().includes("OFICINA ELOT");
+    const color = isElot ? "#B8860B" : getPinBorder(p.responsable);
+    const visita = sabado30[String(p.ID)];
     const visitaBanner = visita ? `
       <div class="popup-visita-sab">
         <span class="popup-visita-sab-titulo">Visita Sábado 30</span>
         <span class="popup-visita-sab-rep">${visita.representante}</span>
         <span class="popup-visita-sab-hora">${visita.horario}</span>
       </div>` : '';
+    const popBanner = MATERIAL_POP_URL ? (materialPopCodes.has(String(p.ID))
+        ? `<div style="background:#E8F5E9;border-left:4px solid #43A047;padding:7px 10px;font-size:12px;font-weight:600;color:#2E7D32;display:flex;align-items:center;gap:6px">✅ Se tomaron las fotos correspondientes</div>`
+        : `<div style="background:#FFF3E0;border-left:4px solid #FB8C00;padding:7px 10px;font-size:12px;font-weight:700;color:#E65100;display:flex;align-items:center;gap:6px">📸 FALTA LLENAR EL FORMULARIO DE FOTOS EN ESTA TIENDA</div>`) : '';
     return `
     <div class="popup-card">
+      ${popBanner}
       ${visitaBanner}
       <div class="popup-header" style="background:${color}">
         <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:6px">
@@ -418,17 +425,17 @@ function buildPopupContent(p) {
 
 function attachPopupOpen(marker, p) {
     const safeId = String(p.ID).replace(/[^a-zA-Z0-9_-]/g, "_");
-    marker.on("popupopen", function() {
+    marker.on("popupopen", function () {
         const mapsBtn = document.getElementById('btn-maps-' + safeId);
         if (mapsBtn) {
             const org = (userLat && userLng) ? `&origin=${userLat},${userLng}` : '';
             mapsBtn.href = `https://www.google.com/maps/dir/?api=1${org}&destination=${p.lat},${p.lng}`;
         }
         const svRow = document.getElementById("sv-row-" + safeId);
-        const svBi  = document.getElementById("sv-bi-"  + safeId);
+        const svBi = document.getElementById("sv-bi-" + safeId);
         if (svRow && svBi) {
             if (sinVentaCodes.has(String(p.ID))) {
-                svBi.textContent   = "BI: " + (sinVentaTimes[String(p.ID)] || '-');
+                svBi.textContent = "BI: " + (sinVentaTimes[String(p.ID)] || '-');
                 svRow.style.display = "";
             } else {
                 svRow.style.display = "none";
@@ -439,45 +446,45 @@ function attachPopupOpen(marker, p) {
         if (!btn || !msg) return;
 
         const estado = getEstadoPunto(p.ID);
-        const v      = getVisitasHoy()[String(p.ID)];
+        const v = getVisitasHoy()[String(p.ID)];
 
         if (estado === "completado") {
             btn.style.display = "none";
             msg.style.display = "block";
-            msg.style.color   = "#388E3C";
-            msg.textContent   = `✅ Visita completa · E: ${v.entrada} · S: ${v.salida}`;
+            msg.style.color = "#388E3C";
+            msg.textContent = `✅ Visita completa · E: ${v.entrada} · S: ${v.salida}`;
             return;
         }
         if (!userLat || !userLng) {
             btn.style.display = "none";
             msg.style.display = "block";
-            msg.style.color   = "#999";
-            msg.textContent   = "📍 Activa GPS para registrar";
+            msg.style.color = "#999";
+            msg.textContent = "📍 Activa GPS para registrar";
             return;
         }
         const distM = haversine(userLat, userLng, p.lat, p.lng) * 1000;
         if (distM > 40) {
             btn.style.display = "none";
             msg.style.display = "block";
-            msg.style.color   = "#999";
-            msg.textContent   = `📍 Estás a ${Math.round(distM)}m (necesitas 40m)`;
+            msg.style.color = "#999";
+            msg.textContent = `📍 Estás a ${Math.round(distM)}m (necesitas 40m)`;
             return;
         }
         msg.style.display = "block";
         btn.style.display = "block";
         if (estado === "libre") {
-            btn.textContent       = "🟢 Registrar Entrada";
-            btn.style.background  = "#1565C0";
-            btn.disabled          = false;
-            msg.style.color       = "#999";
-            msg.textContent       = "";
+            btn.textContent = "🟢 Registrar Entrada";
+            btn.style.background = "#1565C0";
+            btn.disabled = false;
+            msg.style.color = "#999";
+            msg.textContent = "";
             btn.onclick = () => registrarMovimiento(p, "entrada", marker);
         } else {
-            btn.textContent       = "🔴 Registrar Salida";
-            btn.style.background  = "#E65100";
-            btn.disabled          = false;
-            msg.style.color       = "#E65100";
-            msg.textContent       = `🟡 En visita · Entrada: ${v.entrada}`;
+            btn.textContent = "🔴 Registrar Salida";
+            btn.style.background = "#E65100";
+            btn.disabled = false;
+            msg.style.color = "#E65100";
+            msg.textContent = `🟡 En visita · Entrada: ${v.entrada}`;
             btn.onclick = () => registrarMovimiento(p, "salida", marker);
         }
     });
@@ -518,12 +525,12 @@ function renderMap(filterRC, filterDia, filterSup, filterPartner, filterZona, fi
         return (
             !(p.nombre || "").toUpperCase().includes("OFICINA ELOT") &&
             (p.estado || "").toUpperCase() === "ACTIVO" &&
-            (filterSup     === "ALL" || p.supervisor  === filterSup) &&
-            (filterRC      === "ALL" || p.rc          === filterRC) &&
-            (filterDia     === "ALL" || (p.dias && p.dias.includes(filterDia))) &&
+            (filterSup === "ALL" || p.supervisor === filterSup) &&
+            (filterRC === "ALL" || p.rc === filterRC) &&
+            (filterDia === "ALL" || (p.dias && p.dias.includes(filterDia))) &&
             (filterPartner === "ALL" || p.responsable === filterPartner) &&
-            (filterZona    === "ALL" || p.zona        === filterZona) &&
-            (activeCluster === null  || (p.cluster || "").toUpperCase() === activeCluster) &&
+            (filterZona === "ALL" || p.zona === filterZona) &&
+            (activeCluster === null || (p.cluster || "").toUpperCase() === activeCluster) &&
             tipoOk
         );
     });
@@ -533,31 +540,31 @@ function renderMap(filterRC, filterDia, filterSup, filterPartner, filterZona, fi
 
     filtered.forEach(p => {
 
-    let icon = makePinIcon(p.responsable, getEstadoPunto(p.ID), p.dias);
+        let icon = makePinIcon(p.responsable, getEstadoPunto(p.ID), p.dias);
 
-    let marker = L.marker([p.lat, p.lng], { icon: icon });
-    marker.bindPopup(buildPopupContent(p), { autoPan: false });
-    attachPopupOpen(marker, p);
-    activeLayer.addLayer(marker);
-    group.addLayer(marker);
-});
+        let marker = L.marker([p.lat, p.lng], { icon: icon });
+        marker.bindPopup(buildPopupContent(p), { autoPan: false });
+        attachPopupOpen(marker, p);
+        activeLayer.addLayer(marker);
+        group.addLayer(marker);
+    });
 
-if (filtered.length > 0 && (filterRC !== "ALL" || filterDia !== "ALL" || filterPartner !== "ALL" || filterSup !== "ALL")) {
-    map.fitBounds(group.getBounds(), { padding: [30, 30] });
-}
+    if (filtered.length > 0 && (filterRC !== "ALL" || filterDia !== "ALL" || filterPartner !== "ALL" || filterSup !== "ALL")) {
+        map.fitBounds(group.getBounds(), { padding: [30, 30] });
+    }
 
-if (sinVentaActive) renderSinVentaLayer();
+    if (sinVentaActive) renderSinVentaLayer();
 
 }
 
 // PERSISTENCIA DE FILTROS
 function saveFilters() {
     localStorage.setItem("filtros_mapa", JSON.stringify({
-        sup:     document.getElementById("supFilter").value,
-        rc:      document.getElementById("rcFilter").value,
-        dia:     document.getElementById("diaFilter").value,
+        sup: document.getElementById("supFilter").value,
+        rc: document.getElementById("rcFilter").value,
+        dia: document.getElementById("diaFilter").value,
         partner: document.getElementById("partnerFilter").value,
-        zona:    document.getElementById("zonaFilter").value
+        zona: document.getElementById("zonaFilter").value
     }));
 }
 
@@ -597,7 +604,7 @@ function repoblarPartner(sup, rc) {
     sel.innerHTML = '<option value="ALL">Todos</option>';
     const base = filtrarPorTipo(allData.filter(p =>
         (sup === "ALL" || p.supervisor === sup) &&
-        (rc  === "ALL" || p.rc === rc)
+        (rc === "ALL" || p.rc === rc)
     ));
     const partners = [...new Set(base.map(p => p.responsable).filter(v => v && v.trim() !== ""))].sort();
     partners.forEach(v => {
@@ -608,18 +615,18 @@ function repoblarPartner(sup, rc) {
     sel.value = [...sel.options].some(o => o.value === prev) ? prev : "ALL";
 }
 
-document.getElementById("supFilter").addEventListener("change", function() {
+document.getElementById("supFilter").addEventListener("change", function () {
     repoblarRC(this.value);
     repoblarPartner(this.value, document.getElementById("rcFilter").value);
     updateFilters();
 });
-document.getElementById("rcFilter").addEventListener("change", function() {
+document.getElementById("rcFilter").addEventListener("change", function () {
     repoblarPartner(document.getElementById("supFilter").value, this.value);
     updateFilters();
 });
 document.getElementById("diaFilter").addEventListener("change", updateFilters);
 document.getElementById("zonaFilter").addEventListener("change", updateFilters);
-document.getElementById("partnerFilter").addEventListener("change", function() {
+document.getElementById("partnerFilter").addEventListener("change", function () {
     updateClusterButtons();
     updateFilters();
 });
@@ -641,28 +648,28 @@ function toggleCluster(btn) {
 function updateClusterButtons() {
     const partner = (document.getElementById("partnerFilter").value || "").toUpperCase();
     const tamboGroup = document.getElementById("tamboClusterGroup");
-    const atGroup    = document.getElementById("atClusterGroup");
-    const container  = document.getElementById("clusterBtns");
+    const atGroup = document.getElementById("atClusterGroup");
+    const container = document.getElementById("clusterBtns");
     activeCluster = null;
     document.querySelectorAll(".btn-cluster").forEach(b => b.classList.remove("activo"));
     if (partner.includes("TAMBO")) {
         tamboGroup.style.display = "flex";
-        atGroup.style.display    = "none";
+        atGroup.style.display = "none";
         container.classList.add("visible");
     } else if (partner.includes("APUESTA TOTAL")) {
         tamboGroup.style.display = "none";
-        atGroup.style.display    = "flex";
+        atGroup.style.display = "flex";
         container.classList.add("visible");
     } else {
         tamboGroup.style.display = "none";
-        atGroup.style.display    = "none";
+        atGroup.style.display = "none";
         container.classList.remove("visible");
     }
 }
 
 function debounce(fn, ms) {
     let t;
-    return function(...args) { clearTimeout(t); t = setTimeout(() => fn.apply(this, args), ms); };
+    return function (...args) { clearTimeout(t); t = setTimeout(() => fn.apply(this, args), ms); };
 }
 const _debouncedRenderMap = debounce(renderMap, 150);
 
@@ -688,10 +695,10 @@ if (localStorage.getItem('geodor_tipo')) {
 }
 
 function updateFilters() {
-    let rc      = document.getElementById("rcFilter").value;
-    let sup     = document.getElementById("supFilter").value;
+    let rc = document.getElementById("rcFilter").value;
+    let sup = document.getElementById("supFilter").value;
     let partner = document.getElementById("partnerFilter").value;
-    let zona    = document.getElementById("zonaFilter").value;
+    let zona = document.getElementById("zonaFilter").value;
     let btnRuta = document.getElementById("btnRuta");
     if (rc !== "ALL") {
         btnRuta.classList.add("activo");
@@ -786,8 +793,8 @@ function startWatchPosition() {
 
 function mostrarGPSBanner(tipo) {
     const banner = document.getElementById('gpsBanner');
-    const msg    = document.getElementById('gpsBannerMsg');
-    const btn    = document.getElementById('gpsBannerBtn');
+    const msg = document.getElementById('gpsBannerMsg');
+    const btn = document.getElementById('gpsBannerBtn');
     if (tipo === 'denied') {
         banner.classList.add('denied');
         msg.textContent = '📍 Ubicación bloqueada. Ve a Configuración del navegador → Permisos del sitio → Ubicación → Permitir.';
@@ -825,7 +832,7 @@ async function initGeolocation() {
                 else if (result.state === 'denied') mostrarGPSBanner('denied');
             };
             return;
-        } catch(e) {}
+        } catch (e) { }
     }
     startWatchPosition();
 }
@@ -841,6 +848,19 @@ const ORS_KEY = 'eyJvcmciOiI1YjNjZTM1OTc4NTExMTAwMDFjZjYyNDgiLCJpZCI6IjZmZTFlYjB
 const SHEET_URL = "https://script.google.com/macros/s/AKfycby2f2uW9E2_CUBr9OiKVT4Sp-ubP2sRIXlWig-GPuKTGyDxi-zx724ZGtkOFaWW0jnqjw/exec";
 const SIN_VENTA_URL = "https://raw.githubusercontent.com/Leonardow33/MAPA_RC_INTERACTIVO/main/sinventa.txt";
 const REUNION_PIN = "0810"; // ← cambia este código cada mes
+// ── MATERIAL POP — Web App URL (pega tu URL después de desplegar el script) ──
+const MATERIAL_POP_URL = "https://script.google.com/macros/s/AKfycbzdlO_v4G2Lo9NpE0rpYevddyFX5a9vBSiZoIwDs5aw4z24CiEKdAGo2qNX16Ljrckkag/exec";  // ← reemplaza con tu URL de Apps Script de Material POP
+
+function cargarMaterialPop() {
+    if (!MATERIAL_POP_URL) return;
+    fetch(MATERIAL_POP_URL + '?t=' + Date.now())
+        .then(r => r.json())
+        .then(data => {
+            materialPopCodes = new Set((data.codes || []).map(String));
+        })
+        .catch(() => { });
+}
+cargarMaterialPop();
 // ─────────────────────────────────────────────────────────────────────────
 // ──────────────────────────────────────────────────────────────────────────
 
@@ -855,7 +875,7 @@ async function fetchChunk(pts, mode) {
             let data = await res.json();
             if (data.code === 'Ok' && data.routes[0]) return data.routes[0].geometry;
         }
-    } catch(e) { console.warn('OSRM error:', e.message); }
+    } catch (e) { console.warn('OSRM error:', e.message); }
 
     // Intento 2: OpenRouteService (requiere ORS_KEY)
     if (ORS_KEY) {
@@ -870,7 +890,7 @@ async function fetchChunk(pts, mode) {
                 let data = await res.json();
                 if (data.features?.[0]) return data.features[0].geometry;
             }
-        } catch(e) { console.warn('ORS error:', e.message); }
+        } catch (e) { console.warn('ORS error:', e.message); }
     }
 
     return null;
@@ -906,8 +926,8 @@ function haversine(lat1, lng1, lat2, lng2) {
     const R = 6371;
     const dLat = (lat2 - lat1) * Math.PI / 180;
     const dLng = (lng2 - lng1) * Math.PI / 180;
-    const a = Math.sin(dLat/2)**2 + Math.cos(lat1*Math.PI/180) * Math.cos(lat2*Math.PI/180) * Math.sin(dLng/2)**2;
-    return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+    const a = Math.sin(dLat / 2) ** 2 + Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) * Math.sin(dLng / 2) ** 2;
+    return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
 }
 
 function nearestNeighborAlgo(startLat, startLng, puntos) {
@@ -938,12 +958,12 @@ function twoOpt(pts) {
         improved = false;
         for (let i = 0; i < n - 2; i++) {
             for (let j = i + 2; j < n; j++) {
-                let d1 = haversine(pts[i].lat, pts[i].lng, pts[i+1].lat, pts[i+1].lng)
-                       + (j+1 < n ? haversine(pts[j].lat, pts[j].lng, pts[j+1].lat, pts[j+1].lng) : 0);
+                let d1 = haversine(pts[i].lat, pts[i].lng, pts[i + 1].lat, pts[i + 1].lng)
+                    + (j + 1 < n ? haversine(pts[j].lat, pts[j].lng, pts[j + 1].lat, pts[j + 1].lng) : 0);
                 let d2 = haversine(pts[i].lat, pts[i].lng, pts[j].lat, pts[j].lng)
-                       + (j+1 < n ? haversine(pts[i+1].lat, pts[i+1].lng, pts[j+1].lat, pts[j+1].lng) : 0);
+                    + (j + 1 < n ? haversine(pts[i + 1].lat, pts[i + 1].lng, pts[j + 1].lat, pts[j + 1].lng) : 0);
                 if (d2 < d1 - 1e-9) {
-                    pts = [...pts.slice(0, i+1), ...pts.slice(i+1, j+1).reverse(), ...pts.slice(j+1)];
+                    pts = [...pts.slice(0, i + 1), ...pts.slice(i + 1, j + 1).reverse(), ...pts.slice(j + 1)];
                     improved = true;
                 }
             }
@@ -971,7 +991,7 @@ async function fetchTripOSRM(allWaypoints, mode) {
             .sort((a, b) => a.wp.waypoint_index - b.wp.waypoint_index)
             .map(x => allWaypoints[x.i]);
         return { geom: data.trips[0].geometry, ordered };
-    } catch(e) {
+    } catch (e) {
         console.warn('OSRM trip error:', e.message); return null;
     }
 }
@@ -980,11 +1000,11 @@ function dibujarMarcadoresYPanel(ordered, geom) {
     // Marcadores numerados
     ordered.forEach((p, i) => {
         let numIcon = L.divIcon({
-            html: `<div style="background:#1565C0;color:white;border-radius:50%;width:28px;height:28px;display:flex;align-items:center;justify-content:center;font-weight:bold;font-size:12px;border:2px solid white;box-shadow:0 2px 6px rgba(0,0,0,0.45)">${i+1}</div>`,
+            html: `<div style="background:#1565C0;color:white;border-radius:50%;width:28px;height:28px;display:flex;align-items:center;justify-content:center;font-weight:bold;font-size:12px;border:2px solid white;box-shadow:0 2px 6px rgba(0,0,0,0.45)">${i + 1}</div>`,
             className: '', iconSize: [28, 28], iconAnchor: [14, 14]
         });
         L.marker([p.lat, p.lng], { icon: numIcon })
-            .bindPopup(`<b>#${i+1} ${p.nombre}</b><br>ID: ${p.ID}<br>RC: ${p.rc}`)
+            .bindPopup(`<b>#${i + 1} ${p.nombre}</b><br>ID: ${p.ID}<br>RC: ${p.rc}`)
             .addTo(routeMarkersLayer);
     });
 
@@ -1019,7 +1039,7 @@ function dibujarMarcadoresYPanel(ordered, geom) {
         lista.innerHTML += `
             <div class="stop-item">
                 <div style="display:flex;align-items:center">
-                    <span class="stop-num">${i+1}</span>
+                    <span class="stop-num">${i + 1}</span>
                     <span style="font-weight:600">${p.nombre}</span>
                 </div>
                 <div style="font-size:11px;color:#888;margin-top:3px;margin-left:30px">${p.ID} · ${p.rc || ''}</div>
@@ -1069,7 +1089,7 @@ async function generarRuta() {
         }
 
         dibujarMarcadoresYPanel(ordered, geom);
-    } catch(e) {
+    } catch (e) {
         console.error('Error generando ruta:', e);
         document.getElementById("listaRuta").innerHTML =
             `<div style="color:#c62828;padding:12px;font-size:13px">❌ Error inesperado al calcular la ruta.<br>Revisa la consola para más detalles.</div>`;
@@ -1104,7 +1124,7 @@ buscador.addEventListener("input", function () {
     let resultados = allData.filter(p =>
         (p.estado || "").toUpperCase() === "ACTIVO" &&
         (p.nombre.toLowerCase().includes(texto) ||
-        p.ID.toString().includes(texto))
+            p.ID.toString().includes(texto))
     ).slice(0, 10);
 
     resultados.forEach(p => {
@@ -1115,28 +1135,28 @@ buscador.addEventListener("input", function () {
 
         item.onclick = () => {
 
-    resultadosDiv.innerHTML = "";
-    buscador.value = p.nombre;
+            resultadosDiv.innerHTML = "";
+            buscador.value = p.nombre;
 
-    // 🔥 filtrar SOLO esa tienda
-    let resultadoUnico = [p];
+            // 🔥 filtrar SOLO esa tienda
+            let resultadoUnico = [p];
 
-    markersLayer.clearLayers();
+            markersLayer.clearLayers();
 
-    resultadoUnico.forEach(p => {
+            resultadoUnico.forEach(p => {
 
-        let icon = makePinIcon(p.responsable, getEstadoPunto(p.ID), p.dias);
-        let marker = L.marker([p.lat, p.lng], { icon: icon });
-        marker.bindPopup(buildPopupContent(p), { autoPan: false });
-        attachPopupOpen(marker, p);
-        marker.addTo(markersLayer);
-        marker.openPopup();
+                let icon = makePinIcon(p.responsable, getEstadoPunto(p.ID), p.dias);
+                let marker = L.marker([p.lat, p.lng], { icon: icon });
+                marker.bindPopup(buildPopupContent(p), { autoPan: false });
+                attachPopupOpen(marker, p);
+                marker.addTo(markersLayer);
+                marker.openPopup();
 
-        markersLayer.addLayer(marker);
-    });
+                markersLayer.addLayer(marker);
+            });
 
-    map.setView([p.lat, p.lng], 16);
-};
+            map.setView([p.lat, p.lng], 16);
+        };
 
         resultadosDiv.appendChild(item);
     });
@@ -1169,18 +1189,18 @@ function validarPinReunion() {
         document.querySelectorAll(".pin-digit").forEach(el => el.style.borderColor = "#e53935");
         return;
     }
-    const rc   = document.getElementById("rcFilter").value;
+    const rc = document.getElementById("rcFilter").value;
     const hora = new Date().toTimeString().slice(0, 5);
     const fecha = new Date().toLocaleDateString("es-PE");
-    const btn  = document.getElementById("btnPinConfirm");
+    const btn = document.getElementById("btnPinConfirm");
     btn.textContent = "⏳ Registrando...";
     btn.disabled = true;
     const params = new URLSearchParams({
         hoja: "Reunion",
         tipo: "reunion_mensual",
         rc, fecha, hora,
-        latRC: userLat  || "",
-        lngRC: userLng  || ""
+        latRC: userLat || "",
+        lngRC: userLng || ""
     });
     fetch(SHEET_URL + "?" + params.toString(), { mode: "no-cors" })
         .finally(() => {
@@ -1193,18 +1213,18 @@ function validarPinReunion() {
 
 // avance automático entre cajas del PIN
 document.querySelectorAll(".pin-digit").forEach((el, i, all) => {
-    el.addEventListener("input", function() {
+    el.addEventListener("input", function () {
         this.value = this.value.slice(-1);
         if (this.value && i < all.length - 1) all[i + 1].focus();
     });
-    el.addEventListener("keydown", function(e) {
+    el.addEventListener("keydown", function (e) {
         if (e.key === "Backspace" && !this.value && i > 0) all[i - 1].focus();
         if (e.key === "Enter") validarPinReunion();
     });
 });
 
 // cerrar modal al tocar fuera
-document.getElementById("modalReunion").addEventListener("click", function(e) {
+document.getElementById("modalReunion").addEventListener("click", function (e) {
     if (e.target === this) cerrarModalReunion();
 });
 
@@ -1221,20 +1241,20 @@ function fetchSinVenta() {
         .then(text => {
             // Formato: "2026-05-20 10:27|{[C]:"122",[U]:"10:08:58"}[C]{...}"
             const pipeIdx = text.indexOf('|');
-            svTimestamp   = pipeIdx >= 0 ? text.slice(0, pipeIdx).trim() : '';
+            svTimestamp = pipeIdx >= 0 ? text.slice(0, pipeIdx).trim() : '';
             const records = pipeIdx >= 0 ? text.slice(pipeIdx + 1) : text;
 
             sinVentaCodes = new Set();
             sinVentaTimes = {};
             (records.match(/\{[^}]+\}/g) || []).forEach(m => {
                 try {
-                    const r    = JSON.parse(m);
+                    const r = JSON.parse(m);
                     const code = String(r['[C]'] || '').trim();
                     if (code) {
                         sinVentaCodes.add(code);
                         sinVentaTimes[code] = String(r['[U]'] || '').trim();
                     }
-                } catch(e) {}
+                } catch (e) { }
             });
 
             const tsEl = document.getElementById("sinVentaTs");
@@ -1249,19 +1269,19 @@ function fetchSinVenta() {
 function renderSinVentaLayer() {
     sinVentaLayer.clearLayers();
     if (!sinVentaActive || sinVentaCodes.size === 0) return;
-    const rc      = document.getElementById("rcFilter").value;
-    const sup     = document.getElementById("supFilter").value;
+    const rc = document.getElementById("rcFilter").value;
+    const sup = document.getElementById("supFilter").value;
     const partner = document.getElementById("partnerFilter").value;
-    const zona    = document.getElementById("zonaFilter").value;
+    const zona = document.getElementById("zonaFilter").value;
     let count = 0;
     allData.forEach(p => {
         if (!sinVentaCodes.has(String(p.ID))) return;
         if (!p.lat || !p.lng) return;
         if ((p.estado || '').toUpperCase() !== 'ACTIVO') return;
-        if (sup     !== 'ALL' && p.supervisor !== sup)    return;
-        if (rc      !== 'ALL' && p.rc         !== rc)     return;
+        if (sup !== 'ALL' && p.supervisor !== sup) return;
+        if (rc !== 'ALL' && p.rc !== rc) return;
         if (partner !== 'ALL' && p.responsable !== partner) return;
-        if (zona    !== 'ALL' && p.zona        !== zona)  return;
+        if (zona !== 'ALL' && p.zona !== zona) return;
         const hora = sinVentaTimes[String(p.ID)] || '-';
         L.circleMarker([p.lat, p.lng], {
             radius: 7,
@@ -1338,7 +1358,7 @@ initSinVenta();
 // activar/desactivar botón según RC seleccionado
 function actualizarBtnReunion() {
     const btn = document.getElementById("btnReunion");
-    const rc  = document.getElementById("rcFilter").value;
+    const rc = document.getElementById("rcFilter").value;
     if (rc !== "ALL") {
         btn.classList.add("activo");
         btn.disabled = false;
@@ -1353,24 +1373,24 @@ document.getElementById("rcFilter").addEventListener("change", actualizarBtnReun
 // === WIDGET PARTIDOS IMPORTANTES ==========================================
 const PARTIDOS_URL = 'https://raw.githubusercontent.com/Leonardow33/CALENDARIO-INTERACTIVO-PARTIDOS/main/partidos.json';
 const LIGA_COLOR = {
-    'Mundial 2026':     '#C8A000',
-    'Amistosos':        '#7B5EA7',
-    'Roland Garros':    '#C8471B',
-    'Wimbledon':        '#006633',
-    'US Open':          '#003087',
-    'Australian Open':  '#0072CE',
-    'Liga 1 Perú':      '#D4001A',
-    'Libertadores':     '#1A3A6B',
-    'Sudamericana':     '#0D7A4E',
+    'Mundial 2026': '#C8A000',
+    'Amistosos': '#7B5EA7',
+    'Roland Garros': '#C8471B',
+    'Wimbledon': '#006633',
+    'US Open': '#003087',
+    'Australian Open': '#0072CE',
+    'Liga 1 Perú': '#D4001A',
+    'Libertadores': '#1A3A6B',
+    'Sudamericana': '#0D7A4E',
     'Champions League': '#001E62',
-    'Europa League':    '#FF6600',
-    'Premier League':   '#3D195B'
+    'Europa League': '#FF6600',
+    'Premier League': '#3D195B'
 };
 
 const FUTBOL_LIGAS = new Set([
-    'Mundial 2026','Amistosos','Liga 1 Perú','Liga 1 Peru',
-    'Libertadores','Sudamericana','Champions League',
-    'Europa League','Premier League'
+    'Mundial 2026', 'Amistosos', 'Liga 1 Perú', 'Liga 1 Peru',
+    'Libertadores', 'Sudamericana', 'Champions League',
+    'Europa League', 'Premier League'
 ]);
 
 let partidosLoaded = false;
@@ -1388,49 +1408,49 @@ function setPPTab(tab) {
 }
 
 function getWeekRange() {
-    const today = new Date(); today.setHours(0,0,0,0);
+    const today = new Date(); today.setHours(0, 0, 0, 0);
     const dow = today.getDay();
     const monday = new Date(today);
     monday.setDate(today.getDate() - (dow === 0 ? 6 : dow - 1));
     const sunday = new Date(monday);
     sunday.setDate(monday.getDate() + 6);
-    sunday.setHours(23,59,59,999);
+    sunday.setHours(23, 59, 59, 999);
     return { start: monday, end: sunday };
 }
 
 function parseMatchDay(dayStr) {
-    const months = { Jan:0, Feb:1, Mar:2, Apr:3, May:4, Jun:5, Jul:6, Aug:7, Sep:8, Oct:9, Nov:10, Dec:11 };
+    const months = { Jan: 0, Feb: 1, Mar: 2, Apr: 3, May: 4, Jun: 5, Jul: 6, Aug: 7, Sep: 8, Oct: 9, Nov: 10, Dec: 11 };
     const [d, m] = dayStr.trim().split(' ');
     return new Date(new Date().getFullYear(), months[m], parseInt(d));
 }
 
 function formatDayLabel(dayStr) {
-    const labels = ['Dom','Lun','Mar','Mié','Jue','Vie','Sáb'];
+    const labels = ['Dom', 'Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb'];
     const d = parseMatchDay(dayStr);
     return `${labels[d.getDay()]} ${dayStr}`;
 }
 
 // === PP DRUM PICKER (horizontal) ===
 const PP_DRUM_STEP = 26;
-const PP_DRUM_R    = 130;
-const PP_DAYS_ES   = ['DOM','LUN','MAR','MIÉ','JUE','VIE','SÁB'];
-const PP_MONTHS_ES = ['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
+const PP_DRUM_R = 130;
+const PP_DAYS_ES = ['DOM', 'LUN', 'MAR', 'MIÉ', 'JUE', 'VIE', 'SÁB'];
+const PP_MONTHS_ES = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'];
 
-let ppDrumIdx      = 0;
+let ppDrumIdx = 0;
 let ppDrumDragging = false;
-let ppDrumStartX   = 0;
-let ppDrumRawIdx   = 0;
-let ppDrumDays     = [];
-let ppAllMatches   = [];
+let ppDrumStartX = 0;
+let ppDrumRawIdx = 0;
+let ppDrumDays = [];
+let ppAllMatches = [];
 
 function ppDayLabel(d) { return `${d.getDate()} ${PP_MONTHS_ES[d.getMonth()]}`; }
 
 function ppGetWeekDays() {
-    const today = new Date(); today.setHours(0,0,0,0);
+    const today = new Date(); today.setHours(0, 0, 0, 0);
     const dow = today.getDay();
     const monday = new Date(today);
     monday.setDate(today.getDate() - (dow === 0 ? 6 : dow - 1));
-    return Array.from({length:7}, (_,i) => { const d = new Date(monday); d.setDate(monday.getDate()+i); return d; });
+    return Array.from({ length: 7 }, (_, i) => { const d = new Date(monday); d.setDate(monday.getDate() + i); return d; });
 }
 
 function ppApplyDrumTransform(idx) {
@@ -1442,7 +1462,7 @@ function ppUpdateDrumStyles(currentIdx) {
     document.querySelectorAll('.pp-drum-item').forEach((el, i) => {
         const diff = Math.abs(i - currentIdx);
         const isActive = diff < 0.5;
-        el.querySelector('.pp-drum-dday').style.color    = isActive ? '#1A3A6B' : diff < 1.5 ? '#333' : '#ccc';
+        el.querySelector('.pp-drum-dday').style.color = isActive ? '#1A3A6B' : diff < 1.5 ? '#333' : '#ccc';
         el.querySelector('.pp-drum-dday').style.fontSize = isActive ? '15px' : diff < 1.5 ? '12px' : '10px';
         el.querySelector('.pp-drum-ddate').style.opacity = diff < 2 ? '1' : '0.25';
     });
@@ -1457,22 +1477,22 @@ function ppSetDrumDay(idx) {
 }
 
 function ppRenderDayMatches(idx) {
-    const body    = document.getElementById('ppBody');
-    const day     = ppDrumDays[idx];
+    const body = document.getElementById('ppBody');
+    const day = ppDrumDays[idx];
     const dateStr = ppDayLabel(day);
     const matches = ppAllMatches.filter(m => m.day === dateStr)
-                                .sort((a,b) => a.time.localeCompare(b.time));
+        .sort((a, b) => a.time.localeCompare(b.time));
     body.style.transition = 'none';
-    body.style.opacity    = '0';
-    body.style.transform  = 'translateY(6px)';
+    body.style.opacity = '0';
+    body.style.transform = 'translateY(6px)';
     setTimeout(() => {
         const _now = new Date();
-        const _todayMid = new Date(); _todayMid.setHours(0,0,0,0);
+        const _todayMid = new Date(); _todayMid.setHours(0, 0, 0, 0);
         const isToday = day.getTime() === _todayMid.getTime();
         body.innerHTML = matches.length
             ? matches.map(m => {
                 const color = LIGA_COLOR[m.liga] || '#888';
-                const star  = m.importante ? ' ⭐' : '';
+                const star = m.importante ? ' ⭐' : '';
                 let finHtml = '';
                 if (isToday) {
                     const [timePart, ampm] = m.time.split(' ');
@@ -1489,22 +1509,22 @@ function ppRenderDayMatches(idx) {
                         <div class="pp-meta"><span class="pp-time">${m.time}</span><span class="pp-liga">${m.liga}</span>${finHtml}</div>
                     </div>
                 </div>`;
-              }).join('')
+            }).join('')
             : '<div class="pp-empty">Sin partidos este día 🏖️</div>';
         body.style.transition = 'opacity 0.2s ease, transform 0.2s ease';
-        body.style.opacity    = '1';
-        body.style.transform  = 'translateY(0)';
+        body.style.opacity = '1';
+        body.style.transform = 'translateY(0)';
     }, 140);
 }
 
 function buildPPDrum(allMatches) {
-    ppDrumDays   = ppGetWeekDays();
+    ppDrumDays = ppGetWeekDays();
     ppAllMatches = allMatches;
-    const track  = document.getElementById('ppDrumTrack');
+    const track = document.getElementById('ppDrumTrack');
     if (!track) return;
     track.innerHTML = '';
-    const today = new Date(); today.setHours(0,0,0,0);
-    ppDrumDays   = ppDrumDays.filter(d => d >= today);
+    const today = new Date(); today.setHours(0, 0, 0, 0);
+    ppDrumDays = ppDrumDays.filter(d => d >= today);
     ppDrumDays.forEach((day, i) => {
         const el = document.createElement('div');
         el.className = 'pp-drum-item';
@@ -1512,7 +1532,7 @@ function buildPPDrum(allMatches) {
         el.innerHTML = `<span class="pp-drum-dday">${PP_DAYS_ES[day.getDay()]}</span><span class="pp-drum-ddate">${ppDayLabel(day)}</span>`;
         track.appendChild(el);
     });
-    ppDrumIdx    = 0;
+    ppDrumIdx = 0;
     ppDrumRawIdx = ppDrumIdx;
     track.style.transition = 'none';
     ppApplyDrumTransform(ppDrumIdx);
@@ -1525,8 +1545,8 @@ function buildPPDrum(allMatches) {
 
     vp.addEventListener('touchstart', e => {
         ppDrumDragging = true;
-        ppDrumStartX   = e.touches[0].clientX;
-        ppDrumRawIdx   = ppDrumIdx;
+        ppDrumStartX = e.touches[0].clientX;
+        ppDrumRawIdx = ppDrumIdx;
         document.getElementById('ppDrumTrack').style.transition = 'none';
     }, { passive: true });
     vp.addEventListener('touchmove', e => {
@@ -1559,9 +1579,9 @@ function buildPPDrum(allMatches) {
 async function loadPartidos() {
     const body = document.getElementById('ppBody');
     try {
-        const res   = await fetch(PARTIDOS_URL + '?v=' + Date.now());
-        const json  = await res.json();
-        const today = new Date(); today.setHours(0,0,0,0);
+        const res = await fetch(PARTIDOS_URL + '?v=' + Date.now());
+        const json = await res.json();
+        const today = new Date(); today.setHours(0, 0, 0, 0);
         const { end } = getWeekRange();
         ppAllMatchesRaw = (json.matches || []).filter(m => {
             const d = parseMatchDay(m.day);
@@ -1577,7 +1597,7 @@ async function loadPartidos() {
         badge.style.display = imp ? 'block' : 'none';
         partidosLoaded = true;
         setPPTab(ppTabActual);
-    } catch(e) {
+    } catch (e) {
         body.innerHTML = '<div class="pp-empty">No se pudieron cargar los partidos.</div>';
     }
 }
@@ -1593,25 +1613,25 @@ loadPartidos();
 // =========================================================================
 
 // ── AUTO-REFRESH cuando cambia version.json ────────────────────────────────
-(function() {
+(function () {
     const VERSION_URL = (_BASE_DATA + 'version.json');
     let _vActual = null;
-    fetch(VERSION_URL).then(r => r.json()).then(d => { _vActual = d.v; }).catch(() => {});
-    setInterval(function() {
+    fetch(VERSION_URL).then(r => r.json()).then(d => { _vActual = d.v; }).catch(() => { });
+    setInterval(function () {
         fetch(VERSION_URL + '?t=' + Date.now())
             .then(r => r.json())
             .then(d => {
                 if (_vActual && d.v !== _vActual) {
                     _vActual = d.v;
-                    fetch((_BASE_DATA + 'puntos.json?v=') + Date.now(), {cache: 'no-store'})
+                    fetch((_BASE_DATA + 'puntos.json?v=') + Date.now(), { cache: 'no-store' })
                         .then(r => r.json())
                         .then(data => {
                             allData = data;
                             updateFilters();
                             console.log('Datos actualizados automaticamente:', d.v);
-                        }).catch(() => {});
+                        }).catch(() => { });
                 }
-            }).catch(() => {});
+            }).catch(() => { });
     }, 5 * 60 * 1000);
 })();
 // ──────────────────────────────────────────────────────────────────────────
