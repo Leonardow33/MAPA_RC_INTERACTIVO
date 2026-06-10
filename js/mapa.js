@@ -207,7 +207,7 @@ function repoblarSup() {
     const supSelect = document.getElementById("supFilter");
     const prev = supSelect.value;
     const opts = [...supSelect.options].filter(o => o.value === "ALL");
-    supSelect.innerHTML = '<option value="ALL">Todos</option>';
+    supSelect.innerHTML = '<option value="ALL">Supervisor</option>';
     const supSet = new Set(filtrarPorTipo(allData).map(p => p.supervisor).filter(v => v && v.trim() !== ""));
     sortedLast([...supSet], ["SIN SUPERVISOR"]).forEach(sup => {
         const o = document.createElement("option");
@@ -220,7 +220,7 @@ function repoblarSup() {
 function repoblarRC(sup) {
     const rcSelect = document.getElementById("rcFilter");
     const prevRC = rcSelect.value;
-    rcSelect.innerHTML = '<option value="ALL">Todos</option>';
+    rcSelect.innerHTML = '<option value="ALL">RC</option>';
     const base = filtrarPorTipo(sup === "ALL" ? allData : allData.filter(p => p.supervisor === sup));
     const rcSet = new Set(base.map(p => p.rc).filter(v => v && v.trim() !== ""));
     sortedLast([...rcSet], ["SIN RC"]).forEach(rc => {
@@ -612,7 +612,7 @@ function restoreFilters() {
 function repoblarPartner(sup, rc) {
     const sel = document.getElementById("partnerFilter");
     const prev = sel.value;
-    sel.innerHTML = '<option value="ALL">Todos</option>';
+    sel.innerHTML = '<option value="ALL">Partner</option>';
     const base = filtrarPorTipo(allData.filter(p =>
         (sup === "ALL" || p.supervisor === sup) &&
         (rc === "ALL" || p.rc === rc)
