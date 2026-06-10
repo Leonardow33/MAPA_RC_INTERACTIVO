@@ -50,7 +50,8 @@ map.on('popupopen', function (e) {
     const mapH = map.getSize().y;
     const popupH = (e.popup._container && e.popup._container.offsetHeight) || 260;
     const markerPx = map.latLngToContainerPoint(latlng);
-    const targetY = mapH * 0.70;
+    // Asegurar que el popup nunca suba por encima del viewport (popup más alto = target más bajo)
+    const targetY = Math.max(mapH * 0.70, popupH + 41 + 15);
     const offsetY = markerPx.y - targetY;
     if (Math.abs(offsetY) > 20) {
         map.panBy([0, offsetY], { animate: true, duration: 0.25 });

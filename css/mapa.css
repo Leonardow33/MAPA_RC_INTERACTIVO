@@ -5,10 +5,6 @@ html, body {
     display: flex;
     flex-direction: column;
 }
-/* iOS: usar altura dinámica para no quedar detrás de la barra del navegador */
-@supports (-webkit-touch-callout: none) {
-    html, body { height: -webkit-fill-available; }
-}
 
 
 #map {
