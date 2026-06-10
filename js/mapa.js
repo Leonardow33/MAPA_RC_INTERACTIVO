@@ -388,9 +388,31 @@ function buildPopupContent(p) {
         <span class="popup-visita-sab-rep">${visita.representante}</span>
         <span class="popup-visita-sab-hora">${visita.horario}</span>
       </div>` : '';
+    const FORM_POP_URL = "https://forms.gle/Vy1pKTFBvSob4rB18";
     const popBanner = MATERIAL_POP_URL ? (materialPopCodes.has(String(p.ID))
-        ? `<div style="background:#E8F5E9;border-left:4px solid #43A047;padding:7px 10px;font-size:12px;font-weight:600;color:#2E7D32;display:flex;align-items:center;gap:6px">✅ Se tomaron las fotos correspondientes</div>`
-        : `<div style="background:#FFF3E0;border-left:4px solid #FB8C00;padding:7px 10px;font-size:12px;font-weight:700;color:#E65100;display:flex;align-items:center;gap:6px">📸 FALTA LLENAR EL FORMULARIO DE FOTOS EN ESTA TIENDA</div>`) : '';
+        ? `<div style="background:linear-gradient(135deg,#1B5E20,#2E7D32);padding:9px 12px;display:flex;align-items:center;gap:8px;border-radius:4px 4px 0 0">
+             <span style="font-size:20px;line-height:1">✅</span>
+             <div>
+               <div style="font-size:11px;font-weight:800;color:#fff;text-transform:uppercase;letter-spacing:0.4px">Fotos registradas</div>
+               <div style="font-size:10px;color:rgba(255,255,255,0.8);margin-top:1px">Formulario POP completado</div>
+             </div>
+           </div>`
+        : `<div style="background:linear-gradient(135deg,#BF360C,#E64A19);padding:9px 12px;display:flex;align-items:center;justify-content:space-between;gap:8px;border-radius:4px 4px 0 0">
+             <div style="display:flex;align-items:center;gap:8px;min-width:0">
+               <span style="font-size:20px;line-height:1;flex-shrink:0">📸</span>
+               <div>
+                 <div style="font-size:11px;font-weight:800;color:#fff;text-transform:uppercase;letter-spacing:0.4px">Falta llenar formulario</div>
+                 <div style="font-size:10px;color:rgba(255,255,255,0.8);margin-top:1px">Registro de fotos POP pendiente</div>
+               </div>
+             </div>
+             <div style="display:flex;align-items:center;gap:4px;flex-shrink:0">
+               <span style="color:rgba(255,255,255,0.6);font-size:16px;font-weight:300">→</span>
+               <a href="${FORM_POP_URL}" target="_blank"
+                  style="background:#fff;color:#BF360C;font-size:11px;font-weight:800;padding:5px 11px;border-radius:20px;text-decoration:none;white-space:nowrap;box-shadow:0 2px 6px rgba(0,0,0,0.25);display:flex;align-items:center;gap:4px">
+                 📝 Llenar
+               </a>
+             </div>
+           </div>`) : '';
     return `
     <div class="popup-card">
       ${popBanner}
