@@ -70,4 +70,16 @@ with open("data/puntos.json", "w", encoding="utf-8") as f:
 with open("data/version.json", "w", encoding="utf-8") as f:
     json.dump({"v": ts, "n": len(data)}, f)
 
+# partners.json — todos los códigos incluyendo cerrados, solo ID → responsable
+partners = {}
+for _, row in df.iterrows():
+    cod = str(row["ORG_CODE"]).strip()
+    resp = str(row["P_RESPONSABLE"]).strip() if pd.notnull(row["P_RESPONSABLE"]) else ""
+    if cod and resp:
+        partners[cod] = resp
+
+with open("data/partners.json", "w", encoding="utf-8") as f:
+    json.dump(partners, f, ensure_ascii=False)
+
 print(f"Mapa actualizado OK — {len(data)} puntos — v{ts}")
+print(f"Partners OK — {len(partners)} códigos (incluye cerrados)")
