@@ -14,12 +14,12 @@
         "responsable": "LOTOBOLA",
         "frecuencia": "LUNES-MARTES-MIÉRCOLES-JUEVES-VIERNES-SÁBADO",
         "dias": [
-            "VIERNES",
-            "MARTES",
-            "JUEVES",
-            "SÁBADO",
             "MIÉRCOLES",
-            "LUNES"
+            "LUNES",
+            "SÁBADO",
+            "JUEVES",
+            "MARTES",
+            "VIERNES"
         ],
         "distrito": "SAN ISIDRO",
         "gz": "SIN INFO",
@@ -114,8 +114,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "distrito": "LOS OLIVOS",
         "gz": "Valentina",
@@ -138,8 +138,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "distrito": "ATE",
         "gz": "Patricia",
@@ -186,8 +186,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "distrito": "CALLAO",
         "gz": "Yanira",
@@ -234,8 +234,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "distrito": "MAGDALENA DEL MAR",
         "gz": "Yanira",
@@ -281,8 +281,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "distrito": "LIMA",
         "gz": "Valentina",
@@ -377,8 +377,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "distrito": "SAN JUAN DE LURIGANCHO",
         "gz": "Joel",
@@ -401,8 +401,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "distrito": "SANTIAGO DE SURCO",
         "gz": "Alejandro",
@@ -449,8 +449,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "distrito": "VILLA MARIA DEL TRIUNFO",
         "gz": "Alejandro",
@@ -473,8 +473,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "distrito": "EL AGUSTINO",
         "gz": "Patricia",
@@ -521,8 +521,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "distrito": "LOS OLIVOS",
         "gz": "Valentina",
@@ -641,8 +641,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "distrito": "PUEBLO LIBRE",
         "gz": "Yanira",
@@ -737,8 +737,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "distrito": "SAN JUAN DE LURIGANCHO",
         "gz": "Joel",
@@ -1047,8 +1047,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "distrito": "LIMA",
         "gz": "Yanira",
@@ -1142,8 +1142,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "distrito": "LIMA",
         "gz": "Valentina",
@@ -1310,8 +1310,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "distrito": "SAN MIGUEL",
         "gz": "Yanira",
@@ -1358,8 +1358,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "distrito": "ATE",
         "gz": "Patricia",
@@ -1406,8 +1406,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "distrito": "MIRAFLORES",
         "gz": "Juan",
@@ -1454,8 +1454,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "distrito": "PUEBLO LIBRE",
         "gz": "Yanira",
@@ -1478,8 +1478,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "distrito": "SAN MIGUEL",
         "gz": "Yanira",
@@ -1622,8 +1622,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "distrito": "CHORRILLOS",
         "gz": "Juan",
@@ -1646,8 +1646,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "distrito": "LIMA",
         "gz": "Yanira",
@@ -1766,8 +1766,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "distrito": "MIRAFLORES",
         "gz": "Juan",
@@ -1838,8 +1838,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "distrito": "SANTIAGO DE SURCO",
         "gz": "Alejandro",
@@ -1934,8 +1934,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "distrito": "CHORRILLOS",
         "gz": "Juan",
@@ -1958,8 +1958,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "distrito": "LIMA",
         "gz": "Yanira",
@@ -2030,8 +2030,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "distrito": "MIRAFLORES",
         "gz": "Juan",
@@ -2102,8 +2102,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "distrito": "LA VICTORIA",
         "gz": "Patricia",
@@ -2126,8 +2126,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "distrito": "MIRAFLORES",
         "gz": "Juan",
@@ -2150,8 +2150,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "distrito": "SAN JUAN DE LURIGANCHO",
         "gz": "Joel",
@@ -2222,8 +2222,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "distrito": "SAN LUIS",
         "gz": "Patricia",
@@ -2318,8 +2318,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "distrito": "MIRAFLORES",
         "gz": "Juan",
@@ -2342,8 +2342,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "distrito": "SAN BORJA",
         "gz": "Patricia",
@@ -2462,8 +2462,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "distrito": "SAN BORJA",
         "gz": "Patricia",
@@ -2582,8 +2582,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "distrito": "SAN JUAN DE LURIGANCHO",
         "gz": "Joel",
@@ -2702,8 +2702,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "distrito": "LIMA",
         "gz": "Valentina",
@@ -2870,8 +2870,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "distrito": "LOS OLIVOS",
         "gz": "Valentina",
@@ -2894,8 +2894,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "distrito": "SAN JUAN DE MIRAFLORES",
         "gz": "Alejandro",
@@ -2966,8 +2966,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "distrito": "LA VICTORIA",
         "gz": "Patricia",
@@ -2990,8 +2990,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "distrito": "LA VICTORIA",
         "gz": "Patricia",
@@ -3158,8 +3158,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "distrito": "SANTIAGO DE SURCO",
         "gz": "Alejandro",
@@ -3205,8 +3205,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "distrito": "SAN MIGUEL",
         "gz": "Yanira",
@@ -3324,8 +3324,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "distrito": "SAN JUAN DE LURIGANCHO",
         "gz": "Joel",
@@ -3396,8 +3396,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "distrito": "SAN JUAN DE LURIGANCHO",
         "gz": "Joel",
@@ -3420,8 +3420,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "distrito": "PUEBLO LIBRE",
         "gz": "Yanira",
@@ -3492,8 +3492,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "distrito": "ATE",
         "gz": "Patricia",
@@ -3540,8 +3540,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "distrito": "SAN JUAN DE MIRAFLORES",
         "gz": "Alejandro",
@@ -3780,8 +3780,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "distrito": "LA VICTORIA",
         "gz": "Patricia",
@@ -3852,8 +3852,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "distrito": "CALLAO",
         "gz": "Yanira",
@@ -3876,8 +3876,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "distrito": "CALLAO",
         "gz": "Yanira",
@@ -3948,8 +3948,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "distrito": "SAN MIGUEL",
         "gz": "Yanira",
@@ -3996,8 +3996,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "distrito": "SAN MIGUEL",
         "gz": "Yanira",
@@ -4068,8 +4068,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "distrito": "CHORRILLOS",
         "gz": "Juan",
@@ -4236,8 +4236,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "distrito": "LIMA",
         "gz": "Yanira",
@@ -4260,8 +4260,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "distrito": "SANTIAGO DE SURCO",
         "gz": "Alejandro",
@@ -4356,8 +4356,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "distrito": "MAGDALENA DEL MAR",
         "gz": "Yanira",
@@ -4428,8 +4428,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "distrito": "SANTIAGO DE SURCO",
         "gz": "Alejandro",
@@ -4524,8 +4524,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "distrito": "SANTIAGO DE SURCO",
         "gz": "Alejandro",
@@ -4620,8 +4620,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "distrito": "BELLAVISTA",
         "gz": "Yanira",
@@ -4812,8 +4812,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "distrito": "LIMA",
         "gz": "Valentina",
@@ -4980,8 +4980,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "distrito": "ATE",
         "gz": "Patricia",
@@ -5004,8 +5004,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "distrito": "CHORRILLOS",
         "gz": "Juan",
@@ -5028,8 +5028,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "distrito": "SAN MIGUEL",
         "gz": "Yanira",
@@ -5338,8 +5338,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "distrito": "SAN JUAN DE MIRAFLORES",
         "gz": "Alejandro",
@@ -5410,8 +5410,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "distrito": "SAN MARTIN DE PORRES",
         "gz": "Claudio",
@@ -5505,8 +5505,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "distrito": "VILLA MARIA DEL TRIUNFO",
         "gz": "Alejandro",
@@ -5529,8 +5529,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "distrito": "EL AGUSTINO",
         "gz": "Patricia",
@@ -5624,8 +5624,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "distrito": "SANTIAGO DE SURCO",
         "gz": "Alejandro",
@@ -5672,8 +5672,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "distrito": "CHORRILLOS",
         "gz": "Juan",
@@ -6007,8 +6007,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "distrito": "BARRANCO",
         "gz": "Juan",
@@ -6031,8 +6031,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "distrito": "SAN LUIS",
         "gz": "Patricia",
@@ -6103,8 +6103,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "distrito": "CHORRILLOS",
         "gz": "Juan",
@@ -6151,8 +6151,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "distrito": "PUEBLO LIBRE",
         "gz": "Yanira",
@@ -6222,8 +6222,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "distrito": "MAGDALENA DEL MAR",
         "gz": "Yanira",
@@ -6246,8 +6246,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "distrito": "SAN JUAN DE LURIGANCHO",
         "gz": "Joel",
@@ -6365,8 +6365,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "distrito": "SAN MIGUEL",
         "gz": "Yanira",
@@ -6484,8 +6484,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "distrito": "CALLAO",
         "gz": "Yanira",
@@ -6625,8 +6625,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "distrito": "SAN MIGUEL",
         "gz": "Yanira",
@@ -6744,8 +6744,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "distrito": "SANTIAGO DE SURCO",
         "gz": "Alejandro",
@@ -6816,8 +6816,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "distrito": "SAN ISIDRO",
         "gz": "Valentina",
@@ -6864,8 +6864,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "distrito": "SANTIAGO DE SURCO",
         "gz": "Alejandro",
@@ -7006,8 +7006,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "distrito": "SAN ISIDRO",
         "gz": "Valentina",
@@ -7054,8 +7054,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "distrito": "LA VICTORIA",
         "gz": "Patricia",
@@ -7078,8 +7078,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "distrito": "SAN LUIS",
         "gz": "Patricia",
@@ -7126,8 +7126,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "distrito": "PUEBLO LIBRE",
         "gz": "Yanira",
@@ -7293,8 +7293,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "distrito": "LOS OLIVOS",
         "gz": "Valentina",
@@ -7341,8 +7341,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "distrito": "CALLAO",
         "gz": "Yanira",
@@ -7365,8 +7365,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "distrito": "SAN MARTIN DE PORRES",
         "gz": "Claudio",
@@ -7483,8 +7483,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "distrito": "MIRAFLORES",
         "gz": "Juan",
@@ -7531,8 +7531,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "distrito": "SAN MARTIN DE PORRES",
         "gz": "Claudio",
@@ -7603,8 +7603,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "distrito": "SAN MARTIN DE PORRES",
         "gz": "Claudio",
@@ -7698,8 +7698,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "distrito": "SAN JUAN DE MIRAFLORES",
         "gz": "Alejandro",
@@ -7912,8 +7912,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "distrito": "SAN MARTIN DE PORRES",
         "gz": "Claudio",
@@ -7960,8 +7960,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "distrito": "LIMA",
         "gz": "Valentina",
@@ -8032,8 +8032,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "distrito": "VILLA MARIA DEL TRIUNFO",
         "gz": "Alejandro",
@@ -8198,8 +8198,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "distrito": "SAN BORJA",
         "gz": "Patricia",
@@ -8269,8 +8269,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "distrito": "SAN JUAN DE LURIGANCHO",
         "gz": "Joel",
@@ -8316,8 +8316,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "distrito": "CHORRILLOS",
         "gz": "Juan",
@@ -8388,8 +8388,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "distrito": "SAN BORJA",
         "gz": "Patricia",
@@ -8435,8 +8435,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "distrito": "BARRANCO",
         "gz": "Juan",
@@ -8672,8 +8672,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "distrito": "MIRAFLORES",
         "gz": "Juan",
@@ -8769,8 +8769,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "distrito": "BARRANCO",
         "gz": "Juan",
@@ -8910,8 +8910,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "distrito": "SANTIAGO DE SURCO",
         "gz": "Alejandro",
@@ -8958,8 +8958,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "distrito": "SAN ISIDRO",
         "gz": "Valentina",
@@ -9125,8 +9125,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "distrito": "CHORRILLOS",
         "gz": "Juan",
@@ -9149,8 +9149,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "distrito": "SANTIAGO DE SURCO",
         "gz": "Alejandro",
@@ -9196,8 +9196,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "distrito": "CALLAO",
         "gz": "Yanira",
@@ -9481,8 +9481,8 @@
         "responsable": "TAMBO",
         "frecuencia": "JUEVES-SÁBADO",
         "dias": [
-            "JUEVES",
-            "SÁBADO"
+            "SÁBADO",
+            "JUEVES"
         ],
         "distrito": "TRUJILLO",
         "gz": "Jesus",
@@ -9552,8 +9552,8 @@
         "frecuencia": "MARTES-JUEVES-SÁBADO",
         "dias": [
             "MARTES",
-            "JUEVES",
-            "SÁBADO"
+            "SÁBADO",
+            "JUEVES"
         ],
         "distrito": "PIURA",
         "gz": "Jesus",
@@ -9600,8 +9600,8 @@
         "responsable": "TAMBO",
         "frecuencia": "JUEVES-SÁBADO",
         "dias": [
-            "JUEVES",
-            "SÁBADO"
+            "SÁBADO",
+            "JUEVES"
         ],
         "distrito": "TRUJILLO",
         "gz": "Jesus",
@@ -9650,8 +9650,8 @@
         "frecuencia": "MARTES-JUEVES-SÁBADO",
         "dias": [
             "MARTES",
-            "JUEVES",
-            "SÁBADO"
+            "SÁBADO",
+            "JUEVES"
         ],
         "distrito": "PIURA",
         "gz": "Jesus",
@@ -9698,8 +9698,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "distrito": "SAN JUAN DE LURIGANCHO",
         "gz": "Joel",
@@ -9770,8 +9770,8 @@
         "frecuencia": "MARTES-JUEVES-SÁBADO",
         "dias": [
             "MARTES",
-            "JUEVES",
-            "SÁBADO"
+            "SÁBADO",
+            "JUEVES"
         ],
         "distrito": "CHICLAYO",
         "gz": "Jesus",
@@ -9795,8 +9795,8 @@
         "frecuencia": "MARTES-JUEVES-SÁBADO",
         "dias": [
             "MARTES",
-            "JUEVES",
-            "SÁBADO"
+            "SÁBADO",
+            "JUEVES"
         ],
         "distrito": "CHICLAYO",
         "gz": "Jesus",
@@ -9843,8 +9843,8 @@
         "responsable": "TAMBO",
         "frecuencia": "JUEVES-SÁBADO",
         "dias": [
-            "JUEVES",
-            "SÁBADO"
+            "SÁBADO",
+            "JUEVES"
         ],
         "distrito": "TRUJILLO",
         "gz": "Jesus",
@@ -9890,8 +9890,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "distrito": "EL AGUSTINO",
         "gz": "Patricia",
@@ -10131,8 +10131,8 @@
         "frecuencia": "MARTES-JUEVES-SÁBADO",
         "dias": [
             "MARTES",
-            "JUEVES",
-            "SÁBADO"
+            "SÁBADO",
+            "JUEVES"
         ],
         "distrito": "CHICLAYO",
         "gz": "Jesus",
@@ -10203,8 +10203,8 @@
         "frecuencia": "MARTES-JUEVES-SÁBADO",
         "dias": [
             "MARTES",
-            "JUEVES",
-            "SÁBADO"
+            "SÁBADO",
+            "JUEVES"
         ],
         "distrito": "PIURA",
         "gz": "Jesus",
@@ -10250,8 +10250,8 @@
         "responsable": "TAMBO",
         "frecuencia": "JUEVES-SÁBADO",
         "dias": [
-            "JUEVES",
-            "SÁBADO"
+            "SÁBADO",
+            "JUEVES"
         ],
         "distrito": "TRUJILLO",
         "gz": "Jesus",
@@ -10297,8 +10297,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "distrito": "RIMAC",
         "gz": "Valentina",
@@ -10466,8 +10466,8 @@
         "frecuencia": "MARTES-JUEVES-SÁBADO",
         "dias": [
             "MARTES",
-            "JUEVES",
-            "SÁBADO"
+            "SÁBADO",
+            "JUEVES"
         ],
         "distrito": "PIURA",
         "gz": "Jesus",
@@ -10656,8 +10656,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "distrito": "LIMA",
         "gz": "Valentina",
@@ -10704,8 +10704,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "distrito": "LIMA",
         "gz": "Yanira",
@@ -10776,8 +10776,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "distrito": "SAN ISIDRO",
         "gz": "Valentina",
@@ -10824,8 +10824,8 @@
         "responsable": "TAMBO",
         "frecuencia": "JUEVES-SÁBADO",
         "dias": [
-            "JUEVES",
-            "SÁBADO"
+            "SÁBADO",
+            "JUEVES"
         ],
         "distrito": "TRUJILLO",
         "gz": "Jesus",
@@ -10896,8 +10896,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "distrito": "CHORRILLOS",
         "gz": "Juan",
@@ -10992,8 +10992,8 @@
         "responsable": "TAMBO",
         "frecuencia": "JUEVES-SÁBADO",
         "dias": [
-            "JUEVES",
-            "SÁBADO"
+            "SÁBADO",
+            "JUEVES"
         ],
         "distrito": "TRUJILLO",
         "gz": "Jesus",
@@ -11016,8 +11016,8 @@
         "responsable": "TAMBO",
         "frecuencia": "JUEVES-SÁBADO",
         "dias": [
-            "JUEVES",
-            "SÁBADO"
+            "SÁBADO",
+            "JUEVES"
         ],
         "distrito": "TRUJILLO",
         "gz": "Jesus",
@@ -11087,8 +11087,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-MARTES-MIÉRCOLES",
         "dias": [
-            "MARTES",
             "MIÉRCOLES",
+            "MARTES",
             "LUNES"
         ],
         "distrito": "ICA",
@@ -11183,8 +11183,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "distrito": "LIMA",
         "gz": "Yanira",
@@ -11207,8 +11207,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "distrito": "LIMA",
         "gz": "Valentina",
@@ -11232,8 +11232,8 @@
         "frecuencia": "MARTES-JUEVES-SÁBADO",
         "dias": [
             "MARTES",
-            "JUEVES",
-            "SÁBADO"
+            "SÁBADO",
+            "JUEVES"
         ],
         "distrito": "CHICLAYO",
         "gz": "Jesus",
@@ -11448,8 +11448,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "distrito": "CHORRILLOS",
         "gz": "Juan",
@@ -11472,8 +11472,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "distrito": "SAN ISIDRO",
         "gz": "Valentina",
@@ -11520,8 +11520,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "distrito": "LOS OLIVOS",
         "gz": "Valentina",
@@ -11567,8 +11567,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "distrito": "LIMA",
         "gz": "Valentina",
@@ -11662,8 +11662,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "distrito": "MAGDALENA DEL MAR",
         "gz": "Yanira",
@@ -11734,8 +11734,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "distrito": "SANTIAGO DE SURCO",
         "gz": "Alejandro",
@@ -11927,8 +11927,8 @@
         "responsable": "TAMBO",
         "frecuencia": "JUEVES-SÁBADO",
         "dias": [
-            "JUEVES",
-            "SÁBADO"
+            "SÁBADO",
+            "JUEVES"
         ],
         "distrito": "TRUJILLO",
         "gz": "Jesus",
@@ -12212,8 +12212,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "distrito": "SAN LUIS",
         "gz": "Patricia",
@@ -12283,8 +12283,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "distrito": "VILLA MARIA DEL TRIUNFO",
         "gz": "Alejandro",
@@ -12354,8 +12354,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "distrito": "AREQUIPA",
         "gz": "Jesus",
@@ -12378,8 +12378,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "distrito": "SAN ISIDRO",
         "gz": "Valentina",
@@ -12425,8 +12425,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "distrito": "AREQUIPA",
         "gz": "Jesus",
@@ -12450,8 +12450,8 @@
         "frecuencia": "MARTES-JUEVES-SÁBADO",
         "dias": [
             "MARTES",
-            "JUEVES",
-            "SÁBADO"
+            "SÁBADO",
+            "JUEVES"
         ],
         "distrito": "CHICLAYO",
         "gz": "Jesus",
@@ -12520,8 +12520,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "distrito": "SAN MIGUEL",
         "gz": "Yanira",
@@ -12545,8 +12545,8 @@
         "frecuencia": "MARTES-JUEVES-SÁBADO",
         "dias": [
             "MARTES",
-            "JUEVES",
-            "SÁBADO"
+            "SÁBADO",
+            "JUEVES"
         ],
         "distrito": "CHICLAYO",
         "gz": "Jesus",
@@ -12569,8 +12569,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "distrito": "MAGDALENA DEL MAR",
         "gz": "Yanira",
@@ -12712,8 +12712,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "distrito": "LA PUNTA",
         "gz": "Yanira",
@@ -12900,8 +12900,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "distrito": "AREQUIPA",
         "gz": "Jesus",
@@ -12948,8 +12948,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "distrito": "LIMA",
         "gz": "Valentina",
@@ -13018,8 +13018,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "distrito": "AREQUIPA",
         "gz": "Jesus",
@@ -13065,8 +13065,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "distrito": "AREQUIPA",
         "gz": "Jesus",
@@ -13185,8 +13185,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "distrito": "SAN BORJA",
         "gz": "Patricia",
@@ -13209,8 +13209,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "distrito": "PUEBLO LIBRE",
         "gz": "Yanira",
@@ -13280,8 +13280,8 @@
         "responsable": "TAMBO",
         "frecuencia": "JUEVES-SÁBADO",
         "dias": [
-            "JUEVES",
-            "SÁBADO"
+            "SÁBADO",
+            "JUEVES"
         ],
         "distrito": "TRUJILLO",
         "gz": "Jesus",
@@ -13304,8 +13304,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "distrito": "LIMA",
         "gz": "Yanira",
@@ -13352,8 +13352,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "distrito": "VILLA MARIA DEL TRIUNFO",
         "gz": "Alejandro",
@@ -13565,8 +13565,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "distrito": "YANAHUARA",
         "gz": "Jesus",
@@ -13660,8 +13660,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-MARTES-MIÉRCOLES",
         "dias": [
-            "MARTES",
             "MIÉRCOLES",
+            "MARTES",
             "LUNES"
         ],
         "distrito": "ICA",
@@ -13708,8 +13708,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "distrito": "CALLAO",
         "gz": "Yanira",
@@ -13945,8 +13945,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "distrito": "LA VICTORIA",
         "gz": "Patricia",
@@ -13969,8 +13969,8 @@
         "responsable": "TAMBO",
         "frecuencia": "JUEVES-SÁBADO",
         "dias": [
-            "JUEVES",
-            "SÁBADO"
+            "SÁBADO",
+            "JUEVES"
         ],
         "distrito": "TRUJILLO",
         "gz": "Jesus",
@@ -14086,8 +14086,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "distrito": "CHORRILLOS",
         "gz": "Juan",
@@ -14206,8 +14206,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "distrito": "AREQUIPA",
         "gz": "Jesus",
@@ -14348,8 +14348,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "distrito": "SAN MIGUEL",
         "gz": "Yanira",
@@ -14493,8 +14493,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "distrito": "CALLAO",
         "gz": "Yanira",
@@ -14540,8 +14540,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "distrito": "MAGDALENA DEL MAR",
         "gz": "Yanira",
@@ -14588,8 +14588,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-MARTES-MIÉRCOLES",
         "dias": [
-            "MARTES",
             "MIÉRCOLES",
+            "MARTES",
             "LUNES"
         ],
         "distrito": "ICA",
@@ -14825,8 +14825,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "distrito": "LOS OLIVOS",
         "gz": "Valentina",
@@ -14921,8 +14921,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "distrito": "LIMA",
         "gz": "Valentina",
@@ -15419,8 +15419,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-MARTES-MIÉRCOLES",
         "dias": [
-            "MARTES",
             "MIÉRCOLES",
+            "MARTES",
             "LUNES"
         ],
         "distrito": "ICA",
@@ -15776,8 +15776,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "distrito": "SAN MIGUEL",
         "gz": "Yanira",
@@ -15848,8 +15848,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "distrito": "LA VICTORIA",
         "gz": "Patricia",
@@ -16207,8 +16207,8 @@
         "responsable": "AUR BODEGA",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "distrito": "CALLAO",
         "gz": "SIN INFO",
@@ -16231,8 +16231,8 @@
         "responsable": "AUR BODEGA",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "distrito": "CALLAO",
         "gz": "SIN INFO",
@@ -16563,8 +16563,8 @@
         "responsable": "AUR BODEGA",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "distrito": "PUEBLO LIBRE",
         "gz": "SIN INFO",
@@ -16587,8 +16587,8 @@
         "responsable": "AUR BODEGA",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "distrito": "SAN MARTIN DE PORRES",
         "gz": "SIN INFO",
@@ -16611,8 +16611,8 @@
         "responsable": "AUR BODEGA",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "distrito": "SAN MARTIN DE PORRES",
         "gz": "SIN INFO",
@@ -16635,8 +16635,8 @@
         "responsable": "AUR BODEGA",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "distrito": "LINCE",
         "gz": "SIN INFO",
@@ -16730,8 +16730,8 @@
         "responsable": "AUR BODEGA",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "distrito": "LA MOLINA",
         "gz": "SIN INFO",
@@ -16801,8 +16801,8 @@
         "responsable": "AUR BODEGA",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "distrito": "PUENTE PIEDRA",
         "gz": "SIN INFO",
@@ -16966,8 +16966,8 @@
         "responsable": "AUR BODEGA",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "distrito": "SAN MARTIN DE PORRES",
         "gz": "SIN INFO",
@@ -17110,8 +17110,8 @@
         "responsable": "AUR BODEGA",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "distrito": "CARABAYLLO",
         "gz": "SIN INFO",
@@ -17158,8 +17158,8 @@
         "responsable": "AUR BODEGA",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "distrito": "SAN MARTIN DE PORRES",
         "gz": "SIN INFO",
@@ -17276,8 +17276,8 @@
         "responsable": "AUR BODEGA",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "distrito": "VILLA MARIA DEL TRIUNFO",
         "gz": "SIN INFO",
@@ -17300,8 +17300,8 @@
         "responsable": "AUR BODEGA",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "distrito": "VILLA MARIA DEL TRIUNFO",
         "gz": "SIN INFO",
@@ -17442,8 +17442,8 @@
         "responsable": "AUR BODEGA",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "distrito": "CALLAO",
         "gz": "SIN INFO",
@@ -17777,8 +17777,8 @@
         "responsable": "AUR BODEGA",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "distrito": "LIMA",
         "gz": "SIN INFO",
@@ -17848,8 +17848,8 @@
         "responsable": "AUR BODEGA",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "distrito": "VILLA MARIA DEL TRIUNFO",
         "gz": "SIN INFO",
@@ -17872,8 +17872,8 @@
         "responsable": "AUR BODEGA",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "distrito": "SAN MARTIN DE PORRES",
         "gz": "SIN INFO",
@@ -18015,8 +18015,8 @@
         "responsable": "AUR BODEGA",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "distrito": "LOS OLIVOS",
         "gz": "SIN INFO",
@@ -18063,8 +18063,8 @@
         "responsable": "AUR BODEGA",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "distrito": "VILLA EL SALVADOR",
         "gz": "SIN INFO",
@@ -18252,8 +18252,8 @@
         "responsable": "AUR BODEGA",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "distrito": "LA MOLINA",
         "gz": "SIN INFO",
@@ -18299,8 +18299,8 @@
         "responsable": "AUR BODEGA",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "distrito": "LIMA",
         "gz": "SIN INFO",
@@ -18323,8 +18323,8 @@
         "responsable": "AUR BODEGA",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "distrito": "LIMA",
         "gz": "SIN INFO",
@@ -18604,8 +18604,8 @@
         "responsable": "AUR BODEGA",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "distrito": "SAN MIGUEL",
         "gz": "SIN INFO",
@@ -18628,8 +18628,8 @@
         "responsable": "AUR BODEGA",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "distrito": "PUENTE PIEDRA",
         "gz": "SIN INFO",
@@ -19372,12 +19372,12 @@
         "responsable": "JS BODEGA",
         "frecuencia": "LUNES-MARTES-MIÉRCOLES-JUEVES-VIERNES-SÁBADO",
         "dias": [
-            "VIERNES",
-            "MARTES",
-            "JUEVES",
-            "SÁBADO",
             "MIÉRCOLES",
-            "LUNES"
+            "LUNES",
+            "SÁBADO",
+            "JUEVES",
+            "MARTES",
+            "VIERNES"
         ],
         "distrito": "EL TAMBO",
         "gz": "SIN INFO",
@@ -19400,12 +19400,12 @@
         "responsable": "JS BODEGA",
         "frecuencia": "LUNES-MARTES-MIÉRCOLES-JUEVES-VIERNES-SÁBADO",
         "dias": [
-            "VIERNES",
-            "MARTES",
-            "JUEVES",
-            "SÁBADO",
             "MIÉRCOLES",
-            "LUNES"
+            "LUNES",
+            "SÁBADO",
+            "JUEVES",
+            "MARTES",
+            "VIERNES"
         ],
         "distrito": "HUANCAYO",
         "gz": "SIN INFO",
@@ -19660,8 +19660,8 @@
         "responsable": "JS BODEGA",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "distrito": "AREQUIPA",
         "gz": "SIN INFO",
@@ -19708,8 +19708,8 @@
         "responsable": "JS BODEGA",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "distrito": "CALLERIA",
         "gz": "SIN INFO",
@@ -19900,8 +19900,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-MARTES-MIÉRCOLES",
         "dias": [
-            "MARTES",
             "MIÉRCOLES",
+            "MARTES",
             "LUNES"
         ],
         "distrito": "ICA",
@@ -20067,8 +20067,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "distrito": "SANTIAGO DE SURCO",
         "gz": "Alejandro",
@@ -20256,8 +20256,8 @@
         "responsable": "TAMBO",
         "frecuencia": "JUEVES-SÁBADO",
         "dias": [
-            "JUEVES",
-            "SÁBADO"
+            "SÁBADO",
+            "JUEVES"
         ],
         "distrito": "TRUJILLO",
         "gz": "Jesus",
@@ -20351,8 +20351,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "distrito": "CHORRILLOS",
         "gz": "Juan",
@@ -20470,8 +20470,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "distrito": "PUEBLO LIBRE",
         "gz": "Yanira",
@@ -20635,8 +20635,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "distrito": "CHORRILLOS",
         "gz": "Juan",
@@ -20754,8 +20754,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "distrito": "SAN MIGUEL",
         "gz": "Yanira",
@@ -20918,8 +20918,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "distrito": "SAN MIGUEL",
         "gz": "Yanira",
@@ -21366,8 +21366,8 @@
         "responsable": "TINBET",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "distrito": "LIMA",
         "gz": "Andrea Ramirez",
@@ -21509,8 +21509,8 @@
         "responsable": "TINBET",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "distrito": "SAN MARTIN DE PORRES",
         "gz": "Andrea Ramirez",
@@ -21557,8 +21557,8 @@
         "responsable": "TINBET",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "distrito": "SAN JUAN DE MIRAFLORES",
         "gz": "Andrea Ramirez",
@@ -21677,8 +21677,8 @@
         "responsable": "TINBET",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "distrito": "LIMA",
         "gz": "Andrea Ramirez",
@@ -21701,8 +21701,8 @@
         "responsable": "TINBET",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "distrito": "LIMA",
         "gz": "Andrea Ramirez",
@@ -21819,8 +21819,8 @@
         "responsable": "TINBET",
         "frecuencia": "JUEVES-SÁBADO",
         "dias": [
-            "JUEVES",
-            "SÁBADO"
+            "SÁBADO",
+            "JUEVES"
         ],
         "distrito": "TRUJILLO",
         "gz": "Andrea Ramirez",
@@ -21867,8 +21867,8 @@
         "responsable": "TINBET",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "distrito": "REQUE",
         "gz": "BEASPORT",
@@ -22012,8 +22012,8 @@
         "responsable": "TINBET",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "distrito": "PUENTE PIEDRA",
         "gz": "INDEPENDIENTES",
@@ -22083,8 +22083,8 @@
         "responsable": "TINBET",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "distrito": "BREÑA",
         "gz": "FERNANDO ORBEGOZO",
@@ -22369,8 +22369,8 @@
         "frecuencia": "MARTES-JUEVES-SÁBADO",
         "dias": [
             "MARTES",
-            "JUEVES",
-            "SÁBADO"
+            "SÁBADO",
+            "JUEVES"
         ],
         "distrito": "PIURA",
         "gz": "FERNANDO ORBEGOZO",
@@ -22419,8 +22419,8 @@
         "frecuencia": "MARTES-JUEVES-SÁBADO",
         "dias": [
             "MARTES",
-            "JUEVES",
-            "SÁBADO"
+            "SÁBADO",
+            "JUEVES"
         ],
         "distrito": "VEINTISEIS DE OCTUBRE",
         "gz": "FERNANDO ORBEGOZO",
@@ -22443,8 +22443,8 @@
         "responsable": "TINBET",
         "frecuencia": "JUEVES-LUNES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "distrito": "SAN NICOLAS",
         "gz": "INDEPENDIENTES",
@@ -22468,8 +22468,8 @@
         "frecuencia": "MARTES-JUEVES-SÁBADO",
         "dias": [
             "MARTES",
-            "JUEVES",
-            "SÁBADO"
+            "SÁBADO",
+            "JUEVES"
         ],
         "distrito": "JOSE LEONARDO ORTIZ",
         "gz": "INDEPENDIENTES",
@@ -22849,11 +22849,11 @@
         "responsable": "TINBET",
         "frecuencia": "LUNES-JUEVES-MIÉRCOLES-JUEVES-VIERNES-SÁBADO",
         "dias": [
-            "VIERNES",
-            "JUEVES",
-            "SÁBADO",
             "MIÉRCOLES",
-            "LUNES"
+            "LUNES",
+            "SÁBADO",
+            "JUEVES",
+            "VIERNES"
         ],
         "distrito": "EL TAMBO",
         "gz": "INDEPENDIENTES",
@@ -22876,11 +22876,11 @@
         "responsable": "TINBET",
         "frecuencia": "LUNES-JUEVES-MIÉRCOLES-JUEVES-VIERNES-SÁBADO",
         "dias": [
-            "VIERNES",
-            "JUEVES",
-            "SÁBADO",
             "MIÉRCOLES",
-            "LUNES"
+            "LUNES",
+            "SÁBADO",
+            "JUEVES",
+            "VIERNES"
         ],
         "distrito": "EL TAMBO",
         "gz": "INDEPENDIENTES",
@@ -22903,11 +22903,11 @@
         "responsable": "TINBET",
         "frecuencia": "LUNES-JUEVES-MIÉRCOLES-JUEVES-VIERNES-SÁBADO",
         "dias": [
-            "VIERNES",
-            "JUEVES",
-            "SÁBADO",
             "MIÉRCOLES",
-            "LUNES"
+            "LUNES",
+            "SÁBADO",
+            "JUEVES",
+            "VIERNES"
         ],
         "distrito": "EL TAMBO",
         "gz": "INDEPENDIENTES",
@@ -22931,8 +22931,8 @@
         "frecuencia": "MARTES-JUEVES-SÁBADO",
         "dias": [
             "MARTES",
-            "JUEVES",
-            "SÁBADO"
+            "SÁBADO",
+            "JUEVES"
         ],
         "distrito": "CHICLAYO",
         "gz": "INDEPENDIENTES",
@@ -22979,8 +22979,8 @@
         "responsable": "TINBET",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "distrito": "SAN JUAN DE LURIGANCHO",
         "gz": "LENIN MORALES",
@@ -23098,8 +23098,8 @@
         "responsable": "TINBET",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "distrito": "CALLERIA",
         "gz": "FRANCISCO VASQUEZ JURADO",
@@ -23122,8 +23122,8 @@
         "responsable": "TINBET",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "distrito": "CALLERIA",
         "gz": "FRANCISCO VASQUEZ JURADO",
@@ -23385,8 +23385,8 @@
         "responsable": "TINBET",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "distrito": "CALLERIA",
         "gz": "FRANCISCO VASQUEZ JURADO",
@@ -23574,8 +23574,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "distrito": "LA VICTORIA",
         "gz": "Patricia",
@@ -23692,8 +23692,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-MARTES-MIÉRCOLES",
         "dias": [
-            "MARTES",
             "MIÉRCOLES",
+            "MARTES",
             "LUNES"
         ],
         "distrito": "ICA",
@@ -24354,8 +24354,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "distrito": "SAN MIGUEL",
         "gz": "Yanira",
@@ -24402,8 +24402,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "distrito": "SAN ISIDRO",
         "gz": "Valentina",
@@ -24449,8 +24449,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "distrito": "SAN JUAN DE MIRAFLORES",
         "gz": "Alejandro",
@@ -24520,8 +24520,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "distrito": "LA VICTORIA",
         "gz": "Patricia",
@@ -24614,8 +24614,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "distrito": "VILLA MARIA DEL TRIUNFO",
         "gz": "Alejandro",
@@ -24686,8 +24686,8 @@
         "responsable": "TINBET",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "distrito": "CALLERIA",
         "gz": "FRANCISCO VASQUEZ JURADO",
@@ -24808,8 +24808,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "distrito": "VICTOR LARCO HERRERA",
         "gz": "Jesus",
@@ -25041,8 +25041,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "distrito": "SAN MIGUEL",
         "gz": "Yanira",
@@ -25089,8 +25089,8 @@
         "responsable": "TAMBO",
         "frecuencia": "JUEVES-SÁBADO",
         "dias": [
-            "JUEVES",
-            "SÁBADO"
+            "SÁBADO",
+            "JUEVES"
         ],
         "distrito": "TRUJILLO",
         "gz": "Jesus",
@@ -25160,8 +25160,8 @@
         "responsable": "TINBET",
         "frecuencia": "JUEVES-LUNES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "distrito": "NUEVA CAJAMARCA",
         "gz": "ARTURO ALVARADO",
@@ -25346,8 +25346,8 @@
         "responsable": "TINBET",
         "frecuencia": "JUEVES-LUNES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "distrito": "CHACHAPOYAS",
         "gz": "ARTURO ALVARADO",
@@ -25370,8 +25370,8 @@
         "responsable": "TINBET",
         "frecuencia": "JUEVES-LUNES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "distrito": "CHACHAPOYAS",
         "gz": "ARTURO ALVARADO",
@@ -25420,8 +25420,8 @@
         "frecuencia": "MARTES-JUEVES-SÁBADO",
         "dias": [
             "MARTES",
-            "JUEVES",
-            "SÁBADO"
+            "SÁBADO",
+            "JUEVES"
         ],
         "distrito": "CHICLAYO",
         "gz": "Kely Correa",
@@ -25444,8 +25444,8 @@
         "responsable": "APUESTA TOTAL",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "distrito": "BREÑA",
         "gz": "Jessie Basurto",
@@ -25471,7 +25471,7 @@
             "LUNES"
         ],
         "distrito": "LURIGANCHO",
-        "gz": "Vanessa Asencios",
+        "gz": "Vanessa Ascencios",
         "jz": "Joel Ysla",
         "zonal_tipo": "LIMA",
         "tipo": "CASA DE APUESTA"
@@ -25539,8 +25539,8 @@
         "responsable": "APUESTA TOTAL",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "distrito": "CALLAO",
         "gz": "Jessie Basurto",
@@ -25563,8 +25563,8 @@
         "responsable": "APUESTA TOTAL",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "distrito": "BELLAVISTA",
         "gz": "Jessie Basurto",
@@ -25685,7 +25685,7 @@
             "SÁBADO"
         ],
         "distrito": "COMAS",
-        "gz": "Mily Vanessa Valerin",
+        "gz": "Vanessa Valerin",
         "jz": "Andrea Vizcarra",
         "zonal_tipo": "LIMA",
         "tipo": "CASA DE APUESTA"
@@ -25846,8 +25846,8 @@
         "responsable": "APUESTA TOTAL",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "distrito": "SAN JUAN DE LURIGANCHO",
         "gz": "Andrea Rafael",
@@ -25941,8 +25941,8 @@
         "frecuencia": "MARTES-JUEVES-SÁBADO",
         "dias": [
             "MARTES",
-            "JUEVES",
-            "SÁBADO"
+            "SÁBADO",
+            "JUEVES"
         ],
         "distrito": "CHICLAYO",
         "gz": "GIULIANNA LAZARO",
@@ -26037,8 +26037,8 @@
         "responsable": "LIVESPORT",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "distrito": "SAN JUAN DE LURIGANCHO",
         "gz": "LILIANA LOPEZ",
@@ -26371,8 +26371,8 @@
         "responsable": "LIVESPORT",
         "frecuencia": "JUEVES-LUNES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "distrito": "SANTIAGO DE SURCO",
         "gz": "FANNY CHAVEZ",
@@ -26539,8 +26539,8 @@
         "responsable": "LIVESPORT",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "distrito": "SAN JUAN DE LURIGANCHO",
         "gz": "LILIANNA LOPEZ",
@@ -26778,8 +26778,8 @@
         "responsable": "TINBET",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "distrito": "PUENTE PIEDRA",
         "gz": "CARLOS ALVARADO",
@@ -26919,11 +26919,11 @@
         "responsable": "TINBET",
         "frecuencia": "LUNES-JUEVES-MIÉRCOLES-JUEVES-VIERNES-SÁBADO",
         "dias": [
-            "VIERNES",
-            "JUEVES",
-            "SÁBADO",
             "MIÉRCOLES",
-            "LUNES"
+            "LUNES",
+            "SÁBADO",
+            "JUEVES",
+            "VIERNES"
         ],
         "distrito": "JUNÍN",
         "gz": "GIAN MIRANDA",
@@ -26992,8 +26992,8 @@
         "responsable": "TINBET",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "distrito": "PUENTE PIEDRA",
         "gz": "INDEPENDIENTES",
@@ -27108,8 +27108,8 @@
         "responsable": "TINBET",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "distrito": "LA LIBERTAD",
         "gz": "MARCBETS",
@@ -27459,8 +27459,8 @@
         "responsable": "TINBET",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "distrito": "UCAYALI",
         "gz": "JOSE BONILLA",
@@ -28220,8 +28220,8 @@
         "responsable": "TINBET",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "distrito": "UCAYALI",
         "gz": "GAMINGRITA",
@@ -28336,8 +28336,8 @@
         "responsable": "TINBET",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "distrito": "UCAYALI",
         "gz": "CARLOS ALVARADO",
@@ -28616,11 +28616,11 @@
         "responsable": "TINBET",
         "frecuencia": "LUNES-JUEVES-MIÉRCOLES-JUEVES-VIERNES-SÁBADO",
         "dias": [
-            "VIERNES",
-            "JUEVES",
-            "SÁBADO",
             "MIÉRCOLES",
-            "LUNES"
+            "LUNES",
+            "SÁBADO",
+            "JUEVES",
+            "VIERNES"
         ],
         "distrito": "JUNÍN",
         "gz": "GAMING SOLUTIONS",
@@ -28643,11 +28643,11 @@
         "responsable": "TINBET",
         "frecuencia": "LUNES-JUEVES-MIÉRCOLES-JUEVES-VIERNES-SÁBADO",
         "dias": [
-            "VIERNES",
-            "JUEVES",
-            "SÁBADO",
             "MIÉRCOLES",
-            "LUNES"
+            "LUNES",
+            "SÁBADO",
+            "JUEVES",
+            "VIERNES"
         ],
         "distrito": "JUNÍN",
         "gz": "GAMING SOLUTIONS",
@@ -28973,8 +28973,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "distrito": "LIMA",
         "gz": "Alejandro",
@@ -29021,8 +29021,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "distrito": "LIMA",
         "gz": "Patricia",
@@ -29092,8 +29092,8 @@
         "responsable": "APUESTA TOTAL",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "distrito": "SAN MIGUEL",
         "gz": "Jessie Basurto",
@@ -29116,8 +29116,8 @@
         "responsable": "APUESTA TOTAL",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "distrito": "VENTANILLA",
         "gz": "Jessie Basurto",
@@ -29211,8 +29211,8 @@
         "responsable": "APUESTA TOTAL",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "distrito": "SAN JUAN DE LURIGANCHO",
         "gz": "Andrea Rafael",
@@ -29259,8 +29259,8 @@
         "responsable": "APUESTA TOTAL",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "distrito": "SAN JUAN DE LURIGANCHO",
         "gz": "Andrea Rafael",
@@ -29283,8 +29283,8 @@
         "responsable": "APUESTA TOTAL",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "distrito": "SAN JUAN DE LURIGANCHO",
         "gz": "Andrea Rafael",
@@ -29307,8 +29307,8 @@
         "responsable": "APUESTA TOTAL",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "distrito": "SAN JUAN DE LURIGANCHO",
         "gz": "Andrea Rafael",
@@ -29355,8 +29355,8 @@
         "responsable": "APUESTA TOTAL",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "distrito": "SAN JUAN DE LURIGANCHO",
         "gz": "Andrea Rafael",
@@ -29403,8 +29403,8 @@
         "responsable": "APUESTA TOTAL",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "distrito": "LIMA",
         "gz": "Jessie Basurto",
@@ -29617,8 +29617,8 @@
         "responsable": "APUESTA TOTAL",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "distrito": "SAN MARTIN DE PORRES",
         "gz": "Kimberly Espinoza",
@@ -29689,8 +29689,8 @@
         "responsable": "APUESTA TOTAL",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "distrito": "LIMA",
         "gz": "Nadia Benites",
@@ -29713,8 +29713,8 @@
         "responsable": "APUESTA TOTAL",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "distrito": "LIMA",
         "gz": "Nadia Benites",
@@ -29813,7 +29813,7 @@
             "SÁBADO"
         ],
         "distrito": "LOS OLIVOS",
-        "gz": "Mily Vanessa Valerin",
+        "gz": "Vanessa Valerin",
         "jz": "Andrea Vizcarra",
         "zonal_tipo": "LIMA",
         "tipo": "CASA DE APUESTA"
@@ -29837,7 +29837,7 @@
             "SÁBADO"
         ],
         "distrito": "INDEPENDENCIA",
-        "gz": "Mily Vanessa Valerin",
+        "gz": "Vanessa Valerin",
         "jz": "Andrea Vizcarra",
         "zonal_tipo": "LIMA",
         "tipo": "CASA DE APUESTA"
@@ -29861,7 +29861,7 @@
             "SÁBADO"
         ],
         "distrito": "COMAS",
-        "gz": "Mily Vanessa Valerin",
+        "gz": "Vanessa Valerin",
         "jz": "Andrea Vizcarra",
         "zonal_tipo": "LIMA",
         "tipo": "CASA DE APUESTA"
@@ -29885,7 +29885,7 @@
             "SÁBADO"
         ],
         "distrito": "INDEPENDENCIA",
-        "gz": "Mily Vanessa Valerin",
+        "gz": "Vanessa Valerin",
         "jz": "Andrea Vizcarra",
         "zonal_tipo": "LIMA",
         "tipo": "CASA DE APUESTA"
@@ -29909,7 +29909,7 @@
             "SÁBADO"
         ],
         "distrito": "COMAS",
-        "gz": "Mily Vanessa Valerin",
+        "gz": "Vanessa Valerin",
         "jz": "Andrea Vizcarra",
         "zonal_tipo": "LIMA",
         "tipo": "CASA DE APUESTA"
@@ -29933,7 +29933,7 @@
             "VIERNES"
         ],
         "distrito": "CARABAYLLO",
-        "gz": "Mily Vanessa Valerin",
+        "gz": "Vanessa Valerin",
         "jz": "Andrea Vizcarra",
         "zonal_tipo": "LIMA",
         "tipo": "CASA DE APUESTA"
@@ -29957,7 +29957,7 @@
             "SÁBADO"
         ],
         "distrito": "LOS OLIVOS",
-        "gz": "Mily Vanessa Valerin",
+        "gz": "Vanessa Valerin",
         "jz": "Andrea Vizcarra",
         "zonal_tipo": "LIMA",
         "tipo": "CASA DE APUESTA"
@@ -29981,7 +29981,7 @@
             "SÁBADO"
         ],
         "distrito": "COMAS",
-        "gz": "Mily Vanessa Valerin",
+        "gz": "Vanessa Valerin",
         "jz": "Andrea Vizcarra",
         "zonal_tipo": "LIMA",
         "tipo": "CASA DE APUESTA"
@@ -30005,7 +30005,7 @@
             "SÁBADO"
         ],
         "distrito": "COMAS",
-        "gz": "Mily Vanessa Valerin",
+        "gz": "Vanessa Valerin",
         "jz": "Andrea Vizcarra",
         "zonal_tipo": "LIMA",
         "tipo": "CASA DE APUESTA"
@@ -30117,8 +30117,8 @@
         "responsable": "APUESTA TOTAL",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "distrito": "PUENTE PIEDRA",
         "gz": "Monica Ipanaqué",
@@ -30210,8 +30210,8 @@
         "responsable": "APUESTA TOTAL",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "distrito": "PUENTE PIEDRA",
         "gz": "Monica Ipanaqué",
@@ -30658,8 +30658,8 @@
         "responsable": "APUESTA TOTAL",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "distrito": "VILLA MARIA DEL TRIUNFO",
         "gz": "Rayza Huayllacayán",
@@ -30682,8 +30682,8 @@
         "responsable": "APUESTA TOTAL",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "distrito": "VILLA MARIA DEL TRIUNFO",
         "gz": "Rayza Huayllacayán",
@@ -30706,8 +30706,8 @@
         "responsable": "APUESTA TOTAL",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "distrito": "SAN JUAN DE MIRAFLORES",
         "gz": "Rayza Huayllacayán",
@@ -30730,8 +30730,8 @@
         "responsable": "APUESTA TOTAL",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "distrito": "SAN JUAN DE MIRAFLORES",
         "gz": "Rayza Huayllacayán",
@@ -30777,8 +30777,8 @@
         "responsable": "APUESTA TOTAL",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "distrito": "VILLA MARIA DEL TRIUNFO",
         "gz": "Rayza Huayllacayán",
@@ -30825,8 +30825,8 @@
         "responsable": "APUESTA TOTAL",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "distrito": "VILLA MARIA DEL TRIUNFO",
         "gz": "Rayza Huayllacayán",
@@ -30872,8 +30872,8 @@
         "responsable": "APUESTA TOTAL",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "distrito": "VILLA MARIA DEL TRIUNFO",
         "gz": "Rayza Huayllacayán",
@@ -30896,8 +30896,8 @@
         "responsable": "APUESTA TOTAL",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "distrito": "VILLA MARIA DEL TRIUNFO",
         "gz": "Rayza Huayllacayán",
@@ -31930,7 +31930,7 @@
             "VIERNES"
         ],
         "distrito": "ATE",
-        "gz": "Vanessa Asencios",
+        "gz": "Vanessa Ascencios",
         "jz": "Joel Ysla",
         "zonal_tipo": "LIMA",
         "tipo": "CASA DE APUESTA"
@@ -31950,11 +31950,11 @@
         "responsable": "APUESTA TOTAL",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "distrito": "LURIGANCHO",
-        "gz": "Vanessa Asencios",
+        "gz": "Vanessa Ascencios",
         "jz": "Joel Ysla",
         "zonal_tipo": "LIMA",
         "tipo": "CASA DE APUESTA"
@@ -31974,11 +31974,11 @@
         "responsable": "APUESTA TOTAL",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "distrito": "LURIGANCHO",
-        "gz": "Vanessa Asencios",
+        "gz": "Vanessa Ascencios",
         "jz": "Joel Ysla",
         "zonal_tipo": "LIMA",
         "tipo": "CASA DE APUESTA"
@@ -31998,11 +31998,11 @@
         "responsable": "APUESTA TOTAL",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "distrito": "ATE",
-        "gz": "Vanessa Asencios",
+        "gz": "Vanessa Ascencios",
         "jz": "Joel Ysla",
         "zonal_tipo": "LIMA",
         "tipo": "CASA DE APUESTA"
@@ -32026,7 +32026,7 @@
             "VIERNES"
         ],
         "distrito": "ATE",
-        "gz": "Vanessa Asencios",
+        "gz": "Vanessa Ascencios",
         "jz": "Joel Ysla",
         "zonal_tipo": "LIMA",
         "tipo": "CASA DE APUESTA"
@@ -32050,7 +32050,7 @@
             "VIERNES"
         ],
         "distrito": "ATE",
-        "gz": "Vanessa Asencios",
+        "gz": "Vanessa Ascencios",
         "jz": "Joel Ysla",
         "zonal_tipo": "LIMA",
         "tipo": "CASA DE APUESTA"
@@ -32070,11 +32070,11 @@
         "responsable": "APUESTA TOTAL",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "distrito": "ATE",
-        "gz": "Vanessa Asencios",
+        "gz": "Vanessa Ascencios",
         "jz": "Joel Ysla",
         "zonal_tipo": "LIMA",
         "tipo": "CASA DE APUESTA"
@@ -32094,11 +32094,11 @@
         "responsable": "APUESTA TOTAL",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "distrito": "ATE",
-        "gz": "Vanessa Asencios",
+        "gz": "Vanessa Ascencios",
         "jz": "Joel Ysla",
         "zonal_tipo": "LIMA",
         "tipo": "CASA DE APUESTA"
@@ -32122,7 +32122,7 @@
             "VIERNES"
         ],
         "distrito": "ATE",
-        "gz": "Vanessa Asencios",
+        "gz": "Vanessa Ascencios",
         "jz": "Joel Ysla",
         "zonal_tipo": "LIMA",
         "tipo": "CASA DE APUESTA"
@@ -34422,7 +34422,7 @@
             "SIN RUTA"
         ],
         "distrito": "MANCORA",
-        "gz": "Leidy Flores",
+        "gz": "Leydi flores",
         "jz": "Magali Pusma",
         "zonal_tipo": "PROVINCIA",
         "tipo": "CASA DE APUESTA"
@@ -34445,7 +34445,7 @@
             "SIN RUTA"
         ],
         "distrito": "LOS ORGANOS",
-        "gz": "Leidy Flores",
+        "gz": "Leydi flores",
         "jz": "Magali Pusma",
         "zonal_tipo": "PROVINCIA",
         "tipo": "CASA DE APUESTA"
@@ -35503,7 +35503,7 @@
             "SIN RUTA"
         ],
         "distrito": "AGUAS VERDES",
-        "gz": "Leidy Flores",
+        "gz": "Leydi Flores",
         "jz": "Magali Pusma",
         "zonal_tipo": "PROVINCIA",
         "tipo": "CASA DE APUESTA"
@@ -35526,7 +35526,7 @@
             "SIN RUTA"
         ],
         "distrito": "CORRALES",
-        "gz": "Leidy Flores",
+        "gz": "Leydi flores",
         "jz": "Magali Pusma",
         "zonal_tipo": "PROVINCIA",
         "tipo": "CASA DE APUESTA"
@@ -35549,7 +35549,7 @@
             "SIN RUTA"
         ],
         "distrito": "TUMBES",
-        "gz": "Leidy Flores",
+        "gz": "Leydi flores",
         "jz": "Magali Pusma",
         "zonal_tipo": "PROVINCIA",
         "tipo": "CASA DE APUESTA"
@@ -35572,7 +35572,7 @@
             "SIN RUTA"
         ],
         "distrito": "TUMBES",
-        "gz": "Leidy Flores",
+        "gz": "Leydi flores",
         "jz": "Magali Pusma",
         "zonal_tipo": "PROVINCIA",
         "tipo": "CASA DE APUESTA"
@@ -35595,7 +35595,7 @@
             "SIN RUTA"
         ],
         "distrito": "TUMBES",
-        "gz": "Leidy Flores",
+        "gz": "Leydi flores",
         "jz": "Magali Pusma",
         "zonal_tipo": "PROVINCIA",
         "tipo": "CASA DE APUESTA"
@@ -35618,7 +35618,7 @@
             "SIN RUTA"
         ],
         "distrito": "ZARUMILLA",
-        "gz": "Leidy Flores",
+        "gz": "Leydi flores",
         "jz": "Magali Pusma",
         "zonal_tipo": "PROVINCIA",
         "tipo": "CASA DE APUESTA"
@@ -36147,7 +36147,7 @@
             "SIN RUTA"
         ],
         "distrito": "HUARMEY",
-        "gz": "Francis Gonzales",
+        "gz": "Victoria Mines",
         "jz": "Gerardo Castro",
         "zonal_tipo": "PROVINCIA",
         "tipo": "CASA DE APUESTA"
@@ -36170,7 +36170,7 @@
             "SIN RUTA"
         ],
         "distrito": "CHIMBOTE",
-        "gz": "Victoria Mines",
+        "gz": "Francis Gonzales",
         "jz": "Gerardo Castro",
         "zonal_tipo": "PROVINCIA",
         "tipo": "CASA DE APUESTA"
@@ -36420,11 +36420,11 @@
         "responsable": "APUESTA TOTAL",
         "frecuencia": "LUNES-JUEVES-MIÉRCOLES-JUEVES-VIERNES-SÁBADO",
         "dias": [
-            "VIERNES",
-            "JUEVES",
-            "SÁBADO",
             "MIÉRCOLES",
-            "LUNES"
+            "LUNES",
+            "SÁBADO",
+            "JUEVES",
+            "VIERNES"
         ],
         "distrito": "EL TAMBO",
         "gz": "Sheyla Gonzales",
@@ -36493,11 +36493,11 @@
         "responsable": "APUESTA TOTAL",
         "frecuencia": "LUNES-JUEVES-MIÉRCOLES-JUEVES-VIERNES-SÁBADO",
         "dias": [
-            "VIERNES",
-            "JUEVES",
-            "SÁBADO",
             "MIÉRCOLES",
-            "LUNES"
+            "LUNES",
+            "SÁBADO",
+            "JUEVES",
+            "VIERNES"
         ],
         "distrito": "EL TAMBO",
         "gz": "Sheyla Gonzales",
@@ -36888,8 +36888,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "distrito": "LA VICTORIA",
         "gz": "Patricia",
@@ -36936,8 +36936,8 @@
         "responsable": "TAMBO",
         "frecuencia": "JUEVES-LUNES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "distrito": "TRUJILLO",
         "gz": "Jesus",
@@ -37052,8 +37052,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "distrito": "ICA",
         "gz": "Juan",
@@ -37331,8 +37331,8 @@
         "responsable": "LIVESPORT",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "distrito": "VILLA MARIA DEL TRIUNFO",
         "gz": "SIN INFO",
@@ -37403,8 +37403,8 @@
         "responsable": "LIVESPORT",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "distrito": "SAN JUAN DE LURIGANCHO",
         "gz": "SIN INFO",
@@ -37661,8 +37661,8 @@
         "responsable": "TINBET",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "distrito": "BREÑA",
         "gz": "GIAN MIRANDA",
@@ -37848,8 +37848,8 @@
         "responsable": "TAMBO",
         "frecuencia": "JUEVES-LUNES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "distrito": "TRUJILLO",
         "gz": "Jesus",
@@ -38362,8 +38362,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "distrito": "LA VICTORIA",
         "gz": "Patricia",
@@ -38410,8 +38410,8 @@
         "responsable": "RETABET",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "distrito": "VILLA MARIA DEL TRIUNFO",
         "gz": "SIN INFO",
@@ -39681,8 +39681,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "distrito": "SAN BORJA",
         "gz": "Patricia",
@@ -39916,8 +39916,8 @@
         "responsable": "TINBET",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "distrito": "EL TAMBO",
         "gz": "DAVID ARANDA",
@@ -39940,8 +39940,8 @@
         "responsable": "TINBET",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "distrito": "HUANCAYO",
         "gz": "DAVID ARANDA",
@@ -40696,8 +40696,8 @@
     },
     {
         "nombre": "RETAbet MINKA",
-        "lat": -12.0471430544365,
-        "lng": -77.1115304739832,
+        "lat": -12.0473096613418,
+        "lng": -77.111948618005,
         "estado": "ACTIVO",
         "zona": "LIMA OESTE",
         "cluster": "SIN CLUSTER",
@@ -40709,8 +40709,8 @@
         "responsable": "RETABET",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "distrito": "CALLAO",
         "gz": "SIN INFO",
@@ -40757,8 +40757,8 @@
         "responsable": "RETABET",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "distrito": "PUEBLO LIBRE",
         "gz": "SIN INFO",
@@ -40901,8 +40901,8 @@
         "responsable": "RETABET",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "distrito": "ATE",
         "gz": "SIN INFO",
@@ -40973,8 +40973,8 @@
         "responsable": "RETABET",
         "frecuencia": "JUEVES-LUNES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "distrito": "SANTIAGO DE SURCO",
         "gz": "SIN INFO",
