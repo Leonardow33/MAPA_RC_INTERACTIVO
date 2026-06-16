@@ -1,0 +1,31 @@
+name: Actualizar Ventas Mes
+
+on:
+  schedule:
+    - cron: '0 13 * * *'   # 8:00 AM Peru (UTC-5) todos los días
+  workflow_dispatch:
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Instalar dependencias
+        run: pip install requests
+
+      - name: Ejecutar fetch_ventas.py
+        env:
+          PBI_USERNAME: ${{ secrets.PBI_USERNAME }}
+          PBI_PASSWORD: ${{ secrets.PBI_PASSWORD }}
+        run: python scripts/fetch_ventas.py
+
+      - name: Commit si hubo cambios
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add data/ventas_mes.json
+          git diff --cached --quiet || (git commit -m "chore: actualizar ventas_mes.json" && git pull --rebase && git push)
