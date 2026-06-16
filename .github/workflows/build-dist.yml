@@ -9,6 +9,8 @@ on:
       - 'bonus.html'
       - 'puntos.json'
       - 'sinventa.txt'
+      - 'data/ventas_mes.json'
+      - 'data/keys_bonos.json'
       - 'icons/**'
   workflow_dispatch:
 

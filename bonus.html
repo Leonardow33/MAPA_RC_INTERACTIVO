@@ -273,6 +273,10 @@
     <span class="stat-val" id="pct-ganando" style="color:var(--accent)">—</span>
     <span class="stat-lbl">% ganando</span>
   </div>
+  <div class="stat-card" style="border-color:var(--accent)33">
+    <span class="stat-val" id="cnt-registros" style="color:var(--muted);font-size:16px">—</span>
+    <span class="stat-lbl">Registros ventas</span>
+  </div>
 </div>
 
 <div class="filtros">
@@ -360,6 +364,8 @@
 
       document.getElementById('updated').textContent =
         'Actualizado: ' + (ventas.updated || '—');
+      document.getElementById('cnt-registros').textContent =
+        ((ventas.ventas || []).length).toLocaleString();
 
       // Mapa de mínimos por cluster
       const KEYS = {};
