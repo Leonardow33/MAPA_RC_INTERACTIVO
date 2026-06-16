@@ -16,72 +16,37 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Cachear Chromium de Playwright
-        uses: actions/cache@v4
-        with:
-          path: ~/.cache/ms-playwright
-          key: playwright-chromium-${{ runner.os }}-v1
-
-      - name: Instalar Playwright + Chromium
-        run: |
-          pip install playwright
-          playwright install chromium --with-deps
-
       - name: Descargar ventas_mes.json desde SharePoint
         run: |
+          URL="https://elotgroup2020-my.sharepoint.com/:u:/g/personal/doriant_elotgroup_com/IQCpFbui95x1S5JXjev_tlsPATMjiDRm0DtiFAF9rfvVMh0?e=glgPSX&download=1"
+          echo "Descargando desde SharePoint..."
+          curl -L -s -o data/ventas_mes.json \
+            -H "User-Agent: Mozilla/5.0" \
+            "$URL"
+
           python3 - << 'PYEOF'
-          import sys
-          from playwright.sync_api import sync_playwright
+          import json, sys
 
-          URL = "https://elotgroup2020-my.sharepoint.com/:u:/g/personal/doriant_elotgroup_com/IQCpFbui95x1S5JXjev_tlsPATMjiDRm0DtiFAF9rfvVMh0?e=glgPSX"
+          with open("data/ventas_mes.json", encoding="utf-8") as f:
+              content = f.read()
 
-          captured = []
-
-          def on_response(resp):
-              ct = resp.headers.get('content-type', '')
-              cd = resp.headers.get('content-disposition', '')
-              if 'application/json' in ct or 'octet-stream' in ct or 'attachment' in cd:
-                  try:
-                      text = resp.body().decode('utf-8', errors='replace')
-                      if text.strip().startswith('{'):
-                          captured.append(text)
-                          print(f"Capturado JSON: {len(text)} chars desde {resp.url[:80]}")
-                  except Exception as e:
-                      print(f"Error leyendo respuesta: {e}")
-
-          with sync_playwright() as p:
-              browser = p.chromium.launch(headless=True)
-              context = browser.new_context(accept_downloads=True)
-              page    = context.new_page()
-              page.on("response", on_response)
-
-              try:
-                  page.goto(URL, wait_until="networkidle", timeout=40000)
-              except Exception as e:
-                  print(f"Navegacion: {e}")
-
-              if not captured:
-                  body = page.evaluate("() => document.body.innerText || ''")
-                  print(f"Fallback body: {len(body)} chars | {body[:80]}")
-                  if body.strip().startswith('{'):
-                      captured.append(body)
-
-              browser.close()
-
-          if not captured:
-              print("ERROR: no se pudo capturar el JSON de SharePoint")
-              sys.exit(1)
-
-          content = captured[-1]
+          print(f"Primeros 120 chars: {content[:120]!r}")
 
           if not content.strip().startswith('{'):
-              print(f"ERROR: contenido inesperado (no es JSON): {content[:200]}")
+              print("ERROR: el contenido no es JSON — SharePoint devolvio HTML u otro formato")
               sys.exit(1)
 
-          with open("data/ventas_mes.json", "w", encoding="utf-8") as f:
-              f.write(content)
+          try:
+              data = json.loads(content)
+          except json.JSONDecodeError as e:
+              print(f"ERROR: JSON invalido: {e}")
+              sys.exit(1)
 
-          print(f"OK: {len(content)} chars guardados en data/ventas_mes.json")
+          ventas = data.get("ventas", [])
+          print(f"OK: {len(ventas)} registros de ventas — updated: {data.get('updated','?')}")
+
+          if len(ventas) == 0:
+              print("ADVERTENCIA: el archivo tiene 0 registros de ventas")
           PYEOF
 
       - name: Commit si hubo cambios
