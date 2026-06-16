@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Bonos Tambo · GeoDor</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:       #0F172A;
+      --surface:  #1E293B;
+      --border:   #334155;
+      --text:     #E2E8F0;
+      --muted:    #94A3B8;
+      --green:    #22C55E;
+      --red:      #EF4444;
+      --yellow:   #F59E0B;
+      --blue:     #3B82F6;
+      --accent:   #6366F1;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      font-size: 14px;
+      min-height: 100vh;
+    }
+
+    /* ── HEADER ── */
+    .header {
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      padding: 14px 20px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+    .header h1 { font-size: 18px; font-weight: 700; color: #fff; flex: 1; }
+    .header .updated { font-size: 12px; color: var(--muted); }
+
+    /* ── STATS BAR ── */
+    .stats-bar {
+      display: flex;
+      gap: 12px;
+      padding: 14px 20px;
+      background: var(--bg);
+      flex-wrap: wrap;
+    }
+    .stat-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 10px 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      min-width: 120px;
+    }
+    .stat-card .stat-val { font-size: 22px; font-weight: 700; }
+    .stat-card .stat-lbl { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: .05em; }
+    .stat-card.green .stat-val { color: var(--green); }
+    .stat-card.red   .stat-val { color: var(--red); }
+    .stat-card.blue  .stat-val { color: var(--blue); }
+
+    /* ── FILTROS ── */
+    .filtros {
+      display: flex;
+      gap: 8px;
+      padding: 12px 20px;
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      flex-wrap: wrap;
+      align-items: center;
+    }
+    .filtros input, .filtros select {
+      background: var(--bg);
+      color: var(--text);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 6px 10px;
+      font-size: 13px;
+      outline: none;
+    }
+    .filtros input { width: 220px; }
+    .filtros input:focus, .filtros select:focus { border-color: var(--accent); }
+    .filtros .toggle-btn {
+      padding: 6px 14px;
+      border-radius: 6px;
+      border: 1px solid var(--border);
+      background: var(--bg);
+      color: var(--text);
+      cursor: pointer;
+      font-size: 13px;
+      transition: background .15s;
+      white-space: nowrap;
+    }
+    .filtros .toggle-btn.active {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: #fff;
+    }
+    .filtros .count { margin-left: auto; color: var(--muted); font-size: 12px; white-space: nowrap; }
+
+    /* ── TABLA WRAPPER ── */
+    .tabla-wrap {
+      overflow-x: auto;
+      padding: 16px 20px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 740px;
+    }
+    thead th {
+      background: var(--surface);
+      color: var(--muted);
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: .06em;
+      padding: 10px 12px;
+      text-align: left;
+      border-bottom: 1px solid var(--border);
+      white-space: nowrap;
+      cursor: pointer;
+      user-select: none;
+    }
+    thead th:hover { color: var(--text); }
+    thead th .sort-icon { margin-left: 4px; opacity: .4; }
+    thead th.sorted .sort-icon { opacity: 1; color: var(--accent); }
+
+    tbody tr {
+      border-bottom: 1px solid var(--border);
+      transition: background .1s;
+    }
+    tbody tr:hover { background: var(--surface); }
+
+    td { padding: 9px 12px; vertical-align: middle; }
+
+    /* nombre tienda */
+    .td-nombre { font-weight: 600; font-size: 13px; }
+    .td-code   { font-size: 11px; color: var(--muted); margin-top: 2px; }
+
+    /* cluster badge */
+    .badge {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 999px;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: .04em;
+    }
+    .badge-A { background: #7C3AED22; color: #A78BFA; border: 1px solid #7C3AED55; }
+    .badge-B { background: #0EA5E922; color: #38BDF8; border: 1px solid #0EA5E955; }
+    .badge-C { background: #10B98122; color: #34D399; border: 1px solid #10B98155; }
+    .badge-D { background: #F59E0B22; color: #FCD34D; border: 1px solid #F59E0B55; }
+
+    /* métrica con barra */
+    .metrica {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      min-width: 90px;
+    }
+    .metrica-nums {
+      display: flex;
+      justify-content: space-between;
+      font-size: 12px;
+    }
+    .metrica-nums .actual { font-weight: 700; }
+    .metrica-nums .meta   { color: var(--muted); }
+    .bar-track {
+      height: 5px;
+      background: var(--border);
+      border-radius: 999px;
+      overflow: hidden;
+    }
+    .bar-fill {
+      height: 100%;
+      border-radius: 999px;
+      transition: width .3s;
+    }
+    .bar-fill.ok   { background: var(--green); }
+    .bar-fill.warn { background: var(--yellow); }
+    .bar-fill.bad  { background: var(--red); }
+
+    /* estado */
+    .estado-ganando {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 3px 10px;
+      border-radius: 999px;
+      font-size: 11px;
+      font-weight: 700;
+      background: #22C55E18;
+      color: var(--green);
+      border: 1px solid #22C55E44;
+      white-space: nowrap;
+    }
+    .estado-no {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 3px 10px;
+      border-radius: 999px;
+      font-size: 11px;
+      font-weight: 700;
+      background: #EF444418;
+      color: var(--red);
+      border: 1px solid #EF444444;
+      white-space: nowrap;
+    }
+    .estado-sin {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 3px 10px;
+      border-radius: 999px;
+      font-size: 11px;
+      color: var(--muted);
+      border: 1px solid var(--border);
+      white-space: nowrap;
+    }
+
+    /* separador ganando / no ganando */
+    .separator td {
+      background: var(--surface);
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      padding: 6px 12px;
+      border-top: 2px solid var(--border);
+    }
+
+    /* loading / error */
+    .msg {
+      text-align: center;
+      padding: 60px 20px;
+      color: var(--muted);
+      font-size: 15px;
+    }
+    .msg.error { color: var(--red); }
+
+    .td-rc { font-size: 12px; color: var(--muted); max-width: 120px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  </style>
+</head>
+<body>
+
+<div class="header">
+  <h1>🏆 Bonos Tambo</h1>
+  <span class="updated" id="updated">Cargando...</span>
+</div>
+
+<div class="stats-bar">
+  <div class="stat-card green">
+    <span class="stat-val" id="cnt-ganando">—</span>
+    <span class="stat-lbl">Ganando bono</span>
+  </div>
+  <div class="stat-card red">
+    <span class="stat-val" id="cnt-falta">—</span>
+    <span class="stat-lbl">Por alcanzar</span>
+  </div>
+  <div class="stat-card blue">
+    <span class="stat-val" id="cnt-total">—</span>
+    <span class="stat-lbl">Total tiendas</span>
+  </div>
+  <div class="stat-card">
+    <span class="stat-val" id="pct-ganando" style="color:var(--accent)">—</span>
+    <span class="stat-lbl">% ganando</span>
+  </div>
+</div>
+
+<div class="filtros">
+  <input type="search" id="buscar" placeholder="🔍 Buscar tienda o código..."/>
+  <select id="filtro-cluster">
+    <option value="">Cluster</option>
+    <option value="A">Cluster A</option>
+    <option value="B">Cluster B</option>
+    <option value="C">Cluster C</option>
+    <option value="D">Cluster D</option>
+  </select>
+  <select id="filtro-rc"><option value="">RC</option></select>
+  <select id="filtro-sup"><option value="">Supervisor</option></select>
+  <button class="toggle-btn active" id="btn-ganando" onclick="toggleFiltroGanando()">★ Solo ganando</button>
+  <button class="toggle-btn" id="btn-todas" onclick="toggleFiltroTodas()">Todas las tiendas</button>
+  <span class="count" id="count-label"></span>
+</div>
+
+<div class="tabla-wrap">
+  <div id="msg" class="msg">Cargando datos...</div>
+  <table id="tabla" style="display:none">
+    <thead>
+      <tr>
+        <th onclick="sortBy('nombre')">Tienda <span class="sort-icon">↕</span></th>
+        <th onclick="sortBy('cluster')">Cluster <span class="sort-icon">↕</span></th>
+        <th>RC</th>
+        <th onclick="sortBy('pp')">PozoPower <span class="sort-icon">↕</span></th>
+        <th onclick="sortBy('ld')">LakiDey <span class="sort-icon">↕</span></th>
+        <th onclick="sortBy('total')">Total <span class="sort-icon">↕</span></th>
+        <th onclick="sortBy('estado')">Estado <span class="sort-icon">↕</span></th>
+      </tr>
+    </thead>
+    <tbody id="tbody"></tbody>
+  </table>
+</div>
+
+<script>
+  // ── Estado global ──────────────────────────────────────────────
+  let TIENDAS   = [];   // array de objetos calculados
+  let sortCol   = 'estado';
+  let sortAsc   = false;
+  let modoFiltro = 'ganando'; // 'ganando' | 'todas'
+
+  // ── Utilidades ─────────────────────────────────────────────────
+  const bar = (actual, meta) => {
+    const pct = meta > 0 ? Math.min(100, (actual / meta) * 100) : 0;
+    const cls = pct >= 100 ? 'ok' : pct >= 60 ? 'warn' : 'bad';
+    return `
+      <div class="metrica">
+        <div class="metrica-nums">
+          <span class="actual">${fmtN(actual)}</span>
+          <span class="meta">/ ${fmtN(meta)}</span>
+        </div>
+        <div class="bar-track"><div class="bar-fill ${cls}" style="width:${pct}%"></div></div>
+      </div>`;
+  };
+
+  const fmtN = n => n >= 1000 ? (n/1000).toFixed(1)+'k' : String(Math.round(n));
+
+  const badgeCluster = c =>
+    `<span class="badge badge-${c}">${c || '—'}</span>`;
+
+  const estadoHTML = t => {
+    if (!t.cluster_bono || !['A','B','C','D'].includes(t.cluster_bono))
+      return `<span class="estado-sin">Sin cluster</span>`;
+    if (t.ganando)
+      return `<span class="estado-ganando">✓ BONO</span>`;
+    return `<span class="estado-no">✗ Falta</span>`;
+  };
+
+  // ── Carga de datos ──────────────────────────────────────────────
+  async function loadJSON(url) {
+    const r = await fetch(url + '?t=' + Date.now());
+    if (!r.ok) throw new Error(`${r.status} ${url}`);
+    return r.json();
+  }
+
+  async function init() {
+    try {
+      const [ventas, puntos, keys] = await Promise.all([
+        loadJSON('data/ventas_mes.json'),
+        loadJSON('data/puntos.json'),
+        loadJSON('data/keys_bonos.json'),
+      ]);
+
+      document.getElementById('updated').textContent =
+        'Actualizado: ' + (ventas.updated || '—');
+
+      // Mapa de mínimos por cluster
+      const KEYS = {};
+      keys.forEach(k => { KEYS[k.cluster] = k; });
+
+      // Agregar ventas por org_code
+      const ventasMap = {};
+      (ventas.ventas || []).forEach(v => {
+        const id = String(v.org_code);
+        if (!ventasMap[id]) ventasMap[id] = { pp: 0, ld: 0 };
+        if (v.tipo_juego === 'PozoPower') ventasMap[id].pp += (v.total || 0);
+        if (v.tipo_juego === 'LakiDey')  ventasMap[id].ld += (v.total || 0);
+      });
+
+      // Filtrar solo tiendas Tambo (por tipo o por tener cluster_bono A/B/C/D)
+      const tambos = puntos.filter(p => {
+        const tipo = String(p.tipo || '').toUpperCase();
+        const cb   = String(p.cluster_bono || '').trim().toUpperCase();
+        return tipo.includes('TAMBO') || ['A','B','C','D'].includes(cb);
+      });
+
+      TIENDAS = tambos.map(p => {
+        const id  = String(p.ID || '');
+        const cb  = (p.cluster_bono || '').trim().toUpperCase();
+        const key = KEYS[cb] || null;
+        const v   = ventasMap[id] || { pp: 0, ld: 0 };
+        const total = v.pp + v.ld;
+
+        const ganando = key
+          ? (total >= key.meta && v.pp >= key.pp && v.ld >= key.lakidey)
+          : false;
+
+        return {
+          id, nombre: p.nombre || '',
+          cluster: cb, cluster_bono: cb,
+          rc: p.rc || '', supervisor: p.supervisor || '',
+          pp: v.pp, ld: v.ld, total,
+          meta_total: key ? key.meta    : null,
+          meta_pp:    key ? key.pp      : null,
+          meta_ld:    key ? key.lakidey : null,
+          ganando, key,
+        };
+      });
+
+      // Poblar filtros
+      poblarSelect('filtro-rc',  [...new Set(TIENDAS.map(t => t.rc).filter(Boolean))].sort());
+      poblarSelect('filtro-sup', [...new Set(TIENDAS.map(t => t.supervisor).filter(Boolean))].sort());
+
+      renderStats();
+      render();
+
+    } catch(e) {
+      document.getElementById('msg').className = 'msg error';
+      document.getElementById('msg').textContent = 'Error al cargar datos: ' + e.message;
+    }
+  }
+
+  function poblarSelect(id, valores) {
+    const sel = document.getElementById(id);
+    valores.forEach(v => {
+      const o = document.createElement('option');
+      o.value = v; o.textContent = v;
+      sel.appendChild(o);
+    });
+  }
+
+  // ── Estadísticas globales ───────────────────────────────────────
+  function renderStats() {
+    const conCluster = TIENDAS.filter(t => t.key);
+    const ganando    = conCluster.filter(t => t.ganando).length;
+    const total      = conCluster.length;
+    document.getElementById('cnt-ganando').textContent = ganando;
+    document.getElementById('cnt-falta').textContent   = total - ganando;
+    document.getElementById('cnt-total').textContent   = total;
+    document.getElementById('pct-ganando').textContent =
+      total > 0 ? Math.round(ganando / total * 100) + '%' : '—';
+  }
+
+  // ── Filtro modo ─────────────────────────────────────────────────
+  function toggleFiltroGanando() {
+    modoFiltro = 'ganando';
+    document.getElementById('btn-ganando').classList.add('active');
+    document.getElementById('btn-todas').classList.remove('active');
+    render();
+  }
+  function toggleFiltroTodas() {
+    modoFiltro = 'todas';
+    document.getElementById('btn-todas').classList.add('active');
+    document.getElementById('btn-ganando').classList.remove('active');
+    render();
+  }
+
+  // ── Sort ────────────────────────────────────────────────────────
+  let lastSort = null;
+  function sortBy(col) {
+    if (lastSort === col) { sortAsc = !sortAsc; } else { sortAsc = col !== 'estado'; }
+    lastSort = col;
+    // actualizar icons
+    document.querySelectorAll('thead th').forEach(th => th.classList.remove('sorted'));
+    event.currentTarget.classList.add('sorted');
+    event.currentTarget.querySelector('.sort-icon').textContent = sortAsc ? '↑' : '↓';
+    render();
+  }
+
+  function sortedTiendas(arr) {
+    return [...arr].sort((a, b) => {
+      let va, vb;
+      if (lastSort === 'nombre')  { va = a.nombre;  vb = b.nombre; }
+      else if (lastSort === 'cluster') { va = a.cluster; vb = b.cluster; }
+      else if (lastSort === 'pp')  { va = a.pp;    vb = b.pp; }
+      else if (lastSort === 'ld')  { va = a.ld;    vb = b.ld; }
+      else if (lastSort === 'total') { va = a.total; vb = b.total; }
+      else { // estado: ganando primero
+        return (b.ganando ? 1 : 0) - (a.ganando ? 1 : 0) || b.total - a.total;
+      }
+      if (typeof va === 'string') return sortAsc ? va.localeCompare(vb) : vb.localeCompare(va);
+      return sortAsc ? va - vb : vb - va;
+    });
+  }
+
+  // ── Render ──────────────────────────────────────────────────────
+  function render() {
+    const buscar  = document.getElementById('buscar').value.trim().toLowerCase();
+    const cluster = document.getElementById('filtro-cluster').value;
+    const rc      = document.getElementById('filtro-rc').value;
+    const sup     = document.getElementById('filtro-sup').value;
+
+    let lista = TIENDAS.filter(t => {
+      if (modoFiltro === 'ganando' && !t.ganando) return false;
+      if (cluster && t.cluster !== cluster) return false;
+      if (rc  && t.rc !== rc)   return false;
+      if (sup && t.supervisor !== sup) return false;
+      if (buscar && !t.nombre.toLowerCase().includes(buscar) && !t.id.includes(buscar))
+        return false;
+      return true;
+    });
+
+    lista = sortedTiendas(lista);
+
+    document.getElementById('count-label').textContent =
+      lista.length + ' tienda' + (lista.length !== 1 ? 's' : '');
+
+    const tbody = document.getElementById('tbody');
+    tbody.innerHTML = '';
+
+    if (lista.length === 0) {
+      const tr = document.createElement('tr');
+      tr.innerHTML = `<td colspan="7" style="text-align:center;padding:40px;color:var(--muted)">Sin resultados</td>`;
+      tbody.appendChild(tr);
+    } else if (modoFiltro === 'todas' && !lastSort) {
+      // Separador entre ganando y no ganando
+      const ganando   = lista.filter(t => t.ganando);
+      const noGanando = lista.filter(t => !t.ganando);
+
+      if (ganando.length > 0) {
+        addSeparator(tbody, `✓ Ganando bono (${ganando.length})`);
+        ganando.forEach(t => addRow(tbody, t));
+      }
+      if (noGanando.length > 0) {
+        addSeparator(tbody, `Por alcanzar (${noGanando.length})`);
+        noGanando.forEach(t => addRow(tbody, t));
+      }
+    } else {
+      lista.forEach(t => addRow(tbody, t));
+    }
+
+    document.getElementById('msg').style.display   = 'none';
+    document.getElementById('tabla').style.display = '';
+  }
+
+  function addSeparator(tbody, label) {
+    const tr = document.createElement('tr');
+    tr.className = 'separator';
+    tr.innerHTML = `<td colspan="7">${label}</td>`;
+    tbody.appendChild(tr);
+  }
+
+  function addRow(tbody, t) {
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td>
+        <div class="td-nombre">${t.nombre}</div>
+        <div class="td-code">${t.id}</div>
+      </td>
+      <td>${badgeCluster(t.cluster_bono)}</td>
+      <td class="td-rc" title="${t.rc}">${t.rc || '—'}</td>
+      <td>${t.meta_pp   != null ? bar(t.pp,    t.meta_pp)    : '<span style="color:var(--muted)">—</span>'}</td>
+      <td>${t.meta_ld   != null ? bar(t.ld,    t.meta_ld)    : '<span style="color:var(--muted)">—</span>'}</td>
+      <td>${t.meta_total!= null ? bar(t.total, t.meta_total) : '<span style="color:var(--muted)">—</span>'}</td>
+      <td>${estadoHTML(t)}</td>
+    `;
+    tbody.appendChild(tr);
+  }
+
+  // ── Listeners ───────────────────────────────────────────────────
+  ['buscar','filtro-cluster','filtro-rc','filtro-sup'].forEach(id => {
+    document.getElementById(id).addEventListener('input', render);
+    document.getElementById(id).addEventListener('change', render);
+  });
+
+  init();
+</script>
+</body>
+</html>

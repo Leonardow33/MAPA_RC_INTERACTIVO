@@ -6,6 +6,7 @@ on:
     paths:
       - 'visitas.html'
       - 'mapa.html'
+      - 'bonus.html'
       - 'puntos.json'
       - 'sinventa.txt'
       - 'icons/**'
