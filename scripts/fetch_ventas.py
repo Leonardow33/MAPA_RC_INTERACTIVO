@@ -51,13 +51,13 @@ def get_tenant_id():
 
 # ── AUTH ─────────────────────────────────────────────────────────────────────
 def get_token(tenant_id):
-    url = f"https://login.microsoftonline.com/{tenant_id}/oauth2/v2.0/token"
+    url = f"https://login.microsoftonline.com/{tenant_id}/oauth2/token"
     r = requests.post(url, data={
         "grant_type": "password",
         "client_id":  PBI_CLIENT_ID,
         "username":   USERNAME,
         "password":   PASSWORD,
-        "scope":      "https://analysis.windows.net/powerbi/api/.default",
+        "resource":   "https://analysis.windows.net/powerbi/api",
     }, timeout=30)
     r.raise_for_status()
     return r.json()["access_token"]
