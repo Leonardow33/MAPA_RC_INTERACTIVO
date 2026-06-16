@@ -16,13 +16,20 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Instalar dependencias
-        run: pip install requests
+      - name: Cachear Chromium de Playwright
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/ms-playwright
+          key: playwright-chromium-${{ runner.os }}-v1
+
+      - name: Instalar Playwright + Chromium
+        run: |
+          pip install playwright
+          playwright install chromium --with-deps
 
       - name: Ejecutar fetch_ventas.py
         env:
-          PBI_USERNAME: ${{ secrets.PBI_USERNAME }}
-          PBI_PASSWORD: ${{ secrets.PBI_PASSWORD }}
+          PBI_SESSION: ${{ secrets.PBI_SESSION }}
         run: python scripts/fetch_ventas.py
 
       - name: Commit si hubo cambios
