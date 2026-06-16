@@ -46,7 +46,8 @@ for _, row in df.iterrows():
             "lng":         float(row["LONGITUD"]),
             "estado":      s(row["ESTATUS"]),
             "zona":        s(row["ZONAL"]),
-            "cluster":     s(row["CLUSTER"]),
+            "cluster":     s(row["CLUSTER INTERNO"]),
+            "cluster_bono": s(row["CLUSTER"]),
             "ID":          str(row["ORG_CODE"]),
             "rc":          s(row["RC_NOMBRE"]),
             "username":    s(row.get("USERNAME")),
@@ -81,5 +82,20 @@ for _, row in df.iterrows():
 with open("data/partners.json", "w", encoding="utf-8") as f:
     json.dump(partners, f, ensure_ascii=False)
 
+# keys_bonos.json — metas de bonos por cluster Tambo (A/B/C/D)
+keys_df = pd.read_excel(r"C:\Users\elirg\Music\ESTRUCTURA TRANSVERSAL\MAPAS_RC_AUTO\sources\KEYS_BONOS_TAMBO.xlsx")
+keys_bonos = []
+for _, krow in keys_df.iterrows():
+    keys_bonos.append({
+        "cluster": str(krow["CLUSTER"]).strip(),
+        "meta":    int(krow["META"]),
+        "pp":      int(krow["PP"]),
+        "lakidey": int(krow["LAKIDEY"])
+    })
+
+with open("data/keys_bonos.json", "w", encoding="utf-8") as f:
+    json.dump(keys_bonos, f, ensure_ascii=False)
+
 print(f"Mapa actualizado OK — {len(data)} puntos — v{ts}")
 print(f"Partners OK — {len(partners)} códigos (incluye cerrados)")
+print(f"Keys bonos OK — {len(keys_bonos)} clusters")
