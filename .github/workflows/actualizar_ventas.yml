@@ -16,24 +16,83 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Cachear Chromium de Playwright
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/ms-playwright
+          key: playwright-chromium-${{ runner.os }}-v1
+
+      - name: Instalar Playwright + Chromium
+        run: |
+          pip install playwright
+          playwright install chromium --with-deps
+
       - name: Descargar ventas_mes.json desde SharePoint
         run: |
-          URL="https://elotgroup2020-my.sharepoint.com/:u:/g/personal/doriant_elotgroup_com/IQCpFbui95x1S5JXjev_tlsPATMjiDRm0DtiFAF9rfvVMh0?e=glgPSX&download=1"
-          echo "Descargando desde SharePoint..."
-          curl -L -s -o data/ventas_mes.json \
-            -H "User-Agent: Mozilla/5.0" \
-            "$URL"
-
           python3 - << 'PYEOF'
-          import json, sys
+          import sys, json
+          from playwright.sync_api import sync_playwright
 
-          with open("data/ventas_mes.json", encoding="utf-8") as f:
-              content = f.read()
+          URL = "https://elotgroup2020-my.sharepoint.com/:u:/g/personal/doriant_elotgroup_com/IQCpFbui95x1S5JXjev_tlsPATMjiDRm0DtiFAF9rfvVMh0?e=glgPSX"
 
-          print(f"Primeros 120 chars: {content[:120]!r}")
+          content = None
 
-          if not content.strip().startswith('{'):
-              print("ERROR: el contenido no es JSON — SharePoint devolvio HTML u otro formato")
+          with sync_playwright() as p:
+              browser = p.chromium.launch(headless=True)
+              context = browser.new_context(accept_downloads=True)
+              page    = context.new_page()
+
+              # ── Intento 1: expect_download (browser descarga el archivo) ──
+              try:
+                  print("Intento 1: expect_download...")
+                  with page.expect_download(timeout=45000) as dl_info:
+                      page.goto(URL + "&download=1", wait_until="commit", timeout=30000)
+                  dl   = dl_info.value
+                  path = dl.path()
+                  with open(path, encoding="utf-8") as f:
+                      content = f.read()
+                  print(f"  -> descargado: {len(content)} chars | primeros 80: {content[:80]!r}")
+              except Exception as e:
+                  print(f"  -> expect_download fallo: {e}")
+
+              # ── Intento 2: interceptar respuestas buscando el JSON real ──
+              if not content or '"ventas"' not in content:
+                  print("Intento 2: interceptar respuestas...")
+                  captured = []
+
+                  def on_response(resp):
+                      try:
+                          body = resp.body()
+                          text = body.decode("utf-8", errors="replace")
+                          ct   = resp.headers.get("content-type", "")
+                          print(f"  resp {resp.status} ct={ct[:35]} len={len(text)} url={resp.url[:70]}")
+                          if '"ventas"' in text and text.strip().startswith("{"):
+                              captured.append(text)
+                              print(f"  -> JSON con ventas capturado!")
+                      except Exception as ex:
+                          pass
+
+                  page2 = context.new_page()
+                  page2.on("response", on_response)
+                  try:
+                      page2.goto(URL, wait_until="networkidle", timeout=45000)
+                  except Exception as e:
+                      print(f"  -> navegacion: {e}")
+
+                  if captured:
+                      content = captured[-1]
+
+              browser.close()
+
+          # ── Validar ──────────────────────────────────────────────────────
+          if not content:
+              print("ERROR: no se obtuvo ningun contenido")
+              sys.exit(1)
+
+          print(f"\nContenido final — primeros 120 chars:\n{content[:120]!r}\n")
+
+          if not content.strip().startswith("{"):
+              print("ERROR: el contenido no es JSON")
               sys.exit(1)
 
           try:
@@ -43,10 +102,13 @@ jobs:
               sys.exit(1)
 
           ventas = data.get("ventas", [])
-          print(f"OK: {len(ventas)} registros de ventas — updated: {data.get('updated','?')}")
+          print(f"OK: {len(ventas)} registros — updated: {data.get('updated','?')}")
 
           if len(ventas) == 0:
-              print("ADVERTENCIA: el archivo tiene 0 registros de ventas")
+              print("ADVERTENCIA: 0 registros de ventas en el archivo")
+
+          with open("data/ventas_mes.json", "w", encoding="utf-8") as f:
+              f.write(content)
           PYEOF
 
       - name: Commit si hubo cambios
