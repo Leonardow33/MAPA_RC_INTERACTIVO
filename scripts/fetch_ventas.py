@@ -59,7 +59,9 @@ def get_token(tenant_id):
         "password":   PASSWORD,
         "resource":   "https://analysis.windows.net/powerbi/api",
     }, timeout=30)
-    r.raise_for_status()
+    if not r.ok:
+        print(f"Auth error {r.status_code}: {r.text}")
+        r.raise_for_status()
     return r.json()["access_token"]
 
 # ── DAX QUERY ────────────────────────────────────────────────────────────────
