@@ -275,7 +275,7 @@
   </div>
   <div class="stat-card" style="border-color:var(--accent)33">
     <span class="stat-val" id="cnt-registros" style="color:var(--muted);font-size:16px">—</span>
-    <span class="stat-lbl">Registros ventas</span>
+    <span class="stat-lbl">Registros semana</span>
   </div>
 </div>
 
@@ -314,6 +314,26 @@
 </div>
 
 <script>
+  // ── Semana actual: jueves → miércoles ─────────────────────────
+  function getSemanaActual() {
+    const hoy = new Date();
+    const dow  = hoy.getDay(); // 0=Dom 1=Lun 2=Mar 3=Mié 4=Jue 5=Vie 6=Sáb
+    const offset = [3, 4, 5, 6, 0, 1, 2]; // días desde el jueves anterior
+    const jueves = new Date(hoy);
+    jueves.setDate(hoy.getDate() - offset[dow]);
+    jueves.setHours(0, 0, 0, 0);
+    const miercoles = new Date(jueves);
+    miercoles.setDate(jueves.getDate() + 6);
+    miercoles.setHours(23, 59, 59, 999);
+    return { jueves, miercoles };
+  }
+
+  function fmtFecha(d) {
+    const dias  = ['Dom','Lun','Mar','Mié','Jue','Vie','Sáb'];
+    const meses = ['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
+    return `${dias[d.getDay()]} ${d.getDate()} ${meses[d.getMonth()]}`;
+  }
+
   // ── Estado global ──────────────────────────────────────────────
   let TIENDAS   = [];   // array de objetos calculados
   let sortCol   = 'estado';
@@ -362,23 +382,32 @@
         loadJSON('data/keys_bonos.json'),
       ]);
 
+      // Semana actual
+      const { jueves, miercoles } = getSemanaActual();
+      const labelSemana = `${fmtFecha(jueves)} — ${fmtFecha(miercoles)}`;
+
       document.getElementById('updated').textContent =
-        'Actualizado: ' + (ventas.updated || '—');
-      document.getElementById('cnt-registros').textContent =
-        ((ventas.ventas || []).length).toLocaleString();
+        `Semana: ${labelSemana} · Datos: ${ventas.updated || '—'}`;
 
       // Mapa de mínimos por cluster
       const KEYS = {};
       keys.forEach(k => { KEYS[k.cluster] = k; });
 
-      // Agregar ventas por org_code
+      // Agregar ventas de la semana actual (Jue→Mié) por org_code
       const ventasMap = {};
+      let registrosSemana = 0;
       (ventas.ventas || []).forEach(v => {
+        const fecha = new Date(v.fecha + 'T12:00:00'); // mediodía evita problemas de zona horaria
+        if (fecha < jueves || fecha > miercoles) return;
+        registrosSemana++;
         const id = String(v.org_code);
         if (!ventasMap[id]) ventasMap[id] = { pp: 0, ld: 0 };
         if (v.tipo_juego === 'PozoPower') ventasMap[id].pp += (v.total || 0);
         if (v.tipo_juego === 'LakiDey')  ventasMap[id].ld += (v.total || 0);
       });
+
+      document.getElementById('cnt-registros').textContent =
+        registrosSemana.toLocaleString();
 
       // Filtrar solo tiendas Tambo (por tipo o por tener cluster_bono A/B/C/D)
       const tambos = puntos.filter(p => {
