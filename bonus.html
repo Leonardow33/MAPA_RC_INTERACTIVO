@@ -471,16 +471,17 @@
       const id  = String(p.ID || '');
       const cb  = (p.cluster_bono || '').trim().toUpperCase();
       const key = KEYS[cb] || null;
-      const v   = ventasMap[id] || { pp: 0, ld: 0, grand: 0 };
-      const total = v.grand;
+      const v      = ventasMap[id] || { pp: 0, ld: 0, grand: 0 };
+      const pp_uni = Math.floor(v.pp / 5); // soles → unidades (1 PozoPower = S/5)
+      const total  = v.grand;
       const ganando = key
-        ? (total >= key.meta && v.pp >= key.pp && v.ld >= key.lakidey)
+        ? (total >= key.meta && pp_uni >= key.pp && v.ld >= key.lakidey)
         : false;
       return {
         id, nombre: p.nombre || '',
         cluster: cb, cluster_bono: cb,
         rc: p.rc || '', supervisor: p.supervisor || '',
-        pp: v.pp, ld: v.ld, total,
+        pp: pp_uni, ld: v.ld, total,
         meta_total: key ? key.meta    : null,
         meta_pp:    key ? key.pp      : null,
         meta_ld:    key ? key.lakidey : null,
