@@ -288,6 +288,19 @@
     <span class="stat-val" id="cnt-registros" style="color:var(--muted);font-size:16px">—</span>
     <span class="stat-lbl">Registros semana</span>
   </div>
+  <div style="width:1px;background:var(--border);margin:4px 4px;align-self:stretch"></div>
+  <div class="stat-card" style="border-color:#10B98144">
+    <span class="stat-val" id="stat-total-tienda" style="color:#34D399;font-size:18px">—</span>
+    <span class="stat-lbl">Bono Tienda</span>
+  </div>
+  <div class="stat-card" style="border-color:#38BDF844">
+    <span class="stat-val" id="stat-total-admi" style="color:#38BDF8;font-size:18px">—</span>
+    <span class="stat-lbl">Bono Admin</span>
+  </div>
+  <div class="stat-card" style="border-color:#F59E0B55;background:#F59E0B08;min-width:150px">
+    <span class="stat-val" id="stat-total-pagar" style="color:#F59E0B;font-size:26px;font-weight:800">—</span>
+    <span class="stat-lbl" style="color:#F59E0B;opacity:.7">Total a pagar</span>
+  </div>
 </div>
 
 <div class="filtros">
@@ -615,6 +628,15 @@
 
     document.getElementById('count-label').textContent =
       lista.length + ' tienda' + (lista.length !== 1 ? 's' : '');
+
+    // Totales a pagar (solo tiendas ganando dentro del filtro actual)
+    const ganadosFiltrados = lista.filter(t => t.ganando);
+    const totalTienda = ganadosFiltrados.reduce((s, t) => s + (t.bono_tienda || 0), 0);
+    const totalAdmi   = ganadosFiltrados.reduce((s, t) => s + (t.bono_admi   || 0), 0);
+    const fmt = n => 'S/ ' + n.toLocaleString('es-PE');
+    document.getElementById('stat-total-tienda').textContent = fmt(totalTienda);
+    document.getElementById('stat-total-admi').textContent   = fmt(totalAdmi);
+    document.getElementById('stat-total-pagar').textContent  = fmt(totalTienda + totalAdmi);
 
     const tbody = document.getElementById('tbody');
     tbody.innerHTML = '';
