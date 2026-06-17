@@ -457,7 +457,8 @@
       if (fecha < jueves || fecha > miercoles) return;
       registros++;
       const id = String(v.org_code);
-      if (!ventasMap[id]) ventasMap[id] = { pp: 0, ld: 0 };
+      if (!ventasMap[id]) ventasMap[id] = { pp: 0, ld: 0, grand: 0 };
+      ventasMap[id].grand += (v.total || 0);                              // todos los juegos
       if (v.tipo_juego === 'PozoPower') ventasMap[id].pp += (v.total || 0);
       if (v.tipo_juego === 'LakiDey')  ventasMap[id].ld += (v.total || 0);
     });
@@ -469,8 +470,8 @@
       const id  = String(p.ID || '');
       const cb  = (p.cluster_bono || '').trim().toUpperCase();
       const key = KEYS[cb] || null;
-      const v   = ventasMap[id] || { pp: 0, ld: 0 };
-      const total = v.pp + v.ld;
+      const v   = ventasMap[id] || { pp: 0, ld: 0, grand: 0 };
+      const total = v.grand;
       const ganando = key
         ? (total >= key.meta && v.pp >= key.pp && v.ld >= key.lakidey)
         : false;
