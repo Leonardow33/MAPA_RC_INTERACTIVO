@@ -1,0 +1,150 @@
+name: Snapshot Semanal Bonos
+
+on:
+  schedule:
+    - cron: '0 14 * * 4'   # Jueves 9 AM Peru (UTC-5) — día después del cierre de semana
+  workflow_dispatch:
+    inputs:
+      semanas_atras:
+        description: 'Semanas atrás (0 = última semana cerrada, 1 = hace 2 semanas, ...)'
+        required: false
+        default: '0'
+
+jobs:
+  snapshot:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Calcular ganadores y guardar en historico_bonos.json
+        run: |
+          python3 - << 'PYEOF'
+          import json, sys
+          from datetime import date, timedelta
+          from pathlib import Path
+
+          PREMIOS = {
+              'A': {'tienda': 100, 'admi': 70},
+              'B': {'tienda':  70, 'admi': 50},
+              'C': {'tienda':  50, 'admi': 40},
+              'D': {'tienda':  40, 'admi': 30},
+          }
+
+          # ── Rango de la semana a snapshot ─────────────────────────────
+          offset = int("${{ github.event.inputs.semanas_atras || '0' }}")
+          today  = date.today()
+
+          # Hoy debería ser jueves; el miércoles anterior es ayer (o hace 1+7*offset días)
+          dias_hasta_miercoles = (today.weekday() - 2) % 7  # 0=lun … 6=dom; mié=2
+          if dias_hasta_miercoles == 0:
+              dias_hasta_miercoles = 7  # si hoy ES miércoles, tomamos el de ayer (== el de la semana pasada)
+          miercoles = today - timedelta(days=dias_hasta_miercoles + offset * 7)
+          jueves    = miercoles - timedelta(days=6)
+
+          print(f"Semana a snapshot: {jueves} (Jue) → {miercoles} (Mié)")
+
+          # ── Cargar datos ───────────────────────────────────────────────
+          ventas_data = json.loads(Path('data/ventas_mes.json').read_text(encoding='utf-8'))
+          puntos_data = json.loads(Path('data/puntos.json').read_text(encoding='utf-8'))
+          keys_data   = json.loads(Path('data/keys_bonos.json').read_text(encoding='utf-8'))
+
+          keys   = {k['cluster']: k for k in keys_data}
+          tambos = [p for p in puntos_data
+                    if 'TAMBO' in str(p.get('tipo', '')).upper()
+                    or str(p.get('cluster_bono', '')).strip().upper() in ['A','B','C','D']]
+
+          # ── Agregar ventas de la semana ───────────────────────────────
+          ventas = ventas_data.get('body') or ventas_data.get('ventas') or []
+          ventas_map = {}
+          for v in ventas:
+              try:
+                  fecha = date.fromisoformat(v.get('fecha', '1900-01-01'))
+              except ValueError:
+                  continue
+              if fecha < jueves or fecha > miercoles:
+                  continue
+              vid = str(v.get('org_code', ''))
+              if vid not in ventas_map:
+                  ventas_map[vid] = {'pp': 0, 'ld': 0, 'grand': 0}
+              tj = v.get('tipo_juego', '')
+              amt = v.get('total') or 0
+              if tj == 'TOTAL':     ventas_map[vid]['grand'] += amt
+              if tj == 'PozoPower': ventas_map[vid]['pp']    += amt
+              if tj == 'LakiDey':  ventas_map[vid]['ld']    += amt
+
+          # ── Calcular ganadores ────────────────────────────────────────
+          ganadores  = []
+          por_cluster = {}
+          for p in tambos:
+              pid = str(p.get('ID', ''))
+              cb  = str(p.get('cluster_bono', '')).strip().upper()
+              key = keys.get(cb)
+              if not key:
+                  continue
+              v      = ventas_map.get(pid, {'pp': 0, 'ld': 0, 'grand': 0})
+              pp_uni = v['pp'] // 5
+              total  = v['grand']
+              if total >= key['meta'] and pp_uni >= key['pp'] and v['ld'] >= key['lakidey']:
+                  prem = PREMIOS.get(cb, {'tienda': 0, 'admi': 0})
+                  ganadores.append({
+                      'id':          pid,
+                      'nombre':      p.get('nombre', ''),
+                      'cluster':     cb,
+                      'rc':          p.get('rc', ''),
+                      'supervisor':  p.get('supervisor', ''),
+                      'total':        total,
+                      'pp':           pp_uni,
+                      'ld':           v['ld'],
+                      'bono_tienda':  prem['tienda'],
+                      'bono_admi':    prem['admi'],
+                  })
+                  por_cluster[cb] = por_cluster.get(cb, 0) + 1
+
+          # ── Número de bono dentro del mes ─────────────────────────────
+          primer_jueves = jueves.replace(day=1)
+          while primer_jueves.weekday() != 3:
+              primer_jueves += timedelta(days=1)
+          bono_num = ((jueves - primer_jueves).days // 7) + 1
+          bono_num = max(1, min(5, bono_num))
+
+          print(f"  BONO {bono_num} | {len(ganadores)} ganadores | clusters: {por_cluster}")
+
+          # ── Construir entrada ─────────────────────────────────────────
+          meses_es = ['','Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic']
+          entry = {
+              'jueves':           str(jueves),
+              'miercoles':        str(miercoles),
+              'semana':           f"{jueves.day} {meses_es[jueves.month]} – {miercoles.day} {meses_es[miercoles.month]} {miercoles.year}",
+              'bono_num':         bono_num,
+              'total_ganadores':  len(ganadores),
+              'por_cluster':      por_cluster,
+              'ganadores':        sorted(ganadores, key=lambda x: x['cluster'] + x['nombre']),
+          }
+
+          # ── Guardar en historico_bonos.json ───────────────────────────
+          hist_path = Path('data/historico_bonos.json')
+          hist = json.loads(hist_path.read_text(encoding='utf-8')) if hist_path.exists() else {'semanas': []}
+
+          idx = next((i for i, s in enumerate(hist['semanas']) if s['jueves'] == str(jueves)), None)
+          if idx is not None:
+              hist['semanas'][idx] = entry
+              print(f"  Semana {jueves} reemplazada")
+          else:
+              hist['semanas'].append(entry)
+              print(f"  Semana {jueves} agregada")
+
+          hist['semanas'].sort(key=lambda s: s['jueves'])
+          hist_path.write_text(json.dumps(hist, ensure_ascii=False, indent=2), encoding='utf-8')
+          print("historico_bonos.json OK")
+          PYEOF
+
+      - name: Commit historico
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add data/historico_bonos.json
+          git diff --cached --quiet && echo "Sin cambios" || \
+            (git commit -m "chore: snapshot bonos $(date -u '+%Y-%m-%d')" && git pull --rebase && git push)

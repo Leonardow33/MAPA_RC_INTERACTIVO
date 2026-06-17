@@ -11,6 +11,7 @@ on:
       - 'sinventa.txt'
       - 'data/ventas_mes.json'
       - 'data/keys_bonos.json'
+      - 'data/historico_bonos.json'
       - 'icons/**'
   workflow_dispatch:
 
