@@ -111,9 +111,141 @@ jobs:
               f.write(content)
           PYEOF
 
+      - name: Snapshot fin de mes (si aplica)
+        run: |
+          python3 - << 'PYEOF'
+          import json, sys
+          from datetime import date, timedelta
+          from pathlib import Path
+
+          today    = date.today()
+          tomorrow = today + timedelta(days=1)
+
+          # Solo actuar si mañana es el 1 del mes siguiente
+          if tomorrow.month == today.month:
+              print(f"No es fin de mes ({today}). Nada que hacer.")
+              sys.exit(0)
+
+          print(f"Fin de mes detectado: {today}")
+
+          # Jueves de la semana actual
+          dias_desde_jueves = (today.weekday() - 3) % 7
+          jueves             = today - timedelta(days=dias_desde_jueves)
+          miercoles_teorico  = jueves + timedelta(days=6)
+
+          # Si la semana cierra dentro del mismo mes el snapshot del jueves la cubrirá
+          if miercoles_teorico.month == today.month:
+              print(f"La semana {jueves}→{miercoles_teorico} queda en el mismo mes. El jueves la capturará.")
+              sys.exit(0)
+
+          # Semana incompleta: Jue en este mes, Mié en el siguiente
+          miercoles_real = today   # último día del mes = corte efectivo
+          dias_completos = (miercoles_real - jueves).days + 1
+          print(f"Semana incompleta: {jueves} (Jue) → {miercoles_real} ({dias_completos}/7 días)")
+          print(f"  Día faltante que pasa al modelo siguiente: {miercoles_teorico}")
+
+          PREMIOS = {
+              'A': {'tienda': 100, 'admi': 70},
+              'B': {'tienda':  70, 'admi': 50},
+              'C': {'tienda':  50, 'admi': 40},
+              'D': {'tienda':  40, 'admi': 30},
+          }
+
+          ventas_data = json.loads(Path('data/ventas_mes.json').read_text(encoding='utf-8'))
+          puntos_data = json.loads(Path('data/puntos.json').read_text(encoding='utf-8'))
+          keys_data   = json.loads(Path('data/keys_bonos.json').read_text(encoding='utf-8'))
+
+          keys   = {k['cluster']: k for k in keys_data}
+          tambos = [p for p in puntos_data
+                    if 'TAMBO' in str(p.get('tipo', '')).upper()
+                    or str(p.get('cluster_bono', '')).strip().upper() in ['A','B','C','D']]
+
+          ventas = ventas_data.get('body') or ventas_data.get('ventas') or []
+          ventas_map = {}
+          for v in ventas:
+              try:
+                  fecha = date.fromisoformat(v.get('fecha', '1900-01-01'))
+              except ValueError:
+                  continue
+              if fecha < jueves or fecha > miercoles_real:
+                  continue
+              vid = str(v.get('org_code', ''))
+              if vid not in ventas_map:
+                  ventas_map[vid] = {'pp': 0, 'ld': 0, 'grand': 0}
+              tj  = v.get('tipo_juego', '')
+              amt = v.get('total') or 0
+              if tj == 'TOTAL':     ventas_map[vid]['grand'] += amt
+              if tj == 'PozoPower': ventas_map[vid]['pp']    += amt
+              if tj == 'LakiDey':  ventas_map[vid]['ld']    += amt
+
+          ganadores   = []
+          por_cluster = {}
+          for p in tambos:
+              pid = str(p.get('ID', ''))
+              cb  = str(p.get('cluster_bono', '')).strip().upper()
+              key = keys.get(cb)
+              if not key:
+                  continue
+              v      = ventas_map.get(pid, {'pp': 0, 'ld': 0, 'grand': 0})
+              pp_uni = v['pp'] // 5
+              total  = v['grand']
+              if total >= key['meta'] and pp_uni >= key['pp'] and v['ld'] >= key['lakidey']:
+                  prem = PREMIOS.get(cb, {'tienda': 0, 'admi': 0})
+                  ganadores.append({
+                      'id':          pid,
+                      'nombre':      p.get('nombre', ''),
+                      'cluster':     cb,
+                      'rc':          p.get('rc', ''),
+                      'supervisor':  p.get('supervisor', ''),
+                      'total':        total,
+                      'pp':           pp_uni,
+                      'ld':           v['ld'],
+                      'bono_tienda':  prem['tienda'],
+                      'bono_admi':    prem['admi'],
+                  })
+                  por_cluster[cb] = por_cluster.get(cb, 0) + 1
+
+          primer_jueves = jueves.replace(day=1)
+          while primer_jueves.weekday() != 3:
+              primer_jueves += timedelta(days=1)
+          bono_num = ((jueves - primer_jueves).days // 7) + 1
+          bono_num = max(1, min(5, bono_num))
+
+          meses_es = ['','Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic']
+          entry = {
+              'jueves':          str(jueves),
+              'miercoles':       str(miercoles_real),
+              'semana':          f"{jueves.day} {meses_es[jueves.month]} – {miercoles_real.day} {meses_es[miercoles_real.month]} {miercoles_real.year}",
+              'bono_num':        bono_num,
+              'completa':        False,
+              'dias_completos':  dias_completos,
+              'nota':            f"Semana incompleta: falta {meses_es[miercoles_teorico.month]} {miercoles_teorico.day} (modelo nuevo)",
+              'total_ganadores': len(ganadores),
+              'por_cluster':     por_cluster,
+              'ganadores':       sorted(ganadores, key=lambda x: x['cluster'] + x['nombre']),
+          }
+
+          print(f"  BONO {bono_num} | {dias_completos}/7 días | {len(ganadores)} ganadores")
+
+          hist_path = Path('data/historico_bonos.json')
+          hist = json.loads(hist_path.read_text(encoding='utf-8')) if hist_path.exists() else {'semanas': []}
+
+          idx = next((i for i, s in enumerate(hist['semanas']) if s['jueves'] == str(jueves)), None)
+          if idx is not None:
+              hist['semanas'][idx] = entry
+              print(f"  Entrada {jueves} reemplazada")
+          else:
+              hist['semanas'].append(entry)
+              print(f"  Entrada {jueves} agregada")
+
+          hist['semanas'].sort(key=lambda s: s['jueves'])
+          hist_path.write_text(json.dumps(hist, ensure_ascii=False, indent=2), encoding='utf-8')
+          print("historico_bonos.json guardado OK")
+          PYEOF
+
       - name: Commit si hubo cambios
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add data/ventas_mes.json
+          git add data/ventas_mes.json data/historico_bonos.json
           git diff --cached --quiet || (git commit -m "chore: actualizar ventas_mes.json" && git pull --rebase && git push)
