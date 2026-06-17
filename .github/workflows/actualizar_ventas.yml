@@ -66,9 +66,9 @@ jobs:
                           text = body.decode("utf-8", errors="replace")
                           ct   = resp.headers.get("content-type", "")
                           print(f"  resp {resp.status} ct={ct[:35]} len={len(text)} url={resp.url[:70]}")
-                          if '"ventas"' in text and text.strip().startswith("{"):
+                          if ('"body"' in text or '"ventas"' in text) and text.strip().startswith("{"):
                               captured.append(text)
-                              print(f"  -> JSON con ventas capturado!")
+                              print(f"  -> JSON capturado ({len(text)} chars)")
                       except Exception as ex:
                           pass
 
@@ -86,7 +86,7 @@ jobs:
 
           # ── Validar ──────────────────────────────────────────────────────
           if not content:
-              print("ERROR: no se obtuvo ningun contenido")
+              print("ERROR: no se obtuvo ningun contenido del archivo SharePoint")
               sys.exit(1)
 
           print(f"\nContenido final — primeros 120 chars:\n{content[:120]!r}\n")
