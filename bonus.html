@@ -670,18 +670,90 @@
     tbody.appendChild(tr);
   }
 
-  // ── Descarga FORMATO_1_TAMBO ─────────────────────────────────────
+  // ── Descarga FORMATO_1_TAMBO (todas las semanas cerradas del mes) ──
   function descargarFormato1() {
-    const ganadores = TIENDAS.filter(t => t.ganando && t.key);
-    if (ganadores.length === 0) {
-      alert('No hay tiendas ganando en la semana seleccionada.');
+    const ventas  = window.TODAS_VENTAS || [];
+    const keysMap = window.KEYS || {};
+    const tambos  = window.TAMBOS || [];
+
+    if (!ventas.length || !tambos.length) {
+      alert('Datos no cargados aún.');
       return;
     }
 
-    const jueves   = window.SEMANA_JUEVES || new Date();
-    const bonoNum  = getBonoNumero(jueves);     // 1–5, qué columna BONO usar
-    const selVal   = document.getElementById('filtro-semana').value;
+    const hoyStr = isoDate(new Date());
 
+    // ── 1. Detectar semanas cerradas (miércoles ya pasó) ─────────────
+    const semanasSet = {};
+    ventas.forEach(v => {
+      if (!v.fecha) return;
+      const jue    = juevesDe(new Date(v.fecha + 'T12:00:00'));
+      const jueStr = isoDate(jue);
+      const mieStr = isoDate(new Date(jue.getTime() + 6 * 86400000));
+      if (mieStr <= hoyStr) semanasSet[jueStr] = jue;
+    });
+
+    const semanasCerradas = Object.values(semanasSet).sort((a, b) => a - b);
+
+    if (semanasCerradas.length === 0) {
+      alert('No hay semanas cerradas en el mes actual.');
+      return;
+    }
+
+    // ── 2. Calcular ganadores por semana y acumular por tienda ───────
+    const tiendaBonos = {};  // id → { bonosTienda:[…], bonosAdmi:[…] }
+    const tiendaInfo  = {};  // id → { nombre, cluster, rc }
+
+    semanasCerradas.forEach(jueves => {
+      const bonoNum = getBonoNumero(jueves);
+      const jueStr  = isoDate(jueves);
+      const mieStr  = isoDate(new Date(jueves.getTime() + 6 * 86400000));
+
+      // Agregar ventas de la semana
+      const vm = {};
+      ventas.forEach(v => {
+        if (!v.fecha || v.fecha < jueStr || v.fecha > mieStr) return;
+        const id = String(v.org_code);
+        if (!vm[id]) vm[id] = { pp: 0, ld: 0, grand: 0 };
+        const amt = v.total || 0;
+        if (v.tipo_juego === 'TOTAL')     vm[id].grand += amt;
+        if (v.tipo_juego === 'PozoPower') vm[id].pp    += amt;
+        if (v.tipo_juego === 'LakiDey')  vm[id].ld    += amt;
+      });
+
+      // Evaluar cada tienda
+      tambos.forEach(p => {
+        const id  = String(p.ID || '');
+        const cb  = (p.cluster_bono || '').trim().toUpperCase();
+        const key = keysMap[cb];
+        if (!key) return;
+        const v      = vm[id] || { pp: 0, ld: 0, grand: 0 };
+        const pp_uni = Math.floor(v.pp / 5);
+        if (v.grand >= key.meta && pp_uni >= key.pp && v.ld >= key.lakidey) {
+          if (!tiendaBonos[id]) {
+            tiendaBonos[id] = { bonosTienda: [0,0,0,0,0], bonosAdmi: [0,0,0,0,0] };
+            tiendaInfo[id]  = { nombre: p.nombre || '', cluster: cb, rc: p.rc || '' };
+          }
+          const prem = PREMIOS_MAP[cb] || { tienda: 0, admi: 0 };
+          tiendaBonos[id].bonosTienda[bonoNum - 1] = prem.tienda;
+          tiendaBonos[id].bonosAdmi[bonoNum - 1]   = prem.admi;
+        }
+      });
+    });
+
+    const ganadorIds = Object.keys(tiendaBonos);
+    if (ganadorIds.length === 0) {
+      alert('No hay tiendas ganadoras en las semanas cerradas.');
+      return;
+    }
+
+    // Ordenar por cluster → nombre
+    ganadorIds.sort((a, b) => {
+      const ia = tiendaInfo[a], ib = tiendaInfo[b];
+      return (ia.cluster + ia.nombre).localeCompare(ib.cluster + ib.nombre);
+    });
+
+    // ── 3. Construir filas Excel ─────────────────────────────────────
     const HEADERS = [
       'BONO 1','BONO 2','BONO 3','BONO 4','BONO 5','MONTO TIENDA',
       'BONO 1','BONO 2','BONO 3','BONO 4','BONO 5','MONTO ADMI',
@@ -691,39 +763,36 @@
 
     const rows = [HEADERS];
 
-    ganadores.forEach(t => {
-      const prem        = PREMIOS_MAP[t.cluster_bono] || { tienda: 0, admi: 0 };
-      const bonosTienda = [0, 0, 0, 0, 0];
-      const bonosAdmi   = [0, 0, 0, 0, 0];
-      bonosTienda[bonoNum - 1] = prem.tienda;
-      bonosAdmi[bonoNum - 1]   = prem.admi;
+    ganadorIds.forEach(id => {
+      const info        = tiendaInfo[id];
+      const bonos       = tiendaBonos[id];
+      const montoTienda = bonos.bonosTienda.reduce((s, n) => s + n, 0);
+      const montoAdmi   = bonos.bonosAdmi.reduce((s, n) => s + n, 0);
 
-      // Fila ADMINISTRADOR
+      // Fila ADMINISTRADOR (montos llenados)
       rows.push([
-        ...bonosTienda, prem.tienda,
-        ...bonosAdmi,   prem.admi,
-        prem.tienda + prem.admi,
-        'TAMBO', 'ADMINISTRADOR', t.nombre,
-        'ADMINISTRADOR ' + t.nombre,
+        ...bonos.bonosTienda, montoTienda,
+        ...bonos.bonosAdmi,   montoAdmi,
+        montoTienda + montoAdmi,
+        'TAMBO', 'ADMINISTRADOR', info.nombre,
+        'ADMINISTRADOR ' + info.nombre,
         '', '', '', '', '',
       ]);
 
-      // Filas COLABORADOR 1–8
+      // Filas COLABORADOR 1–8 (sin montos)
       for (let i = 1; i <= 8; i++) {
         rows.push([
           '', '', '', '', '', '',
           '', '', '', '', '', '',
           '',
-          'TAMBO', 'COLABORADOR ' + i, t.nombre,
-          'COLABORADOR ' + i + ' ' + t.nombre,
+          'TAMBO', 'COLABORADOR ' + i, info.nombre,
+          'COLABORADOR ' + i + ' ' + info.nombre,
           '', '', '', '', '',
         ]);
       }
     });
 
     const ws = XLSX.utils.aoa_to_sheet(rows);
-
-    // Anchos orientativos
     ws['!cols'] = [
       {wch:9},{wch:9},{wch:9},{wch:9},{wch:9},{wch:13},
       {wch:9},{wch:9},{wch:9},{wch:9},{wch:9},{wch:12},
@@ -731,9 +800,10 @@
       {wch:11},{wch:22},{wch:22},{wch:22},{wch:10},
     ];
 
-    const wb = XLSX.utils.book_new();
+    const mes = new Date().toISOString().slice(0, 7);
+    const wb  = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(wb, ws, 'BONO');
-    XLSX.writeFile(wb, 'FORMATO_TAMBO_BONO' + bonoNum + '_' + selVal + '.xlsx');
+    XLSX.writeFile(wb, `FORMATO_TAMBO_${mes}_${semanasCerradas.length}sem.xlsx`);
   }
 
   // ── Listeners ───────────────────────────────────────────────────
