@@ -396,8 +396,9 @@
       keys.forEach(k => { KEYS[k.cluster] = k; });
 
       // ── Detectar semanas disponibles en los datos ──────────────
+      const registros = ventas.body || ventas.ventas || [];
       const semanasMap = {};
-      (ventas.ventas || []).forEach(v => {
+      registros.forEach(v => {
         if (!v.fecha) return;
         const jue = juevesDe(new Date(v.fecha + 'T12:00:00'));
         const key = isoDate(jue);
@@ -417,7 +418,7 @@
       });
 
       // Guardar estado global para recalcular al cambiar semana
-      window.TODAS_VENTAS = ventas.ventas || [];
+      window.TODAS_VENTAS = ventas.body || ventas.ventas || [];
       window.KEYS         = KEYS;
 
       // Filtrar solo tiendas Tambo (por tipo o por tener cluster_bono A/B/C/D)
@@ -458,9 +459,9 @@
       registros++;
       const id = String(v.org_code);
       if (!ventasMap[id]) ventasMap[id] = { pp: 0, ld: 0, grand: 0 };
-      ventasMap[id].grand += (v.total || 0);                              // todos los juegos
-      if (v.tipo_juego === 'PozoPower') ventasMap[id].pp += (v.total || 0);
-      if (v.tipo_juego === 'LakiDey')  ventasMap[id].ld += (v.total || 0);
+      if (v.tipo_juego === 'TOTAL')     ventasMap[id].grand += (v.total || 0);
+      if (v.tipo_juego === 'PozoPower') ventasMap[id].pp    += (v.total || 0);
+      if (v.tipo_juego === 'LakiDey')  ventasMap[id].ld    += (v.total || 0);
     });
 
     document.getElementById('cnt-registros').textContent = registros.toLocaleString();
