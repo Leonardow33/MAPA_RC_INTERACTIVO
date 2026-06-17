@@ -280,6 +280,7 @@
 </div>
 
 <div class="filtros">
+  <select id="filtro-semana" style="font-weight:600;color:var(--text);border-color:var(--accent)"></select>
   <input type="search" id="buscar" placeholder="🔍 Buscar tienda o código..."/>
   <select id="filtro-cluster">
     <option value="">Cluster</option>
@@ -314,24 +315,29 @@
 </div>
 
 <script>
-  // ── Semana actual: jueves → miércoles ─────────────────────────
-  function getSemanaActual() {
-    const hoy = new Date();
-    const dow  = hoy.getDay(); // 0=Dom 1=Lun 2=Mar 3=Mié 4=Jue 5=Vie 6=Sáb
-    const offset = [3, 4, 5, 6, 0, 1, 2]; // días desde el jueves anterior
-    const jueves = new Date(hoy);
-    jueves.setDate(hoy.getDate() - offset[dow]);
-    jueves.setHours(0, 0, 0, 0);
-    const miercoles = new Date(jueves);
-    miercoles.setDate(jueves.getDate() + 6);
-    miercoles.setHours(23, 59, 59, 999);
-    return { jueves, miercoles };
+  // ── Semanas Jue→Mié ───────────────────────────────────────────
+  function juevesDe(fecha) {
+    const d = new Date(fecha);
+    d.setHours(0, 0, 0, 0);
+    const offset = [3, 4, 5, 6, 0, 1, 2]; // Dom=3, Lun=4... Jue=0, Vie=1...
+    d.setDate(d.getDate() - offset[d.getDay()]);
+    return d;
+  }
+
+  function semanaLabel(jueves) {
+    const mies = new Date(jueves);
+    mies.setDate(jueves.getDate() + 6);
+    return `${fmtFecha(jueves)} — ${fmtFecha(mies)}`;
   }
 
   function fmtFecha(d) {
     const dias  = ['Dom','Lun','Mar','Mié','Jue','Vie','Sáb'];
     const meses = ['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
     return `${dias[d.getDay()]} ${d.getDate()} ${meses[d.getMonth()]}`;
+  }
+
+  function isoDate(d) {
+    return d.toISOString().slice(0, 10);
   }
 
   // ── Estado global ──────────────────────────────────────────────
@@ -382,74 +388,106 @@
         loadJSON('data/keys_bonos.json'),
       ]);
 
-      // Semana actual
-      const { jueves, miercoles } = getSemanaActual();
-      const labelSemana = `${fmtFecha(jueves)} — ${fmtFecha(miercoles)}`;
-
       document.getElementById('updated').textContent =
-        `Semana: ${labelSemana} · Datos: ${ventas.updated || '—'}`;
+        `Datos: ${ventas.updated || '—'}`;
 
       // Mapa de mínimos por cluster
       const KEYS = {};
       keys.forEach(k => { KEYS[k.cluster] = k; });
 
-      // Agregar ventas de la semana actual (Jue→Mié) por org_code
-      const ventasMap = {};
-      let registrosSemana = 0;
+      // ── Detectar semanas disponibles en los datos ──────────────
+      const semanasMap = {};
       (ventas.ventas || []).forEach(v => {
-        const fecha = new Date(v.fecha + 'T12:00:00'); // mediodía evita problemas de zona horaria
-        if (fecha < jueves || fecha > miercoles) return;
-        registrosSemana++;
-        const id = String(v.org_code);
-        if (!ventasMap[id]) ventasMap[id] = { pp: 0, ld: 0 };
-        if (v.tipo_juego === 'PozoPower') ventasMap[id].pp += (v.total || 0);
-        if (v.tipo_juego === 'LakiDey')  ventasMap[id].ld += (v.total || 0);
+        if (!v.fecha) return;
+        const jue = juevesDe(new Date(v.fecha + 'T12:00:00'));
+        const key = isoDate(jue);
+        if (!semanasMap[key]) semanasMap[key] = jue;
       });
 
-      document.getElementById('cnt-registros').textContent =
-        registrosSemana.toLocaleString();
+      const semanas = Object.values(semanasMap)
+        .sort((a, b) => b - a); // más reciente primero
+
+      const selSemana = document.getElementById('filtro-semana');
+      selSemana.innerHTML = '';
+      semanas.forEach((jue, i) => {
+        const opt = document.createElement('option');
+        opt.value = isoDate(jue);
+        opt.textContent = semanaLabel(jue) + (i === 0 ? ' (actual)' : '');
+        selSemana.appendChild(opt);
+      });
+
+      // Guardar estado global para recalcular al cambiar semana
+      window.TODAS_VENTAS = ventas.ventas || [];
+      window.KEYS         = KEYS;
 
       // Filtrar solo tiendas Tambo (por tipo o por tener cluster_bono A/B/C/D)
-      const tambos = puntos.filter(p => {
+      window.TAMBOS = puntos.filter(p => {
         const tipo = String(p.tipo || '').toUpperCase();
         const cb   = String(p.cluster_bono || '').trim().toUpperCase();
         return tipo.includes('TAMBO') || ['A','B','C','D'].includes(cb);
       });
 
-      TIENDAS = tambos.map(p => {
-        const id  = String(p.ID || '');
-        const cb  = (p.cluster_bono || '').trim().toUpperCase();
-        const key = KEYS[cb] || null;
-        const v   = ventasMap[id] || { pp: 0, ld: 0 };
-        const total = v.pp + v.ld;
+      // Poblar filtros de RC/Supervisor (no cambian con la semana)
+      poblarSelect('filtro-rc',  [...new Set(window.TAMBOS.map(p => p.rc || '').filter(Boolean))].sort());
+      poblarSelect('filtro-sup', [...new Set(window.TAMBOS.map(p => p.supervisor || '').filter(Boolean))].sort());
 
-        const ganando = key
-          ? (total >= key.meta && v.pp >= key.pp && v.ld >= key.lakidey)
-          : false;
-
-        return {
-          id, nombre: p.nombre || '',
-          cluster: cb, cluster_bono: cb,
-          rc: p.rc || '', supervisor: p.supervisor || '',
-          pp: v.pp, ld: v.ld, total,
-          meta_total: key ? key.meta    : null,
-          meta_pp:    key ? key.pp      : null,
-          meta_ld:    key ? key.lakidey : null,
-          ganando, key,
-        };
-      });
-
-      // Poblar filtros
-      poblarSelect('filtro-rc',  [...new Set(TIENDAS.map(t => t.rc).filter(Boolean))].sort());
-      poblarSelect('filtro-sup', [...new Set(TIENDAS.map(t => t.supervisor).filter(Boolean))].sort());
-
-      renderStats();
-      render();
+      calcularSemana();
 
     } catch(e) {
       document.getElementById('msg').className = 'msg error';
       document.getElementById('msg').textContent = 'Error al cargar datos: ' + e.message;
     }
+  }
+
+  // ── Recalcular TIENDAS para la semana seleccionada ─────────────
+  function calcularSemana() {
+    const selVal = document.getElementById('filtro-semana').value;
+    if (!selVal) return;
+
+    const jueves    = new Date(selVal + 'T00:00:00');
+    const miercoles = new Date(jueves);
+    miercoles.setDate(jueves.getDate() + 6);
+    miercoles.setHours(23, 59, 59, 999);
+
+    // Agregar ventas de la semana seleccionada
+    const ventasMap = {};
+    let registros = 0;
+    (window.TODAS_VENTAS || []).forEach(v => {
+      const fecha = new Date(v.fecha + 'T12:00:00');
+      if (fecha < jueves || fecha > miercoles) return;
+      registros++;
+      const id = String(v.org_code);
+      if (!ventasMap[id]) ventasMap[id] = { pp: 0, ld: 0 };
+      if (v.tipo_juego === 'PozoPower') ventasMap[id].pp += (v.total || 0);
+      if (v.tipo_juego === 'LakiDey')  ventasMap[id].ld += (v.total || 0);
+    });
+
+    document.getElementById('cnt-registros').textContent = registros.toLocaleString();
+
+    const KEYS = window.KEYS || {};
+    TIENDAS = (window.TAMBOS || []).map(p => {
+      const id  = String(p.ID || '');
+      const cb  = (p.cluster_bono || '').trim().toUpperCase();
+      const key = KEYS[cb] || null;
+      const v   = ventasMap[id] || { pp: 0, ld: 0 };
+      const total = v.pp + v.ld;
+      const ganando = key
+        ? (total >= key.meta && v.pp >= key.pp && v.ld >= key.lakidey)
+        : false;
+      return {
+        id, nombre: p.nombre || '',
+        cluster: cb, cluster_bono: cb,
+        rc: p.rc || '', supervisor: p.supervisor || '',
+        pp: v.pp, ld: v.ld, total,
+        meta_total: key ? key.meta    : null,
+        meta_pp:    key ? key.pp      : null,
+        meta_ld:    key ? key.lakidey : null,
+        ganando, key,
+      };
+    });
+
+    renderStats();
+    render();
   }
 
   function poblarSelect(id, valores) {
@@ -590,6 +628,7 @@
   }
 
   // ── Listeners ───────────────────────────────────────────────────
+  document.getElementById('filtro-semana').addEventListener('change', calcularSemana);
   ['buscar','filtro-cluster','filtro-rc','filtro-sup'].forEach(id => {
     document.getElementById(id).addEventListener('input', render);
     document.getElementById(id).addEventListener('change', render);
