@@ -247,7 +247,18 @@
     .msg.error { color: var(--red); }
 
     .td-rc { font-size: 12px; color: var(--muted); max-width: 120px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+    .td-bono { font-size: 12px; color: var(--green); font-weight: 700; white-space: nowrap; }
+    .td-bono-empty { font-size: 12px; color: var(--muted); }
+
+    .dl-btn {
+      background: #1D4ED822;
+      border-color: #3B82F655;
+      color: #60A5FA;
+    }
+    .dl-btn:hover { background: #1D4ED844; }
   </style>
+  <script src="https://cdn.sheetjs.com/xlsx-0.20.3/package/dist/xlsx.full.min.js"></script>
 </head>
 <body>
 
@@ -293,6 +304,7 @@
   <select id="filtro-sup"><option value="">Supervisor</option></select>
   <button class="toggle-btn active" id="btn-ganando" onclick="toggleFiltroGanando()">★ Solo ganando</button>
   <button class="toggle-btn" id="btn-todas" onclick="toggleFiltroTodas()">Todas las tiendas</button>
+  <button class="toggle-btn dl-btn" onclick="descargarFormato1()">⬇ Formato Excel</button>
   <span class="count" id="count-label"></span>
 </div>
 
@@ -308,6 +320,8 @@
         <th onclick="sortBy('ld')">LakiDey <span class="sort-icon">↕</span></th>
         <th onclick="sortBy('total')">Total <span class="sort-icon">↕</span></th>
         <th onclick="sortBy('estado')">Estado <span class="sort-icon">↕</span></th>
+        <th>B. Tienda</th>
+        <th>B. Admin</th>
       </tr>
     </thead>
     <tbody id="tbody"></tbody>
@@ -315,6 +329,26 @@
 </div>
 
 <script>
+  // ── Premios por cluster ────────────────────────────────────────
+  const PREMIOS_MAP = {
+    A: { tienda: 100, admi: 70 },
+    B: { tienda:  70, admi: 50 },
+    C: { tienda:  50, admi: 40 },
+    D: { tienda:  40, admi: 30 },
+  };
+
+  // ── Número de bono de la semana (1–5) dentro del mes ──────────
+  function getBonoNumero(juevesFecha) {
+    const mes  = juevesFecha.getMonth();
+    const anio = juevesFecha.getFullYear();
+    // Primer jueves del mes
+    let primerJueves = new Date(anio, mes, 1);
+    while (primerJueves.getDay() !== 4) primerJueves.setDate(primerJueves.getDate() + 1);
+    const diffMs    = juevesFecha - primerJueves;
+    const diffSem   = Math.round(diffMs / (7 * 24 * 60 * 60 * 1000));
+    return Math.max(1, Math.min(5, diffSem + 1));
+  }
+
   // ── Semanas Jue→Mié ───────────────────────────────────────────
   function juevesDe(fecha) {
     const d = new Date(fecha);
@@ -446,6 +480,7 @@
     if (!selVal) return;
 
     const jueves    = new Date(selVal + 'T00:00:00');
+    window.SEMANA_JUEVES = jueves;
     const miercoles = new Date(jueves);
     miercoles.setDate(jueves.getDate() + 6);
     miercoles.setHours(23, 59, 59, 999);
@@ -477,6 +512,7 @@
       const ganando = key
         ? (total >= key.meta && pp_uni >= key.pp && v.ld >= key.lakidey)
         : false;
+      const premios = PREMIOS_MAP[cb] || { tienda: 0, admi: 0 };
       return {
         id, nombre: p.nombre || '',
         cluster: cb, cluster_bono: cb,
@@ -486,6 +522,8 @@
         meta_pp:    key ? key.pp      : null,
         meta_ld:    key ? key.lakidey : null,
         ganando, key,
+        bono_tienda: ganando ? premios.tienda : 0,
+        bono_admi:   ganando ? premios.admi   : 0,
       };
     });
 
@@ -583,7 +621,7 @@
 
     if (lista.length === 0) {
       const tr = document.createElement('tr');
-      tr.innerHTML = `<td colspan="7" style="text-align:center;padding:40px;color:var(--muted)">Sin resultados</td>`;
+      tr.innerHTML = `<td colspan="9" style="text-align:center;padding:40px;color:var(--muted)">Sin resultados</td>`;
       tbody.appendChild(tr);
     } else if (modoFiltro === 'todas' && !lastSort) {
       // Separador entre ganando y no ganando
@@ -609,7 +647,7 @@
   function addSeparator(tbody, label) {
     const tr = document.createElement('tr');
     tr.className = 'separator';
-    tr.innerHTML = `<td colspan="7">${label}</td>`;
+    tr.innerHTML = `<td colspan="9">${label}</td>`;
     tbody.appendChild(tr);
   }
 
@@ -626,8 +664,76 @@
       <td>${t.meta_ld   != null ? bar(t.ld,    t.meta_ld)    : '<span style="color:var(--muted)">—</span>'}</td>
       <td>${t.meta_total!= null ? bar(t.total, t.meta_total) : '<span style="color:var(--muted)">—</span>'}</td>
       <td>${estadoHTML(t)}</td>
+      <td>${t.ganando ? `<span class="td-bono">S/ ${t.bono_tienda}</span>` : `<span class="td-bono-empty">—</span>`}</td>
+      <td>${t.ganando ? `<span class="td-bono">S/ ${t.bono_admi}</span>` : `<span class="td-bono-empty">—</span>`}</td>
     `;
     tbody.appendChild(tr);
+  }
+
+  // ── Descarga FORMATO_1_TAMBO ─────────────────────────────────────
+  function descargarFormato1() {
+    const ganadores = TIENDAS.filter(t => t.ganando && t.key);
+    if (ganadores.length === 0) {
+      alert('No hay tiendas ganando en la semana seleccionada.');
+      return;
+    }
+
+    const jueves   = window.SEMANA_JUEVES || new Date();
+    const bonoNum  = getBonoNumero(jueves);     // 1–5, qué columna BONO usar
+    const selVal   = document.getElementById('filtro-semana').value;
+
+    const HEADERS = [
+      'BONO 1','BONO 2','BONO 3','BONO 4','BONO 5','MONTO TIENDA',
+      'BONO 1','BONO 2','BONO 3','BONO 4','BONO 5','MONTO ADMI',
+      'TOTAL','RETAIL','POSICION','NOMBRE DE TIENDA','DETALLE',
+      'DNI','NOMBRES','APELLIDO PATERNO','APELLIDO MATERNO','MONTO',
+    ];
+
+    const rows = [HEADERS];
+
+    ganadores.forEach(t => {
+      const prem        = PREMIOS_MAP[t.cluster_bono] || { tienda: 0, admi: 0 };
+      const bonosTienda = [0, 0, 0, 0, 0];
+      const bonosAdmi   = [0, 0, 0, 0, 0];
+      bonosTienda[bonoNum - 1] = prem.tienda;
+      bonosAdmi[bonoNum - 1]   = prem.admi;
+
+      // Fila ADMINISTRADOR
+      rows.push([
+        ...bonosTienda, prem.tienda,
+        ...bonosAdmi,   prem.admi,
+        prem.tienda + prem.admi,
+        'TAMBO', 'ADMINISTRADOR', t.nombre,
+        'ADMINISTRADOR ' + t.nombre,
+        '', '', '', '', '',
+      ]);
+
+      // Filas COLABORADOR 1–8
+      for (let i = 1; i <= 8; i++) {
+        rows.push([
+          '', '', '', '', '', '',
+          '', '', '', '', '', '',
+          '',
+          'TAMBO', 'COLABORADOR ' + i, t.nombre,
+          'COLABORADOR ' + i + ' ' + t.nombre,
+          '', '', '', '', '',
+        ]);
+      }
+    });
+
+    const ws = XLSX.utils.aoa_to_sheet(rows);
+
+    // Anchos orientativos
+    ws['!cols'] = [
+      {wch:9},{wch:9},{wch:9},{wch:9},{wch:9},{wch:13},
+      {wch:9},{wch:9},{wch:9},{wch:9},{wch:9},{wch:12},
+      {wch:9},{wch:9},{wch:16},{wch:30},{wch:38},
+      {wch:11},{wch:22},{wch:22},{wch:22},{wch:10},
+    ];
+
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, 'BONO');
+    XLSX.writeFile(wb, 'FORMATO_TAMBO_BONO' + bonoNum + '_' + selVal + '.xlsx');
   }
 
   // ── Listeners ───────────────────────────────────────────────────
