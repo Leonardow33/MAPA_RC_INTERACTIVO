@@ -431,6 +431,8 @@ function buildPopupContent(p) {
       </div>
       <button id="btn-visita-${safeId}" class="popup-btn-visita"></button>
       <div id="msg-visita-${safeId}" class="popup-msg-visita">📍 Acércate a 40m para registrar</div>
+      <button id="btn-alerta-${safeId}" style="width:100%;background:transparent;border:1px solid #F57C00;color:#F57C00;border-radius:8px;padding:5px 0;font-size:11px;font-weight:600;cursor:pointer;font-family:inherit;margin-top:4px">⚠️ GPS incorrecto · Reportar</button>
+      <div id="msg-alerta-${safeId}" style="display:none;font-size:11px;text-align:center;padding:3px 0;color:#388E3C"></div>
     </div>`;
 }
 
@@ -452,6 +454,10 @@ function attachPopupOpen(marker, p) {
                 svRow.style.display = "none";
             }
         }
+        const btnAlerta = document.getElementById("btn-alerta-" + safeId);
+        const msgAlerta = document.getElementById("msg-alerta-" + safeId);
+        if (btnAlerta) btnAlerta.onclick = () => reportarUbicacionMal(p, btnAlerta, msgAlerta);
+
         const btn = document.getElementById("btn-visita-" + safeId);
         const msg = document.getElementById("msg-visita-" + safeId);
         if (!btn || !msg) return;
@@ -499,6 +505,29 @@ function attachPopupOpen(marker, p) {
             btn.onclick = () => registrarMovimiento(p, "salida", marker);
         }
     });
+}
+
+function reportarUbicacionMal(p, btn, msgEl) {
+    btn.disabled = true;
+    btn.textContent = "⏳ Enviando...";
+    const params = new URLSearchParams({
+        action: 'alertaGeo',
+        id: p.ID, nombre: p.nombre,
+        latT: p.lat, lngT: p.lng,
+        latRC: userLat || '', lngRC: userLng || '',
+        dist: (userLat && userLng) ? Math.round(haversine(userLat, userLng, p.lat, p.lng) * 1000) : '',
+        rc: p.rc || '', supervisor: p.supervisor || ''
+    });
+    fetch(ALERTA_GEO_URL + '?' + params.toString(), { mode: 'no-cors' })
+        .then(() => {
+            btn.style.display = 'none';
+            if (msgEl) { msgEl.style.display = 'block'; msgEl.textContent = '✅ Alerta enviada'; }
+        })
+        .catch(() => {
+            btn.disabled = false;
+            btn.textContent = '⚠️ GPS incorrecto · Reportar';
+            if (msgEl) { msgEl.style.display = 'block'; msgEl.style.color = '#e53935'; msgEl.textContent = 'Error de red'; }
+        });
 }
 
 function renderMap(filterRC, filterDia, filterSup, filterPartner, filterZona, filterTipo) {
@@ -857,6 +886,7 @@ const ORS_KEY = 'eyJvcmciOiI1YjNjZTM1OTc4NTExMTAwMDFjZjYyNDgiLCJpZCI6IjZmZTFlYjB
 
 // ── GOOGLE SHEET (reemplaza con tu URL de Apps Script desplegado) ──────────
 const SHEET_URL = "https://script.google.com/macros/s/AKfycby2f2uW9E2_CUBr9OiKVT4Sp-ubP2sRIXlWig-GPuKTGyDxi-zx724ZGtkOFaWW0jnqjw/exec";
+const ALERTA_GEO_URL = "https://script.google.com/macros/s/AKfycbzzWuOyZZM7rWCSXkLSEJj8HxZouINnwWnQpgcYIR5wx-j2m4kfQmosijVD11fdULto/exec";
 const SIN_VENTA_URL = "https://raw.githubusercontent.com/Leonardow33/MAPA_RC_INTERACTIVO/main/sinventa.txt";
 const REUNION_PIN = "0810"; // ← cambia este código cada mes
 // ── MATERIAL POP — Web App URL (pega tu URL después de desplegar el script) ──
