@@ -1313,6 +1313,7 @@ function renderSinVentaLayer() {
     const sup = document.getElementById("supFilter").value;
     const partner = document.getElementById("partnerFilter").value;
     const zona = document.getElementById("zonaFilter").value;
+    const tipoSel = document.getElementById("tipoFilter").value;
     let count = 0;
     allData.forEach(p => {
         if (!sinVentaCodes.has(String(p.ID))) return;
@@ -1322,6 +1323,11 @@ function renderSinVentaLayer() {
         if (rc !== 'ALL' && p.rc !== rc) return;
         if (partner !== 'ALL' && p.responsable !== partner) return;
         if (zona !== 'ALL' && p.zona !== zona) return;
+        if (tipoSel && tipoSel !== 'ALL') {
+            const tipo = (p.tipo || '').toUpperCase();
+            if (tipoSel === 'TAMBO' && tipo !== 'TAMBO' && tipo !== 'SUERTE') return;
+            if (tipoSel === 'CASA DE APUESTA' && (tipo === 'TAMBO' || tipo === 'CENCOS' || tipo === 'BODEGA')) return;
+        }
         const hora = sinVentaTimes[String(p.ID)] || '-';
         L.circleMarker([p.lat, p.lng], {
             radius: 7,
