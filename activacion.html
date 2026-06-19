@@ -17,20 +17,21 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
   z-index:1000;
   background:rgba(15,23,42,0.92);
   backdrop-filter:blur(12px);
-  border:1px solid rgba(255,255,255,0.08);
+  border:1px solid rgba(244,63,94,0.2);
   border-radius:20px;
   padding:10px 20px;
   display:flex;align-items:center;gap:10px;
-  box-shadow:0 8px 32px rgba(0,0,0,0.5);
+  box-shadow:0 8px 32px rgba(0,0,0,0.5),0 0 0 1px rgba(244,63,94,0.07);
   white-space:nowrap;
 }
 #header .tag{
-  background:linear-gradient(135deg,#6366F1,#8B5CF6);
+  background:linear-gradient(135deg,#F43F5E,#FB7185);
   color:#fff;font-size:10px;font-weight:800;
   padding:3px 9px;border-radius:20px;letter-spacing:0.8px;
+  box-shadow:0 0 12px rgba(244,63,94,0.35);
 }
 #header .titulo{font-size:13px;font-weight:700;color:#F8FAFC}
-#header .fecha{font-size:11px;color:#64748B}
+#header .fecha{font-size:11px;color:#FDA4AF}
 
 /* ── PARADAS SIDEBAR ── */
 #sidebar{
@@ -68,14 +69,14 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .card-maps{
   margin-top:7px;
   display:flex;align-items:center;gap:4px;
-  background:rgba(255,255,255,0.05);
-  border:1px solid rgba(255,255,255,0.08);
+  background:rgba(244,63,94,0.08);
+  border:1px solid rgba(244,63,94,0.2);
   border-radius:8px;
   padding:5px 8px;
-  font-size:10px;font-weight:700;color:#94A3B8;
-  transition:background .15s;
+  font-size:10px;font-weight:700;color:#FDA4AF;
+  transition:background .15s,color .15s;
 }
-.card:hover .card-maps{background:rgba(255,255,255,0.1);color:#F8FAFC}
+.card:hover .card-maps{background:rgba(244,63,94,0.18);color:#fff}
 
 .break-card{
   background:rgba(15,23,42,0.7);
@@ -107,10 +108,11 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .pop-btn{
   margin-top:10px;
   display:flex;align-items:center;justify-content:center;gap:6px;
-  background:linear-gradient(135deg,#1D4ED8,#6366F1);
+  background:linear-gradient(135deg,#F43F5E,#FB923C);
   color:#fff;font-size:11px;font-weight:700;
   padding:8px 12px;border-radius:10px;
   text-decoration:none;
+  box-shadow:0 4px 14px rgba(244,63,94,0.35);
   transition:opacity .15s;
 }
 .pop-btn:hover{opacity:0.85}
@@ -135,19 +137,58 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 @keyframes ring{0%{transform:scale(1);opacity:.3}70%{transform:scale(1.4);opacity:0}100%{transform:scale(1.4);opacity:0}}
 
 /* ── MOBILE ── */
-@media(max-width:640px){
-  #header{top:8px;padding:8px 14px;gap:7px}
-  #header .fecha{display:none}
-  #sidebar{
-    right:auto;left:0;right:0;top:auto;bottom:0;transform:none;
-    flex-direction:row;overflow-x:auto;padding:10px 10px 14px;gap:8px;
-    background:rgba(15,23,42,0.95);
-    border-top:1px solid rgba(255,255,255,0.07);
-    backdrop-filter:blur(12px);
+@media(max-width:680px){
+  #header{
+    top:8px;left:8px;right:8px;transform:none;
+    padding:8px 14px;gap:6px;
+    justify-content:center;
   }
-  .card{width:160px;flex-shrink:0}
-  .break-card{writing-mode:vertical-rl;text-orientation:mixed;padding:8px 6px;flex-shrink:0}
-  #map{bottom:160px}
+  #header .fecha{display:none}
+
+  #sidebar{
+    position:fixed;
+    bottom:0;left:0;right:0;
+    top:auto;transform:none;
+    flex-direction:row;
+    overflow-x:auto;
+    overflow-y:hidden;
+    -webkit-overflow-scrolling:touch;
+    scroll-snap-type:x mandatory;
+    padding:10px 12px 18px;
+    gap:8px;
+    background:rgba(10,15,30,0.97);
+    border-top:1px solid rgba(255,255,255,0.09);
+    backdrop-filter:blur(16px);
+    height:185px;
+  }
+  #sidebar::-webkit-scrollbar{display:none}
+
+  .card{
+    width:150px;
+    flex-shrink:0;
+    scroll-snap-align:start;
+  }
+  .card-maps{font-size:9px;padding:4px 6px}
+
+  .break-card{
+    writing-mode:vertical-lr;
+    text-orientation:mixed;
+    flex-shrink:0;
+    min-width:32px;
+    padding:8px 6px;
+    font-size:9px;
+    height:auto;
+    align-self:stretch;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    scroll-snap-align:start;
+  }
+
+  #map{
+    position:absolute;
+    top:0;bottom:185px;left:0;right:0;
+  }
 }
 </style>
 </head>
@@ -240,7 +281,7 @@ const markers = [];
 PARADAS.forEach((p,i) => {
   const icon = L.divIcon({
     className:'',
-    html:`<div class="mpin" style="background:${p.color};color:${p.color}">${p.n}</div>`,
+    html:`<div class="mpin" style="background:${p.color}">${p.n}</div>`,
     iconSize:[36,36],iconAnchor:[18,18],popupAnchor:[0,-22]
   });
   const mapsUrl = `https://www.google.com/maps/dir/?api=1&destination=${p.lat},${p.lng}`;
