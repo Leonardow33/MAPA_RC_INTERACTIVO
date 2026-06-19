@@ -732,6 +732,7 @@ if (localStorage.getItem('geodor_tipo')) {
     _selTipo.style.display = "none";
     _selTipo.style.pointerEvents = "none";
     document.getElementById("tipoFilterGroup").style.display = "none";
+    document.getElementById("tipoFilter").value = localStorage.getItem('geodor_tipo');
 }
 
 function updateFilters() {
