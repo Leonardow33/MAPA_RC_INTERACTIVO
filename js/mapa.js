@@ -351,7 +351,7 @@ function registrarMovimiento(p, tipo, marker) {
                 if (msg) {
                     msg.style.display = "block";
                     msg.style.color = "#388E3C";
-                    msg.textContent = `✅ Visita completa · E: ${v.entrada} · S: ${v.salida}`;
+                    const _dk = getTodayKey().replace('visitas_mapa_','').split('-'); msg.textContent = `✅ Visita completa · ${_dk[2]}/${_dk[1]} · E: ${v.entrada} · S: ${v.salida}`;
                 }
             } else {
                 const v = getVisitasHoy()[String(p.ID)];
@@ -469,7 +469,7 @@ function attachPopupOpen(marker, p) {
             btn.style.display = "none";
             msg.style.display = "block";
             msg.style.color = "#388E3C";
-            msg.textContent = `✅ Visita completa · E: ${v.entrada} · S: ${v.salida}`;
+            const _dk = getTodayKey().replace('visitas_mapa_','').split('-'); msg.textContent = `✅ Visita completa · ${_dk[2]}/${_dk[1]} · E: ${v.entrada} · S: ${v.salida}`;
             return;
         }
         if (!userLat || !userLng) {
