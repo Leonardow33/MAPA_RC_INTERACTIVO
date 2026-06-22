@@ -468,20 +468,16 @@
       window.TODAS_VENTAS = ventas.body || ventas.ventas || [];
       window.KEYS         = KEYS;
 
-      // Filtrar solo tiendas Tambo ACTIVAS (por tipo o por tener cluster_bono A/B/C/D)
+      // Filtrar solo tiendas Tambo (por tipo o por tener cluster_bono A/B/C/D)
       window.TAMBOS = puntos.filter(p => {
-        const tipo    = String(p.tipo || '').toUpperCase();
-        const cb      = String(p.cluster_bono || '').trim().toUpperCase();
-        const activo  = (p.estado || '').toUpperCase() === 'ACTIVO';
-        return activo && (tipo.includes('TAMBO') || ['A','B','C','D'].includes(cb));
+        const tipo = String(p.tipo || '').toUpperCase();
+        const cb   = String(p.cluster_bono || '').trim().toUpperCase();
+        return tipo.includes('TAMBO') || ['A','B','C','D'].includes(cb);
       });
-      // Separar inactivos para detección de venta fantasma
-      window.TAMBOS_INACTIVOS = puntos.filter(p => {
-        const tipo    = String(p.tipo || '').toUpperCase();
-        const cb      = String(p.cluster_bono || '').trim().toUpperCase();
-        const inactivo = (p.estado || '').toUpperCase() === 'INACTIVO';
-        return inactivo && (tipo.includes('TAMBO') || ['A','B','C','D'].includes(cb));
-      });
+      // Inactivos — solo para la alerta
+      window.TAMBOS_INACTIVOS = window.TAMBOS.filter(p =>
+        (p.estado || '').toUpperCase() === 'INACTIVO'
+      );
 
       // Poblar filtros de RC/Supervisor (no cambian con la semana)
       poblarSelect('filtro-rc',  [...new Set(window.TAMBOS.map(p => p.rc || '').filter(Boolean))].sort());
