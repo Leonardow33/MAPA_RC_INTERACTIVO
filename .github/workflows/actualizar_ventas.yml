@@ -101,14 +101,17 @@ jobs:
               print(f"ERROR: JSON invalido: {e}")
               sys.exit(1)
 
-          ventas = data.get("ventas", [])
+          from datetime import datetime, timezone
+          ventas = data.get("ventas") or data.get("body") or []
           print(f"OK: {len(ventas)} registros — updated: {data.get('updated','?')}")
 
           if len(ventas) == 0:
               print("ADVERTENCIA: 0 registros de ventas en el archivo")
 
+          # Inyectar timestamp de actualización
+          data["updated"] = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC")
           with open("data/ventas_mes.json", "w", encoding="utf-8") as f:
-              f.write(content)
+              json.dump(data, f, ensure_ascii=False)
           PYEOF
 
       - name: Snapshot fin de mes (si aplica)

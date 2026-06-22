@@ -436,7 +436,7 @@
       ]);
 
       document.getElementById('updated').textContent =
-        `Datos: ${ventas.updated || '—'}`;
+        `Datos: ${ventas.updated || ventas.ts || '—'}`;
 
       // Mapa de mínimos por cluster
       const KEYS = {};
