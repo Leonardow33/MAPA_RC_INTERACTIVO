@@ -468,11 +468,19 @@
       window.TODAS_VENTAS = ventas.body || ventas.ventas || [];
       window.KEYS         = KEYS;
 
-      // Filtrar solo tiendas Tambo (por tipo o por tener cluster_bono A/B/C/D)
+      // Filtrar solo tiendas Tambo ACTIVAS (por tipo o por tener cluster_bono A/B/C/D)
       window.TAMBOS = puntos.filter(p => {
-        const tipo = String(p.tipo || '').toUpperCase();
-        const cb   = String(p.cluster_bono || '').trim().toUpperCase();
-        return tipo.includes('TAMBO') || ['A','B','C','D'].includes(cb);
+        const tipo    = String(p.tipo || '').toUpperCase();
+        const cb      = String(p.cluster_bono || '').trim().toUpperCase();
+        const activo  = (p.estado || '').toUpperCase() === 'ACTIVO';
+        return activo && (tipo.includes('TAMBO') || ['A','B','C','D'].includes(cb));
+      });
+      // Separar inactivos para detección de venta fantasma
+      window.TAMBOS_INACTIVOS = puntos.filter(p => {
+        const tipo    = String(p.tipo || '').toUpperCase();
+        const cb      = String(p.cluster_bono || '').trim().toUpperCase();
+        const inactivo = (p.estado || '').toUpperCase() === 'INACTIVO';
+        return inactivo && (tipo.includes('TAMBO') || ['A','B','C','D'].includes(cb));
       });
 
       // Poblar filtros de RC/Supervisor (no cambian con la semana)
@@ -540,8 +548,40 @@
       };
     });
 
+    // Detectar inactivos con venta en la semana
+    const inactivosConVenta = (window.TAMBOS_INACTIVOS || []).filter(p => {
+      const v = ventasMap[String(p.ID || '')];
+      return v && v.grand > 0;
+    });
+    renderAlertaInactivos(inactivosConVenta);
+
     renderStats();
     render();
+  }
+
+  function renderAlertaInactivos(lista) {
+    let el = document.getElementById('alerta-inactivos');
+    if (!el) {
+      el = document.createElement('div');
+      el.id = 'alerta-inactivos';
+      el.style.cssText = 'margin:12px 20px;border-radius:10px;overflow:hidden;font-size:13px';
+      document.querySelector('.tabla-wrap').before(el);
+    }
+    if (!lista.length) { el.innerHTML = ''; return; }
+    el.innerHTML = `
+      <div style="background:#7C2D12;border:1px solid #F97316;border-radius:10px;overflow:hidden">
+        <div style="background:#9A3412;padding:10px 14px;display:flex;align-items:center;gap:8px">
+          <span style="font-size:16px">⚠️</span>
+          <span style="font-weight:700;color:#FED7AA">${lista.length} tienda${lista.length>1?'s':''} INACTIVA${lista.length>1?'s':''} con venta esta semana</span>
+        </div>
+        <div style="padding:10px 14px;display:flex;flex-wrap:wrap;gap:8px">
+          ${lista.map(p => `
+            <div style="background:rgba(0,0,0,0.3);border:1px solid #F97316;border-radius:8px;padding:6px 10px">
+              <div style="font-weight:700;color:#FED7AA">${p.nombre}</div>
+              <div style="font-size:11px;color:#FDBA74">ID: ${p.ID} · Cluster: ${p.cluster_bono || '—'} · RC: ${p.rc || '—'}</div>
+            </div>`).join('')}
+        </div>
+      </div>`;
   }
 
   function poblarSelect(id, valores) {
