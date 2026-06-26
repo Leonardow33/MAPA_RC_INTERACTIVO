@@ -159,9 +159,11 @@ body {
 #btnReset:hover { border-color: var(--rose-main); color: var(--rose-main); }
 
 /* ─── TABLA ──────────────────────────────────────── */
-.tbl-outer { padding: 16px 24px 64px; }
+.tbl-outer { padding: 16px 24px 24px; }
 .tbl-scroll {
     overflow-x: auto;
+    overflow-y: auto;
+    max-height: calc(100vh - 290px);
     border-radius: var(--radius);
     box-shadow: 0 1px 8px rgba(125,21,83,.09);
 }
@@ -177,7 +179,7 @@ thead th {
     padding: 10px 14px; white-space: nowrap;
     cursor: pointer; user-select: none;
     border-right: 1px solid #3D1030;
-    position: sticky; top: 120px;
+    position: sticky; top: 0;
     transition: color .12s, background .12s;
 }
 thead th:last-child { border-right: none; cursor: default; }
