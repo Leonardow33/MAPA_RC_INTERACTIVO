@@ -9,6 +9,7 @@ on:
       - 'bonus.html'
       - 'logistica.html'
       - 'puntos.json'
+      - 'js/**'
       - 'sinventa.txt'
       - 'data/ventas_mes.json'
       - 'data/keys_bonos.json'
