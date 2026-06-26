@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Directorio de Puntos · Logística</title>
+<script src="https://unpkg.com/xlsx/dist/xlsx.full.min.js"></script>
+<style>
+:root {
+    --rose-deep:   #7D1553;
+    --rose-main:   #D81B7A;
+    --rose-mid:    #F06292;
+    --rose-light:  #FCE7F3;
+    --rose-faint:  #FDF4FA;
+    --ground:      #F9F0F6;
+    --surface:     #FFFFFF;
+    --txt-dark:    #1A0812;
+    --txt-mid:     #5C2245;
+    --txt-muted:   #9D6080;
+    --border:      #EDD5E7;
+    --radius:      10px;
+    --g-bg: #D1FAE5; --g-fg: #065F46;
+    --r-bg: #FEE2E2; --r-fg: #991B1B;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+    background: var(--ground);
+    color: var(--txt-dark);
+    min-height: 100vh;
+    line-height: 1.5;
+}
+
+/* ─── HEADER ────────────────────────────────────── */
+#hdr {
+    background: var(--rose-deep);
+    padding: 14px 24px;
+    position: sticky; top: 0; z-index: 40;
+    display: flex; align-items: center; gap: 14px;
+    box-shadow: 0 2px 16px rgba(125,21,83,.45);
+}
+.hdr-icon {
+    width: 38px; height: 38px;
+    background: var(--rose-main); border-radius: 9px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 19px; flex-shrink: 0;
+    box-shadow: 0 0 0 3px rgba(255,255,255,.12);
+}
+.hdr-copy h1   { font-size: 15px; font-weight: 800; color: #fff; letter-spacing: -.2px; }
+.hdr-copy span { font-size: 11px; color: rgba(255,255,255,.5); }
+.hdr-gap { flex: 1; }
+.export-group { display: flex; gap: 6px; }
+.btn-exp {
+    color: #fff; border: none;
+    border-radius: 8px; padding: 8px 14px;
+    font-size: 12px; font-weight: 700; cursor: pointer;
+    font-family: inherit; letter-spacing: .2px;
+    transition: background .15s, transform .1s;
+    white-space: nowrap;
+}
+.btn-exp:active { transform: scale(.97); }
+#btnCsv   { background: rgba(255,255,255,.18); }
+#btnCsv:hover   { background: rgba(255,255,255,.28); }
+#btnXlsx  { background: var(--rose-main); }
+#btnXlsx:hover  { background: #E91E8C; }
+
+/* ─── KPI CARDS ─────────────────────────────────── */
+#kpis {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+    padding: 16px 24px;
+    background: var(--ground);
+}
+.kpi {
+    background: var(--surface);
+    border-radius: var(--radius);
+    padding: 15px 18px;
+    border: 1.5px solid var(--border);
+    border-left-width: 4px;
+    border-left-color: var(--rose-main);
+    box-shadow: 0 1px 5px rgba(125,21,83,.06);
+    min-width: 0;
+}
+.kpi.k-activo  { border-left-color: #10B981; }
+.kpi.k-inact   { border-left-color: #EF4444; }
+.kpi.k-geo     { border-left-color: #8B5CF6; }
+
+.kpi-lbl {
+    font-size: 10px; font-weight: 800;
+    text-transform: uppercase; letter-spacing: 1px;
+    color: var(--txt-muted); margin-bottom: 7px;
+}
+.kpi-num {
+    font-size: 30px; font-weight: 800;
+    color: var(--txt-dark); line-height: 1;
+    font-variant-numeric: tabular-nums;
+    display: flex; align-items: baseline; gap: 6px;
+}
+.kpi-pct {
+    font-size: 14px; font-weight: 700;
+    color: #10B981;
+}
+.kpi-sub {
+    font-size: 11px; color: var(--txt-muted); margin-top: 5px;
+}
+.kpi-geo {
+    font-size: 12px; font-weight: 600;
+    color: var(--txt-mid); margin-top: 5px;
+    display: flex; flex-direction: column; gap: 2px;
+    font-variant-numeric: tabular-nums;
+}
+.kpi-geo b { color: var(--txt-dark); }
+
+/* ─── FILTROS ────────────────────────────────────── */
+#filtros {
+    background: var(--surface);
+    border-top: 1.5px solid var(--border);
+    border-bottom: 1.5px solid var(--border);
+    padding: 11px 24px;
+    display: flex; flex-wrap: wrap;
+    gap: 8px; align-items: center;
+    position: sticky; top: 66px; z-index: 39;
+}
+#buscar {
+    flex: 1 1 220px; max-width: 320px;
+    padding: 8px 14px 8px 36px;
+    border: 2px solid var(--border); border-radius: 8px;
+    font-size: 13px; font-family: inherit;
+    color: var(--txt-dark); outline: none;
+    background: var(--rose-faint) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='15' height='15' viewBox='0 0 24 24' fill='none' stroke='%239D6080' stroke-width='2.5'%3E%3Ccircle cx='11' cy='11' r='8'/%3E%3Cline x1='21' y1='21' x2='16.65' y2='16.65'/%3E%3C/svg%3E") no-repeat 11px center;
+    transition: border-color .15s, background .15s;
+}
+#buscar:focus { border-color: var(--rose-main); background-color: #fff; }
+#buscar::placeholder { color: var(--txt-muted); }
+
+.sel {
+    padding: 8px 10px; border: 2px solid var(--border);
+    border-radius: 8px; font-size: 12px; font-family: inherit;
+    background: var(--surface); color: var(--txt-dark);
+    outline: none; cursor: pointer;
+    transition: border-color .15s;
+}
+.sel:focus { border-color: var(--rose-main); }
+
+.flt-gap { flex: 1; min-width: 0; }
+#conteo {
+    font-size: 12px; font-weight: 600;
+    color: var(--txt-muted); white-space: nowrap;
+    font-variant-numeric: tabular-nums;
+}
+#btnReset {
+    padding: 8px 13px; border: 2px solid var(--border);
+    border-radius: 8px; font-size: 12px; font-family: inherit;
+    color: var(--txt-muted); background: transparent; cursor: pointer;
+    transition: all .15s;
+}
+#btnReset:hover { border-color: var(--rose-main); color: var(--rose-main); }
+
+/* ─── TABLA ──────────────────────────────────────── */
+.tbl-outer { padding: 16px 24px 64px; }
+.tbl-scroll {
+    overflow-x: auto;
+    border-radius: var(--radius);
+    box-shadow: 0 1px 8px rgba(125,21,83,.09);
+}
+table {
+    width: 100%; border-collapse: collapse;
+    background: var(--surface);
+    font-size: 12.5px; min-width: 1060px;
+}
+thead th {
+    background: #2D0A1E; color: rgba(255,255,255,.5);
+    font-size: 10px; font-weight: 800;
+    text-transform: uppercase; letter-spacing: .8px;
+    padding: 10px 14px; white-space: nowrap;
+    cursor: pointer; user-select: none;
+    border-right: 1px solid #3D1030;
+    position: sticky; top: 120px;
+    transition: color .12s, background .12s;
+}
+thead th:last-child { border-right: none; cursor: default; }
+thead th:not(:last-child):hover { color: #fff; background: #3D1030; }
+thead th.sorted { background: var(--rose-deep); color: #fff; }
+thead th.sorted.asc::after  { content: ' ↑'; color: #F9A8D4; }
+thead th.sorted.desc::after { content: ' ↓'; color: #F9A8D4; }
+
+tbody tr { border-bottom: 1px solid #F5E8F2; }
+tbody tr:last-child { border-bottom: none; }
+tbody tr:hover { background: var(--rose-faint); }
+td {
+    padding: 9px 14px; vertical-align: middle;
+    color: var(--txt-mid); border-right: 1px solid #F5E8F2;
+}
+td:last-child { border-right: none; }
+.c-id {
+    font-family: 'Courier New', monospace; font-size: 11.5px;
+    font-weight: 700; color: var(--rose-deep);
+    font-variant-numeric: tabular-nums; white-space: nowrap;
+}
+.c-nom { font-weight: 600; color: var(--txt-dark); }
+.badge {
+    display: inline-block; font-size: 10px; font-weight: 800;
+    padding: 2px 9px; border-radius: 20px; letter-spacing: .4px;
+}
+.ba { background: var(--g-bg); color: var(--g-fg); }
+.bi { background: var(--r-bg); color: var(--r-fg); }
+.gps {
+    display: inline-block; background: var(--rose-light);
+    color: var(--rose-deep); font-size: 11px; font-weight: 700;
+    padding: 3px 10px; border-radius: 6px; text-decoration: none;
+    white-space: nowrap; transition: background .12s;
+}
+.gps:hover { background: #F9A8D4; }
+
+/* ─── VACÍO / CARGA ──────────────────────────────── */
+#loading, #empty {
+    text-align: center; padding: 72px 24px;
+    color: var(--txt-muted); font-size: 14px;
+}
+#empty { display: none; }
+
+/* ─── RESPONSIVE ─────────────────────────────────── */
+@media (max-width: 880px) {
+    #kpis { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 520px) {
+    #hdr, .tbl-outer, #kpis, #filtros { padding-left: 14px; padding-right: 14px; }
+    #kpis { grid-template-columns: 1fr 1fr; gap: 8px; }
+}
+</style>
+</head>
+<body>
+
+<div id="hdr">
+    <div class="hdr-icon">📦</div>
+    <div class="hdr-copy">
+        <h1>Directorio de Puntos de Venta</h1>
+        <span>Información actualizada para logística y entregas</span>
+    </div>
+    <div class="hdr-gap"></div>
+    <div class="export-group">
+        <button class="btn-exp" id="btnCsv"  onclick="exportarCSV()">⬇ CSV</button>
+        <button class="btn-exp" id="btnXlsx" onclick="exportarExcel()">⬇ Excel</button>
+    </div>
+</div>
+
+<div id="kpis">
+    <div class="kpi">
+        <div class="kpi-lbl">Puntos en vista</div>
+        <div class="kpi-num" id="kTotal">—</div>
+        <div class="kpi-sub">resultado de la selección</div>
+    </div>
+    <div class="kpi k-activo">
+        <div class="kpi-lbl">Tiendas activas</div>
+        <div class="kpi-num" id="kActivos">—<span class="kpi-pct" id="kPct"></span></div>
+        <div class="kpi-sub">en operación regular</div>
+    </div>
+    <div class="kpi k-inact">
+        <div class="kpi-lbl">Inactivas</div>
+        <div class="kpi-num" id="kInact">—</div>
+        <div class="kpi-sub">suspendidas temporalmente</div>
+    </div>
+    <div class="kpi k-geo">
+        <div class="kpi-lbl">Cobertura</div>
+        <div class="kpi-geo" id="kGeo">
+            <div>— <b>Lima</b></div>
+            <div>— <b>Provincia</b></div>
+        </div>
+    </div>
+</div>
+
+<div id="filtros">
+    <input id="buscar" type="search" placeholder="Código, nombre o distrito..." oninput="filtrar()"/>
+    <select id="fPartner" class="sel" onchange="filtrar()">
+        <option value="">Todos los partners</option>
+    </select>
+    <select id="fEstado" class="sel" onchange="filtrar()">
+        <option value="">Activos + Inactivos</option>
+        <option value="ACTIVO">Solo Activos</option>
+        <option value="INACTIVO">Solo Inactivos</option>
+    </select>
+    <select id="fTipo" class="sel" onchange="filtrar()">
+        <option value="">Todos los tipos</option>
+    </select>
+    <select id="fZonal" class="sel" onchange="filtrar()">
+        <option value="">Lima + Provincia</option>
+        <option value="LIMA">Solo Lima</option>
+        <option value="PROVINCIA">Solo Provincia</option>
+    </select>
+    <select id="fZona" class="sel" onchange="filtrar()">
+        <option value="">Todas las zonas</option>
+    </select>
+    <div class="flt-gap"></div>
+    <span id="conteo"></span>
+    <button id="btnReset" onclick="resetFiltros()">✕ Limpiar</button>
+</div>
+
+<div class="tbl-outer">
+    <div id="loading">⏳ Cargando directorio...</div>
+    <div class="tbl-scroll" id="tblScroll" style="display:none">
+        <table>
+            <thead>
+                <tr>
+                    <th data-key="ID"          onclick="ordenar(this)">Código</th>
+                    <th data-key="nombre"       onclick="ordenar(this)">Nombre</th>
+                    <th data-key="responsable"  onclick="ordenar(this)">Partner</th>
+                    <th data-key="tipo"         onclick="ordenar(this)">Tipo</th>
+                    <th data-key="distrito"     onclick="ordenar(this)">Distrito</th>
+                    <th data-key="zona"         onclick="ordenar(this)">Zona</th>
+                    <th data-key="zonal_tipo"   onclick="ordenar(this)">Zonal</th>
+                    <th data-key="estado"       onclick="ordenar(this)">Estado</th>
+                    <th data-key="rc"           onclick="ordenar(this)">RC</th>
+                    <th data-key="supervisor"   onclick="ordenar(this)">Supervisor</th>
+                    <th data-key="gz"           onclick="ordenar(this)">GZ</th>
+                    <th>Mapa</th>
+                </tr>
+            </thead>
+            <tbody id="tbody"></tbody>
+        </table>
+    </div>
+    <div id="empty">Sin puntos para los filtros aplicados.</div>
+</div>
+
+<script>
+let all = [], filt = [], sortKey = 'nombre', sortAsc = true;
+
+fetch('data/puntos.json', { cache: 'no-store' })
+    .then(r => r.json())
+    .then(data => {
+        all = data.filter(p => p.nombre && !p.nombre.toUpperCase().includes('OFICINA ELOT'));
+        poblar();
+        filtrar();
+        document.getElementById('loading').style.display = 'none';
+        document.getElementById('tblScroll').style.display = '';
+    })
+    .catch(() => { document.getElementById('loading').textContent = '⚠ No se pudo cargar el directorio.'; });
+
+function poblar() {
+    const uniq = k => [...new Set(all.map(p => p[k]).filter(Boolean))].sort();
+    const fill = (id, vals) => {
+        const s = document.getElementById(id);
+        vals.forEach(v => { const o = document.createElement('option'); o.value = v; o.textContent = v; s.appendChild(o); });
+    };
+    fill('fPartner', uniq('responsable'));
+    fill('fTipo', uniq('tipo'));
+    fill('fZona', uniq('zona'));
+}
+
+function filtrar() {
+    const q   = document.getElementById('buscar').value.toLowerCase().trim();
+    const fP  = document.getElementById('fPartner').value;
+    const fE  = document.getElementById('fEstado').value;
+    const fT  = document.getElementById('fTipo').value;
+    const fZn = document.getElementById('fZonal').value;
+    const fZ  = document.getElementById('fZona').value;
+
+    filt = all.filter(p => {
+        if (q && !['nombre','ID','distrito','username'].some(k => (p[k]||'').toString().toLowerCase().includes(q))) return false;
+        if (fP  && p.responsable !== fP)  return false;
+        if (fE  && p.estado      !== fE)  return false;
+        if (fT  && p.tipo        !== fT)  return false;
+        if (fZn && p.zonal_tipo  !== fZn) return false;
+        if (fZ  && p.zona        !== fZ)  return false;
+        return true;
+    });
+    actualizarKPIs();
+    render();
+}
+
+function actualizarKPIs() {
+    const n    = filt.length;
+    const act  = filt.filter(p => p.estado === 'ACTIVO').length;
+    const inac = n - act;
+    const pct  = n > 0 ? Math.round(act / n * 100) : 0;
+    const lima = filt.filter(p => p.zonal_tipo === 'LIMA').length;
+    const prov = filt.filter(p => p.zonal_tipo === 'PROVINCIA').length;
+
+    document.getElementById('kTotal').firstChild.textContent = n.toLocaleString('es-PE');
+    document.getElementById('kActivos').childNodes[0].textContent = act.toLocaleString('es-PE');
+    document.getElementById('kPct').textContent = n > 0 ? ` ${pct}%` : '';
+    document.getElementById('kInact').textContent = inac.toLocaleString('es-PE');
+    document.getElementById('kGeo').innerHTML =
+        `<div>${lima.toLocaleString('es-PE')} <b>Lima</b></div><div>${prov.toLocaleString('es-PE')} <b>Provincia</b></div>`;
+    document.getElementById('conteo').textContent =
+        `${n.toLocaleString('es-PE')} resultado${n !== 1 ? 's' : ''}`;
+}
+
+function ordenar(th) {
+    const k = th.dataset.key;
+    sortAsc = (sortKey === k) ? !sortAsc : true;
+    sortKey = k;
+    document.querySelectorAll('thead th').forEach(t => t.classList.remove('sorted','asc','desc'));
+    th.classList.add('sorted', sortAsc ? 'asc' : 'desc');
+    render(false);
+}
+
+function render(resetSortUI = true) {
+    if (resetSortUI) {
+        document.querySelectorAll('thead th').forEach(t => t.classList.remove('sorted','asc','desc'));
+        const h = document.querySelector(`thead th[data-key="${sortKey}"]`);
+        if (h) h.classList.add('sorted', sortAsc ? 'asc' : 'desc');
+    }
+    const d = sortAsc ? 1 : -1;
+    const sorted = [...filt].sort((a, b) => {
+        const av = (a[sortKey] || '').toString().toLowerCase();
+        const bv = (b[sortKey] || '').toString().toLowerCase();
+        if (sortKey === 'ID' && !isNaN(av) && !isNaN(bv)) return (Number(av) - Number(bv)) * d;
+        return av < bv ? -d : av > bv ? d : 0;
+    });
+
+    const empty = document.getElementById('empty');
+    const wrap  = document.getElementById('tblScroll');
+    const tbody = document.getElementById('tbody');
+
+    if (!sorted.length) {
+        tbody.innerHTML = ''; empty.style.display = 'block'; wrap.style.display = 'none'; return;
+    }
+    empty.style.display = 'none'; wrap.style.display = '';
+
+    tbody.innerHTML = sorted.map(p => `<tr>
+        <td class="c-id">${x(p.ID||'-')}</td>
+        <td class="c-nom">${x(p.nombre||'-')}</td>
+        <td>${x(p.responsable||'-')}</td>
+        <td>${x(p.tipo||'-')}</td>
+        <td>${x(p.distrito||'-')}</td>
+        <td>${x(p.zona||'-')}</td>
+        <td>${x(p.zonal_tipo||'-')}</td>
+        <td>${p.estado==='ACTIVO'?'<span class="badge ba">ACTIVO</span>':'<span class="badge bi">INACTIVO</span>'}</td>
+        <td>${x(p.rc||'-')}</td>
+        <td>${x(p.supervisor||'-')}</td>
+        <td>${x(p.gz||'-')}</td>
+        <td>${(p.lat&&p.lng)?`<a class="gps" href="https://maps.google.com/?q=${p.lat},${p.lng}" target="_blank" rel="noopener">📍 Ver</a>`:'-'}</td>
+    </tr>`).join('');
+}
+
+function x(s) {
+    return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+function resetFiltros() {
+    document.getElementById('buscar').value = '';
+    ['fPartner','fEstado','fTipo','fZonal','fZona'].forEach(id => document.getElementById(id).value = '');
+    filtrar();
+}
+function exportarCSV() {
+    const cols  = ['ID','nombre','responsable','tipo','distrito','zona','zonal_tipo','estado','rc','supervisor','gz','lat','lng'];
+    const heads = ['Código','Nombre','Partner','Tipo','Distrito','Zona','Zonal','Estado','RC','Supervisor','GZ','Latitud','Longitud'];
+    const rows  = [heads, ...filt.map(p => cols.map(k => {
+        const v = p[k] == null ? '' : String(p[k]);
+        return v.search(/[,"\n]/) >= 0 ? `"${v.replace(/"/g,'""')}"` : v;
+    }))].map(r => r.join(',')).join('\r\n');
+    const a = Object.assign(document.createElement('a'), {
+        href: URL.createObjectURL(new Blob(['﻿'+rows], {type:'text/csv;charset=utf-8'})),
+        download: `puntos_venta_${new Date().toISOString().slice(0,10)}.csv`
+    });
+    a.click(); URL.revokeObjectURL(a.href);
+}
+
+function exportarExcel() {
+    const cols  = ['ID','nombre','responsable','tipo','distrito','zona','zonal_tipo','estado','rc','supervisor','gz','lat','lng'];
+    const heads = ['Código','Nombre','Partner','Tipo','Distrito','Zona','Zonal','Estado','RC','Supervisor','GZ','Latitud','Longitud'];
+    const rows  = filt.map(p => cols.map(k => p[k] == null ? '' : p[k]));
+
+    const wb = XLSX.utils.book_new();
+    const ws = XLSX.utils.aoa_to_sheet([heads, ...rows]);
+
+    // Ancho de columnas
+    ws['!cols'] = [
+        {wch:8},{wch:30},{wch:16},{wch:14},{wch:18},
+        {wch:16},{wch:10},{wch:10},{wch:20},{wch:22},{wch:12},{wch:12},{wch:12}
+    ];
+
+    // Estilo de encabezados (solo con XLSX pro, pero dejamos el sheet limpio)
+    XLSX.utils.book_append_sheet(wb, ws, 'Puntos de Venta');
+    XLSX.writeFile(wb, `puntos_venta_${new Date().toISOString().slice(0,10)}.xlsx`);
+}
+</script>
+</body>
+</html>
