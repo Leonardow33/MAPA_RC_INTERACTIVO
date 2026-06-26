@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Ventas Tinbet · GeoDor</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg:      #0F172A;
+      --surface: #1E293B;
+      --border:  #334155;
+      --text:    #E2E8F0;
+      --muted:   #94A3B8;
+      --accent:  #8B5CF6;
+      --accent2: #A78BFA;
+      --green:   #22C55E;
+      --red:     #EF4444;
+      --blue:    #3B82F6;
+    }
+    body { background: var(--bg); color: var(--text); font-family: 'Segoe UI', system-ui, sans-serif; font-size: 14px; min-height: 100vh; }
+
+    .header { background: var(--surface); border-bottom: 3px solid var(--accent); padding: 14px 20px; display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+    .header h1 { font-size: 18px; font-weight: 700; color: #fff; flex: 1; }
+    .header .updated { font-size: 12px; color: var(--muted); }
+    .header .badge { background: var(--accent); color: #fff; font-size: 11px; font-weight: 700; padding: 3px 10px; border-radius: 20px; letter-spacing: .04em; }
+
+    .stats-bar { display: flex; gap: 10px; padding: 14px 20px; flex-wrap: wrap; }
+    .stat-card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 10px 16px; min-width: 110px; }
+    .stat-card .sv { font-size: 22px; font-weight: 700; font-variant-numeric: tabular-nums; }
+    .stat-card .sl { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: .05em; margin-top: 2px; }
+    .stat-card.accent .sv { color: var(--accent2); }
+    .stat-card.green  .sv { color: var(--green); }
+    .stat-card.blue   .sv { color: var(--blue); }
+
+    .filtros { display: flex; gap: 8px; padding: 12px 20px; background: var(--surface); border-bottom: 1px solid var(--border); flex-wrap: wrap; align-items: center; }
+    .filtros input, .filtros select {
+      background: var(--bg); color: var(--text); border: 1px solid var(--border);
+      border-radius: 8px; padding: 6px 10px; font-size: 13px; font-family: inherit;
+    }
+    .filtros input { width: 200px; }
+    .filtros select { min-width: 130px; }
+    .filtros input:focus, .filtros select:focus { outline: none; border-color: var(--accent); }
+    .cnt-label { margin-left: auto; font-size: 12px; color: var(--muted); }
+
+    .tabla-wrap { overflow-x: auto; overflow-y: auto; max-height: calc(100vh - 270px); }
+    table { width: 100%; border-collapse: collapse; min-width: 780px; }
+    thead th {
+      position: sticky; top: 0; z-index: 2;
+      background: #0d1826; color: var(--muted);
+      font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: .05em;
+      padding: 10px 12px; text-align: left; border-bottom: 2px solid var(--border);
+      cursor: pointer; user-select: none; white-space: nowrap;
+    }
+    thead th:hover { color: var(--text); }
+    thead th.sorted { color: var(--accent2); }
+    thead th .si { font-size: 10px; margin-left: 4px; }
+    tbody tr { border-bottom: 1px solid var(--border); transition: background .1s; }
+    tbody tr:hover { background: rgba(139,92,246,.07); }
+    td { padding: 9px 12px; vertical-align: middle; }
+    td.num { font-variant-numeric: tabular-nums; text-align: right; }
+    .td-nombre { font-weight: 600; }
+    .td-id { font-size: 11px; color: var(--muted); }
+    .td-zona { font-size: 12px; color: var(--muted); }
+
+    .val-0 { color: var(--border); }
+    .val-hi { color: var(--accent2); font-weight: 700; }
+
+    .msg { padding: 20px; color: var(--muted); text-align: center; }
+    .msg.error { color: var(--red); }
+
+    .no-data-note { background: rgba(139,92,246,.1); border: 1px solid var(--accent); border-radius: 10px; padding: 14px 18px; margin: 14px 20px; font-size: 13px; color: var(--accent2); }
+  </style>
+</head>
+<body>
+
+<div class="header">
+  <h1>🎲 Ventas Tinbet</h1>
+  <span class="badge">TINBET</span>
+  <span class="updated" id="updated">—</span>
+</div>
+
+<div class="stats-bar">
+  <div class="stat-card accent"><div class="sv" id="cnt-tiendas">—</div><div class="sl">Tiendas activas</div></div>
+  <div class="stat-card green"><div class="sv" id="cnt-con-venta">—</div><div class="sl">Con venta</div></div>
+  <div class="stat-card blue"><div class="sv" id="total-pp">—</div><div class="sl">PozoPower (S/)</div></div>
+  <div class="stat-card blue"><div class="sv" id="total-ld">—</div><div class="sl">LakiDey (S/)</div></div>
+  <div class="stat-card accent"><div class="sv" id="total-grand">—</div><div class="sl">Total ventas (S/)</div></div>
+</div>
+
+<div class="filtros">
+  <input type="text" id="buscar" placeholder="🔍 Buscar tienda o código..." oninput="render()"/>
+  <select id="filtro-semana" onchange="calcularSemana()"><option value="">— Semana —</option></select>
+  <select id="filtro-zona" onchange="render()"><option value="">Zona</option></select>
+  <select id="filtro-rc"   onchange="render()"><option value="">RC</option></select>
+  <select id="filtro-sup"  onchange="render()"><option value="">Supervisor</option></select>
+  <span class="cnt-label" id="count-label"></span>
+</div>
+
+<div id="no-data-note" class="no-data-note" style="display:none">
+  ⚠️ No hay datos de Tinbet aún. Actualiza el flujo de Power Automate para incluir <strong>TINBET</strong> en el filtro del DAX.
+</div>
+
+<div class="tabla-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th onclick="sortBy('nombre')">Tienda <span class="si" id="si-nombre">↕</span></th>
+        <th onclick="sortBy('zona')">Zona <span class="si" id="si-zona">↕</span></th>
+        <th onclick="sortBy('rc')">RC <span class="si" id="si-rc">↕</span></th>
+        <th onclick="sortBy('supervisor')">Supervisor <span class="si" id="si-supervisor">↕</span></th>
+        <th onclick="sortBy('pp')" style="text-align:right">PozoPower S/ <span class="si" id="si-pp">↕</span></th>
+        <th onclick="sortBy('ld')" style="text-align:right">LakiDey S/ <span class="si" id="si-ld">↕</span></th>
+        <th onclick="sortBy('total')" style="text-align:right">Total S/ <span class="si" id="si-total">↕</span></th>
+      </tr>
+    </thead>
+    <tbody id="tbody"></tbody>
+  </table>
+</div>
+<div class="msg" id="msg" style="display:none"></div>
+
+<script>
+  const PARTNER = 'TINBET';
+  let TIENDAS = [], TODAS_VENTAS = [], sortCol = 'total', sortAsc = false;
+
+  function loadJSON(url) {
+    return fetch(url + '?v=' + Date.now()).then(r => { if (!r.ok) throw new Error(r.status); return r.json(); });
+  }
+
+  function isoDate(d) {
+    return d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0');
+  }
+  function juevesDe(d) {
+    const dia = d.getDay();
+    const diff = dia <= 4 ? -(dia === 0 ? 3 : dia - 4) : (11 - dia);
+    const j = new Date(d); j.setDate(d.getDate() + diff); j.setHours(0,0,0,0); return j;
+  }
+  function semanaLabel(jue) {
+    const mie = new Date(jue); mie.setDate(jue.getDate() + 6);
+    const fmt = d => d.getDate() + '/' + (d.getMonth()+1);
+    return `Sem ${fmt(jue)}–${fmt(mie)}`;
+  }
+
+  function poblarSelect(id, vals) {
+    const sel = document.getElementById(id);
+    vals.forEach(v => { const o = document.createElement('option'); o.value = v; o.textContent = v; sel.appendChild(o); });
+  }
+
+  async function init() {
+    try {
+      const [ventas, puntos] = await Promise.all([
+        loadJSON('data/ventas_mes.json'),
+        loadJSON('data/puntos.json'),
+      ]);
+
+      document.getElementById('updated').textContent = `Datos: ${ventas.updated || ventas.ts || '—'}`;
+
+      const registros = ventas.body || ventas.ventas || [];
+      TODAS_VENTAS = registros.filter(v => (v.partner || '').toUpperCase() === PARTNER);
+
+      if (TODAS_VENTAS.length === 0) {
+        document.getElementById('no-data-note').style.display = '';
+      }
+
+      TIENDAS = puntos.filter(p =>
+        (p.responsable || '').toUpperCase() === PARTNER &&
+        (p.estado || '').toUpperCase() === 'ACTIVO'
+      );
+
+      document.getElementById('cnt-tiendas').textContent = TIENDAS.length.toLocaleString();
+
+      poblarSelect('filtro-zona', [...new Set(TIENDAS.map(p => p.zona || '').filter(Boolean))].sort());
+      poblarSelect('filtro-rc',   [...new Set(TIENDAS.map(p => p.rc   || '').filter(Boolean))].sort());
+      poblarSelect('filtro-sup',  [...new Set(TIENDAS.map(p => p.supervisor || '').filter(Boolean))].sort());
+
+      const semanasMap = {};
+      TODAS_VENTAS.forEach(v => {
+        if (!v.fecha) return;
+        const j = juevesDe(new Date(v.fecha + 'T12:00:00'));
+        semanasMap[isoDate(j)] = j;
+      });
+      const semanas = Object.values(semanasMap).sort((a,b) => b-a);
+      const sel = document.getElementById('filtro-semana');
+      semanas.forEach((j,i) => {
+        const o = document.createElement('option');
+        o.value = isoDate(j);
+        o.textContent = semanaLabel(j) + (i === 0 ? ' (actual)' : '');
+        sel.appendChild(o);
+      });
+      if (semanas.length > 0) { sel.value = isoDate(semanas[0]); }
+
+      calcularSemana();
+    } catch(e) {
+      const el = document.getElementById('msg');
+      el.style.display = '';
+      el.className = 'msg error';
+      el.textContent = 'Error al cargar datos: ' + e.message;
+    }
+  }
+
+  function calcularSemana() {
+    const selVal = document.getElementById('filtro-semana').value;
+    if (!selVal) { render(); return; }
+    const jueves    = new Date(selVal + 'T00:00:00');
+    const miercoles = new Date(jueves); miercoles.setDate(jueves.getDate() + 6); miercoles.setHours(23,59,59,999);
+
+    const ventasMap = {};
+    TODAS_VENTAS.forEach(v => {
+      const f = new Date(v.fecha + 'T12:00:00');
+      if (f < jueves || f > miercoles) return;
+      const id = String(v.org_code);
+      if (!ventasMap[id]) ventasMap[id] = { pp: 0, ld: 0, grand: 0 };
+      if (v.tipo_juego === 'TOTAL')     ventasMap[id].grand += (v.total || 0);
+      if (v.tipo_juego === 'PozoPower') ventasMap[id].pp    += (v.total || 0);
+      if (v.tipo_juego === 'LakiDey')  ventasMap[id].ld    += (v.total || 0);
+    });
+    window._ventasMap = ventasMap;
+
+    window._rows = TIENDAS.map(p => {
+      const v = ventasMap[String(p.ID)] || { pp: 0, ld: 0, grand: 0 };
+      return { id: String(p.ID), nombre: p.nombre || '', zona: p.zona || '', rc: p.rc || '',
+               supervisor: p.supervisor || '', pp: v.pp, ld: v.ld, total: v.grand };
+    });
+
+    const conVenta = window._rows.filter(r => r.total > 0).length;
+    document.getElementById('cnt-con-venta').textContent = conVenta.toLocaleString();
+    const totPP    = window._rows.reduce((s,r) => s + r.pp, 0);
+    const totLD    = window._rows.reduce((s,r) => s + r.ld, 0);
+    const totGrand = window._rows.reduce((s,r) => s + r.total, 0);
+    document.getElementById('total-pp').textContent    = totPP.toLocaleString('es-PE', {maximumFractionDigits:0});
+    document.getElementById('total-ld').textContent    = totLD.toLocaleString('es-PE', {maximumFractionDigits:0});
+    document.getElementById('total-grand').textContent = totGrand.toLocaleString('es-PE', {maximumFractionDigits:0});
+
+    render();
+  }
+
+  function render() {
+    const buscar = document.getElementById('buscar').value.trim().toLowerCase();
+    const zona   = document.getElementById('filtro-zona').value;
+    const rc     = document.getElementById('filtro-rc').value;
+    const sup    = document.getElementById('filtro-sup').value;
+
+    let lista = (window._rows || []).filter(r => {
+      if (zona && r.zona !== zona) return false;
+      if (rc   && r.rc   !== rc)   return false;
+      if (sup  && r.supervisor !== sup) return false;
+      if (buscar && !r.nombre.toLowerCase().includes(buscar) && !r.id.includes(buscar)) return false;
+      return true;
+    });
+
+    lista = [...lista].sort((a,b) => {
+      let va = a[sortCol], vb = b[sortCol];
+      if (typeof va === 'string') return sortAsc ? va.localeCompare(vb) : vb.localeCompare(va);
+      return sortAsc ? va - vb : vb - va;
+    });
+
+    document.getElementById('count-label').textContent = lista.length + ' tienda' + (lista.length !== 1 ? 's' : '');
+
+    const tbody = document.getElementById('tbody');
+    if (!lista.length) {
+      tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;padding:30px;color:var(--muted)">Sin resultados</td></tr>';
+      return;
+    }
+
+    const fmt = n => n > 0 ? n.toLocaleString('es-PE', {maximumFractionDigits:0}) : '—';
+    const maxTotal = Math.max(...lista.map(r => r.total), 1);
+
+    tbody.innerHTML = lista.map(r => `
+      <tr>
+        <td><div class="td-nombre">${r.nombre}</div><div class="td-id">${r.id}</div></td>
+        <td class="td-zona">${r.zona || '—'}</td>
+        <td>${r.rc || '—'}</td>
+        <td>${r.supervisor || '—'}</td>
+        <td class="num ${r.pp   === 0 ? 'val-0' : ''}">${fmt(r.pp)}</td>
+        <td class="num ${r.ld   === 0 ? 'val-0' : ''}">${fmt(r.ld)}</td>
+        <td class="num ${r.total > maxTotal * .6 ? 'val-hi' : r.total === 0 ? 'val-0' : ''}">${fmt(r.total)}</td>
+      </tr>`).join('');
+  }
+
+  function sortBy(col) {
+    if (sortCol === col) { sortAsc = !sortAsc; } else { sortAsc = false; sortCol = col; }
+    document.querySelectorAll('thead th').forEach(th => th.classList.remove('sorted'));
+    event.currentTarget.classList.add('sorted');
+    const si = document.getElementById('si-' + col);
+    if (si) si.textContent = sortAsc ? '↑' : '↓';
+    render();
+  }
+
+  init();
+</script>
+</body>
+</html>
