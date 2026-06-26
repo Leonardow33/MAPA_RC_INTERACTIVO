@@ -228,6 +228,61 @@ td:last-child { border-right: none; }
 }
 #empty { display: none; }
 
+/* ─── AUTH OVERLAY ───────────────────────────────── */
+#authOverlay {
+    position: fixed; inset: 0; z-index: 999;
+    background: linear-gradient(135deg, #4A0B2F 0%, #7D1553 50%, #B02070 100%);
+    display: flex; align-items: center; justify-content: center;
+    padding: 24px;
+}
+#authBox {
+    background: #fff;
+    border-radius: 18px;
+    padding: 40px 36px;
+    width: 100%; max-width: 380px;
+    text-align: center;
+    box-shadow: 0 24px 60px rgba(0,0,0,0.35);
+}
+#authBox .auth-icon {
+    width: 60px; height: 60px;
+    background: var(--rose-light);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 26px; margin: 0 auto 20px;
+}
+#authBox h2 {
+    font-size: 18px; font-weight: 800;
+    color: var(--txt-dark); margin-bottom: 6px;
+}
+#authBox p {
+    font-size: 13px; color: var(--txt-muted);
+    margin-bottom: 24px; line-height: 1.4;
+}
+#authInput {
+    width: 100%; padding: 12px 16px;
+    border: 2px solid var(--border); border-radius: 10px;
+    font-size: 15px; font-family: inherit;
+    color: var(--txt-dark); outline: none;
+    text-align: center; letter-spacing: 2px;
+    transition: border-color .15s;
+    margin-bottom: 12px;
+}
+#authInput:focus { border-color: var(--rose-main); }
+#authBtn {
+    width: 100%; padding: 12px;
+    background: var(--rose-main); color: #fff;
+    border: none; border-radius: 10px;
+    font-size: 14px; font-weight: 700;
+    cursor: pointer; font-family: inherit;
+    transition: background .15s, transform .1s;
+}
+#authBtn:hover  { background: #E91E8C; }
+#authBtn:active { transform: scale(.98); }
+#authError {
+    display: none; margin-top: 12px;
+    font-size: 12px; color: #DC2626; font-weight: 600;
+}
+
 /* ─── RESPONSIVE ─────────────────────────────────── */
 @media (max-width: 880px) {
     #kpis { grid-template-columns: repeat(2, 1fr); }
@@ -239,6 +294,18 @@ td:last-child { border-right: none; }
 </style>
 </head>
 <body>
+
+<div id="authOverlay">
+    <div id="authBox">
+        <div class="auth-icon">🔒</div>
+        <h2>Directorio de Puntos</h2>
+        <p>Ingresa el código de acceso para continuar.<br>Uso exclusivo del equipo de logística.</p>
+        <input id="authInput" type="password" placeholder="Código de acceso"
+               onkeydown="if(event.key==='Enter') checkAuth()"/>
+        <button id="authBtn" onclick="checkAuth()">Ingresar</button>
+        <div id="authError">Código incorrecto. Intenta de nuevo.</div>
+    </div>
+</div>
 
 <div id="hdr">
     <div class="hdr-icon">📦</div>
@@ -332,18 +399,45 @@ td:last-child { border-right: none; }
 </div>
 
 <script>
+// ── AUTH ──────────────────────────────────────────
+const AUTH_KEY = 'lgl_auth';
+const AUTH_CODE = 'LogLoto26';
+
+function checkAuth() {
+    const val = document.getElementById('authInput').value;
+    const err = document.getElementById('authError');
+    if (val === AUTH_CODE) {
+        sessionStorage.setItem(AUTH_KEY, '1');
+        document.getElementById('authOverlay').style.display = 'none';
+        err.style.display = 'none';
+        iniciar();
+    } else {
+        err.style.display = 'block';
+        document.getElementById('authInput').value = '';
+        document.getElementById('authInput').focus();
+    }
+}
+
+if (sessionStorage.getItem(AUTH_KEY) === '1') {
+    document.getElementById('authOverlay').style.display = 'none';
+    iniciar();
+}
+
+// ── DATOS ─────────────────────────────────────────
 let all = [], filt = [], sortKey = 'nombre', sortAsc = true;
 
-fetch('data/puntos.json', { cache: 'no-store' })
-    .then(r => r.json())
-    .then(data => {
-        all = data.filter(p => p.nombre && !p.nombre.toUpperCase().includes('OFICINA ELOT'));
-        poblar();
-        filtrar();
-        document.getElementById('loading').style.display = 'none';
-        document.getElementById('tblScroll').style.display = '';
-    })
-    .catch(() => { document.getElementById('loading').textContent = '⚠ No se pudo cargar el directorio.'; });
+function iniciar() {
+    fetch('data/puntos.json', { cache: 'no-store' })
+        .then(r => r.json())
+        .then(data => {
+            all = data.filter(p => p.nombre && !p.nombre.toUpperCase().includes('OFICINA ELOT'));
+            poblar();
+            filtrar();
+            document.getElementById('loading').style.display = 'none';
+            document.getElementById('tblScroll').style.display = '';
+        })
+        .catch(() => { document.getElementById('loading').textContent = '⚠ No se pudo cargar el directorio.'; });
+}
 
 function poblar() {
     const uniq = k => [...new Set(all.map(p => p[k]).filter(Boolean))].sort();
