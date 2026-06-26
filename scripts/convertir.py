@@ -56,6 +56,7 @@ for _, row in df.iterrows():
             "responsable": s(row["P_RESPONSABLE"]),
             "frecuencia":  s(row["FRECUENCIA-NORMAL"]),
             "dias":        dias,
+            "direccion":   s(row.get("TdaDireccion")),
             "distrito":    s(row.get("DISTRITOS")),
             "gz":          s(row.get("GZ")),
             "jz":          s(row.get("JZ")),

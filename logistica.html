@@ -202,6 +202,11 @@ td:last-child { border-right: none; }
     font-variant-numeric: tabular-nums; white-space: nowrap;
 }
 .c-nom { font-weight: 600; color: var(--txt-dark); }
+.c-dir {
+    max-width: 220px; white-space: nowrap;
+    overflow: hidden; text-overflow: ellipsis;
+    cursor: default;
+}
 .badge {
     display: inline-block; font-size: 10px; font-weight: 800;
     padding: 2px 9px; border-radius: 20px; letter-spacing: .4px;
@@ -307,6 +312,7 @@ td:last-child { border-right: none; }
                 <tr>
                     <th data-key="ID"          onclick="ordenar(this)">Código</th>
                     <th data-key="nombre"       onclick="ordenar(this)">Nombre</th>
+                    <th data-key="direccion"    onclick="ordenar(this)">Dirección</th>
                     <th data-key="responsable"  onclick="ordenar(this)">Partner</th>
                     <th data-key="tipo"         onclick="ordenar(this)">Tipo</th>
                     <th data-key="distrito"     onclick="ordenar(this)">Distrito</th>
@@ -424,6 +430,7 @@ function render(resetSortUI = true) {
     tbody.innerHTML = sorted.map(p => `<tr>
         <td class="c-id">${x(p.ID||'-')}</td>
         <td class="c-nom">${x(p.nombre||'-')}</td>
+        <td class="c-dir" title="${x(p.direccion||'-')}">${x(p.direccion||'-')}</td>
         <td>${x(p.responsable||'-')}</td>
         <td>${x(p.tipo||'-')}</td>
         <td>${x(p.distrito||'-')}</td>
@@ -446,8 +453,8 @@ function resetFiltros() {
     filtrar();
 }
 function exportarCSV() {
-    const cols  = ['ID','nombre','responsable','tipo','distrito','zona','zonal_tipo','estado','rc','supervisor','gz','lat','lng'];
-    const heads = ['Código','Nombre','Partner','Tipo','Distrito','Zona','Zonal','Estado','RC','Supervisor','GZ','Latitud','Longitud'];
+    const cols  = ['ID','nombre','direccion','responsable','tipo','distrito','zona','zonal_tipo','estado','rc','supervisor','gz','lat','lng'];
+    const heads = ['Código','Nombre','Dirección','Partner','Tipo','Distrito','Zona','Zonal','Estado','RC','Supervisor','GZ','Latitud','Longitud'];
     const rows  = [heads, ...filt.map(p => cols.map(k => {
         const v = p[k] == null ? '' : String(p[k]);
         return v.search(/[,"\n]/) >= 0 ? `"${v.replace(/"/g,'""')}"` : v;
@@ -460,8 +467,8 @@ function exportarCSV() {
 }
 
 function exportarExcel() {
-    const cols  = ['ID','nombre','responsable','tipo','distrito','zona','zonal_tipo','estado','rc','supervisor','gz','lat','lng'];
-    const heads = ['Código','Nombre','Partner','Tipo','Distrito','Zona','Zonal','Estado','RC','Supervisor','GZ','Latitud','Longitud'];
+    const cols  = ['ID','nombre','direccion','responsable','tipo','distrito','zona','zonal_tipo','estado','rc','supervisor','gz','lat','lng'];
+    const heads = ['Código','Nombre','Dirección','Partner','Tipo','Distrito','Zona','Zonal','Estado','RC','Supervisor','GZ','Latitud','Longitud'];
     const rows  = filt.map(p => cols.map(k => p[k] == null ? '' : p[k]));
 
     const wb = XLSX.utils.book_new();
@@ -469,7 +476,7 @@ function exportarExcel() {
 
     // Ancho de columnas
     ws['!cols'] = [
-        {wch:8},{wch:30},{wch:16},{wch:14},{wch:18},
+        {wch:8},{wch:30},{wch:50},{wch:16},{wch:14},{wch:18},
         {wch:16},{wch:10},{wch:10},{wch:20},{wch:22},{wch:12},{wch:12},{wch:12}
     ];
 
