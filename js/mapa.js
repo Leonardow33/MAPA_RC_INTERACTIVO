@@ -521,6 +521,13 @@ function reportarUbicacionMal(p, btn, msgEl, marker) {
         return;
     }
 
+    const [curLat, curLng] = getEffectiveLatLng(p);
+    const distM = haversine(userLat, userLng, curLat, curLng) * 1000;
+    if (distM > 150) {
+        if (msgEl) { msgEl.style.display = 'block'; msgEl.style.color = '#E65100'; msgEl.textContent = `📍 Debes estar a menos de 150m (ahora ${Math.round(distM)}m)`; }
+        return;
+    }
+
     // Guardar override y mover marker ANTES del fetch (optimista)
     localStorage.setItem('geoOverride_' + p.ID, JSON.stringify({ lat: userLat, lng: userLng }));
 
