@@ -516,30 +516,41 @@ function getEffectiveLatLng(p) {
 }
 
 function reportarUbicacionMal(p, btn, msgEl, marker) {
-    btn.disabled = true;
-    btn.textContent = "⏳ Enviando...";
+    if (!userLat || !userLng) {
+        if (msgEl) { msgEl.style.display = 'block'; msgEl.style.color = '#E65100'; msgEl.textContent = '📍 Activa el GPS para sugerir ubicación'; }
+        return;
+    }
+
+    // Guardar override y mover marker ANTES del fetch (optimista)
+    localStorage.setItem('geoOverride_' + p.ID, JSON.stringify({ lat: userLat, lng: userLng }));
+
+    // Mover marker correctamente dentro del ClusterGroup
+    const newLL = L.latLng(userLat, userLng);
+    if (markersLayer.hasLayer(marker)) {
+        markersLayer.removeLayer(marker);
+        marker.setLatLng(newLL);
+        markersLayer.addLayer(marker);
+    } else if (markersLayerPlano.hasLayer(marker)) {
+        markersLayerPlano.removeLayer(marker);
+        marker.setLatLng(newLL);
+        markersLayerPlano.addLayer(marker);
+    } else {
+        marker.setLatLng(newLL);
+    }
+
+    btn.style.display = 'none';
+    if (msgEl) { msgEl.style.display = 'block'; msgEl.style.color = '#388E3C'; msgEl.textContent = '✅ Ubicación corregida'; }
+
+    // Enviar reporte al sheet (fire-and-forget)
     const params = new URLSearchParams({
         action: 'alertaGeo',
         id: p.ID, nombre: p.nombre,
         latT: p.lat, lngT: p.lng,
-        latRC: userLat || '', lngRC: userLng || '',
-        dist: (userLat && userLng) ? Math.round(haversine(userLat, userLng, p.lat, p.lng) * 1000) : '',
+        latRC: userLat, lngRC: userLng,
+        dist: Math.round(haversine(userLat, userLng, p.lat, p.lng) * 1000),
         rc: p.rc || '', supervisor: p.supervisor || ''
     });
-    fetch(ALERTA_GEO_URL + '?' + params.toString(), { mode: 'no-cors' })
-        .then(() => {
-            btn.style.display = 'none';
-            if (msgEl) { msgEl.style.display = 'block'; msgEl.textContent = '✅ Alerta enviada'; }
-            if (userLat && userLng) {
-                localStorage.setItem('geoOverride_' + p.ID, JSON.stringify({ lat: userLat, lng: userLng }));
-                if (marker) marker.setLatLng([userLat, userLng]);
-            }
-        })
-        .catch(() => {
-            btn.disabled = false;
-            btn.textContent = '⚠️ GPS incorrecto · Reportar';
-            if (msgEl) { msgEl.style.display = 'block'; msgEl.style.color = '#e53935'; msgEl.textContent = 'Error de red'; }
-        });
+    fetch(ALERTA_GEO_URL + '?' + params.toString(), { mode: 'no-cors' }).catch(() => {});
 }
 
 function renderMap(filterRC, filterDia, filterSup, filterPartner, filterZona, filterTipo) {
