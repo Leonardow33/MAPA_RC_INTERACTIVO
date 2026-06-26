@@ -456,7 +456,7 @@ function attachPopupOpen(marker, p) {
         }
         const btnAlerta = document.getElementById("btn-alerta-" + safeId);
         const msgAlerta = document.getElementById("msg-alerta-" + safeId);
-        if (btnAlerta) btnAlerta.onclick = () => reportarUbicacionMal(p, btnAlerta, msgAlerta);
+        if (btnAlerta) btnAlerta.onclick = () => reportarUbicacionMal(p, btnAlerta, msgAlerta, marker);
 
         const btn = document.getElementById("btn-visita-" + safeId);
         const msg = document.getElementById("msg-visita-" + safeId);
@@ -507,7 +507,15 @@ function attachPopupOpen(marker, p) {
     });
 }
 
-function reportarUbicacionMal(p, btn, msgEl) {
+function getEffectiveLatLng(p) {
+    const ov = localStorage.getItem('geoOverride_' + p.ID);
+    if (ov) {
+        try { const o = JSON.parse(ov); return [o.lat, o.lng]; } catch(e) {}
+    }
+    return [p.lat, p.lng];
+}
+
+function reportarUbicacionMal(p, btn, msgEl, marker) {
     btn.disabled = true;
     btn.textContent = "⏳ Enviando...";
     const params = new URLSearchParams({
@@ -522,6 +530,10 @@ function reportarUbicacionMal(p, btn, msgEl) {
         .then(() => {
             btn.style.display = 'none';
             if (msgEl) { msgEl.style.display = 'block'; msgEl.textContent = '✅ Alerta enviada'; }
+            if (userLat && userLng) {
+                localStorage.setItem('geoOverride_' + p.ID, JSON.stringify({ lat: userLat, lng: userLng }));
+                if (marker) marker.setLatLng([userLat, userLng]);
+            }
         })
         .catch(() => {
             btn.disabled = false;
@@ -582,7 +594,7 @@ function renderMap(filterRC, filterDia, filterSup, filterPartner, filterZona, fi
 
         let icon = makePinIcon(p.responsable, getEstadoPunto(p.ID), p.dias);
 
-        let marker = L.marker([p.lat, p.lng], { icon: icon });
+        let marker = L.marker(getEffectiveLatLng(p), { icon: icon });
         marker.bindPopup(buildPopupContent(p), { autoPan: false });
         attachPopupOpen(marker, p);
         activeLayer.addLayer(marker);
@@ -1185,7 +1197,8 @@ buscador.addEventListener("input", function () {
             markersLayer.clearLayers();
 
             let icon = makePinIcon(p.responsable, getEstadoPunto(p.ID), p.dias);
-            let marker = L.marker([p.lat, p.lng], { icon: icon });
+            const [eLat, eLng] = getEffectiveLatLng(p);
+            let marker = L.marker([eLat, eLng], { icon: icon });
             marker.bindPopup(buildPopupContent(p), { autoPan: false });
             attachPopupOpen(marker, p);
             marker.addTo(markersLayer);
@@ -1194,7 +1207,7 @@ buscador.addEventListener("input", function () {
             // Esperar 350ms a que el teclado iOS termine de cerrarse y el viewport se estabilice
             setTimeout(function () {
                 map.once('moveend', function () { marker.openPopup(); });
-                map.setView([p.lat, p.lng], 16);
+                map.setView([eLat, eLng], 16);
             }, 350);
         };
 
