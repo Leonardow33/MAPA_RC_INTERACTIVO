@@ -109,7 +109,7 @@ function getIconUrl(responsable) {
     return "icons/default.png";
 }
 
-function makePinIcon(responsable, estado, dias) {
+function makePinIcon(responsable, estado, dias, relocated = false) {
     const url = getIconUrl(responsable);
     let color, extraStyle = "", imgStyle = "width:100%;height:100%;object-fit:cover;";
 
@@ -124,11 +124,18 @@ function makePinIcon(responsable, estado, dias) {
         color = getDiaColorPin(dias);
     }
 
+    const badge = relocated
+        ? `<div style="position:absolute;top:-2px;right:-2px;width:10px;height:10px;background:#00BCD4;border-radius:50%;border:1.5px solid #fff;z-index:2;box-shadow:0 1px 3px rgba(0,0,0,0.4)"></div>`
+        : '';
+
     const html = `
         <div style="display:flex;flex-direction:column;align-items:center;width:34px;${extraStyle}">
-            <div style="width:30px;height:30px;border-radius:50%;overflow:hidden;
-                border:2.5px solid ${color};box-shadow:0 3px 8px rgba(0,0,0,0.45);">
-                <img src="${url}" style="${imgStyle}" />
+            <div style="position:relative;width:30px;height:30px;">
+                <div style="width:30px;height:30px;border-radius:50%;overflow:hidden;
+                    border:2.5px solid ${color};box-shadow:0 3px 8px rgba(0,0,0,0.45);">
+                    <img src="${url}" style="${imgStyle}" />
+                </div>
+                ${badge}
             </div>
             <div style="width:0;height:0;border-left:6px solid transparent;
                 border-right:6px solid transparent;border-top:9px solid ${color};
@@ -456,7 +463,16 @@ function attachPopupOpen(marker, p) {
         }
         const btnAlerta = document.getElementById("btn-alerta-" + safeId);
         const msgAlerta = document.getElementById("msg-alerta-" + safeId);
-        if (btnAlerta) btnAlerta.onclick = () => reportarUbicacionMal(p, btnAlerta, msgAlerta, marker);
+        if (btnAlerta) {
+            const [curLat, curLng] = getEffectiveLatLng(p);
+            const distAlerta = (userLat && userLng) ? haversine(userLat, userLng, curLat, curLng) * 1000 : Infinity;
+            if (distAlerta > 150) {
+                btnAlerta.style.display = 'none';
+            } else {
+                btnAlerta.style.display = '';
+                btnAlerta.onclick = () => reportarUbicacionMal(p, btnAlerta, msgAlerta, marker);
+            }
+        }
 
         const btn = document.getElementById("btn-visita-" + safeId);
         const msg = document.getElementById("msg-visita-" + safeId);
@@ -479,7 +495,8 @@ function attachPopupOpen(marker, p) {
             msg.textContent = "📍 Activa GPS para registrar";
             return;
         }
-        const distM = haversine(userLat, userLng, p.lat, p.lng) * 1000;
+        const [effLat, effLng] = getEffectiveLatLng(p);
+        const distM = haversine(userLat, userLng, effLat, effLng) * 1000;
         if (distM > 40) {
             btn.style.display = "none";
             msg.style.display = "block";
@@ -546,7 +563,14 @@ function reportarUbicacionMal(p, btn, msgEl, marker) {
     }
 
     btn.style.display = 'none';
-    if (msgEl) { msgEl.style.display = 'block'; msgEl.style.color = '#388E3C'; msgEl.textContent = '✅ Ubicación corregida'; }
+    if (msgEl) { msgEl.style.display = 'block'; msgEl.style.color = '#388E3C'; msgEl.textContent = '✅ Ubicación corregida · Reabriendo...'; }
+
+    // Mostrar badge de pin reubicado y reabrir popup para habilitar registro de visita
+    marker.setIcon(makePinIcon(p.responsable, getEstadoPunto(p.ID), p.dias, true));
+    setTimeout(() => {
+        marker.closePopup();
+        setTimeout(() => marker.openPopup(), 150);
+    }, 1200);
 
     // Enviar reporte al sheet (fire-and-forget)
     const params = new URLSearchParams({
@@ -610,7 +634,8 @@ function renderMap(filterRC, filterDia, filterSup, filterPartner, filterZona, fi
 
     filtered.forEach(p => {
 
-        let icon = makePinIcon(p.responsable, getEstadoPunto(p.ID), p.dias);
+        const hasOverride = !!localStorage.getItem('geoOverride_' + p.ID);
+        let icon = makePinIcon(p.responsable, getEstadoPunto(p.ID), p.dias, hasOverride);
 
         let marker = L.marker(getEffectiveLatLng(p), { icon: icon });
         marker.bindPopup(buildPopupContent(p), { autoPan: false });
