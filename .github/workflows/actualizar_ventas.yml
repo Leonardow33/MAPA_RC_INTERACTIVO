@@ -33,7 +33,7 @@ jobs:
           import sys, json
           from playwright.sync_api import sync_playwright
 
-          URL = "https://elotgroup2020-my.sharepoint.com/:u:/g/personal/doriant_elotgroup_com/IQCpFbui95x1S5JXjev_tlsPATMjiDRm0DtiFAF9rfvVMh0?e=glgPSX"
+          URL = "https://elotgroup2020-my.sharepoint.com/:u:/g/personal/doriant_elotgroup_com/IQCpFbui95x1S5JXjev_tlsPATMjiDRm0DtiFAF9rfvVMh0?e=8KnYnZ"
 
           content = None
 
