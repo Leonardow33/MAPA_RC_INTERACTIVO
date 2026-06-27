@@ -15,12 +15,12 @@
         "responsable": "LOTOBOLA",
         "frecuencia": "LUNES-MARTES-MIÉRCOLES-JUEVES-VIERNES-SÁBADO",
         "dias": [
-            "LUNES",
-            "MIÉRCOLES",
-            "JUEVES",
             "MARTES",
+            "VIERNES",
             "SÁBADO",
-            "VIERNES"
+            "JUEVES",
+            "MIÉRCOLES",
+            "LUNES"
         ],
         "direccion": "Av. Santo Toribio 143, San Isidro 15073",
         "distrito": "SAN ISIDRO",
@@ -12014,8 +12014,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-MARTES-MIÉRCOLES",
         "dias": [
-            "LUNES",
             "MARTES",
+            "LUNES",
             "MIÉRCOLES"
         ],
         "direccion": "CALLE HUANUCO N° 183 / 301 CERCADO DE ICA",
@@ -14803,8 +14803,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-MARTES-MIÉRCOLES",
         "dias": [
-            "LUNES",
             "MARTES",
+            "LUNES",
             "MIÉRCOLES"
         ],
         "direccion": "AV. SAN MARTIN NO 598 MZ. A URB. LA MORALES, DISTRITO, PROVINCIA Y DEPARTAMENTO DE ICA",
@@ -15809,8 +15809,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-MARTES-MIÉRCOLES",
         "dias": [
-            "LUNES",
             "MARTES",
+            "LUNES",
             "MIÉRCOLES"
         ],
         "direccion": "CALLE PIURA Nº 172 -174- CERCADO DE ICA, DISTRITO, PROVINCIA Y DEPARTAMENTO DE ICA,",
@@ -16710,8 +16710,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-MARTES-MIÉRCOLES",
         "dias": [
-            "LUNES",
             "MARTES",
+            "LUNES",
             "MIÉRCOLES"
         ],
         "direccion": "AV. CUTERVO OESTE Nº 0288, URBANIZACIÓN SAN ISIDRO, CERCADO ICA, PROVINCIA Y DEPARTAMENTO DE ICA",
@@ -20997,12 +20997,12 @@
         "responsable": "JS BODEGA",
         "frecuencia": "LUNES-MARTES-MIÉRCOLES-JUEVES-VIERNES-SÁBADO",
         "dias": [
-            "LUNES",
-            "MIÉRCOLES",
-            "JUEVES",
             "MARTES",
+            "VIERNES",
             "SÁBADO",
-            "VIERNES"
+            "JUEVES",
+            "MIÉRCOLES",
+            "LUNES"
         ],
         "direccion": "AV. HUANCAVELICA #387",
         "distrito": "EL TAMBO",
@@ -21027,12 +21027,12 @@
         "responsable": "JS BODEGA",
         "frecuencia": "LUNES-MARTES-MIÉRCOLES-JUEVES-VIERNES-SÁBADO",
         "dias": [
-            "LUNES",
-            "MIÉRCOLES",
-            "JUEVES",
             "MARTES",
+            "VIERNES",
             "SÁBADO",
-            "VIERNES"
+            "JUEVES",
+            "MIÉRCOLES",
+            "LUNES"
         ],
         "direccion": "AV. TAYLOR 1802",
         "distrito": "HUANCAYO",
@@ -21335,8 +21335,8 @@
         "responsable": "JS BODEGA",
         "frecuencia": "LUNES-MARTES",
         "dias": [
-            "LUNES",
-            "MARTES"
+            "MARTES",
+            "LUNES"
         ],
         "direccion": "CALLE BOLIVAR 404",
         "distrito": "ICA",
@@ -21569,8 +21569,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-MARTES-MIÉRCOLES",
         "dias": [
-            "LUNES",
             "MARTES",
+            "LUNES",
             "MIÉRCOLES"
         ],
         "direccion": "CALLE AYABACA, MZ. H-4, LT. 12, URB. SAN ISIDRO, DISTRITO, PROVINCIA Y DEPARTAMENTO DE ICA",
@@ -24766,11 +24766,11 @@
         "responsable": "TINBET",
         "frecuencia": "LUNES-JUEVES-MIÉRCOLES-JUEVES-VIERNES-SÁBADO",
         "dias": [
-            "LUNES",
-            "MIÉRCOLES",
-            "JUEVES",
+            "VIERNES",
             "SÁBADO",
-            "VIERNES"
+            "JUEVES",
+            "MIÉRCOLES",
+            "LUNES"
         ],
         "direccion": "AV DANIEL ALCIDES CARRION NRO. 1975",
         "distrito": "EL TAMBO",
@@ -24795,11 +24795,11 @@
         "responsable": "TINBET",
         "frecuencia": "LUNES-JUEVES-MIÉRCOLES-JUEVES-VIERNES-SÁBADO",
         "dias": [
-            "LUNES",
-            "MIÉRCOLES",
-            "JUEVES",
+            "VIERNES",
             "SÁBADO",
-            "VIERNES"
+            "JUEVES",
+            "MIÉRCOLES",
+            "LUNES"
         ],
         "direccion": "AV. INDEPENDENCIA 495",
         "distrito": "EL TAMBO",
@@ -24824,11 +24824,11 @@
         "responsable": "TINBET",
         "frecuencia": "LUNES-JUEVES-MIÉRCOLES-JUEVES-VIERNES-SÁBADO",
         "dias": [
-            "LUNES",
-            "MIÉRCOLES",
-            "JUEVES",
+            "VIERNES",
             "SÁBADO",
-            "VIERNES"
+            "JUEVES",
+            "MIÉRCOLES",
+            "LUNES"
         ],
         "direccion": "AV. MARISCAL CASTILLA N° 4131 ASENTAMIENTO HUMANO LA VICTORIA",
         "distrito": "EL TAMBO",
@@ -25679,8 +25679,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-MARTES-MIÉRCOLES",
         "dias": [
-            "LUNES",
             "MARTES",
+            "LUNES",
             "MIÉRCOLES"
         ],
         "direccion": "AV. MUNICIPALIDAD Nº 271-279, 1ER PISO Y SÓTANO, CERCADO DE ICA, DISTRITO, PROVINCIA Y DEPARTAMENTO DE ICA",
@@ -29178,11 +29178,11 @@
         "responsable": "TINBET",
         "frecuencia": "LUNES-JUEVES-MIÉRCOLES-JUEVES-VIERNES-SÁBADO",
         "dias": [
-            "LUNES",
-            "MIÉRCOLES",
-            "JUEVES",
+            "VIERNES",
             "SÁBADO",
-            "VIERNES"
+            "JUEVES",
+            "MIÉRCOLES",
+            "LUNES"
         ],
         "direccion": "PROLONGACIÓN LIMA NO. 593",
         "distrito": "JUNÍN",
@@ -31021,11 +31021,11 @@
         "responsable": "TINBET",
         "frecuencia": "LUNES-JUEVES-MIÉRCOLES-JUEVES-VIERNES-SÁBADO",
         "dias": [
-            "LUNES",
-            "MIÉRCOLES",
-            "JUEVES",
+            "VIERNES",
             "SÁBADO",
-            "VIERNES"
+            "JUEVES",
+            "MIÉRCOLES",
+            "LUNES"
         ],
         "direccion": "AV JACINTO IBARRA 420",
         "distrito": "JUNÍN",
@@ -31050,11 +31050,11 @@
         "responsable": "TINBET",
         "frecuencia": "LUNES-JUEVES-MIÉRCOLES-JUEVES-VIERNES-SÁBADO",
         "dias": [
-            "LUNES",
-            "MIÉRCOLES",
-            "JUEVES",
+            "VIERNES",
             "SÁBADO",
-            "VIERNES"
+            "JUEVES",
+            "MIÉRCOLES",
+            "LUNES"
         ],
         "direccion": "AV. LA ESPERANZA 170 EL TAMBO",
         "distrito": "JUNÍN",
@@ -33700,8 +33700,8 @@
         "responsable": "APUESTA TOTAL",
         "frecuencia": "LUNES-MARTES",
         "dias": [
-            "LUNES",
-            "MARTES"
+            "MARTES",
+            "LUNES"
         ],
         "direccion": "Calle Lima N° 488",
         "distrito": "ICA",
@@ -33776,8 +33776,8 @@
         "responsable": "APUESTA TOTAL",
         "frecuencia": "LUNES-MARTES",
         "dias": [
-            "LUNES",
-            "MARTES"
+            "MARTES",
+            "LUNES"
         ],
         "direccion": "Av. San Martín N° 168",
         "distrito": "ICA",
@@ -39495,11 +39495,11 @@
         "responsable": "APUESTA TOTAL",
         "frecuencia": "LUNES-JUEVES-MIÉRCOLES-JUEVES-VIERNES-SÁBADO",
         "dias": [
-            "LUNES",
-            "MIÉRCOLES",
-            "JUEVES",
+            "VIERNES",
             "SÁBADO",
-            "VIERNES"
+            "JUEVES",
+            "MIÉRCOLES",
+            "LUNES"
         ],
         "direccion": "Av. Mariscal Castilla N° 1238 – Cercado El Tambo Del Distrito De El Tambo",
         "distrito": "EL TAMBO",
@@ -39574,11 +39574,11 @@
         "responsable": "APUESTA TOTAL",
         "frecuencia": "LUNES-JUEVES-MIÉRCOLES-JUEVES-VIERNES-SÁBADO",
         "dias": [
-            "LUNES",
-            "MIÉRCOLES",
-            "JUEVES",
+            "VIERNES",
             "SÁBADO",
-            "VIERNES"
+            "JUEVES",
+            "MIÉRCOLES",
+            "LUNES"
         ],
         "direccion": "Av. Jose Carlos Mariátegui N° 600",
         "distrito": "EL TAMBO",
