@@ -15,12 +15,12 @@
         "responsable": "LOTOBOLA",
         "frecuencia": "LUNES-MARTES-MIÉRCOLES-JUEVES-VIERNES-SÁBADO",
         "dias": [
-            "MARTES",
             "VIERNES",
-            "SÁBADO",
             "JUEVES",
+            "MARTES",
+            "LUNES",
             "MIÉRCOLES",
-            "LUNES"
+            "SÁBADO"
         ],
         "direccion": "Av. Santo Toribio 143, San Isidro 15073",
         "distrito": "SAN ISIDRO",
@@ -2381,8 +2381,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MIÉRCOLES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "VIERNES"
         ],
         "direccion": "AV. HÚSARES DE JUNÍN N° 1210, URBANIZACIÓN III ETAPA, DISTRITO Y PROVINCIA DE TRUJILLO, DEPARTAMENTO DE LA LIBERTAD",
         "distrito": "TRUJILLO",
@@ -9450,8 +9450,8 @@
         "frecuencia": "LUNES-MIÉRCOLES-VIERNES",
         "dias": [
             "LUNES",
-            "VIERNES",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "VIERNES"
         ],
         "direccion": "AV. PANAMERICANA 639  LS- 35  MALL AVENTURA  CHICLAYO",
         "distrito": "CHICLAYO",
@@ -10350,8 +10350,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MARTES-JUEVES-SÁBADO",
         "dias": [
-            "MARTES",
             "SÁBADO",
+            "MARTES",
             "JUEVES"
         ],
         "direccion": "AV. SÁNCHEZ CERRO N° 1136 MZ. G LOTE 13A PISO 1, URB. CLUB GRAU, DISTRITO, PROVINCIA Y DEPARTAMENTO DE PIURA",
@@ -10430,8 +10430,8 @@
         "frecuencia": "LUNES-MIÉRCOLES-VIERNES",
         "dias": [
             "LUNES",
-            "VIERNES",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "VIERNES"
         ],
         "direccion": "AV. GUARDIA CIVIL 100 MZ. B LT. 07, URB. MIRAFLORES 1 ETAPA DISTRITO CASTILLA PROVINCIA Y DEPARTAMENTO DE PIURA",
         "distrito": "PIURA",
@@ -10456,8 +10456,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MARTES-JUEVES-SÁBADO",
         "dias": [
-            "MARTES",
             "SÁBADO",
+            "MARTES",
             "JUEVES"
         ],
         "direccion": "EX FUNDO LA PROVIDENCIA TT-CALL. DON MANUEL NORTE A 05 PIURA",
@@ -10586,8 +10586,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MARTES-JUEVES-SÁBADO",
         "dias": [
-            "MARTES",
             "SÁBADO",
+            "MARTES",
             "JUEVES"
         ],
         "direccion": "CALLE LA FLORIDA N° 448, URBANIZACIÓN SANTA VICTORIA, DISTRITO Y PROVINCIA DE CHICLAYO",
@@ -10613,8 +10613,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MARTES-JUEVES-SÁBADO",
         "dias": [
-            "MARTES",
             "SÁBADO",
+            "MARTES",
             "JUEVES"
         ],
         "direccion": "CALLE ELIAS AGUIRRE 0394 ( 388- 396 ) MZ 134 LT 30 NUM 388 -396 DISTRITO DE CHICLAYO -",
@@ -10640,8 +10640,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MIÉRCOLES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "VIERNES"
         ],
         "direccion": "AV. LARCO HERRERA, VICTOR, URB. LA MERCED, III ETAPA, MZ. N, LT. 02, DISTRITO Y PROVINCIA DE TRUJILLO, DEPARTAMENTO DE LA LIBERTAD",
         "distrito": "TRUJILLO",
@@ -10744,8 +10744,8 @@
         "frecuencia": "LUNES-MIÉRCOLES-VIERNES",
         "dias": [
             "LUNES",
-            "VIERNES",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "VIERNES"
         ],
         "direccion": "AVENIDA RAMÓN CASTILLA N° 601 MZ. A LT. 1, CERCADO LAMBAYEQUE, DISTRITO, PROVINCIA Y DEPARTAMENTO DE LAMBAYEQUE.",
         "distrito": "LAMBAYEQUE",
@@ -10796,8 +10796,8 @@
         "frecuencia": "LUNES-MIÉRCOLES-VIERNES",
         "dias": [
             "LUNES",
-            "VIERNES",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "VIERNES"
         ],
         "direccion": "CALLE JUAN XXIII N° 370, MZ. 77, LT. 9D, CERCADO DE LAMBAYEQUE",
         "distrito": "LAMBAYEQUE",
@@ -10874,8 +10874,8 @@
         "frecuencia": "LUNES-MIÉRCOLES-VIERNES",
         "dias": [
             "LUNES",
-            "VIERNES",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "VIERNES"
         ],
         "direccion": "SOL DE ICA MZ E LT O1 URB. SOL DE ICA",
         "distrito": "ICA",
@@ -10977,8 +10977,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MARTES-JUEVES-SÁBADO",
         "dias": [
-            "MARTES",
             "SÁBADO",
+            "MARTES",
             "JUEVES"
         ],
         "direccion": "AV. LUIS GONZALES 1285 LC 102 , CHICLAYO",
@@ -11055,8 +11055,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MARTES-JUEVES-SÁBADO",
         "dias": [
-            "MARTES",
             "SÁBADO",
+            "MARTES",
             "JUEVES"
         ],
         "direccion": "AV. LAS PALMERAS MZ. B, LT. 17C, URB. SAN EDUARDO DISTRITO, PROVINCIA Y DEPARTAMENTO DE PIURA",
@@ -11185,8 +11185,8 @@
         "frecuencia": "LUNES-MIÉRCOLES-VIERNES",
         "dias": [
             "LUNES",
-            "VIERNES",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "VIERNES"
         ],
         "direccion": "AH PRIMAVERA I ETAPA AV. GUARDIA CIVIL MZ E-1 LT 1 DISTRITO CASTILLA - PIURA",
         "distrito": "PIURA",
@@ -11262,8 +11262,8 @@
         "frecuencia": "LUNES-MIÉRCOLES-VIERNES",
         "dias": [
             "LUNES",
-            "VIERNES",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "VIERNES"
         ],
         "direccion": "MZ B LT 1 URB. MIRAFLORES I ETAPA - DISTRITO CHICLAYO",
         "distrito": "CHICLAYO",
@@ -11314,8 +11314,8 @@
         "frecuencia": "LUNES-MIÉRCOLES-VIERNES",
         "dias": [
             "LUNES",
-            "VIERNES",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "VIERNES"
         ],
         "direccion": "AV. RICHARD CUSHING NÚM. 410 MZ. D, LOTE 10-A, URB. 4 DE ENERO, DISTRITO, PROVINCIA Y DEPARTAMENTO DE PIURA",
         "distrito": "PIURA",
@@ -11340,8 +11340,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MARTES-JUEVES-SÁBADO",
         "dias": [
-            "MARTES",
             "SÁBADO",
+            "MARTES",
             "JUEVES"
         ],
         "direccion": "CA. 3 MZ. C, LOTE 9 URB. ANGAMOS I ETAPA , DISTRITO, PROVINCIA Y DEPARTAMENTO DE PIURA",
@@ -11469,8 +11469,8 @@
         "frecuencia": "LUNES-MIÉRCOLES-VIERNES",
         "dias": [
             "LUNES",
-            "VIERNES",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "VIERNES"
         ],
         "direccion": "AV. GRAU N° 526, MZ. A, LOTE 04, DISTRITO, PROVINCIA Y DEPARTAMENTO DE PIURA",
         "distrito": "PIURA",
@@ -11495,8 +11495,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MIÉRCOLES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "VIERNES"
         ],
         "direccion": "AV. GUILLERMO GANOZA VARGAS N° 650, URB. EL GOLF, DISTRITO DE VÍCTOR LARCO HERRERA, PROVINCIA DE TRUJILLO, DEPARTAMENTO DE LA LIBERTAD,",
         "distrito": "TRUJILLO",
@@ -11885,8 +11885,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MIÉRCOLES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "VIERNES"
         ],
         "direccion": "AV. LOS ANGELES MZ. C, LT. 44, URB. LAS HORTENCIAS DE CALIFORNIA, DISTRITO DE VÍCTOR LARCO HERRERA, PROVINCIA DE TRUJILLO, DEPARTAMENTO DE LA LIBERTAD",
         "distrito": "TRUJILLO",
@@ -12170,8 +12170,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MARTES-JUEVES-SÁBADO",
         "dias": [
-            "MARTES",
             "SÁBADO",
+            "MARTES",
             "JUEVES"
         ],
         "direccion": "CALLE SAN JOSÉ N° 857, DISTRITO Y PROVINCIA DE CHICLAYO, DEPARTAMENTO DE LAMBAYEQUE",
@@ -12742,8 +12742,8 @@
         "frecuencia": "LUNES-MIÉRCOLES-VIERNES",
         "dias": [
             "LUNES",
-            "VIERNES",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "VIERNES"
         ],
         "direccion": "AV. LORETO N° 509, DISTRITO, PROVINCIA Y DEPARTAMENTO DE PIURA.",
         "distrito": "PIURA",
@@ -13003,8 +13003,8 @@
         "frecuencia": "LUNES-MIÉRCOLES-VIERNES",
         "dias": [
             "LUNES",
-            "VIERNES",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "VIERNES"
         ],
         "direccion": "CARRETERA PIMENTEL-CHICLAYO, MZ. 0654, LT. 01 DPTO., LOTE D SINTIPO SIN NOMBRE 033, DISTRITO Y PROVINCIA DE CHICLAYO, DEPARTAMENTO DE LAMBAYEQUE,",
         "distrito": "CHICLAYO",
@@ -13207,8 +13207,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MIÉRCOLES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "VIERNES"
         ],
         "direccion": "AV. CESAR VALLEJO OESTE N° 903-905, CALLE A, MZ. A, LOTE 7, URB. INGENIERÍA I, DISTRITO Y PROVINCIA DE TRUJILLO Y DEPARTAMENTO DE LA LIBERTAD",
         "distrito": "TRUJILLO",
@@ -13490,8 +13490,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MARTES-JUEVES-SÁBADO",
         "dias": [
-            "MARTES",
             "SÁBADO",
+            "MARTES",
             "JUEVES"
         ],
         "direccion": "CALLE HIPÓLITO UNANUE N° 409, MZ. D LOTE 5 DISTRITO Y PROVINCIA DE CHICLAYO, DEPARTAMENTO LAMBAYEQUE",
@@ -13593,8 +13593,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MARTES-JUEVES-SÁBADO",
         "dias": [
-            "MARTES",
             "SÁBADO",
+            "MARTES",
             "JUEVES"
         ],
         "direccion": "LUIS GONZALES 0532 INT. 558, DISTRITO Y PROVINCIA DE CHICLAYO, DEPARTAMENTO DE LAMBAYEQUE",
@@ -15602,8 +15602,8 @@
         "frecuencia": "LUNES-MIÉRCOLES-VIERNES",
         "dias": [
             "LUNES",
-            "VIERNES",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "VIERNES"
         ],
         "direccion": "AV. EL DORADO 01261, MZ. I, LOTE 07 URB. FRANCISCO BOLOGNESI DISTRITO DE JOSE LEONARDO ORTIZ, PROVINCIA DE CHICLAYO, DEPARTAMENTO DE LAMBAYEQUE",
         "distrito": "CHICLAYO",
@@ -20496,8 +20496,8 @@
         "frecuencia": "LUNES-MIÉRCOLES-VIERNES",
         "dias": [
             "LUNES",
-            "VIERNES",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "VIERNES"
         ],
         "direccion": "CALLE PARDO MIGUEL 613-BELLAVISTA JAEN",
         "distrito": "JAEN",
@@ -20997,12 +20997,12 @@
         "responsable": "JS BODEGA",
         "frecuencia": "LUNES-MARTES-MIÉRCOLES-JUEVES-VIERNES-SÁBADO",
         "dias": [
-            "MARTES",
             "VIERNES",
-            "SÁBADO",
             "JUEVES",
+            "MARTES",
+            "LUNES",
             "MIÉRCOLES",
-            "LUNES"
+            "SÁBADO"
         ],
         "direccion": "AV. HUANCAVELICA #387",
         "distrito": "EL TAMBO",
@@ -21027,12 +21027,12 @@
         "responsable": "JS BODEGA",
         "frecuencia": "LUNES-MARTES-MIÉRCOLES-JUEVES-VIERNES-SÁBADO",
         "dias": [
-            "MARTES",
             "VIERNES",
-            "SÁBADO",
             "JUEVES",
+            "MARTES",
+            "LUNES",
             "MIÉRCOLES",
-            "LUNES"
+            "SÁBADO"
         ],
         "direccion": "AV. TAYLOR 1802",
         "distrito": "HUANCAYO",
@@ -22006,8 +22006,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MIÉRCOLES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "VIERNES"
         ],
         "direccion": "AV. VÍCTOR LARCO HERRERA Nº 1703-1707, URBANIZACIÓN SANTA ISABEL, DISTRITO DE VÍCTOR LARCO HERRERA, PROVINCIA DE TRUJILLO, DEPARTAMENTO LA LIBERTAD",
         "distrito": "VICTOR LARCO HERRERA",
@@ -23729,8 +23729,8 @@
         "frecuencia": "LUNES-MIÉRCOLES-VIERNES",
         "dias": [
             "LUNES",
-            "VIERNES",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "VIERNES"
         ],
         "direccion": "AV. PEDRO RUIZ NO. 1060",
         "distrito": "CHICLAYO",
@@ -23756,8 +23756,8 @@
         "frecuencia": "LUNES-MIÉRCOLES-VIERNES",
         "dias": [
             "LUNES",
-            "VIERNES",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "VIERNES"
         ],
         "direccion": "CALLE RICARDO PALMA NO. 1250 PUEBLO JOVEN GARCES",
         "distrito": "JOSE LEONARDO ORTIZ",
@@ -24142,8 +24142,8 @@
         "frecuencia": "LUNES-MIÉRCOLES-VIERNES",
         "dias": [
             "LUNES",
-            "VIERNES",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "VIERNES"
         ],
         "direccion": "AV. LORETO N°1400",
         "distrito": "PIURA",
@@ -24245,8 +24245,8 @@
         "responsable": "TINBET",
         "frecuencia": "MARTES-JUEVES-SÁBADO",
         "dias": [
-            "MARTES",
             "SÁBADO",
+            "MARTES",
             "JUEVES"
         ],
         "direccion": "AV. SANCHEZ CERRO NO. SN STAND 17-18",
@@ -24273,8 +24273,8 @@
         "frecuencia": "LUNES-MIÉRCOLES-VIERNES",
         "dias": [
             "LUNES",
-            "VIERNES",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "VIERNES"
         ],
         "direccion": "AV. RAMON CASTILLA N° 105 SUB LOTE 2B URB. MIRAFLORES",
         "distrito": "CASTILLA",
@@ -24299,8 +24299,8 @@
         "responsable": "TINBET",
         "frecuencia": "MARTES-JUEVES-SÁBADO",
         "dias": [
-            "MARTES",
             "SÁBADO",
+            "MARTES",
             "JUEVES"
         ],
         "direccion": "MZ. C2 LT. 1 URBANIZACIÓN PUEBLO LIBRE",
@@ -24352,8 +24352,8 @@
         "responsable": "TINBET",
         "frecuencia": "MARTES-JUEVES-SÁBADO",
         "dias": [
-            "MARTES",
             "SÁBADO",
+            "MARTES",
             "JUEVES"
         ],
         "direccion": "VIRREY TOLEDO 1049 MZ. Ñ LOTE 18",
@@ -24767,10 +24767,10 @@
         "frecuencia": "LUNES-JUEVES-MIÉRCOLES-JUEVES-VIERNES-SÁBADO",
         "dias": [
             "VIERNES",
-            "SÁBADO",
             "JUEVES",
+            "LUNES",
             "MIÉRCOLES",
-            "LUNES"
+            "SÁBADO"
         ],
         "direccion": "AV DANIEL ALCIDES CARRION NRO. 1975",
         "distrito": "EL TAMBO",
@@ -24796,10 +24796,10 @@
         "frecuencia": "LUNES-JUEVES-MIÉRCOLES-JUEVES-VIERNES-SÁBADO",
         "dias": [
             "VIERNES",
-            "SÁBADO",
             "JUEVES",
+            "LUNES",
             "MIÉRCOLES",
-            "LUNES"
+            "SÁBADO"
         ],
         "direccion": "AV. INDEPENDENCIA 495",
         "distrito": "EL TAMBO",
@@ -24825,10 +24825,10 @@
         "frecuencia": "LUNES-JUEVES-MIÉRCOLES-JUEVES-VIERNES-SÁBADO",
         "dias": [
             "VIERNES",
-            "SÁBADO",
             "JUEVES",
+            "LUNES",
             "MIÉRCOLES",
-            "LUNES"
+            "SÁBADO"
         ],
         "direccion": "AV. MARISCAL CASTILLA N° 4131 ASENTAMIENTO HUMANO LA VICTORIA",
         "distrito": "EL TAMBO",
@@ -24853,8 +24853,8 @@
         "responsable": "TINBET",
         "frecuencia": "MARTES-JUEVES-SÁBADO",
         "dias": [
-            "MARTES",
             "SÁBADO",
+            "MARTES",
             "JUEVES"
         ],
         "direccion": "CALLE MANUEL AREVALO MZ. F LT. 15",
@@ -26190,8 +26190,8 @@
         "frecuencia": "LUNES-MIÉRCOLES-VIERNES",
         "dias": [
             "LUNES",
-            "VIERNES",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "VIERNES"
         ],
         "direccion": "CLL SAN MARTIN MZ K-3 LTE 35 CERCADO DE ICA",
         "distrito": "ICA",
@@ -26809,8 +26809,8 @@
         "responsable": "TINBET",
         "frecuencia": "MIÉRCOLES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "VIERNES"
         ],
         "direccion": "AV. MANUEL SEOANE 1051, URB. VISTA ALEGRE, VICTOR LARCO HERRERA - TRUJILLO, LA LIBERTAD",
         "distrito": "VICTOR LARCO HERRERA",
@@ -26836,8 +26836,8 @@
         "frecuencia": "LUNES-MIÉRCOLES-VIERNES",
         "dias": [
             "LUNES",
-            "VIERNES",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "VIERNES"
         ],
         "direccion": "AVENIDA PUMACAHUA N° 110, MZ. U, LOTE 2, URBANIZACIÓN PUEBLO VIEJO/ CERRO COLORADO, PROVINCIA Y DEPARTAMENTO DE AREQUIPA,",
         "distrito": "CERRO COLORADO",
@@ -26863,8 +26863,8 @@
         "frecuencia": "LUNES-MIÉRCOLES-VIERNES",
         "dias": [
             "LUNES",
-            "VIERNES",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "VIERNES"
         ],
         "direccion": "CALLE MARÍA NIEVES Y BUSTAMANTE N° 100, SUBLOTE 71 B-2 (REF. ESQUINA ERNESTO NOVOA 303, UMACOLLO, DISTRITO, PROVINCIA Y DEPARTAMENTO DE AREQUIPA",
         "distrito": "AREQUIPA",
@@ -27526,8 +27526,8 @@
         "frecuencia": "LUNES-MIÉRCOLES-VIERNES",
         "dias": [
             "LUNES",
-            "VIERNES",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "VIERNES"
         ],
         "direccion": "Av. Juan Thomis Stack N° 255",
         "distrito": "CHICLAYO",
@@ -27552,8 +27552,8 @@
         "responsable": "APUESTA TOTAL",
         "frecuencia": "MARTES-JUEVES-SÁBADO",
         "dias": [
-            "MARTES",
             "SÁBADO",
+            "MARTES",
             "JUEVES"
         ],
         "direccion": "Av. Francisco Bolognesi N° 1197",
@@ -28117,8 +28117,8 @@
         "responsable": "LIVESPORT",
         "frecuencia": "MARTES-JUEVES-SÁBADO",
         "dias": [
-            "MARTES",
             "SÁBADO",
+            "MARTES",
             "JUEVES"
         ],
         "direccion": "CALLE COIS N°108 - CHICLAYO, LAMBAYEQUE.",
@@ -29179,10 +29179,10 @@
         "frecuencia": "LUNES-JUEVES-MIÉRCOLES-JUEVES-VIERNES-SÁBADO",
         "dias": [
             "VIERNES",
-            "SÁBADO",
             "JUEVES",
+            "LUNES",
             "MIÉRCOLES",
-            "LUNES"
+            "SÁBADO"
         ],
         "direccion": "PROLONGACIÓN LIMA NO. 593",
         "distrito": "JUNÍN",
@@ -31022,10 +31022,10 @@
         "frecuencia": "LUNES-JUEVES-MIÉRCOLES-JUEVES-VIERNES-SÁBADO",
         "dias": [
             "VIERNES",
-            "SÁBADO",
             "JUEVES",
+            "LUNES",
             "MIÉRCOLES",
-            "LUNES"
+            "SÁBADO"
         ],
         "direccion": "AV JACINTO IBARRA 420",
         "distrito": "JUNÍN",
@@ -31051,10 +31051,10 @@
         "frecuencia": "LUNES-JUEVES-MIÉRCOLES-JUEVES-VIERNES-SÁBADO",
         "dias": [
             "VIERNES",
-            "SÁBADO",
             "JUEVES",
+            "LUNES",
             "MIÉRCOLES",
-            "LUNES"
+            "SÁBADO"
         ],
         "direccion": "AV. LA ESPERANZA 170 EL TAMBO",
         "distrito": "JUNÍN",
@@ -39496,10 +39496,10 @@
         "frecuencia": "LUNES-JUEVES-MIÉRCOLES-JUEVES-VIERNES-SÁBADO",
         "dias": [
             "VIERNES",
-            "SÁBADO",
             "JUEVES",
+            "LUNES",
             "MIÉRCOLES",
-            "LUNES"
+            "SÁBADO"
         ],
         "direccion": "Av. Mariscal Castilla N° 1238 – Cercado El Tambo Del Distrito De El Tambo",
         "distrito": "EL TAMBO",
@@ -39575,10 +39575,10 @@
         "frecuencia": "LUNES-JUEVES-MIÉRCOLES-JUEVES-VIERNES-SÁBADO",
         "dias": [
             "VIERNES",
-            "SÁBADO",
             "JUEVES",
+            "LUNES",
             "MIÉRCOLES",
-            "LUNES"
+            "SÁBADO"
         ],
         "direccion": "Av. Jose Carlos Mariátegui N° 600",
         "distrito": "EL TAMBO",
