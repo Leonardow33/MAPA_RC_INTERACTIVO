@@ -46,18 +46,23 @@ jobs:
               browser = p.chromium.launch(headless=True)
               context = browser.new_context(accept_downloads=True)
 
-              # Intento 1: &download=1 directo
+              # Intento 1: &download=1 — ignorar "Download is starting" (es normal en xlsx)
               try:
                   print("Intento 1: expect_download con &download=1...")
                   page = context.new_page()
                   with page.expect_download(timeout=45000) as dl_info:
-                      page.goto(URL + "&download=1", wait_until="commit", timeout=30000)
+                      try:
+                          page.goto(URL + "&download=1", wait_until="commit", timeout=30000)
+                      except Exception as nav_e:
+                          if "Download is starting" not in str(nav_e):
+                              raise
+                          print("  -> 'Download is starting' capturado, esperando archivo...")
                   dl_path = dl_info.value.path()
                   print(f"  -> OK: {dl_path}")
               except Exception as e:
                   print(f"  -> fallo: {e}")
 
-              # Intento 2: navegar a la página y hacer clic en botón Descargar de SharePoint
+              # Intento 2: navegar al preview de SharePoint y clic en botón descarga
               if not dl_path:
                   try:
                       print("Intento 2: navegar y clic en botón descarga...")
@@ -65,12 +70,15 @@ jobs:
                       page2.goto(URL, wait_until="networkidle", timeout=60000)
                       print(f"  -> página cargada: {page2.title()}")
                       with page2.expect_download(timeout=30000) as dl_info:
-                          # Botón descarga en la ribbon de SharePoint
                           btn = page2.locator(
                               '[data-automation-id="downloadCommand"], '
+                              '[data-icon-name="Download"], '
+                              'a[data-action="download"], '
                               '[aria-label="Download"], [aria-label="Descargar"], '
-                              'button:has-text("Download"), button:has-text("Descargar")'
+                              'button:has-text("Download"), button:has-text("Descargar"), '
+                              'a:has-text("Download"), a:has-text("Descargar")'
                           ).first
+                          print(f"  -> botón encontrado: {btn.text_content()}")
                           btn.click(timeout=15000)
                       dl_path = dl_info.value.path()
                       print(f"  -> OK: {dl_path}")
