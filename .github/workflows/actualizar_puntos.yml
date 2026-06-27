@@ -35,7 +35,7 @@ jobs:
           from datetime import datetime
           from playwright.sync_api import sync_playwright
 
-          URL   = "https://elotgroup2020.sharepoint.com/:x:/s/BIDataExchange/IQCOYU9oqh0_QIr7ASL7oMu9Aa-jLWVHmHACA53f6Zc1b-w?e=teY6db"
+          URL   = "https://elotgroup2020-my.sharepoint.com/:x:/g/personal/doriant_elotgroup_com/IQB-NddQMXR2So7GfQzrHRtsAWTJsTyNAclAXDO5jp5x7pA?e=CJHQci"
           HOJA  = "BASE_RSUM"
           EXCEL = "/tmp/base_mapas.xlsx"
 
