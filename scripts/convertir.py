@@ -1,9 +1,11 @@
 import pandas as pd
 import json
+import os
 from datetime import datetime
 
-# 📂 Leer Excel
-df = pd.read_excel(r"C:\Users\elirg\Music\ESTRUCTURA TRANSVERSAL\MAPAS_RC_AUTO\sources\BASE_PARA MAPAS.xlsx")
+# 📂 Leer Excel (hoja BASE_RSUM del documento fuente)
+_base = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+df = pd.read_excel(os.path.join(_base, "sources", "BASE_PARA MAPAS.xlsx"), sheet_name="BASE_RSUM")
 
 data = []
 
@@ -84,7 +86,7 @@ with open("data/partners.json", "w", encoding="utf-8") as f:
     json.dump(partners, f, ensure_ascii=False)
 
 # keys_bonos.json — metas de bonos por cluster Tambo (A/B/C/D)
-keys_df = pd.read_excel(r"C:\Users\elirg\Music\ESTRUCTURA TRANSVERSAL\MAPAS_RC_AUTO\sources\KEYS_BONOS_TAMBO.xlsx")
+keys_df = pd.read_excel(os.path.join(_base, "sources", "KEYS_BONOS_TAMBO.xlsx"))
 keys_bonos = []
 for _, krow in keys_df.iterrows():
     keys_bonos.append({

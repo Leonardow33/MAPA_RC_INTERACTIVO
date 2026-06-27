@@ -1,0 +1,135 @@
+name: Actualizar Puntos de Venta
+
+on:
+  schedule:
+    - cron: '0 13 * * 1'   # Lunes 8:00 AM Peru (UTC-5)
+  workflow_dispatch:
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    env:
+      FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: 'true'
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Cachear Chromium de Playwright
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/ms-playwright
+          key: playwright-chromium-${{ runner.os }}-v1
+
+      - name: Instalar dependencias
+        run: |
+          pip install playwright pandas openpyxl
+          playwright install chromium --with-deps
+
+      - name: Descargar y procesar Excel desde SharePoint
+        run: |
+          python3 - << 'PYEOF'
+          import sys, json, shutil
+          import pandas as pd
+          from datetime import datetime
+          from playwright.sync_api import sync_playwright
+
+          URL   = "https://elotgroup2020.sharepoint.com/:x:/s/BIDataExchange/IQCOYU9oqh0_QIr7ASL7oMu9Aa-jLWVHmHACA53f6Zc1b-w?e=teY6db"
+          HOJA  = "BASE_RSUM"
+          EXCEL = "/tmp/base_mapas.xlsx"
+
+          # ── Descargar Excel ──────────────────────────────────────────
+          with sync_playwright() as p:
+              browser = p.chromium.launch(headless=True)
+              context = browser.new_context(accept_downloads=True)
+              page    = context.new_page()
+
+              try:
+                  print("Descargando Excel desde SharePoint...")
+                  with page.expect_download(timeout=60000) as dl_info:
+                      page.goto(URL + "&download=1", wait_until="commit", timeout=45000)
+                  dl   = dl_info.value
+                  path = dl.path()
+                  shutil.copy(path, EXCEL)
+                  print(f"  -> OK ({path})")
+              except Exception as e:
+                  print(f"  -> fallo: {e}")
+                  sys.exit(1)
+              finally:
+                  browser.close()
+
+          # ── Leer hoja BASE_RSUM ──────────────────────────────────────
+          print(f"Leyendo hoja '{HOJA}'...")
+          df = pd.read_excel(EXCEL, sheet_name=HOJA)
+          print(f"  -> {len(df)} filas")
+
+          data = []
+
+          for _, row in df.iterrows():
+              if (pd.notnull(row.get("LATITUD")) and pd.notnull(row.get("LONGITUD"))
+                      and float(row["LATITUD"]) != 0 and float(row["LONGITUD"]) != 0
+                      and str(row.get("ESTATUS", "")).strip().upper() != "CERRADO"):
+
+                  dias = []
+                  if pd.notnull(row.get("FRECUENCIA-NORMAL")):
+                      for d in str(row["FRECUENCIA-NORMAL"]).upper().split("-"):
+                          dia = d.strip()
+                          if dia not in ["", "NAN", "SIN ASIGNAR"]:
+                              dias.append(dia)
+                  dias = list(set(dias)) or ["SIN RUTA"]
+
+                  def s(val):
+                      return str(val).strip() if pd.notnull(val) else ""
+
+                  data.append({
+                      "nombre":       s(row.get("NOMBRE DE TIENDA")),
+                      "lat":          float(row["LATITUD"]),
+                      "lng":          float(row["LONGITUD"]),
+                      "estado":       s(row.get("ESTATUS")),
+                      "zona":         s(row.get("ZONAL")),
+                      "cluster":      s(row.get("CLUSTER INTERNO")),
+                      "cluster_bono": s(row.get("CLUSTER")),
+                      "ID":           str(row.get("ORG_CODE", "")),
+                      "rc":           s(row.get("RC_NOMBRE")),
+                      "username":     s(row.get("USERNAME")),
+                      "supervisor":   s(row.get("SUPERVISOR")),
+                      "capacitador":  s(row.get("CAPACITADOR")),
+                      "responsable":  s(row.get("P_RESPONSABLE")),
+                      "frecuencia":   s(row.get("FRECUENCIA-NORMAL")),
+                      "dias":         dias,
+                      "direccion":    s(row.get("TdaDireccion")),
+                      "distrito":     s(row.get("DISTRITOS")),
+                      "gz":           s(row.get("GZ")),
+                      "jz":           s(row.get("JZ")),
+                      "zonal_tipo":   s(row.get("ZONAL_TIPO", "")).upper(),
+                      "tipo":         s(row.get("TIPO", "")).upper(),
+                  })
+
+          ts = datetime.now().strftime("%Y-%m-%dT%H:%M:%S")
+
+          with open("data/puntos.json", "w", encoding="utf-8") as f:
+              json.dump(data, f, ensure_ascii=False, indent=4)
+
+          with open("data/version.json", "w", encoding="utf-8") as f:
+              json.dump({"v": ts, "n": len(data)}, f)
+
+          partners = {}
+          for _, row in df.iterrows():
+              cod  = str(row.get("ORG_CODE", "")).strip()
+              resp = str(row["P_RESPONSABLE"]).strip() if pd.notnull(row.get("P_RESPONSABLE")) else ""
+              if cod and resp:
+                  partners[cod] = resp
+
+          with open("data/partners.json", "w", encoding="utf-8") as f:
+              json.dump(partners, f, ensure_ascii=False)
+
+          print(f"OK: {len(data)} puntos activos | {len(partners)} partners | v{ts}")
+          PYEOF
+
+      - name: Commit si hubo cambios
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add data/puntos.json data/version.json data/partners.json
+          git diff --cached --quiet || (git commit -m "chore: actualizar puntos desde SharePoint" && git pull --rebase && git push)
