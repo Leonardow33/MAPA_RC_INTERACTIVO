@@ -57,8 +57,9 @@ jobs:
                           if "Download is starting" not in str(nav_e):
                               raise
                           print("  -> 'Download is starting' capturado, esperando archivo...")
-                  dl_path = dl_info.value.path()
-                  print(f"  -> OK: {dl_path}")
+                  dl_info.value.save_as(EXCEL)
+                  dl_path = EXCEL
+                  print(f"  -> OK guardado en {EXCEL}")
               except Exception as e:
                   print(f"  -> fallo: {e}")
 
@@ -80,8 +81,9 @@ jobs:
                           ).first
                           print(f"  -> botón encontrado: {btn.text_content()}")
                           btn.click(timeout=15000)
-                      dl_path = dl_info.value.path()
-                      print(f"  -> OK: {dl_path}")
+                      dl_info.value.save_as(EXCEL)
+                      dl_path = EXCEL
+                      print(f"  -> OK guardado en {EXCEL}")
                   except Exception as e:
                       print(f"  -> fallo: {e}")
 
@@ -120,9 +122,7 @@ jobs:
               print("ERROR: no se pudo descargar el Excel de SharePoint")
               sys.exit(1)
 
-          if dl_path != EXCEL:
-              shutil.copy(dl_path, EXCEL)
-          print(f"Excel guardado: {EXCEL}")
+          print(f"Excel listo: {EXCEL}")
 
           # ── Leer hoja BASE_RSUM ──────────────────────────────────────
           print(f"Leyendo hoja '{HOJA}'...")
