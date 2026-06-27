@@ -40,24 +40,81 @@ jobs:
           EXCEL = "/tmp/base_mapas.xlsx"
 
           # ── Descargar Excel ──────────────────────────────────────────
+          dl_path = None
+
           with sync_playwright() as p:
               browser = p.chromium.launch(headless=True)
               context = browser.new_context(accept_downloads=True)
-              page    = context.new_page()
 
+              # Intento 1: &download=1 directo
               try:
-                  print("Descargando Excel desde SharePoint...")
-                  with page.expect_download(timeout=60000) as dl_info:
-                      page.goto(URL + "&download=1", wait_until="commit", timeout=45000)
-                  dl   = dl_info.value
-                  path = dl.path()
-                  shutil.copy(path, EXCEL)
-                  print(f"  -> OK ({path})")
+                  print("Intento 1: expect_download con &download=1...")
+                  page = context.new_page()
+                  with page.expect_download(timeout=45000) as dl_info:
+                      page.goto(URL + "&download=1", wait_until="commit", timeout=30000)
+                  dl_path = dl_info.value.path()
+                  print(f"  -> OK: {dl_path}")
               except Exception as e:
                   print(f"  -> fallo: {e}")
-                  sys.exit(1)
-              finally:
-                  browser.close()
+
+              # Intento 2: navegar a la página y hacer clic en botón Descargar de SharePoint
+              if not dl_path:
+                  try:
+                      print("Intento 2: navegar y clic en botón descarga...")
+                      page2 = context.new_page()
+                      page2.goto(URL, wait_until="networkidle", timeout=60000)
+                      print(f"  -> página cargada: {page2.title()}")
+                      with page2.expect_download(timeout=30000) as dl_info:
+                          # Botón descarga en la ribbon de SharePoint
+                          btn = page2.locator(
+                              '[data-automation-id="downloadCommand"], '
+                              '[aria-label="Download"], [aria-label="Descargar"], '
+                              'button:has-text("Download"), button:has-text("Descargar")'
+                          ).first
+                          btn.click(timeout=15000)
+                      dl_path = dl_info.value.path()
+                      print(f"  -> OK: {dl_path}")
+                  except Exception as e:
+                      print(f"  -> fallo: {e}")
+
+              # Intento 3: interceptar respuesta binaria xlsx en la navegación
+              if not dl_path:
+                  try:
+                      print("Intento 3: interceptar respuesta xlsx...")
+                      captured_bytes = []
+
+                      def on_response(resp):
+                          try:
+                              ct = resp.headers.get("content-type", "")
+                              if "spreadsheet" in ct or "excel" in ct or "octet-stream" in ct:
+                                  body = resp.body()
+                                  if len(body) > 1000:
+                                      captured_bytes.append(body)
+                                      print(f"  -> xlsx capturado ({len(body)} bytes)")
+                          except Exception:
+                              pass
+
+                      page3 = context.new_page()
+                      page3.on("response", on_response)
+                      page3.goto(URL, wait_until="networkidle", timeout=60000)
+
+                      if captured_bytes:
+                          with open(EXCEL, "wb") as f:
+                              f.write(captured_bytes[-1])
+                          dl_path = EXCEL
+                          print(f"  -> OK: {dl_path}")
+                  except Exception as e:
+                      print(f"  -> fallo: {e}")
+
+              browser.close()
+
+          if not dl_path:
+              print("ERROR: no se pudo descargar el Excel de SharePoint")
+              sys.exit(1)
+
+          if dl_path != EXCEL:
+              shutil.copy(dl_path, EXCEL)
+          print(f"Excel guardado: {EXCEL}")
 
           # ── Leer hoja BASE_RSUM ──────────────────────────────────────
           print(f"Leyendo hoja '{HOJA}'...")
