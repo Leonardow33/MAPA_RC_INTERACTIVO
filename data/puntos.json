@@ -15,12 +15,12 @@
         "responsable": "LOTOBOLA",
         "frecuencia": "LUNES-MARTES-MIÉRCOLES-JUEVES-VIERNES-SÁBADO",
         "dias": [
-            "JUEVES",
+            "LUNES",
             "MIÉRCOLES",
+            "JUEVES",
             "MARTES",
             "SÁBADO",
-            "VIERNES",
-            "LUNES"
+            "VIERNES"
         ],
         "direccion": "Av. Santo Toribio 143, San Isidro 15073",
         "distrito": "SAN ISIDRO",
@@ -123,8 +123,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "direccion": "AV. NARANJAL 1425 MZA. I-2 LOTE. 10 (1ER PISO) LIMA-LIMA-LOS OLIVOS",
         "distrito": "LOS OLIVOS",
@@ -149,8 +149,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "direccion": "AV. CARRETERA CENTRAL MZA. C LOTE. 18 URB PORVENIR DE VITARTE LIMA-LIMA-ATE",
         "distrito": "ATE",
@@ -201,8 +201,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "direccion": "AV. SAENZ PEÑA NRO. 799 CALLAO-CALLAO-CALLAO",
         "distrito": "CALLAO",
@@ -253,8 +253,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "direccion": "CAL. LEONCIO PRADO NRO. 892 LIMA-LIMA-MAGDALENA DEL MAR",
         "distrito": "MAGDALENA DEL MAR",
@@ -304,8 +304,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "direccion": "JR. CAMANÁ NRO. 596 LIMA-LIMA-LIMA",
         "distrito": "LIMA",
@@ -408,8 +408,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "direccion": "AV. GRAN CHIMU NRO. 344 (MZ. O-1 LT. 9) LIMA - LIMA - SAN JUAN DE LURIGANCHO",
         "distrito": "SAN JUAN DE LURIGANCHO",
@@ -434,8 +434,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "direccion": "AV. ALFREDO BENAVIDES NRO. 3882 INT. 1 URB. CHAMA LIMA-LIMA-SANTIAGO DE SURCO",
         "distrito": "SANTIAGO DE SURCO",
@@ -486,8 +486,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "direccion": "AV. PACHACUTEC NRO 2301 P.J.1ER HOGAR POLICIAL(ZONA1. MZ.A1 LTE.1) LIMA-LIMA-VILLA MARIA DEL TRIUNFO",
         "distrito": "VILLA MARIA DEL TRIUNFO",
@@ -512,8 +512,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "direccion": "AV. RIVAGUERO 674 LOTE. 35 P.J. PRO VIVIENDA EL AGUSTINO (SUB MANZANA L ) LIMA-LIMA-EL AGUSTINO",
         "distrito": "EL AGUSTINO",
@@ -564,8 +564,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "direccion": "AV. SANTIAGO ANTUNEZ DE MAYOL MZA. S LOTE. 15 URB. LOS PINARES LIMA-LIMA-LOS OLIVOS",
         "distrito": "LOS OLIVOS",
@@ -694,8 +694,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "direccion": "AV. SUCRE NRO. 1183 LIMA-LIMA-PUEBLO LIBRE",
         "distrito": "PUEBLO LIBRE",
@@ -798,8 +798,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "direccion": "AV. VARA DE ORO NRO. 240 LIMA-LIMA-SAN JUAN DE LURIGANCHO",
         "distrito": "SAN JUAN DE LURIGANCHO",
@@ -1134,8 +1134,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "direccion": "Av. REYNALDO SAAVEDRA PIÑON NRO. 2501 URB. ELIO LIMA-LIMA-LIMA",
         "distrito": "LIMA",
@@ -1237,8 +1237,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "direccion": "JR. CALLAO NRO. 115 LIMA-LIMA-LIMA",
         "distrito": "LIMA",
@@ -1419,8 +1419,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "direccion": "AV. RAFAEL ESCARDO NRO. 654 INT. 3 URB. MARANGA (TIENDA NRO. 3)LIMA-LIMA-SAN MIGUEL",
         "distrito": "SAN MIGUEL",
@@ -1471,8 +1471,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "direccion": "AV. JOSE C.MARIATEGUI NRO 1995 (LTE 4 MZA. A) URB. ASOCIACION PRO VIVIENDA STA ROSA LIMA-LIMA-ATE",
         "distrito": "ATE",
@@ -1523,8 +1523,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "direccion": "AV. ALFREDO BENAVIDES NRO. 720 LIMA-LIMA-MIRAFLORES",
         "distrito": "MIRAFLORES",
@@ -1575,8 +1575,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "direccion": "AV. BOLIVAR N°1402-1410 LIMA-LIMA-PUEBLO LIBRE",
         "distrito": "PUEBLO LIBRE",
@@ -1601,8 +1601,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "direccion": "AV. LA MARINA NRO. 3289 LIMA-LIMA-SAN MIGUEL",
         "distrito": "SAN MIGUEL",
@@ -1757,8 +1757,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "direccion": "AV. VILLA MARINA 110 CHORRILLOS (AV. DEFENSOR DEL MORRO (HUAYLAS)) LIMA-LIMA-CHORRILLOS",
         "distrito": "CHORRILLOS",
@@ -1783,8 +1783,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "direccion": "AV. GERMAN AMEZAGA 374 URB. OSCAR R BENAVIDES (AV.UNIVERSITARIA 1418) LIMA-LIMA-LIMA",
         "distrito": "LIMA",
@@ -1913,8 +1913,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "direccion": "AV. ERNESTO DIEZ CANSECO NRO 351 LIMA-LIMA-MIRAFLORES",
         "distrito": "MIRAFLORES",
@@ -1991,8 +1991,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "direccion": "AV. MRCAL CASTILLA 152 164 172 ESQ CON REPUBLICA DE PANAMA LIMA-LIMA-SANTIAGO DE SURCO",
         "distrito": "SANTIAGO DE SURCO",
@@ -2095,8 +2095,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "direccion": "AV.C MAZ.N-6 LOTE 3 URB. LOS CEDROS DE VILLA - LIMA-LIMA-CHORRILOS",
         "distrito": "CHORRILLOS",
@@ -2121,8 +2121,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "direccion": "AV. COLONIAL N° 2398 (GRIFOSA) LIMA-LIMA-LIMA",
         "distrito": "LIMA",
@@ -2199,8 +2199,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "direccion": "AV. ROOSEVELT 6396 ESQ CON CL MIOTA 593 LIMA-LIMA-MIRAFLORES",
         "distrito": "MIRAFLORES",
@@ -2277,8 +2277,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "direccion": "AV. PALERMO 501-505 LIMA-LIMA-LA VICTORIA",
         "distrito": "LA VICTORIA",
@@ -2303,8 +2303,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "direccion": "AV. 28 DE JULIO 448 LIMA-LIMA-MIRAFLORES",
         "distrito": "MIRAFLORES",
@@ -2329,8 +2329,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "direccion": "URBANIZACIÓN CAJA DE AGUA PARCELA 4 MZ J LTE 1 (AV. PROCERES 190) LIMA-LIMA-SAN JUAN DE LURIGANCHO",
         "distrito": "SAN JUAN DE LURIGANCHO",
@@ -2407,8 +2407,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "direccion": "AV. AGUSTIN DE LA ROSA TORO NRO. 1013 URB. VILLA JARDIN LIMA-LIMA-SAN LUIS",
         "distrito": "SAN LUIS",
@@ -2511,8 +2511,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "direccion": "CALLE SHELL NRO 332 - LIMA-LIMA-MIRAFLORES",
         "distrito": "MIRAFLORES",
@@ -2537,8 +2537,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "direccion": "JIRON MORELLI NRO 225 - INT 05 (PRIMER PISO) LIMA-LIMA-SAN BORJA",
         "distrito": "SAN BORJA",
@@ -2667,8 +2667,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "direccion": "AV. JAVIER PRADO ESTE MZA. J-3 LOTE. 17 (ESQ CALLE LEONARDO DA VINCI) LIMA-LIMA-SAN BORJA",
         "distrito": "SAN BORJA",
@@ -2797,8 +2797,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "direccion": "AV. PIRAMIDE DEL SOL NRO. 405 LIMA-LIMA-SAN JUAN DE LURIGANCHO",
         "distrito": "SAN JUAN DE LURIGANCHO",
@@ -2927,8 +2927,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "direccion": "JR. UCAYALI NRO. 320 LIMA-LIMA-LIMA",
         "distrito": "LIMA",
@@ -3109,8 +3109,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "direccion": "MZA J LOTE 21 URB VILLA DEL NORTE (AV. RIO MARAÑON CDRA 6) LIMA-LIMA-LOS OLIVOS",
         "distrito": "LOS OLIVOS",
@@ -3135,8 +3135,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "direccion": "MZA E2 LOTE 09 URB SAN JUAN DE MIRAFLORES (AV. MIGUEL IGLESIAS) LIMA-LIMA-SAN JUAN DE MIRAFLORES",
         "distrito": "SAN JUAN DE MIRAFLORES",
@@ -3213,8 +3213,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "direccion": "AV. CARLOS VILLARÁN NRO 261 LIMA-LIMA-LA VICTORIA",
         "distrito": "LA VICTORIA",
@@ -3239,8 +3239,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "direccion": "AV. NICOLAS ARRIOLA NRO 397 LIMA-LIMA-LA VICTORIA",
         "distrito": "LA VICTORIA",
@@ -3421,8 +3421,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "direccion": "MZA M LOTE 39 URB MONTERRICO SUR SEGUNDA ETAPA (AV. CAMINOS DEL INCA 2519) LIMA-LIMA-SANTIAGO SURCO",
         "distrito": "SANTIAGO DE SURCO",
@@ -3472,8 +3472,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "direccion": "AV. RAFAEL ESCARDO N° 115 URB. MARANGA LIMA-LIMA-SAN MIGUEL",
         "distrito": "SAN MIGUEL",
@@ -3601,8 +3601,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "direccion": "JR. HARAVICU NRO 376 URB. ZARATE SECTOR C LIMA-LIMA-SAN JUAN DE LURIGANCHO",
         "distrito": "SAN JUAN DE LURIGANCHO",
@@ -3679,8 +3679,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "direccion": "MZA T LOTE 25 URB MANGOMARCA (JR TEMPLO ASPERO) LIMA-LIMA-SAN JUAN DE LURIGANCHO",
         "distrito": "SAN JUAN DE LURIGANCHO",
@@ -3705,8 +3705,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "direccion": "CALLE BOLIVAR NRO 850 INT 107 LIMA-LIMA-PUEBLO LIBRE",
         "distrito": "PUEBLO LIBRE",
@@ -3783,8 +3783,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "direccion": "CALLE PARQUE CIVICO NRO 255 C.P. SANTA CLARA LIMA-LIMA-ATE",
         "distrito": "ATE",
@@ -3835,8 +3835,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "direccion": "AV. SAN JUAN NRO. 928 URB. SAN JUAN DE MIRAFLORES LIMA-LIMA-SAN JUAN DE MIRAFLORES",
         "distrito": "SAN JUAN DE MIRAFLORES",
@@ -4095,8 +4095,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "direccion": "AV. CANADA NRO 1471 LIMA-LIMA-LA VICTORIA",
         "distrito": "LA VICTORIA",
@@ -4173,8 +4173,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "direccion": "AV. ARGENTINA NRO. 3093 INT. P03 (C.C. MINKA) CALLAO-CALLAO-CALLAO",
         "distrito": "CALLAO",
@@ -4199,8 +4199,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "direccion": "CAL. COLINA 1050V INT 4-A CALLAO-CALLAO-BELLAVISTA",
         "distrito": "CALLAO",
@@ -4277,8 +4277,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "direccion": "AV. UNIVERSITARIA NRO. 2033 URB. PANDO VIII ETAPA LIMA-LIMA-SAN MIGUEL",
         "distrito": "SAN MIGUEL",
@@ -4329,8 +4329,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "direccion": "AV. LIMA 701 ESQ. ALAMEDA JULIO C. TELLO LIMA-LIMA-SAN MIGUEL",
         "distrito": "SAN MIGUEL",
@@ -4407,8 +4407,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "direccion": "LTE 28 DE LA MZA D-3, FRENTE A LA AV.A, URB LOS CEDROS DE VILLA II, SECTOR DE LA 3ERA ETAPA LIMA-LIMA-CHORRILLOS",
         "distrito": "CHORRILLOS",
@@ -4589,8 +4589,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "direccion": "AV MARIANO CORNEJO 2002",
         "distrito": "LIMA",
@@ -4615,8 +4615,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "direccion": "LOMA REDONDA 420 URB PROLONGACION BENAVIDES UNIDAD INMOBILIARIA #2 TDA 2",
         "distrito": "SANTIAGO DE SURCO",
@@ -4719,8 +4719,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "direccion": "AV BRASIL 3238- 3242",
         "distrito": "MAGDALENA DEL MAR",
@@ -4797,8 +4797,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "direccion": "AV. MARISCAL RAMON CASTILLA NRO. 1150 URB. LA TALANA (MARISCAL RAMON CASTILLA 1150 1152)",
         "distrito": "SANTIAGO DE SURCO",
@@ -4901,8 +4901,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "direccion": "AV ALEJANDRO VELASCO ASTETE 2701 MZ B2 LT 49A URB PROLONGACIÓN BENAVIDES SURCO",
         "distrito": "SANTIAGO DE SURCO",
@@ -5005,8 +5005,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "direccion": "MZA. B4 LOTE. 7 URB. CIUDAD DEL PESCADOR PROV. CONST. DEL CALLAO",
         "distrito": "BELLAVISTA",
@@ -5213,8 +5213,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "direccion": "AV NICOLAS DE PIEROLA 806 LIMA",
         "distrito": "LIMA",
@@ -5395,8 +5395,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "direccion": "AV. JAVIER PRADO NRO. 8703 URB. LOS PORTALES DE JAVIER PRADO (MZ J1 LOTE 50)",
         "distrito": "ATE",
@@ -5421,8 +5421,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "direccion": "MZA. A LOTE. 2 URB. ASOCIACIÓN DE VIVIENDA ALAMEDA SUR DE VILLA CHORRILLOS DE LOS TRABAJADORES DEL SECTOR EDUCACIÓN",
         "distrito": "CHORRILLOS",
@@ -5447,8 +5447,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "direccion": "AV. LA MARINA NRO. 2997 URB. MARANGA",
         "distrito": "SAN MIGUEL",
@@ -5783,8 +5783,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "direccion": "AV. GUILLERMO BILLINGHURTS NRO. 773 LIMA - LIMA - SAN JUAN DE MIRAFLORES",
         "distrito": "SAN JUAN DE MIRAFLORES",
@@ -5861,8 +5861,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "direccion": "PRO.SEÑOR DE LOS MILAGROS MZA. Ñ LOTE. 15 URB. PROG.VIV. SEÑOR DE LOS MILAGROS (PROG.VI SEÑOR DE LOS MILAGROS LOS OLIVOS) LIMA - LIMA - SAN MARTIN DE PORRES",
         "distrito": "SAN MARTIN DE PORRES",
@@ -5964,8 +5964,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "direccion": "AV. SALVADOR ALLENDE NRO. 150 LIMA - LIMA - VILLA MARIA DEL TRIUNFO",
         "distrito": "VILLA MARIA DEL TRIUNFO",
@@ -5990,8 +5990,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "direccion": "AV. JOSE DE LA RIVA AGUERO NRO. 1470 URB. POPULAR EL AGUSTINO LIMA - LIMA - EL AGUSTINO",
         "distrito": "EL AGUSTINO",
@@ -6093,8 +6093,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "direccion": "AV. AYACUCHO NRO. 1355 URB. LIGURIA LIMA - LIMA - SANTIAGO DE SURCO",
         "distrito": "SANTIAGO DE SURCO",
@@ -6145,8 +6145,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "direccion": "AV. GUARDIA CIVIL NRO. 110 URB. PARCELACION SEMI RUSTICA LA CAMPIÑA",
         "distrito": "CHORRILLOS",
@@ -6508,8 +6508,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "direccion": "AV. GRAU 1620, ESQUINA CON JUAN FANNING - BARRANCO",
         "distrito": "BARRANCO",
@@ -6534,8 +6534,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "direccion": "AV. SAN LUIS NRO. 971 URB. LAS MORAS LIMA - LIMA - SAN LUIS",
         "distrito": "SAN LUIS",
@@ -6612,8 +6612,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "direccion": "AV. EL SOL 1197 URB LA CAMPIÑA CHORRILLOS",
         "distrito": "CHORRILLOS",
@@ -6664,8 +6664,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "direccion": "AV. JOSE ANTONIO DE SUCRE NRO. 629 INT. 06 LIMA - LIMA - PUEBLO LIBRE (MAGDALENA VIEJA)",
         "distrito": "PUEBLO LIBRE",
@@ -6741,8 +6741,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "direccion": "AVENIDA MARISCAL SUCRE (EX INDEPENDENCIA ) NUM. 1099 MAGDALENA DEL MAR",
         "distrito": "MAGDALENA DEL MAR",
@@ -6767,8 +6767,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "direccion": "AV. LIMA MZA. FIV4 LOTE. 96 URB. CAJA DE AGUA (AV LIMA 298 296 CAJA AGUA SJL)",
         "distrito": "SAN JUAN DE LURIGANCHO",
@@ -6896,8 +6896,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "direccion": "AV. COSTANERA NRO. 1070 INT. 1 LIMA - LIMA - SAN MIGUEL-",
         "distrito": "SAN MIGUEL",
@@ -7025,8 +7025,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "direccion": "AV. LA MARINA MZA. F LOTE. 7 URB. BENJAMIN DOIG (AV LA MARINA MZ F LT 07) LA PERLA",
         "distrito": "CALLAO",
@@ -7178,8 +7178,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "direccion": "AV. PARQUE DE LAS LEYENDAS NRO. 252 URB. PANDO (REF LOCAL COMERCIAL 6) LIMA - LIMA - SAN MIGUEL",
         "distrito": "SAN MIGUEL",
@@ -7307,8 +7307,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "direccion": "AV. AYACUCHO NRO. 1020 URB. LOS ROSALES II ETAPA LIMA - LIMA - SANTIAGO DE SURCO",
         "distrito": "SANTIAGO DE SURCO",
@@ -7385,8 +7385,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "direccion": "AV. CANAVAL Y MOREYRA NRO. 341 URB. SANTA ANA LIMA - LIMA - SAN ISIDRO",
         "distrito": "SAN ISIDRO",
@@ -7437,8 +7437,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "direccion": "CAL.PASEO DE LA CASTELLANA NRO. 113 RES. LA CASTELLANA (N 117)",
         "distrito": "SANTIAGO DE SURCO",
@@ -7591,8 +7591,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "direccion": "AV. ENRIQUE CANAVAL Y MOREYRA NRO. 139 LIMA - LIMA - SAN ISIDRO",
         "distrito": "SAN ISIDRO",
@@ -7643,8 +7643,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "direccion": "AV. CANADA NRO. 878 (878 - 882) LIMA - LIMA - LA VICTORIA",
         "distrito": "LA VICTORIA",
@@ -7669,8 +7669,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "direccion": "AV. AGUSTIN DE LA ROSA TORO NRO. 431 LIMA - LIMA - SAN LUIS",
         "distrito": "SAN LUIS",
@@ -7721,8 +7721,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "direccion": "AV. SIMON BOLIVAR NRO. 1171 URB. SAN BERNARDO LIMA - LIMA - PUEBLO LIBRE",
         "distrito": "PUEBLO LIBRE",
@@ -7902,8 +7902,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "direccion": "AV. ANTUNEZ DE MAYOLO MZA. A LOTE. 2 URB. RESIDENCIAL COMERCIAL LOS OLIVOS LIMA - LIMA - LOS OLIVOS",
         "distrito": "LOS OLIVOS",
@@ -7954,8 +7954,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "direccion": "AV. SANTA ROSA NRO. 515 (LC 1 MZ A LT 03 STRIP) PROV. CONST. DEL CALLAO - PROV. CONST. DEL CALLAO - CALLAO",
         "distrito": "CALLAO",
@@ -7980,8 +7980,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "direccion": "MZA. H1 LOTE. 19 COOP. LOS JAZMINES DEL NARANJAL LIMA - LIMA - LOS OLIVOS",
         "distrito": "SAN MARTIN DE PORRES",
@@ -8108,8 +8108,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "direccion": "AV. 28 DE JULIO NRO. 620 LIMA - LIMA - MIRAFLORES",
         "distrito": "MIRAFLORES",
@@ -8160,8 +8160,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "direccion": "MZA. B LOTE. 16 MAVIL DE NARANJAL (PROG. VIV. MAVIL DE NARANJAL) SAN MARTIN DE PORRES",
         "distrito": "SAN MARTIN DE PORRES",
@@ -8238,8 +8238,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "direccion": "AV. UNIVERSITARIA NRO. 1915 (1913A 1915A) LIMA - LIMA - SAN MARTIN DE PORRES",
         "distrito": "SAN MARTIN DE PORRES",
@@ -8341,8 +8341,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "direccion": "AV. DEFENSORES LIMA NRO. 314 URB. PAMPLONA BAJA (MZ. G1 LT.2) - LIMA - LIMA - SAN JUAN DE MIRAFLORES",
         "distrito": "SAN JUAN DE MIRAFLORES",
@@ -8573,8 +8573,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "direccion": "MZA. R LOTE. 20 URB. VIRGEN DEL ROSARIO 1ERA ETAPA LIMA - LIMA - SAN MARTIN DE PORRES",
         "distrito": "SAN MARTIN DE PORRES",
@@ -8625,8 +8625,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "direccion": "AV. NICOLAS DE PIEROLA NRO. 1179 CERCADO DE LIMA LIMA - LIMA - LIMA",
         "distrito": "LIMA",
@@ -8703,8 +8703,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "direccion": "AV. VILLA MARIA NRO. 447 ASC. VILLA MARIA TFO PRIMER HOGAR POLICIAL -CENTRAL UNIFICADA (NRO. 447-451 MZ G4 SUB LOTE 8-A)",
         "distrito": "VILLA MARIA DEL TRIUNFO",
@@ -8883,8 +8883,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "direccion": "AV.AVIACIÓN N° 2415, MZ. I3, LOTE 08 SAN BORJA",
         "distrito": "SAN BORJA",
@@ -8960,8 +8960,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "direccion": "AV. GRAN CHIMU 546 URB. ZARATE - SAN JUAN DE LURIGANCHO",
         "distrito": "SAN JUAN DE LURIGANCHO",
@@ -9011,8 +9011,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "direccion": "AV. GUARDIA CIVIL MZ. M LT. 16 SUB LOTE 16B LOCAL COMER. 02 URB. PARCELACION SEMI RUSTICA LA CAMPIÑA CHORRILLOS",
         "distrito": "CHORRILLOS",
@@ -9089,8 +9089,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "direccion": "JIRON UCELLO 102 URB. CORPAC 1ERA ZONA DISTRITO DE SAN BORJA",
         "distrito": "SAN BORJA",
@@ -9140,8 +9140,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "direccion": "AVENIDA REPUBLICA DE PANAMA 326 LOCAL COMERCIAL 02 URB. FUNDO TEJADA BARRANCO",
         "distrito": "BARRANCO",
@@ -9397,8 +9397,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "direccion": "AV ERNESTO DIEZ CANSECO 164 - 168 MIRAFLORES",
         "distrito": "MIRAFLORES",
@@ -9449,8 +9449,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-MIÉRCOLES-VIERNES",
         "dias": [
-            "VIERNES",
             "LUNES",
+            "VIERNES",
             "MIÉRCOLES"
         ],
         "direccion": "AV. PANAMERICANA 639  LS- 35  MALL AVENTURA  CHICLAYO",
@@ -9502,8 +9502,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "direccion": "AV. ALMIRANTE  MIGUEL GRAU  1210,BARRANCO",
         "distrito": "BARRANCO",
@@ -9655,8 +9655,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "direccion": "AV SURCO 580-590 - SANTIAGO DE SURCO",
         "distrito": "SANTIAGO DE SURCO",
@@ -9707,8 +9707,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "direccion": "AVENIDA RICARDO RIVERA NAVARRETE 595 LOCAL COMERCIAL 1 - SAN ISIDRO",
         "distrito": "SAN ISIDRO",
@@ -9888,8 +9888,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "direccion": "AV. ALAMEDA SUR MZ. B, LOTE 01, TDA. 01, DISTRITO DE CHORRILLOS",
         "distrito": "CHORRILLOS",
@@ -9914,8 +9914,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "direccion": "JR.SIMON SALGUERO 480 SURCO",
         "distrito": "SANTIAGO DE SURCO",
@@ -9965,8 +9965,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "direccion": "AV. CONTRALMIRANTE MORA N° 791 PUERTA 7 BASE NAVAL CALLAO",
         "distrito": "CALLAO",
@@ -10274,8 +10274,8 @@
         "responsable": "TAMBO",
         "frecuencia": "JUEVES-SÁBADO",
         "dias": [
-            "JUEVES",
-            "SÁBADO"
+            "SÁBADO",
+            "JUEVES"
         ],
         "direccion": "CALLE FRANCISCO BOLOGNESI N° 588, URB. CERCADO, DISTRITO Y PROVINCIA DE TRUJILLO, DEPARTAMENTO DE LA LIBERTAD",
         "distrito": "TRUJILLO",
@@ -10351,8 +10351,8 @@
         "frecuencia": "MARTES-JUEVES-SÁBADO",
         "dias": [
             "MARTES",
-            "JUEVES",
-            "SÁBADO"
+            "SÁBADO",
+            "JUEVES"
         ],
         "direccion": "AV. SÁNCHEZ CERRO N° 1136 MZ. G LOTE 13A PISO 1, URB. CLUB GRAU, DISTRITO, PROVINCIA Y DEPARTAMENTO DE PIURA",
         "distrito": "PIURA",
@@ -10403,8 +10403,8 @@
         "responsable": "TAMBO",
         "frecuencia": "JUEVES-SÁBADO",
         "dias": [
-            "JUEVES",
-            "SÁBADO"
+            "SÁBADO",
+            "JUEVES"
         ],
         "direccion": "JR. DE ALMAGRO DIEGO N° 500, 516, 518, URB. CERCADO, DISTRITO Y PROVINCIA DE TRUJILLO, DEPARTAMENTO DE LA LIBERTAD",
         "distrito": "TRUJILLO",
@@ -10429,8 +10429,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-MIÉRCOLES-VIERNES",
         "dias": [
-            "VIERNES",
             "LUNES",
+            "VIERNES",
             "MIÉRCOLES"
         ],
         "direccion": "AV. GUARDIA CIVIL 100 MZ. B LT. 07, URB. MIRAFLORES 1 ETAPA DISTRITO CASTILLA PROVINCIA Y DEPARTAMENTO DE PIURA",
@@ -10457,8 +10457,8 @@
         "frecuencia": "MARTES-JUEVES-SÁBADO",
         "dias": [
             "MARTES",
-            "JUEVES",
-            "SÁBADO"
+            "SÁBADO",
+            "JUEVES"
         ],
         "direccion": "EX FUNDO LA PROVIDENCIA TT-CALL. DON MANUEL NORTE A 05 PIURA",
         "distrito": "PIURA",
@@ -10509,8 +10509,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "direccion": "LOTE 1, SUB LOTE 1, DE LA MANZANA T, URBANIZACIÓN CAMPOY, SEGUNDA ETAPA, URBANIZACIÓN CAMPOY",
         "distrito": "SAN JUAN DE LURIGANCHO",
@@ -10587,8 +10587,8 @@
         "frecuencia": "MARTES-JUEVES-SÁBADO",
         "dias": [
             "MARTES",
-            "JUEVES",
-            "SÁBADO"
+            "SÁBADO",
+            "JUEVES"
         ],
         "direccion": "CALLE LA FLORIDA N° 448, URBANIZACIÓN SANTA VICTORIA, DISTRITO Y PROVINCIA DE CHICLAYO",
         "distrito": "CHICLAYO",
@@ -10614,8 +10614,8 @@
         "frecuencia": "MARTES-JUEVES-SÁBADO",
         "dias": [
             "MARTES",
-            "JUEVES",
-            "SÁBADO"
+            "SÁBADO",
+            "JUEVES"
         ],
         "direccion": "CALLE ELIAS AGUIRRE 0394 ( 388- 396 ) MZ 134 LT 30 NUM 388 -396 DISTRITO DE CHICLAYO -",
         "distrito": "CHICLAYO",
@@ -10666,8 +10666,8 @@
         "responsable": "TAMBO",
         "frecuencia": "JUEVES-SÁBADO",
         "dias": [
-            "JUEVES",
-            "SÁBADO"
+            "SÁBADO",
+            "JUEVES"
         ],
         "direccion": "AV VERA ENRIQUEZ MANUEL 471 , URB. LAS QUINTANAS, DISTRITO Y PROVINCIA DE TRUJILLO",
         "distrito": "TRUJILLO",
@@ -10717,8 +10717,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "direccion": "AV. JOSE CARLOS MARIATEGUI NRO. 2595 MZA. H , URB. HUANCAYO I ETAPA - EL AGUSTINO",
         "distrito": "EL AGUSTINO",
@@ -10743,8 +10743,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-MIÉRCOLES-VIERNES",
         "dias": [
-            "VIERNES",
             "LUNES",
+            "VIERNES",
             "MIÉRCOLES"
         ],
         "direccion": "AVENIDA RAMÓN CASTILLA N° 601 MZ. A LT. 1, CERCADO LAMBAYEQUE, DISTRITO, PROVINCIA Y DEPARTAMENTO DE LAMBAYEQUE.",
@@ -10795,8 +10795,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-MIÉRCOLES-VIERNES",
         "dias": [
-            "VIERNES",
             "LUNES",
+            "VIERNES",
             "MIÉRCOLES"
         ],
         "direccion": "CALLE JUAN XXIII N° 370, MZ. 77, LT. 9D, CERCADO DE LAMBAYEQUE",
@@ -10873,8 +10873,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-MIÉRCOLES-VIERNES",
         "dias": [
-            "VIERNES",
             "LUNES",
+            "VIERNES",
             "MIÉRCOLES"
         ],
         "direccion": "SOL DE ICA MZ E LT O1 URB. SOL DE ICA",
@@ -10978,8 +10978,8 @@
         "frecuencia": "MARTES-JUEVES-SÁBADO",
         "dias": [
             "MARTES",
-            "JUEVES",
-            "SÁBADO"
+            "SÁBADO",
+            "JUEVES"
         ],
         "direccion": "AV. LUIS GONZALES 1285 LC 102 , CHICLAYO",
         "distrito": "CHICLAYO",
@@ -11056,8 +11056,8 @@
         "frecuencia": "MARTES-JUEVES-SÁBADO",
         "dias": [
             "MARTES",
-            "JUEVES",
-            "SÁBADO"
+            "SÁBADO",
+            "JUEVES"
         ],
         "direccion": "AV. LAS PALMERAS MZ. B, LT. 17C, URB. SAN EDUARDO DISTRITO, PROVINCIA Y DEPARTAMENTO DE PIURA",
         "distrito": "PIURA",
@@ -11107,8 +11107,8 @@
         "responsable": "TAMBO",
         "frecuencia": "JUEVES-SÁBADO",
         "dias": [
-            "JUEVES",
-            "SÁBADO"
+            "SÁBADO",
+            "JUEVES"
         ],
         "direccion": "AV. AMÉRICA SUR N° 2321, URB. SANTA MARÍA I ETAPA, DISTRITO Y PROVINCIA DE TRUJILLO, DEPARTAMENTO DE LA LIBERTAD",
         "distrito": "TRUJILLO",
@@ -11158,8 +11158,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "direccion": "JR. TRUJILLO NUM. 363 RIMAC",
         "distrito": "RIMAC",
@@ -11184,8 +11184,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-MIÉRCOLES-VIERNES",
         "dias": [
-            "VIERNES",
             "LUNES",
+            "VIERNES",
             "MIÉRCOLES"
         ],
         "direccion": "AH PRIMAVERA I ETAPA AV. GUARDIA CIVIL MZ E-1 LT 1 DISTRITO CASTILLA - PIURA",
@@ -11261,8 +11261,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-MIÉRCOLES-VIERNES",
         "dias": [
-            "VIERNES",
             "LUNES",
+            "VIERNES",
             "MIÉRCOLES"
         ],
         "direccion": "MZ B LT 1 URB. MIRAFLORES I ETAPA - DISTRITO CHICLAYO",
@@ -11313,8 +11313,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-MIÉRCOLES-VIERNES",
         "dias": [
-            "VIERNES",
             "LUNES",
+            "VIERNES",
             "MIÉRCOLES"
         ],
         "direccion": "AV. RICHARD CUSHING NÚM. 410 MZ. D, LOTE 10-A, URB. 4 DE ENERO, DISTRITO, PROVINCIA Y DEPARTAMENTO DE PIURA",
@@ -11341,8 +11341,8 @@
         "frecuencia": "MARTES-JUEVES-SÁBADO",
         "dias": [
             "MARTES",
-            "JUEVES",
-            "SÁBADO"
+            "SÁBADO",
+            "JUEVES"
         ],
         "direccion": "CA. 3 MZ. C, LOTE 9 URB. ANGAMOS I ETAPA , DISTRITO, PROVINCIA Y DEPARTAMENTO DE PIURA",
         "distrito": "PIURA",
@@ -11468,8 +11468,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-MIÉRCOLES-VIERNES",
         "dias": [
-            "VIERNES",
             "LUNES",
+            "VIERNES",
             "MIÉRCOLES"
         ],
         "direccion": "AV. GRAU N° 526, MZ. A, LOTE 04, DISTRITO, PROVINCIA Y DEPARTAMENTO DE PIURA",
@@ -11547,8 +11547,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "direccion": "JR.CUZCO 471 -CERCADO DE LIMA",
         "distrito": "LIMA",
@@ -11599,8 +11599,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "direccion": "AV ROBERTO THORNDIKE GALUP N° 1408, CERCADO DE LIMA",
         "distrito": "LIMA",
@@ -11677,8 +11677,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "direccion": "CALLE DIONISIO DERTEANO N° 144- LOCAL 136 DISTRITO DE SAN ISIDRO",
         "distrito": "SAN ISIDRO",
@@ -11729,8 +11729,8 @@
         "responsable": "TAMBO",
         "frecuencia": "JUEVES-SÁBADO",
         "dias": [
-            "JUEVES",
-            "SÁBADO"
+            "SÁBADO",
+            "JUEVES"
         ],
         "direccion": "JIRÓN ATAHUALPA N° 416, URB. SEC. CHICAGO, DISTRITO Y PROVINCIA DE TRUJILLO, DEPARTAMENTO DE LA LIBERTAD",
         "distrito": "TRUJILLO",
@@ -11807,8 +11807,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "direccion": "AV. GUARDIA CIVIL MZ K-01 LT 01-A URB PARCELACION SEMI RUSTICA LA CAMPIÑA CHORRILLOS",
         "distrito": "CHORRILLOS",
@@ -11911,8 +11911,8 @@
         "responsable": "TAMBO",
         "frecuencia": "JUEVES-SÁBADO",
         "dias": [
-            "JUEVES",
-            "SÁBADO"
+            "SÁBADO",
+            "JUEVES"
         ],
         "direccion": "JR. FRANCISCO PIZARRO N° 898, DISTRITO Y PROVINCIA DE TRUJILLO, DEPARTAMENTO DE LA LIBERTAD",
         "distrito": "TRUJILLO",
@@ -11937,8 +11937,8 @@
         "responsable": "TAMBO",
         "frecuencia": "JUEVES-SÁBADO",
         "dias": [
-            "JUEVES",
-            "SÁBADO"
+            "SÁBADO",
+            "JUEVES"
         ],
         "direccion": "CALLE PEDRO MUÑIZ N° 253, SEC. MANSICHE, DISTRITO Y PROVINCIA DE TRUJILLO, DEPARTAMENTO DE LA LIBERTAD",
         "distrito": "TRUJILLO",
@@ -12014,8 +12014,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-MARTES-MIÉRCOLES",
         "dias": [
-            "MARTES",
             "LUNES",
+            "MARTES",
             "MIÉRCOLES"
         ],
         "direccion": "CALLE HUANUCO N° 183 / 301 CERCADO DE ICA",
@@ -12118,8 +12118,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "direccion": "AV. ALEJANDRO BERTELLO 606 CERCADO",
         "distrito": "LIMA",
@@ -12144,8 +12144,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "direccion": "JR. HUALLAGA 487 CERCADO DE LIMA",
         "distrito": "LIMA",
@@ -12171,8 +12171,8 @@
         "frecuencia": "MARTES-JUEVES-SÁBADO",
         "dias": [
             "MARTES",
-            "JUEVES",
-            "SÁBADO"
+            "SÁBADO",
+            "JUEVES"
         ],
         "direccion": "CALLE SAN JOSÉ N° 857, DISTRITO Y PROVINCIA DE CHICLAYO, DEPARTAMENTO DE LAMBAYEQUE",
         "distrito": "CHICLAYO",
@@ -12405,8 +12405,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "direccion": "AV. ALAMEDA LOS CEDROS N° 686-688, URB. LOS CEDROS DE VILLA, MZ. A-08, LT. 47, URB. LOS CEDROS DE VILLA, CHORRILLOS",
         "distrito": "CHORRILLOS",
@@ -12431,8 +12431,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "direccion": "Av. Rivera Navarrete, Ricardo 0580 Tienda, “D” distrito de San Isidro,",
         "distrito": "SAN ISIDRO",
@@ -12483,8 +12483,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "direccion": "AV. UNIVERSITARIA NORTE MZ. R, LOTE 38 AAHH LOS JAZMINES DEL NARANJAL, DISTRITO DE LOS OLIVOS,",
         "distrito": "LOS OLIVOS",
@@ -12534,8 +12534,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "direccion": "AV.ABANCAY 760, CERCADO DE LIMA",
         "distrito": "LIMA",
@@ -12637,8 +12637,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "direccion": "CALLE ECHENIQUE N° 496, MAGDALENA",
         "distrito": "MAGDALENA DEL MAR",
@@ -12715,8 +12715,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "direccion": "MANZANA B-1, LOTE 34, URBANIZACIÓN PROLONGACIÓN BENAVIDES DISTRITO DE SURCO",
         "distrito": "SANTIAGO DE SURCO",
@@ -12741,8 +12741,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-MIÉRCOLES-VIERNES",
         "dias": [
-            "VIERNES",
             "LUNES",
+            "VIERNES",
             "MIÉRCOLES"
         ],
         "direccion": "AV. LORETO N° 509, DISTRITO, PROVINCIA Y DEPARTAMENTO DE PIURA.",
@@ -12924,8 +12924,8 @@
         "responsable": "TAMBO",
         "frecuencia": "JUEVES-SÁBADO",
         "dias": [
-            "JUEVES",
-            "SÁBADO"
+            "SÁBADO",
+            "JUEVES"
         ],
         "direccion": "AV. TÚPAC AMARU N° 577 – 579 - 583, URB. LAS QUINTANAS, DISTRITO Y PROVINCIA DE TRUJILLO, DEPARTAMENTO DE LA LIBERTAD",
         "distrito": "TRUJILLO",
@@ -13002,8 +13002,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-MIÉRCOLES-VIERNES",
         "dias": [
-            "VIERNES",
             "LUNES",
+            "VIERNES",
             "MIÉRCOLES"
         ],
         "direccion": "CARRETERA PIMENTEL-CHICLAYO, MZ. 0654, LT. 01 DPTO., LOTE D SINTIPO SIN NOMBRE 033, DISTRITO Y PROVINCIA DE CHICLAYO, DEPARTAMENTO DE LAMBAYEQUE,",
@@ -13233,8 +13233,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "direccion": "Av. San Juan Nº 601, Mz. B, Lote 15, urbanización Castilla. San Luis",
         "distrito": "SAN LUIS",
@@ -13310,8 +13310,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "direccion": "AV. JOSE CARLOS MARIÁTEGUI Nº 1690, SECTOR VALLECITO BAJO ETAPA TERCERA, MZ. 24, LOTE 3,- VILLA MARIA DEL TRIUNFO",
         "distrito": "VILLA MARIA DEL TRIUNFO",
@@ -13387,8 +13387,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "direccion": "CALLE SAMUEL VELARDE Nº 116-A, MZ. C, LT. 53 SUBLOTE A - AREQUIPA - AREQUIPA",
         "distrito": "AREQUIPA",
@@ -13413,8 +13413,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "direccion": "AV. REPÚBLICA DE PANAMÁ N° 3537 DISTRITO DE SAN ISIDRO",
         "distrito": "SAN ISIDRO",
@@ -13464,8 +13464,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "direccion": "CALLE LA MERCED N° 542 Y 542-A ESQUINA CON LA AV. SALAVERRY N° 231, DISTRITO, PROVINCIA Y DEPARTAMENTO DE AREQUIPA",
         "distrito": "AREQUIPA",
@@ -13491,8 +13491,8 @@
         "frecuencia": "MARTES-JUEVES-SÁBADO",
         "dias": [
             "MARTES",
-            "JUEVES",
-            "SÁBADO"
+            "SÁBADO",
+            "JUEVES"
         ],
         "direccion": "CALLE HIPÓLITO UNANUE N° 409, MZ. D LOTE 5 DISTRITO Y PROVINCIA DE CHICLAYO, DEPARTAMENTO LAMBAYEQUE",
         "distrito": "CHICLAYO",
@@ -13567,8 +13567,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "direccion": "AV PRECURSORES 287 URB MARANGA - SAN MIGUEL",
         "distrito": "SAN MIGUEL",
@@ -13594,8 +13594,8 @@
         "frecuencia": "MARTES-JUEVES-SÁBADO",
         "dias": [
             "MARTES",
-            "JUEVES",
-            "SÁBADO"
+            "SÁBADO",
+            "JUEVES"
         ],
         "direccion": "LUIS GONZALES 0532 INT. 558, DISTRITO Y PROVINCIA DE CHICLAYO, DEPARTAMENTO DE LAMBAYEQUE",
         "distrito": "CHICLAYO",
@@ -13620,8 +13620,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "direccion": "JR. LIBERTAD Nº 701/ 703 MAGDALENA DEL MAR",
         "distrito": "MAGDALENA DEL MAR",
@@ -13775,8 +13775,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "direccion": "AV. CRNL. FRANCISCO BOLOGNESI N° 000 CDRA. 10, DISTRITO DE LA PUNTA CALLAO",
         "distrito": "LA PUNTA",
@@ -13979,8 +13979,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "direccion": "AV. LOS ANDES (A.S.A) N° 511, ALTO SELVA ALEGRE ZONA B, MZ. 03, LOTE 01, DISTRITO ALTO SELVA ALEGRE, Y PROVINCIA DE AREQUIPA",
         "distrito": "AREQUIPA",
@@ -14031,8 +14031,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "direccion": "JR CAMANA 790, CERCADO DE LIMA",
         "distrito": "LIMA",
@@ -14107,8 +14107,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "direccion": "CALLE CONSUELO N° 400  DISTRITO, PROVINCIA Y DEPARTAMENTO DE AREQUIPA",
         "distrito": "AREQUIPA",
@@ -14158,8 +14158,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "direccion": "AV. TACNA Y ARICA 125, DISTRITO DE CERCADO DE AREQUIPA, PROVINCIA Y DEPARTAMENTO DE AREQUIPA",
         "distrito": "AREQUIPA",
@@ -14288,8 +14288,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "direccion": "AV. JAVIER PRADO ESTE NRO. 2750 (MZ. L3 LTE. 14) LIMA - LIMA - SAN BORJA",
         "distrito": "SAN BORJA",
@@ -14314,8 +14314,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "direccion": "AV. MANUEL CIPRIANO DULANTO Nº 1401, DISTRITO DE PUEBLO LIBRE, PROVINCIA Y DEPARTAMENTO DE LIMA,",
         "distrito": "PUEBLO LIBRE",
@@ -14391,8 +14391,8 @@
         "responsable": "TAMBO",
         "frecuencia": "JUEVES-SÁBADO",
         "dias": [
-            "JUEVES",
-            "SÁBADO"
+            "SÁBADO",
+            "JUEVES"
         ],
         "direccion": "AV. AMÉRICA SUR NO 4472 MZ. I LOTE 29 - NO 4478 MZ. I LOTE 30, URB. SAN ANDRÉS, DISTRITO Y PROVINCIA DE TRUJILLO, DEPARTAMENTO DE LA LIBERTAD",
         "distrito": "TRUJILLO",
@@ -14417,8 +14417,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "direccion": "AV. COLONIAL N° 2687-2693, CERCADO DE LIMA",
         "distrito": "LIMA",
@@ -14469,8 +14469,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "direccion": "AVENIDA LATINOAMERICA 657 MZ 60 LT 1 ZONA JOSE CARLOS MARIATEGUI - SECTOR VALLECITO BAJO ETAPA 3ERA- VILLA MARIA DEL TRIUNFO",
         "distrito": "VILLA MARIA DEL TRIUNFO",
@@ -14700,8 +14700,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "direccion": "AV EJERCITO 206A - PUEBLO TRADICIONAL MZ. C LOTE 29, ZONA TRADICIONAL, DISTRITO DE YANAHUARA, PROVINCIA Y DEPARTAMENTO DE AREQUIPA",
         "distrito": "YANAHUARA",
@@ -14803,8 +14803,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-MARTES-MIÉRCOLES",
         "dias": [
-            "MARTES",
             "LUNES",
+            "MARTES",
             "MIÉRCOLES"
         ],
         "direccion": "AV. SAN MARTIN NO 598 MZ. A URB. LA MORALES, DISTRITO, PROVINCIA Y DEPARTAMENTO DE ICA",
@@ -14855,8 +14855,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "direccion": "AV.SAENZ PEÑA 301 - DISTRITO Y PROVINCIA CALLAO",
         "distrito": "CALLAO",
@@ -15112,8 +15112,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "direccion": "AV. CANADA 484-488 LA VICTORIA",
         "distrito": "LA VICTORIA",
@@ -15138,8 +15138,8 @@
         "responsable": "TAMBO",
         "frecuencia": "JUEVES-SÁBADO",
         "dias": [
-            "JUEVES",
-            "SÁBADO"
+            "SÁBADO",
+            "JUEVES"
         ],
         "direccion": "AV. 29 DE DICIEMBRE MZ. B LOTE 07, URB. SANTA OLGA, DISTRITO Y PROVINCIA DE TRUJILLO, DEPARTAMENTO DE LA LIBERTAD",
         "distrito": "TRUJILLO",
@@ -15265,8 +15265,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "direccion": "JR. TOLOMEO Nº 164 URB. PARCELACIÓN SEMI RUSTICA LA CAMPIÑA, DISTRITO DE CHORRILLOS",
         "distrito": "CHORRILLOS",
@@ -15395,8 +15395,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "direccion": "CALLE RIVERO 312-A- 312-B, CERCADO, DISTRITO, PROVINCIA Y DEPARTAMENTO DE AREQUIPA",
         "distrito": "AREQUIPA",
@@ -15549,8 +15549,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "direccion": "AVENIDA LOS PATRIOTAS 394 SAN MIGUEL",
         "distrito": "SAN MIGUEL",
@@ -15601,8 +15601,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-MIÉRCOLES-VIERNES",
         "dias": [
-            "VIERNES",
             "LUNES",
+            "VIERNES",
             "MIÉRCOLES"
         ],
         "direccion": "AV. EL DORADO 01261, MZ. I, LOTE 07 URB. FRANCISCO BOLOGNESI DISTRITO DE JOSE LEONARDO ORTIZ, PROVINCIA DE CHICLAYO, DEPARTAMENTO DE LAMBAYEQUE",
@@ -15706,8 +15706,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "direccion": "JR. SALOOM N° 164 Y JR.SALOOM N° 160,CALLAO - CALLAO",
         "distrito": "CALLAO",
@@ -15757,8 +15757,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "direccion": "AV.SUCRE 404 - AV.SUCRE 406 A ESQ JR.SALAVERRY 192 -JR.SALAVERRY 194 - MAGDALENA",
         "distrito": "MAGDALENA DEL MAR",
@@ -15809,8 +15809,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-MARTES-MIÉRCOLES",
         "dias": [
-            "MARTES",
             "LUNES",
+            "MARTES",
             "MIÉRCOLES"
         ],
         "direccion": "CALLE PIURA Nº 172 -174- CERCADO DE ICA, DISTRITO, PROVINCIA Y DEPARTAMENTO DE ICA,",
@@ -16066,8 +16066,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "direccion": "AV. NARANJAL Nº 1470, MANZANA A3, LOTE 34, URBANIZACIÓN EL PARQUE DEL NARANJAL II ETAPA, DISTRITO DE LOS OLIVOS,",
         "distrito": "LOS OLIVOS",
@@ -16170,8 +16170,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "direccion": "JR ICA N° 240, CERCADO DE LIMA",
         "distrito": "LIMA",
@@ -16710,8 +16710,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-MARTES-MIÉRCOLES",
         "dias": [
-            "MARTES",
             "LUNES",
+            "MARTES",
             "MIÉRCOLES"
         ],
         "direccion": "AV. CUTERVO OESTE Nº 0288, URBANIZACIÓN SAN ISIDRO, CERCADO ICA, PROVINCIA Y DEPARTAMENTO DE ICA",
@@ -17097,8 +17097,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "direccion": "AV JUAN BERTOLOTTO NEGRO N° 720 UNIDAD 2 - LOCAL COMERCIAL PRIMER PISO URB. SAN MIGUEL - SAN MIGUEL",
         "distrito": "SAN MIGUEL",
@@ -17175,8 +17175,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "direccion": "AV. NICOLAS ARRIOLA N°. 1005 URB. TRADICIONES PERUANAS - LA VICTORIA",
         "distrito": "LA VICTORIA",
@@ -17564,8 +17564,8 @@
         "responsable": "AUR BODEGA",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "direccion": "PJ.PUCARA MZ.H1 LT.32 SAN JUAN MASIAS",
         "distrito": "CALLAO",
@@ -17590,8 +17590,8 @@
         "responsable": "AUR BODEGA",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "direccion": "JR NICOLAS DE PIEROLA 901",
         "distrito": "CALLAO",
@@ -17950,8 +17950,8 @@
         "responsable": "AUR BODEGA",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "direccion": "JR. GENERAL BORGONO 392",
         "distrito": "PUEBLO LIBRE",
@@ -17976,8 +17976,8 @@
         "responsable": "AUR BODEGA",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "direccion": "AV ALCIDES CARRIO MZ K LOTE 2 SAM MARTIN DE PORRES",
         "distrito": "SAN MARTIN DE PORRES",
@@ -18002,8 +18002,8 @@
         "responsable": "AUR BODEGA",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "direccion": "AV SANTA ROSA MZ A LOTE 1 RESD LOS EUCALIPTOS SMP",
         "distrito": "SAN MARTIN DE PORRES",
@@ -18028,8 +18028,8 @@
         "responsable": "AUR BODEGA",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "direccion": "JR. MANUEL SEGURA 460 STAND 3",
         "distrito": "LINCE",
@@ -18131,8 +18131,8 @@
         "responsable": "AUR BODEGA",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "direccion": "CALLE LAS HORMIGAS MZ C LT 1",
         "distrito": "LA MOLINA",
@@ -18208,8 +18208,8 @@
         "responsable": "AUR BODEGA",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "direccion": "AV LOS ROSALES MZ E 11 SHANGLILA",
         "distrito": "PUENTE PIEDRA",
@@ -18387,8 +18387,8 @@
         "responsable": "AUR BODEGA",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "direccion": "URB.LOS ROBLES DE SANTA ROSA MZ C LT12",
         "distrito": "SAN MARTIN DE PORRES",
@@ -18543,8 +18543,8 @@
         "responsable": "AUR BODEGA",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "direccion": "AV JOSE SACO ROJAS MZ D LT 28 PRO VIV VILLA HERMOSA",
         "distrito": "CARABAYLLO",
@@ -18595,8 +18595,8 @@
         "responsable": "AUR BODEGA",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "direccion": "AV 25 DE ENERO 190 MZ F LT 28 ASOC JOSE CARLOS MARIATEGUI",
         "distrito": "SAN MARTIN DE PORRES",
@@ -18723,8 +18723,8 @@
         "responsable": "AUR BODEGA",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "direccion": "AVENIDA 26 DE NOVIEMBRE 997 MZ 53 LT 11 NUEVA ESPERANZA",
         "distrito": "VILLA MARIA DEL TRIUNFO",
@@ -18749,8 +18749,8 @@
         "responsable": "AUR BODEGA",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "direccion": "AVENIDA PACHACUTEC 3296",
         "distrito": "VILLA MARIA DEL TRIUNFO",
@@ -18903,8 +18903,8 @@
         "responsable": "AUR BODEGA",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "direccion": "URBANIZACIÓN EL ALAMO CALLE 2 MZ. N LOTE 14",
         "distrito": "CALLAO",
@@ -19266,8 +19266,8 @@
         "responsable": "AUR BODEGA",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "direccion": "JR. AMCASH 1097, 1101",
         "distrito": "LIMA",
@@ -19343,8 +19343,8 @@
         "responsable": "AUR BODEGA",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "direccion": "AV. PACHACUTEC 3203 VILLA MARIA DEL TRIUNFO",
         "distrito": "VILLA MARIA DEL TRIUNFO",
@@ -19369,8 +19369,8 @@
         "responsable": "AUR BODEGA",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "direccion": "MZ F1 LT 7 AA HH CHAVARRIA",
         "distrito": "SAN MARTIN DE PORRES",
@@ -19524,8 +19524,8 @@
         "responsable": "AUR BODEGA",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "direccion": "JR. JULIO C. TELLO 299",
         "distrito": "LOS OLIVOS",
@@ -19576,8 +19576,8 @@
         "responsable": "AUR BODEGA",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "direccion": "MARCADO SANTA LEONOR PUESTO NÃºMERO 50 VILLA EL SALVADOR",
         "distrito": "VILLA EL SALVADOR",
@@ -19781,8 +19781,8 @@
         "responsable": "AUR BODEGA",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "direccion": "JR CHAN CHAN MZ D6 LOTE 09 URB PORTADA DEL SOL DE LA MOLINA",
         "distrito": "LA MOLINA",
@@ -19832,8 +19832,8 @@
         "responsable": "AUR BODEGA",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "direccion": "JR. CUSCO 332",
         "distrito": "LIMA",
@@ -19858,8 +19858,8 @@
         "responsable": "AUR BODEGA",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "direccion": "JR SANTA ROSA (EX JR ANTONIO MIRO QUEZADA) 111 - 135",
         "distrito": "LIMA",
@@ -20163,8 +20163,8 @@
         "responsable": "AUR BODEGA",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "direccion": "MANCO II 810 MARANGA SANMIGUEL",
         "distrito": "SAN MIGUEL",
@@ -20189,8 +20189,8 @@
         "responsable": "AUR BODEGA",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "direccion": "AV. PRIMAVERA MZ. B LT. 3",
         "distrito": "PUENTE PIEDRA",
@@ -20495,8 +20495,8 @@
         "responsable": "MCG BODEGA",
         "frecuencia": "LUNES-MIÉRCOLES-VIERNES",
         "dias": [
-            "VIERNES",
             "LUNES",
+            "VIERNES",
             "MIÉRCOLES"
         ],
         "direccion": "CALLE PARDO MIGUEL 613-BELLAVISTA JAEN",
@@ -20997,12 +20997,12 @@
         "responsable": "JS BODEGA",
         "frecuencia": "LUNES-MARTES-MIÉRCOLES-JUEVES-VIERNES-SÁBADO",
         "dias": [
-            "JUEVES",
+            "LUNES",
             "MIÉRCOLES",
+            "JUEVES",
             "MARTES",
             "SÁBADO",
-            "VIERNES",
-            "LUNES"
+            "VIERNES"
         ],
         "direccion": "AV. HUANCAVELICA #387",
         "distrito": "EL TAMBO",
@@ -21027,12 +21027,12 @@
         "responsable": "JS BODEGA",
         "frecuencia": "LUNES-MARTES-MIÉRCOLES-JUEVES-VIERNES-SÁBADO",
         "dias": [
-            "JUEVES",
+            "LUNES",
             "MIÉRCOLES",
+            "JUEVES",
             "MARTES",
             "SÁBADO",
-            "VIERNES",
-            "LUNES"
+            "VIERNES"
         ],
         "direccion": "AV. TAYLOR 1802",
         "distrito": "HUANCAYO",
@@ -21309,8 +21309,8 @@
         "responsable": "JS BODEGA",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "direccion": "CALLE SAN JUAN DE DIOS No 414",
         "distrito": "AREQUIPA",
@@ -21335,8 +21335,8 @@
         "responsable": "JS BODEGA",
         "frecuencia": "LUNES-MARTES",
         "dias": [
-            "MARTES",
-            "LUNES"
+            "LUNES",
+            "MARTES"
         ],
         "direccion": "CALLE BOLIVAR 404",
         "distrito": "ICA",
@@ -21361,8 +21361,8 @@
         "responsable": "JS BODEGA",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "direccion": "JR INMACULADA 272",
         "distrito": "CALLERIA",
@@ -21569,8 +21569,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-MARTES-MIÉRCOLES",
         "dias": [
-            "MARTES",
             "LUNES",
+            "MARTES",
             "MIÉRCOLES"
         ],
         "direccion": "CALLE AYABACA, MZ. H-4, LT. 12, URB. SAN ISIDRO, DISTRITO, PROVINCIA Y DEPARTAMENTO DE ICA",
@@ -21750,8 +21750,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "direccion": "AV. BENAVIDES N° 3659 - TIENDA F8 -/  3665 -  TIENDA C /  3675 - TIENDA D  - SANTIAGO DE SURCO",
         "distrito": "SANTIAGO DE SURCO",
@@ -21955,8 +21955,8 @@
         "responsable": "TAMBO",
         "frecuencia": "JUEVES-SÁBADO",
         "dias": [
-            "JUEVES",
-            "SÁBADO"
+            "SÁBADO",
+            "JUEVES"
         ],
         "direccion": "AV. MANSICHE Nº 293 – 299, URB. SAN NICOLÁS, DISTRITO Y PROVINCIA DE TRUJILLO, DEPARTAMENTO DE LA LIBERTAD",
         "distrito": "TRUJILLO",
@@ -22058,8 +22058,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "direccion": "AV. GUARDIA PERUANA, URB. PARCELACIÓN LA CAMPIÑA, MZ. G, LT. 22, DISTRITO DE CHORRILLOS",
         "distrito": "CHORRILLOS",
@@ -22187,8 +22187,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "direccion": "AV. JOSÉ ANTONIO DE SUCRE, N° 1398, DISTRITO DE PUEBLO LIBRE",
         "distrito": "PUEBLO LIBRE",
@@ -22366,8 +22366,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "direccion": "AV. ALAMEDA SUR N° 809- MZ. F-06, LT. 34, ALAMEDA SUR N° 813 - MZ. F-06, LT. 35 URB. LOS CEDROS DE VILLA, DISTRITO DE CHORRILLOS",
         "distrito": "CHORRILLOS",
@@ -22495,8 +22495,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "direccion": "AV. LA PAZ NRO 811 / URB. MIRAMAR / LIMA 7 LIMA 7 SAN MIGUEL",
         "distrito": "SAN MIGUEL",
@@ -22673,8 +22673,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "direccion": "JR. FEDERICO GALLESE TARICCHI (ANTES AV. SAN MIGUEL) NRO 930, URB. FUNDO SAN MIGUEL, DISTRITO SAN MIGUEL, PROVINCIA Y DEPARTAMENTO DE LIMA",
         "distrito": "SAN MIGUEL",
@@ -23159,8 +23159,8 @@
         "responsable": "TINBET",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "direccion": "AV. PASEO DE LA REPUBLICA 134",
         "distrito": "LIMA",
@@ -23314,8 +23314,8 @@
         "responsable": "TINBET",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "direccion": "AV. PERU NRO. 3709-A",
         "distrito": "SAN MARTIN DE PORRES",
@@ -23366,8 +23366,8 @@
         "responsable": "TINBET",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "direccion": "AV. HUAMACHUCO NO. 109",
         "distrito": "SAN JUAN DE MIRAFLORES",
@@ -23496,8 +23496,8 @@
         "responsable": "TINBET",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "direccion": "AV. URUGUAY 389-GALERIA PLAZA REAL, INT 23 Y 34",
         "distrito": "LIMA",
@@ -23522,8 +23522,8 @@
         "responsable": "TINBET",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "direccion": "AV. ABANCAY NO. 1054 INT. 95",
         "distrito": "LIMA",
@@ -23650,8 +23650,8 @@
         "responsable": "TINBET",
         "frecuencia": "JUEVES-SÁBADO",
         "dias": [
-            "JUEVES",
-            "SÁBADO"
+            "SÁBADO",
+            "JUEVES"
         ],
         "direccion": "AV. ESPAÑA 1466 CENTRO - TRUJILLO",
         "distrito": "TRUJILLO",
@@ -23702,8 +23702,8 @@
         "responsable": "TINBET",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "direccion": "AV. MARISCAL RAMON CASTILLA NO. 608",
         "distrito": "REQUE",
@@ -23728,8 +23728,8 @@
         "responsable": "TINBET",
         "frecuencia": "LUNES-MIÉRCOLES-VIERNES",
         "dias": [
-            "VIERNES",
             "LUNES",
+            "VIERNES",
             "MIÉRCOLES"
         ],
         "direccion": "AV. PEDRO RUIZ NO. 1060",
@@ -23755,8 +23755,8 @@
         "responsable": "TINBET",
         "frecuencia": "LUNES-MIÉRCOLES-VIERNES",
         "dias": [
-            "VIERNES",
             "LUNES",
+            "VIERNES",
             "MIÉRCOLES"
         ],
         "direccion": "CALLE RICARDO PALMA NO. 1250 PUEBLO JOVEN GARCES",
@@ -23859,8 +23859,8 @@
         "responsable": "TINBET",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "direccion": "AV. MIGUEL GRAU MZ. F INT. 22",
         "distrito": "PUENTE PIEDRA",
@@ -23936,8 +23936,8 @@
         "responsable": "TINBET",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "direccion": "CALLE JUAN PABLO FERNANDINI NO. 893",
         "distrito": "BREÑA",
@@ -24141,8 +24141,8 @@
         "responsable": "TINBET",
         "frecuencia": "LUNES-MIÉRCOLES-VIERNES",
         "dias": [
-            "VIERNES",
             "LUNES",
+            "VIERNES",
             "MIÉRCOLES"
         ],
         "direccion": "AV. LORETO N°1400",
@@ -24246,8 +24246,8 @@
         "frecuencia": "MARTES-JUEVES-SÁBADO",
         "dias": [
             "MARTES",
-            "JUEVES",
-            "SÁBADO"
+            "SÁBADO",
+            "JUEVES"
         ],
         "direccion": "AV. SANCHEZ CERRO NO. SN STAND 17-18",
         "distrito": "PIURA",
@@ -24272,8 +24272,8 @@
         "responsable": "TINBET",
         "frecuencia": "LUNES-MIÉRCOLES-VIERNES",
         "dias": [
-            "VIERNES",
             "LUNES",
+            "VIERNES",
             "MIÉRCOLES"
         ],
         "direccion": "AV. RAMON CASTILLA N° 105 SUB LOTE 2B URB. MIRAFLORES",
@@ -24300,8 +24300,8 @@
         "frecuencia": "MARTES-JUEVES-SÁBADO",
         "dias": [
             "MARTES",
-            "JUEVES",
-            "SÁBADO"
+            "SÁBADO",
+            "JUEVES"
         ],
         "direccion": "MZ. C2 LT. 1 URBANIZACIÓN PUEBLO LIBRE",
         "distrito": "VEINTISEIS DE OCTUBRE",
@@ -24326,8 +24326,8 @@
         "responsable": "TINBET",
         "frecuencia": "JUEVES-LUNES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "direccion": "JR. ALONSO DE ALVARADO #721",
         "distrito": "SAN NICOLAS",
@@ -24353,8 +24353,8 @@
         "frecuencia": "MARTES-JUEVES-SÁBADO",
         "dias": [
             "MARTES",
-            "JUEVES",
-            "SÁBADO"
+            "SÁBADO",
+            "JUEVES"
         ],
         "direccion": "VIRREY TOLEDO 1049 MZ. Ñ LOTE 18",
         "distrito": "JOSE LEONARDO ORTIZ",
@@ -24766,11 +24766,11 @@
         "responsable": "TINBET",
         "frecuencia": "LUNES-JUEVES-MIÉRCOLES-JUEVES-VIERNES-SÁBADO",
         "dias": [
-            "JUEVES",
-            "MIÉRCOLES",
             "LUNES",
-            "VIERNES",
-            "SÁBADO"
+            "MIÉRCOLES",
+            "JUEVES",
+            "SÁBADO",
+            "VIERNES"
         ],
         "direccion": "AV DANIEL ALCIDES CARRION NRO. 1975",
         "distrito": "EL TAMBO",
@@ -24795,11 +24795,11 @@
         "responsable": "TINBET",
         "frecuencia": "LUNES-JUEVES-MIÉRCOLES-JUEVES-VIERNES-SÁBADO",
         "dias": [
-            "JUEVES",
-            "MIÉRCOLES",
             "LUNES",
-            "VIERNES",
-            "SÁBADO"
+            "MIÉRCOLES",
+            "JUEVES",
+            "SÁBADO",
+            "VIERNES"
         ],
         "direccion": "AV. INDEPENDENCIA 495",
         "distrito": "EL TAMBO",
@@ -24824,11 +24824,11 @@
         "responsable": "TINBET",
         "frecuencia": "LUNES-JUEVES-MIÉRCOLES-JUEVES-VIERNES-SÁBADO",
         "dias": [
-            "JUEVES",
-            "MIÉRCOLES",
             "LUNES",
-            "VIERNES",
-            "SÁBADO"
+            "MIÉRCOLES",
+            "JUEVES",
+            "SÁBADO",
+            "VIERNES"
         ],
         "direccion": "AV. MARISCAL CASTILLA N° 4131 ASENTAMIENTO HUMANO LA VICTORIA",
         "distrito": "EL TAMBO",
@@ -24854,8 +24854,8 @@
         "frecuencia": "MARTES-JUEVES-SÁBADO",
         "dias": [
             "MARTES",
-            "JUEVES",
-            "SÁBADO"
+            "SÁBADO",
+            "JUEVES"
         ],
         "direccion": "CALLE MANUEL AREVALO MZ. F LT. 15",
         "distrito": "CHICLAYO",
@@ -24906,8 +24906,8 @@
         "responsable": "TINBET",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "direccion": "AV. EL MURO MZ C1 - LTE 17",
         "distrito": "SAN JUAN DE LURIGANCHO",
@@ -25035,8 +25035,8 @@
         "responsable": "TINBET",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "direccion": "AV. SAENZ PEÑA # 171 MZ. 7 LT. 5 LOTIZACION SAENZ PEÑA",
         "distrito": "CALLERIA",
@@ -25061,8 +25061,8 @@
         "responsable": "TINBET",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "direccion": "AV. SAENZ PEÑA 171 MZ. 7 LT. 5 LOTIZACION SAENZ PEÑA",
         "distrito": "CALLERIA",
@@ -25346,8 +25346,8 @@
         "responsable": "TINBET",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "direccion": "JR. HUASCAR 535",
         "distrito": "CALLERIA",
@@ -25551,8 +25551,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "direccion": "0",
         "distrito": "LA VICTORIA",
@@ -25679,8 +25679,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-MARTES-MIÉRCOLES",
         "dias": [
-            "MARTES",
             "LUNES",
+            "MARTES",
             "MIÉRCOLES"
         ],
         "direccion": "AV. MUNICIPALIDAD Nº 271-279, 1ER PISO Y SÓTANO, CERCADO DE ICA, DISTRITO, PROVINCIA Y DEPARTAMENTO DE ICA",
@@ -26189,8 +26189,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-MIÉRCOLES-VIERNES",
         "dias": [
-            "VIERNES",
             "LUNES",
+            "VIERNES",
             "MIÉRCOLES"
         ],
         "direccion": "CLL SAN MARTIN MZ K-3 LTE 35 CERCADO DE ICA",
@@ -26397,8 +26397,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "direccion": "AV, ELMER FAUCETT 216 - 230 SAN MIGUEL",
         "distrito": "SAN MIGUEL",
@@ -26449,8 +26449,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "direccion": "CALLE GERMAN SCHREIBER # 120 L OCAL COMERCIAL 3 - URBANIZACIÓN SANTA ANA , SAN ISIDRO",
         "distrito": "SAN ISIDRO",
@@ -26500,8 +26500,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "direccion": "JR, TÚPAC AMARU Nº 116, MZ, F4, LOTE 16, PP JJ JOSÉ CARLOS MARIÁTEGUI, SAN JUANITO, DISTRITO DE SAN JUAN DE MIRAFLORES, PROVINCIA Y DEPARTAMENTO DE LIMA,",
         "distrito": "SAN JUAN DE MIRAFLORES",
@@ -26577,8 +26577,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "direccion": "AV,JAVIER PRADO ESTE 1095, LA VICTORIA",
         "distrito": "LA VICTORIA",
@@ -26679,8 +26679,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "direccion": "AV JOSE OLAYA N° 485 MZ, 157 LT 16 - PUEBLO JOVEN JOSE CARLOS MARIATEGUI SECTOR VALLECITO ALTO ETAPA QUINTA - VILLA MARIA DEL TRIUNFO",
         "distrito": "VILLA MARIA DEL TRIUNFO",
@@ -26757,8 +26757,8 @@
         "responsable": "TINBET",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "direccion": "AV. SAENZ PEÑA 169",
         "distrito": "CALLERIA",
@@ -26835,8 +26835,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-MIÉRCOLES-VIERNES",
         "dias": [
-            "VIERNES",
             "LUNES",
+            "VIERNES",
             "MIÉRCOLES"
         ],
         "direccion": "AVENIDA PUMACAHUA N° 110, MZ. U, LOTE 2, URBANIZACIÓN PUEBLO VIEJO/ CERRO COLORADO, PROVINCIA Y DEPARTAMENTO DE AREQUIPA,",
@@ -26862,8 +26862,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-MIÉRCOLES-VIERNES",
         "dias": [
-            "VIERNES",
             "LUNES",
+            "VIERNES",
             "MIÉRCOLES"
         ],
         "direccion": "CALLE MARÍA NIEVES Y BUSTAMANTE N° 100, SUBLOTE 71 B-2 (REF. ESQUINA ERNESTO NOVOA 303, UMACOLLO, DISTRITO, PROVINCIA Y DEPARTAMENTO DE AREQUIPA",
@@ -26889,8 +26889,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "direccion": "AV. VÍCTOR LARCO HERRERA N° 374, DISTRITO VICTOR LARCO HERRERA, PROVINCIA DE TRUJILLO, DEPARTAMENTO LA LIBERTAD",
         "distrito": "VICTOR LARCO HERRERA",
@@ -27142,8 +27142,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "direccion": "AV. TACNA 500 SAN MIGUEL",
         "distrito": "SAN MIGUEL",
@@ -27194,8 +27194,8 @@
         "responsable": "TAMBO",
         "frecuencia": "JUEVES-SÁBADO",
         "dias": [
-            "JUEVES",
-            "SÁBADO"
+            "SÁBADO",
+            "JUEVES"
         ],
         "direccion": "JR. JOSE LUIS DE ORBEGOSO N° 190, CERCADO, TRUJILLO, LA LIBERTAD",
         "distrito": "TRUJILLO",
@@ -27271,8 +27271,8 @@
         "responsable": "TINBET",
         "frecuencia": "JUEVES-LUNES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "direccion": "JR. GRAU 232",
         "distrito": "NUEVA CAJAMARCA",
@@ -27473,8 +27473,8 @@
         "responsable": "TINBET",
         "frecuencia": "JUEVES-LUNES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "direccion": "2 DE MAYO 631 CHACHAPOYAS",
         "distrito": "CHACHAPOYAS",
@@ -27499,8 +27499,8 @@
         "responsable": "TINBET",
         "frecuencia": "JUEVES-LUNES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "direccion": "JR. SALAMANCA 663",
         "distrito": "CHACHAPOYAS",
@@ -27525,8 +27525,8 @@
         "responsable": "APUESTA TOTAL",
         "frecuencia": "LUNES-MIÉRCOLES-VIERNES",
         "dias": [
-            "VIERNES",
             "LUNES",
+            "VIERNES",
             "MIÉRCOLES"
         ],
         "direccion": "Av. Juan Thomis Stack N° 255",
@@ -27553,8 +27553,8 @@
         "frecuencia": "MARTES-JUEVES-SÁBADO",
         "dias": [
             "MARTES",
-            "JUEVES",
-            "SÁBADO"
+            "SÁBADO",
+            "JUEVES"
         ],
         "direccion": "Av. Francisco Bolognesi N° 1197",
         "distrito": "CHICLAYO",
@@ -27579,8 +27579,8 @@
         "responsable": "APUESTA TOTAL",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "direccion": "Jr. Huaraz N° 1613",
         "distrito": "BREÑA",
@@ -27682,8 +27682,8 @@
         "responsable": "APUESTA TOTAL",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "direccion": "CALLE MISIONERO ALVAREZ TIENDA N° 25 CONJUNTO HABITACIONAL CIUDAD SATELITE SANTA ROSA, (CALLE MISIONERO ALVAREZ TIENDA N° 25 CONJUNTO HABITACIONAL CIUDAD SATELITE SANTA ROSA)",
         "distrito": "CALLAO",
@@ -27708,8 +27708,8 @@
         "responsable": "APUESTA TOTAL",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "direccion": "Av. Juan Pablo II N° 348-350, Ciudad del Pescador",
         "distrito": "BELLAVISTA",
@@ -28015,8 +28015,8 @@
         "responsable": "APUESTA TOTAL",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "direccion": "(Dirección Municipal: SV MZ C13 LT 9 PROGRAMA CIUDAD MARISCAL CACERES SECTOR I – 2DA ETAPA",
         "distrito": "SAN JUAN DE LURIGANCHO",
@@ -28118,8 +28118,8 @@
         "frecuencia": "MARTES-JUEVES-SÁBADO",
         "dias": [
             "MARTES",
-            "JUEVES",
-            "SÁBADO"
+            "SÁBADO",
+            "JUEVES"
         ],
         "direccion": "CALLE COIS N°108 - CHICLAYO, LAMBAYEQUE.",
         "distrito": "CHICLAYO",
@@ -28222,8 +28222,8 @@
         "responsable": "LIVESPORT",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "direccion": "AV. SAN MARTIN MZ K LT 25 URB. VALLE DEL SHARON - SAN JUAN DE LURIGANCHO, LIMA.",
         "distrito": "SAN JUAN DE LURIGANCHO",
@@ -28584,8 +28584,8 @@
         "responsable": "LIVESPORT",
         "frecuencia": "JUEVES-LUNES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "direccion": "Av. Jorge Chavez 923 Santiago de surco",
         "distrito": "SANTIAGO DE SURCO",
@@ -28766,8 +28766,8 @@
         "responsable": "LIVESPORT",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "direccion": "Av. Mariátegui Mzna. P, Lote 24",
         "distrito": "SAN JUAN DE LURIGANCHO",
@@ -29025,8 +29025,8 @@
         "responsable": "TINBET",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "direccion": "CALLE CRUZ DE MOTUPE MZ E LT 21",
         "distrito": "PUENTE PIEDRA",
@@ -29178,11 +29178,11 @@
         "responsable": "TINBET",
         "frecuencia": "LUNES-JUEVES-MIÉRCOLES-JUEVES-VIERNES-SÁBADO",
         "dias": [
-            "JUEVES",
-            "MIÉRCOLES",
             "LUNES",
-            "VIERNES",
-            "SÁBADO"
+            "MIÉRCOLES",
+            "JUEVES",
+            "SÁBADO",
+            "VIERNES"
         ],
         "direccion": "PROLONGACIÓN LIMA NO. 593",
         "distrito": "JUNÍN",
@@ -29257,8 +29257,8 @@
         "responsable": "TINBET",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "direccion": "AV. SAN JUAN DE VILCA MZ C LT 18",
         "distrito": "PUENTE PIEDRA",
@@ -29383,8 +29383,8 @@
         "responsable": "TINBET",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "direccion": "AV. AMERICA OESTE N° 691 ESMERALDA",
         "distrito": "LA LIBERTAD",
@@ -29764,8 +29764,8 @@
         "responsable": "TINBET",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "direccion": "JR. ADOLFO MOREY N° 346",
         "distrito": "UCAYALI",
@@ -30591,8 +30591,8 @@
         "responsable": "TINBET",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "direccion": "AV. HABILITACION URBANA MUNICIPAL MZ. C LT. 03",
         "distrito": "UCAYALI",
@@ -30717,8 +30717,8 @@
         "responsable": "TINBET",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "direccion": "JR. CAHUIDE MZ W TL 2",
         "distrito": "UCAYALI",
@@ -31021,11 +31021,11 @@
         "responsable": "TINBET",
         "frecuencia": "LUNES-JUEVES-MIÉRCOLES-JUEVES-VIERNES-SÁBADO",
         "dias": [
-            "JUEVES",
-            "MIÉRCOLES",
             "LUNES",
-            "VIERNES",
-            "SÁBADO"
+            "MIÉRCOLES",
+            "JUEVES",
+            "SÁBADO",
+            "VIERNES"
         ],
         "direccion": "AV JACINTO IBARRA 420",
         "distrito": "JUNÍN",
@@ -31050,11 +31050,11 @@
         "responsable": "TINBET",
         "frecuencia": "LUNES-JUEVES-MIÉRCOLES-JUEVES-VIERNES-SÁBADO",
         "dias": [
-            "JUEVES",
-            "MIÉRCOLES",
             "LUNES",
-            "VIERNES",
-            "SÁBADO"
+            "MIÉRCOLES",
+            "JUEVES",
+            "SÁBADO",
+            "VIERNES"
         ],
         "direccion": "AV. LA ESPERANZA 170 EL TAMBO",
         "distrito": "JUNÍN",
@@ -31408,8 +31408,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "direccion": "AV. LOS HEROES NO. 844 MZ. B1, LT. 5 ZONA D URB. SAN JUAN, DISTRITO DE SAN JUAN DE MIRAFLORES",
         "distrito": "LIMA",
@@ -31460,8 +31460,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "direccion": "AV. JAVIER PRADO ESTE N° 1509 PISO 1 REF. LOC. COMERCIAL 2 - LA VICTORIA",
         "distrito": "LIMA",
@@ -31537,8 +31537,8 @@
         "responsable": "APUESTA TOTAL",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "direccion": "Av. La Marina 2915",
         "distrito": "SAN MIGUEL",
@@ -31563,8 +31563,8 @@
         "responsable": "APUESTA TOTAL",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "direccion": "Agupamiento Mi Peru, Mz G7, Lote 5, Grupo G",
         "distrito": "VENTANILLA",
@@ -31666,8 +31666,8 @@
         "responsable": "APUESTA TOTAL",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "direccion": "Sector 3 Mz H 4 Lote 19 Aahh José Carlos Mariátegui",
         "distrito": "SAN JUAN DE LURIGANCHO",
@@ -31718,8 +31718,8 @@
         "responsable": "APUESTA TOTAL",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "direccion": "Aahh Jose Carlos Mariategui , Av Ampliacion Mz 16 Lote 17",
         "distrito": "SAN JUAN DE LURIGANCHO",
@@ -31744,8 +31744,8 @@
         "responsable": "APUESTA TOTAL",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "direccion": "Pueblo Joven Enrique Montenegro Mz. Z1 Lote 24",
         "distrito": "SAN JUAN DE LURIGANCHO",
@@ -31770,8 +31770,8 @@
         "responsable": "APUESTA TOTAL",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "direccion": "Ciudad Mariscal Cáceres, Sector I, 2Da Etapa, Mz. F3, Lote 30",
         "distrito": "SAN JUAN DE LURIGANCHO",
@@ -31822,8 +31822,8 @@
         "responsable": "APUESTA TOTAL",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "direccion": "Mz C Lote 13 Grupo 3 Motupe Comuna 23",
         "distrito": "SAN JUAN DE LURIGANCHO",
@@ -31874,8 +31874,8 @@
         "responsable": "APUESTA TOTAL",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "direccion": "Av. Reynaldo Saavedra Pinon N° 2685 Urb. Elio",
         "distrito": "LIMA",
@@ -32106,8 +32106,8 @@
         "responsable": "APUESTA TOTAL",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "direccion": "Mz B Lote 38 Asociación De Vivienda Los Libertadores",
         "distrito": "SAN MARTIN DE PORRES",
@@ -32184,8 +32184,8 @@
         "responsable": "APUESTA TOTAL",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "direccion": "Av. Guzmán Blanco N° 201 - 215",
         "distrito": "LIMA",
@@ -32210,8 +32210,8 @@
         "responsable": "APUESTA TOTAL",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "direccion": "Calle Capón",
         "distrito": "LIMA",
@@ -32648,8 +32648,8 @@
         "responsable": "APUESTA TOTAL",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "direccion": "Av Juana De Arco 128 Mz J1 Sub Lote 1 A",
         "distrito": "PUENTE PIEDRA",
@@ -32749,8 +32749,8 @@
         "responsable": "APUESTA TOTAL",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "direccion": "Av. Juan Lecaros N° 350",
         "distrito": "PUENTE PIEDRA",
@@ -33235,8 +33235,8 @@
         "responsable": "APUESTA TOTAL",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "direccion": "Av. Pachacútec N° 3199",
         "distrito": "VILLA MARIA DEL TRIUNFO",
@@ -33261,8 +33261,8 @@
         "responsable": "APUESTA TOTAL",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "direccion": "Av. Mariátegui Nº 565",
         "distrito": "VILLA MARIA DEL TRIUNFO",
@@ -33287,8 +33287,8 @@
         "responsable": "APUESTA TOTAL",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "direccion": "Pueblo Joven Pamplona Alta Mz 4 Lote 22 (Dirección Municipal: Sector Nuevo Horizonte Mz 4 Lt 22 Pamplona Alta Lima)",
         "distrito": "SAN JUAN DE MIRAFLORES",
@@ -33313,8 +33313,8 @@
         "responsable": "APUESTA TOTAL",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "direccion": "Pueblo Joven Pamplona Alta Mz X 10 Lote 11 Sector Leoncio Prado",
         "distrito": "SAN JUAN DE MIRAFLORES",
@@ -33364,8 +33364,8 @@
         "responsable": "APUESTA TOTAL",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "direccion": "Av. Primavera N° 2201 Mz. A2 Lote 14",
         "distrito": "VILLA MARIA DEL TRIUNFO",
@@ -33416,8 +33416,8 @@
         "responsable": "APUESTA TOTAL",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "direccion": "Jr. San Pedro N° 136 Dpto. Mz. 02 Lote 04",
         "distrito": "VILLA MARIA DEL TRIUNFO",
@@ -33467,8 +33467,8 @@
         "responsable": "APUESTA TOTAL",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "direccion": "Av. Villa María 580 -582",
         "distrito": "VILLA MARIA DEL TRIUNFO",
@@ -33493,8 +33493,8 @@
         "responsable": "APUESTA TOTAL",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "direccion": "Aa.Hh. Villa María Del Triunfo Mz H1, Lote 22",
         "distrito": "VILLA MARIA DEL TRIUNFO",
@@ -33700,8 +33700,8 @@
         "responsable": "APUESTA TOTAL",
         "frecuencia": "LUNES-MARTES",
         "dias": [
-            "MARTES",
-            "LUNES"
+            "LUNES",
+            "MARTES"
         ],
         "direccion": "Calle Lima N° 488",
         "distrito": "ICA",
@@ -33776,8 +33776,8 @@
         "responsable": "APUESTA TOTAL",
         "frecuencia": "LUNES-MARTES",
         "dias": [
-            "MARTES",
-            "LUNES"
+            "LUNES",
+            "MARTES"
         ],
         "direccion": "Av. San Martín N° 168",
         "distrito": "ICA",
@@ -34637,8 +34637,8 @@
         "responsable": "APUESTA TOTAL",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "direccion": "Mz E Lote 16 Sub Lote 3 Asociación De Vivienda Camposol (Dirección Municipal: Mz E Lote 16 De Viv Campo Sol - Carapongo)",
         "distrito": "LURIGANCHO",
@@ -34663,8 +34663,8 @@
         "responsable": "APUESTA TOTAL",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "direccion": "Carapongo Lt 39 Lt Matriz Parcela Baja Sta Maria De La Asoc Dignidad Nac. Huachipa",
         "distrito": "LURIGANCHO",
@@ -34689,8 +34689,8 @@
         "responsable": "APUESTA TOTAL",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "direccion": "Av. Julio 15 De Sección 02 Lote 37B - Zona B",
         "distrito": "ATE",
@@ -34767,8 +34767,8 @@
         "responsable": "APUESTA TOTAL",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "direccion": "Mz A Lote 10 Asociación Las Mercedes De Ate, (Dirección Municipal: Ampliaciòn Iii Etapa Mz A Lt 10 Prov Viv Resid Las Mercedes De Ate)",
         "distrito": "ATE",
@@ -34793,8 +34793,8 @@
         "responsable": "APUESTA TOTAL",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "direccion": "Pueblo Joven Especial Huaycan Lote 13 Zona B, Jose Carlos Mariategui, Zona Comercio",
         "distrito": "ATE",
@@ -39495,11 +39495,11 @@
         "responsable": "APUESTA TOTAL",
         "frecuencia": "LUNES-JUEVES-MIÉRCOLES-JUEVES-VIERNES-SÁBADO",
         "dias": [
-            "JUEVES",
-            "MIÉRCOLES",
             "LUNES",
-            "VIERNES",
-            "SÁBADO"
+            "MIÉRCOLES",
+            "JUEVES",
+            "SÁBADO",
+            "VIERNES"
         ],
         "direccion": "Av. Mariscal Castilla N° 1238 – Cercado El Tambo Del Distrito De El Tambo",
         "distrito": "EL TAMBO",
@@ -39574,11 +39574,11 @@
         "responsable": "APUESTA TOTAL",
         "frecuencia": "LUNES-JUEVES-MIÉRCOLES-JUEVES-VIERNES-SÁBADO",
         "dias": [
-            "JUEVES",
-            "MIÉRCOLES",
             "LUNES",
-            "VIERNES",
-            "SÁBADO"
+            "MIÉRCOLES",
+            "JUEVES",
+            "SÁBADO",
+            "VIERNES"
         ],
         "direccion": "Av. Jose Carlos Mariátegui N° 600",
         "distrito": "EL TAMBO",
@@ -40003,8 +40003,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "direccion": "AV. DEL AIRE ° 774-780, MZ. C-8,LT. 7, LA VICTORIA",
         "distrito": "LA VICTORIA",
@@ -40055,8 +40055,8 @@
         "responsable": "TAMBO",
         "frecuencia": "JUEVES-LUNES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "direccion": "JIRÓN BORGOÑO JUSTINIANO 195 DPTO 101 TRUJILLO TRUJILLO LA LIBERTAD",
         "distrito": "TRUJILLO",
@@ -40181,8 +40181,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "direccion": "CALLE LIMA N° 666, CERCADO DE ICA, DISTRITO, PROVINCIA Y DEPARTAMENTO DE ICA",
         "distrito": "ICA",
@@ -40484,8 +40484,8 @@
         "responsable": "LIVESPORT",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "direccion": "Av. Salvador Allende 760 - VMT",
         "distrito": "VILLA MARIA DEL TRIUNFO",
@@ -40562,8 +40562,8 @@
         "responsable": "LIVESPORT",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "direccion": "AAHH Juan Pablo II Mz D2 Lt 05 San Juan de Lurigancho",
         "distrito": "SAN JUAN DE LURIGANCHO",
@@ -40842,8 +40842,8 @@
         "responsable": "TINBET",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "direccion": "AV. TINGO MARIA NO. 1039",
         "distrito": "BREÑA",
@@ -41045,8 +41045,8 @@
         "responsable": "TAMBO",
         "frecuencia": "JUEVES-LUNES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "direccion": "AVENIDA MANUEL VERA ENRÍQUEZ N°690 MZ B1 LOTE 10 - URB PRIMAVERA TRUJILLO",
         "distrito": "TRUJILLO",
@@ -41603,8 +41603,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "direccion": "AV.MEXICO 1298 TDA.2A ESQUINA CON CALLE PARINACOCHAS (PROL) 1506 TDA 2B - LA VICTORIA",
         "distrito": "LA VICTORIA",
@@ -41655,8 +41655,8 @@
         "responsable": "RETABET",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "direccion": "Av. Pachacútec 2986, Villa María del Triunfo 15816",
         "distrito": "VILLA MARIA DEL TRIUNFO",
@@ -43036,8 +43036,8 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "direccion": "AVENIDA AVIACIÓN N° 2379 A MZ. F LT. 20 URB. SAN JUAN MARIAS, DISTRITO DE SAN BORJA",
         "distrito": "SAN BORJA",
@@ -43291,8 +43291,8 @@
         "responsable": "TINBET",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "direccion": "AV. ALEJANDRO O. DEUSTUA NO. 393",
         "distrito": "EL TAMBO",
@@ -43317,8 +43317,8 @@
         "responsable": "TINBET",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "direccion": "PROLONGACIÓN ANGARAES NO. 116",
         "distrito": "HUANCAYO",
@@ -44152,8 +44152,8 @@
         "responsable": "RETABET",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "direccion": "Centro comercial Minka, Av. Argentina N° 3093, Av. Argentina 3093, Callao 07001",
         "distrito": "CALLAO",
@@ -44204,8 +44204,8 @@
         "responsable": "RETABET",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "direccion": "Av Antonio José de Sucre 689, Pueblo Libre 15084",
         "distrito": "PUEBLO LIBRE",
@@ -44360,8 +44360,8 @@
         "responsable": "RETABET",
         "frecuencia": "LUNES-JUEVES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "direccion": "Av. La Estrella 286, Ate 15487",
         "distrito": "ATE",
@@ -44438,8 +44438,8 @@
         "responsable": "RETABET",
         "frecuencia": "JUEVES-LUNES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "direccion": "Av. Santiago de Surco 3115, Santiago de Surco 15038",
         "distrito": "SANTIAGO DE SURCO",
