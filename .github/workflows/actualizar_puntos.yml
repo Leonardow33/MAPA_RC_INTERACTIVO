@@ -163,6 +163,7 @@ jobs:
                       "responsable":  s(row.get("P_RESPONSABLE")),
                       "frecuencia":   s(row.get("FRECUENCIA-NORMAL")),
                       "dias":         dias,
+                      "meta_diaria":  (lambda v: float(v) if v == v and v is not None else None)(pd.to_numeric(row.get("META DIARIA"), errors='coerce')),
                       "direccion":    s(row.get("TdaDireccion")),
                       "distrito":     s(row.get("DISTRITOS")),
                       "gz":           s(row.get("GZ")),

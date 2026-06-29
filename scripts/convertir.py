@@ -58,6 +58,7 @@ for _, row in df.iterrows():
             "responsable": s(row["P_RESPONSABLE"]),
             "frecuencia":  s(row["FRECUENCIA-NORMAL"]),
             "dias":        dias,
+            "meta_diaria": (lambda v: float(v) if v == v and v is not None and str(v).strip() not in ('', 'nan') else None)(pd.to_numeric(row.get("META DIARIA"), errors='coerce')),
             "direccion":   s(row.get("TdaDireccion")),
             "distrito":    s(row.get("DISTRITOS")),
             "gz":          s(row.get("GZ")),
