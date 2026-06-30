@@ -257,6 +257,144 @@
       color: #60A5FA;
     }
     .dl-btn:hover { background: #1D4ED844; }
+
+    /* ── TABS ── */
+    .tab-nav {
+      display: flex;
+      background: var(--surface);
+      border-bottom: 2px solid var(--border);
+      padding: 0 20px;
+    }
+    .tab-btn {
+      padding: 11px 22px;
+      background: none;
+      border: none;
+      border-bottom: 2px solid transparent;
+      color: var(--muted);
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 600;
+      margin-bottom: -2px;
+      transition: color .15s, border-color .15s;
+    }
+    .tab-btn.active { color: var(--accent); border-bottom-color: var(--accent); }
+    .tab-btn:hover:not(.active) { color: var(--text); }
+
+    /* ── PANEL PAGOS ── */
+    .pagos-bar {
+      padding: 14px 20px;
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    .pagos-autocomplete { position: relative; }
+    #pagos-input {
+      width: 340px;
+      background: var(--bg);
+      color: var(--text);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 8px 14px;
+      font-size: 14px;
+      outline: none;
+    }
+    #pagos-input:focus { border-color: var(--accent); }
+    .pagos-dropdown {
+      position: absolute;
+      top: calc(100% + 4px);
+      left: 0;
+      width: 340px;
+      max-height: 280px;
+      overflow-y: auto;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      z-index: 200;
+      box-shadow: 0 8px 24px rgba(0,0,0,.5);
+      display: none;
+    }
+    .pagos-dd-item {
+      padding: 9px 14px;
+      cursor: pointer;
+      font-size: 13px;
+      border-bottom: 1px solid var(--border);
+    }
+    .pagos-dd-item:last-child { border-bottom: none; }
+    .pagos-dd-item:hover, .pagos-dd-item.focused { background: var(--bg); color: var(--accent); }
+    .pagos-result { padding: 20px; }
+    .pagos-store-title {
+      font-size: 18px; font-weight: 700; margin-bottom: 4px;
+    }
+    .pagos-store-sub {
+      font-size: 12px; color: var(--muted); margin-bottom: 16px;
+    }
+    .meses-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+    .mes-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 14px 16px;
+      cursor: pointer;
+      transition: border-color .15s, background .15s;
+    }
+    .mes-card:hover { border-color: var(--accent); }
+    .mes-card.active { border-color: var(--accent); background: rgba(99,102,241,.08); }
+    .mes-card .mc-label { font-size: 11px; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); margin-bottom: 4px; }
+    .mes-card .mc-total { font-size: 24px; font-weight: 700; color: var(--green); font-variant-numeric: tabular-nums; }
+    .mes-card .mc-n { font-size: 12px; color: var(--muted); margin-top: 2px; }
+    .pagos-detail {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      overflow: hidden;
+    }
+    .pagos-detail h3 {
+      padding: 12px 16px;
+      font-size: 14px;
+      border-bottom: 1px solid var(--border);
+      color: var(--muted);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: .05em;
+    }
+    .pagos-detail table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 400px;
+    }
+    .pagos-detail thead th {
+      background: var(--bg);
+      color: var(--muted);
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: .06em;
+      padding: 8px 14px;
+      text-align: left;
+      border-bottom: 1px solid var(--border);
+    }
+    .pagos-detail tbody tr:hover { background: rgba(255,255,255,.03); }
+    .pagos-detail tbody td {
+      padding: 9px 14px;
+      font-size: 13px;
+      border-bottom: 1px solid var(--border);
+    }
+    .pagos-detail tbody tr:last-child td { border-bottom: none; }
+    .pagos-detail .td-monto { font-weight: 700; color: var(--green); font-variant-numeric: tabular-nums; text-align: right; }
+    .pagos-detail .td-total-row td { background: rgba(99,102,241,.07); font-weight: 700; }
+    .pagos-placeholder {
+      text-align: center;
+      padding: 60px 20px;
+      color: var(--muted);
+      font-size: 15px;
+    }
   </style>
   <script src="https://unpkg.com/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
 </head>
@@ -267,6 +405,12 @@
   <span class="updated" id="updated">Cargando...</span>
 </div>
 
+<nav class="tab-nav">
+  <button class="tab-btn active" id="tab-bonos" onclick="setTab('bonos')">📊 Bonos Semana</button>
+  <button class="tab-btn" id="tab-pagos" onclick="setTab('pagos')">💳 Pagos SR</button>
+</nav>
+
+<div id="panel-bonos">
 <div class="stats-bar">
   <div class="stat-card green">
     <span class="stat-val" id="cnt-ganando">—</span>
@@ -339,6 +483,20 @@
     </thead>
     <tbody id="tbody"></tbody>
   </table>
+</div>
+</div><!-- /panel-bonos -->
+
+<div id="panel-pagos" style="display:none">
+  <div class="pagos-bar">
+    <div class="pagos-autocomplete">
+      <input type="search" id="pagos-input" placeholder="🔍 Buscar tienda Tambo..." autocomplete="off"/>
+      <div class="pagos-dropdown" id="pagos-dropdown"></div>
+    </div>
+    <span id="pagos-stat" style="color:var(--muted);font-size:13px"></span>
+  </div>
+  <div class="pagos-result" id="pagos-result">
+    <div class="pagos-placeholder">Busca una tienda para ver su historial de pagos SR</div>
+  </div>
 </div>
 
 <script>
@@ -872,6 +1030,167 @@
   });
 
   init();
+
+  // ════════════════════════════════════════════════════════════════
+  // TAB SWITCHING
+  // ════════════════════════════════════════════════════════════════
+  function setTab(name) {
+    document.getElementById('panel-bonos').style.display = name === 'bonos' ? '' : 'none';
+    document.getElementById('panel-pagos').style.display = name === 'pagos' ? '' : 'none';
+    document.getElementById('tab-bonos').classList.toggle('active', name === 'bonos');
+    document.getElementById('tab-pagos').classList.toggle('active', name === 'pagos');
+    if (name === 'pagos' && !window.PAGOS_DATA) initPagos();
+  }
+
+  // ════════════════════════════════════════════════════════════════
+  // PAGOS SR
+  // ════════════════════════════════════════════════════════════════
+  let PAGOS_DATA        = null;
+  let pagosTiendaActual = null;
+  let pagosMesActivo    = null;
+  let ddFocused         = -1;
+  let ddItems           = [];
+
+  async function initPagos() {
+    try {
+      const r = await fetch('data/pagos_sr.json?t=' + Date.now());
+      if (!r.ok) throw new Error(r.status);
+      window.PAGOS_DATA = await r.json();
+      const n = window.PAGOS_DATA.tiendas_lista.length;
+      document.getElementById('pagos-stat').textContent = `${n} tiendas en historial`;
+      bindPagosSearch();
+    } catch(e) {
+      document.getElementById('pagos-result').innerHTML =
+        `<div class="pagos-placeholder" style="color:var(--red)">Error al cargar datos: ${e.message}</div>`;
+    }
+  }
+
+  function bindPagosSearch() {
+    const inp = document.getElementById('pagos-input');
+    const dd  = document.getElementById('pagos-dropdown');
+
+    inp.addEventListener('input', () => {
+      const q = inp.value.trim().toUpperCase();
+      if (!q || q.length < 2) { dd.style.display = 'none'; return; }
+      const matches = window.PAGOS_DATA.tiendas_lista
+        .filter(t => t.includes(q))
+        .slice(0, 30);
+      if (!matches.length) { dd.style.display = 'none'; return; }
+      ddItems = matches;
+      ddFocused = -1;
+      dd.innerHTML = matches.map((t, i) =>
+        `<div class="pagos-dd-item" data-idx="${i}">${t}</div>`
+      ).join('');
+      dd.style.display = 'block';
+      dd.querySelectorAll('.pagos-dd-item').forEach(el => {
+        el.addEventListener('mousedown', () => selectPagosTienda(el.textContent));
+      });
+    });
+
+    inp.addEventListener('keydown', e => {
+      if (!ddItems.length) return;
+      if (e.key === 'ArrowDown') { ddFocused = Math.min(ddFocused + 1, ddItems.length - 1); updateDDFocus(); e.preventDefault(); }
+      if (e.key === 'ArrowUp')   { ddFocused = Math.max(ddFocused - 1, 0); updateDDFocus(); e.preventDefault(); }
+      if (e.key === 'Enter' && ddFocused >= 0) { selectPagosTienda(ddItems[ddFocused]); e.preventDefault(); }
+      if (e.key === 'Escape') { dd.style.display = 'none'; }
+    });
+
+    document.addEventListener('click', e => {
+      if (!inp.contains(e.target) && !dd.contains(e.target)) dd.style.display = 'none';
+    });
+  }
+
+  function updateDDFocus() {
+    document.querySelectorAll('#pagos-dropdown .pagos-dd-item').forEach((el, i) => {
+      el.classList.toggle('focused', i === ddFocused);
+    });
+  }
+
+  function selectPagosTienda(tienda) {
+    const inp = document.getElementById('pagos-input');
+    const dd  = document.getElementById('pagos-dropdown');
+    inp.value = tienda;
+    dd.style.display = 'none';
+    pagosTiendaActual = tienda;
+    pagosMesActivo    = null;
+    renderPagosTienda(tienda);
+  }
+
+  function renderPagosTienda(tienda) {
+    const data    = window.PAGOS_DATA;
+    const meses   = data.meses;
+    const labels  = data.labels;
+    const tData   = data.por_tienda[tienda] || {};
+
+    // total acumulado
+    let totalAcum = 0;
+    meses.forEach(m => { if (tData[m]) totalAcum += tData[m].total; });
+
+    const stat = document.getElementById('pagos-stat');
+    stat.innerHTML = `<strong style="color:var(--text)">${tienda}</strong>&nbsp;&nbsp;
+      <span style="color:var(--green);font-weight:700">S/ ${totalAcum.toFixed(2)}</span>
+      <span style="opacity:.6"> acumulado</span>`;
+
+    // cards de meses
+    const cardsHtml = meses.map(m => {
+      const d = tData[m];
+      if (!d) return `<div class="mes-card" style="opacity:.35;cursor:default">
+        <div class="mc-label">${labels[m]}</div>
+        <div class="mc-total" style="color:var(--muted);font-size:16px">—</div>
+        <div class="mc-n">sin pagos</div>
+      </div>`;
+      const isSel = pagosMesActivo === m;
+      return `<div class="mes-card${isSel ? ' active' : ''}" onclick="toggleMesDetalle('${m}')">
+        <div class="mc-label">${labels[m]}</div>
+        <div class="mc-total">S/ ${d.total.toFixed(2)}</div>
+        <div class="mc-n">${d.n} persona${d.n !== 1 ? 's' : ''}</div>
+      </div>`;
+    }).join('');
+
+    const detailHtml = pagosMesActivo && tData[pagosMesActivo]
+      ? renderMesDetalle(pagosMesActivo, tData[pagosMesActivo], labels[pagosMesActivo])
+      : '';
+
+    document.getElementById('pagos-result').innerHTML = `
+      <div class="pagos-store-title">${tienda}</div>
+      <div class="pagos-store-sub">Total acumulado: <strong style="color:var(--green)">S/ ${totalAcum.toFixed(2)}</strong> · ${Object.keys(tData).length} mes(es) con pagos</div>
+      <div class="meses-grid">${cardsHtml}</div>
+      <div id="pagos-det">${detailHtml}</div>`;
+  }
+
+  function toggleMesDetalle(mes) {
+    pagosMesActivo = pagosMesActivo === mes ? null : mes;
+    renderPagosTienda(pagosTiendaActual);
+    if (pagosMesActivo) {
+      setTimeout(() => document.getElementById('pagos-det')?.scrollIntoView({ behavior: 'smooth', block: 'nearest' }), 50);
+    }
+  }
+
+  function renderMesDetalle(mes, d, label) {
+    const filas = d.personas.map(p => `
+      <tr>
+        <td>${p.nombre || '—'}</td>
+        <td style="color:var(--muted);font-size:12px">${p.dni || '—'}</td>
+        <td class="td-monto">S/ ${p.monto.toFixed(2)}</td>
+      </tr>`).join('');
+
+    return `<div class="pagos-detail">
+      <h3>${label} — ${d.n} persona${d.n !== 1 ? 's' : ''}</h3>
+      <div style="overflow-x:auto">
+        <table>
+          <thead><tr><th>Nombre</th><th>DNI</th><th style="text-align:right">Monto</th></tr></thead>
+          <tbody>
+            ${filas}
+            <tr class="td-total-row">
+              <td colspan="2">Total pagado</td>
+              <td class="td-monto">S/ ${d.total.toFixed(2)}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>`;
+  }
+
 </script>
 </body>
 </html>
