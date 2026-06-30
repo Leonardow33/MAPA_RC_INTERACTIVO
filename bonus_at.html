@@ -8,21 +8,21 @@
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --bg:       #130810;
-      --surf:     #1E0E16;
-      --surf2:    #271419;
-      --border:   #3D1826;
-      --text:     #F9ECF2;
-      --muted:    #9B6078;
-      --dim:      #6A3A4C;
-      --accent:   #FF6B1A;
-      --accent-d: #CC4E0A;
-      --glow:     rgba(255,107,26,.22);
+      --bg:       #0E0808;
+      --surf:     #1D0E0E;
+      --surf2:    #2A1212;
+      --border:   #521A1A;
+      --text:     #FFFFFF;
+      --muted:    #C07878;
+      --dim:      #7A3A3A;
+      --accent:   #E53535;
+      --accent-d: #B91C1C;
+      --glow:     rgba(229,53,53,.3);
       --green:    #10D98A;
       --amber:    #F59E0B;
       --red:      #F04444;
-      --rose:     #F472B6;
-      --rose-soft: rgba(244,114,182,.14);
+      --rose:     #F9A8D4;
+      --rose-soft: rgba(249,168,212,.14);
     }
 
     body {
@@ -131,7 +131,7 @@
       transition: background .12s;
     }
     .ac-item:last-child { border-bottom: none; }
-    .ac-item:hover, .ac-item.focused { background: rgba(255,107,26,.1); }
+    .ac-item:hover, .ac-item.focused { background: rgba(229,53,53,.12); }
     .ac-item .ac-name { font-size: 13px; font-weight: 600; }
     .ac-item .ac-meta { font-size: 11px; color: rgba(244,114,182,.55); }
 
@@ -471,8 +471,8 @@
 
     /* ── NO-META STATE ──────────────────────────────────────── */
     .no-meta-note {
-      background: rgba(255,107,26,.08);
-      border: 1px solid rgba(255,107,26,.25);
+      background: rgba(229,53,53,.08);
+      border: 1px solid rgba(229,53,53,.25);
       border-radius: 12px;
       padding: 12px 14px;
       font-size: 12px;
@@ -697,7 +697,7 @@
     if (pct === null) return { icon:'📊', msg:'Registra tus ventas diariamente', detail:'Tu progreso aparecerá aquí en cuanto haya datos del mes.', bg:'rgba(90,116,153,.12)', clr:'var(--muted)' };
     if (pct >= 110)   return { icon:'🏆', msg:'¡Meta superada! Excelente trabajo', detail:'Estás por encima del objetivo mensual. ¡Sigue así!', bg:'rgba(16,217,138,.12)', clr:'var(--green)' };
     if (pct >= 100)   return { icon:'🎯', msg:'¡Meta cumplida este mes!', detail:'Lograste tu objetivo. Cada venta adicional suma al mes siguiente.', bg:'rgba(16,217,138,.1)', clr:'var(--green)' };
-    if (pct >= 80)    return { icon:'🔥', msg:'Casi llegas — ¡un último empuje!', detail:`Solo te falta el ${Math.round(100-pct)}% para alcanzar la meta mensual.`, bg:'rgba(255,107,26,.1)', clr:'var(--accent)' };
+    if (pct >= 80)    return { icon:'🔥', msg:'Casi llegas — ¡un último empuje!', detail:`Solo te falta el ${Math.round(100-pct)}% para alcanzar la meta mensual.`, bg:'rgba(229,53,53,.12)', clr:'var(--accent)' };
     if (pct >= 60)    return { icon:'💪', msg:'Buen ritmo, mantén el paso', detail:'Vas bien. Enfócate en cerrar cada día con tu meta diaria cubierta.', bg:'rgba(245,158,11,.1)', clr:'var(--amber)' };
     if (pct >= 30)    return { icon:'📈', msg:'Hay margen para mejorar', detail:'Cada venta cuenta. Recuerda atender a todos tus clientes frecuentes.', bg:'rgba(245,158,11,.08)', clr:'var(--amber)' };
     return { icon:'⚡', msg:'¡Arranca con todo!', detail:'El mes es largo. Empieza fuerte y mantén el ritmo desde el primer día.', bg:'rgba(240,68,68,.1)', clr:'var(--red)' };
@@ -838,8 +838,11 @@
     ringEl.style.stroke = col;
     ringEl.style.strokeDashoffset = CIRC * (1 - clamp(pctMes) / 100);
 
-    glowEl.style.setProperty('--glow-color', col.replace('var(--green)', 'rgba(16,217,138,.25)').replace('var(--accent)', 'rgba(255,107,26,.25)').replace('var(--amber)', 'rgba(245,158,11,.2)').replace('var(--red)', 'rgba(240,68,68,.2)').replace('var(--dim)', 'transparent'));
-    glowEl.style.background = col;
+    glowEl.style.background =
+      col === 'var(--green)'  ? 'rgba(16,217,138,.28)'  :
+      col === 'var(--accent)' ? 'rgba(229,53,53,.35)'   :
+      col === 'var(--amber)'  ? 'rgba(245,158,11,.22)'  :
+      col === 'var(--red)'    ? 'rgba(240,68,68,.22)'   : 'transparent';
     requestAnimationFrame(() => { glowEl.style.opacity = '1'; });
 
     document.getElementById('ring-pct').innerHTML =

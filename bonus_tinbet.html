@@ -8,21 +8,21 @@
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --bg:       #130810;
-      --surf:     #1E0E16;
-      --surf2:    #271419;
-      --border:   #3D1826;
-      --text:     #F9ECF2;
-      --muted:    #9B6078;
-      --dim:      #6A3A4C;
-      --accent:   #7C3AED;
-      --accent-d: #5B21B6;
-      --glow:     rgba(124,58,237,.22);
+      --bg:       #070F09;
+      --surf:     #0E1D11;
+      --surf2:    #132817;
+      --border:   #1A5228;
+      --text:     #FFFFFF;
+      --muted:    #70B882;
+      --dim:      #3A7A4E;
+      --accent:   #16A34A;
+      --accent-d: #15803D;
+      --glow:     rgba(22,163,74,.3);
       --green:    #10D98A;
       --amber:    #F59E0B;
       --red:      #F04444;
-      --rose:     #F472B6;
-      --rose-soft: rgba(244,114,182,.14);
+      --rose:     #F9A8D4;
+      --rose-soft: rgba(249,168,212,.14);
     }
 
     body {
@@ -130,7 +130,7 @@
       transition: background .12s;
     }
     .ac-item:last-child { border-bottom: none; }
-    .ac-item:hover { background: rgba(124,58,237,.1); }
+    .ac-item:hover { background: rgba(22,163,74,.12); }
     .ac-item .ac-name { font-size: 13px; font-weight: 600; }
     .ac-item .ac-meta { font-size: 11px; color: rgba(244,114,182,.55); }
 
@@ -352,8 +352,8 @@
     .info-item .ii-v { font-size: 12px; font-weight: 600; }
 
     .no-meta-note {
-      background: rgba(124,58,237,.08);
-      border: 1px solid rgba(124,58,237,.25);
+      background: rgba(22,163,74,.08);
+      border: 1px solid rgba(22,163,74,.25);
       border-radius: 12px;
       padding: 12px 14px;
       font-size: 12px;
@@ -553,7 +553,7 @@
     if (pct === null) return { icon:'📊', msg:'Registra tus ventas diariamente', detail:'Tu progreso aparecerá aquí en cuanto haya datos del mes.', bg:'rgba(90,116,153,.12)', clr:'var(--muted)' };
     if (pct >= 110)   return { icon:'🏆', msg:'¡Meta superada! Excelente trabajo', detail:'Estás por encima del objetivo mensual. ¡Sigue así!', bg:'rgba(16,217,138,.12)', clr:'var(--green)' };
     if (pct >= 100)   return { icon:'🎯', msg:'¡Meta cumplida este mes!', detail:'Lograste tu objetivo. Cada venta adicional suma al mes siguiente.', bg:'rgba(16,217,138,.1)', clr:'var(--green)' };
-    if (pct >= 80)    return { icon:'🔥', msg:'Casi llegas — ¡un último empuje!', detail:`Solo te falta el ${Math.round(100-pct)}% para alcanzar la meta mensual.`, bg:'rgba(124,58,237,.12)', clr:'var(--accent)' };
+    if (pct >= 80)    return { icon:'🔥', msg:'Casi llegas — ¡un último empuje!', detail:`Solo te falta el ${Math.round(100-pct)}% para alcanzar la meta mensual.`, bg:'rgba(22,163,74,.12)', clr:'var(--accent)' };
     if (pct >= 60)    return { icon:'💪', msg:'Buen ritmo, mantén el paso', detail:'Vas bien. Enfócate en cerrar cada día con tu meta diaria cubierta.', bg:'rgba(245,158,11,.1)', clr:'var(--amber)' };
     if (pct >= 30)    return { icon:'📈', msg:'Hay margen para mejorar', detail:'Cada venta cuenta. Recuerda atender a todos tus clientes frecuentes.', bg:'rgba(245,158,11,.08)', clr:'var(--amber)' };
     return { icon:'⚡', msg:'¡Arranca con todo!', detail:'El mes es largo. Empieza fuerte y mantén el ritmo desde el primer día.', bg:'rgba(240,68,68,.1)', clr:'var(--red)' };
@@ -688,7 +688,7 @@
     ringEl.style.strokeDashoffset = CIRC * (1 - clamp(pctMes) / 100);
 
     const glowBg = col === 'var(--green)' ? 'rgba(16,217,138,.25)'
-                 : col === 'var(--accent)' ? 'rgba(124,58,237,.28)'
+                 : col === 'var(--accent)' ? 'rgba(22,163,74,.28)'
                  : col === 'var(--amber)'  ? 'rgba(245,158,11,.2)'
                  : col === 'var(--red)'    ? 'rgba(240,68,68,.2)'
                  : 'transparent';
