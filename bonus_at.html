@@ -8,13 +8,13 @@
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --bg:       #090D18;
-      --surf:     #0F1929;
-      --surf2:    #152035;
-      --border:   #1C2E47;
-      --text:     #EBF0FA;
-      --muted:    #5A7499;
-      --dim:      #3A5070;
+      --bg:       #130810;
+      --surf:     #1E0E16;
+      --surf2:    #271419;
+      --border:   #3D1826;
+      --text:     #F9ECF2;
+      --muted:    #9B6078;
+      --dim:      #6A3A4C;
       --accent:   #FF6B1A;
       --accent-d: #CC4E0A;
       --glow:     rgba(255,107,26,.22);
@@ -22,7 +22,7 @@
       --amber:    #F59E0B;
       --red:      #F04444;
       --rose:     #F472B6;
-      --rose-soft: rgba(244,114,182,.12);
+      --rose-soft: rgba(244,114,182,.14);
     }
 
     body {
@@ -334,6 +334,11 @@
       gap: 6px;
     }
 
+    .period-card--primary {
+      border-color: rgba(244,114,182,.3);
+      background: linear-gradient(135deg, rgba(244,114,182,.08) 0%, var(--surf) 60%);
+    }
+
     .pc-label {
       font-size: 10px;
       font-weight: 700;
@@ -544,7 +549,25 @@
       ⚙️ Meta diaria aún no asignada — mostrando ventas acumuladas
     </div>
 
-    <!-- Hero: monthly ring -->
+    <!-- PRIORIDAD: Hoy + Semana -->
+    <div class="period-grid">
+      <div class="period-card period-card--primary">
+        <div class="pc-label">Hoy</div>
+        <div class="pc-val" id="hoy-val">S/ 0</div>
+        <div class="pc-meta" id="hoy-meta">Meta: —</div>
+        <div class="pbar-track"><div class="pbar-fill" id="hoy-bar"></div></div>
+        <div class="pc-pct" id="hoy-pct">—</div>
+      </div>
+      <div class="period-card period-card--primary">
+        <div class="pc-label">Esta Semana</div>
+        <div class="pc-val" id="sem-val">S/ 0</div>
+        <div class="pc-meta" id="sem-meta">Meta: —</div>
+        <div class="pbar-track"><div class="pbar-fill" id="sem-bar"></div></div>
+        <div class="pc-pct" id="sem-pct">—</div>
+      </div>
+    </div>
+
+    <!-- Progreso mensual -->
     <div class="ring-card" id="ring-card">
       <div class="ring-card-glow" id="ring-glow"></div>
       <div class="ring-period-label">PROGRESO DEL MES</div>
@@ -571,24 +594,6 @@
           <div class="ra-val" id="ra-falta" style="color:var(--muted)">—</div>
           <div class="ra-lbl">Falta</div>
         </div>
-      </div>
-    </div>
-
-    <!-- Period cards: today + week -->
-    <div class="period-grid">
-      <div class="period-card">
-        <div class="pc-label">Hoy</div>
-        <div class="pc-val" id="hoy-val">S/ 0</div>
-        <div class="pc-meta" id="hoy-meta">Meta: —</div>
-        <div class="pbar-track"><div class="pbar-fill" id="hoy-bar"></div></div>
-        <div class="pc-pct" id="hoy-pct">—</div>
-      </div>
-      <div class="period-card">
-        <div class="pc-label">Esta Semana</div>
-        <div class="pc-val" id="sem-val">S/ 0</div>
-        <div class="pc-meta" id="sem-meta">Meta: —</div>
-        <div class="pbar-track"><div class="pbar-fill" id="sem-bar"></div></div>
-        <div class="pc-pct" id="sem-pct">—</div>
       </div>
     </div>
 
@@ -815,10 +820,10 @@
     // Metas
     const dias       = store.dias || [];
     const metaDiaria = hasMeta ? store.meta_diaria : null;
-    const diasSem    = hasMeta ? diasVisitaEnRango(dias, semJue, semMie) : 0;
-    const diasMes    = hasMeta ? diasVisitaEnRango(dias, mesIni, mesFin) : 0;
-    const metaSem    = hasMeta ? metaDiaria * diasSem : null;
-    const metaMes    = hasMeta ? metaDiaria * diasMes : null;
+    const diasCalMes = mesFin.getDate();        // días en el mes actual (30, 31…)
+    const diasCalSem = 7;                       // la semana siempre tiene 7 días
+    const metaSem    = hasMeta ? metaDiaria * diasCalSem : null;
+    const metaMes    = hasMeta ? metaDiaria * diasCalMes : null;
 
     const pctMes     = metaMes  ? Math.round(totMes  / metaMes  * 100) : null;
     const pctSem     = metaSem  ? Math.round(totSem  / metaSem  * 100) : null;
@@ -860,7 +865,7 @@
     const semCol = pctSem !== null ? pctColor(pctSem) : 'var(--dim)';
     document.getElementById('sem-val').textContent  = fmtS(totSem);
     document.getElementById('sem-val').style.color  = semCol;
-    document.getElementById('sem-meta').textContent = metaSem ? 'Meta: ' + fmtS(metaSem) + ' (' + diasSem + ' días)' : 'Sin meta asignada';
+    document.getElementById('sem-meta').textContent = metaSem ? 'Meta: ' + fmtS(metaSem) : 'Sin meta asignada';
     document.getElementById('sem-pct').textContent  = pctSem !== null ? fmtPct(pctSem) : '—';
     document.getElementById('sem-pct').style.color  = semCol;
     setBar(document.getElementById('sem-bar'), pctSem || 0, semCol);
