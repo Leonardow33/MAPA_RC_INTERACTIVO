@@ -15,12 +15,12 @@
         "responsable": "LOTOBOLA",
         "frecuencia": "LUNES-MARTES-MIÉRCOLES-JUEVES-VIERNES-SÁBADO",
         "dias": [
-            "JUEVES",
             "MIÉRCOLES",
+            "VIERNES",
             "MARTES",
             "LUNES",
-            "VIERNES",
-            "SÁBADO"
+            "SÁBADO",
+            "JUEVES"
         ],
         "meta_diaria": null,
         "direccion": "Av. Santo Toribio 143, San Isidro 15073",
@@ -9814,8 +9814,8 @@
         "frecuencia": "LUNES-MIÉRCOLES-VIERNES",
         "dias": [
             "LUNES",
-            "MIÉRCOLES",
-            "VIERNES"
+            "VIERNES",
+            "MIÉRCOLES"
         ],
         "meta_diaria": 20.0,
         "direccion": "AV. PANAMERICANA 639  LS- 35  MALL AVENTURA  CHICLAYO",
@@ -10643,8 +10643,8 @@
         "responsable": "TAMBO",
         "frecuencia": "SÁBADO-MIÉRCOLES",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "meta_diaria": 20.0,
         "direccion": "AV. VÍCTOR RAÚL HAYA DE LA TORRE N° 492, MZ. 14, LT. 5, CHIMBOTE, PROVINCIA DE SANTA Y DEPARTAMENTO DE ANCASH.",
@@ -10670,8 +10670,8 @@
         "responsable": "TAMBO",
         "frecuencia": "JUEVES-SÁBADO",
         "dias": [
-            "JUEVES",
-            "SÁBADO"
+            "SÁBADO",
+            "JUEVES"
         ],
         "meta_diaria": 20.0,
         "direccion": "CALLE FRANCISCO BOLOGNESI N° 588, URB. CERCADO, DISTRITO Y PROVINCIA DE TRUJILLO, DEPARTAMENTO DE LA LIBERTAD",
@@ -10804,8 +10804,8 @@
         "responsable": "TAMBO",
         "frecuencia": "JUEVES-SÁBADO",
         "dias": [
-            "JUEVES",
-            "SÁBADO"
+            "SÁBADO",
+            "JUEVES"
         ],
         "meta_diaria": 20.0,
         "direccion": "JR. DE ALMAGRO DIEGO N° 500, 516, 518, URB. CERCADO, DISTRITO Y PROVINCIA DE TRUJILLO, DEPARTAMENTO DE LA LIBERTAD",
@@ -10832,8 +10832,8 @@
         "frecuencia": "LUNES-MIÉRCOLES-VIERNES",
         "dias": [
             "LUNES",
-            "MIÉRCOLES",
-            "VIERNES"
+            "VIERNES",
+            "MIÉRCOLES"
         ],
         "meta_diaria": 20.0,
         "direccion": "AV. GUARDIA CIVIL 100 MZ. B LT. 07, URB. MIRAFLORES 1 ETAPA DISTRITO CASTILLA PROVINCIA Y DEPARTAMENTO DE PIURA",
@@ -11077,8 +11077,8 @@
         "responsable": "TAMBO",
         "frecuencia": "JUEVES-SÁBADO",
         "dias": [
-            "JUEVES",
-            "SÁBADO"
+            "SÁBADO",
+            "JUEVES"
         ],
         "meta_diaria": 20.0,
         "direccion": "AV VERA ENRIQUEZ MANUEL 471 , URB. LAS QUINTANAS, DISTRITO Y PROVINCIA DE TRUJILLO",
@@ -11158,8 +11158,8 @@
         "frecuencia": "LUNES-MIÉRCOLES-VIERNES",
         "dias": [
             "LUNES",
-            "MIÉRCOLES",
-            "VIERNES"
+            "VIERNES",
+            "MIÉRCOLES"
         ],
         "meta_diaria": 20.0,
         "direccion": "AVENIDA RAMÓN CASTILLA N° 601 MZ. A LT. 1, CERCADO LAMBAYEQUE, DISTRITO, PROVINCIA Y DEPARTAMENTO DE LAMBAYEQUE.",
@@ -11212,8 +11212,8 @@
         "frecuencia": "LUNES-MIÉRCOLES-VIERNES",
         "dias": [
             "LUNES",
-            "MIÉRCOLES",
-            "VIERNES"
+            "VIERNES",
+            "MIÉRCOLES"
         ],
         "meta_diaria": 20.0,
         "direccion": "CALLE JUAN XXIII N° 370, MZ. 77, LT. 9D, CERCADO DE LAMBAYEQUE",
@@ -11293,8 +11293,8 @@
         "frecuencia": "LUNES-MIÉRCOLES-VIERNES",
         "dias": [
             "LUNES",
-            "MIÉRCOLES",
-            "VIERNES"
+            "VIERNES",
+            "MIÉRCOLES"
         ],
         "meta_diaria": 20.0,
         "direccion": "SOL DE ICA MZ E LT O1 URB. SOL DE ICA",
@@ -11535,8 +11535,8 @@
         "responsable": "TAMBO",
         "frecuencia": "JUEVES-SÁBADO",
         "dias": [
-            "JUEVES",
-            "SÁBADO"
+            "SÁBADO",
+            "JUEVES"
         ],
         "meta_diaria": 20.0,
         "direccion": "AV. AMÉRICA SUR N° 2321, URB. SANTA MARÍA I ETAPA, DISTRITO Y PROVINCIA DE TRUJILLO, DEPARTAMENTO DE LA LIBERTAD",
@@ -11616,8 +11616,8 @@
         "frecuencia": "LUNES-MIÉRCOLES-VIERNES",
         "dias": [
             "LUNES",
-            "MIÉRCOLES",
-            "VIERNES"
+            "VIERNES",
+            "MIÉRCOLES"
         ],
         "meta_diaria": 20.0,
         "direccion": "AH PRIMAVERA I ETAPA AV. GUARDIA CIVIL MZ E-1 LT 1 DISTRITO CASTILLA - PIURA",
@@ -11696,8 +11696,8 @@
         "frecuencia": "LUNES-MIÉRCOLES-VIERNES",
         "dias": [
             "LUNES",
-            "MIÉRCOLES",
-            "VIERNES"
+            "VIERNES",
+            "MIÉRCOLES"
         ],
         "meta_diaria": 20.0,
         "direccion": "MZ B LT 1 URB. MIRAFLORES I ETAPA - DISTRITO CHICLAYO",
@@ -11750,8 +11750,8 @@
         "frecuencia": "LUNES-MIÉRCOLES-VIERNES",
         "dias": [
             "LUNES",
-            "MIÉRCOLES",
-            "VIERNES"
+            "VIERNES",
+            "MIÉRCOLES"
         ],
         "meta_diaria": 20.0,
         "direccion": "AV. RICHARD CUSHING NÚM. 410 MZ. D, LOTE 10-A, URB. 4 DE ENERO, DISTRITO, PROVINCIA Y DEPARTAMENTO DE PIURA",
@@ -11911,8 +11911,8 @@
         "frecuencia": "LUNES-MIÉRCOLES-VIERNES",
         "dias": [
             "LUNES",
-            "MIÉRCOLES",
-            "VIERNES"
+            "VIERNES",
+            "MIÉRCOLES"
         ],
         "meta_diaria": 20.0,
         "direccion": "AV. GRAU N° 526, MZ. A, LOTE 04, DISTRITO, PROVINCIA Y DEPARTAMENTO DE PIURA",
@@ -12181,8 +12181,8 @@
         "responsable": "TAMBO",
         "frecuencia": "JUEVES-SÁBADO",
         "dias": [
-            "JUEVES",
-            "SÁBADO"
+            "SÁBADO",
+            "JUEVES"
         ],
         "meta_diaria": 20.0,
         "direccion": "JIRÓN ATAHUALPA N° 416, URB. SEC. CHICAGO, DISTRITO Y PROVINCIA DE TRUJILLO, DEPARTAMENTO DE LA LIBERTAD",
@@ -12370,8 +12370,8 @@
         "responsable": "TAMBO",
         "frecuencia": "JUEVES-SÁBADO",
         "dias": [
-            "JUEVES",
-            "SÁBADO"
+            "SÁBADO",
+            "JUEVES"
         ],
         "meta_diaria": 20.0,
         "direccion": "JR. FRANCISCO PIZARRO N° 898, DISTRITO Y PROVINCIA DE TRUJILLO, DEPARTAMENTO DE LA LIBERTAD",
@@ -12397,8 +12397,8 @@
         "responsable": "TAMBO",
         "frecuencia": "JUEVES-SÁBADO",
         "dias": [
-            "JUEVES",
-            "SÁBADO"
+            "SÁBADO",
+            "JUEVES"
         ],
         "meta_diaria": 20.0,
         "direccion": "CALLE PEDRO MUÑIZ N° 253, SEC. MANSICHE, DISTRITO Y PROVINCIA DE TRUJILLO, DEPARTAMENTO DE LA LIBERTAD",
@@ -13233,8 +13233,8 @@
         "frecuencia": "LUNES-MIÉRCOLES-VIERNES",
         "dias": [
             "LUNES",
-            "MIÉRCOLES",
-            "VIERNES"
+            "VIERNES",
+            "MIÉRCOLES"
         ],
         "meta_diaria": 20.0,
         "direccion": "AV. LORETO N° 509, DISTRITO, PROVINCIA Y DEPARTAMENTO DE PIURA.",
@@ -13260,8 +13260,8 @@
         "responsable": "TAMBO",
         "frecuencia": "SÁBADO-MIÉRCOLES",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "meta_diaria": 50.0,
         "direccion": "AV. COUNTRY  MZ. F, LOTE 58,  URB. BUENOS AIRES ZONA 5A, DISTRITO NUEVO CHIMBOTE, PROVINCIA DE SANTA, DEPARTAMENTO DE ANCASH",
@@ -13422,8 +13422,8 @@
         "responsable": "TAMBO",
         "frecuencia": "JUEVES-SÁBADO",
         "dias": [
-            "JUEVES",
-            "SÁBADO"
+            "SÁBADO",
+            "JUEVES"
         ],
         "meta_diaria": 20.0,
         "direccion": "AV. TÚPAC AMARU N° 577 – 579 - 583, URB. LAS QUINTANAS, DISTRITO Y PROVINCIA DE TRUJILLO, DEPARTAMENTO DE LA LIBERTAD",
@@ -13504,8 +13504,8 @@
         "frecuencia": "LUNES-MIÉRCOLES-VIERNES",
         "dias": [
             "LUNES",
-            "MIÉRCOLES",
-            "VIERNES"
+            "VIERNES",
+            "MIÉRCOLES"
         ],
         "meta_diaria": 20.0,
         "direccion": "CARRETERA PIMENTEL-CHICLAYO, MZ. 0654, LT. 01 DPTO., LOTE D SINTIPO SIN NOMBRE 033, DISTRITO Y PROVINCIA DE CHICLAYO, DEPARTAMENTO DE LAMBAYEQUE,",
@@ -14172,8 +14172,8 @@
         "responsable": "TAMBO",
         "frecuencia": "SÁBADO-MIÉRCOLES",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "meta_diaria": 80.0,
         "direccion": "CALLE MATARA Nº 346, DISTRITO, PROVINCIA Y DEPARTAMENTO DE CUSCO,",
@@ -14439,8 +14439,8 @@
         "responsable": "TAMBO",
         "frecuencia": "SÁBADO-MIÉRCOLES",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "meta_diaria": 20.0,
         "direccion": "AV. MICAELA BASTIDAS N° 0327, DISTRITO DE WANCHAQ, PROVINCIA Y DEPARTAMENTO DE CUSCO",
@@ -14946,8 +14946,8 @@
         "responsable": "TAMBO",
         "frecuencia": "JUEVES-SÁBADO",
         "dias": [
-            "JUEVES",
-            "SÁBADO"
+            "SÁBADO",
+            "JUEVES"
         ],
         "meta_diaria": 20.0,
         "direccion": "AV. AMÉRICA SUR NO 4472 MZ. I LOTE 29 - NO 4478 MZ. I LOTE 30, URB. SAN ANDRÉS, DISTRITO Y PROVINCIA DE TRUJILLO, DEPARTAMENTO DE LA LIBERTAD",
@@ -15722,8 +15722,8 @@
         "responsable": "TAMBO",
         "frecuencia": "JUEVES-SÁBADO",
         "dias": [
-            "JUEVES",
-            "SÁBADO"
+            "SÁBADO",
+            "JUEVES"
         ],
         "meta_diaria": 20.0,
         "direccion": "AV. 29 DE DICIEMBRE MZ. B LOTE 07, URB. SANTA OLGA, DISTRITO Y PROVINCIA DE TRUJILLO, DEPARTAMENTO DE LA LIBERTAD",
@@ -15827,8 +15827,8 @@
         "responsable": "TAMBO",
         "frecuencia": "SÁBADO-MIÉRCOLES",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "meta_diaria": 80.0,
         "direccion": "AV. 3 – CALLE LAS BEGONIAS MZ. A4, LOTE 1A, URBANIZACIÓN ING. LARAPA GRANDE, DISTRITO DE SAN JERONIMO, PROVINCIA Y DEPARTAMENTO DEL CUSCO",
@@ -16204,8 +16204,8 @@
         "frecuencia": "LUNES-MIÉRCOLES-VIERNES",
         "dias": [
             "LUNES",
-            "MIÉRCOLES",
-            "VIERNES"
+            "VIERNES",
+            "MIÉRCOLES"
         ],
         "meta_diaria": 20.0,
         "direccion": "AV. EL DORADO 01261, MZ. I, LOTE 07 URB. FRANCISCO BOLOGNESI DISTRITO DE JOSE LEONARDO ORTIZ, PROVINCIA DE CHICLAYO, DEPARTAMENTO DE LAMBAYEQUE",
@@ -21288,8 +21288,8 @@
         "frecuencia": "LUNES-MIÉRCOLES-VIERNES",
         "dias": [
             "LUNES",
-            "MIÉRCOLES",
-            "VIERNES"
+            "VIERNES",
+            "MIÉRCOLES"
         ],
         "meta_diaria": null,
         "direccion": "CALLE PARDO MIGUEL 613-BELLAVISTA JAEN",
@@ -21809,12 +21809,12 @@
         "responsable": "JS BODEGA",
         "frecuencia": "LUNES-MARTES-MIÉRCOLES-JUEVES-VIERNES-SÁBADO",
         "dias": [
-            "JUEVES",
             "MIÉRCOLES",
+            "VIERNES",
             "MARTES",
             "LUNES",
-            "VIERNES",
-            "SÁBADO"
+            "SÁBADO",
+            "JUEVES"
         ],
         "meta_diaria": null,
         "direccion": "AV. HUANCAVELICA #387",
@@ -21840,12 +21840,12 @@
         "responsable": "JS BODEGA",
         "frecuencia": "LUNES-MARTES-MIÉRCOLES-JUEVES-VIERNES-SÁBADO",
         "dias": [
-            "JUEVES",
             "MIÉRCOLES",
+            "VIERNES",
             "MARTES",
             "LUNES",
-            "VIERNES",
-            "SÁBADO"
+            "SÁBADO",
+            "JUEVES"
         ],
         "meta_diaria": null,
         "direccion": "AV. TAYLOR 1802",
@@ -22750,8 +22750,8 @@
         "responsable": "TAMBO",
         "frecuencia": "SÁBADO-MIÉRCOLES",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "meta_diaria": 20.0,
         "direccion": "JR. JOSÉ BALTA, MZ. 58B, LOTE 53, DISTRITO DE CHIMBOTE, PROVINCIA DE SANTA Y DEPARTAMENTO DE ANCASH",
@@ -22804,8 +22804,8 @@
         "responsable": "TAMBO",
         "frecuencia": "JUEVES-SÁBADO",
         "dias": [
-            "JUEVES",
-            "SÁBADO"
+            "SÁBADO",
+            "JUEVES"
         ],
         "meta_diaria": 20.0,
         "direccion": "AV. MANSICHE Nº 293 – 299, URB. SAN NICOLÁS, DISTRITO Y PROVINCIA DE TRUJILLO, DEPARTAMENTO DE LA LIBERTAD",
@@ -23523,8 +23523,8 @@
         "responsable": "TAMBO",
         "frecuencia": "SÁBADO-MIÉRCOLES",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "meta_diaria": 20.0,
         "direccion": "AV. DE LA CULTURA 1620 DISTRITO WANCHAQ PROVINCIA Y DEPARTAMENTO CUSCO",
@@ -23630,8 +23630,8 @@
         "responsable": "TAMBO",
         "frecuencia": "SÁBADO-MIÉRCOLES",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "meta_diaria": 20.0,
         "direccion": "AV. DE LA CULTURA 722 DISTRITO WANCHAQ PROVINCIA Y DEPARTAMENTO CUSCO",
@@ -24511,8 +24511,8 @@
         "responsable": "TINBET",
         "frecuencia": "SÁBADO-MIÉRCOLES",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "meta_diaria": null,
         "direccion": "JR. MARISCAL CACERES NO. 356",
@@ -24538,8 +24538,8 @@
         "responsable": "TINBET",
         "frecuencia": "SÁBADO-MIÉRCOLES",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "meta_diaria": null,
         "direccion": "AV.CENTENARIO 529",
@@ -24565,8 +24565,8 @@
         "responsable": "TINBET",
         "frecuencia": "JUEVES-SÁBADO",
         "dias": [
-            "JUEVES",
-            "SÁBADO"
+            "SÁBADO",
+            "JUEVES"
         ],
         "meta_diaria": null,
         "direccion": "AV. ESPAÑA 1466 CENTRO - TRUJILLO",
@@ -24647,8 +24647,8 @@
         "frecuencia": "LUNES-MIÉRCOLES-VIERNES",
         "dias": [
             "LUNES",
-            "MIÉRCOLES",
-            "VIERNES"
+            "VIERNES",
+            "MIÉRCOLES"
         ],
         "meta_diaria": null,
         "direccion": "AV. PEDRO RUIZ NO. 1060",
@@ -24675,8 +24675,8 @@
         "frecuencia": "LUNES-MIÉRCOLES-VIERNES",
         "dias": [
             "LUNES",
-            "MIÉRCOLES",
-            "VIERNES"
+            "VIERNES",
+            "MIÉRCOLES"
         ],
         "meta_diaria": null,
         "direccion": "CALLE RICARDO PALMA NO. 1250 PUEBLO JOVEN GARCES",
@@ -24728,8 +24728,8 @@
         "responsable": "TINBET",
         "frecuencia": "SÁBADO-MIÉRCOLES",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "meta_diaria": null,
         "direccion": "AV. NEPEÑA MZ.N2 LT 16",
@@ -24835,8 +24835,8 @@
         "responsable": "TINBET",
         "frecuencia": "SÁBADO-MIÉRCOLES",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "meta_diaria": null,
         "direccion": "AV. SAN MARTIN N°112",
@@ -24915,8 +24915,8 @@
         "responsable": "TINBET",
         "frecuencia": "SÁBADO-MIÉRCOLES",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "meta_diaria": null,
         "direccion": "CALLE ALMIRANTE MIGUEL GRAU N°736",
@@ -24942,8 +24942,8 @@
         "responsable": "TINBET",
         "frecuencia": "SÁBADO-MIÉRCOLES",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "meta_diaria": null,
         "direccion": "AV. ARICA N°317",
@@ -24969,8 +24969,8 @@
         "responsable": "TINBET",
         "frecuencia": "SÁBADO-MIÉRCOLES",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "meta_diaria": null,
         "direccion": "AV. REPUBLICA DEL PERU NO. 308",
@@ -25076,8 +25076,8 @@
         "frecuencia": "LUNES-MIÉRCOLES-VIERNES",
         "dias": [
             "LUNES",
-            "MIÉRCOLES",
-            "VIERNES"
+            "VIERNES",
+            "MIÉRCOLES"
         ],
         "meta_diaria": null,
         "direccion": "AV. LORETO N°1400",
@@ -25212,8 +25212,8 @@
         "frecuencia": "LUNES-MIÉRCOLES-VIERNES",
         "dias": [
             "LUNES",
-            "MIÉRCOLES",
-            "VIERNES"
+            "VIERNES",
+            "MIÉRCOLES"
         ],
         "meta_diaria": null,
         "direccion": "AV. RAMON CASTILLA N° 105 SUB LOTE 2B URB. MIRAFLORES",
@@ -25267,8 +25267,8 @@
         "responsable": "TINBET",
         "frecuencia": "JUEVES-LUNES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "meta_diaria": null,
         "direccion": "JR. ALONSO DE ALVARADO #721",
@@ -25322,8 +25322,8 @@
         "responsable": "TINBET",
         "frecuencia": "SÁBADO-MIÉRCOLES",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "meta_diaria": null,
         "direccion": "CENTRO POBLADO MORO- JR TUPAC AMARU MZ. T LT. 2",
@@ -25349,8 +25349,8 @@
         "responsable": "TINBET",
         "frecuencia": "SÁBADO-MIÉRCOLES",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "meta_diaria": null,
         "direccion": "CALLE ANGAMOS 621",
@@ -25403,8 +25403,8 @@
         "responsable": "TINBET",
         "frecuencia": "SÁBADO-MIÉRCOLES",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "meta_diaria": null,
         "direccion": "CALLE VICTOR SIFUENTES N° 511-A",
@@ -25430,8 +25430,8 @@
         "responsable": "TINBET",
         "frecuencia": "SÁBADO-MIÉRCOLES",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "meta_diaria": null,
         "direccion": "CALLE TENIENTE CESAR LÒPEZ Nº 117",
@@ -25484,8 +25484,8 @@
         "responsable": "TINBET",
         "frecuencia": "SÁBADO-MIÉRCOLES",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "meta_diaria": null,
         "direccion": "CALLE MARISCAL CASTILLA N°312B",
@@ -25537,8 +25537,8 @@
         "responsable": "TINBET",
         "frecuencia": "SÁBADO-MIÉRCOLES",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "meta_diaria": null,
         "direccion": "JR JUAN PRIMO RUIZ 228-B",
@@ -25590,8 +25590,8 @@
         "responsable": "TINBET",
         "frecuencia": "SÁBADO-MIÉRCOLES",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "meta_diaria": null,
         "direccion": "CALLE LA LIBERTAD N° 1107",
@@ -25617,8 +25617,8 @@
         "responsable": "TINBET",
         "frecuencia": "SÁBADO-MIÉRCOLES",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "meta_diaria": null,
         "direccion": "15 DE AGOSTO LOTE A7-6 AA.HH. BUENA VISTA",
@@ -25724,11 +25724,11 @@
         "responsable": "TINBET",
         "frecuencia": "LUNES-JUEVES-MIÉRCOLES-JUEVES-VIERNES-SÁBADO",
         "dias": [
-            "JUEVES",
             "MIÉRCOLES",
-            "LUNES",
             "VIERNES",
-            "SÁBADO"
+            "LUNES",
+            "SÁBADO",
+            "JUEVES"
         ],
         "meta_diaria": null,
         "direccion": "AV DANIEL ALCIDES CARRION NRO. 1975",
@@ -25754,11 +25754,11 @@
         "responsable": "TINBET",
         "frecuencia": "LUNES-JUEVES-MIÉRCOLES-JUEVES-VIERNES-SÁBADO",
         "dias": [
-            "JUEVES",
             "MIÉRCOLES",
-            "LUNES",
             "VIERNES",
-            "SÁBADO"
+            "LUNES",
+            "SÁBADO",
+            "JUEVES"
         ],
         "meta_diaria": null,
         "direccion": "AV. INDEPENDENCIA 495",
@@ -25784,11 +25784,11 @@
         "responsable": "TINBET",
         "frecuencia": "LUNES-JUEVES-MIÉRCOLES-JUEVES-VIERNES-SÁBADO",
         "dias": [
-            "JUEVES",
             "MIÉRCOLES",
-            "LUNES",
             "VIERNES",
-            "SÁBADO"
+            "LUNES",
+            "SÁBADO",
+            "JUEVES"
         ],
         "meta_diaria": null,
         "direccion": "AV. MARISCAL CASTILLA N° 4131 ASENTAMIENTO HUMANO LA VICTORIA",
@@ -26407,8 +26407,8 @@
         "responsable": "TAMBO",
         "frecuencia": "SÁBADO-MIÉRCOLES",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "meta_diaria": 20.0,
         "direccion": "URB. BUENOS AIRES ZONA 3C, MZ. M3, LT. 33, NUEVO CHIMBOTE PROVINCIA DE SANTA DEPARTAMENTO DE ANCASH",
@@ -26726,8 +26726,8 @@
         "responsable": "TAMBO",
         "frecuencia": "SÁBADO-MIÉRCOLES",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "meta_diaria": 20.0,
         "direccion": "0",
@@ -27203,8 +27203,8 @@
         "frecuencia": "LUNES-MIÉRCOLES-VIERNES",
         "dias": [
             "LUNES",
-            "MIÉRCOLES",
-            "VIERNES"
+            "VIERNES",
+            "MIÉRCOLES"
         ],
         "meta_diaria": 20.0,
         "direccion": "CLL SAN MARTIN MZ K-3 LTE 35 CERCADO DE ICA",
@@ -27874,8 +27874,8 @@
         "frecuencia": "LUNES-MIÉRCOLES-VIERNES",
         "dias": [
             "LUNES",
-            "MIÉRCOLES",
-            "VIERNES"
+            "VIERNES",
+            "MIÉRCOLES"
         ],
         "meta_diaria": 20.0,
         "direccion": "AVENIDA PUMACAHUA N° 110, MZ. U, LOTE 2, URBANIZACIÓN PUEBLO VIEJO/ CERRO COLORADO, PROVINCIA Y DEPARTAMENTO DE AREQUIPA,",
@@ -27902,8 +27902,8 @@
         "frecuencia": "LUNES-MIÉRCOLES-VIERNES",
         "dias": [
             "LUNES",
-            "MIÉRCOLES",
-            "VIERNES"
+            "VIERNES",
+            "MIÉRCOLES"
         ],
         "meta_diaria": 20.0,
         "direccion": "CALLE MARÍA NIEVES Y BUSTAMANTE N° 100, SUBLOTE 71 B-2 (REF. ESQUINA ERNESTO NOVOA 303, UMACOLLO, DISTRITO, PROVINCIA Y DEPARTAMENTO DE AREQUIPA",
@@ -28246,8 +28246,8 @@
         "responsable": "TAMBO",
         "frecuencia": "JUEVES-SÁBADO",
         "dias": [
-            "JUEVES",
-            "SÁBADO"
+            "SÁBADO",
+            "JUEVES"
         ],
         "meta_diaria": 20.0,
         "direccion": "JR. JOSE LUIS DE ORBEGOSO N° 190, CERCADO, TRUJILLO, LA LIBERTAD",
@@ -28326,8 +28326,8 @@
         "responsable": "TINBET",
         "frecuencia": "JUEVES-LUNES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "meta_diaria": null,
         "direccion": "JR. GRAU 232",
@@ -28536,8 +28536,8 @@
         "responsable": "TINBET",
         "frecuencia": "JUEVES-LUNES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "meta_diaria": null,
         "direccion": "2 DE MAYO 631 CHACHAPOYAS",
@@ -28563,8 +28563,8 @@
         "responsable": "TINBET",
         "frecuencia": "JUEVES-LUNES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "meta_diaria": null,
         "direccion": "JR. SALAMANCA 663",
@@ -28591,8 +28591,8 @@
         "frecuencia": "LUNES-MIÉRCOLES-VIERNES",
         "dias": [
             "LUNES",
-            "MIÉRCOLES",
-            "VIERNES"
+            "VIERNES",
+            "MIÉRCOLES"
         ],
         "meta_diaria": 33.0,
         "direccion": "Av. Juan Thomis Stack N° 255",
@@ -29690,8 +29690,8 @@
         "responsable": "LIVESPORT",
         "frecuencia": "JUEVES-LUNES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "meta_diaria": null,
         "direccion": "Av. Jorge Chavez 923 Santiago de surco",
@@ -30307,11 +30307,11 @@
         "responsable": "TINBET",
         "frecuencia": "LUNES-JUEVES-MIÉRCOLES-JUEVES-VIERNES-SÁBADO",
         "dias": [
-            "JUEVES",
             "MIÉRCOLES",
-            "LUNES",
             "VIERNES",
-            "SÁBADO"
+            "LUNES",
+            "SÁBADO",
+            "JUEVES"
         ],
         "meta_diaria": null,
         "direccion": "PROLONGACIÓN LIMA NO. 593",
@@ -32223,11 +32223,11 @@
         "responsable": "TINBET",
         "frecuencia": "LUNES-JUEVES-MIÉRCOLES-JUEVES-VIERNES-SÁBADO",
         "dias": [
-            "JUEVES",
             "MIÉRCOLES",
-            "LUNES",
             "VIERNES",
-            "SÁBADO"
+            "LUNES",
+            "SÁBADO",
+            "JUEVES"
         ],
         "meta_diaria": null,
         "direccion": "AV JACINTO IBARRA 420",
@@ -32253,11 +32253,11 @@
         "responsable": "TINBET",
         "frecuencia": "LUNES-JUEVES-MIÉRCOLES-JUEVES-VIERNES-SÁBADO",
         "dias": [
-            "JUEVES",
             "MIÉRCOLES",
-            "LUNES",
             "VIERNES",
-            "SÁBADO"
+            "LUNES",
+            "SÁBADO",
+            "JUEVES"
         ],
         "meta_diaria": null,
         "direccion": "AV. LA ESPERANZA 170 EL TAMBO",
@@ -41032,11 +41032,11 @@
         "responsable": "APUESTA TOTAL",
         "frecuencia": "LUNES-JUEVES-MIÉRCOLES-JUEVES-VIERNES-SÁBADO",
         "dias": [
-            "JUEVES",
             "MIÉRCOLES",
-            "LUNES",
             "VIERNES",
-            "SÁBADO"
+            "LUNES",
+            "SÁBADO",
+            "JUEVES"
         ],
         "meta_diaria": 11.5,
         "direccion": "Av. Mariscal Castilla N° 1238 – Cercado El Tambo Del Distrito De El Tambo",
@@ -41114,11 +41114,11 @@
         "responsable": "APUESTA TOTAL",
         "frecuencia": "LUNES-JUEVES-MIÉRCOLES-JUEVES-VIERNES-SÁBADO",
         "dias": [
-            "JUEVES",
             "MIÉRCOLES",
-            "LUNES",
             "VIERNES",
-            "SÁBADO"
+            "LUNES",
+            "SÁBADO",
+            "JUEVES"
         ],
         "meta_diaria": 16.5,
         "direccion": "Av. Jose Carlos Mariátegui N° 600",
@@ -41614,8 +41614,8 @@
         "responsable": "TAMBO",
         "frecuencia": "JUEVES-LUNES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "meta_diaria": 20.0,
         "direccion": "JIRÓN BORGOÑO JUSTINIANO 195 DPTO 101 TRUJILLO TRUJILLO LA LIBERTAD",
@@ -42643,8 +42643,8 @@
         "responsable": "TAMBO",
         "frecuencia": "JUEVES-LUNES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "meta_diaria": 20.0,
         "direccion": "AVENIDA MANUEL VERA ENRÍQUEZ N°690 MZ B1 LOTE 10 - URB PRIMAVERA TRUJILLO",
@@ -46170,8 +46170,8 @@
         "responsable": "RETABET",
         "frecuencia": "JUEVES-LUNES",
         "dias": [
-            "JUEVES",
-            "LUNES"
+            "LUNES",
+            "JUEVES"
         ],
         "meta_diaria": null,
         "direccion": "Av. Santiago de Surco 3115, Santiago de Surco 15038",
