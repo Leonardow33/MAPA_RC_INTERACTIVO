@@ -1196,6 +1196,71 @@
           "bono_admi": 30
         }
       ]
+    },
+    {
+      "jueves": "2026-06-25",
+      "miercoles": "2026-06-30",
+      "semana": "25 Jun – 30 Jun 2026",
+      "bono_num": 4,
+      "completa": false,
+      "dias_completos": 6,
+      "nota": "Semana incompleta: falta Jul 1 (modelo nuevo)",
+      "total_ganadores": 4,
+      "por_cluster": {
+        "B": 2,
+        "A": 1,
+        "C": 1
+      },
+      "ganadores": [
+        {
+          "id": "442",
+          "nombre": "DIAGONAL",
+          "cluster": "A",
+          "rc": "ESTEFANIA IPENZA",
+          "supervisor": "RODRIGO MARTINEZ",
+          "total": 769.0,
+          "pp": 37.0,
+          "ld": 282.0,
+          "bono_tienda": 100,
+          "bono_admi": 70
+        },
+        {
+          "id": "570",
+          "nombre": "HUANUCO-C1-ICA",
+          "cluster": "B",
+          "rc": "FELIPE MENDOZA",
+          "supervisor": "JENY LAZO",
+          "total": 541.0,
+          "pp": 32.0,
+          "ld": 124.0,
+          "bono_tienda": 70,
+          "bono_admi": 50
+        },
+        {
+          "id": "308",
+          "nombre": "PROCERES-SURCO",
+          "cluster": "B",
+          "rc": "KIARA OSCO",
+          "supervisor": "RODRIGO MARTINEZ",
+          "total": 558.0,
+          "pp": 28.0,
+          "ld": 138.0,
+          "bono_tienda": 70,
+          "bono_admi": 50
+        },
+        {
+          "id": "3066",
+          "nombre": "REPUBLICADECOLOMBIA-C5",
+          "cluster": "C",
+          "rc": "FLOR CHAFLOQUE",
+          "supervisor": "RODRIGO MARTINEZ",
+          "total": 544.0,
+          "pp": 31.0,
+          "ld": 143.0,
+          "bono_tienda": 50,
+          "bono_admi": 40
+        }
+      ]
     }
   ]
 }
