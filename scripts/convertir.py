@@ -6,6 +6,7 @@ from datetime import datetime
 # 📂 Leer Excel (hoja BASE_RSUM del documento fuente)
 _base = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 df = pd.read_excel(os.path.join(_base, "sources", "BASE_PARA MAPAS.xlsx"), sheet_name="BASE_RSUM")
+df.columns = df.columns.str.strip()
 
 data = []
 

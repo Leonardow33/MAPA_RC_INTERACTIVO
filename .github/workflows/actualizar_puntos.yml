@@ -127,7 +127,11 @@ jobs:
           # ── Leer hoja BASE_RSUM ──────────────────────────────────────
           print(f"Leyendo hoja '{HOJA}'...")
           df = pd.read_excel(EXCEL, sheet_name=HOJA)
+          df.columns = df.columns.str.strip()   # quitar espacios en nombres de columna
           print(f"  -> {len(df)} filas")
+          # Debug: columnas que contienen META
+          meta_cols = [c for c in df.columns if 'META' in str(c).upper()]
+          print(f"  -> columnas META encontradas: {meta_cols}")
 
           data = []
 
