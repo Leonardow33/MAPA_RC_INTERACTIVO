@@ -2,294 +2,885 @@
 <html lang="es">
 <head>
   <meta charset="utf-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Ventas Apuesta Total · GeoDor</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1"/>
+  <title>Mi Progreso · Apuesta Total</title>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
     :root {
-      --bg:      #0F172A;
-      --surface: #1E293B;
-      --border:  #334155;
-      --text:    #E2E8F0;
-      --muted:   #94A3B8;
-      --accent:  #F97316;
-      --accent2: #FB923C;
-      --green:   #22C55E;
-      --red:     #EF4444;
-      --blue:    #3B82F6;
+      --bg:       #090D18;
+      --surf:     #0F1929;
+      --surf2:    #152035;
+      --border:   #1C2E47;
+      --text:     #EBF0FA;
+      --muted:    #5A7499;
+      --dim:      #3A5070;
+      --accent:   #FF6B1A;
+      --accent-d: #CC4E0A;
+      --glow:     rgba(255,107,26,.22);
+      --green:    #10D98A;
+      --amber:    #F59E0B;
+      --red:      #F04444;
     }
-    body { background: var(--bg); color: var(--text); font-family: 'Segoe UI', system-ui, sans-serif; font-size: 14px; min-height: 100vh; }
 
-    .header { background: var(--surface); border-bottom: 3px solid var(--accent); padding: 14px 20px; display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
-    .header h1 { font-size: 18px; font-weight: 700; color: #fff; flex: 1; }
-    .header .updated { font-size: 12px; color: var(--muted); }
-    .header .badge { background: var(--accent); color: #fff; font-size: 11px; font-weight: 700; padding: 3px 10px; border-radius: 20px; letter-spacing: .04em; }
-
-    .stats-bar { display: flex; gap: 10px; padding: 14px 20px; flex-wrap: wrap; }
-    .stat-card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 10px 16px; min-width: 110px; }
-    .stat-card .sv { font-size: 22px; font-weight: 700; font-variant-numeric: tabular-nums; }
-    .stat-card .sl { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: .05em; margin-top: 2px; }
-    .stat-card.accent .sv { color: var(--accent); }
-    .stat-card.green  .sv { color: var(--green); }
-    .stat-card.blue   .sv { color: var(--blue); }
-
-    .filtros { display: flex; gap: 8px; padding: 12px 20px; background: var(--surface); border-bottom: 1px solid var(--border); flex-wrap: wrap; align-items: center; }
-    .filtros input, .filtros select {
-      background: var(--bg); color: var(--text); border: 1px solid var(--border);
-      border-radius: 8px; padding: 6px 10px; font-size: 13px; font-family: inherit;
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      font-size: 14px;
+      min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
     }
-    .filtros input { width: 200px; }
-    .filtros select { min-width: 130px; }
-    .filtros input:focus, .filtros select:focus { outline: none; border-color: var(--accent); }
-    .cnt-label { margin-left: auto; font-size: 12px; color: var(--muted); }
 
-    .tabla-wrap { overflow-x: auto; overflow-y: auto; max-height: calc(100vh - 270px); }
-    table { width: 100%; border-collapse: collapse; min-width: 780px; }
-    thead th {
-      position: sticky; top: 0; z-index: 2;
-      background: #0d1826; color: var(--muted);
-      font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: .05em;
-      padding: 10px 12px; text-align: left; border-bottom: 2px solid var(--border);
-      cursor: pointer; user-select: none; white-space: nowrap;
+    /* ── SEARCH SCREEN ──────────────────────────────────────── */
+    #search-screen {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 48px 24px 64px;
     }
-    thead th:hover { color: var(--text); }
-    thead th.sorted { color: var(--accent); }
-    thead th .si { font-size: 10px; margin-left: 4px; }
-    tbody tr { border-bottom: 1px solid var(--border); transition: background .1s; }
-    tbody tr:hover { background: rgba(249,115,22,.07); }
-    td { padding: 9px 12px; vertical-align: middle; }
-    td.num { font-variant-numeric: tabular-nums; text-align: right; }
-    .td-nombre { font-weight: 600; }
-    .td-id { font-size: 11px; color: var(--muted); }
-    .td-zona { font-size: 12px; color: var(--muted); }
 
-    .val-0 { color: var(--border); }
-    .val-hi { color: var(--accent); font-weight: 700; }
+    .ss-eyebrow {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 10px;
+    }
 
-    .msg { padding: 20px; color: var(--muted); text-align: center; }
-    .msg.error { color: var(--red); }
+    .ss-heading {
+      font-size: clamp(26px, 6vw, 34px);
+      font-weight: 800;
+      line-height: 1.15;
+      text-align: center;
+      color: var(--text);
+      margin-bottom: 8px;
+      text-wrap: balance;
+    }
 
-    .no-data-note { background: rgba(249,115,22,.1); border: 1px solid var(--accent); border-radius: 10px; padding: 14px 18px; margin: 14px 20px; font-size: 13px; color: var(--accent2); }
+    .ss-sub {
+      font-size: 14px;
+      color: var(--muted);
+      text-align: center;
+      margin-bottom: 40px;
+      max-width: 280px;
+    }
+
+    .search-wrap {
+      width: 100%;
+      max-width: 420px;
+      position: relative;
+    }
+
+    .search-input {
+      width: 100%;
+      background: var(--surf);
+      border: 1.5px solid var(--border);
+      border-radius: 14px;
+      padding: 15px 18px 15px 48px;
+      font-size: 15px;
+      color: var(--text);
+      font-family: inherit;
+      outline: none;
+      transition: border-color .2s, box-shadow .2s;
+    }
+    .search-input::placeholder { color: var(--dim); }
+    .search-input:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px var(--glow);
+    }
+
+    .search-ico {
+      position: absolute;
+      left: 16px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--dim);
+      font-size: 18px;
+      pointer-events: none;
+      line-height: 1;
+    }
+
+    .ac-list {
+      position: absolute;
+      top: calc(100% + 6px);
+      left: 0; right: 0;
+      background: var(--surf2);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+      z-index: 20;
+      max-height: 300px;
+      overflow-y: auto;
+      display: none;
+    }
+    .ac-list.open { display: block; }
+
+    .ac-item {
+      padding: 11px 16px;
+      cursor: pointer;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      gap: 1px;
+      transition: background .12s;
+    }
+    .ac-item:last-child { border-bottom: none; }
+    .ac-item:hover, .ac-item.focused { background: rgba(255,107,26,.1); }
+    .ac-item .ac-name { font-size: 13px; font-weight: 600; }
+    .ac-item .ac-meta { font-size: 11px; color: var(--muted); }
+
+    .ss-hint {
+      margin-top: 28px;
+      font-size: 12px;
+      color: var(--dim);
+      text-align: center;
+    }
+
+    /* ── DASHBOARD ──────────────────────────────────────────── */
+    #dashboard { display: none; min-height: 100vh; }
+
+    .dash-nav {
+      background: var(--surf);
+      border-bottom: 1px solid var(--border);
+      padding: 12px 16px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+
+    .back-btn {
+      background: none;
+      border: 1px solid var(--border);
+      color: var(--muted);
+      font-size: 14px;
+      cursor: pointer;
+      padding: 6px 12px;
+      border-radius: 8px;
+      font-family: inherit;
+      transition: color .15s, border-color .15s;
+      flex-shrink: 0;
+    }
+    .back-btn:hover { color: var(--text); border-color: var(--dim); }
+
+    .nav-store { flex: 1; overflow: hidden; }
+    .nav-store .ns-name {
+      font-size: 14px;
+      font-weight: 700;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .nav-store .ns-id { font-size: 11px; color: var(--muted); }
+
+    .nav-badge {
+      background: var(--accent);
+      color: #fff;
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: .06em;
+      padding: 3px 8px;
+      border-radius: 20px;
+      flex-shrink: 0;
+    }
+
+    .dash-body {
+      padding: 20px 16px 40px;
+      max-width: 460px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    /* ── HERO RING CARD ─────────────────────────────────────── */
+    .ring-card {
+      background: var(--surf);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 28px 20px 24px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .ring-card-glow {
+      position: absolute;
+      top: -40px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 200px;
+      height: 200px;
+      border-radius: 50%;
+      background: var(--glow-color, var(--glow));
+      filter: blur(50px);
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 1s ease;
+    }
+
+    .ring-period-label {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 20px;
+      position: relative;
+    }
+
+    .ring-wrap {
+      position: relative;
+      width: 168px;
+      height: 168px;
+      margin-bottom: 20px;
+      flex-shrink: 0;
+    }
+
+    .ring-svg {
+      width: 168px;
+      height: 168px;
+      transform: rotate(-90deg);
+    }
+
+    .ring-track { fill: none; stroke: var(--border); stroke-width: 11; }
+    .ring-fill  {
+      fill: none;
+      stroke-width: 11;
+      stroke-linecap: round;
+      stroke-dasharray: 424;
+      stroke-dashoffset: 424;
+      transition: stroke-dashoffset 1.1s cubic-bezier(.22,.6,.36,1), stroke .4s;
+    }
+
+    .ring-center {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 0;
+    }
+
+    .ring-pct {
+      font-size: 38px;
+      font-weight: 900;
+      line-height: 1;
+      font-variant-numeric: tabular-nums;
+      letter-spacing: -1px;
+    }
+
+    .ring-pct-sign { font-size: 20px; font-weight: 700; }
+    .ring-sub { font-size: 10px; color: var(--muted); letter-spacing: .06em; text-transform: uppercase; margin-top: 3px; }
+
+    .ring-amounts {
+      display: flex;
+      gap: 0;
+      width: 100%;
+      position: relative;
+    }
+
+    .ra-item {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 3px;
+      padding: 12px 8px;
+    }
+
+    .ra-item + .ra-item { border-left: 1px solid var(--border); }
+
+    .ra-val {
+      font-size: 20px;
+      font-weight: 800;
+      font-variant-numeric: tabular-nums;
+      line-height: 1;
+    }
+
+    .ra-lbl {
+      font-size: 10px;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: .08em;
+    }
+
+    /* ── PERIOD CARDS ───────────────────────────────────────── */
+    .period-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .period-card {
+      background: var(--surf);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 15px 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .pc-label {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .pc-val {
+      font-size: 22px;
+      font-weight: 800;
+      font-variant-numeric: tabular-nums;
+      line-height: 1;
+    }
+
+    .pc-meta { font-size: 11px; color: var(--dim); }
+
+    .pbar-track {
+      height: 5px;
+      background: var(--border);
+      border-radius: 99px;
+      overflow: hidden;
+      margin-top: 2px;
+    }
+
+    .pbar-fill {
+      height: 100%;
+      border-radius: 99px;
+      width: 0;
+      transition: width .9s cubic-bezier(.22,.6,.36,1);
+    }
+
+    .pc-pct {
+      font-size: 11px;
+      font-weight: 700;
+      margin-top: 1px;
+    }
+
+    /* ── GAMES BREAKDOWN ────────────────────────────────────── */
+    .games-card {
+      background: var(--surf);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 16px 14px;
+    }
+
+    .card-title {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 14px;
+    }
+
+    .game-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+    .game-row:last-child { margin-bottom: 0; }
+
+    .gr-name {
+      font-size: 12px;
+      font-weight: 700;
+      width: 82px;
+      flex-shrink: 0;
+      color: var(--text);
+    }
+
+    .gr-bar {
+      flex: 1;
+      height: 7px;
+      background: var(--border);
+      border-radius: 99px;
+      overflow: hidden;
+    }
+
+    .gr-fill {
+      height: 100%;
+      border-radius: 99px;
+      width: 0;
+      transition: width .9s cubic-bezier(.22,.6,.36,1) .2s;
+    }
+
+    .gr-val {
+      font-size: 13px;
+      font-weight: 700;
+      font-variant-numeric: tabular-nums;
+      width: 72px;
+      text-align: right;
+      flex-shrink: 0;
+    }
+
+    /* ── MOTIVATIONAL ───────────────────────────────────────── */
+    .motive-card {
+      border-radius: 16px;
+      padding: 16px 18px;
+      display: flex;
+      gap: 14px;
+      align-items: flex-start;
+    }
+
+    .mc-icon { font-size: 26px; line-height: 1; flex-shrink: 0; margin-top: 1px; }
+    .mc-body { display: flex; flex-direction: column; gap: 3px; }
+    .mc-msg { font-size: 14px; font-weight: 700; line-height: 1.35; }
+    .mc-detail { font-size: 12px; opacity: .7; line-height: 1.4; }
+
+    /* ── INFO STRIP ─────────────────────────────────────────── */
+    .info-card {
+      background: var(--surf);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 14px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px 16px;
+    }
+
+    .info-item .ii-l {
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 3px;
+    }
+    .info-item .ii-v { font-size: 12px; font-weight: 600; }
+
+    /* ── NO-META STATE ──────────────────────────────────────── */
+    .no-meta-note {
+      background: rgba(255,107,26,.08);
+      border: 1px solid rgba(255,107,26,.25);
+      border-radius: 12px;
+      padding: 12px 14px;
+      font-size: 12px;
+      color: var(--accent);
+      text-align: center;
+    }
+
+    /* ── LOADING ────────────────────────────────────────────── */
+    #loading {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--muted);
+      font-size: 13px;
+      gap: 10px;
+    }
+
+    .spin {
+      width: 20px; height: 20px;
+      border: 2px solid var(--border);
+      border-top-color: var(--accent);
+      border-radius: 50%;
+      animation: spin .7s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    @media (prefers-reduced-motion: reduce) {
+      .ring-fill, .pbar-fill, .gr-fill { transition: none; }
+      .spin { animation: none; }
+    }
   </style>
 </head>
 <body>
 
-<div class="header">
-  <h1>🎰 Ventas Apuesta Total</h1>
-  <span class="badge">APUESTA TOTAL</span>
-  <span class="updated" id="updated">—</span>
+<div id="loading"><div class="spin"></div> Cargando datos…</div>
+
+<!-- SEARCH SCREEN -->
+<div id="search-screen" style="display:none">
+  <div class="ss-eyebrow">Apuesta Total · GeoDor</div>
+  <h1 class="ss-heading">¿Cómo va tu tienda hoy?</h1>
+  <p class="ss-sub">Ingresa el nombre de tu punto de venta para ver tu progreso</p>
+
+  <div class="search-wrap">
+    <span class="search-ico">🔍</span>
+    <input
+      type="text"
+      class="search-input"
+      id="search-input"
+      placeholder="Busca tu tienda…"
+      autocomplete="off"
+      spellcheck="false"
+    />
+    <div class="ac-list" id="ac-list"></div>
+  </div>
+
+  <p class="ss-hint">También puedes ingresar el código de tu tienda</p>
 </div>
 
-<div class="stats-bar">
-  <div class="stat-card accent"><div class="sv" id="cnt-tiendas">—</div><div class="sl">Tiendas activas</div></div>
-  <div class="stat-card green"><div class="sv" id="cnt-con-venta">—</div><div class="sl">Con venta</div></div>
-  <div class="stat-card blue"><div class="sv" id="total-pp">—</div><div class="sl">PozoPower (S/)</div></div>
-  <div class="stat-card blue"><div class="sv" id="total-ld">—</div><div class="sl">LakiDey (S/)</div></div>
-  <div class="stat-card accent"><div class="sv" id="total-grand">—</div><div class="sl">Total ventas (S/)</div></div>
-</div>
+<!-- DASHBOARD -->
+<div id="dashboard">
+  <nav class="dash-nav">
+    <button class="back-btn" onclick="volverBusqueda()">← Volver</button>
+    <div class="nav-store">
+      <div class="ns-name" id="nav-nombre">—</div>
+      <div class="ns-id" id="nav-id">—</div>
+    </div>
+    <span class="nav-badge">AT</span>
+  </nav>
 
-<div class="filtros">
-  <input type="text" id="buscar" placeholder="🔍 Buscar tienda o código..." oninput="render()"/>
-  <select id="filtro-semana" onchange="calcularSemana()"><option value="">— Semana —</option></select>
-  <select id="filtro-zona" onchange="render()"><option value="">Zona</option></select>
-  <select id="filtro-rc"   onchange="render()"><option value="">RC</option></select>
-  <select id="filtro-sup"  onchange="render()"><option value="">Supervisor</option></select>
-  <span class="cnt-label" id="count-label"></span>
-</div>
+  <div class="dash-body">
+    <!-- No-meta notice (hidden when meta exists) -->
+    <div class="no-meta-note" id="no-meta-note" style="display:none">
+      ⚙️ Meta diaria aún no asignada — mostrando ventas acumuladas
+    </div>
 
-<div id="no-data-note" class="no-data-note" style="display:none">
-  ⚠️ No hay datos de Apuesta Total aún. Actualiza el flujo de Power Automate para incluir <strong>APUESTA TOTAL</strong> en el filtro del DAX.
-</div>
+    <!-- Hero: monthly ring -->
+    <div class="ring-card" id="ring-card">
+      <div class="ring-card-glow" id="ring-glow"></div>
+      <div class="ring-period-label">PROGRESO DEL MES</div>
+      <div class="ring-wrap">
+        <svg class="ring-svg" viewBox="0 0 168 168">
+          <circle class="ring-track" cx="84" cy="84" r="67.5"/>
+          <circle class="ring-fill" id="ring-fill" cx="84" cy="84" r="67.5"/>
+        </svg>
+        <div class="ring-center">
+          <div class="ring-pct" id="ring-pct">0<span class="ring-pct-sign">%</span></div>
+          <div class="ring-sub">del mes</div>
+        </div>
+      </div>
+      <div class="ring-amounts">
+        <div class="ra-item">
+          <div class="ra-val" id="ra-actual">S/ 0</div>
+          <div class="ra-lbl">Vendido</div>
+        </div>
+        <div class="ra-item">
+          <div class="ra-val" id="ra-meta" style="color:var(--muted)">S/ —</div>
+          <div class="ra-lbl">Meta mes</div>
+        </div>
+        <div class="ra-item">
+          <div class="ra-val" id="ra-falta" style="color:var(--muted)">—</div>
+          <div class="ra-lbl">Falta</div>
+        </div>
+      </div>
+    </div>
 
-<div class="tabla-wrap">
-  <table>
-    <thead>
-      <tr>
-        <th onclick="sortBy('nombre')">Tienda <span class="si" id="si-nombre">↕</span></th>
-        <th onclick="sortBy('zona')">Zona <span class="si" id="si-zona">↕</span></th>
-        <th onclick="sortBy('rc')">RC <span class="si" id="si-rc">↕</span></th>
-        <th onclick="sortBy('supervisor')">Supervisor <span class="si" id="si-supervisor">↕</span></th>
-        <th onclick="sortBy('pp')" style="text-align:right">PozoPower S/ <span class="si" id="si-pp">↕</span></th>
-        <th onclick="sortBy('ld')" style="text-align:right">LakiDey S/ <span class="si" id="si-ld">↕</span></th>
-        <th onclick="sortBy('total')" style="text-align:right">Total S/ <span class="si" id="si-total">↕</span></th>
-      </tr>
-    </thead>
-    <tbody id="tbody"></tbody>
-  </table>
+    <!-- Period cards: today + week -->
+    <div class="period-grid">
+      <div class="period-card">
+        <div class="pc-label">Hoy</div>
+        <div class="pc-val" id="hoy-val">S/ 0</div>
+        <div class="pc-meta" id="hoy-meta">Meta: —</div>
+        <div class="pbar-track"><div class="pbar-fill" id="hoy-bar"></div></div>
+        <div class="pc-pct" id="hoy-pct">—</div>
+      </div>
+      <div class="period-card">
+        <div class="pc-label">Esta Semana</div>
+        <div class="pc-val" id="sem-val">S/ 0</div>
+        <div class="pc-meta" id="sem-meta">Meta: —</div>
+        <div class="pbar-track"><div class="pbar-fill" id="sem-bar"></div></div>
+        <div class="pc-pct" id="sem-pct">—</div>
+      </div>
+    </div>
+
+    <!-- Games breakdown -->
+    <div class="games-card">
+      <div class="card-title">Desglose por juego · este mes</div>
+      <div class="game-row">
+        <div class="gr-name">PozoPower</div>
+        <div class="gr-bar"><div class="gr-fill" id="pp-bar" style="background:var(--accent)"></div></div>
+        <div class="gr-val" id="pp-val">S/ 0</div>
+      </div>
+      <div class="game-row">
+        <div class="gr-name">LakiDey</div>
+        <div class="gr-bar"><div class="gr-fill" id="ld-bar" style="background:#3B9EE8"></div></div>
+        <div class="gr-val" id="ld-val">S/ 0</div>
+      </div>
+    </div>
+
+    <!-- Motivational -->
+    <div class="motive-card" id="motive-card">
+      <div class="mc-icon" id="motive-icon">⏳</div>
+      <div class="mc-body">
+        <div class="mc-msg" id="motive-msg">Cargando…</div>
+        <div class="mc-detail" id="motive-detail"></div>
+      </div>
+    </div>
+
+    <!-- Store info -->
+    <div class="info-card">
+      <div class="info-item"><div class="ii-l">RC</div><div class="ii-v" id="info-rc">—</div></div>
+      <div class="info-item"><div class="ii-l">Supervisor</div><div class="ii-v" id="info-sup">—</div></div>
+      <div class="info-item"><div class="ii-l">Zona</div><div class="ii-v" id="info-zona">—</div></div>
+      <div class="info-item"><div class="ii-l">Distrito</div><div class="ii-v" id="info-dist">—</div></div>
+    </div>
+  </div>
 </div>
-<div class="msg" id="msg" style="display:none"></div>
 
 <script>
   const PARTNER = 'APUESTA TOTAL';
-  let TIENDAS = [], TODAS_VENTAS = [], sortCol = 'total', sortAsc = false;
 
-  function loadJSON(url) {
-    return fetch(url + '?v=' + Date.now()).then(r => { if (!r.ok) throw new Error(r.status); return r.json(); });
+  const DIA_JS = {
+    'LUNES':1,'MARTES':2,'MIÉRCOLES':3,'MIERCOLES':3,
+    'JUEVES':4,'VIERNES':5,'SÁBADO':6,'SABADO':6,'DOMINGO':0
+  };
+
+  let allStores = [], allVentas = [];
+
+  function loadJSON(u) {
+    return fetch(u + '?v=' + Date.now(), { cache: 'no-store' }).then(r => {
+      if (!r.ok) throw new Error(r.status);
+      return r.json();
+    });
   }
 
-  function isoDate(d) {
-    return d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0');
+  function isoToday() {
+    const d = new Date();
+    return d.getFullYear() + '-' +
+      String(d.getMonth()+1).padStart(2,'0') + '-' +
+      String(d.getDate()).padStart(2,'0');
   }
+
   function juevesDe(d) {
-    const dia = d.getDay(); // 0=dom
-    const diff = dia <= 4 ? -(dia === 0 ? 3 : dia - 4) : (11 - dia);
-    const j = new Date(d); j.setDate(d.getDate() + diff); j.setHours(0,0,0,0); return j;
-  }
-  function semanaLabel(jue) {
-    const mie = new Date(jue); mie.setDate(jue.getDate() + 6);
-    const fmt = d => d.getDate() + '/' + (d.getMonth()+1);
-    return `Sem ${fmt(jue)}–${fmt(mie)}`;
+    const j = new Date(d);
+    const wd = j.getDay();
+    const diff = wd === 4 ? 0 : wd < 4 ? -(wd === 0 ? 3 : wd - 4) : 11 - wd;
+    j.setDate(j.getDate() + diff);
+    j.setHours(0,0,0,0);
+    return j;
   }
 
-  function poblarSelect(id, vals) {
-    const sel = document.getElementById(id);
-    vals.forEach(v => { const o = document.createElement('option'); o.value = v; o.textContent = v; sel.appendChild(o); });
+  function diasVisitaEnRango(dias, inicio, fin) {
+    const nums = (dias || []).map(d => DIA_JS[d.toUpperCase()]).filter(n => n !== undefined);
+    if (!nums.length) return 0;
+    let cnt = 0, cur = new Date(inicio);
+    while (cur <= fin) { if (nums.includes(cur.getDay())) cnt++; cur.setDate(cur.getDate()+1); }
+    return cnt;
+  }
+
+  function pctColor(pct) {
+    if (pct >= 100) return 'var(--green)';
+    if (pct >= 80)  return 'var(--accent)';
+    if (pct >= 50)  return 'var(--amber)';
+    return 'var(--red)';
+  }
+
+  function fmtS(n) {
+    if (!n && n !== 0) return 'S/ —';
+    return 'S/ ' + Math.round(n).toLocaleString('es-PE');
+  }
+
+  function fmtPct(pct) {
+    if (pct === null || pct === undefined || isNaN(pct)) return '—';
+    return Math.round(pct) + '%';
+  }
+
+  function setBar(el, pct, color) {
+    el.style.width  = Math.min(pct, 100) + '%';
+    el.style.background = color;
+  }
+
+  function motivation(pct) {
+    if (pct === null) return { icon:'📊', msg:'Registra tus ventas diariamente', detail:'Tu progreso aparecerá aquí en cuanto haya datos del mes.', bg:'rgba(90,116,153,.12)', clr:'var(--muted)' };
+    if (pct >= 110)   return { icon:'🏆', msg:'¡Meta superada! Excelente trabajo', detail:'Estás por encima del objetivo mensual. ¡Sigue así!', bg:'rgba(16,217,138,.12)', clr:'var(--green)' };
+    if (pct >= 100)   return { icon:'🎯', msg:'¡Meta cumplida este mes!', detail:'Lograste tu objetivo. Cada venta adicional suma al mes siguiente.', bg:'rgba(16,217,138,.1)', clr:'var(--green)' };
+    if (pct >= 80)    return { icon:'🔥', msg:'Casi llegas — ¡un último empuje!', detail:`Solo te falta el ${Math.round(100-pct)}% para alcanzar la meta mensual.`, bg:'rgba(255,107,26,.1)', clr:'var(--accent)' };
+    if (pct >= 60)    return { icon:'💪', msg:'Buen ritmo, mantén el paso', detail:'Vas bien. Enfócate en cerrar cada día con tu meta diaria cubierta.', bg:'rgba(245,158,11,.1)', clr:'var(--amber)' };
+    if (pct >= 30)    return { icon:'📈', msg:'Hay margen para mejorar', detail:'Cada venta cuenta. Recuerda atender a todos tus clientes frecuentes.', bg:'rgba(245,158,11,.08)', clr:'var(--amber)' };
+    return { icon:'⚡', msg:'¡Arranca con todo!', detail:'El mes es largo. Empieza fuerte y mantén el ritmo desde el primer día.', bg:'rgba(240,68,68,.1)', clr:'var(--red)' };
   }
 
   async function init() {
     try {
-      const [ventas, puntos] = await Promise.all([
-        loadJSON('data/ventas_mes.json'),
+      const [puntosData, ventasData] = await Promise.all([
         loadJSON('data/puntos.json'),
+        loadJSON('data/ventas_mes.json'),
       ]);
 
-      document.getElementById('updated').textContent = `Datos: ${ventas.updated || ventas.ts || '—'}`;
-
-      const registros = ventas.body || ventas.ventas || [];
-      TODAS_VENTAS = registros.filter(v => (v.partner || '').toUpperCase() === PARTNER);
-
-      // Detectar si hay datos de este partner
-      if (TODAS_VENTAS.length === 0) {
-        document.getElementById('no-data-note').style.display = '';
-      }
-
-      // Filtrar tiendas del partner
-      TIENDAS = puntos.filter(p =>
+      allStores = (Array.isArray(puntosData) ? puntosData : []).filter(p =>
         (p.responsable || '').toUpperCase() === PARTNER &&
         (p.estado || '').toUpperCase() === 'ACTIVO'
       );
 
-      document.getElementById('cnt-tiendas').textContent = TIENDAS.length.toLocaleString();
+      const todos = ventasData.body || ventasData.ventas || [];
+      allVentas = todos.filter(v => (v.partner || '').toUpperCase() === PARTNER);
 
-      // Poblar filtros
-      poblarSelect('filtro-zona', [...new Set(TIENDAS.map(p => p.zona || '').filter(Boolean))].sort());
-      poblarSelect('filtro-rc',   [...new Set(TIENDAS.map(p => p.rc   || '').filter(Boolean))].sort());
-      poblarSelect('filtro-sup',  [...new Set(TIENDAS.map(p => p.supervisor || '').filter(Boolean))].sort());
+      // URL param shortcut
+      const params = new URLSearchParams(location.search);
+      const idParam = params.get('id') || params.get('tienda');
+      if (idParam) {
+        const found = allStores.find(p => String(p.ID) === String(idParam));
+        if (found) { renderDashboard(found); return; }
+      }
 
-      // Semanas
-      const semanasMap = {};
-      TODAS_VENTAS.forEach(v => {
-        if (!v.fecha) return;
-        const j = juevesDe(new Date(v.fecha + 'T12:00:00'));
-        semanasMap[isoDate(j)] = j;
-      });
-      const semanas = Object.values(semanasMap).sort((a,b) => b-a);
-      const sel = document.getElementById('filtro-semana');
-      semanas.forEach((j,i) => {
-        const o = document.createElement('option');
-        o.value = isoDate(j);
-        o.textContent = semanaLabel(j) + (i === 0 ? ' (actual)' : '');
-        sel.appendChild(o);
-      });
-      if (semanas.length > 0) { sel.value = isoDate(semanas[0]); }
-
-      calcularSemana();
+      document.getElementById('loading').style.display = 'none';
+      document.getElementById('search-screen').style.display = 'flex';
+      setupSearch();
     } catch(e) {
-      const el = document.getElementById('msg');
-      el.style.display = '';
-      el.className = 'msg error';
-      el.textContent = 'Error al cargar datos: ' + e.message;
+      document.getElementById('loading').textContent = 'Error al cargar datos: ' + e.message;
     }
   }
 
-  function calcularSemana() {
-    const selVal = document.getElementById('filtro-semana').value;
-    if (!selVal) { render(); return; }
-    const jueves    = new Date(selVal + 'T00:00:00');
-    const miercoles = new Date(jueves); miercoles.setDate(jueves.getDate() + 6); miercoles.setHours(23,59,59,999);
+  function setupSearch() {
+    const input = document.getElementById('search-input');
+    const list  = document.getElementById('ac-list');
 
-    const ventasMap = {};
-    TODAS_VENTAS.forEach(v => {
-      const f = new Date(v.fecha + 'T12:00:00');
-      if (f < jueves || f > miercoles) return;
-      const id = String(v.org_code);
-      if (!ventasMap[id]) ventasMap[id] = { pp: 0, ld: 0, grand: 0 };
-      if (v.tipo_juego === 'TOTAL')     ventasMap[id].grand += (v.total || 0);
-      if (v.tipo_juego === 'PozoPower') ventasMap[id].pp    += (v.total || 0);
-      if (v.tipo_juego === 'LakiDey')  ventasMap[id].ld    += (v.total || 0);
+    input.addEventListener('input', () => {
+      const q = input.value.trim().toLowerCase();
+      if (q.length < 2) { list.classList.remove('open'); return; }
+      const hits = allStores.filter(p =>
+        p.nombre.toLowerCase().includes(q) || String(p.ID).includes(q)
+      ).slice(0, 10);
+      if (!hits.length) { list.classList.remove('open'); return; }
+      list.innerHTML = hits.map(p => `
+        <div class="ac-item" data-id="${p.ID}">
+          <span class="ac-name">${p.nombre}</span>
+          <span class="ac-meta">${p.ID} · ${p.zona || ''} · ${p.distrito || ''}</span>
+        </div>`).join('');
+      list.classList.add('open');
+      list.querySelectorAll('.ac-item').forEach(el => {
+        el.addEventListener('click', () => {
+          const s = allStores.find(p => String(p.ID) === el.dataset.id);
+          if (s) { list.classList.remove('open'); renderDashboard(s); }
+        });
+      });
     });
-    window._ventasMap = ventasMap;
 
-    window._rows = TIENDAS.map(p => {
-      const v = ventasMap[String(p.ID)] || { pp: 0, ld: 0, grand: 0 };
-      return { id: String(p.ID), nombre: p.nombre || '', zona: p.zona || '', rc: p.rc || '',
-               supervisor: p.supervisor || '', pp: v.pp, ld: v.ld, total: v.grand };
+    document.addEventListener('click', e => {
+      if (!e.target.closest('.search-wrap')) list.classList.remove('open');
     });
 
-    // Stats
-    const conVenta = window._rows.filter(r => r.total > 0).length;
-    document.getElementById('cnt-con-venta').textContent = conVenta.toLocaleString();
-    const totPP    = window._rows.reduce((s,r) => s + r.pp, 0);
-    const totLD    = window._rows.reduce((s,r) => s + r.ld, 0);
-    const totGrand = window._rows.reduce((s,r) => s + r.total, 0);
-    document.getElementById('total-pp').textContent    = totPP.toLocaleString('es-PE', {maximumFractionDigits:0});
-    document.getElementById('total-ld').textContent    = totLD.toLocaleString('es-PE', {maximumFractionDigits:0});
-    document.getElementById('total-grand').textContent = totGrand.toLocaleString('es-PE', {maximumFractionDigits:0});
-
-    render();
+    input.focus();
   }
 
-  function render() {
-    const buscar = document.getElementById('buscar').value.trim().toLowerCase();
-    const zona   = document.getElementById('filtro-zona').value;
-    const rc     = document.getElementById('filtro-rc').value;
-    const sup    = document.getElementById('filtro-sup').value;
-
-    let lista = (window._rows || []).filter(r => {
-      if (zona && r.zona !== zona) return false;
-      if (rc   && r.rc   !== rc)   return false;
-      if (sup  && r.supervisor !== sup) return false;
-      if (buscar && !r.nombre.toLowerCase().includes(buscar) && !r.id.includes(buscar)) return false;
-      return true;
-    });
-
-    // Sort
-    lista = [...lista].sort((a,b) => {
-      let va = a[sortCol], vb = b[sortCol];
-      if (typeof va === 'string') return sortAsc ? va.localeCompare(vb) : vb.localeCompare(va);
-      return sortAsc ? va - vb : vb - va;
-    });
-
-    document.getElementById('count-label').textContent = lista.length + ' tienda' + (lista.length !== 1 ? 's' : '');
-
-    const tbody = document.getElementById('tbody');
-    if (!lista.length) {
-      tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;padding:30px;color:var(--muted)">Sin resultados</td></tr>';
-      return;
-    }
-
-    const fmt = n => n > 0 ? n.toLocaleString('es-PE', {maximumFractionDigits:0}) : '—';
-    const maxTotal = Math.max(...lista.map(r => r.total), 1);
-
-    tbody.innerHTML = lista.map(r => `
-      <tr>
-        <td><div class="td-nombre">${r.nombre}</div><div class="td-id">${r.id}</div></td>
-        <td class="td-zona">${r.zona || '—'}</td>
-        <td>${r.rc || '—'}</td>
-        <td>${r.supervisor || '—'}</td>
-        <td class="num ${r.pp   === 0 ? 'val-0' : ''}">${fmt(r.pp)}</td>
-        <td class="num ${r.ld   === 0 ? 'val-0' : ''}">${fmt(r.ld)}</td>
-        <td class="num ${r.total > maxTotal * .6 ? 'val-hi' : r.total === 0 ? 'val-0' : ''}">${fmt(r.total)}</td>
-      </tr>`).join('');
+  function volverBusqueda() {
+    document.getElementById('dashboard').style.display = 'none';
+    document.getElementById('search-screen').style.display = 'flex';
+    document.getElementById('search-input').value = '';
+    document.getElementById('ac-list').classList.remove('open');
   }
 
-  function sortBy(col) {
-    if (sortCol === col) { sortAsc = !sortAsc; } else { sortAsc = false; sortCol = col; }
-    document.querySelectorAll('thead th').forEach(th => th.classList.remove('sorted'));
-    event.currentTarget.classList.add('sorted');
-    const si = document.getElementById('si-' + col);
-    if (si) si.textContent = sortAsc ? '↑' : '↓';
-    render();
+  function renderDashboard(store) {
+    document.getElementById('loading').style.display = 'none';
+    document.getElementById('search-screen').style.display = 'none';
+    document.getElementById('dashboard').style.display = 'block';
+
+    // Nav
+    document.getElementById('nav-nombre').textContent = store.nombre;
+    document.getElementById('nav-id').textContent = 'Código ' + store.ID;
+
+    // Info
+    document.getElementById('info-rc').textContent   = store.rc || '—';
+    document.getElementById('info-sup').textContent  = store.supervisor || '—';
+    document.getElementById('info-zona').textContent = store.zona || '—';
+    document.getElementById('info-dist').textContent = store.distrito || '—';
+
+    const hasMeta = store.meta_diaria != null && store.meta_diaria > 0;
+    document.getElementById('no-meta-note').style.display = hasMeta ? 'none' : '';
+
+    const hoy      = isoToday();
+    const now      = new Date();
+    const mesIni   = new Date(now.getFullYear(), now.getMonth(), 1);
+    const mesFin   = new Date(now.getFullYear(), now.getMonth()+1, 0, 23, 59, 59);
+    const semJue   = juevesDe(now);
+    const semMie   = new Date(semJue); semMie.setDate(semJue.getDate()+6); semMie.setHours(23,59,59,999);
+
+    // Aggregate ventas for this store
+    const id       = String(store.ID);
+    let totHoy = 0, totSem = 0, totMes = 0, ppMes = 0, ldMes = 0;
+
+    allVentas.forEach(v => {
+      if (String(v.org_code) !== id || !v.fecha) return;
+      const f   = new Date(v.fecha + 'T12:00:00');
+      const amt = v.total || 0;
+      const tj  = v.tipo_juego || '';
+      if (tj === 'TOTAL') {
+        if (v.fecha === hoy) totHoy += amt;
+        if (f >= semJue && f <= semMie) totSem += amt;
+        if (f >= mesIni && f <= mesFin) totMes += amt;
+      }
+      if (tj === 'PozoPower' && f >= mesIni && f <= mesFin) ppMes += amt;
+      if (tj === 'LakiDey'   && f >= mesIni && f <= mesFin) ldMes += amt;
+    });
+
+    // Metas
+    const dias       = store.dias || [];
+    const metaDiaria = hasMeta ? store.meta_diaria : null;
+    const diasSem    = hasMeta ? diasVisitaEnRango(dias, semJue, semMie) : 0;
+    const diasMes    = hasMeta ? diasVisitaEnRango(dias, mesIni, mesFin) : 0;
+    const metaSem    = hasMeta ? metaDiaria * diasSem : null;
+    const metaMes    = hasMeta ? metaDiaria * diasMes : null;
+
+    const pctMes     = metaMes  ? Math.round(totMes  / metaMes  * 100) : null;
+    const pctSem     = metaSem  ? Math.round(totSem  / metaSem  * 100) : null;
+    const pctHoy     = metaDiaria ? Math.round(totHoy / metaDiaria * 100) : null;
+
+    // Ring (circumference for r=67.5: 2π×67.5 ≈ 424)
+    const CIRC  = 424;
+    const clamp = p => Math.min(p === null ? 0 : p, 100);
+    const ringEl = document.getElementById('ring-fill');
+    const glowEl = document.getElementById('ring-glow');
+    const col    = pctMes !== null ? pctColor(pctMes) : 'var(--dim)';
+
+    ringEl.style.stroke = col;
+    ringEl.style.strokeDashoffset = CIRC * (1 - clamp(pctMes) / 100);
+
+    glowEl.style.setProperty('--glow-color', col.replace('var(--green)', 'rgba(16,217,138,.25)').replace('var(--accent)', 'rgba(255,107,26,.25)').replace('var(--amber)', 'rgba(245,158,11,.2)').replace('var(--red)', 'rgba(240,68,68,.2)').replace('var(--dim)', 'transparent'));
+    glowEl.style.background = col;
+    requestAnimationFrame(() => { glowEl.style.opacity = '1'; });
+
+    document.getElementById('ring-pct').innerHTML =
+      (pctMes !== null ? pctMes : '—') + '<span class="ring-pct-sign">%</span>';
+    document.getElementById('ring-pct').style.color = col;
+
+    document.getElementById('ra-actual').textContent = fmtS(totMes);
+    document.getElementById('ra-meta').textContent   = metaMes ? fmtS(metaMes) : 'S/ —';
+    document.getElementById('ra-falta').textContent  = metaMes && totMes < metaMes ? fmtS(metaMes - totMes) : metaMes ? '✓' : '—';
+    document.getElementById('ra-falta').style.color  = metaMes && totMes >= metaMes ? 'var(--green)' : 'var(--muted)';
+
+    // Today card
+    const hoyCol = pctHoy !== null ? pctColor(pctHoy) : 'var(--dim)';
+    document.getElementById('hoy-val').textContent  = fmtS(totHoy);
+    document.getElementById('hoy-val').style.color  = hoyCol;
+    document.getElementById('hoy-meta').textContent = metaDiaria ? 'Meta: ' + fmtS(metaDiaria) : 'Sin meta asignada';
+    document.getElementById('hoy-pct').textContent  = pctHoy !== null ? fmtPct(pctHoy) : '—';
+    document.getElementById('hoy-pct').style.color  = hoyCol;
+    setBar(document.getElementById('hoy-bar'), pctHoy || 0, hoyCol);
+
+    // Week card
+    const semCol = pctSem !== null ? pctColor(pctSem) : 'var(--dim)';
+    document.getElementById('sem-val').textContent  = fmtS(totSem);
+    document.getElementById('sem-val').style.color  = semCol;
+    document.getElementById('sem-meta').textContent = metaSem ? 'Meta: ' + fmtS(metaSem) + ' (' + diasSem + ' días)' : 'Sin meta asignada';
+    document.getElementById('sem-pct').textContent  = pctSem !== null ? fmtPct(pctSem) : '—';
+    document.getElementById('sem-pct').style.color  = semCol;
+    setBar(document.getElementById('sem-bar'), pctSem || 0, semCol);
+
+    // Games
+    const maxGame = Math.max(ppMes, ldMes, 1);
+    document.getElementById('pp-val').textContent = fmtS(ppMes);
+    document.getElementById('ld-val').textContent = fmtS(ldMes);
+    setBar(document.getElementById('pp-bar'), ppMes / maxGame * 100, 'var(--accent)');
+    setBar(document.getElementById('ld-bar'), ldMes / maxGame * 100, '#3B9EE8');
+
+    // Motivation
+    const m = motivation(pctMes);
+    const mc = document.getElementById('motive-card');
+    mc.style.background = m.bg;
+    mc.style.border = '1px solid ' + m.clr.replace(')', ',.3)').replace('var(', 'color-mix(in srgb,').replace('var(--', '');
+    mc.style.borderColor = m.clr;
+    mc.style.opacity = '.9';
+    document.getElementById('motive-icon').textContent   = m.icon;
+    document.getElementById('motive-msg').textContent    = m.msg;
+    document.getElementById('motive-msg').style.color    = m.clr;
+    document.getElementById('motive-detail').textContent = m.detail;
+    mc.style.border = `1px solid ${m.clr}40`;
   }
 
   init();
