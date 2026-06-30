@@ -657,10 +657,9 @@
 
   function juevesDe(d) {
     const j = new Date(d);
-    const wd = j.getDay();
-    const diff = wd === 4 ? 0 : wd < 4 ? -(wd === 0 ? 3 : wd - 4) : 11 - wd;
-    j.setDate(j.getDate() + diff);
     j.setHours(0,0,0,0);
+    const wd = j.getDay();
+    j.setDate(j.getDate() - ((wd - 4 + 7) % 7)); // siempre retrocede al jueves anterior
     return j;
   }
 
