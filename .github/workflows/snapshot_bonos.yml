@@ -56,24 +56,66 @@ jobs:
                     if 'TAMBO' in str(p.get('tipo', '')).upper()
                     or str(p.get('cluster_bono', '')).strip().upper() in ['A','B','C','D']]
 
-          # ── Agregar ventas de la semana ───────────────────────────────
+          # ── Cargar historico para detectar semanas parciales ─────────
+          hist_path = Path('data/historico_bonos.json')
+          hist = json.loads(hist_path.read_text(encoding='utf-8')) if hist_path.exists() else {'semanas': []}
+
+          partial = next(
+              (s for s in hist['semanas'] if s['jueves'] == str(jueves) and not s.get('completa', True)),
+              None
+          )
+
           ventas = ventas_data.get('body') or ventas_data.get('ventas') or []
           ventas_map = {}
-          for v in ventas:
-              try:
-                  fecha = date.fromisoformat(v.get('fecha', '1900-01-01'))
-              except ValueError:
-                  continue
-              if fecha < jueves or fecha > miercoles:
-                  continue
-              vid = str(v.get('org_code', ''))
-              if vid not in ventas_map:
-                  ventas_map[vid] = {'pp': 0, 'ld': 0, 'grand': 0}
-              tj = v.get('tipo_juego', '')
-              amt = v.get('total') or 0
-              if tj == 'TOTAL':     ventas_map[vid]['grand'] += amt
-              if tj == 'PozoPower': ventas_map[vid]['pp']    += amt
-              if tj == 'LakiDey':  ventas_map[vid]['ld']    += amt
+
+          if partial:
+              # ── Semana cruzada: merge datos parciales + dias del mes nuevo ──
+              mie_parcial      = date.fromisoformat(partial['miercoles'])
+              primer_dia_nuevo = mie_parcial + timedelta(days=1)
+              print(f"  Semana cruzada: datos parciales hasta {mie_parcial}, nuevos desde {primer_dia_nuevo}")
+
+              # Base: ganadores del periodo anterior (pp almacenado en unidades → convertir a soles)
+              for g in partial.get('ganadores', []):
+                  vid = str(g['id'])
+                  ventas_map[vid] = {
+                      'pp':    g['pp'] * 5,
+                      'ld':    g['ld'],
+                      'grand': g['total'],
+                  }
+
+              # Agregar dias del nuevo mes
+              for v in ventas:
+                  try:
+                      fecha = date.fromisoformat(v.get('fecha', '1900-01-01'))
+                  except ValueError:
+                      continue
+                  if fecha < primer_dia_nuevo or fecha > miercoles:
+                      continue
+                  vid = str(v.get('org_code', ''))
+                  if vid not in ventas_map:
+                      ventas_map[vid] = {'pp': 0, 'ld': 0, 'grand': 0}
+                  tj  = v.get('tipo_juego', '')
+                  amt = v.get('total') or 0
+                  if tj == 'TOTAL':     ventas_map[vid]['grand'] += amt
+                  if tj == 'PozoPower': ventas_map[vid]['pp']    += amt
+                  if tj == 'LakiDey':  ventas_map[vid]['ld']    += amt
+          else:
+              # ── Semana normal: leer todo desde ventas_mes.json ────────────
+              for v in ventas:
+                  try:
+                      fecha = date.fromisoformat(v.get('fecha', '1900-01-01'))
+                  except ValueError:
+                      continue
+                  if fecha < jueves or fecha > miercoles:
+                      continue
+                  vid = str(v.get('org_code', ''))
+                  if vid not in ventas_map:
+                      ventas_map[vid] = {'pp': 0, 'ld': 0, 'grand': 0}
+                  tj  = v.get('tipo_juego', '')
+                  amt = v.get('total') or 0
+                  if tj == 'TOTAL':     ventas_map[vid]['grand'] += amt
+                  if tj == 'PozoPower': ventas_map[vid]['pp']    += amt
+                  if tj == 'LakiDey':  ventas_map[vid]['ld']    += amt
 
           # ── Calcular ganadores ────────────────────────────────────────
           ganadores  = []
@@ -119,19 +161,17 @@ jobs:
               'miercoles':        str(miercoles),
               'semana':           f"{jueves.day} {meses_es[jueves.month]} – {miercoles.day} {meses_es[miercoles.month]} {miercoles.year}",
               'bono_num':         bono_num,
+              'completa':         True,
               'total_ganadores':  len(ganadores),
               'por_cluster':      por_cluster,
               'ganadores':        sorted(ganadores, key=lambda x: x['cluster'] + x['nombre']),
           }
 
           # ── Guardar en historico_bonos.json ───────────────────────────
-          hist_path = Path('data/historico_bonos.json')
-          hist = json.loads(hist_path.read_text(encoding='utf-8')) if hist_path.exists() else {'semanas': []}
-
           idx = next((i for i, s in enumerate(hist['semanas']) if s['jueves'] == str(jueves)), None)
           if idx is not None:
               hist['semanas'][idx] = entry
-              print(f"  Semana {jueves} reemplazada")
+              print(f"  Semana {jueves} {'completada' if partial else 'reemplazada'}")
           else:
               hist['semanas'].append(entry)
               print(f"  Semana {jueves} agregada")
