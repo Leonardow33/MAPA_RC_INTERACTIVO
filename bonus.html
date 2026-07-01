@@ -592,10 +592,11 @@
 
   async function init() {
     try {
-      const [ventas, puntos, keys] = await Promise.all([
+      const [ventas, puntos, keys, historico] = await Promise.all([
         loadJSON('data/ventas_mes.json'),
         loadJSON('data/puntos.json'),
         loadJSON('data/keys_bonos.json'),
+        loadJSON('data/historico_bonos.json').catch(() => ({ semanas: [] })),
       ]);
 
       document.getElementById('updated').textContent =
@@ -605,7 +606,7 @@
       const KEYS = {};
       keys.forEach(k => { KEYS[k.cluster] = k; });
 
-      // ── Detectar semanas disponibles en los datos ──────────────
+      // ── Semanas disponibles: desde ventas Y desde historico ────
       const registros = ventas.body || ventas.ventas || [];
       const semanasMap = {};
       registros.forEach(v => {
@@ -614,6 +615,11 @@
         const key = isoDate(jue);
         if (!semanasMap[key]) semanasMap[key] = jue;
       });
+      (historico.semanas || []).forEach(s => {
+        if (!semanasMap[s.jueves]) semanasMap[s.jueves] = new Date(s.jueves + 'T12:00:00');
+      });
+
+      const snapKeys = new Set((historico.semanas || []).map(s => s.jueves));
 
       const semanas = Object.values(semanasMap)
         .sort((a, b) => b - a); // más reciente primero
@@ -621,15 +627,20 @@
       const selSemana = document.getElementById('filtro-semana');
       selSemana.innerHTML = '';
       semanas.forEach((jue, i) => {
+        const val       = isoDate(jue);
+        const tieneSnap = snapKeys.has(val);
         const opt = document.createElement('option');
-        opt.value = isoDate(jue);
-        opt.textContent = semanaLabel(jue) + (i === 0 ? ' (actual)' : '');
+        opt.value = val;
+        opt.textContent = semanaLabel(jue)
+          + (tieneSnap ? ' 📌' : i === 0 ? ' (actual)' : '');
         selSemana.appendChild(opt);
       });
 
       // Guardar estado global para recalcular al cambiar semana
-      window.TODAS_VENTAS = ventas.body || ventas.ventas || [];
-      window.KEYS         = KEYS;
+      window.TODAS_VENTAS  = ventas.body || ventas.ventas || [];
+      window.KEYS          = KEYS;
+      window.HISTORICO_MAP = {};
+      (historico.semanas || []).forEach(s => { window.HISTORICO_MAP[s.jueves] = s; });
 
       // Filtrar solo tiendas Tambo (por tipo o por tener cluster_bono A/B/C/D)
       window.TAMBOS = puntos.filter(p => {
@@ -658,6 +669,10 @@
   function calcularSemana() {
     const selVal = document.getElementById('filtro-semana').value;
     if (!selVal) return;
+
+    // Si hay snapshot guardado para esta semana, usarlo directamente
+    const snap = window.HISTORICO_MAP && window.HISTORICO_MAP[selVal];
+    if (snap) { usarSnapshot(snap); return; }
 
     const jueves    = new Date(selVal + 'T00:00:00');
     window.SEMANA_JUEVES = jueves;
@@ -726,6 +741,52 @@
     });
     renderAlertaInactivos(inactivosConVenta);
 
+    renderStats();
+    render();
+  }
+
+  // ── Poblar TIENDAS desde un snapshot histórico ─────────────────
+  function usarSnapshot(snap) {
+    window.SEMANA_JUEVES = new Date(snap.jueves + 'T12:00:00');
+    document.getElementById('cnt-registros').textContent = '—';
+
+    const ganadoresMap = {};
+    (snap.ganadores || []).forEach(g => { ganadoresMap[String(g.id)] = g; });
+
+    const KEYS = window.KEYS || {};
+    TIENDAS = (window.TAMBOS || []).map(p => {
+      const id = String(p.ID || '');
+      const cb = (p.cluster_bono || '').trim().toUpperCase();
+      const key = KEYS[cb] || null;
+      const g = ganadoresMap[id];
+      if (g) {
+        return {
+          id, nombre: g.nombre || p.nombre || '',
+          cluster: cb, cluster_bono: cb,
+          rc: g.rc || p.rc || '', supervisor: g.supervisor || p.supervisor || '',
+          pp: g.pp, ld: g.ld, total: g.total,
+          meta_total: key ? key.meta    : null,
+          meta_pp:    key ? key.pp      : null,
+          meta_ld:    key ? key.lakidey : null,
+          ganando: true, bono_tier: cb, key,
+          bono_tienda: g.bono_tienda,
+          bono_admi:   g.bono_admi,
+        };
+      }
+      return {
+        id, nombre: p.nombre || '',
+        cluster: cb, cluster_bono: cb,
+        rc: p.rc || '', supervisor: p.supervisor || '',
+        pp: 0, ld: 0, total: 0,
+        meta_total: key ? key.meta    : null,
+        meta_pp:    key ? key.pp      : null,
+        meta_ld:    key ? key.lakidey : null,
+        ganando: false, bono_tier: null, key,
+        bono_tienda: 0, bono_admi: 0,
+      };
+    });
+
+    renderAlertaInactivos([]);
     renderStats();
     render();
   }
