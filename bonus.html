@@ -573,8 +573,13 @@
   const estadoHTML = t => {
     if (!t.cluster_bono || !['A','B','C','D'].includes(t.cluster_bono))
       return `<span class="estado-sin">Sin cluster</span>`;
-    if (t.ganando)
-      return `<span class="estado-ganando">✓ BONO</span>`;
+    if (t.ganando) {
+      const upward = t.bono_tier && t.bono_tier !== t.cluster_bono;
+      const extra  = upward
+        ? ` <span style="font-size:10px;background:rgba(34,197,94,.15);padding:1px 5px;border-radius:3px;color:#4ade80">↑${t.bono_tier}</span>`
+        : '';
+      return `<span class="estado-ganando">✓ BONO${extra}</span>`;
+    }
     return `<span class="estado-no">✗ Falta</span>`;
   };
 
@@ -684,10 +689,22 @@
       const v      = ventasMap[id] || { pp: 0, ld: 0, grand: 0 };
       const pp_uni = Math.floor(v.pp / 5); // soles → unidades (1 PozoPower = S/5)
       const total  = v.grand;
-      const ganando = key
-        ? (total >= key.meta && pp_uni >= key.pp && v.ld >= key.lakidey)
-        : false;
-      const premios = PREMIOS_MAP[cb] || { tienda: 0, admi: 0 };
+      // Tier más alto que cumple (del cluster asignado hacia arriba)
+      const TIER_ORDER = ['A', 'B', 'C', 'D'];
+      const floorIdx = TIER_ORDER.indexOf(cb);
+      let bonoTier = null;
+      if (floorIdx >= 0) {
+        for (let ti = 0; ti <= floorIdx; ti++) {
+          const t = TIER_ORDER[ti];
+          const k = KEYS[t];
+          if (k && total >= k.meta && pp_uni >= k.pp && v.ld >= k.lakidey) {
+            bonoTier = t;
+            break;
+          }
+        }
+      }
+      const ganando = bonoTier !== null;
+      const premios = PREMIOS_MAP[bonoTier || cb] || { tienda: 0, admi: 0 };
       return {
         id, nombre: p.nombre || '',
         cluster: cb, cluster_bono: cb,
@@ -696,7 +713,7 @@
         meta_total: key ? key.meta    : null,
         meta_pp:    key ? key.pp      : null,
         meta_ld:    key ? key.lakidey : null,
-        ganando, key,
+        ganando, bono_tier: bonoTier, key,
         bono_tienda: ganando ? premios.tienda : 0,
         bono_admi:   ganando ? premios.admi   : 0,
       };
@@ -1053,9 +1070,13 @@
 
   async function initPagos() {
     try {
-      const r = await fetch('data/pagos_sr.json?t=' + Date.now());
-      if (!r.ok) throw new Error(r.status);
-      window.PAGOS_DATA = await r.json();
+      const [pagosR, detalleR] = await Promise.all([
+        fetch('data/pagos_sr.json?t='     + Date.now()),
+        fetch('data/detalle_semana.json?t=' + Date.now()),
+      ]);
+      if (!pagosR.ok) throw new Error(pagosR.status + ' pagos_sr.json');
+      window.PAGOS_DATA   = await pagosR.json();
+      window.DETALLE_DATA = detalleR.ok ? await detalleR.json() : null;
       const n = window.PAGOS_DATA.tiendas_lista.length;
       document.getElementById('pagos-stat').textContent = `${n} tiendas en historial`;
       bindPagosSearch();
@@ -1139,9 +1160,11 @@
         <div class="mc-total" style="color:var(--muted);font-size:16px">—</div>
         <div class="mc-n">sin pagos</div>
       </div>`;
-      const isSel = pagosMesActivo === m;
+      const isSel    = pagosMesActivo === m;
+      const hasDet   = !!window.DETALLE_DATA?.por_tienda?.[tienda]?.[m];
+      const detBadge = hasDet ? `<span style="font-size:10px;background:rgba(56,189,248,.15);color:#38BDF8;padding:1px 5px;border-radius:3px;margin-left:4px">desglose</span>` : '';
       return `<div class="mes-card${isSel ? ' active' : ''}" onclick="toggleMesDetalle('${m}')">
-        <div class="mc-label">${labels[m]}</div>
+        <div class="mc-label">${labels[m]}${detBadge}</div>
         <div class="mc-total">S/ ${d.total.toFixed(2)}</div>
         <div class="mc-n">${d.n} persona${d.n !== 1 ? 's' : ''}</div>
       </div>`;
@@ -1167,6 +1190,51 @@
   }
 
   function renderMesDetalle(mes, d, label) {
+    // ── Desglose semanal (si existe) ───────────────────────────────
+    let detalleHtml = '';
+    const det = window.DETALLE_DATA?.por_tienda?.[pagosTiendaActual]?.[mes];
+    if (det) {
+      const semanas = det.semanas || [];
+      const filasS = semanas.map(s => {
+        const vt = det.tienda_semanal?.[s] ?? 0;
+        const va = det.admi_semanal?.[s]   ?? 0;
+        const tot = vt + va;
+        return `<tr>
+          <td style="color:var(--muted)">${s}</td>
+          <td style="color:#34D399;font-variant-numeric:tabular-nums">${vt > 0 ? 'S/ ' + vt.toFixed(0) : '—'}</td>
+          <td style="color:#38BDF8;font-variant-numeric:tabular-nums">${va > 0 ? 'S/ ' + va.toFixed(0) : '—'}</td>
+          <td style="font-weight:600;font-variant-numeric:tabular-nums">${tot > 0 ? 'S/ ' + tot.toFixed(0) : '—'}</td>
+        </tr>`;
+      }).join('');
+      detalleHtml = `
+        <div class="pagos-detail" style="margin-bottom:12px">
+          <h3 style="display:flex;justify-content:space-between;align-items:center">
+            <span>${label} — Desglose semanal calculado</span>
+            <span style="font-size:12px;font-weight:400;color:var(--muted)">Total: S/ ${det.total.toFixed(0)}</span>
+          </h3>
+          <div style="overflow-x:auto">
+            <table>
+              <thead><tr>
+                <th>Semana</th>
+                <th style="color:#34D399">Tienda</th>
+                <th style="color:#38BDF8">Admin</th>
+                <th>Total</th>
+              </tr></thead>
+              <tbody>
+                ${filasS}
+                <tr class="td-total-row">
+                  <td>Total</td>
+                  <td style="color:#34D399;font-weight:700">S/ ${det.monto_tienda.toFixed(0)}</td>
+                  <td style="color:#38BDF8;font-weight:700">S/ ${det.monto_admi.toFixed(0)}</td>
+                  <td style="font-weight:700">S/ ${det.total.toFixed(0)}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>`;
+    }
+
+    // ── Pagos SR efectuados ────────────────────────────────────────
     const filas = d.personas.map(p => `
       <tr>
         <td>${p.nombre || '—'}</td>
@@ -1174,8 +1242,11 @@
         <td class="td-monto">S/ ${p.monto.toFixed(2)}</td>
       </tr>`).join('');
 
-    return `<div class="pagos-detail">
-      <h3>${label} — ${d.n} persona${d.n !== 1 ? 's' : ''}</h3>
+    const srHtml = `<div class="pagos-detail">
+      <h3 style="display:flex;justify-content:space-between;align-items:center">
+        <span>${label} — Pagos SR efectuados</span>
+        <span style="font-size:12px;font-weight:400;color:var(--muted)">${d.n} persona${d.n !== 1 ? 's' : ''} · S/ ${d.total.toFixed(2)}</span>
+      </h3>
       <div style="overflow-x:auto">
         <table>
           <thead><tr><th>Nombre</th><th>DNI</th><th style="text-align:right">Monto</th></tr></thead>
@@ -1189,6 +1260,8 @@
         </table>
       </div>
     </div>`;
+
+    return detalleHtml + srHtml;
   }
 
 </script>
