@@ -443,7 +443,11 @@
   </div>
   <div class="stat-card" style="border-color:#F59E0B55;background:#F59E0B08;min-width:150px">
     <span class="stat-val" id="stat-total-pagar" style="color:#F59E0B;font-size:26px;font-weight:800">—</span>
-    <span class="stat-lbl" style="color:#F59E0B;opacity:.7">Total a pagar</span>
+    <span class="stat-lbl" style="color:#F59E0B;opacity:.7">Semana selecc.</span>
+  </div>
+  <div class="stat-card" style="border-color:#A78BFA55;background:#7C3AED08;min-width:150px">
+    <span class="stat-val" id="stat-total-mes" style="color:#A78BFA;font-size:26px;font-weight:800">—</span>
+    <span class="stat-lbl" style="color:#A78BFA;opacity:.7">Total mes</span>
   </div>
 </div>
 
@@ -851,6 +855,26 @@
       total > 0 ? Math.round(ganando / total * 100) + '%' : '—';
   }
 
+  // ── Total a pagar de un snapshot (con jerarquía de tiers) ──────
+  function totalPagoSemana(snap) {
+    const KEYS_L = window.KEYS || {};
+    const TO = ['A', 'B', 'C', 'D'];
+    let sum = 0;
+    (snap.ganadores || []).forEach(g => {
+      const cb = (g.cluster || '').toUpperCase();
+      const fi = TO.indexOf(cb);
+      if (fi < 0) return;
+      let bt = null;
+      for (let ti = 0; ti <= fi; ti++) {
+        const k = KEYS_L[TO[ti]];
+        if (k && g.total >= k.meta && g.pp >= k.pp && g.ld >= k.lakidey) { bt = TO[ti]; break; }
+      }
+      const pr = PREMIOS_MAP[bt || cb] || { tienda: 0, admi: 0 };
+      sum += pr.tienda + pr.admi;
+    });
+    return sum;
+  }
+
   // ── Filtro modo ─────────────────────────────────────────────────
   function toggleFiltroGanando() {
     modoFiltro = 'ganando';
@@ -923,6 +947,21 @@
     document.getElementById('stat-total-tienda').textContent = fmt(totalTienda);
     document.getElementById('stat-total-admi').textContent   = fmt(totalAdmi);
     document.getElementById('stat-total-pagar').textContent  = fmt(totalTienda + totalAdmi);
+
+    // Total acumulado de todas las semanas cerradas del mismo mes
+    const sj = window.SEMANA_JUEVES;
+    if (sj && window.HISTORICO_MAP) {
+      const mesRef = sj.getFullYear() * 100 + sj.getMonth();
+      let totalMes = 0;
+      Object.entries(window.HISTORICO_MAP).forEach(([jueStr, snap]) => {
+        if (!snap.completa) return;
+        const jd = new Date(jueStr + 'T12:00:00');
+        if (jd.getFullYear() * 100 + jd.getMonth() === mesRef) {
+          totalMes += totalPagoSemana(snap);
+        }
+      });
+      document.getElementById('stat-total-mes').textContent = fmt(totalMes);
+    }
 
     const tbody = document.getElementById('tbody');
     tbody.innerHTML = '';
