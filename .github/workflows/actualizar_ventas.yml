@@ -181,32 +181,42 @@ jobs:
               if tj == 'PozoPower': ventas_map[vid]['pp']    += amt
               if tj == 'LakiDey':  ventas_map[vid]['ld']    += amt
 
+          TIER_ORDER  = ['A', 'B', 'C', 'D']
           ganadores   = []
           por_cluster = {}
           for p in tambos:
               pid = str(p.get('ID', ''))
               cb  = str(p.get('cluster_bono', '')).strip().upper()
-              key = keys.get(cb)
-              if not key:
+              if cb not in TIER_ORDER:
                   continue
               v      = ventas_map.get(pid, {'pp': 0, 'ld': 0, 'grand': 0})
               pp_uni = v['pp'] // 5
               total  = v['grand']
-              if total >= key['meta'] and pp_uni >= key['pp'] and v['ld'] >= key['lakidey']:
-                  prem = PREMIOS.get(cb, {'tienda': 0, 'admi': 0})
-                  ganadores.append({
-                      'id':          pid,
-                      'nombre':      p.get('nombre', ''),
-                      'cluster':     cb,
-                      'rc':          p.get('rc', ''),
-                      'supervisor':  p.get('supervisor', ''),
-                      'total':        total,
-                      'pp':           pp_uni,
-                      'ld':           v['ld'],
-                      'bono_tienda':  prem['tienda'],
-                      'bono_admi':    prem['admi'],
-                  })
-                  por_cluster[cb] = por_cluster.get(cb, 0) + 1
+              floor_idx = TIER_ORDER.index(cb)
+              bono_tier = None
+              for ti in range(floor_idx + 1):
+                  t = TIER_ORDER[ti]
+                  k = keys.get(t)
+                  if k and total >= k['meta'] and pp_uni >= k['pp'] and v['ld'] >= k['lakidey']:
+                      bono_tier = t
+                      break
+              if bono_tier is None:
+                  continue
+              prem = PREMIOS.get(bono_tier, {'tienda': 0, 'admi': 0})
+              ganadores.append({
+                  'id':          pid,
+                  'nombre':      p.get('nombre', ''),
+                  'cluster':     cb,
+                  'bono_tier':   bono_tier,
+                  'rc':          p.get('rc', ''),
+                  'supervisor':  p.get('supervisor', ''),
+                  'total':       total,
+                  'pp':          pp_uni,
+                  'ld':          v['ld'],
+                  'bono_tienda': prem['tienda'],
+                  'bono_admi':   prem['admi'],
+              })
+              por_cluster[bono_tier] = por_cluster.get(bono_tier, 0) + 1
 
           primer_jueves = jueves.replace(day=1)
           while primer_jueves.weekday() != 3:

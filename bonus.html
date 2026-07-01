@@ -754,12 +754,26 @@
     (snap.ganadores || []).forEach(g => { ganadoresMap[String(g.id)] = g; });
 
     const KEYS = window.KEYS || {};
+    const TIER_ORDER_SNAP = ['A', 'B', 'C', 'D'];
     TIENDAS = (window.TAMBOS || []).map(p => {
       const id = String(p.ID || '');
       const cb = (p.cluster_bono || '').trim().toUpperCase();
       const key = KEYS[cb] || null;
       const g = ganadoresMap[id];
       if (g) {
+        // Recalcular tier con jerarquía usando datos reales del snapshot
+        const floorIdx = TIER_ORDER_SNAP.indexOf(cb);
+        let bonoTier = null;
+        if (floorIdx >= 0) {
+          for (let ti = 0; ti <= floorIdx; ti++) {
+            const t = TIER_ORDER_SNAP[ti];
+            const k = KEYS[t];
+            if (k && g.total >= k.meta && g.pp >= k.pp && g.ld >= k.lakidey) {
+              bonoTier = t; break;
+            }
+          }
+        }
+        const premios = PREMIOS_MAP[bonoTier || cb] || { tienda: 0, admi: 0 };
         return {
           id, nombre: g.nombre || p.nombre || '',
           cluster: cb, cluster_bono: cb,
@@ -768,9 +782,9 @@
           meta_total: key ? key.meta    : null,
           meta_pp:    key ? key.pp      : null,
           meta_ld:    key ? key.lakidey : null,
-          ganando: true, bono_tier: cb, key,
-          bono_tienda: g.bono_tienda,
-          bono_admi:   g.bono_admi,
+          ganando: true, bono_tier: bonoTier || cb, key,
+          bono_tienda: premios.tienda,
+          bono_admi:   premios.admi,
         };
       }
       return {
