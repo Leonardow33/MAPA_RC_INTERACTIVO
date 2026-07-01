@@ -318,6 +318,8 @@ html, body {
 .popup-btn-visita { display: none; width: 100%; padding: 13px; background: #1565C0; color: white; border: none; font-size: 15px; font-weight: 700; cursor: pointer; }
 .popup-btn-visita:active { opacity: 0.82; }
 .popup-msg-visita { display: block; text-align: center; font-size: 12px; color: #999; padding: 7px 14px 10px; background: #fff; border: 1px solid #e8e8e8; border-top: none; border-radius: 0 0 10px 10px; }
+.popup-btn-maps { display: flex; align-items: center; justify-content: center; width: 34px; height: 34px; border-radius: 8px; flex-shrink: 0; background: rgba(255,255,255,0.2); color: white; font-size: 17px; text-decoration: none; border: 1px solid rgba(255,255,255,0.35); transition: background 0.15s; }
+.popup-btn-maps:hover, .popup-btn-maps:active { background: rgba(255,255,255,0.4); }
 
 /* === MARKER PULSE === */
 @keyframes markerPulse { 0%{transform:scale(1)} 40%{transform:scale(1.5)} 100%{transform:scale(1)} }

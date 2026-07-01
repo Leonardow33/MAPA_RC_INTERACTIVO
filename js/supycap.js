@@ -300,8 +300,15 @@ function buildPopupContent(p) {
     return `
     <div class="popup-card">
       <div class="popup-header" style="background:${color}">
-        <span class="popup-nombre">${p.nombre}</span>
-        <span class="popup-badge">${p.responsable || "Sin partner"}</span>
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:6px">
+          <div>
+            <span class="popup-nombre">${p.nombre}</span>
+            <span class="popup-badge">${p.responsable || "Sin partner"}</span>
+          </div>
+          <a id="btn-maps-${safeId}"
+             href="https://www.google.com/maps/dir/?api=1&destination=${p.lat},${p.lng}"
+             target="_blank" class="popup-btn-maps" title="Cómo llegar">🗺️</a>
+        </div>
       </div>
       <div class="popup-body">
         <div class="popup-row"><span class="popup-lbl">ORG_CODE</span><span class="popup-val">${p.ID}</span></div>
@@ -322,6 +329,11 @@ function buildPopupContent(p) {
 function attachPopupOpen(marker, p) {
     const safeId = String(p.ID).replace(/[^a-zA-Z0-9_-]/g, "_");
     marker.on("popupopen", function() {
+        const mapsBtn = document.getElementById('btn-maps-' + safeId);
+        if (mapsBtn) {
+            const org = (userLat && userLng) ? `&origin=${userLat},${userLng}` : '';
+            mapsBtn.href = `https://www.google.com/maps/dir/?api=1${org}&destination=${p.lat},${p.lng}`;
+        }
         const svRow = document.getElementById("sv-row-" + safeId);
         const svBi  = document.getElementById("sv-bi-"  + safeId);
         if (svRow && svBi) {
