@@ -440,6 +440,7 @@ function buildPopupContent(p) {
       <div id="msg-visita-${safeId}" class="popup-msg-visita">📍 Acércate a 40m para registrar</div>
       <button id="btn-alerta-${safeId}" style="width:100%;background:transparent;border:1px solid #F57C00;color:#F57C00;border-radius:8px;padding:5px 0;font-size:11px;font-weight:600;cursor:pointer;font-family:inherit;margin-top:4px">⚠️ GPS incorrecto · Reportar</button>
       <div id="msg-alerta-${safeId}" style="display:none;font-size:11px;text-align:center;padding:3px 0;color:#388E3C"></div>
+      ${!isElot ? `<a href="https://script.google.com/macros/s/AKfycbwwiK8eoC5nmrGhUKpRnIFqjpu5aSefb24O5TEYMNAOTpugmCFjdJAOJQLoNAMIFTk2hg/exec?org_code=${encodeURIComponent(p.ID)}&partner=${encodeURIComponent(p.tipo || '')}" target="_blank" style="display:block;width:100%;background:#ad1457;color:#fff;border-radius:8px;padding:6px 0;font-size:12px;font-weight:700;text-align:center;text-decoration:none;margin-top:6px;box-sizing:border-box">🎱 Reportar Incidente</a>` : ''}
     </div>`;
 }
 
