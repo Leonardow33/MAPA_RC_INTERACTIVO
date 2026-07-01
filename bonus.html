@@ -1084,9 +1084,17 @@
     });
 
     // ── 3. Construir filas Excel ─────────────────────────────────────
+    const MESES_CORTO = ['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
+    const bonoLabels = Array.from({ length: 5 }, (_, i) => {
+      const s = semanasCompletas[i];
+      if (!s) return `BONO ${i + 1}`;
+      const jd = new Date(s.jueves    + 'T12:00:00');
+      const md = new Date(s.miercoles + 'T12:00:00');
+      return `${jd.getDate()} ${MESES_CORTO[jd.getMonth()]} - ${md.getDate()} ${MESES_CORTO[md.getMonth()]}`;
+    });
     const HEADERS = [
-      'BONO 1','BONO 2','BONO 3','BONO 4','BONO 5','MONTO TIENDA',
-      'BONO 1','BONO 2','BONO 3','BONO 4','BONO 5','MONTO ADMI',
+      ...bonoLabels, 'MONTO TIENDA',
+      ...bonoLabels, 'MONTO ADMI',
       'TOTAL','RETAIL','POSICION','NOMBRE DE TIENDA','DETALLE',
       'DNI','NOMBRES','APELLIDO PATERNO','APELLIDO MATERNO','MONTO',
     ];
