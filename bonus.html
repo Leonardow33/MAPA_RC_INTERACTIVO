@@ -1133,7 +1133,7 @@
     const mes = new Date().toISOString().slice(0, 7);
     const wb  = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(wb, ws, 'BONO');
-    XLSX.writeFile(wb, `FORMATO_TAMBO_${mes}_${semanasCerradas.length}sem.xlsx`);
+    XLSX.writeFile(wb, `FORMATO_TAMBO_${mes}_${semanasCompletas.length}sem.xlsx`);
   }
 
   // ── Listeners ───────────────────────────────────────────────────
