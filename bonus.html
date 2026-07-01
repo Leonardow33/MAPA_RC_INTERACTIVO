@@ -954,7 +954,7 @@
       const mesRef = sj.getFullYear() * 100 + sj.getMonth();
       let totalMes = 0;
       Object.entries(window.HISTORICO_MAP).forEach(([jueStr, snap]) => {
-        if (!snap.completa) return;
+        if (snap.completa === false) return;
         const jd = new Date(jueStr + 'T12:00:00');
         if (jd.getFullYear() * 100 + jd.getMonth() === mesRef) {
           totalMes += totalPagoSemana(snap);
@@ -1017,74 +1017,57 @@
     tbody.appendChild(tr);
   }
 
-  // ── Descarga FORMATO_1_TAMBO (todas las semanas cerradas del mes) ──
+  // ── Descarga FORMATO_1_TAMBO (semanas cerradas del mes seleccionado) ──
   function descargarFormato1() {
-    const ventas  = window.TODAS_VENTAS || [];
-    const keysMap = window.KEYS || {};
-    const tambos  = window.TAMBOS || [];
-
-    if (!ventas.length || !tambos.length) {
+    if (!window.HISTORICO_MAP || !window.SEMANA_JUEVES) {
       alert('Datos no cargados aún.');
       return;
     }
 
-    const hoyStr = isoDate(new Date());
+    const sj     = window.SEMANA_JUEVES;
+    const mesRef = sj.getFullYear() * 100 + sj.getMonth();
 
-    // ── 1. Detectar semanas cerradas (miércoles ya pasó) ─────────────
-    const semanasSet = {};
-    ventas.forEach(v => {
-      if (!v.fecha) return;
-      const jue    = juevesDe(new Date(v.fecha + 'T12:00:00'));
-      const jueStr = isoDate(jue);
-      const mieStr = isoDate(new Date(jue.getTime() + 6 * 86400000));
-      if (mieStr <= hoyStr) semanasSet[jueStr] = jue;
-    });
+    // ── 1. Semanas completas del mes seleccionado desde historico ────
+    const semanasCompletas = Object.values(window.HISTORICO_MAP)
+      .filter(s => {
+        if (s.completa === false) return false;
+        const jd = new Date(s.jueves + 'T12:00:00');
+        return jd.getFullYear() * 100 + jd.getMonth() === mesRef;
+      })
+      .sort((a, b) => a.jueves.localeCompare(b.jueves));
 
-    const semanasCerradas = Object.values(semanasSet).sort((a, b) => a - b);
-
-    if (semanasCerradas.length === 0) {
+    if (semanasCompletas.length === 0) {
       alert('No hay semanas cerradas en el mes actual.');
       return;
     }
 
-    // ── 2. Calcular ganadores por semana y acumular por tienda ───────
-    const tiendaBonos = {};  // id → { bonosTienda:[…], bonosAdmi:[…] }
-    const tiendaInfo  = {};  // id → { nombre, cluster, rc }
+    // ── 2. Acumular ganadores por tienda desde historico ─────────────
+    const tiendaBonos = {};
+    const tiendaInfo  = {};
+    const KEYS_L = window.KEYS || {};
+    const TO = ['A','B','C','D'];
 
-    semanasCerradas.forEach(jueves => {
+    semanasCompletas.forEach(snap => {
+      const jueves  = new Date(snap.jueves + 'T12:00:00');
       const bonoNum = getBonoNumero(jueves);
-      const jueStr  = isoDate(jueves);
-      const mieStr  = isoDate(new Date(jueves.getTime() + 6 * 86400000));
 
-      // Agregar ventas de la semana
-      const vm = {};
-      ventas.forEach(v => {
-        if (!v.fecha || v.fecha < jueStr || v.fecha > mieStr) return;
-        const id = String(v.org_code);
-        if (!vm[id]) vm[id] = { pp: 0, ld: 0, grand: 0 };
-        const amt = v.total || 0;
-        if (v.tipo_juego === 'TOTAL')     vm[id].grand += amt;
-        if (v.tipo_juego === 'PozoPower') vm[id].pp    += amt;
-        if (v.tipo_juego === 'LakiDey')  vm[id].ld    += amt;
-      });
-
-      // Evaluar cada tienda
-      tambos.forEach(p => {
-        const id  = String(p.ID || '');
-        const cb  = (p.cluster_bono || '').trim().toUpperCase();
-        const key = keysMap[cb];
-        if (!key) return;
-        const v      = vm[id] || { pp: 0, ld: 0, grand: 0 };
-        const pp_uni = Math.floor(v.pp / 5);
-        if (v.grand >= key.meta && pp_uni >= key.pp && v.ld >= key.lakidey) {
-          if (!tiendaBonos[id]) {
-            tiendaBonos[id] = { bonosTienda: [0,0,0,0,0], bonosAdmi: [0,0,0,0,0] };
-            tiendaInfo[id]  = { nombre: p.nombre || '', cluster: cb, rc: p.rc || '' };
-          }
-          const prem = PREMIOS_MAP[cb] || { tienda: 0, admi: 0 };
-          tiendaBonos[id].bonosTienda[bonoNum - 1] = prem.tienda;
-          tiendaBonos[id].bonosAdmi[bonoNum - 1]   = prem.admi;
+      (snap.ganadores || []).forEach(g => {
+        const id = String(g.id);
+        const cb = (g.cluster || '').toUpperCase();
+        const fi = TO.indexOf(cb);
+        if (fi < 0) return;
+        let bt = null;
+        for (let ti = 0; ti <= fi; ti++) {
+          const k = KEYS_L[TO[ti]];
+          if (k && g.total >= k.meta && g.pp >= k.pp && g.ld >= k.lakidey) { bt = TO[ti]; break; }
         }
+        const prem = PREMIOS_MAP[bt || cb] || { tienda: 0, admi: 0 };
+        if (!tiendaBonos[id]) {
+          tiendaBonos[id] = { bonosTienda: [0,0,0,0,0], bonosAdmi: [0,0,0,0,0] };
+          tiendaInfo[id]  = { nombre: g.nombre || '', cluster: cb, rc: g.rc || '' };
+        }
+        tiendaBonos[id].bonosTienda[bonoNum - 1] = prem.tienda;
+        tiendaBonos[id].bonosAdmi[bonoNum - 1]   = prem.admi;
       });
     });
 
