@@ -423,7 +423,7 @@ function buildPopupContent(p) {
             <a id="btn-maps-${safeId}"
                href="https://www.google.com/maps/dir/?api=1&destination=${p.lat},${p.lng}"
                target="_blank" class="popup-btn-maps" title="Cómo llegar">🗺️</a>
-            ${!isElot ? `<a href="https://script.google.com/macros/s/AKfycbwwiK8eoC5nmrGhUKpRnIFqjpu5aSefb24O5TEYMNAOTpugmCFjdJAOJQLoNAMIFTk2hg/exec?org_code=${encodeURIComponent(p.ID)}&partner=${encodeURIComponent(p.tipo || '')}" target="_blank" class="popup-btn-maps" title="Reportar Incidente">🎱</a>` : ''}
+            ${!isElot ? `<a href="https://script.google.com/macros/s/AKfycbwwiK8eoC5nmrGhUKpRnIFqjpu5aSefb24O5TEYMNAOTpugmCFjdJAOJQLoNAMIFTk2hg/exec?org_code=${encodeURIComponent(p.ID)}&partner=${encodeURIComponent(p.tipo || '')}" target="_blank" class="popup-btn-maps" title="Reportar Incidente">⚠️</a>` : ''}
           </div>
         </div>
       </div>
