@@ -224,18 +224,35 @@ jobs:
           bono_num = ((jueves - primer_jueves).days // 7) + 1
           bono_num = max(1, min(5, bono_num))
 
+          # Guardar datos acumulados de TODAS las tambos (no solo ganadores)
+          # para que el snapshot del mes siguiente pueda completar la semana
+          ventas_parciales = {}
+          for p in tambos:
+              pid = str(p.get('ID', ''))
+              cb  = str(p.get('cluster_bono', '')).strip().upper()
+              if cb not in TIER_ORDER:
+                  continue
+              v = ventas_map.get(pid)
+              if v and (v['pp'] > 0 or v['ld'] > 0 or v['grand'] > 0):
+                  ventas_parciales[pid] = {
+                      'pp':    v['pp'] // 5,   # soles → unidades
+                      'ld':    v['ld'],
+                      'grand': v['grand'],
+                  }
+
           meses_es = ['','Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic']
           entry = {
-              'jueves':          str(jueves),
-              'miercoles':       str(miercoles_real),
-              'semana':          f"{jueves.day} {meses_es[jueves.month]} – {miercoles_real.day} {meses_es[miercoles_real.month]} {miercoles_real.year}",
-              'bono_num':        bono_num,
-              'completa':        False,
-              'dias_completos':  dias_completos,
-              'nota':            f"Semana incompleta: falta {meses_es[miercoles_teorico.month]} {miercoles_teorico.day} (modelo nuevo)",
-              'total_ganadores': len(ganadores),
-              'por_cluster':     por_cluster,
-              'ganadores':       sorted(ganadores, key=lambda x: x['cluster'] + x['nombre']),
+              'jueves':           str(jueves),
+              'miercoles':        str(miercoles_real),
+              'semana':           f"{jueves.day} {meses_es[jueves.month]} – {miercoles_real.day} {meses_es[miercoles_real.month]} {miercoles_real.year}",
+              'bono_num':         bono_num,
+              'completa':         False,
+              'dias_completos':   dias_completos,
+              'nota':             f"Semana incompleta: falta {meses_es[miercoles_teorico.month]} {miercoles_teorico.day} (modelo nuevo)",
+              'total_ganadores':  len(ganadores),
+              'por_cluster':      por_cluster,
+              'ganadores':        sorted(ganadores, key=lambda x: x['cluster'] + x['nombre']),
+              'ventas_parciales': ventas_parciales,
           }
 
           print(f"  BONO {bono_num} | {dias_completos}/7 días | {len(ganadores)} ganadores")

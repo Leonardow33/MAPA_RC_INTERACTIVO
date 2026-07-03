@@ -74,14 +74,25 @@ jobs:
               primer_dia_nuevo = mie_parcial + timedelta(days=1)
               print(f"  Semana cruzada: datos parciales hasta {mie_parcial}, nuevos desde {primer_dia_nuevo}")
 
-              # Base: ganadores del periodo anterior (pp almacenado en unidades → convertir a soles)
-              for g in partial.get('ganadores', []):
-                  vid = str(g['id'])
-                  ventas_map[vid] = {
-                      'pp':    g['pp'] * 5,
-                      'ld':    g['ld'],
-                      'grand': g['total'],
-                  }
+              # Base: usar ventas_parciales (todas las tiendas) si existe,
+              # sino fallback a ganadores únicamente (versión legacy)
+              if partial.get('ventas_parciales'):
+                  print(f"  Usando ventas_parciales: {len(partial['ventas_parciales'])} tiendas")
+                  for vid, vp in partial['ventas_parciales'].items():
+                      ventas_map[vid] = {
+                          'pp':    vp['pp'] * 5,   # unidades → soles
+                          'ld':    vp['ld'],
+                          'grand': vp['grand'],
+                      }
+              else:
+                  print(f"  Fallback: usando solo ganadores parciales ({len(partial.get('ganadores',[]))})")
+                  for g in partial.get('ganadores', []):
+                      vid = str(g['id'])
+                      ventas_map[vid] = {
+                          'pp':    g['pp'] * 5,
+                          'ld':    g['ld'],
+                          'grand': g['total'],
+                      }
 
               # Agregar dias del nuevo mes
               for v in ventas:
