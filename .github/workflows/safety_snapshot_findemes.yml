@@ -1,0 +1,204 @@
+name: Safety Snapshot Fin de Mes
+
+# Corre a las 11:00 AM Peru (UTC-5) todos los dias.
+# Solo actua el ultimo dia del mes — el resto sale en segundos.
+# NO descarga SharePoint: lee el ventas_mes.json ya guardado en el repo.
+# Proposito: garantizar que ventas_parciales quede registrado antes de que
+# el modelo de BI borre los datos del mes cerrado (~12pm Peru).
+# Si el workflow de las 8am (actualizar_ventas.yml) ya lo hizo, este es un no-op.
+
+on:
+  schedule:
+    - cron: '0 16 * * *'   # 11:00 AM Peru (UTC-5) todos los dias
+  workflow_dispatch:
+
+jobs:
+  safety-snapshot:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Snapshot fin de mes (safety net)
+        run: |
+          python3 - << 'PYEOF'
+          import json, sys
+          from datetime import date, timedelta
+          from pathlib import Path
+
+          today    = date.today()
+          tomorrow = today + timedelta(days=1)
+
+          if tomorrow.month == today.month:
+              print(f"No es fin de mes ({today}). Nada que hacer.")
+              sys.exit(0)
+
+          print(f"Fin de mes detectado: {today} — ejecutando safety snapshot...")
+
+          PREMIOS = {
+              'A': {'tienda': 100, 'admi': 70},
+              'B': {'tienda':  70, 'admi': 50},
+              'C': {'tienda':  50, 'admi': 40},
+              'D': {'tienda':  40, 'admi': 30},
+          }
+
+          ventas_path = Path('data/ventas_mes.json')
+          if not ventas_path.exists():
+              print("ERROR: data/ventas_mes.json no existe. Abortando.")
+              sys.exit(1)
+
+          ventas_data = json.loads(ventas_path.read_text(encoding='utf-8'))
+          puntos_data = json.loads(Path('data/puntos.json').read_text(encoding='utf-8'))
+          keys_data   = json.loads(Path('data/keys_bonos.json').read_text(encoding='utf-8'))
+
+          ventas_updated = ventas_data.get('updated', 'desconocido')
+          print(f"  ventas_mes.json actualizado: {ventas_updated}")
+
+          keys   = {k['cluster']: k for k in keys_data}
+          tambos = [p for p in puntos_data
+                    if 'TAMBO' in str(p.get('tipo', '')).upper()
+                    or str(p.get('cluster_bono', '')).strip().upper() in ['A','B','C','D']]
+
+          # Semana actual
+          dias_desde_jueves = (today.weekday() - 3) % 7
+          jueves             = today - timedelta(days=dias_desde_jueves)
+          miercoles_teorico  = jueves + timedelta(days=6)
+
+          if miercoles_teorico.month == today.month:
+              print(f"La semana {jueves}→{miercoles_teorico} queda en el mismo mes. El jueves la capturara.")
+              sys.exit(0)
+
+          miercoles_real = today
+          dias_completos = (miercoles_real - jueves).days + 1
+          print(f"Semana incompleta: {jueves} (Jue) → {miercoles_real} ({dias_completos}/7 dias)")
+
+          # Verificar si ya existe entrada completa para esta semana
+          hist_path = Path('data/historico_bonos.json')
+          hist = json.loads(hist_path.read_text(encoding='utf-8')) if hist_path.exists() else {'semanas': []}
+
+          existing = next((s for s in hist['semanas'] if s['jueves'] == str(jueves)), None)
+          if existing and existing.get('completa') is True:
+              print(f"La semana {jueves} ya esta marcada como completa. Nada que hacer.")
+              sys.exit(0)
+
+          if existing and existing.get('completa') is False and existing.get('ventas_parciales'):
+              # Ya existe partial con ventas_parciales — solo actualizar si tenemos datos mas recientes
+              # Comparar timestamp del ventas_mes.json con el de la entrada existente
+              print(f"Entrada parcial ya existe con {len(existing['ventas_parciales'])} tiendas en ventas_parciales.")
+              print(f"  Actualizando con datos mas recientes de ventas_mes.json...")
+
+          ventas = ventas_data.get('body') or ventas_data.get('ventas') or []
+          ventas_map = {}
+          for v in ventas:
+              try:
+                  fecha = date.fromisoformat(v.get('fecha', '1900-01-01'))
+              except ValueError:
+                  continue
+              if fecha < jueves or fecha > miercoles_real:
+                  continue
+              vid = str(v.get('org_code', ''))
+              if vid not in ventas_map:
+                  ventas_map[vid] = {'pp': 0, 'ld': 0, 'grand': 0}
+              tj  = v.get('tipo_juego', '')
+              amt = v.get('total') or 0
+              if tj == 'TOTAL':     ventas_map[vid]['grand'] += amt
+              if tj == 'PozoPower': ventas_map[vid]['pp']    += amt
+              if tj == 'LakiDey':  ventas_map[vid]['ld']    += amt
+
+          TIER_ORDER = ['A', 'B', 'C', 'D']
+          ganadores  = []
+          por_cluster = {}
+          for p in tambos:
+              pid = str(p.get('ID', ''))
+              cb  = str(p.get('cluster_bono', '')).strip().upper()
+              if cb not in TIER_ORDER:
+                  continue
+              v      = ventas_map.get(pid, {'pp': 0, 'ld': 0, 'grand': 0})
+              pp_uni = v['pp'] // 5
+              total  = v['grand']
+              floor_idx = TIER_ORDER.index(cb)
+              bono_tier = None
+              for ti in range(floor_idx + 1):
+                  t = TIER_ORDER[ti]
+                  k = keys.get(t)
+                  if k and total >= k['meta'] and pp_uni >= k['pp'] and v['ld'] >= k['lakidey']:
+                      bono_tier = t
+                      break
+              if bono_tier is None:
+                  continue
+              prem = PREMIOS.get(bono_tier, {'tienda': 0, 'admi': 0})
+              ganadores.append({
+                  'id':          pid,
+                  'nombre':      p.get('nombre', ''),
+                  'cluster':     cb,
+                  'bono_tier':   bono_tier,
+                  'rc':          p.get('rc', ''),
+                  'supervisor':  p.get('supervisor', ''),
+                  'total':       total,
+                  'pp':          pp_uni,
+                  'ld':          v['ld'],
+                  'bono_tienda': prem['tienda'],
+                  'bono_admi':   prem['admi'],
+              })
+              por_cluster[bono_tier] = por_cluster.get(bono_tier, 0) + 1
+
+          # ventas_parciales: TODAS las tiendas con datos (no solo ganadores)
+          ventas_parciales = {}
+          for p in tambos:
+              pid = str(p.get('ID', ''))
+              cb  = str(p.get('cluster_bono', '')).strip().upper()
+              if cb not in TIER_ORDER:
+                  continue
+              v = ventas_map.get(pid)
+              if v and (v['pp'] > 0 or v['ld'] > 0 or v['grand'] > 0):
+                  ventas_parciales[pid] = {
+                      'pp':    v['pp'] // 5,
+                      'ld':    v['ld'],
+                      'grand': v['grand'],
+                  }
+
+          primer_jueves = jueves.replace(day=1)
+          while primer_jueves.weekday() != 3:
+              primer_jueves += timedelta(days=1)
+          bono_num = ((jueves - primer_jueves).days // 7) + 1
+          bono_num = max(1, min(5, bono_num))
+
+          meses_es = ['','Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic']
+          entry = {
+              'jueves':           str(jueves),
+              'miercoles':        str(miercoles_real),
+              'semana':           f"{jueves.day} {meses_es[jueves.month]} – {miercoles_real.day} {meses_es[miercoles_real.month]} {miercoles_real.year}",
+              'bono_num':         bono_num,
+              'completa':         False,
+              'dias_completos':   dias_completos,
+              'nota':             f"Semana incompleta: falta {meses_es[miercoles_teorico.month]} {miercoles_teorico.day} (mes nuevo)",
+              'total_ganadores':  len(ganadores),
+              'por_cluster':      por_cluster,
+              'ganadores':        sorted(ganadores, key=lambda x: x['cluster'] + x['nombre']),
+              'ventas_parciales': ventas_parciales,
+          }
+
+          print(f"  BONO {bono_num} | {dias_completos}/7 dias | {len(ganadores)} ganadores parciales | {len(ventas_parciales)} tiendas en ventas_parciales")
+
+          idx = next((i for i, s in enumerate(hist['semanas']) if s['jueves'] == str(jueves)), None)
+          if idx is not None:
+              hist['semanas'][idx] = entry
+              print(f"  Entrada {jueves} actualizada (safety snapshot)")
+          else:
+              hist['semanas'].append(entry)
+              print(f"  Entrada {jueves} creada (safety snapshot)")
+
+          hist['semanas'].sort(key=lambda s: s['jueves'])
+          hist_path.write_text(json.dumps(hist, ensure_ascii=False, indent=2), encoding='utf-8')
+          print("historico_bonos.json guardado OK")
+          PYEOF
+
+      - name: Commit si hubo cambios
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add data/historico_bonos.json
+          git diff --cached --quiet && echo "Sin cambios — entrada ya estaba actualizada" || \
+            (git commit -m "chore: safety snapshot fin de mes $(date -u '+%Y-%m-%d')" && git pull --rebase && git push)

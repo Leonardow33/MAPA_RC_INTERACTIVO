@@ -95,6 +95,7 @@ jobs:
                       }
 
               # Agregar dias del nuevo mes
+              fechas_nuevas = set()
               for v in ventas:
                   try:
                       fecha = date.fromisoformat(v.get('fecha', '1900-01-01'))
@@ -102,6 +103,7 @@ jobs:
                       continue
                   if fecha < primer_dia_nuevo or fecha > miercoles:
                       continue
+                  fechas_nuevas.add(str(fecha))
                   vid = str(v.get('org_code', ''))
                   if vid not in ventas_map:
                       ventas_map[vid] = {'pp': 0, 'ld': 0, 'grand': 0}
@@ -110,6 +112,11 @@ jobs:
                   if tj == 'TOTAL':     ventas_map[vid]['grand'] += amt
                   if tj == 'PozoPower': ventas_map[vid]['pp']    += amt
                   if tj == 'LakiDey':  ventas_map[vid]['ld']    += amt
+              if fechas_nuevas:
+                  print(f"  Dias del mes nuevo incorporados: {sorted(fechas_nuevas)}")
+              else:
+                  print(f"  ADVERTENCIA: no se encontraron ventas entre {primer_dia_nuevo} y {miercoles} en ventas_mes.json")
+                  print(f"  Verifica que ventas_mes.json ya fue actualizado con datos del mes nuevo.")
           else:
               # ── Semana normal: leer todo desde ventas_mes.json ────────────
               for v in ventas:
