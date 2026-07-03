@@ -1,11 +1,13 @@
 name: Safety Snapshot Fin de Mes
 
-# Corre a las 11:00 AM Peru (UTC-5) todos los dias.
+# Corre a las 11:00 AM Peru (UTC-5) todos los dias como red de seguridad intermedia.
 # Solo actua el ultimo dia del mes — el resto sale en segundos.
 # NO descarga SharePoint: lee el ventas_mes.json ya guardado en el repo.
-# Proposito: garantizar que ventas_parciales quede registrado antes de que
-# el modelo de BI borre los datos del mes cerrado (~12pm Peru).
-# Si el workflow de las 8am (actualizar_ventas.yml) ya lo hizo, este es un no-op.
+# Orden del ultimo dia del mes:
+#   08:00 AM → actualizar_ventas.yml (descarga + snapshot con datos hasta ~8am)
+#   11:00 AM → este workflow        (safety net si fallo el de 8am)
+#   11:00 PM → actualizar_ventas.yml (descarga + snapshot con datos del dia casi completo) ← el mejor
+#   ~12:00 PM del dia siguiente → BI borra datos del mes cerrado
 
 on:
   schedule:
@@ -25,17 +27,18 @@ jobs:
         run: |
           python3 - << 'PYEOF'
           import json, sys
-          from datetime import date, timedelta
+          from datetime import date, datetime, timedelta, timezone
           from pathlib import Path
 
-          today    = date.today()
+          PERU_TZ = timezone(timedelta(hours=-5))
+          today    = datetime.now(PERU_TZ).date()
           tomorrow = today + timedelta(days=1)
 
           if tomorrow.month == today.month:
-              print(f"No es fin de mes ({today}). Nada que hacer.")
+              print(f"No es fin de mes ({today} hora Peru). Nada que hacer.")
               sys.exit(0)
 
-          print(f"Fin de mes detectado: {today} — ejecutando safety snapshot...")
+          print(f"Fin de mes detectado: {today} (hora Peru) — ejecutando safety snapshot...")
 
           PREMIOS = {
               'A': {'tienda': 100, 'admi': 70},

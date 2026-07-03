@@ -3,6 +3,7 @@ name: Actualizar Ventas Mes
 on:
   schedule:
     - cron: '0 13 * * *'   # 8:00 AM Peru (UTC-5) todos los días
+    - cron: '0 4 * * *'    # 11:00 PM Peru (UTC-5) — descarga con datos del dia casi completo
   workflow_dispatch:
 
 jobs:
@@ -118,18 +119,22 @@ jobs:
         run: |
           python3 - << 'PYEOF'
           import json, sys
-          from datetime import date, timedelta
+          from datetime import date, datetime, timedelta, timezone
           from pathlib import Path
 
-          today    = date.today()
+          # Usar hora Peru (UTC-5) para que el cron de las 11pm funcione correctamente.
+          # A las 11pm Peru = 4am UTC del dia siguiente; date.today() devuelve el dia UTC
+          # (ya es el 1 del mes), pero en Peru todavia es el ultimo dia del mes anterior.
+          PERU_TZ = timezone(timedelta(hours=-5))
+          today    = datetime.now(PERU_TZ).date()
           tomorrow = today + timedelta(days=1)
 
           # Solo actuar si mañana es el 1 del mes siguiente
           if tomorrow.month == today.month:
-              print(f"No es fin de mes ({today}). Nada que hacer.")
+              print(f"No es fin de mes ({today} hora Peru). Nada que hacer.")
               sys.exit(0)
 
-          print(f"Fin de mes detectado: {today}")
+          print(f"Fin de mes detectado: {today} (hora Peru)")
 
           # Jueves de la semana actual
           dias_desde_jueves = (today.weekday() - 3) % 7
