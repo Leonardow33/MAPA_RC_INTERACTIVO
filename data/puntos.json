@@ -15,12 +15,12 @@
         "responsable": "LOTOBOLA",
         "frecuencia": "LUNES-MARTES-MIÉRCOLES-JUEVES-VIERNES-SÁBADO",
         "dias": [
-            "LUNES",
-            "VIERNES",
-            "MARTES",
-            "SÁBADO",
             "MIÉRCOLES",
-            "JUEVES"
+            "VIERNES",
+            "LUNES",
+            "MARTES",
+            "JUEVES",
+            "SÁBADO"
         ],
         "meta_diaria": null,
         "direccion": "Av. Santo Toribio 143, San Isidro 15073",
@@ -235,8 +235,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": 20.0,
         "direccion": "AV. CARLOS IZAGUIRRE NRO. 123 URB. HAB. IND. PANAME. NORTE LIMA-LIMA-INDEPENDENCIA",
@@ -477,8 +477,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": 20.0,
         "direccion": "AV. FRANCISCO BOLOGNESI NRO. 1095 URB. LA UNIVERSAL 3RA ETAPA LIMA-LIMA-SANTA ANITA",
@@ -639,8 +639,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": 20.0,
         "direccion": "MZA. H LOTE. 19 URB. EL ROSARIO LIMA-LIMA-SAN MARTIN DE PORRES",
@@ -666,8 +666,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": 20.0,
         "direccion": "AV. SAN BORJA NORTE NRO. 996 (PRIMER PISO) LIMA-LIMA-SAN BORJA",
@@ -693,8 +693,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": 20.0,
         "direccion": "AV. ANGAMOS NRO. 1001 (1ER PISO JR INCA 806) LIMA-LIMA-SURQUILLO",
@@ -882,8 +882,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": 20.0,
         "direccion": "AV. PROLONGACION PASEO DE LA REPUBLICA MZA. B LOTE. 13 URB. PASEO REPUBLICA LIMA-LIMA-CHORRILLOS",
@@ -909,8 +909,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": 20.0,
         "direccion": "AV. AVIACION NRO. 3015 LIMA-LIMA-SAN BORJA",
@@ -936,8 +936,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": 20.0,
         "direccion": "MZA. A LOTE. 1 URB. COOPERATIVA DE VIVIENDA L LIMA-LIMA-SAN JUAN DE LURIGANCHO",
@@ -989,8 +989,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": 20.0,
         "direccion": "AV. UNIVERSITARIA MZA. D-6 LOTE. 1 URB. PANDO OCTAVA ETAPA (LOCAL 2)LIMA-LIMA-SAN MIGUEL",
@@ -1043,8 +1043,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": 50.0,
         "direccion": "PJ. MARABU NRO. 115 URB. SANTA ANITA (PRIMER PISO) LIMA-LIMA-SANTA ANITA",
@@ -1097,8 +1097,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": 20.0,
         "direccion": "AV. LAS FLORES DE PRIMAVERA MZA. 98 LOTE. 18 (PRIMER PISO) LIMA-LIMA-SAN JUAN DE LURIGANCHO",
@@ -1204,8 +1204,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": 20.0,
         "direccion": "AGRUPAMIENTO MI PERÚ, MZ G7 LT 4 GRUPO G, VENTANILLA CALLAO-MI PERÚ",
@@ -1231,8 +1231,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": 20.0,
         "direccion": "AV. MANCO CAPAC NRO. 299 LIMA-LIMA-LA VICTORIA",
@@ -1365,8 +1365,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": 20.0,
         "direccion": "AV. ANTUNEZ DE MAYOLO NRO. 960 URB. MERCURIO LIMA-LIMA-LOS OLIVOS",
@@ -1392,8 +1392,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": 50.0,
         "direccion": "CAL.MONTE ROSA NRO. S/N INT. 137 LIMA-LIMA-SANTIAGO DE SURCO",
@@ -1419,8 +1419,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": 80.0,
         "direccion": "CALLE ARCO IRIS PSJE 118 PUERTA 6 PRIMER PISO URB.ALBORADA LIMA-LIMA-SANTIAGO DE SURCO",
@@ -1500,8 +1500,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": 20.0,
         "direccion": "JR.JUAN VALER ( ANTES CUEVA ) N°718 MZ.I LOTE 9 LIMA-LIMA-PUEBLO LIBRE",
@@ -1689,8 +1689,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": 20.0,
         "direccion": "URB.CIUIDAD SATELITE DE VENTANILLA MZ. V-6 SUB LOTE 28A - LOS FICUS CALLAO-CALLAO-VENTANILLA",
@@ -1797,8 +1797,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": 20.0,
         "direccion": "AV. CAMINO REAL NRO. 101 LIMA-LIMA-SAN ISIDRO",
@@ -1878,8 +1878,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": 20.0,
         "direccion": "AV. TUPAC AMARU II N°.752 URB.LAS VIOLETES LIMA-LIMA-INDEPENDENCIA",
@@ -2040,8 +2040,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": 20.0,
         "direccion": "AV. LAS PALMERAS 3818 (MZA. E LOTE. 2 ) LIMA-LIMA-LOS OLIVOS",
@@ -2121,8 +2121,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": 20.0,
         "direccion": "AV. AVIACION NRO. 3462 C.H. LIMATAMBO LIMA - LIMA - SAN BORJA",
@@ -2310,8 +2310,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": 20.0,
         "direccion": "AV. ANGAMOS 401 ESQ. CALLE INDEPENDENCIA LIMA-LIMA-MIRAFLORES",
@@ -2337,8 +2337,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": 20.0,
         "direccion": "AV.BRIGIDA SILVA DE OCHOA LOTE 40 MZA.J22 -2 URB.PANDO LIMA-LIMA-SAN MIGUEL",
@@ -2580,8 +2580,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": 20.0,
         "direccion": "AV. MANUEL OLGUIN NRO. 205 URB. EX PARCELACION SEMIRUSTICA LOS GRANADOS LIMA-LIMA-SANTIAGO DE SURCO",
@@ -2661,8 +2661,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": 20.0,
         "direccion": "AV. CIRCUNVALACIÓN NRO S/N URB CLUB GOLF LOS INCAS LIMA-LIMA-SANTIAGO DE SURCO",
@@ -2742,8 +2742,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": 20.0,
         "direccion": "CARR. PANAMERICANA LTE Nº 30 DE LA MZA P. URB LOS LAURELES(AV.HUAYLAS 788-790) LIMA-LIMA-CHORRILLOS",
@@ -2823,8 +2823,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": 50.0,
         "direccion": "AV. EL PACIFICO NRO. 579 INT. 7 (PUERTA PRINCIPAL) LIMA-LIMA-INDEPENDENCIA",
@@ -2850,8 +2850,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": 20.0,
         "direccion": "AV. REPUBLICA DE CHILE NRO. 280 LIMA-LIMA-JESUS MARIA",
@@ -2877,8 +2877,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": 20.0,
         "direccion": "AV. LA MARINA MZA. A LOTE. 33 LIMA-LIMA-PUEBLO LIBRE",
@@ -2958,8 +2958,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": 20.0,
         "direccion": "AV. UNIVERSITARIA MZA. L1 LOTE. 6 URB. PANDO LIMA-LIMA-SAN MIGUEL",
@@ -2985,8 +2985,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": 20.0,
         "direccion": "AV. CHINCHAYSUYO MZA N LTE 13 LIMA-LIMA-INDEPENDENCIA",
@@ -3147,8 +3147,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": 20.0,
         "direccion": "AV. ARAMBURU NRO 715 URB. LIMATAMBO LIMA-LIMA-SAN ISIDRO",
@@ -3174,8 +3174,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": 20.0,
         "direccion": "JR GERARDO UNGER NRO 4321 LIMA-LIMA-SAN MARTIN DE PORRES",
@@ -3201,8 +3201,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": 50.0,
         "direccion": "AV. ARENALES NRO 2140 LIMA-LIMA-LIMA",
@@ -3309,8 +3309,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": 20.0,
         "direccion": "AV. INCA GARCILAZO DE LA VEGA NRO 1488 LIMA-LIMA-LIMA",
@@ -3417,8 +3417,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": 20.0,
         "direccion": "AV. ALFREDO MENDIOLA 3817 URB. PANAMERICANA NORTE LOTE 14 MZ. B LIMA-LIMA-OLIVOS",
@@ -3444,8 +3444,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": 50.0,
         "direccion": "AV. TUPAC AMARU 7901 - 7903 LIMA-LIMA-COMAS",
@@ -3498,8 +3498,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": 20.0,
         "direccion": "CAL. LAS FLORES NRO 205 URB COUNTRY CLUB LIMA-LIMA-SAN ISIDRO",
@@ -3632,8 +3632,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": 20.0,
         "direccion": "AV. PERSHING NRO 479 INT. 2 URBANIZACIÓN COUNTRY CLUB LIMA-LIMA-MAGDALENA DEL MAR",
@@ -3685,8 +3685,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": 20.0,
         "direccion": "AV. ANGAMOS ESTE NRO 398 LIMA-LIMA-MIRAFLORES",
@@ -3712,8 +3712,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": 20.0,
         "direccion": "MZA W LOTE 23 URB. SAN HILARION LIMA-LIMA-SAN JUAN DE LURIGANCHO",
@@ -3874,8 +3874,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": 20.0,
         "direccion": "MZA Q-1 LOTE 12 URB. SAN CARLOS (AV. EL SOL 210) LIMA-LIMA-SAN JUAN DE LURIGANCHO",
@@ -4009,8 +4009,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": 20.0,
         "direccion": "AV. SAN LUIS NRO 2622 LIMA-LIMA-SAN BORJA",
@@ -4063,8 +4063,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": 20.0,
         "direccion": "CASA TIPO A - UNA PLANTA MZA G LOTE 2 (AV FLORES DE PRIMAVERA 1014) LIMA-LIMA-SAN JUAN DE LURIGANCHO",
@@ -4090,8 +4090,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": 20.0,
         "direccion": "AV. BRASIL NRO 680 (ESQ. RESTURACION) LIMA-LIMA-BREÑA",
@@ -4171,8 +4171,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": 20.0,
         "direccion": "MZA N LOTE 18 URB VALLE DE SHARON (PROL. CANEVARO MZA. N LTE N°18) LIMA-LIMA-SAN JUAN DE MIRAFLORES",
@@ -4306,8 +4306,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": 20.0,
         "direccion": "AV. TÚPAC AMARU LT 2 MZ I-1 -LIMA-LIMA-SAN MARTIN DE PORRES",
@@ -4387,8 +4387,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": 20.0,
         "direccion": "AV. PEDRO VENTURO NRO. 444 LIMA-LIMA-SANTIAGO DE SURCO",
@@ -4468,8 +4468,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": 20.0,
         "direccion": "AV. JAVIER PRADO CDRA. 45 LIMA-LIMA-SANTIAGO DE SURCO",
@@ -4603,8 +4603,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": 20.0,
         "direccion": "ASENTAMIENTO HUMANO LOS FORESTALES MZ E LOTE 5 - SAN JUAN DE MIRAFLORES",
@@ -4657,8 +4657,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": 20.0,
         "direccion": "CAL.DOMINGO ORUE NRO. 477 INT. 102 LIMA - LIMA - SURQUILLO",
@@ -4684,8 +4684,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": 20.0,
         "direccion": "AV. PANAMERICANA MZ K LT 15 URB EL TREBOL (MENDIOLA 2051)",
@@ -4819,8 +4819,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": 20.0,
         "direccion": "PUEBLO JOVEN VILLA EL SALVADOR, MANZANA K, LOTE 13, SECTOR PRIMERO, GRUPO RESIDENCIAL 22ª",
@@ -4927,8 +4927,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": 20.0,
         "direccion": "AV. ANGELICA GAMARA DE LEON VELARDE MZA. B LL.16 URB. EL TREBOL 3ERA ETAPA (PROPIEDAD INMOBIL. N°1 Y N° 2)",
@@ -4954,8 +4954,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": 20.0,
         "direccion": "MZA. F LOTE. 13 P.J. VILLA EL SALVADOR",
@@ -5008,8 +5008,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": 20.0,
         "direccion": "AV. PADRE URRACA NRO. 135",
@@ -5224,8 +5224,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": 50.0,
         "direccion": "MZA. A LOTE. 1 URB. LOS ROBLES",
@@ -5251,8 +5251,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": 50.0,
         "direccion": "AV. ALFREDO BENAVIDES NRO. 5004 URB. LAS GARDENIAS",
@@ -5278,8 +5278,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": 20.0,
         "direccion": "URBANIZACIÓN CIUDAD SATÉLITE DE VENTANILLA AV PEDRO BELTRAN 135 MZ V-1 LT 9",
@@ -5305,8 +5305,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": 20.0,
         "direccion": "AV. PERSHING N° 590, MAGDALENA DEL MAR",
@@ -5332,8 +5332,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": 20.0,
         "direccion": "AV. UNIVERSITARIA NRO. 1833 LIMA - LIMA - PUEBLO LIBRE (MAGDALENA VIEJA)",
@@ -5359,8 +5359,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": 20.0,
         "direccion": "MZA. A LOTE. 1 URB. SAN HILARION LIMA - LIMA - SAN JUAN DE LURIGANCHO",
@@ -5709,8 +5709,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": 20.0,
         "direccion": "AV. URUGUAY 400 ESQ AV. WASHINGTON NRO. 1198",
@@ -5817,8 +5817,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": 20.0,
         "direccion": "MZA. B1 LOTE. 14 APV. DE LOS TRABAJADORES DEL PUERTO DEL CALLAO II ETAPA PROV. CONST. DEL CALLAO",
@@ -5898,8 +5898,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": 20.0,
         "direccion": "LOTE 1 MZ J URB. ASOCIACIÓN PRO VIVIENDA VIRGEN DE LA PUERTA LIMA - LIMA - LOS OLIVOS",
@@ -5925,8 +5925,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": 20.0,
         "direccion": "CALLE CORONEL INCLAN Nº 321 FUNDO SURQUILLO LIMA - LIMA - MIRAFLORES",
@@ -6059,8 +6059,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": 20.0,
         "direccion": "AV. TUSILAGOS OESTE NRO. 220 URB. JARDINES DE SAN JUAN (MZ O LT 67 URB. JARDINES DE SAN JUAN) SJL",
@@ -6166,8 +6166,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": 20.0,
         "direccion": "MZA. D-1 LOTE. 01 APV. POBLADORES LIMA - LIMA - SAN JUAN DE LURIGANCHO",
@@ -6300,8 +6300,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": 20.0,
         "direccion": "AV. PASEO DE LA REPUBLICA NRO. 569 LIMA-LIMA-LA VICTORIA",
@@ -6354,8 +6354,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": 20.0,
         "direccion": "AV. JARDINES ESTE NRO. 315 URB. LAS FLORES (MZ. 04 LT. 02 URBANIZACION LAS FLORES)",
@@ -6434,8 +6434,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": 20.0,
         "direccion": "JR. SACO OLIVEROS NRO. 261 LIMA - LIMA - LIMA",
@@ -6461,8 +6461,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": 20.0,
         "direccion": "AV. ALBERTO DEL CAMPO NRO. 1010 LIMA - LIMA - MAGDALENA DEL MAR",
@@ -6488,8 +6488,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": 20.0,
         "direccion": "AV. CANTA CALLAO MZA. G LOTE. 5 A.V. LAS BEGONIAS SANTA ROSA (AV.CANTA CALLAO MZ.G LT.05 CDRA 1) LIMA - LIMA - SAN MARTIN DE PORRES",
@@ -6515,8 +6515,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": 20.0,
         "direccion": "AV. ARIOSTO MATELLINI NRO. 401 URB. MATELLINI (AV. ARIOSTO MATELLINI 401 - 405) LIMA - LIMA - CHORRILLOS",
@@ -6542,8 +6542,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": 20.0,
         "direccion": "MZA. F LOTE. 13 URB. - EL ASESOR I LIMA - LIMA - SANTA ANITA",
@@ -6596,8 +6596,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": 50.0,
         "direccion": "AV. EL DERBY NRO. 260 LOCAL 1C LIMA - LIMA - SANTIAGO DE SURCO",
@@ -6623,8 +6623,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": 20.0,
         "direccion": "AV. REPUBLICA DE PANAMA 3990 ESQUINA CON CALLE NEGOCIOS",
@@ -6650,8 +6650,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": 20.0,
         "direccion": "MZA. 45 LOTE. 463 COO. LAS FLORES LIMA - LIMA - SAN JUAN DE LURIGANCHO",
@@ -6704,8 +6704,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": 20.0,
         "direccion": "AV. EJERCITO NRO. 282 LIMA - LIMA - MAGDALENA DEL MAR",
@@ -6731,8 +6731,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": 20.0,
         "direccion": "AV. CONDORCANQUI NRO. 909 LIMA - LIMA - CARABAYLLO",
@@ -6812,8 +6812,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": 20.0,
         "direccion": "AV. UNIVERSITARIA 10640 URB. SAN FELIPE COMAS",
@@ -6893,8 +6893,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": 20.0,
         "direccion": "AV. ANDRÉS ARAMBURU NRO. 907 (TIENDA 1) LIMA - LIMA - SAN ISIDRO",
@@ -6947,8 +6947,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": 20.0,
         "direccion": "AV. HIGUERETA NRO. 612 INT. 08 URB. LAS GARDENIAS SANTIAGO DE SURCO",
@@ -7054,8 +7054,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": 50.0,
         "direccion": "AV. CARLOS ALBERTO IZAGUIRRE MZA. A LOTE. 23 COO. VIVIENDA LOS ANDES (CDRA 25 AV CARLOS ALBERTO IZAGUIRRE)",
@@ -7134,8 +7134,8 @@
         "responsable": "TAMBO",
         "frecuencia": "VIERNES-MARTES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": 20.0,
         "direccion": "AV. EL SOL NRO. 452 URB. SAN CARLOS LIMA - LIMA - SAN JUAN DE LURIGANCHO",
@@ -7241,8 +7241,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": 50.0,
         "direccion": "AV. CAMINOS DEL INCA NRO. 2132 LOTE. 6",
@@ -7348,8 +7348,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": 20.0,
         "direccion": "AV. MANUEL OLGUIN NRO. 327 LIMA - LIMA - SANTIAGO DE SURCO",
@@ -7481,8 +7481,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": 20.0,
         "direccion": "AV. PETIT THOUARS 2699 - LINCE",
@@ -7696,8 +7696,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": 20.0,
         "direccion": "AV. CESAR VALLEJO 420",
@@ -7750,8 +7750,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": 80.0,
         "direccion": "AV. LIMA NRO. 1045",
@@ -7856,8 +7856,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": 20.0,
         "direccion": "NRO. 1403 URB. PASEO DE LA REPUBLICA (MZ A01 LT 24 SECTOR 2) LIMA - LIMA - CHORRILLOS",
@@ -8098,8 +8098,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": 20.0,
         "direccion": "AV. DEFENSORES DEL MORRO NRO. 1010 URB. LOS LAURELES LIMA - LIMA - CHORRILLOS",
@@ -8152,8 +8152,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": 20.0,
         "direccion": "AV. REVOLUCION NRO. 1441 A.H. COLLIQUE III ZONA, ZONA 12 SEGM 3 (MZ 55 LT 20) COMAS",
@@ -8179,8 +8179,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": 20.0,
         "direccion": "AV. LA PLAYA MZA. P5 LOTE. 17 A.H. LOS LICENCIADOS DE VENTANILLA CN. SUR -CALLAO - VENTANILLA",
@@ -8233,8 +8233,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": 20.0,
         "direccion": "AV. ARIOSTO MATELLINI MZA. E LOTE. 18 URB. SANTA LEONOR (SECTOR 2) LIMA - LIMA - CHORRILLOS",
@@ -8340,8 +8340,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": 20.0,
         "direccion": "JR. COSTA AZUL NRO. 151 URB. JOSE OLAYA (MZ. E LTE. 9) LIMA - LIMA - CHORRILLOS",
@@ -8393,8 +8393,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": 20.0,
         "direccion": "AV. RAMON VARGAS MACHUCA NRO. 124 URB. SAN JUAN (MZ A LT 1 ZONA B) LIMA - LIMA - SAN JUAN DE MIRAFLORES",
@@ -8447,8 +8447,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": 20.0,
         "direccion": "ETAPA SEGUNDA MZA. M LOTE. 21 AGR. PACHACAMAC S. 4 - VILLA EL SALVADOR",
@@ -8528,8 +8528,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": 20.0,
         "direccion": "AV. VIOLETAS NRO. 200 (AV. VIOLETAS NRO 200-204 DPTO UI NRO 1) LIMA - LIMA - INDEPENDENCIA",
@@ -8609,8 +8609,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": 20.0,
         "direccion": "JR. MONTE ROSA NRO. 218 URB. CHACARILLA DEL ESTANQUE LIMA - LIMA - SANTIAGO DE SURCO",
@@ -8689,8 +8689,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": 20.0,
         "direccion": "AV. AVIACION NRO. 104 LIMA - LIMA - BARRANCO",
@@ -8822,8 +8822,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": 20.0,
         "direccion": "AV. LAS PALMERAS LOTE. 6 URB. MICAELA BASTIDAS SECTOR 1 ETAPA LIMA - LIMA - LOS OLIVOS",
@@ -8876,8 +8876,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": 20.0,
         "direccion": "AV. PASEO DE LA REPUBLICA NRO. 4780 LIMA - LIMA - MIRAFLORES",
@@ -8930,8 +8930,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": 20.0,
         "direccion": "AV. MILITAR NRO. 2200 LIMA - LIMA - LINCE",
@@ -9011,8 +9011,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": 20.0,
         "direccion": "AV. ANGAMOS ESTE NRO. 2562 URB. LA CALERA DE LA MERCED (MZ E LTE. 29) LIMA - LIMA - SURQUILLO",
@@ -9144,8 +9144,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": 20.0,
         "direccion": "COO. AMERICA MZA LT 19 PANAMERICANA SUR SAN JUAN DE MIRAFLORES",
@@ -9171,8 +9171,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": 50.0,
         "direccion": "AV. LAS ALMENDRAS NRO. 300 (302 LT 10 MZ B1) LIMA - LIMA - INDEPENDENCIA",
@@ -9252,8 +9252,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": 20.0,
         "direccion": "AV. SAN LUIS N° 2030 SAN BORJA",
@@ -9572,8 +9572,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": 20.0,
         "direccion": "AV.PROLONGACION ARIOSTO MATELLINI OTROS 12-16 (ESQ. CON DEFENSORES DEL MORRO 2355)  URB SANTA LEONOR MZ.Q LT.12",
@@ -9599,8 +9599,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": 50.0,
         "direccion": "JR. MERCURIO DPTO UI 1 MZ R LT. 14 URB. RESIDENCIAL SOL DE ORO  LOS OLIVOS",
@@ -9626,8 +9626,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": 50.0,
         "direccion": "AV. SAN LUIS 2498, MZ G13 LT 4 SAN BORJA",
@@ -9679,8 +9679,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": 20.0,
         "direccion": "AVENIDA AREQUIPA N° 2589 LC 102, URB. DEL FUNDO LOBATON, LINCE",
@@ -9839,8 +9839,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": 20.0,
         "direccion": "AV. ISABEL CHIMPU OCLLO 753  LOTE 10 MZ F  CARABAYLLO",
@@ -10133,8 +10133,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": 20.0,
         "direccion": "JIRON CINERARIAS MZ C LT 07 URB. VILLA LIBERTAD - SURCO",
@@ -10186,8 +10186,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": 80.0,
         "direccion": "AAHH EL SANTUARIO MZ B LT 07 - PACHACAMAC",
@@ -10240,8 +10240,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": 20.0,
         "direccion": "ASENTAMIENTO HUMANO MÁRQUEZ MZ. 104, LOTE 01, DISTRITO CALLAO",
@@ -10535,8 +10535,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": 20.0,
         "direccion": "AVENIDA RICARDO PALMA N° 439, DISTRITO DE MIRAFLORES",
@@ -10588,8 +10588,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": 50.0,
         "direccion": "AV. BELAUNDE, VÍCTOR ANDRÉS N° 0208 - SAN ISIDRO",
@@ -10641,8 +10641,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MARTES-JUEVES",
         "dias": [
-            "JUEVES",
-            "MARTES"
+            "MARTES",
+            "JUEVES"
         ],
         "meta_diaria": 20.0,
         "direccion": "AV. VÍCTOR RAÚL HAYA DE LA TORRE N° 492, MZ. 14, LT. 5, CHIMBOTE, PROVINCIA DE SANTA Y DEPARTAMENTO DE ANCASH.",
@@ -10746,9 +10746,9 @@
         "responsable": "TAMBO",
         "frecuencia": "MARTES-JUEVES-SÁBADO",
         "dias": [
-            "SÁBADO",
+            "MARTES",
             "JUEVES",
-            "MARTES"
+            "SÁBADO"
         ],
         "meta_diaria": 20.0,
         "direccion": "AV. SÁNCHEZ CERRO N° 1136 MZ. G LOTE 13A PISO 1, URB. CLUB GRAU, DISTRITO, PROVINCIA Y DEPARTAMENTO DE PIURA",
@@ -10774,8 +10774,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": 20.0,
         "direccion": "AV.28 DE JULIO 100,1002 , RESIDENCIAL STA BEATRIZ  CERCADO DE LIMA",
@@ -10856,9 +10856,9 @@
         "responsable": "TAMBO",
         "frecuencia": "MARTES-JUEVES-SÁBADO",
         "dias": [
-            "SÁBADO",
+            "MARTES",
             "JUEVES",
-            "MARTES"
+            "SÁBADO"
         ],
         "meta_diaria": 20.0,
         "direccion": "EX FUNDO LA PROVIDENCIA TT-CALL. DON MANUEL NORTE A 05 PIURA",
@@ -10938,8 +10938,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": 20.0,
         "direccion": "CA. EX FUNDO SANTA ROSA (PARCELA 6 – UC 10489) Y CA. EX FUNDO SANTA ROSA (PARCELA 7 – UC 10489), DISTRITO DE LURÍN,",
@@ -11307,8 +11307,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": 20.0,
         "direccion": "CHIMPU OCLLO N° 386, MZ. U, LT. 01, SECTOR 02, URB. LUCYANA, DISTRITO DE CARABAYLLO, PROVINCIA Y DEPARTAMENTO DE LIMA",
@@ -11439,8 +11439,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": 20.0,
         "direccion": "AV. UNIVERSITÁRIA NORTE N° 10090, MZ. E2, LOTE 1, URB. POPULAR SAN CARLOS - COMAS",
@@ -11466,9 +11466,9 @@
         "responsable": "TAMBO",
         "frecuencia": "MARTES-JUEVES-SÁBADO",
         "dias": [
-            "SÁBADO",
+            "MARTES",
             "JUEVES",
-            "MARTES"
+            "SÁBADO"
         ],
         "meta_diaria": 20.0,
         "direccion": "AV. LAS PALMERAS MZ. B, LT. 17C, URB. SAN EDUARDO DISTRITO, PROVINCIA Y DEPARTAMENTO DE PIURA",
@@ -11760,9 +11760,9 @@
         "responsable": "TAMBO",
         "frecuencia": "MARTES-JUEVES-SÁBADO",
         "dias": [
-            "SÁBADO",
+            "MARTES",
             "JUEVES",
-            "MARTES"
+            "SÁBADO"
         ],
         "meta_diaria": 20.0,
         "direccion": "CA. 3 MZ. C, LOTE 9 URB. ANGAMOS I ETAPA , DISTRITO, PROVINCIA Y DEPARTAMENTO DE PIURA",
@@ -11947,8 +11947,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": 20.0,
         "direccion": "MZ G LT 13 SEC D GR D3 ZN PROY PIL NUEVO PACHACUTEC / SECTOR D CN OESTE_A - VENTANILLA",
@@ -12136,8 +12136,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": 20.0,
         "direccion": "AV. FRANCISCO BOLOGNESI 805, MZ. O3, LT. 18 805, TIENDA N° 801, URB. LOS FICUS, DISTRITO DE SANTA ANITA.",
@@ -12189,8 +12189,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": 20.0,
         "direccion": "AV. JAVIER PRADO OESTE N° 509, Y JR. RODOLFO RUTTE N° 606, DISTRITO DE MAGDALENA DEL MAR",
@@ -12484,8 +12484,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": 50.0,
         "direccion": "JIRON MANUEL VILLAVICENCIO 725-735 LINCE",
@@ -12698,8 +12698,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": 20.0,
         "direccion": "AV.  ALFREDO BENAVIDES  N° 5437/5439 MZ D2 LT 17 URB. LAS GARDENIAS. SURCO",
@@ -12725,8 +12725,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": 20.0,
         "direccion": "PUEBLO TRADICIONAL PACHACÁMAC CERCADO MANZANA. 42, LOTE 1, DISTRITO DE PACHACAMAC,",
@@ -12752,9 +12752,9 @@
         "responsable": "TAMBO",
         "frecuencia": "MARTES-JUEVES-SABADO",
         "dias": [
-            "SABADO",
+            "MARTES",
             "JUEVES",
-            "MARTES"
+            "SABADO"
         ],
         "meta_diaria": 20.0,
         "direccion": "AV. MATIAS MANZANILLA 386 Y CALLE FERNANDO LEON 122 URB. SAN MIGUEL POR CONFIRMAR",
@@ -12780,8 +12780,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": 20.0,
         "direccion": "AV. FAUSTINO SÁNCHEZ CARRIÓN N° 302 LOCAL NRO.3, DISTRITO DE SAN ISIDRO",
@@ -12833,8 +12833,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": 20.0,
         "direccion": "JR. LAS ALONDRAS N° 287 - SANTA ANITA",
@@ -13021,8 +13021,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": 20.0,
         "direccion": "LOTE 24 DE LA PARCELA G URBANIZACION HARAS TYBER MANUEL OLGUIN 539 , SURCO",
@@ -13128,8 +13128,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": 20.0,
         "direccion": "AV. FERNANDO TERAN N° 901, 907 Y 909 Y JIRÓN EMILIO SANDOVAL N° 585 Y, DISTRITO DE CHORRILLOS",
@@ -13155,8 +13155,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": 80.0,
         "direccion": "Lote 5 Manzana C2 Avenida San Juan Bosco Urb. Santo Domingo de Carabayllo, distrito de Carabayllo,",
@@ -13237,8 +13237,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MARTES-JUEVES",
         "dias": [
-            "JUEVES",
-            "MARTES"
+            "MARTES",
+            "JUEVES"
         ],
         "meta_diaria": 50.0,
         "direccion": "AV. COUNTRY  MZ. F, LOTE 58,  URB. BUENOS AIRES ZONA 5A, DISTRITO NUEVO CHIMBOTE, PROVINCIA DE SANTA, DEPARTAMENTO DE ANCASH",
@@ -13264,8 +13264,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": 20.0,
         "direccion": "DE LA ROCA DE VERGALLO 318 - LOCAL 106 - MAGDALENA",
@@ -13345,8 +13345,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": 20.0,
         "direccion": "Av. Caminos del Inca N°1329, Mz. 2, Lote 23, Urb. Las Gardenias, distrito de Santiago de Surco,",
@@ -13372,8 +13372,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": 20.0,
         "direccion": "AV. JESÚS N° 2201, MZ. B, LOTE 1, URB. PORONGOCHE, DISTRITO DE PAUCARPATA, PROVINCIA Y DEPARTAMENTO DE AREQUIPA,",
@@ -13452,8 +13452,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": 20.0,
         "direccion": "AV. JORGE BASADRE N° 536, DISTRITO DE SAN ISIDRO,",
@@ -13558,8 +13558,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": 20.0,
         "direccion": "Av. Aviación N° 3899, Urb. La Calera de la Merced, distrito de Surquillo.",
@@ -13743,8 +13743,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": 20.0,
         "direccion": "AV. LAMBRAMANI MZ B LT 01 LAMBRAMANI CERCADO - AREQUIPA",
@@ -14194,8 +14194,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": 20.0,
         "direccion": "AV SAN JUAN 755 MZ D1 LT4 ZONA A URB SAN JUAN - SAN JUAN DE MIRAFLORES",
@@ -14221,8 +14221,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": 20.0,
         "direccion": "JR. FELIX DIBOS Nº 201, DISTRITO DE MAGDALENA DEL MAR",
@@ -14301,8 +14301,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": 20.0,
         "direccion": "URBANIZACIÓN INDUSTRIAL CAYRO, MZ. A, LT. 01B-2 - AV JESUS CUADRA 13 DISTRITO DE PAUCARPATA, PROVINCIA Y DEPARTAMENTO  DE AREQUIPA,",
@@ -14354,8 +14354,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": 20.0,
         "direccion": "AV.REPÚBLICA DE CHILE 501-509, JESUS MARIA",
@@ -14512,8 +14512,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": 20.0,
         "direccion": "AV. LOS CONQUISTADORES 0125 -0127, DISTRITO DE SAN ISIDRO, PROVINCIA Y DEPARTAMENTO LIMA",
@@ -14752,8 +14752,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": 20.0,
         "direccion": "AV JOSE OLAYA N° 104 URB. CHORRILLOS - CHORRILLOS",
@@ -14779,8 +14779,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": 20.0,
         "direccion": "AV. JAVIER PRADO ESTE 3877 URB. LOS CEDROS - SANTIAGO DE SURCO",
@@ -15126,8 +15126,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": 20.0,
         "direccion": "AV. COLON Nº 100-A, DISTRITO JOSÉ LUIS BUSTAMANTE Y RIVERO, PROVINCIA Y DEPARTAMENTO DE AREQUIPA",
@@ -15153,8 +15153,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": 20.0,
         "direccion": "JR. LOS CIPRESES MZ. A 3, LOTE 14 Y 15, DISTRITO DE SANTA ANITA, PROVINCIA Y DEPARTAMENTO DE LIMA",
@@ -15206,8 +15206,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": 20.0,
         "direccion": "JR. VÍA LÁCTEA N° 408, U.I N° 8, MZ. G, LOTE 1-37, URBANIZACIÓN HARAS TYBER, SANTIAGO DE SURCO",
@@ -15526,8 +15526,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": 20.0,
         "direccion": "ASOC. DE VIVIENDA CRUZ DE MOTUPE MZ A LOTE 1 - VILLA EL SALVADOR",
@@ -15607,8 +15607,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": 20.0,
         "direccion": "ALAMEDA MARQUINA RAFAEL Nº 401, MZ. 3, LOTE 14, CONJUNTO URBANO TORRES DE LIMATAMBO, DISTRITO DE SAN BORJA,",
@@ -15634,8 +15634,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": 20.0,
         "direccion": "AV COLECTORA MZ O LT 1 - ASOCIACION SOL DE SANTA ANITA",
@@ -15873,8 +15873,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": 20.0,
         "direccion": "CARRETERA ANTIGUA PANAMERICANA SUR MZ. V2 LOTE 16 ASENTAMIENTO HUMANO JULIO C. TELLO, DISTRITO DE LURÍN,",
@@ -15900,8 +15900,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": 20.0,
         "direccion": "MZ. Ñ, SUB-LOTE 30A, COOPERATIVA VIVIENDA UMAMARCA, PANAMERICANA SUR. SAN JUAN DE MIRAFLORES",
@@ -15981,8 +15981,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": 20.0,
         "direccion": "AV. LA PLAYA MZ. R5 LOTE 18 ZONA AA.HH. LOS LICENCIADOS DE VENTANILLA CON SUR, DISTRITO DE VENTANILLA,",
@@ -16008,8 +16008,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": 20.0,
         "direccion": "AV LOS DOMINICOS N° S/N MZ B LT 1 UNI. INMOB. CDRA 21 LADO DER, URB LAS BRISAS DE SANTA ROSA SAN MARTIN DE PORRES",
@@ -16087,8 +16087,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": 20.0,
         "direccion": "JR. PABLO BERMUDEZ 316 LC 01 - 324 LC 02 -  JESUS MARIA",
@@ -16141,8 +16141,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": 20.0,
         "direccion": "AV. BRIGIDA SILVA DE OCHOA N° 110 MZA J-22 LOTE 22 / URB PANDO 2DA - ETAPA AMPLIACIÓN SAN MIGUEL",
@@ -16221,8 +16221,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": 20.0,
         "direccion": "AV. PIZARRO 135 PUEBLO TRADICIONAL PAUCARPATA, DISTRITO DE PAUCARPATA, PROVINCIA Y DEPARTAMENTO DE AREQUIPA",
@@ -16248,8 +16248,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": 20.0,
         "direccion": "AV. DEL EJÉRCITO Nº 1128 MAGDALENA",
@@ -16355,8 +16355,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": 20.0,
         "direccion": "AV. CHORRILLOS N° 292, URBANIZACIÓN COCHARCAS, , DISTRITO DE CHORRILLOS, PROVINCIA Y DEPARTAMENTO DE LIMA",
@@ -16382,9 +16382,9 @@
         "responsable": "TAMBO",
         "frecuencia": "MARTES-JUEVES-SABADO",
         "dias": [
-            "SABADO",
+            "MARTES",
             "JUEVES",
-            "MARTES"
+            "SABADO"
         ],
         "meta_diaria": 20.0,
         "direccion": "CALLE PIURA Nº 172 -174- CERCADO DE ICA, DISTRITO, PROVINCIA Y DEPARTAMENTO DE ICA,",
@@ -16410,8 +16410,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": 20.0,
         "direccion": "AV DOMINGO ORUE 798,SURQUILLO",
@@ -16463,8 +16463,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": 20.0,
         "direccion": "COOP. JOSÉ MARÍA ARGUEDAS MANZANA A LOTE 16- SUB PARCELA A-3-1, PARCELA 3, MAZANA A ZONA TABLADA LURÍN, DISTRITO DE VILLA EL SALVADOR",
@@ -16542,8 +16542,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": 20.0,
         "direccion": "Avenida A - MZ L2 , Lt 22 - URB. SANTO DOMINGO 6TA ETAPA SECTOR 2 CARABAYLLO",
@@ -16569,8 +16569,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": 20.0,
         "direccion": "AV.CAMINOS DEL INCA 228-236, SURCO",
@@ -16837,8 +16837,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": 20.0,
         "direccion": "AVENIDA SAN BORJA SUR N° 247 - SAN BORJA",
@@ -16944,8 +16944,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": 20.0,
         "direccion": "JR. DANTE N° 875 SURQUILLO",
@@ -17077,8 +17077,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": 50.0,
         "direccion": "MZ. R LT. 01,AMP. IV ETAPA S.2 P.H. PACHACAMAC – DISTRITO DE VILLA EL SALVADOR",
@@ -17104,8 +17104,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": 20.0,
         "direccion": "AV. JOSE GALVEZ BARRENECHEA N° 1204 MZ C LT 10 SAN BORJA",
@@ -17131,8 +17131,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": 20.0,
         "direccion": "AVENIDA LOS RUISEÑORES 798, TIENDA 1 ESQUINA JIRON LOS MILANOS 100 - SANTA ANITA",
@@ -17346,8 +17346,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": 50.0,
         "direccion": "JR. AMARANTO N° 100-102 - MZ L3 - LT 02 - URB. SANTA ISABEL - CARABAYLLO",
@@ -17427,8 +17427,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": 20.0,
         "direccion": "MZ E LT 17 ASOC. VIVIENDA ESTRELLA SOLAR - DISTRITO DE CARABAYLLO.",
@@ -17666,8 +17666,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": 20.0,
         "direccion": "AV. TOMAS VALLE N° 2004, MZ. I, LT. 26, CDRA 20 LADO DERECHO, URB. ANTARES, SECTOR 31, DISTRITO DE SAN MARTÍN DE PORRES",
@@ -17747,8 +17747,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": 20.0,
         "direccion": "AV. CANTA CALLAO N° 335 LOCAL COMERCIAL 116 - FUNDO LA TABOADA VALLE DE BOCANEGRA - PARCELA 2A - CALLAO- CALLAO",
@@ -17882,8 +17882,8 @@
         "responsable": "AUR BODEGA",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": null,
         "direccion": "YEN ESCOBEDO 799",
@@ -17909,8 +17909,8 @@
         "responsable": "AUR BODEGA",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": null,
         "direccion": "AV.REVOLUCION CUADRA 14",
@@ -17963,8 +17963,8 @@
         "responsable": "AUR BODEGA",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": null,
         "direccion": "MERCADO ALAMEDA PUESTO 29 AV PROLONGACION",
@@ -18098,8 +18098,8 @@
         "responsable": "AUR BODEGA",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": null,
         "direccion": "MZ H LT 1 ASOC  A. PUSLUZIN LOS OLIVOS",
@@ -18178,8 +18178,8 @@
         "responsable": "AUR BODEGA",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": null,
         "direccion": "AV. 28 DE JULIO 475 PTO 106",
@@ -18285,8 +18285,8 @@
         "responsable": "AUR BODEGA",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": null,
         "direccion": "MZ N1 LT 14 SECTOR LAS MERCEDES PORTADA DE MANCHAY LL PACHACAMAC",
@@ -18392,8 +18392,8 @@
         "responsable": "AUR BODEGA",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": null,
         "direccion": "JOSE CARLOS MARIATEGUI 2417 URB. HUANCAYO I ETAPA",
@@ -18419,8 +18419,8 @@
         "responsable": "AUR BODEGA",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": null,
         "direccion": "TAYACAJA 210 URB. TAYACAJA EL AGUSTINO",
@@ -18446,8 +18446,8 @@
         "responsable": "AUR BODEGA",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": null,
         "direccion": "JOSE CARLOS MARIATEGUI 2557 URB. HUANCAYO I ETAPA",
@@ -18525,8 +18525,8 @@
         "responsable": "AUR BODEGA",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": null,
         "direccion": "JR HECTOR ARELLANO 347 LA VICTORIA",
@@ -18579,8 +18579,8 @@
         "responsable": "AUR BODEGA",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": null,
         "direccion": "ALAMEDA MZ I D P 017 PORT. PLANICIE LA MOLINA",
@@ -18714,8 +18714,8 @@
         "responsable": "AUR BODEGA",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": null,
         "direccion": "AV ALFREDO MENDIOLA 3477, AV. ANGELICA GAMARRA N° 801, LOS OLIVOS 15301",
@@ -18821,8 +18821,8 @@
         "responsable": "AUR BODEGA",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": null,
         "direccion": "AV ANGAMOS ESTE 243",
@@ -19087,8 +19087,8 @@
         "responsable": "AUR BODEGA",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": null,
         "direccion": "AV.PACASMAYO MZB LT.2 URB EL HORIZONTE DE NARANJAL",
@@ -19114,8 +19114,8 @@
         "responsable": "AUR BODEGA",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": null,
         "direccion": "AV.EL SOL DE NARANJAL MZ D LOTE UR LAS MAGNOLIAS I ETAPA",
@@ -19195,8 +19195,8 @@
         "responsable": "AUR BODEGA",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": null,
         "direccion": "AV. LIMA 1039",
@@ -19249,8 +19249,8 @@
         "responsable": "AUR BODEGA",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": null,
         "direccion": "AV 27 DE DICIEMBRE 511",
@@ -19463,8 +19463,8 @@
         "responsable": "AUR BODEGA",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": null,
         "direccion": "AV.27 DE DICIEMBRE AH DAN FRANCISCO TABLADA DE LURIN ZONA NUEVA NR 906",
@@ -19517,8 +19517,8 @@
         "responsable": "AUR BODEGA",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": null,
         "direccion": "AV. HONORIO DELGADO 135 URB, INGENIERIA",
@@ -19649,8 +19649,8 @@
         "responsable": "AUR BODEGA",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": null,
         "direccion": "AV SOL DE NARANJAL MZ G LT 20 URB MANZANARES",
@@ -19703,8 +19703,8 @@
         "responsable": "AUR BODEGA",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": null,
         "direccion": "MZ H2 LT 14 URB LOS JAZMINES DE NARANJAL",
@@ -19730,8 +19730,8 @@
         "responsable": "AUR BODEGA",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": null,
         "direccion": "JR NICOLAS DE PIEROLA 187 URB EL PROGRESO",
@@ -19757,8 +19757,8 @@
         "responsable": "AUR BODEGA",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": null,
         "direccion": "AV. CIRCUNVALACION 2054 SAN LUIS",
@@ -19784,8 +19784,8 @@
         "responsable": "AUR BODEGA",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": null,
         "direccion": "AV SR DE CAUDEVILLA MZ N LT 6 PSTO M MCDO FRONTERA",
@@ -19892,8 +19892,8 @@
         "responsable": "AUR BODEGA",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": null,
         "direccion": "AV SAN MARTIN ZONA D MZ D LOTE 22 CIENEGUILLA",
@@ -19919,8 +19919,8 @@
         "responsable": "AUR BODEGA",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": null,
         "direccion": "AV JOSE DE LA RIVA AGUERO 271 URB LOS JAZMINES",
@@ -20026,8 +20026,8 @@
         "responsable": "AUR BODEGA",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": null,
         "direccion": "AV ANGELICA GAMARRA 979 URB EL TREBOL III ETAPA",
@@ -20107,8 +20107,8 @@
         "responsable": "AUR BODEGA",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": null,
         "direccion": "MZ N2 LT 7 5TA ETAPA MUSA LA MOLINA A",
@@ -20134,8 +20134,8 @@
         "responsable": "AUR BODEGA",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": null,
         "direccion": "CL LOS PACAES 176",
@@ -20161,8 +20161,8 @@
         "responsable": "AUR BODEGA",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": null,
         "direccion": "AVENIDA AVIACION 1016 URBANIZACION SAN GERMAN",
@@ -20401,8 +20401,8 @@
         "responsable": "AUR BODEGA",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": null,
         "direccion": "MZ J LT 10 C INT 03 ZONA B CP RURAL TAMBO VIEJO",
@@ -20667,8 +20667,8 @@
         "responsable": "AUR BODEGA",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": null,
         "direccion": "AV GUILLERMO BILLINGHURST 789 SAN JUAN DE MIRAFLORES",
@@ -20720,8 +20720,8 @@
         "responsable": "AUR BODEGA",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": null,
         "direccion": "AV 24 DE OCTUBRE MZ E5 LOTE19 COMITÃ© 12 TUPAC AMARU CHORRILLOS GALERÃ­A SALVATIERRA STAN 10",
@@ -20747,8 +20747,8 @@
         "responsable": "AUR BODEGA",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": null,
         "direccion": "JR CONRAY GRANDE 4817",
@@ -20852,8 +20852,8 @@
         "responsable": "AUR BODEGA",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": null,
         "direccion": "AV INDEPENDENCIA 867 VICENTELO ALTO",
@@ -21012,8 +21012,8 @@
         "responsable": "AUR BODEGA",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": null,
         "direccion": "ASOC. PRADERAS DE PARIACHI 3 MZ. B LT. 52",
@@ -21039,8 +21039,8 @@
         "responsable": "AUR BODEGA",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": null,
         "direccion": "AV MIGUEL IGLESIAS MZ I-1 LOTE 23",
@@ -21772,12 +21772,12 @@
         "responsable": "JS BODEGA",
         "frecuencia": "LUNES-MARTES-MIÉRCOLES-JUEVES-VIERNES-SÁBADO",
         "dias": [
-            "LUNES",
-            "VIERNES",
-            "MARTES",
-            "SÁBADO",
             "MIÉRCOLES",
-            "JUEVES"
+            "VIERNES",
+            "LUNES",
+            "MARTES",
+            "JUEVES",
+            "SÁBADO"
         ],
         "meta_diaria": null,
         "direccion": "AV. HUANCAVELICA #387",
@@ -21803,12 +21803,12 @@
         "responsable": "JS BODEGA",
         "frecuencia": "LUNES-MARTES-MIÉRCOLES-JUEVES-VIERNES-SÁBADO",
         "dias": [
-            "LUNES",
-            "VIERNES",
-            "MARTES",
-            "SÁBADO",
             "MIÉRCOLES",
-            "JUEVES"
+            "VIERNES",
+            "LUNES",
+            "MARTES",
+            "JUEVES",
+            "SÁBADO"
         ],
         "meta_diaria": null,
         "direccion": "AV. TAYLOR 1802",
@@ -22068,8 +22068,8 @@
         "responsable": "JS BODEGA",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": null,
         "direccion": "JIRÓN 28 DE JULIO MZ 7 LOTE 12",
@@ -22202,8 +22202,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": 20.0,
         "direccion": "AVENIDA URUGUAY N° 339, PASAJE VELARDE N° 101-103-105, DISTRITO DE CERCADO DE LIMA, PROVINCIA Y DEPARTAMENTO DE LIMA",
@@ -22229,8 +22229,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": 20.0,
         "direccion": "ALEJANDRO IGLESIAS NRO. 511 (AV DEFENSORES) LIMA-LIMA-CHORRILLOS",
@@ -22256,8 +22256,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": 20.0,
         "direccion": "ZONA E-AAHH VILLA ALEJANDRO I ETAPA – CA. 02 MZ. H LOTE 08, DISTRITO DE LURÍN, PROVINCIA Y DEPARTAMENTO DE LIMA",
@@ -22309,8 +22309,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": 20.0,
         "direccion": "AV. ANGAMOS ESTE Nº 2557- MZ. 7, LOTE 26 CONJUNTO HABITACIONAL LIMATAMBO SECTOR A, DISTRITO DE SAN BORJA",
@@ -22524,8 +22524,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": 20.0,
         "direccion": "AV KENNEDY 1507 MZ D LT30 - URB. CESAR VALLEJO - DIST. PAUCARPATA - DPTO AREQUIPA PROV. AREQUIPA",
@@ -22683,8 +22683,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": 20.0,
         "direccion": "PUEBLO TRADICIONAL PACHACAMAC CERCADO MZ 15 LOTE 7, DISTRITO PACHACAMAC, PROVINCIA Y DEPARTAMENTO DE LIMA",
@@ -22710,8 +22710,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MARTES-JUEVES",
         "dias": [
-            "JUEVES",
-            "MARTES"
+            "MARTES",
+            "JUEVES"
         ],
         "meta_diaria": 20.0,
         "direccion": "JR. JOSÉ BALTA, MZ. 58B, LOTE 53, DISTRITO DE CHIMBOTE, PROVINCIA DE SANTA Y DEPARTAMENTO DE ANCASH",
@@ -22737,8 +22737,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": 20.0,
         "direccion": "AV. ANGAMOS ESTE Nº 1921- TIENDA 4, AV. ANGAMOS ESTE Nº 1901- TIENDA 5, SURQUILLO",
@@ -22764,8 +22764,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MARTES-MIÉRCOLES",
         "dias": [
-            "MIÉRCOLES",
-            "MARTES"
+            "MARTES",
+            "MIÉRCOLES"
         ],
         "meta_diaria": 20.0,
         "direccion": "AV. MANSICHE Nº 293 – 299, URB. SAN NICOLÁS, DISTRITO Y PROVINCIA DE TRUJILLO, DEPARTAMENTO DE LA LIBERTAD",
@@ -22843,8 +22843,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": 20.0,
         "direccion": "AV. AVIACIÓN N° 3569 – 3571, MZ. A8, LT. 60, PAPA JUAN XXIII, DISTRITO DE SAN BORJA",
@@ -22950,8 +22950,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": 20.0,
         "direccion": "AV. ALFREDO MENDIOLA N°1628 TDA 108 LETRA \"A\" URB. FIORI, SAN MARTÍN DE PORRES",
@@ -22977,8 +22977,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": 20.0,
         "direccion": "AV CESAR CANEVARO 430 \"MZ G, LT 7\" , ZONA C-1 URB. SAN JUAN DE MIRAFLORES",
@@ -23110,8 +23110,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": 20.0,
         "direccion": "AV. PRIMAVERA Nº 148 – TIENDA A03 – A22, URBANIZACIÓN TAMBO DE MONTERRICO, DISTRITO DE SANTIAGO DE SURCO, PROVINCIA Y DEPARTAMENTO DE LIMA",
@@ -23217,8 +23217,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": 20.0,
         "direccion": "AV. RICARDO PALMA 251 299 - MIRAFLORES",
@@ -23798,8 +23798,8 @@
         "responsable": "TINBET",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": null,
         "direccion": "AV. LOS OLIVOS MZ. B LT. 13 ASOC. MIGUEL GRAU",
@@ -23852,8 +23852,8 @@
         "responsable": "TINBET",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": null,
         "direccion": "AV. ANTUNEZ DE MAYOLO 1633.",
@@ -23932,8 +23932,8 @@
         "responsable": "TINBET",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": null,
         "direccion": "AV ARENALES 2523",
@@ -23985,8 +23985,8 @@
         "responsable": "TINBET",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": null,
         "direccion": "AV. MICAELA BASTIDAS SECTOR 1 - GRUPO 16 MZ. K LT. 04",
@@ -24092,8 +24092,8 @@
         "responsable": "TINBET",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": null,
         "direccion": "AV. TUPAC AMARU NRO. 1764 URB. RAUL PORRAS BARRENECHEA (FRONTIS MUNICIPALIDAD CARABAYLLO)",
@@ -24119,8 +24119,8 @@
         "responsable": "TINBET",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": null,
         "direccion": "CA. LOS OLIVOS MZ. P LT. 4 2DO PISO - AA.HH. LOS JAZMINES DE NARANJAL",
@@ -24146,8 +24146,8 @@
         "responsable": "TINBET",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": null,
         "direccion": "AV.CARLOS IZAGUIRRE 1427",
@@ -24281,8 +24281,8 @@
         "responsable": "TINBET",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": null,
         "direccion": "AV LOS JARDINES ESTE 715",
@@ -24308,8 +24308,8 @@
         "responsable": "TINBET",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": null,
         "direccion": "AV. CHIMPU OCLLO 1065 MERC. QATUNA TIENDA A9",
@@ -24335,8 +24335,8 @@
         "responsable": "TINBET",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": null,
         "direccion": "AV. ARGENTINA 428, C.C MESA REDONDA",
@@ -24546,8 +24546,8 @@
         "responsable": "TINBET",
         "frecuencia": "VIERNES-MARTES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": null,
         "direccion": "JR BOLOGNESI 464, CAJABAMBA",
@@ -24704,8 +24704,8 @@
         "responsable": "TINBET",
         "frecuencia": "VIERNES-MARTES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": null,
         "direccion": "JR. SARGENTO LORES 187",
@@ -25105,8 +25105,8 @@
         "responsable": "TINBET",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": null,
         "direccion": "JR BARREDA AGUILAR 174 INT 1 MZ A LT 14 NIV 1",
@@ -25132,9 +25132,9 @@
         "responsable": "TINBET",
         "frecuencia": "MARTES-JUEVES-SÁBADO",
         "dias": [
-            "SÁBADO",
+            "MARTES",
             "JUEVES",
-            "MARTES"
+            "SÁBADO"
         ],
         "meta_diaria": null,
         "direccion": "AV. SANCHEZ CERRO NO. SN STAND 17-18",
@@ -25188,9 +25188,9 @@
         "responsable": "TINBET",
         "frecuencia": "MARTES-JUEVES-SÁBADO",
         "dias": [
-            "SÁBADO",
+            "MARTES",
             "JUEVES",
-            "MARTES"
+            "SÁBADO"
         ],
         "meta_diaria": null,
         "direccion": "MZ. C2 LT. 1 URBANIZACIÓN PUEBLO LIBRE",
@@ -25663,11 +25663,11 @@
         "responsable": "TINBET",
         "frecuencia": "LUNES-JUEVES-MIÉRCOLES-JUEVES-VIERNES-SÁBADO",
         "dias": [
-            "LUNES",
-            "VIERNES",
-            "SÁBADO",
             "MIÉRCOLES",
-            "JUEVES"
+            "VIERNES",
+            "LUNES",
+            "JUEVES",
+            "SÁBADO"
         ],
         "meta_diaria": null,
         "direccion": "AV DANIEL ALCIDES CARRION NRO. 1975",
@@ -25693,11 +25693,11 @@
         "responsable": "TINBET",
         "frecuencia": "LUNES-JUEVES-MIÉRCOLES-JUEVES-VIERNES-SÁBADO",
         "dias": [
-            "LUNES",
-            "VIERNES",
-            "SÁBADO",
             "MIÉRCOLES",
-            "JUEVES"
+            "VIERNES",
+            "LUNES",
+            "JUEVES",
+            "SÁBADO"
         ],
         "meta_diaria": null,
         "direccion": "AV. INDEPENDENCIA 495",
@@ -25723,11 +25723,11 @@
         "responsable": "TINBET",
         "frecuencia": "LUNES-JUEVES-MIÉRCOLES-JUEVES-VIERNES-SÁBADO",
         "dias": [
-            "LUNES",
-            "VIERNES",
-            "SÁBADO",
             "MIÉRCOLES",
-            "JUEVES"
+            "VIERNES",
+            "LUNES",
+            "JUEVES",
+            "SÁBADO"
         ],
         "meta_diaria": null,
         "direccion": "AV. MARISCAL CASTILLA N° 4131 ASENTAMIENTO HUMANO LA VICTORIA",
@@ -25779,8 +25779,8 @@
         "responsable": "TINBET",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": null,
         "direccion": "AV. TUPAC AMARU 340",
@@ -25859,8 +25859,8 @@
         "responsable": "TINBET",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": null,
         "direccion": "AV. AMAZONAS MZ. E LT. 18",
@@ -25886,8 +25886,8 @@
         "responsable": "TINBET",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": null,
         "direccion": "AV. AMAZONAS MZ. C LT. 16",
@@ -25913,8 +25913,8 @@
         "responsable": "TINBET",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": null,
         "direccion": "AV. AVIACION N° 296 MZ. D LT. 24",
@@ -26021,8 +26021,8 @@
         "responsable": "TINBET",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": null,
         "direccion": "AV. SAENZ PEÑA # 690 MZ. 151 LT. 13-B",
@@ -26101,8 +26101,8 @@
         "responsable": "TINBET",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": null,
         "direccion": "AV. COLONIZACION N° 196",
@@ -26182,8 +26182,8 @@
         "responsable": "TINBET",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": null,
         "direccion": "AV. YARINACOCHA MZ. 34 LT. 10A",
@@ -26290,8 +26290,8 @@
         "responsable": "TINBET",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": null,
         "direccion": "AV. LAS PALMERAS MZ. 244 LT. 22",
@@ -26317,8 +26317,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": 50.0,
         "direccion": "0",
@@ -26344,8 +26344,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MARTES-JUEVES",
         "dias": [
-            "JUEVES",
-            "MARTES"
+            "MARTES",
+            "JUEVES"
         ],
         "meta_diaria": 20.0,
         "direccion": "URB. BUENOS AIRES ZONA 3C, MZ. M3, LT. 33, NUEVO CHIMBOTE PROVINCIA DE SANTA DEPARTAMENTO DE ANCASH",
@@ -26609,9 +26609,9 @@
         "responsable": "TAMBO",
         "frecuencia": "MARTES-JUEVES-SABADO",
         "dias": [
-            "SABADO",
+            "MARTES",
             "JUEVES",
-            "MARTES"
+            "SABADO"
         ],
         "meta_diaria": 20.0,
         "direccion": "AV. MUNICIPALIDAD Nº 271-279, 1ER PISO Y SÓTANO, CERCADO DE ICA, DISTRITO, PROVINCIA Y DEPARTAMENTO DE ICA",
@@ -26663,8 +26663,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MARTES-JUEVES",
         "dias": [
-            "JUEVES",
-            "MARTES"
+            "MARTES",
+            "JUEVES"
         ],
         "meta_diaria": 20.0,
         "direccion": "0",
@@ -26690,8 +26690,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": 20.0,
         "direccion": "0",
@@ -26717,8 +26717,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": 20.0,
         "direccion": "CALLE VALLE RIESTRA ,GENERAL FRANCISCO 505, SAN ISIDRO",
@@ -26744,8 +26744,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": 20.0,
         "direccion": "AV, REPÚBLICA DE COLOMBIA N° 545, SAN ISIDRO,",
@@ -27032,8 +27032,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": 20.0,
         "direccion": "AV,JOSE ARNALDO MARQUEZ, - 892 JESUS MARIA",
@@ -27112,8 +27112,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": 20.0,
         "direccion": "AV, ARENALES 200 -  204 - 206 SAN ISIDRO",
@@ -27221,8 +27221,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": 20.0,
         "direccion": "ZONA,JOSE GALVEZ -P,J PUEBLO JOVEN VILLA POETA JOSE GALVEZ - PARCELA VILLA POETA II -AV,LIMA 2190 - VILLA MARIA DEL TRIUNFO",
@@ -27382,8 +27382,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": 20.0,
         "direccion": "JIRON AYACUCHO 313 SAN MIGUEL",
@@ -27621,8 +27621,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": 20.0,
         "direccion": "JIRON RESTAURACIÓN 498 URB, BREÑA - BREÑA",
@@ -27675,8 +27675,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": 20.0,
         "direccion": "AV, JAVIER PRADO ESTE N° 4921 TDA-02 MZ L2 LT 09, URB, CAMACHO, DISTRITO DE LA MOLINA, PROVINCIA Y DEPARTAMENTO DE LIMA",
@@ -27702,8 +27702,8 @@
         "responsable": "TINBET",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": null,
         "direccion": "AV. YURINACOCHA MZ. 40 LT. 6",
@@ -27756,8 +27756,8 @@
         "responsable": "TINBET",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": null,
         "direccion": "AV. UNIVERSITARIA MZ K1 LT 15, URB. DANIEL ALCIDES CARRIÓN, SAN MARTÍN DE PORRES - LIMA",
@@ -27965,8 +27965,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": 20.0,
         "direccion": "PASAJE JUVENAL VILLAVERDE LAZO N° 300 MZ. H1 LOTE 01 URB. SAN AMADEO DE GARAGAY, DISTRITO SAN MARTÍN DE PORRES",
@@ -28096,8 +28096,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": 20.0,
         "direccion": "CAL.MONTEGRANDE NRO. 186 URB. CHACARILLA DEL ESTANQUE LIMA - LIMA - SANTIAGO DE SURCO",
@@ -28283,8 +28283,8 @@
         "responsable": "TINBET",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": null,
         "direccion": "AV. PACHACUTEC MZ. I LT. 18",
@@ -28652,8 +28652,8 @@
         "responsable": "APUESTA TOTAL",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": 22.5,
         "direccion": "Jr. Justo Naveda N° 1107",
@@ -28759,8 +28759,8 @@
         "responsable": "APUESTA TOTAL",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": 13.2,
         "direccion": "Av. Arenales N° 1825",
@@ -28893,8 +28893,8 @@
         "responsable": "APUESTA TOTAL",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": 11.5,
         "direccion": "Av. Prolongación Iquitos N° 2615",
@@ -28946,8 +28946,8 @@
         "responsable": "APUESTA TOTAL",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": 18.55,
         "direccion": "Av. Perú N° 1835",
@@ -29052,8 +29052,8 @@
         "responsable": "LIVESPORT",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": null,
         "direccion": "JR. VIRREYES N°396 - RIMAC, LIMA.",
@@ -29157,8 +29157,8 @@
         "responsable": "LIVESPORT",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": null,
         "direccion": "AV. MIGUEL IGLESIAS MZ A LT 12 - SAN JUAN DE MIRAFLORES, LIMA.",
@@ -29319,8 +29319,8 @@
         "responsable": "TINBET",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": null,
         "direccion": "JR. SANCHEZ CERRO ESTE N° 104",
@@ -29346,8 +29346,8 @@
         "responsable": "TINBET",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": null,
         "direccion": "AV. TUPAC AMARU MZ. 64 LT. 3 ASENTAMIENTO",
@@ -29373,8 +29373,8 @@
         "responsable": "TINBET",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": null,
         "direccion": "AV. MARIANO CONDORCANQUI MZ. W LT. 21",
@@ -29585,8 +29585,8 @@
         "responsable": "LIVESPORT",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": null,
         "direccion": "Av San Juan 1031 - A - Urb San Juan - San Juan de Miraflores",
@@ -29639,8 +29639,8 @@
         "responsable": "LIVESPORT",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": null,
         "direccion": "Av. Cesar Canevaro 608 - SJM",
@@ -29693,8 +29693,8 @@
         "responsable": "LIVESPORT",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": null,
         "direccion": "Av. El Sol 474 - SJL",
@@ -29747,8 +29747,8 @@
         "responsable": "LIVESPORT",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": null,
         "direccion": "Av. Jardines Este Nª 435- Urb Inca Manco Capac - San Juan de Lurigancho.",
@@ -29774,8 +29774,8 @@
         "responsable": "LIVESPORT",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": null,
         "direccion": "Av. Las Flores de Primavera Nº 517 - SJL.",
@@ -29828,8 +29828,8 @@
         "responsable": "LIVESPORT",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": null,
         "direccion": "Jr. Los Olivos Nº 333, Santa Rosa - SMP.",
@@ -30017,8 +30017,8 @@
         "responsable": "LIVESPORT",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": null,
         "direccion": "Manuel irribarren 818 surquillo",
@@ -30097,8 +30097,8 @@
         "responsable": "TINBET",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": null,
         "direccion": "CALLE ALBERTO LAVEAU MZ. 100 URBANIZACION GUARDIA CIVIL",
@@ -30202,8 +30202,8 @@
         "responsable": "TINBET",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": null,
         "direccion": "AV. 13 DE ENERO MZ N LT 39 COOPERATIVA LA HUAYRONA",
@@ -30229,11 +30229,11 @@
         "responsable": "TINBET",
         "frecuencia": "LUNES-JUEVES-MIÉRCOLES-JUEVES-VIERNES-SÁBADO",
         "dias": [
-            "LUNES",
-            "VIERNES",
-            "SÁBADO",
             "MIÉRCOLES",
-            "JUEVES"
+            "VIERNES",
+            "LUNES",
+            "JUEVES",
+            "SÁBADO"
         ],
         "meta_diaria": null,
         "direccion": "PROLONGACIÓN LIMA NO. 593",
@@ -30547,8 +30547,8 @@
         "responsable": "TINBET",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": null,
         "direccion": "JR. EL PACIFICO NO.789",
@@ -30627,8 +30627,8 @@
         "responsable": "TINBET",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": null,
         "direccion": "AV. LOS CHANCAS MZ. K LT. 30 RESIDENCIAL LOS PINOS",
@@ -31854,8 +31854,8 @@
         "responsable": "TINBET",
         "frecuencia": "MIÉRCOLES-VIERNES",
         "dias": [
-            "MIÉRCOLES",
-            "VIERNES"
+            "VIERNES",
+            "MIÉRCOLES"
         ],
         "meta_diaria": null,
         "direccion": "AV. AVENIDA MZ. Q LT. 26 LOTIZACION 12 DE NOVIEMBRE",
@@ -32064,8 +32064,8 @@
         "responsable": "TINBET",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": null,
         "direccion": "AV. MIGUEL IGLESIAS 691 ZONA C",
@@ -32143,11 +32143,11 @@
         "responsable": "TINBET",
         "frecuencia": "LUNES-JUEVES-MIÉRCOLES-JUEVES-VIERNES-SÁBADO",
         "dias": [
-            "LUNES",
-            "VIERNES",
-            "SÁBADO",
             "MIÉRCOLES",
-            "JUEVES"
+            "VIERNES",
+            "LUNES",
+            "JUEVES",
+            "SÁBADO"
         ],
         "meta_diaria": null,
         "direccion": "AV JACINTO IBARRA 420",
@@ -32173,11 +32173,11 @@
         "responsable": "TINBET",
         "frecuencia": "LUNES-JUEVES-MIÉRCOLES-JUEVES-VIERNES-SÁBADO",
         "dias": [
-            "LUNES",
-            "VIERNES",
-            "SÁBADO",
             "MIÉRCOLES",
-            "JUEVES"
+            "VIERNES",
+            "LUNES",
+            "JUEVES",
+            "SÁBADO"
         ],
         "meta_diaria": null,
         "direccion": "AV. LA ESPERANZA 170 EL TAMBO",
@@ -32360,8 +32360,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": 20.0,
         "direccion": "AVENIDA ANGAMOS ESTE H-49 MZ H LT 49 PAPA JUAN XXIII SAN BORJA",
@@ -32387,8 +32387,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": 20.0,
         "direccion": "AV. DEFENSORES DEL MORRO (HUAYLAS) NRO. 523 URB. CHORRILLOS, LIMA",
@@ -32414,8 +32414,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": 20.0,
         "direccion": "AV LIMA, 1795 MZ. 82 LT. 1A, DISTRITO DE VILLA MARIA DEL TRIUNFO",
@@ -32572,8 +32572,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": 20.0,
         "direccion": "AVENIDA JOSÉ GÁLVEZ NO. 805, DISTRITO DE LA VICTORIA",
@@ -32759,8 +32759,8 @@
         "responsable": "APUESTA TOTAL",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": 13.6,
         "direccion": "Av. 13 De Enero Nro. 1713-A Urb. La Basilia",
@@ -32840,8 +32840,8 @@
         "responsable": "APUESTA TOTAL",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": 23.05,
         "direccion": "Mz R Lote 4 Urbanización Residencial Horizonte Segunda Etapa (Dirección Municipal: Av 13 De Enero No 1012-1014, Mz R, Lote 4)",
@@ -32948,8 +32948,8 @@
         "responsable": "APUESTA TOTAL",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": 11.0,
         "direccion": "Av. Canto Grande 2100-2102 Esquina Con Av. San Hilarion Oeste. Urb. San Ignacio",
@@ -33002,8 +33002,8 @@
         "responsable": "APUESTA TOTAL",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": 35.0,
         "direccion": "Av. El Sol N° 562",
@@ -33082,8 +33082,8 @@
         "responsable": "APUESTA TOTAL",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": 11.5,
         "direccion": "Av. Samuel Alcazar N° 202",
@@ -33109,8 +33109,8 @@
         "responsable": "APUESTA TOTAL",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": 14.65,
         "direccion": "Av. Tacna N° 270",
@@ -33136,8 +33136,8 @@
         "responsable": "APUESTA TOTAL",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": 34.1,
         "direccion": "Av. Cajatambo Lt. 05 Mz T Urb. Ciudad Y Campo",
@@ -33216,8 +33216,8 @@
         "responsable": "APUESTA TOTAL",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": 8.8,
         "direccion": "Av. Emancipación N° 979",
@@ -33243,8 +33243,8 @@
         "responsable": "APUESTA TOTAL",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": 27.9,
         "direccion": "Av. Eduardo De Habich N° 544",
@@ -33297,8 +33297,8 @@
         "responsable": "APUESTA TOTAL",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": 22.0,
         "direccion": "Pasaje Las Ventas Nº 107-111. Tienda 30, Módulo Tipico I",
@@ -33459,8 +33459,8 @@
         "responsable": "APUESTA TOTAL",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": 43.15,
         "direccion": "Asociacion Pro Vivienda Urbanizadora Azcarrunz Mz G Lote 20",
@@ -33621,8 +33621,8 @@
         "responsable": "APUESTA TOTAL",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": 22.4,
         "direccion": "Conjuntohabitacional Edwin Vásquez Cam Mz E1 Lote 14 Unid Inm Sublote Nomenclatura 49 (Dirección Municipal: C Hab Edwin Vasquez Cam Nro Sub Lote 49 Mz A E1 Sublte /Lte.14)",
@@ -33991,8 +33991,8 @@
         "responsable": "APUESTA TOTAL",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": 12.0,
         "direccion": "Av. República De Panamá N° 4085",
@@ -34044,8 +34044,8 @@
         "responsable": "APUESTA TOTAL",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": 11.0,
         "direccion": "Mz B1 Lote 28 Zona D Urb San Juan De Miraflores",
@@ -34229,8 +34229,8 @@
         "responsable": "APUESTA TOTAL",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": 12.0,
         "direccion": "Urb. Los Cedros Mz. E3 Lt. 1",
@@ -34363,8 +34363,8 @@
         "responsable": "APUESTA TOTAL",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": 21.15,
         "direccion": "Lote 5 Mz B1 Parcela Vi-1B Urbanizaciòn Santa Aurelia (Dirección Municipal: Urb. Santa Aurelia Av. Huarochiri Nro 898 Mz. B1 Lote 05)",
@@ -34604,8 +34604,8 @@
         "responsable": "APUESTA TOTAL",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": 22.0,
         "direccion": "Calle Las Lilas N° 377 Mz. E Lt. 14-F",
@@ -34926,8 +34926,8 @@
         "responsable": "APUESTA TOTAL",
         "frecuencia": "MARTES-JUEVES",
         "dias": [
-            "JUEVES",
-            "MARTES"
+            "MARTES",
+            "JUEVES"
         ],
         "meta_diaria": 13.8,
         "direccion": "Calle Lima N° 488",
@@ -35658,8 +35658,8 @@
         "responsable": "APUESTA TOTAL",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": 13.2,
         "direccion": "Cooperativa De Vivienda America Ltda Mz A Lote 20 (Dirección Municipal: Coop Viv America Mz A Lt 20 Panamericana Sur )",
@@ -35873,8 +35873,8 @@
         "responsable": "APUESTA TOTAL",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": 15.0,
         "direccion": "Asociación Jesús De Nazareth Amauta Mz D Lote 7 Ate - Lima - Lima",
@@ -35981,8 +35981,8 @@
         "responsable": "APUESTA TOTAL",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": 13.2,
         "direccion": "Asociación El Porvenir Mz. C Lote 18",
@@ -36008,8 +36008,8 @@
         "responsable": "APUESTA TOTAL",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": 8.8,
         "direccion": "Av. Jose Carlos Mariategui N° 634",
@@ -36089,8 +36089,8 @@
         "responsable": "APUESTA TOTAL",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": 13.2,
         "direccion": "Mz A Lote 3 Asociaciòn Provivienda Santa Rosa De Vitarte (Dirección Municipal: Mz A Lote 3 Asociaciòn Provivienda Santa Rosa De Vitarte ),",
@@ -40952,11 +40952,11 @@
         "responsable": "APUESTA TOTAL",
         "frecuencia": "LUNES-JUEVES-MIÉRCOLES-JUEVES-VIERNES-SÁBADO",
         "dias": [
-            "LUNES",
-            "VIERNES",
-            "SÁBADO",
             "MIÉRCOLES",
-            "JUEVES"
+            "VIERNES",
+            "LUNES",
+            "JUEVES",
+            "SÁBADO"
         ],
         "meta_diaria": 11.5,
         "direccion": "Av. Mariscal Castilla N° 1238 – Cercado El Tambo Del Distrito De El Tambo",
@@ -41034,11 +41034,11 @@
         "responsable": "APUESTA TOTAL",
         "frecuencia": "LUNES-JUEVES-MIÉRCOLES-JUEVES-VIERNES-SÁBADO",
         "dias": [
-            "LUNES",
-            "VIERNES",
-            "SÁBADO",
             "MIÉRCOLES",
-            "JUEVES"
+            "VIERNES",
+            "LUNES",
+            "JUEVES",
+            "SÁBADO"
         ],
         "meta_diaria": 16.5,
         "direccion": "Av. Jose Carlos Mariátegui N° 600",
@@ -41665,8 +41665,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MARTES-JUEVES",
         "dias": [
-            "JUEVES",
-            "MARTES"
+            "MARTES",
+            "JUEVES"
         ],
         "meta_diaria": 20.0,
         "direccion": "CALLE LIMA N° 666, CERCADO DE ICA, DISTRITO, PROVINCIA Y DEPARTAMENTO DE ICA",
@@ -41953,8 +41953,8 @@
         "responsable": "LIVESPORT",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": null,
         "direccion": "Av. Miguel Iglesias n°856 mz x, lote 03 AA.HH San Antonio II etapa - SJM",
@@ -42007,8 +42007,8 @@
         "responsable": "LIVESPORT",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": null,
         "direccion": "Av. Micaela Bastidas Sector 1 Grupo 21 Mz. C LOTE 10 VILLA SALVADOR",
@@ -42247,8 +42247,8 @@
         "responsable": "TINBET",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": null,
         "direccion": "AV. UNIVERSITARIA NORTE NRO. 660",
@@ -42903,8 +42903,8 @@
         "responsable": "TINBET",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": null,
         "direccion": "JR. BOLIVAR NO. 172",
@@ -43008,8 +43008,8 @@
         "responsable": "DORADOBET",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": null,
         "direccion": "JIRON ANTONIO BAZO N°417 - DT. LA VICTORIA - LIMA",
@@ -43062,8 +43062,8 @@
         "responsable": "DORADOBET",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": null,
         "direccion": "JR.ASCOPE N° 350 - CENTRO DE LIMA",
@@ -43089,8 +43089,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": 20.0,
         "direccion": "AV. UNIVERSITARIA N° 601 URB. PANDO, DISTRITO DE SAN MIGUEL",
@@ -43250,8 +43250,8 @@
         "responsable": "RETABET",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": null,
         "direccion": "Av. Gral. Juan Antonio Álvarez de Arenales 1520, Lince 15073",
@@ -43304,8 +43304,8 @@
         "responsable": "RETABET",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": null,
         "direccion": "Viamix Colonial, Av. Óscar R. Benavides 669, Lima 15082",
@@ -43331,8 +43331,8 @@
         "responsable": "RETABET",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": null,
         "direccion": "Av. Las Flores de Primavera 1400, San Juan de Lurigancho 15419",
@@ -44739,8 +44739,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": 20.0,
         "direccion": "PROGRAMA DE VIVIENDA CANEVARO DE SURCO MZ. B LT. 1, DISTRITO DE SAN JUAN DE MIRAFLORES,",
@@ -44870,8 +44870,8 @@
         "responsable": "TINBET",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": null,
         "direccion": "AV. JOSÉ FAUSTINO SÁNCHEZ CARRIÓN 336",
@@ -45083,8 +45083,8 @@
         "responsable": "TINBET",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": null,
         "direccion": "AV. JOSÉ FAUSTINO SÁNCHEZ CARRIÓN 336",
@@ -45188,8 +45188,8 @@
         "responsable": "APUESTA TOTAL",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": 33.333333333333336,
         "direccion": "Av. Santiago Antunez de Mayolo Mz.A Lt.1 Piso 1 Urb. Residencial Comercial Los Olivos",
@@ -45738,8 +45738,8 @@
         "responsable": "RETABET",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": null,
         "direccion": "Castilla 850, Magdalena del Mar 15086",
@@ -45765,8 +45765,8 @@
         "responsable": "RETABET",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": null,
         "direccion": "Av. Argentina 608, Lima 15079",
@@ -45927,8 +45927,8 @@
         "responsable": "RETABET",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": null,
         "direccion": "Ca. Schell 366, Miraflores 15074",
@@ -45954,8 +45954,8 @@
         "responsable": "RETABET",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": null,
         "direccion": "Av. Lorenzo de Encalada 218, Rímac 15094",
@@ -45981,8 +45981,8 @@
         "responsable": "RETABET",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": null,
         "direccion": "Av San Juan 934-A, San Juan de Miraflores 15801",
@@ -46035,8 +46035,8 @@
         "responsable": "RETABET",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": null,
         "direccion": "Av. Angamos Este 1148, Surquillo 15047",
@@ -46116,8 +46116,8 @@
         "responsable": "DORADOBET",
         "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": null,
         "direccion": "Av. Las Flores de Primavera 1428 – SJL",
