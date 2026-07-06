@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Claves del día · GeoDor</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: #050505;
+      color: #fff;
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 40px 20px;
+      gap: 24px;
+    }
+    .eyebrow {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: .2em;
+      text-transform: uppercase;
+      color: #888;
+    }
+    h1 {
+      font-size: 22px;
+      font-weight: 800;
+      text-align: center;
+    }
+    .date-label {
+      font-size: 13px;
+      color: #888;
+      text-align: center;
+    }
+    .cards {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      width: 100%;
+      max-width: 360px;
+    }
+    .code-card {
+      background: #0D0D0D;
+      border: 1.5px solid;
+      border-radius: 16px;
+      padding: 16px 18px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .cc-left { display: flex; flex-direction: column; gap: 3px; }
+    .cc-partner {
+      font-size: 13px;
+      font-weight: 700;
+    }
+    .cc-hint { font-size: 11px; color: #555; }
+    .cc-code {
+      font-size: 26px;
+      font-weight: 900;
+      font-variant-numeric: tabular-nums;
+      letter-spacing: .08em;
+    }
+    .footer {
+      font-size: 11px;
+      color: #333;
+      text-align: center;
+      max-width: 300px;
+    }
+  </style>
+</head>
+<body>
+  <div class="eyebrow">GeoDor · Administración</div>
+  <h1>Claves del día</h1>
+  <div class="date-label" id="date-label">—</div>
+  <div class="cards" id="cards"></div>
+  <div class="footer">
+    Esta página es solo para uso interno.<br>
+    Comparte la clave de cada partner únicamente con sus cajeras.
+  </div>
+
+<script>
+  // ── Misma lógica que en los HTML de cada partner ──────────
+  // Si cambias AT_SEED en bonus_at.html, cambia también aquí
+  const CONFIGS = [
+    { label: 'Apuesta Total', color: '#E53535', seed: 'GEODOR_AT_2025'   },
+    { label: 'Tinbet',        color: '#16A34A', seed: 'GEODOR_TIN_2025'  },
+    { label: 'Livesport',     color: '#2563EB', seed: 'GEODOR_LIVE_2025' },
+    { label: 'Retabet',       color: '#7C3AED', seed: 'GEODOR_RET_2025'  },
+    { label: 'Doradobet',     color: '#D97706', seed: 'GEODOR_DOR_2025'  },
+    { label: 'Aciertala',     color: '#0891B2', seed: 'GEODOR_ACT_2025'  },
+    { label: 'Lotobola',      color: '#DB2777', seed: 'GEODOR_LOTO_2025' },
+    { label: 'Tambo',         color: '#DC2626', seed: 'GEODOR_TMB_2025'  },
+  ];
+
+  function isoDate() {
+    const d = new Date();
+    return d.getFullYear() + '-' +
+      String(d.getMonth()+1).padStart(2,'0') + '-' +
+      String(d.getDate()).padStart(2,'0');
+  }
+
+  function dailyCode(seed, date) {
+    const s = seed + '|' + date;
+    let h = 5381;
+    for (let i = 0; i < s.length; i++) {
+      h = (((h << 5) + h) ^ s.charCodeAt(i)) >>> 0;
+    }
+    return h.toString(36).toUpperCase().slice(0, 5);
+  }
+
+  const today = isoDate();
+  const days  = ['Domingo','Lunes','Martes','Miércoles','Jueves','Viernes','Sábado'];
+  const months= ['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
+  const d     = new Date();
+  document.getElementById('date-label').textContent =
+    `${days[d.getDay()]} ${d.getDate()} de ${months[d.getMonth()]} ${d.getFullYear()}`;
+
+  const cards = document.getElementById('cards');
+  CONFIGS.forEach(cfg => {
+    const code = dailyCode(cfg.seed, today);
+    const card = document.createElement('div');
+    card.className = 'code-card';
+    card.style.borderColor = cfg.color + '55';
+    card.innerHTML = `
+      <div class="cc-left">
+        <div class="cc-partner" style="color:${cfg.color}">${cfg.label}</div>
+        <div class="cc-hint">válida solo hoy</div>
+      </div>
+      <div class="cc-code" style="color:${cfg.color}">${code}</div>`;
+    cards.appendChild(card);
+  });
+</script>
+</body>
+</html>
