@@ -489,7 +489,19 @@
       width: 100%;
       border-radius: 3px 3px 0 0;
       min-height: 3px;
-      transition: height .9s cubic-bezier(.22,.6,.36,1) .1s;
+      transition: height .9s cubic-bezier(.22,.6,.36,1) .1s, opacity .15s;
+      cursor: pointer;
+    }
+
+    .wc-amount {
+      font-size: 8px;
+      font-weight: 700;
+      font-variant-numeric: tabular-nums;
+      color: var(--muted);
+      text-align: center;
+      min-height: 11px;
+      transition: color .15s;
+      white-space: nowrap;
     }
 
     .wc-day {
@@ -501,8 +513,34 @@
       flex-shrink: 0;
     }
 
-    .wc-col--today .wc-day  { color: var(--accent); }
-    .wc-col--today .wc-bar  { box-shadow: 0 0 8px rgba(229,53,53,.45); }
+    .wc-col--today .wc-day   { color: var(--accent); }
+    .wc-col--today .wc-bar   { box-shadow: 0 0 8px rgba(229,53,53,.45); }
+    .wc-col--today .wc-amount{ color: var(--accent); }
+
+    /* selected state */
+    .wc-col--selected .wc-bar    { outline: 2px solid var(--text); outline-offset: 2px; }
+    .wc-col--selected .wc-day    { color: var(--text); }
+    .wc-col--selected .wc-amount { color: var(--text); font-size: 9px; }
+
+    /* selected tooltip strip */
+    .wc-tooltip {
+      margin-top: 10px;
+      background: var(--surf2);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 8px 12px;
+      font-size: 12px;
+      font-weight: 600;
+      text-align: center;
+      min-height: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: opacity .2s;
+    }
+    .wc-tooltip .wt-day  { color: var(--muted); font-size: 11px; }
+    .wc-tooltip .wt-val  { color: var(--text); font-size: 15px; font-weight: 800; font-variant-numeric: tabular-nums; }
 
     /* ── NO-META STATE ──────────────────────────────────────── */
     .no-meta-note {
@@ -737,6 +775,7 @@
     <div class="week-card">
       <div class="card-title">Evolución · semana en curso</div>
       <div class="week-chart" id="week-chart"></div>
+      <div class="wc-tooltip" id="wc-tooltip" style="display:none"></div>
     </div>
 
     <!-- Promo: video + llamitas (solo móvil) -->
@@ -1010,7 +1049,8 @@
     setBar(document.getElementById('ld-bar'), ldMes / maxGame * 100, '#3B9EE8');
 
     // Weekly chart (Thu→Wed, 7 days)
-    const DAY_NAMES = ['Jue','Vie','Sáb','Dom','Lun','Mar','Mié'];
+    const DAY_NAMES      = ['Jue','Vie','Sáb','Dom','Lun','Mar','Mié'];
+    const DAY_NAMES_LONG = ['Jueves','Viernes','Sábado','Domingo','Lunes','Martes','Miércoles'];
     const weekKeys = [];
     for (let i = 0; i < 7; i++) {
       const d = new Date(semJue);
@@ -1028,25 +1068,45 @@
       if (idx >= 0) dayTotals[idx] += v.total || 0;
     });
     const BAR_MAX_H = 52;
-    const maxDay = Math.max(...dayTotals, 1);
-    document.getElementById('week-chart').innerHTML = weekKeys.map((dk, i) => {
+    const maxDay    = Math.max(...dayTotals, 1);
+    const chartEl   = document.getElementById('week-chart');
+    const tooltipEl = document.getElementById('wc-tooltip');
+    let selectedIdx = null;
+
+    function selectDay(i) {
+      if (selectedIdx === i) {
+        selectedIdx = null;
+        tooltipEl.style.display = 'none';
+      } else {
+        selectedIdx = i;
+        const isFuture = weekKeys[i] > hoy;
+        tooltipEl.style.display = 'flex';
+        tooltipEl.innerHTML = `<span class="wt-day">${DAY_NAMES_LONG[i]}</span><span class="wt-val">${isFuture ? '—' : fmtS(dayTotals[i])}</span>`;
+      }
+      chartEl.querySelectorAll('.wc-col').forEach((col, j) => {
+        col.classList.toggle('wc-col--selected', j === selectedIdx);
+      });
+    }
+
+    chartEl.innerHTML = weekKeys.map((dk, i) => {
       const isToday  = dk === hoy;
       const isFuture = dk > hoy;
       const cls = isToday ? 'wc-col--today' : isFuture ? 'wc-col--future' : 'wc-col--past';
       const barH = isFuture ? 3 : Math.max(Math.round(dayTotals[i] / maxDay * BAR_MAX_H), 3);
-      const barColor = isToday
-        ? 'var(--accent)'
-        : isFuture
-        ? 'var(--border)'
-        : 'rgba(255,255,255,.18)';
-      const valTxt = !isFuture && dayTotals[i] > 0
+      const barColor = isToday ? 'var(--accent)' : isFuture ? 'var(--border)' : 'rgba(255,255,255,.2)';
+      const amt = !isFuture && dayTotals[i] > 0
         ? Math.round(dayTotals[i]).toLocaleString('es-PE')
         : '';
-      return `<div class="wc-col ${cls}">
+      return `<div class="wc-col ${cls}" data-idx="${i}">
+        <div class="wc-amount">${amt}</div>
         <div class="wc-bar" style="height:${barH}px;background:${barColor}"></div>
         <div class="wc-day">${DAY_NAMES[i]}</div>
       </div>`;
     }).join('');
+
+    chartEl.querySelectorAll('.wc-col').forEach(col => {
+      col.addEventListener('click', () => selectDay(+col.dataset.idx));
+    });
 
     // Motivation
     const m = motivation(pctMes);
