@@ -546,6 +546,119 @@
     .wc-tooltip .wt-day  { color: var(--muted); font-size: 11px; }
     .wc-tooltip .wt-val  { color: var(--text); font-size: 15px; font-weight: 800; font-variant-numeric: tabular-nums; }
 
+    /* ── PIN SCREEN ─────────────────────────────────────────── */
+    #pin-screen {
+      min-height: 100vh;
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 48px 24px 64px;
+      animation: fadeUp .22s ease both;
+    }
+    @keyframes fadeUp {
+      from { opacity:0; transform:translateY(10px); }
+      to   { opacity:1; transform:translateY(0); }
+    }
+
+    .pin-badge {
+      background: var(--accent);
+      color: #fff;
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      padding: 4px 14px;
+      border-radius: 20px;
+      margin-bottom: 16px;
+    }
+
+    .pin-title {
+      font-size: clamp(22px, 5vw, 28px);
+      font-weight: 800;
+      text-align: center;
+      margin-bottom: 6px;
+    }
+
+    .pin-sub {
+      font-size: 13px;
+      color: var(--muted);
+      text-align: center;
+      margin-bottom: 32px;
+      max-width: 260px;
+    }
+
+    .pin-box {
+      width: 100%;
+      max-width: 320px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .pin-input-wrap { position: relative; }
+
+    .pin-input {
+      width: 100%;
+      background: var(--surf);
+      border: 1.5px solid var(--border);
+      border-radius: 14px;
+      padding: 14px 44px 14px 18px;
+      font-size: 18px;
+      letter-spacing: .18em;
+      color: var(--text);
+      font-family: inherit;
+      text-align: center;
+      outline: none;
+      transition: border-color .2s, box-shadow .2s;
+    }
+    .pin-input:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px var(--glow);
+    }
+
+    .pin-eye {
+      position: absolute;
+      right: 14px; top: 50%;
+      transform: translateY(-50%);
+      background: none; border: none;
+      color: var(--dim); font-size: 16px;
+      cursor: pointer; padding: 4px;
+      transition: color .15s;
+    }
+    .pin-eye:hover { color: var(--muted); }
+
+    .pin-error {
+      font-size: 12px;
+      color: #F04444;
+      text-align: center;
+      min-height: 16px;
+    }
+
+    .pin-btn {
+      background: var(--accent);
+      color: #fff;
+      border: none;
+      border-radius: 14px;
+      padding: 14px;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+      font-family: inherit;
+      transition: opacity .15s, transform .1s;
+    }
+    .pin-btn:hover  { opacity: .88; }
+    .pin-btn:active { transform: scale(.98); }
+
+    @keyframes shake {
+      0%,100%{ transform:translateX(0); }
+      20%    { transform:translateX(-6px); }
+      40%    { transform:translateX(6px); }
+      60%    { transform:translateX(-4px); }
+      80%    { transform:translateX(4px); }
+    }
+    .pin-input.shake { animation: shake .35s ease; }
+
     /* ── NO-META STATE ──────────────────────────────────────── */
     .no-meta-note {
       background: rgba(229,53,53,.08);
@@ -655,6 +768,25 @@
 <body>
 
 <div id="loading"><div class="spin"></div> Cargando datos…</div>
+
+<!-- PIN SCREEN -->
+<div id="pin-screen">
+  <div class="pin-badge">Apuesta Total</div>
+  <h1 class="pin-title">Ingresa tu clave de hoy</h1>
+  <p class="pin-sub">La clave cambia cada día. Consulta con tu RC si no la tienes.</p>
+  <div class="pin-box">
+    <div class="pin-input-wrap">
+      <input type="password" class="pin-input" id="pin-input"
+             placeholder="•••••" autocomplete="off" spellcheck="false"/>
+      <button class="pin-eye" onclick="
+        var i=document.getElementById('pin-input');
+        i.type=i.type==='password'?'text':'password'
+      ">👁</button>
+    </div>
+    <div class="pin-error" id="pin-error"></div>
+    <button class="pin-btn" onclick="checkPin()">Continuar →</button>
+  </div>
+</div>
 
 <!-- SEARCH SCREEN -->
 <div id="search-screen" style="display:none">
@@ -803,6 +935,57 @@
 </div>
 
 <script>
+  // ── Clave diaria rotatoria ────────────────────────────────
+  // Cambia AT_SEED para regenerar todos los códigos futuros
+  const AT_SEED = 'GEODOR_AT_2025';
+
+  function isoDate() {
+    const d = new Date();
+    return d.getFullYear() + '-' +
+      String(d.getMonth()+1).padStart(2,'0') + '-' +
+      String(d.getDate()).padStart(2,'0');
+  }
+
+  function dailyCode(seed, date) {
+    const s = seed + '|' + date;
+    let h = 5381;
+    for (let i = 0; i < s.length; i++) {
+      h = (((h << 5) + h) ^ s.charCodeAt(i)) >>> 0;
+    }
+    return h.toString(36).toUpperCase().slice(0, 5);
+  }
+
+  function checkPin() {
+    const val   = document.getElementById('pin-input').value.trim().toUpperCase();
+    const valid = dailyCode(AT_SEED, isoDate());
+    if (val === valid) {
+      sessionStorage.setItem('at_auth', isoDate());
+      showSearch();
+    } else {
+      const inp = document.getElementById('pin-input');
+      document.getElementById('pin-error').textContent = 'Clave incorrecta — intenta de nuevo';
+      inp.classList.remove('shake');
+      void inp.offsetWidth;
+      inp.classList.add('shake');
+      inp.value = '';
+      inp.focus();
+    }
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    document.getElementById('pin-input').addEventListener('keydown', e => {
+      if (e.key === 'Enter') checkPin();
+    });
+  });
+
+  function showSearch() {
+    document.getElementById('loading').style.display       = 'none';
+    document.getElementById('pin-screen').style.display    = 'none';
+    document.getElementById('search-screen').style.display = 'flex';
+    setupSearch();
+    document.getElementById('search-input').focus();
+  }
+
   const PARTNER = 'APUESTA TOTAL';
 
   const DIA_JS = {
@@ -889,17 +1072,16 @@
       const todos = ventasData.body || ventasData.ventas || [];
       allVentas = todos.filter(v => (v.partner || '').toUpperCase() === PARTNER);
 
-      // URL param shortcut
-      const params = new URLSearchParams(location.search);
+      // URL param shortcut (viene de progreso.html ya autenticado)
+      const params  = new URLSearchParams(location.search);
       const idParam = params.get('id') || params.get('tienda');
       if (idParam) {
         const found = allStores.find(p => String(p.ID) === String(idParam));
         if (found) { renderDashboard(found); return; }
       }
 
-      document.getElementById('loading').style.display = 'none';
-      document.getElementById('search-screen').style.display = 'flex';
-      setupSearch();
+      // Sin tienda válida en URL → volver al selector de partner
+      window.location.replace('progreso.html');
     } catch(e) {
       document.getElementById('loading').textContent = 'Error al cargar datos: ' + e.message;
     }

@@ -445,10 +445,26 @@
 
 <script>
   // ─────────────────────────────────────────────────────────
+  // PIN diario rotativo (misma lógica que admin_claves.html)
+  // ─────────────────────────────────────────────────────────
+  function isoDate() {
+    const d = new Date();
+    return d.getFullYear() + '-' +
+      String(d.getMonth()+1).padStart(2,'0') + '-' +
+      String(d.getDate()).padStart(2,'0');
+  }
+  function dailyCode(seed) {
+    const s = seed + '|' + isoDate();
+    let h = 5381;
+    for (let i = 0; i < s.length; i++) h = (((h << 5) + h) ^ s.charCodeAt(i)) >>> 0;
+    return h.toString(36).toUpperCase().slice(0, 5);
+  }
+
+  // ─────────────────────────────────────────────────────────
   // CONFIGURACIÓN — cambiar claves aquí
   // ─────────────────────────────────────────────────────────
   const PARTNERS = [
-    { key: 'APUESTA TOTAL', label: 'Apuesta Total', short: 'AT',   color: '#E53535', page: 'bonus_at.html',        code: 'at2025'   },
+    { key: 'APUESTA TOTAL', label: 'Apuesta Total', short: 'AT',   color: '#E53535', page: 'bonus_at.html',        seed: 'GEODOR_AT_2025'  },
     { key: 'TINBET',        label: 'Tinbet',         short: 'TIN',  color: '#16A34A', page: 'bonus_tinbet.html',   code: 'tin2025'  },
     { key: 'LIVESPORT',     label: 'Livesport',      short: 'LIVE', color: '#2563EB', page: 'bonus_livesport.html',code: 'live2025' },
     { key: 'RETABET',       label: 'Retabet',         short: 'RET',  color: '#7C3AED', page: 'bonus_retabet.html', code: 'reta2025' },
@@ -530,8 +546,11 @@
 
   function checkPin() {
     if (!selectedPartner) return goPartner();
-    const val = document.getElementById('pin-input').value.trim();
-    if (val === selectedPartner.code) {
+    const val      = document.getElementById('pin-input').value.trim().toUpperCase();
+    const expected = selectedPartner.seed
+      ? dailyCode(selectedPartner.seed)
+      : (selectedPartner.code || '').toUpperCase();
+    if (val === expected) {
       openSearch();
     } else {
       const inp = document.getElementById('pin-input');
