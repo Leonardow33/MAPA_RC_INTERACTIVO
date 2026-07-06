@@ -13,14 +13,9 @@
         "supervisor": "LLAMITA SUERTE",
         "capacitador": "GESTION BASE",
         "responsable": "LOTOBOLA",
-        "frecuencia": "LUNES-MARTES-MIÉRCOLES-JUEVES-VIERNES-SÁBADO",
+        "frecuencia": "GESTION BASE",
         "dias": [
-            "JUEVES",
-            "LUNES",
-            "VIERNES",
-            "SÁBADO",
-            "MIÉRCOLES",
-            "MARTES"
+            "GESTION BASE"
         ],
         "meta_diaria": null,
         "direccion": "Av. Santo Toribio 143, San Isidro 15073",
@@ -3657,9 +3652,10 @@
         "supervisor": "RODRIGO MARTINEZ",
         "capacitador": "RAMON RAZURI",
         "responsable": "TAMBO",
-        "frecuencia": "MARTES",
+        "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": 80.0,
         "direccion": "CALLE CHINCHÓN NRO 960 LIMA-LIMA-SAN ISIDRO",
@@ -7373,7 +7369,7 @@
         "supervisor": "RODRIGO MARTINEZ",
         "capacitador": "JESUS OLIVEROS",
         "responsable": "TAMBO",
-        "frecuencia": "LUNES-SIN ASIGNAR",
+        "frecuencia": "LUNES",
         "dias": [
             "LUNES"
         ],
@@ -7560,7 +7556,7 @@
         "supervisor": "RODRIGO MARTINEZ",
         "capacitador": "JESUS OLIVEROS",
         "responsable": "TAMBO",
-        "frecuencia": "LUNES-SIN ASIGNAR",
+        "frecuencia": "LUNES",
         "dias": [
             "LUNES"
         ],
@@ -7775,7 +7771,7 @@
         "supervisor": "JORGE SANCHEZ",
         "capacitador": "RODRIGO BRAVO",
         "responsable": "TAMBO",
-        "frecuencia": "MARTES-SIN ASIGNAR",
+        "frecuencia": "MARTES",
         "dias": [
             "MARTES"
         ],
@@ -7828,7 +7824,7 @@
         "supervisor": "RODRIGO MARTINEZ",
         "capacitador": "JESUS OLIVEROS",
         "responsable": "TAMBO",
-        "frecuencia": "LUNES-SIN ASIGNAR",
+        "frecuencia": "LUNES",
         "dias": [
             "LUNES"
         ],
@@ -9063,7 +9059,7 @@
         "supervisor": "JORGE SANCHEZ",
         "capacitador": "RODRIGO BRAVO",
         "responsable": "TAMBO",
-        "frecuencia": "VIERNES-SIN ASIGNAR",
+        "frecuencia": "VIERNES",
         "dias": [
             "VIERNES"
         ],
@@ -9651,7 +9647,7 @@
         "supervisor": "JORGE SANCHEZ",
         "capacitador": "SELEN CASTRO",
         "responsable": "TAMBO",
-        "frecuencia": "VIERNES-SIN ASIGNAR",
+        "frecuencia": "VIERNES",
         "dias": [
             "VIERNES"
         ],
@@ -9811,7 +9807,7 @@
         "supervisor": "JENY LAZO",
         "capacitador": "PENDING",
         "responsable": "TAMBO",
-        "frecuencia": "VIERNES-SIN ASIGNAR-SIN ASIGNAR",
+        "frecuencia": "VIERNES",
         "dias": [
             "VIERNES"
         ],
@@ -10401,9 +10397,9 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-MIÉRCOLES-VIERNES",
         "dias": [
-            "LUNES",
             "VIERNES",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "LUNES"
         ],
         "meta_diaria": 20.0,
         "direccion": "AV. JOSE MATIAS MANZANILLA NUM 0685 - 0695, URB. SAN MIGUEL, DISTRITO, PROVINCIA Y DEPARTAMENTO DE ICA",
@@ -10613,7 +10609,7 @@
         "supervisor": "RODRIGO MARTINEZ",
         "capacitador": "RAMON RAZURI",
         "responsable": "TAMBO",
-        "frecuencia": "LUNES-SIN ASIGNAR",
+        "frecuencia": "LUNES",
         "dias": [
             "LUNES"
         ],
@@ -10666,7 +10662,7 @@
         "supervisor": "JENY LAZO",
         "capacitador": "PENDING",
         "responsable": "TAMBO",
-        "frecuencia": "MIÉRCOLES-SIN ASIGNAR",
+        "frecuencia": "MIÉRCOLES",
         "dias": [
             "MIÉRCOLES"
         ],
@@ -10747,8 +10743,8 @@
         "frecuencia": "MARTES-JUEVES-SÁBADO",
         "dias": [
             "MARTES",
-            "JUEVES",
-            "SÁBADO"
+            "SÁBADO",
+            "JUEVES"
         ],
         "meta_diaria": 20.0,
         "direccion": "AV. SÁNCHEZ CERRO N° 1136 MZ. G LOTE 13A PISO 1, URB. CLUB GRAU, DISTRITO, PROVINCIA Y DEPARTAMENTO DE PIURA",
@@ -10828,9 +10824,9 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-MIÉRCOLES-VIERNES",
         "dias": [
-            "LUNES",
             "VIERNES",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "LUNES"
         ],
         "meta_diaria": 20.0,
         "direccion": "AV. GUARDIA CIVIL 100 MZ. B LT. 07, URB. MIRAFLORES 1 ETAPA DISTRITO CASTILLA PROVINCIA Y DEPARTAMENTO DE PIURA",
@@ -10857,8 +10853,8 @@
         "frecuencia": "MARTES-JUEVES-SÁBADO",
         "dias": [
             "MARTES",
-            "JUEVES",
-            "SÁBADO"
+            "SÁBADO",
+            "JUEVES"
         ],
         "meta_diaria": 20.0,
         "direccion": "EX FUNDO LA PROVIDENCIA TT-CALL. DON MANUEL NORTE A 05 PIURA",
@@ -10963,9 +10959,10 @@
         "supervisor": "JENY LAZO",
         "capacitador": "PENDING",
         "responsable": "TAMBO",
-        "frecuencia": "MARTES",
+        "frecuencia": "MARTES-JUEVES",
         "dias": [
-            "MARTES"
+            "MARTES",
+            "JUEVES"
         ],
         "meta_diaria": 20.0,
         "direccion": "CALLE TÚPAC AMARU 121, ZONA CHINCHA ALTA – CERCADO, DISTRITO DE CHINCHA ALTA, PROVINCIA DE CHINCHA",
@@ -10989,7 +10986,7 @@
         "supervisor": "JENY LAZO",
         "capacitador": "PENDING",
         "responsable": "TAMBO",
-        "frecuencia": "JUEVES-SIN ASIGNAR-SIN ASIGNAR",
+        "frecuencia": "JUEVES",
         "dias": [
             "JUEVES"
         ],
@@ -11015,7 +11012,7 @@
         "supervisor": "JENY LAZO",
         "capacitador": "PENDING",
         "responsable": "TAMBO",
-        "frecuencia": "MIÉRCOLES-SIN ASIGNAR-SIN ASIGNAR",
+        "frecuencia": "MIÉRCOLES",
         "dias": [
             "MIÉRCOLES"
         ],
@@ -11041,7 +11038,7 @@
         "supervisor": "JENY LAZO",
         "capacitador": "PENDING",
         "responsable": "TAMBO",
-        "frecuencia": "VIERNES-SIN ASIGNAR",
+        "frecuencia": "VIERNES",
         "dias": [
             "VIERNES"
         ],
@@ -11067,7 +11064,7 @@
         "supervisor": "JENY LAZO",
         "capacitador": "PENDING",
         "responsable": "TAMBO",
-        "frecuencia": "MIÉRCOLES-SIN ASIGNAR",
+        "frecuencia": "MIÉRCOLES",
         "dias": [
             "MIÉRCOLES"
         ],
@@ -11146,7 +11143,7 @@
         "supervisor": "JENY LAZO",
         "capacitador": "PENDING",
         "responsable": "TAMBO",
-        "frecuencia": "SÁBADO-SIN ASIGNAR-SIN ASIGNAR",
+        "frecuencia": "SÁBADO",
         "dias": [
             "SÁBADO"
         ],
@@ -11172,9 +11169,10 @@
         "supervisor": "JENY LAZO",
         "capacitador": "PENDING",
         "responsable": "TAMBO",
-        "frecuencia": "MARTES",
+        "frecuencia": "MARTES-JUEVES",
         "dias": [
-            "MARTES"
+            "MARTES",
+            "JUEVES"
         ],
         "meta_diaria": 20.0,
         "direccion": "CALLE PASCAL BLAS LOTE 02 URBANIZACIÓN LA NORIA, DISTRITO Y PROVINCIA DE TRUJILLO, DEPARTAMENTO DE LA LIBERTAD.",
@@ -11198,7 +11196,7 @@
         "supervisor": "JENY LAZO",
         "capacitador": "PENDING",
         "responsable": "TAMBO",
-        "frecuencia": "SÁBADO-SIN ASIGNAR-SIN ASIGNAR",
+        "frecuencia": "SÁBADO",
         "dias": [
             "SÁBADO"
         ],
@@ -11277,11 +11275,12 @@
         "supervisor": "JENY LAZO",
         "capacitador": "PENDING",
         "responsable": "TAMBO",
-        "frecuencia": "LUNES-MIÉRCOLES-VIERNES",
+        "frecuencia": "LUNES-MIÉRCOLES-VIERNES-SÁBADO",
         "dias": [
-            "LUNES",
+            "SÁBADO",
             "VIERNES",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "LUNES"
         ],
         "meta_diaria": 20.0,
         "direccion": "SOL DE ICA MZ E LT O1 URB. SOL DE ICA",
@@ -11385,7 +11384,7 @@
         "supervisor": "JENY LAZO",
         "capacitador": "PENDING",
         "responsable": "TAMBO",
-        "frecuencia": "MIÉRCOLES-SIN ASIGNAR-SIN ASIGNAR",
+        "frecuencia": "MIÉRCOLES",
         "dias": [
             "MIÉRCOLES"
         ],
@@ -11467,8 +11466,8 @@
         "frecuencia": "MARTES-JUEVES-SÁBADO",
         "dias": [
             "MARTES",
-            "JUEVES",
-            "SÁBADO"
+            "SÁBADO",
+            "JUEVES"
         ],
         "meta_diaria": 20.0,
         "direccion": "AV. LAS PALMERAS MZ. B, LT. 17C, URB. SAN EDUARDO DISTRITO, PROVINCIA Y DEPARTAMENTO DE PIURA",
@@ -11520,8 +11519,8 @@
         "responsable": "TAMBO",
         "frecuencia": "JUEVES-SÁBADO",
         "dias": [
-            "JUEVES",
-            "SÁBADO"
+            "SÁBADO",
+            "JUEVES"
         ],
         "meta_diaria": 20.0,
         "direccion": "AV. AMÉRICA SUR N° 2321, URB. SANTA MARÍA I ETAPA, DISTRITO Y PROVINCIA DE TRUJILLO, DEPARTAMENTO DE LA LIBERTAD",
@@ -11600,9 +11599,9 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-MIÉRCOLES-VIERNES",
         "dias": [
-            "LUNES",
             "VIERNES",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "LUNES"
         ],
         "meta_diaria": 20.0,
         "direccion": "AH PRIMAVERA I ETAPA AV. GUARDIA CIVIL MZ E-1 LT 1 DISTRITO CASTILLA - PIURA",
@@ -11626,7 +11625,7 @@
         "supervisor": "JORGE SANCHEZ",
         "capacitador": "SELEN CASTRO",
         "responsable": "TAMBO",
-        "frecuencia": "VIERNES-SIN ASIGNAR",
+        "frecuencia": "VIERNES",
         "dias": [
             "VIERNES"
         ],
@@ -11652,9 +11651,10 @@
         "supervisor": "RODRIGO MARTINEZ",
         "capacitador": "PENDING",
         "responsable": "TAMBO",
-        "frecuencia": "GESTION TELEFONICA",
+        "frecuencia": "SÁBADO-MIÉRCOLES",
         "dias": [
-            "GESTION TELEFONICA"
+            "SÁBADO",
+            "MIÉRCOLES"
         ],
         "meta_diaria": 20.0,
         "direccion": "JR DOS DE MAYO NUMERO 398 SUB LOTE A SAN VICENTE CAÑETE",
@@ -11678,7 +11678,7 @@
         "supervisor": "JENY LAZO",
         "capacitador": "PENDING",
         "responsable": "TAMBO",
-        "frecuencia": "SÁBADO-SIN ASIGNAR-SIN ASIGNAR",
+        "frecuencia": "SÁBADO",
         "dias": [
             "SÁBADO"
         ],
@@ -11732,9 +11732,9 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-MIÉRCOLES-VIERNES",
         "dias": [
-            "LUNES",
             "VIERNES",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "LUNES"
         ],
         "meta_diaria": 20.0,
         "direccion": "AV. RICHARD CUSHING NÚM. 410 MZ. D, LOTE 10-A, URB. 4 DE ENERO, DISTRITO, PROVINCIA Y DEPARTAMENTO DE PIURA",
@@ -11761,8 +11761,8 @@
         "frecuencia": "MARTES-JUEVES-SÁBADO",
         "dias": [
             "MARTES",
-            "JUEVES",
-            "SÁBADO"
+            "SÁBADO",
+            "JUEVES"
         ],
         "meta_diaria": 20.0,
         "direccion": "CA. 3 MZ. C, LOTE 9 URB. ANGAMOS I ETAPA , DISTRITO, PROVINCIA Y DEPARTAMENTO DE PIURA",
@@ -11786,9 +11786,10 @@
         "supervisor": "JENY LAZO",
         "capacitador": "PENDING",
         "responsable": "TAMBO",
-        "frecuencia": "MARTES",
+        "frecuencia": "MARTES-JUEVES",
         "dias": [
-            "MARTES"
+            "MARTES",
+            "JUEVES"
         ],
         "meta_diaria": 20.0,
         "direccion": "CALLE PROGRESO N°ALTERNO 198 - MZ 19 LT 8 / SECTOR CERCADO DE PISCO - PISCO",
@@ -11812,7 +11813,7 @@
         "supervisor": "RODRIGO MARTINEZ",
         "capacitador": "JESUS OLIVEROS",
         "responsable": "TAMBO",
-        "frecuencia": "LUNES-SIN ASIGNAR",
+        "frecuencia": "LUNES",
         "dias": [
             "LUNES"
         ],
@@ -11865,9 +11866,10 @@
         "supervisor": "JENY LAZO",
         "capacitador": "PENDING",
         "responsable": "TAMBO",
-        "frecuencia": "MARTES",
+        "frecuencia": "MARTES-JUEVES",
         "dias": [
-            "MARTES"
+            "MARTES",
+            "JUEVES"
         ],
         "meta_diaria": 20.0,
         "direccion": "AV. OSCAR BENAVIDES NUM 771 CHINCHA ALTA",
@@ -11893,9 +11895,9 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-MIÉRCOLES-VIERNES",
         "dias": [
-            "LUNES",
             "VIERNES",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "LUNES"
         ],
         "meta_diaria": 20.0,
         "direccion": "AV. GRAU N° 526, MZ. A, LOTE 04, DISTRITO, PROVINCIA Y DEPARTAMENTO DE PIURA",
@@ -11919,7 +11921,7 @@
         "supervisor": "JENY LAZO",
         "capacitador": "PENDING",
         "responsable": "TAMBO",
-        "frecuencia": "VIERNES-SIN ASIGNAR",
+        "frecuencia": "VIERNES",
         "dias": [
             "VIERNES"
         ],
@@ -12161,7 +12163,7 @@
         "supervisor": "JENY LAZO",
         "capacitador": "PENDING",
         "responsable": "TAMBO",
-        "frecuencia": "JUEVES-SIN ASIGNAR",
+        "frecuencia": "JUEVES",
         "dias": [
             "JUEVES"
         ],
@@ -12349,7 +12351,7 @@
         "supervisor": "JENY LAZO",
         "capacitador": "PENDING",
         "responsable": "TAMBO",
-        "frecuencia": "MIÉRCOLES-SIN ASIGNAR",
+        "frecuencia": "MIÉRCOLES",
         "dias": [
             "MIÉRCOLES"
         ],
@@ -12375,7 +12377,7 @@
         "supervisor": "JENY LAZO",
         "capacitador": "PENDING",
         "responsable": "TAMBO",
-        "frecuencia": "MARTES-SIN ASIGNAR",
+        "frecuencia": "MARTES",
         "dias": [
             "MARTES"
         ],
@@ -12428,7 +12430,7 @@
         "supervisor": "JORGE SANCHEZ",
         "capacitador": "RODRIGO BRAVO",
         "responsable": "TAMBO",
-        "frecuencia": "VIERNES-SIN ASIGNAR",
+        "frecuencia": "VIERNES",
         "dias": [
             "VIERNES"
         ],
@@ -12454,11 +12456,12 @@
         "supervisor": "JENY LAZO",
         "capacitador": "PENDING",
         "responsable": "TAMBO",
-        "frecuencia": "LUNES-MIÉRCOLES-VIERNES",
+        "frecuencia": "LUNES-MIÉRCOLES-VIERNES-SÁBADO",
         "dias": [
-            "LUNES",
+            "SÁBADO",
             "VIERNES",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "LUNES"
         ],
         "meta_diaria": 100.0,
         "direccion": "CALLE HUANUCO N° 183 / 301 CERCADO DE ICA",
@@ -12509,7 +12512,7 @@
         "supervisor": "JORGE SANCHEZ",
         "capacitador": "SELEN CASTRO",
         "responsable": "TAMBO",
-        "frecuencia": "VIERNES-SIN ASIGNAR",
+        "frecuencia": "VIERNES",
         "dias": [
             "VIERNES"
         ],
@@ -12616,7 +12619,7 @@
         "supervisor": "JENY LAZO",
         "capacitador": "PENDING",
         "responsable": "TAMBO",
-        "frecuencia": "MIÉRCOLES-SIN ASIGNAR-SIN ASIGNAR",
+        "frecuencia": "MIÉRCOLES",
         "dias": [
             "MIÉRCOLES"
         ],
@@ -12753,8 +12756,8 @@
         "frecuencia": "MARTES-JUEVES-SÁBADO",
         "dias": [
             "MARTES",
-            "JUEVES",
-            "SÁBADO"
+            "SÁBADO",
+            "JUEVES"
         ],
         "meta_diaria": 20.0,
         "direccion": "AV. MATIAS MANZANILLA 386 Y CALLE FERNANDO LEON 122 URB. SAN MIGUEL POR CONFIRMAR",
@@ -12966,9 +12969,11 @@
         "supervisor": "JENY LAZO",
         "capacitador": "PENDING",
         "responsable": "TAMBO",
-        "frecuencia": "MARTES",
+        "frecuencia": "MARTES-JUEVES-SÁBADO",
         "dias": [
-            "MARTES"
+            "MARTES",
+            "SÁBADO",
+            "JUEVES"
         ],
         "meta_diaria": 20.0,
         "direccion": "URBANIZACION LA ANGOSTURA MZ F LT 8 ZONA B DISTRITO DE ICA",
@@ -13209,9 +13214,9 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-MIÉRCOLES-VIERNES",
         "dias": [
-            "LUNES",
             "VIERNES",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "LUNES"
         ],
         "meta_diaria": 20.0,
         "direccion": "AV. LORETO N° 509, DISTRITO, PROVINCIA Y DEPARTAMENTO DE PIURA.",
@@ -13397,7 +13402,7 @@
         "supervisor": "JENY LAZO",
         "capacitador": "PENDING",
         "responsable": "TAMBO",
-        "frecuencia": "MIÉRCOLES-SIN ASIGNAR",
+        "frecuencia": "MIÉRCOLES",
         "dias": [
             "MIÉRCOLES"
         ],
@@ -13477,7 +13482,7 @@
         "supervisor": "JENY LAZO",
         "capacitador": "PENDING",
         "responsable": "TAMBO",
-        "frecuencia": "VIERNES-SIN ASIGNAR-SIN ASIGNAR",
+        "frecuencia": "VIERNES",
         "dias": [
             "VIERNES"
         ],
@@ -13610,7 +13615,7 @@
         "supervisor": "RODRIGO MARTINEZ",
         "capacitador": "RAMON RAZURI",
         "responsable": "TAMBO",
-        "frecuencia": "JUEVES-SIN ASIGNAR",
+        "frecuencia": "JUEVES",
         "dias": [
             "JUEVES"
         ],
@@ -13636,7 +13641,7 @@
         "supervisor": "RODRIGO MARTINEZ",
         "capacitador": "JESUS OLIVEROS",
         "responsable": "TAMBO",
-        "frecuencia": "LUNES-SIN ASIGNAR",
+        "frecuencia": "LUNES",
         "dias": [
             "LUNES"
         ],
@@ -13662,9 +13667,10 @@
         "supervisor": "RODRIGO MARTINEZ",
         "capacitador": "PENDING",
         "responsable": "TAMBO",
-        "frecuencia": "GESTION TELEFONICA",
+        "frecuencia": "SÁBADO-MIÉRCOLES",
         "dias": [
-            "GESTION TELEFONICA"
+            "SÁBADO",
+            "MIÉRCOLES"
         ],
         "meta_diaria": 20.0,
         "direccion": "JR. EL CARMEN MZ \"Y\" LT38 CENTRO POBLADO IMPERIAL - CAÑETE",
@@ -13688,7 +13694,7 @@
         "supervisor": "JENY LAZO",
         "capacitador": "PENDING",
         "responsable": "TAMBO",
-        "frecuencia": "SÁBADO-SIN ASIGNAR",
+        "frecuencia": "SÁBADO",
         "dias": [
             "SÁBADO"
         ],
@@ -13768,7 +13774,7 @@
         "supervisor": "JORGE SANCHEZ",
         "capacitador": "RODRIGO BRAVO",
         "responsable": "TAMBO",
-        "frecuencia": "VIERNES-SIN ASIGNAR",
+        "frecuencia": "VIERNES",
         "dias": [
             "VIERNES"
         ],
@@ -13821,9 +13827,10 @@
         "supervisor": "JENY LAZO",
         "capacitador": "PENDING",
         "responsable": "TAMBO",
-        "frecuencia": "MARTES",
+        "frecuencia": "MARTES-JUEVES",
         "dias": [
-            "MARTES"
+            "MARTES",
+            "JUEVES"
         ],
         "meta_diaria": 20.0,
         "direccion": "CALLE PLAZA DE ARMAS 572 - 564 CHINCHA ALTA - CHINCHA - ICA",
@@ -13928,7 +13935,7 @@
         "supervisor": "JORGE SANCHEZ",
         "capacitador": "RODRIGO BRAVO",
         "responsable": "TAMBO",
-        "frecuencia": "VIERNES-SIN ASIGNAR",
+        "frecuencia": "VIERNES",
         "dias": [
             "VIERNES"
         ],
@@ -13981,7 +13988,7 @@
         "supervisor": "JENY LAZO",
         "capacitador": "PENDING",
         "responsable": "TAMBO",
-        "frecuencia": "LUNES-SIN ASIGNAR-SIN ASIGNAR",
+        "frecuencia": "LUNES",
         "dias": [
             "LUNES"
         ],
@@ -14007,7 +14014,7 @@
         "supervisor": "RODRIGO MARTINEZ",
         "capacitador": "JESUS OLIVEROS",
         "responsable": "TAMBO",
-        "frecuencia": "LUNES-SIN ASIGNAR",
+        "frecuencia": "LUNES",
         "dias": [
             "LUNES"
         ],
@@ -14086,7 +14093,7 @@
         "supervisor": "JENY LAZO",
         "capacitador": "PENDING",
         "responsable": "TAMBO",
-        "frecuencia": "MIÉRCOLES-SIN ASIGNAR-SIN ASIGNAR",
+        "frecuencia": "MIÉRCOLES",
         "dias": [
             "MIÉRCOLES"
         ],
@@ -14139,7 +14146,7 @@
         "supervisor": "JENY LAZO",
         "capacitador": "PENDING",
         "responsable": "TAMBO",
-        "frecuencia": "SIN ASIGNAR-SIN ASIGNAR",
+        "frecuencia": "SIN ASIGNAR",
         "dias": [
             "SIN RUTA"
         ],
@@ -14246,7 +14253,7 @@
         "supervisor": "JORGE SANCHEZ",
         "capacitador": "RODRIGO BRAVO",
         "responsable": "TAMBO",
-        "frecuencia": "LUNES-SIN ASIGNAR",
+        "frecuencia": "LUNES",
         "dias": [
             "LUNES"
         ],
@@ -14326,7 +14333,7 @@
         "supervisor": "RODRIGO MARTINEZ",
         "capacitador": "RAMON RAZURI",
         "responsable": "TAMBO",
-        "frecuencia": "JUEVES-SIN ASIGNAR",
+        "frecuencia": "JUEVES",
         "dias": [
             "JUEVES"
         ],
@@ -14379,9 +14386,10 @@
         "supervisor": "JENY LAZO",
         "capacitador": "PENDING",
         "responsable": "TAMBO",
-        "frecuencia": "MARTES",
+        "frecuencia": "MARTES-JUEVES",
         "dias": [
-            "MARTES"
+            "MARTES",
+            "JUEVES"
         ],
         "meta_diaria": 20.0,
         "direccion": "AV. MARISCAL OSCAR R. BENAVIDES Nº 507, DISTRITO DE CHINCHA ALTA, PROVINCIA DE CHINCHA, DEPARTAMENTO DE ICA",
@@ -14405,7 +14413,7 @@
         "supervisor": "JENY LAZO",
         "capacitador": "PENDING",
         "responsable": "TAMBO",
-        "frecuencia": "SIN ASIGNAR-SIN ASIGNAR",
+        "frecuencia": "SIN ASIGNAR",
         "dias": [
             "SIN RUTA"
         ],
@@ -14564,7 +14572,7 @@
         "supervisor": "RODRIGO MARTINEZ",
         "capacitador": "RAMON RAZURI",
         "responsable": "TAMBO",
-        "frecuencia": "JUEVES-SIN ASIGNAR",
+        "frecuencia": "JUEVES",
         "dias": [
             "JUEVES"
         ],
@@ -14911,7 +14919,7 @@
         "supervisor": "JENY LAZO",
         "capacitador": "PENDING",
         "responsable": "TAMBO",
-        "frecuencia": "MARTES-SIN ASIGNAR",
+        "frecuencia": "MARTES",
         "dias": [
             "MARTES"
         ],
@@ -15018,7 +15026,7 @@
         "supervisor": "JORGE SANCHEZ",
         "capacitador": "JOEL VENTURA",
         "responsable": "TAMBO",
-        "frecuencia": "SÁBADO-SIN ASIGNAR",
+        "frecuencia": "SÁBADO",
         "dias": [
             "SÁBADO"
         ],
@@ -15098,7 +15106,7 @@
         "supervisor": "JORGE SANCHEZ",
         "capacitador": "RODRIGO BRAVO",
         "responsable": "TAMBO",
-        "frecuencia": "SÁBADO-SIN ASIGNAR",
+        "frecuencia": "SÁBADO",
         "dias": [
             "SÁBADO"
         ],
@@ -15178,7 +15186,7 @@
         "supervisor": "JORGE SANCHEZ",
         "capacitador": "RODRIGO BRAVO",
         "responsable": "TAMBO",
-        "frecuencia": "LUNES-SIN ASIGNAR",
+        "frecuencia": "LUNES",
         "dias": [
             "LUNES"
         ],
@@ -15312,7 +15320,7 @@
         "supervisor": "JORGE SANCHEZ",
         "capacitador": "RODRIGO BRAVO",
         "responsable": "TAMBO",
-        "frecuencia": "LUNES-SIN ASIGNAR",
+        "frecuencia": "LUNES",
         "dias": [
             "LUNES"
         ],
@@ -15338,11 +15346,13 @@
         "supervisor": "JENY LAZO",
         "capacitador": "PENDING",
         "responsable": "TAMBO",
-        "frecuencia": "LUNES-MIÉRCOLES-VIERNES",
+        "frecuencia": "LUNES-MIÉRCOLES-VIERNES-JUEVES-SÁBADO",
         "dias": [
-            "LUNES",
+            "MIÉRCOLES",
+            "SÁBADO",
             "VIERNES",
-            "MIÉRCOLES"
+            "JUEVES",
+            "LUNES"
         ],
         "meta_diaria": 20.0,
         "direccion": "AV. SAN MARTIN NO 598 MZ. A URB. LA MORALES, DISTRITO, PROVINCIA Y DEPARTAMENTO DE ICA",
@@ -15366,7 +15376,7 @@
         "supervisor": "JORGE SANCHEZ",
         "capacitador": "RODRIGO BRAVO",
         "responsable": "TAMBO",
-        "frecuencia": "LUNES-SIN ASIGNAR",
+        "frecuencia": "LUNES",
         "dias": [
             "LUNES"
         ],
@@ -15419,9 +15429,10 @@
         "supervisor": "JENY LAZO",
         "capacitador": "PENDING",
         "responsable": "TAMBO",
-        "frecuencia": "MARTES",
+        "frecuencia": "MARTES-JUEVES",
         "dias": [
-            "MARTES"
+            "MARTES",
+            "JUEVES"
         ],
         "meta_diaria": 20.0,
         "direccion": "CALLE 28 DE JULIO Nº 200, DISTRITO DE CHINCHA ALTA, PROVINCIA DE CHINCHA, DEPARTAMENTO DE ICA",
@@ -15472,7 +15483,7 @@
         "supervisor": "JORGE SANCHEZ",
         "capacitador": "RODRIGO BRAVO",
         "responsable": "TAMBO",
-        "frecuencia": "VIERNES-SIN ASIGNAR",
+        "frecuencia": "VIERNES",
         "dias": [
             "VIERNES"
         ],
@@ -15688,8 +15699,8 @@
         "responsable": "TAMBO",
         "frecuencia": "JUEVES-SÁBADO",
         "dias": [
-            "JUEVES",
-            "SÁBADO"
+            "SÁBADO",
+            "JUEVES"
         ],
         "meta_diaria": 20.0,
         "direccion": "AV. 29 DE DICIEMBRE MZ. B LOTE 07, URB. SANTA OLGA, DISTRITO Y PROVINCIA DE TRUJILLO, DEPARTAMENTO DE LA LIBERTAD",
@@ -15713,7 +15724,7 @@
         "supervisor": "RODRIGO MARTINEZ",
         "capacitador": "JESUS OLIVEROS",
         "responsable": "TAMBO",
-        "frecuencia": "LUNES-SIN ASIGNAR",
+        "frecuencia": "LUNES",
         "dias": [
             "LUNES"
         ],
@@ -15739,8 +15750,11 @@
         "supervisor": "JENY LAZO",
         "capacitador": "PENDING",
         "responsable": "TAMBO",
-        "frecuencia": "LUNES",
+        "frecuencia": "LUNES-MIÉRCOLES-VIERNES-SÁBADO",
         "dias": [
+            "SÁBADO",
+            "VIERNES",
+            "MIÉRCOLES",
             "LUNES"
         ],
         "meta_diaria": 20.0,
@@ -15791,7 +15805,7 @@
         "supervisor": "JENY LAZO",
         "capacitador": "PENDING",
         "responsable": "TAMBO",
-        "frecuencia": "SIN ASIGNAR-SIN ASIGNAR",
+        "frecuencia": "SIN ASIGNAR",
         "dias": [
             "SIN RUTA"
         ],
@@ -16033,7 +16047,7 @@
         "supervisor": "JORGE SANCHEZ",
         "capacitador": "JESUS OLIVEROS",
         "responsable": "TAMBO",
-        "frecuencia": "JUEVES-SIN ASIGNAR",
+        "frecuencia": "JUEVES",
         "dias": [
             "JUEVES"
         ],
@@ -16059,7 +16073,7 @@
         "supervisor": "JORGE SANCHEZ",
         "capacitador": "SELEN CASTRO",
         "responsable": "TAMBO",
-        "frecuencia": "VIERNES-SIN ASIGNAR",
+        "frecuencia": "VIERNES",
         "dias": [
             "VIERNES"
         ],
@@ -16166,7 +16180,7 @@
         "supervisor": "JENY LAZO",
         "capacitador": "PENDING",
         "responsable": "TAMBO",
-        "frecuencia": "MARTES-SIN ASIGNAR-SIN ASIGNAR",
+        "frecuencia": "MARTES",
         "dias": [
             "MARTES"
         ],
@@ -16380,11 +16394,11 @@
         "supervisor": "JENY LAZO",
         "capacitador": "PENDING",
         "responsable": "TAMBO",
-        "frecuencia": "MARTES-JUEVES-SÁBADO",
+        "frecuencia": "MARTES-JUEVES-SÁBADO-SÁBADO",
         "dias": [
             "MARTES",
-            "JUEVES",
-            "SÁBADO"
+            "SÁBADO",
+            "JUEVES"
         ],
         "meta_diaria": 20.0,
         "direccion": "CALLE PIURA Nº 172 -174- CERCADO DE ICA, DISTRITO, PROVINCIA Y DEPARTAMENTO DE ICA,",
@@ -16435,7 +16449,7 @@
         "supervisor": "RODRIGO MARTINEZ",
         "capacitador": "JESUS OLIVEROS",
         "responsable": "TAMBO",
-        "frecuencia": "JUEVES-SIN ASIGNAR",
+        "frecuencia": "JUEVES",
         "dias": [
             "JUEVES"
         ],
@@ -16488,7 +16502,7 @@
         "supervisor": "JORGE SANCHEZ",
         "capacitador": "JOEL VENTURA",
         "responsable": "TAMBO",
-        "frecuencia": "MIÉRCOLES-SIN ASIGNAR",
+        "frecuencia": "MIÉRCOLES",
         "dias": [
             "MIÉRCOLES"
         ],
@@ -16594,7 +16608,7 @@
         "supervisor": "JORGE SANCHEZ",
         "capacitador": "SELEN CASTRO",
         "responsable": "TAMBO",
-        "frecuencia": "MARTES-SIN ASIGNAR",
+        "frecuencia": "MARTES",
         "dias": [
             "MARTES"
         ],
@@ -16782,7 +16796,7 @@
         "supervisor": "JORGE SANCHEZ",
         "capacitador": "SELEN CASTRO",
         "responsable": "TAMBO",
-        "frecuencia": "SÁBADO-SIN ASIGNAR",
+        "frecuencia": "SÁBADO",
         "dias": [
             "SÁBADO"
         ],
@@ -16864,9 +16878,9 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-MIÉRCOLES-VIERNES",
         "dias": [
-            "LUNES",
             "VIERNES",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "LUNES"
         ],
         "meta_diaria": 20.0,
         "direccion": "AA.HH ASOCIACIÓN DE VIVIENDA DE LA URBANIZACIÓN POPULAR EL REGIONAL DE ICA, MANZANA \"A\", SUB LOTE 6A, SECTOR COMATRANA DEL DISTRITO DE ICA, PROVINCIA Y DEPARTAMENTO DE ICA",
@@ -16916,9 +16930,10 @@
         "supervisor": "RODRIGO MARTINEZ",
         "capacitador": "PENDING",
         "responsable": "TAMBO",
-        "frecuencia": "GESTION TELEFONICA",
+        "frecuencia": "SÁBADO-MIÉRCOLES",
         "dias": [
-            "GESTION TELEFONICA"
+            "SÁBADO",
+            "MIÉRCOLES"
         ],
         "meta_diaria": 20.0,
         "direccion": "PANAMERICANA SUR MZ B LT 4 CAÑETE - ASENTAMIENTO HUMANO VICTOR ANDRES BELAUNDE- CAÑETE DIST. SAN VICENTE DE CAÑETE",
@@ -17049,9 +17064,10 @@
         "supervisor": "RODRIGO MARTINEZ",
         "capacitador": "PENDING",
         "responsable": "TAMBO",
-        "frecuencia": "GESTION TELEFONICA",
+        "frecuencia": "SÁBADO-MIÉRCOLES",
         "dias": [
-            "GESTION TELEFONICA"
+            "SÁBADO",
+            "MIÉRCOLES"
         ],
         "meta_diaria": 20.0,
         "direccion": "PROLONGACION MARCHAND N° 119 - MZ-21 / LT-24 - SECTOR 2 CERCADO DE MALA - CAÑETE",
@@ -17316,11 +17332,12 @@
         "supervisor": "JENY LAZO",
         "capacitador": "PENDING",
         "responsable": "TAMBO",
-        "frecuencia": "LUNES-MIÉRCOLES-VIERNES",
+        "frecuencia": "LUNES-MIÉRCOLES-VIERNES-SÁBADO",
         "dias": [
-            "LUNES",
+            "SÁBADO",
             "VIERNES",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "LUNES"
         ],
         "meta_diaria": 20.0,
         "direccion": "AV. CUTERVO OESTE Nº 0288, URBANIZACIÓN SAN ISIDRO, CERCADO ICA, PROVINCIA Y DEPARTAMENTO DE ICA",
@@ -17559,7 +17576,7 @@
         "supervisor": "JORGE SANCHEZ",
         "capacitador": "RODRIGO BRAVO",
         "responsable": "TAMBO",
-        "frecuencia": "SÁBADO-SIN ASIGNAR",
+        "frecuencia": "SÁBADO",
         "dias": [
             "SÁBADO"
         ],
@@ -18150,7 +18167,7 @@
         "supervisor": "JORGE SANCHEZ",
         "capacitador": "SELEN CASTRO",
         "responsable": "AUR BODEGA",
-        "frecuencia": "VIERNES-SIN ASIGNAR",
+        "frecuencia": "VIERNES",
         "dias": [
             "VIERNES"
         ],
@@ -18364,7 +18381,7 @@
         "supervisor": "JORGE SANCHEZ",
         "capacitador": "SELEN CASTRO",
         "responsable": "AUR BODEGA",
-        "frecuencia": "LUNES-SIN ASIGNAR",
+        "frecuencia": "LUNES",
         "dias": [
             "LUNES"
         ],
@@ -18471,7 +18488,7 @@
         "supervisor": "RODRIGO MARTINEZ",
         "capacitador": "JESUS OLIVEROS",
         "responsable": "AUR BODEGA",
-        "frecuencia": "JUEVES-SIN ASIGNAR",
+        "frecuencia": "JUEVES",
         "dias": [
             "JUEVES"
         ],
@@ -18497,7 +18514,7 @@
         "supervisor": "JORGE SANCHEZ",
         "capacitador": "SELEN CASTRO",
         "responsable": "AUR BODEGA",
-        "frecuencia": "SÁBADO-SIN ASIGNAR",
+        "frecuencia": "SÁBADO",
         "dias": [
             "SÁBADO"
         ],
@@ -18766,7 +18783,7 @@
         "supervisor": "JORGE SANCHEZ",
         "capacitador": "RODRIGO BRAVO",
         "responsable": "AUR BODEGA",
-        "frecuencia": "MIÉRCOLES-SIN ASIGNAR",
+        "frecuencia": "MIÉRCOLES",
         "dias": [
             "MIÉRCOLES"
         ],
@@ -18846,7 +18863,7 @@
         "supervisor": "JORGE SANCHEZ",
         "capacitador": "RAMON RAZURI",
         "responsable": "AUR BODEGA",
-        "frecuencia": "JUEVES-SIN ASIGNAR",
+        "frecuencia": "JUEVES",
         "dias": [
             "JUEVES"
         ],
@@ -18899,7 +18916,7 @@
         "supervisor": "JORGE SANCHEZ",
         "capacitador": "RODRIGO BRAVO",
         "responsable": "AUR BODEGA",
-        "frecuencia": "SÁBADO-SIN ASIGNAR",
+        "frecuencia": "SÁBADO",
         "dias": [
             "SÁBADO"
         ],
@@ -18925,7 +18942,7 @@
         "supervisor": "JORGE SANCHEZ",
         "capacitador": "RODRIGO BRAVO",
         "responsable": "AUR BODEGA",
-        "frecuencia": "SÁBADO-SIN ASIGNAR",
+        "frecuencia": "SÁBADO",
         "dias": [
             "SÁBADO"
         ],
@@ -18951,7 +18968,7 @@
         "supervisor": "JORGE SANCHEZ",
         "capacitador": "SELEN CASTRO",
         "responsable": "AUR BODEGA",
-        "frecuencia": "MIÉRCOLES-SIN ASIGNAR",
+        "frecuencia": "MIÉRCOLES",
         "dias": [
             "MIÉRCOLES"
         ],
@@ -19301,7 +19318,7 @@
         "supervisor": "JORGE SANCHEZ",
         "capacitador": "SELEN CASTRO",
         "responsable": "AUR BODEGA",
-        "frecuencia": "JUEVES-SIN ASIGNAR",
+        "frecuencia": "JUEVES",
         "dias": [
             "JUEVES"
         ],
@@ -19327,7 +19344,7 @@
         "supervisor": "JORGE SANCHEZ",
         "capacitador": "JOEL VENTURA",
         "responsable": "AUR BODEGA",
-        "frecuencia": "VIERNES-SIN ASIGNAR",
+        "frecuencia": "VIERNES",
         "dias": [
             "VIERNES"
         ],
@@ -19542,7 +19559,7 @@
         "supervisor": "JORGE SANCHEZ",
         "capacitador": "SELEN CASTRO",
         "responsable": "AUR BODEGA",
-        "frecuencia": "MARTES-SIN ASIGNAR",
+        "frecuencia": "MARTES",
         "dias": [
             "MARTES"
         ],
@@ -19568,7 +19585,7 @@
         "supervisor": "JORGE SANCHEZ",
         "capacitador": "SELEN CASTRO",
         "responsable": "AUR BODEGA",
-        "frecuencia": "SÁBADO-SIN ASIGNAR",
+        "frecuencia": "SÁBADO",
         "dias": [
             "SÁBADO"
         ],
@@ -19621,7 +19638,7 @@
         "supervisor": "RODRIGO MARTINEZ",
         "capacitador": "JESUS OLIVEROS",
         "responsable": "AUR BODEGA",
-        "frecuencia": "JUEVES-SIN ASIGNAR",
+        "frecuencia": "JUEVES",
         "dias": [
             "JUEVES"
         ],
@@ -19998,7 +20015,7 @@
         "supervisor": "JORGE SANCHEZ",
         "capacitador": "SELEN CASTRO",
         "responsable": "AUR BODEGA",
-        "frecuencia": "SÁBADO-SIN ASIGNAR",
+        "frecuencia": "SÁBADO",
         "dias": [
             "SÁBADO"
         ],
@@ -20186,7 +20203,7 @@
         "supervisor": "JORGE SANCHEZ",
         "capacitador": "SELEN CASTRO",
         "responsable": "AUR BODEGA",
-        "frecuencia": "MARTES-SIN ASIGNAR",
+        "frecuencia": "MARTES",
         "dias": [
             "MARTES"
         ],
@@ -20320,7 +20337,7 @@
         "supervisor": "JORGE SANCHEZ",
         "capacitador": "SELEN CASTRO",
         "responsable": "AUR BODEGA",
-        "frecuencia": "LUNES-SIN ASIGNAR",
+        "frecuencia": "LUNES",
         "dias": [
             "LUNES"
         ],
@@ -20346,7 +20363,7 @@
         "supervisor": "JORGE SANCHEZ",
         "capacitador": "SELEN CASTRO",
         "responsable": "AUR BODEGA",
-        "frecuencia": "SÁBADO-SIN ASIGNAR",
+        "frecuencia": "SÁBADO",
         "dias": [
             "SÁBADO"
         ],
@@ -20480,7 +20497,7 @@
         "supervisor": "JORGE SANCHEZ",
         "capacitador": "JOEL VENTURA",
         "responsable": "AUR BODEGA",
-        "frecuencia": "VIERNES-SIN ASIGNAR",
+        "frecuencia": "VIERNES",
         "dias": [
             "VIERNES"
         ],
@@ -20533,7 +20550,7 @@
         "supervisor": "JORGE SANCHEZ",
         "capacitador": "SELEN CASTRO",
         "responsable": "AUR BODEGA",
-        "frecuencia": "SÁBADO-SIN ASIGNAR",
+        "frecuencia": "SÁBADO",
         "dias": [
             "SÁBADO"
         ],
@@ -20613,7 +20630,7 @@
         "supervisor": "JORGE SANCHEZ",
         "capacitador": "SELEN CASTRO",
         "responsable": "AUR BODEGA",
-        "frecuencia": "JUEVES-SIN ASIGNAR",
+        "frecuencia": "JUEVES",
         "dias": [
             "JUEVES"
         ],
@@ -20639,7 +20656,7 @@
         "supervisor": "JORGE SANCHEZ",
         "capacitador": "SELEN CASTRO",
         "responsable": "AUR BODEGA",
-        "frecuencia": "MIÉRCOLES-SIN ASIGNAR",
+        "frecuencia": "MIÉRCOLES",
         "dias": [
             "MIÉRCOLES"
         ],
@@ -20692,7 +20709,7 @@
         "supervisor": "JORGE SANCHEZ",
         "capacitador": "JOEL VENTURA",
         "responsable": "AUR BODEGA",
-        "frecuencia": "VIERNES-SIN ASIGNAR",
+        "frecuencia": "VIERNES",
         "dias": [
             "VIERNES"
         ],
@@ -20772,7 +20789,7 @@
         "supervisor": "JORGE SANCHEZ",
         "capacitador": "SELEN CASTRO",
         "responsable": "AUR BODEGA",
-        "frecuencia": "JUEVES-SIN ASIGNAR",
+        "frecuencia": "JUEVES",
         "dias": [
             "JUEVES"
         ],
@@ -20798,7 +20815,7 @@
         "supervisor": "JORGE SANCHEZ",
         "capacitador": "SELEN CASTRO",
         "responsable": "AUR BODEGA",
-        "frecuencia": "JUEVES-SIN ASIGNAR",
+        "frecuencia": "JUEVES",
         "dias": [
             "JUEVES"
         ],
@@ -20824,7 +20841,7 @@
         "supervisor": "JORGE SANCHEZ",
         "capacitador": "RAMON RAZURI",
         "responsable": "AUR BODEGA",
-        "frecuencia": "JUEVES-SIN ASIGNAR",
+        "frecuencia": "JUEVES",
         "dias": [
             "JUEVES"
         ],
@@ -20877,7 +20894,7 @@
         "supervisor": "JORGE SANCHEZ",
         "capacitador": "JOEL VENTURA",
         "responsable": "AUR BODEGA",
-        "frecuencia": "VIERNES-SIN ASIGNAR",
+        "frecuencia": "VIERNES",
         "dias": [
             "VIERNES"
         ],
@@ -20984,7 +21001,7 @@
         "supervisor": "JORGE SANCHEZ",
         "capacitador": "SELEN CASTRO",
         "responsable": "AUR BODEGA",
-        "frecuencia": "MARTES-SIN ASIGNAR",
+        "frecuencia": "MARTES",
         "dias": [
             "MARTES"
         ],
@@ -21064,7 +21081,7 @@
         "supervisor": "RODRIGO MARTINEZ",
         "capacitador": "JESUS OLIVEROS",
         "responsable": "AUR BODEGA",
-        "frecuencia": "LUNES-SIN ASIGNAR",
+        "frecuencia": "LUNES",
         "dias": [
             "LUNES"
         ],
@@ -21250,9 +21267,9 @@
         "responsable": "MCG BODEGA",
         "frecuencia": "LUNES-MIÉRCOLES-VIERNES",
         "dias": [
-            "LUNES",
             "VIERNES",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "LUNES"
         ],
         "meta_diaria": null,
         "direccion": "CALLE PARDO MIGUEL 613-BELLAVISTA JAEN",
@@ -21772,12 +21789,12 @@
         "responsable": "JS BODEGA",
         "frecuencia": "LUNES-MARTES-MIÉRCOLES-JUEVES-VIERNES-SÁBADO",
         "dias": [
-            "JUEVES",
-            "LUNES",
-            "VIERNES",
-            "SÁBADO",
             "MIÉRCOLES",
-            "MARTES"
+            "MARTES",
+            "SÁBADO",
+            "VIERNES",
+            "JUEVES",
+            "LUNES"
         ],
         "meta_diaria": null,
         "direccion": "AV. HUANCAVELICA #387",
@@ -21803,12 +21820,12 @@
         "responsable": "JS BODEGA",
         "frecuencia": "LUNES-MARTES-MIÉRCOLES-JUEVES-VIERNES-SÁBADO",
         "dias": [
-            "JUEVES",
-            "LUNES",
-            "VIERNES",
-            "SÁBADO",
             "MIÉRCOLES",
-            "MARTES"
+            "MARTES",
+            "SÁBADO",
+            "VIERNES",
+            "JUEVES",
+            "LUNES"
         ],
         "meta_diaria": null,
         "direccion": "AV. TAYLOR 1802",
@@ -22040,7 +22057,7 @@
         "supervisor": "JENY LAZO",
         "capacitador": "PENDING",
         "responsable": "JS BODEGA",
-        "frecuencia": "SIN ASIGNAR-SIN ASIGNAR",
+        "frecuencia": "SIN ASIGNAR",
         "dias": [
             "SIN RUTA"
         ],
@@ -22093,7 +22110,7 @@
         "supervisor": "JENY LAZO",
         "capacitador": "PENDING",
         "responsable": "JS BODEGA",
-        "frecuencia": "SIN ASIGNAR-SIN ASIGNAR",
+        "frecuencia": "SIN ASIGNAR",
         "dias": [
             "SIN RUTA"
         ],
@@ -22119,7 +22136,7 @@
         "supervisor": "JENY LAZO",
         "capacitador": "PENDING",
         "responsable": "JS BODEGA",
-        "frecuencia": "SIN ASIGNAR-SIN ASIGNAR",
+        "frecuencia": "SIN ASIGNAR",
         "dias": [
             "SIN RUTA"
         ],
@@ -22174,9 +22191,9 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-MIÉRCOLES-VIERNES",
         "dias": [
-            "LUNES",
             "VIERNES",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "LUNES"
         ],
         "meta_diaria": 20.0,
         "direccion": "MZ. PUENTE BLANCO VI ETAPA MZ. A LOTE 4, URBANIZACIÓN PUENTE BLANCO, DISTRITO, PROVINCIA Y DEPARTAMENTO DE ICA",
@@ -22281,7 +22298,7 @@
         "supervisor": "JORGE SANCHEZ",
         "capacitador": "RAMON RAZURI",
         "responsable": "TAMBO",
-        "frecuencia": "LUNES-SIN ASIGNAR",
+        "frecuencia": "LUNES",
         "dias": [
             "LUNES"
         ],
@@ -22361,11 +22378,12 @@
         "supervisor": "JENY LAZO",
         "capacitador": "PENDING",
         "responsable": "TAMBO",
-        "frecuencia": "LUNES-MIÉRCOLES-VIERNES",
+        "frecuencia": "LUNES-MIÉRCOLES-VIERNES-SÁBADO",
         "dias": [
-            "LUNES",
+            "SÁBADO",
             "VIERNES",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "LUNES"
         ],
         "meta_diaria": 20.0,
         "direccion": "CALLE AYABACA, MZ. H-4, LT. 12, URB. SAN ISIDRO, DISTRITO, PROVINCIA Y DEPARTAMENTO DE ICA",
@@ -22389,7 +22407,7 @@
         "supervisor": "JORGE SANCHEZ",
         "capacitador": "JOEL VENTURA",
         "responsable": "TAMBO",
-        "frecuencia": "VIERNES-SIN ASIGNAR",
+        "frecuencia": "VIERNES",
         "dias": [
             "VIERNES"
         ],
@@ -22469,7 +22487,7 @@
         "supervisor": "JORGE SANCHEZ",
         "capacitador": "SELEN CASTRO",
         "responsable": "TAMBO",
-        "frecuencia": "SÁBADO-SIN ASIGNAR",
+        "frecuencia": "SÁBADO",
         "dias": [
             "SÁBADO"
         ],
@@ -22576,7 +22594,7 @@
         "supervisor": "JORGE SANCHEZ",
         "capacitador": "SELEN CASTRO",
         "responsable": "TAMBO",
-        "frecuencia": "JUEVES-SIN ASIGNAR",
+        "frecuencia": "JUEVES",
         "dias": [
             "JUEVES"
         ],
@@ -22602,7 +22620,7 @@
         "supervisor": "JORGE SANCHEZ",
         "capacitador": "SELEN CASTRO",
         "responsable": "TAMBO",
-        "frecuencia": "SÁBADO-SIN ASIGNAR",
+        "frecuencia": "SÁBADO",
         "dias": [
             "SÁBADO"
         ],
@@ -22762,9 +22780,10 @@
         "supervisor": "JENY LAZO",
         "capacitador": "PENDING",
         "responsable": "TAMBO",
-        "frecuencia": "MARTES-MIÉRCOLES",
+        "frecuencia": "MARTES-MIÉRCOLES-SÁBADO",
         "dias": [
             "MARTES",
+            "SÁBADO",
             "MIÉRCOLES"
         ],
         "meta_diaria": 20.0,
@@ -22789,7 +22808,7 @@
         "supervisor": "JORGE SANCHEZ",
         "capacitador": "SELEN CASTRO",
         "responsable": "TAMBO",
-        "frecuencia": "SÁBADO-SIN ASIGNAR",
+        "frecuencia": "SÁBADO",
         "dias": [
             "SÁBADO"
         ],
@@ -22815,7 +22834,7 @@
         "supervisor": "JENY LAZO",
         "capacitador": "PENDING",
         "responsable": "TAMBO",
-        "frecuencia": "VIERNES-SIN ASIGNAR",
+        "frecuencia": "VIERNES",
         "dias": [
             "VIERNES"
         ],
@@ -22895,7 +22914,7 @@
         "supervisor": "JORGE SANCHEZ",
         "capacitador": "RODRIGO BRAVO",
         "responsable": "TAMBO",
-        "frecuencia": "SÁBADO-SIN ASIGNAR",
+        "frecuencia": "SÁBADO",
         "dias": [
             "SÁBADO"
         ],
@@ -23135,7 +23154,7 @@
         "supervisor": "JORGE SANCHEZ",
         "capacitador": "SELEN CASTRO",
         "responsable": "TAMBO",
-        "frecuencia": "MIÉRCOLES-SIN ASIGNAR",
+        "frecuencia": "MIÉRCOLES",
         "dias": [
             "MIÉRCOLES"
         ],
@@ -23269,7 +23288,7 @@
         "supervisor": "JORGE SANCHEZ",
         "capacitador": "SELEN CASTRO",
         "responsable": "TAMBO",
-        "frecuencia": "MARTES-SIN ASIGNAR",
+        "frecuencia": "MARTES",
         "dias": [
             "MARTES"
         ],
@@ -23349,7 +23368,7 @@
         "supervisor": "JORGE SANCHEZ",
         "capacitador": "RODRIGO BRAVO",
         "responsable": "TAMBO",
-        "frecuencia": "JUEVES-SIN ASIGNAR",
+        "frecuencia": "JUEVES",
         "dias": [
             "JUEVES"
         ],
@@ -23454,7 +23473,7 @@
         "supervisor": "JORGE SANCHEZ",
         "capacitador": "RODRIGO BRAVO",
         "responsable": "TAMBO",
-        "frecuencia": "MIÉRCOLES-SIN ASIGNAR",
+        "frecuencia": "MIÉRCOLES",
         "dias": [
             "MIÉRCOLES"
         ],
@@ -23480,7 +23499,7 @@
         "supervisor": "JENY LAZO",
         "capacitador": "PENDING",
         "responsable": "TAMBO",
-        "frecuencia": "SIN ASIGNAR-SIN ASIGNAR",
+        "frecuencia": "SIN ASIGNAR",
         "dias": [
             "SIN RUTA"
         ],
@@ -23533,7 +23552,7 @@
         "supervisor": "JORGE SANCHEZ",
         "capacitador": "RODRIGO BRAVO",
         "responsable": "TAMBO",
-        "frecuencia": "MIÉRCOLES-SIN ASIGNAR",
+        "frecuencia": "MIÉRCOLES",
         "dias": [
             "MIÉRCOLES"
         ],
@@ -23586,7 +23605,7 @@
         "supervisor": "JENY LAZO",
         "capacitador": "PENDING",
         "responsable": "TAMBO",
-        "frecuencia": "SIN ASIGNAR-SIN ASIGNAR",
+        "frecuencia": "SIN ASIGNAR",
         "dias": [
             "SIN RUTA"
         ],
@@ -23639,7 +23658,7 @@
         "supervisor": "RODRIGO MARTINEZ",
         "capacitador": "RAMON RAZURI",
         "responsable": "TAMBO",
-        "frecuencia": "JUEVES-SIN ASIGNAR",
+        "frecuencia": "JUEVES",
         "dias": [
             "JUEVES"
         ],
@@ -23665,7 +23684,7 @@
         "supervisor": "JORGE SANCHEZ",
         "capacitador": "SELEN CASTRO",
         "responsable": "TAMBO",
-        "frecuencia": "LUNES-SIN ASIGNAR",
+        "frecuencia": "LUNES",
         "dias": [
             "LUNES"
         ],
@@ -23717,9 +23736,11 @@
         "supervisor": "JENY LAZO",
         "capacitador": "PENDING",
         "responsable": "TAMBO",
-        "frecuencia": "MARTES",
+        "frecuencia": "MARTES-JUEVES-SÁBADO",
         "dias": [
-            "MARTES"
+            "MARTES",
+            "SÁBADO",
+            "JUEVES"
         ],
         "meta_diaria": 20.0,
         "direccion": "CENTRO POBLADO GUADALUPE MZA G LOTE 14 - CALLE LIMA, DISTRITO DE SALAS, PROVINCIA Y DEPARTAMENTO DE ICA.",
@@ -23770,9 +23791,10 @@
         "supervisor": "JENY LAZO",
         "capacitador": "PENDING",
         "responsable": "TAMBO",
-        "frecuencia": "MARTES",
+        "frecuencia": "MARTES-JUEVES",
         "dias": [
-            "MARTES"
+            "MARTES",
+            "JUEVES"
         ],
         "meta_diaria": 20.0,
         "direccion": "CALLE AVIACION MZ 23 LT SUBLOTE 17 PUEBLO JOVEN DE SAN CLEMENTE GRUPO N°2 DISTRITO SANCLEMENTE , PROVINCIA PISCO, DEPARTAMENTO DE ICA",
@@ -23957,9 +23979,10 @@
         "supervisor": "JENY LAZO",
         "capacitador": "PENDING",
         "responsable": "TINBET",
-        "frecuencia": "MARTES",
+        "frecuencia": "MARTES-JUEVES",
         "dias": [
-            "MARTES"
+            "MARTES",
+            "JUEVES"
         ],
         "meta_diaria": null,
         "direccion": "AV SAN MARTÍN 166- A",
@@ -24466,7 +24489,7 @@
         "supervisor": "JENY LAZO",
         "capacitador": "PENDING",
         "responsable": "TINBET",
-        "frecuencia": "SIN ASIGNAR-SIN ASIGNAR",
+        "frecuencia": "SIN ASIGNAR",
         "dias": [
             "SIN RUTA"
         ],
@@ -24492,7 +24515,7 @@
         "supervisor": "JENY LAZO",
         "capacitador": "PENDING",
         "responsable": "TINBET",
-        "frecuencia": "SIN ASIGNAR-SIN ASIGNAR",
+        "frecuencia": "SIN ASIGNAR",
         "dias": [
             "SIN RUTA"
         ],
@@ -24518,7 +24541,7 @@
         "supervisor": "JENY LAZO",
         "capacitador": "PENDING",
         "responsable": "TINBET",
-        "frecuencia": "MIÉRCOLES-SIN ASIGNAR",
+        "frecuencia": "MIÉRCOLES",
         "dias": [
             "MIÉRCOLES"
         ],
@@ -24571,7 +24594,7 @@
         "supervisor": "JENY LAZO",
         "capacitador": "PENDING",
         "responsable": "TINBET",
-        "frecuencia": "SIN ASIGNAR-SIN ASIGNAR",
+        "frecuencia": "SIN ASIGNAR",
         "dias": [
             "SIN RUTA"
         ],
@@ -24597,7 +24620,7 @@
         "supervisor": "JENY LAZO",
         "capacitador": "PENDING",
         "responsable": "TINBET",
-        "frecuencia": "MIÉRCOLES-SIN ASIGNAR-SIN ASIGNAR",
+        "frecuencia": "MIÉRCOLES",
         "dias": [
             "MIÉRCOLES"
         ],
@@ -24623,7 +24646,7 @@
         "supervisor": "JENY LAZO",
         "capacitador": "PENDING",
         "responsable": "TINBET",
-        "frecuencia": "SIN ASIGNAR-SIN ASIGNAR-SIN ASIGNAR",
+        "frecuencia": "SIN ASIGNAR",
         "dias": [
             "SIN RUTA"
         ],
@@ -24970,9 +24993,10 @@
         "supervisor": "SIN SUPERVISOR",
         "capacitador": "PENDING",
         "responsable": "TINBET",
-        "frecuencia": "GESTION TELEFONICA",
+        "frecuencia": "SÁBADO-MIÉRCOLES",
         "dias": [
-            "GESTION TELEFONICA"
+            "SÁBADO",
+            "MIÉRCOLES"
         ],
         "meta_diaria": null,
         "direccion": "AV. SAN LEONARDO SN MZ. J LT. 1E",
@@ -24996,9 +25020,10 @@
         "supervisor": "SIN SUPERVISOR",
         "capacitador": "PENDING",
         "responsable": "TINBET",
-        "frecuencia": "GESTION TELEFONICA",
+        "frecuencia": "SÁBADO-MIÉRCOLES",
         "dias": [
-            "GESTION TELEFONICA"
+            "SÁBADO",
+            "MIÉRCOLES"
         ],
         "meta_diaria": null,
         "direccion": "AV. OSCAR RAMOS CAVIESES SN MZ.A LT.05",
@@ -25024,9 +25049,9 @@
         "responsable": "TINBET",
         "frecuencia": "LUNES-MIÉRCOLES-VIERNES",
         "dias": [
-            "LUNES",
             "VIERNES",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "LUNES"
         ],
         "meta_diaria": null,
         "direccion": "AV. LORETO N°1400",
@@ -25050,9 +25075,10 @@
         "supervisor": "SIN SUPERVISOR",
         "capacitador": "PENDING",
         "responsable": "TINBET",
-        "frecuencia": "GESTION TELEFONICA",
+        "frecuencia": "SÁBADO-MIÉRCOLES",
         "dias": [
-            "GESTION TELEFONICA"
+            "SÁBADO",
+            "MIÉRCOLES"
         ],
         "meta_diaria": null,
         "direccion": "AV. LOS LIBERTADORES CUADRA 8 MZ.J LT.5A",
@@ -25133,8 +25159,8 @@
         "frecuencia": "MARTES-JUEVES-SÁBADO",
         "dias": [
             "MARTES",
-            "JUEVES",
-            "SÁBADO"
+            "SÁBADO",
+            "JUEVES"
         ],
         "meta_diaria": null,
         "direccion": "AV. SANCHEZ CERRO NO. SN STAND 17-18",
@@ -25160,9 +25186,9 @@
         "responsable": "TINBET",
         "frecuencia": "LUNES-MIÉRCOLES-VIERNES",
         "dias": [
-            "LUNES",
             "VIERNES",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "LUNES"
         ],
         "meta_diaria": null,
         "direccion": "AV. RAMON CASTILLA N° 105 SUB LOTE 2B URB. MIRAFLORES",
@@ -25189,8 +25215,8 @@
         "frecuencia": "MARTES-JUEVES-SÁBADO",
         "dias": [
             "MARTES",
-            "JUEVES",
-            "SÁBADO"
+            "SÁBADO",
+            "JUEVES"
         ],
         "meta_diaria": null,
         "direccion": "MZ. C2 LT. 1 URBANIZACIÓN PUEBLO LIBRE",
@@ -25241,7 +25267,7 @@
         "supervisor": "JENY LAZO",
         "capacitador": "PENDING",
         "responsable": "TINBET",
-        "frecuencia": "LUNES-SIN ASIGNAR-SIN ASIGNAR",
+        "frecuencia": "LUNES",
         "dias": [
             "LUNES"
         ],
@@ -25267,7 +25293,7 @@
         "supervisor": "JENY LAZO",
         "capacitador": "PENDING",
         "responsable": "TINBET",
-        "frecuencia": "SIN ASIGNAR-SIN ASIGNAR",
+        "frecuencia": "SIN ASIGNAR",
         "dias": [
             "SIN RUTA"
         ],
@@ -25293,7 +25319,7 @@
         "supervisor": "JENY LAZO",
         "capacitador": "PENDING",
         "responsable": "TINBET",
-        "frecuencia": "SIN ASIGNAR-SIN ASIGNAR",
+        "frecuencia": "SIN ASIGNAR",
         "dias": [
             "SIN RUTA"
         ],
@@ -25346,7 +25372,7 @@
         "supervisor": "JENY LAZO",
         "capacitador": "PENDING",
         "responsable": "TINBET",
-        "frecuencia": "SIN ASIGNAR-SIN ASIGNAR",
+        "frecuencia": "SIN ASIGNAR",
         "dias": [
             "SIN RUTA"
         ],
@@ -25372,7 +25398,7 @@
         "supervisor": "JENY LAZO",
         "capacitador": "PENDING",
         "responsable": "TINBET",
-        "frecuencia": "SIN ASIGNAR-SIN ASIGNAR",
+        "frecuencia": "SIN ASIGNAR",
         "dias": [
             "SIN RUTA"
         ],
@@ -25425,7 +25451,7 @@
         "supervisor": "JENY LAZO",
         "capacitador": "PENDING",
         "responsable": "TINBET",
-        "frecuencia": "SIN ASIGNAR-SIN ASIGNAR",
+        "frecuencia": "SIN ASIGNAR",
         "dias": [
             "SIN RUTA"
         ],
@@ -25477,7 +25503,7 @@
         "supervisor": "JENY LAZO",
         "capacitador": "PENDING",
         "responsable": "TINBET",
-        "frecuencia": "SIN ASIGNAR-SIN ASIGNAR",
+        "frecuencia": "SIN ASIGNAR",
         "dias": [
             "SIN RUTA"
         ],
@@ -25529,7 +25555,7 @@
         "supervisor": "JENY LAZO",
         "capacitador": "PENDING",
         "responsable": "TINBET",
-        "frecuencia": "SIN ASIGNAR-SIN ASIGNAR",
+        "frecuencia": "SIN ASIGNAR",
         "dias": [
             "SIN RUTA"
         ],
@@ -25555,7 +25581,7 @@
         "supervisor": "JENY LAZO",
         "capacitador": "PENDING",
         "responsable": "TINBET",
-        "frecuencia": "SIN ASIGNAR-SIN ASIGNAR",
+        "frecuencia": "SIN ASIGNAR",
         "dias": [
             "SIN RUTA"
         ],
@@ -25663,11 +25689,11 @@
         "responsable": "TINBET",
         "frecuencia": "LUNES-JUEVES-MIÉRCOLES-JUEVES-VIERNES-SÁBADO",
         "dias": [
-            "JUEVES",
-            "LUNES",
-            "VIERNES",
+            "MIÉRCOLES",
             "SÁBADO",
-            "MIÉRCOLES"
+            "VIERNES",
+            "JUEVES",
+            "LUNES"
         ],
         "meta_diaria": null,
         "direccion": "AV DANIEL ALCIDES CARRION NRO. 1975",
@@ -25693,11 +25719,11 @@
         "responsable": "TINBET",
         "frecuencia": "LUNES-JUEVES-MIÉRCOLES-JUEVES-VIERNES-SÁBADO",
         "dias": [
-            "JUEVES",
-            "LUNES",
-            "VIERNES",
+            "MIÉRCOLES",
             "SÁBADO",
-            "MIÉRCOLES"
+            "VIERNES",
+            "JUEVES",
+            "LUNES"
         ],
         "meta_diaria": null,
         "direccion": "AV. INDEPENDENCIA 495",
@@ -25723,11 +25749,11 @@
         "responsable": "TINBET",
         "frecuencia": "LUNES-JUEVES-MIÉRCOLES-JUEVES-VIERNES-SÁBADO",
         "dias": [
-            "JUEVES",
-            "LUNES",
-            "VIERNES",
+            "MIÉRCOLES",
             "SÁBADO",
-            "MIÉRCOLES"
+            "VIERNES",
+            "JUEVES",
+            "LUNES"
         ],
         "meta_diaria": null,
         "direccion": "AV. MARISCAL CASTILLA N° 4131 ASENTAMIENTO HUMANO LA VICTORIA",
@@ -25751,7 +25777,7 @@
         "supervisor": "JENY LAZO",
         "capacitador": "PENDING",
         "responsable": "TINBET",
-        "frecuencia": "LUNES-SIN ASIGNAR-SIN ASIGNAR",
+        "frecuencia": "LUNES",
         "dias": [
             "LUNES"
         ],
@@ -25831,9 +25857,10 @@
         "supervisor": "SIN SUPERVISOR",
         "capacitador": "PENDING",
         "responsable": "TINBET",
-        "frecuencia": "GESTION TELEFONICA",
+        "frecuencia": "SÁBADO-MIÉRCOLES",
         "dias": [
-            "GESTION TELEFONICA"
+            "SÁBADO",
+            "MIÉRCOLES"
         ],
         "meta_diaria": null,
         "direccion": "JR. REAL NO. 550",
@@ -26369,7 +26396,7 @@
         "supervisor": "JORGE SANCHEZ",
         "capacitador": "SELEN CASTRO",
         "responsable": "TAMBO",
-        "frecuencia": "SÁBADO-SIN ASIGNAR",
+        "frecuencia": "SÁBADO",
         "dias": [
             "SÁBADO"
         ],
@@ -26395,7 +26422,7 @@
         "supervisor": "JORGE SANCHEZ",
         "capacitador": "SELEN CASTRO",
         "responsable": "TAMBO",
-        "frecuencia": "LUNES-SIN ASIGNAR",
+        "frecuencia": "LUNES",
         "dias": [
             "LUNES"
         ],
@@ -26555,7 +26582,7 @@
         "supervisor": "JORGE SANCHEZ",
         "capacitador": "JOEL VENTURA",
         "responsable": "TAMBO",
-        "frecuencia": "MARTES-SIN ASIGNAR",
+        "frecuencia": "MARTES",
         "dias": [
             "MARTES"
         ],
@@ -26581,7 +26608,7 @@
         "supervisor": "JORGE SANCHEZ",
         "capacitador": "JOEL VENTURA",
         "responsable": "TAMBO",
-        "frecuencia": "MARTES-SIN ASIGNAR",
+        "frecuencia": "MARTES",
         "dias": [
             "MARTES"
         ],
@@ -26607,11 +26634,11 @@
         "supervisor": "JENY LAZO",
         "capacitador": "PENDING",
         "responsable": "TAMBO",
-        "frecuencia": "MARTES-JUEVES-SÁBADO",
+        "frecuencia": "MARTES-JUEVES-SÁBADO-SÁBADO",
         "dias": [
             "MARTES",
-            "JUEVES",
-            "SÁBADO"
+            "SÁBADO",
+            "JUEVES"
         ],
         "meta_diaria": 20.0,
         "direccion": "AV. MUNICIPALIDAD Nº 271-279, 1ER PISO Y SÓTANO, CERCADO DE ICA, DISTRITO, PROVINCIA Y DEPARTAMENTO DE ICA",
@@ -26635,7 +26662,7 @@
         "supervisor": "JORGE SANCHEZ",
         "capacitador": "SELEN CASTRO",
         "responsable": "TAMBO",
-        "frecuencia": "MARTES-SIN ASIGNAR",
+        "frecuencia": "MARTES",
         "dias": [
             "MARTES"
         ],
@@ -26848,7 +26875,7 @@
         "supervisor": "JORGE SANCHEZ",
         "capacitador": "JOEL VENTURA",
         "responsable": "TAMBO",
-        "frecuencia": "MIÉRCOLES-SIN ASIGNAR",
+        "frecuencia": "MIÉRCOLES",
         "dias": [
             "MIÉRCOLES"
         ],
@@ -26874,7 +26901,7 @@
         "supervisor": "RODRIGO MARTINEZ",
         "capacitador": "RAMON RAZURI",
         "responsable": "TAMBO",
-        "frecuencia": "VIERNES-SIN ASIGNAR",
+        "frecuencia": "VIERNES",
         "dias": [
             "VIERNES"
         ],
@@ -26978,7 +27005,7 @@
         "supervisor": "JORGE SANCHEZ",
         "capacitador": "RODRIGO BRAVO",
         "responsable": "TAMBO",
-        "frecuencia": "VIERNES-SIN ASIGNAR",
+        "frecuencia": "VIERNES",
         "dias": [
             "VIERNES"
         ],
@@ -27004,7 +27031,7 @@
         "supervisor": "JORGE SANCHEZ",
         "capacitador": "SELEN CASTRO",
         "responsable": "TAMBO",
-        "frecuencia": "JUEVES-SIN ASIGNAR",
+        "frecuencia": "JUEVES",
         "dias": [
             "JUEVES"
         ],
@@ -27139,9 +27166,9 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-MIÉRCOLES-VIERNES",
         "dias": [
-            "LUNES",
             "VIERNES",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "LUNES"
         ],
         "meta_diaria": 20.0,
         "direccion": "CLL SAN MARTIN MZ K-3 LTE 35 CERCADO DE ICA",
@@ -27327,7 +27354,7 @@
         "supervisor": "RODRIGO MARTINEZ",
         "capacitador": "RAMON RAZURI",
         "responsable": "TAMBO",
-        "frecuencia": "LUNES-SIN ASIGNAR",
+        "frecuencia": "LUNES",
         "dias": [
             "LUNES"
         ],
@@ -27514,7 +27541,7 @@
         "supervisor": "JORGE SANCHEZ",
         "capacitador": "RODRIGO BRAVO",
         "responsable": "TAMBO",
-        "frecuencia": "SÁBADO-SIN ASIGNAR",
+        "frecuencia": "SÁBADO",
         "dias": [
             "SÁBADO"
         ],
@@ -27567,7 +27594,7 @@
         "supervisor": "JORGE SANCHEZ",
         "capacitador": "SELEN CASTRO",
         "responsable": "TAMBO",
-        "frecuencia": "VIERNES-SIN ASIGNAR",
+        "frecuencia": "VIERNES",
         "dias": [
             "VIERNES"
         ],
@@ -27593,9 +27620,11 @@
         "supervisor": "JENY LAZO",
         "capacitador": "PENDING",
         "responsable": "TAMBO",
-        "frecuencia": "MARTES",
+        "frecuencia": "MARTES-JUEVES-SÁBADO",
         "dias": [
-            "MARTES"
+            "MARTES",
+            "SÁBADO",
+            "JUEVES"
         ],
         "meta_diaria": 20.0,
         "direccion": "AVENIDA VICTORIO GOTUZZO Nº 103, MZ, 116 LOTE 03, CENTRO POBLADO LA TINGUIÑA – ZONA B, DISTRITO DE LA TINGUIÑA, PROVINCIA Y DEPARTAMENTO DE ICA",
@@ -27781,7 +27810,7 @@
         "supervisor": "JENY LAZO",
         "capacitador": "PENDING",
         "responsable": "TINBET",
-        "frecuencia": "VIERNES-SIN ASIGNAR",
+        "frecuencia": "VIERNES",
         "dias": [
             "VIERNES"
         ],
@@ -27807,7 +27836,7 @@
         "supervisor": "JENY LAZO",
         "capacitador": "PENDING",
         "responsable": "TAMBO",
-        "frecuencia": "SIN ASIGNAR-SIN ASIGNAR-SIN ASIGNAR",
+        "frecuencia": "SIN ASIGNAR",
         "dias": [
             "SIN RUTA"
         ],
@@ -27833,7 +27862,7 @@
         "supervisor": "JENY LAZO",
         "capacitador": "PENDING",
         "responsable": "TAMBO",
-        "frecuencia": "SIN ASIGNAR-SIN ASIGNAR-SIN ASIGNAR",
+        "frecuencia": "SIN ASIGNAR",
         "dias": [
             "SIN RUTA"
         ],
@@ -27859,7 +27888,7 @@
         "supervisor": "JENY LAZO",
         "capacitador": "PENDING",
         "responsable": "TAMBO",
-        "frecuencia": "SIN ASIGNAR-SIN ASIGNAR",
+        "frecuencia": "SIN ASIGNAR",
         "dias": [
             "SIN RUTA"
         ],
@@ -27911,7 +27940,7 @@
         "supervisor": "RODRIGO MARTINEZ",
         "capacitador": "RAMON RAZURI",
         "responsable": "TAMBO",
-        "frecuencia": "LUNES-SIN ASIGNAR",
+        "frecuencia": "LUNES",
         "dias": [
             "LUNES"
         ],
@@ -27990,7 +28019,7 @@
         "supervisor": "RODRIGO MARTINEZ",
         "capacitador": "JESUS OLIVEROS",
         "responsable": "TAMBO",
-        "frecuencia": "VIERNES-SIN ASIGNAR",
+        "frecuencia": "VIERNES",
         "dias": [
             "VIERNES"
         ],
@@ -28016,7 +28045,7 @@
         "supervisor": "RODRIGO MARTINEZ",
         "capacitador": "RAMON RAZURI",
         "responsable": "TAMBO",
-        "frecuencia": "MARTES-SIN ASIGNAR",
+        "frecuencia": "MARTES",
         "dias": [
             "MARTES"
         ],
@@ -28042,7 +28071,7 @@
         "supervisor": "JORGE SANCHEZ",
         "capacitador": "SELEN CASTRO",
         "responsable": "TAMBO",
-        "frecuencia": "JUEVES-SIN ASIGNAR",
+        "frecuencia": "JUEVES",
         "dias": [
             "JUEVES"
         ],
@@ -28068,7 +28097,7 @@
         "supervisor": "JORGE SANCHEZ",
         "capacitador": "SELEN CASTRO",
         "responsable": "TAMBO",
-        "frecuencia": "MARTES-SIN ASIGNAR",
+        "frecuencia": "MARTES",
         "dias": [
             "MARTES"
         ],
@@ -28175,7 +28204,7 @@
         "supervisor": "JENY LAZO",
         "capacitador": "PENDING",
         "responsable": "TAMBO",
-        "frecuencia": "MIÉRCOLES-SIN ASIGNAR",
+        "frecuencia": "MIÉRCOLES",
         "dias": [
             "MIÉRCOLES"
         ],
@@ -28228,9 +28257,10 @@
         "supervisor": "JENY LAZO",
         "capacitador": "PENDING",
         "responsable": "TINBET",
-        "frecuencia": "MARTES",
+        "frecuencia": "MARTES-JUEVES",
         "dias": [
-            "MARTES"
+            "MARTES",
+            "JUEVES"
         ],
         "meta_diaria": null,
         "direccion": "AV. MARISCAL OSCAR R. BENAVIDES NO. 255",
@@ -28360,9 +28390,10 @@
         "supervisor": "SIN SUPERVISOR",
         "capacitador": "PENDING",
         "responsable": "TINBET",
-        "frecuencia": "GESTION TELEFONICA",
+        "frecuencia": "SÁBADO-MIÉRCOLES",
         "dias": [
-            "GESTION TELEFONICA"
+            "SÁBADO",
+            "MIÉRCOLES"
         ],
         "meta_diaria": null,
         "direccion": "PROLONG. MARCHAND 116",
@@ -28518,7 +28549,7 @@
         "supervisor": "JENY LAZO",
         "capacitador": "PENDING",
         "responsable": "APUESTA TOTAL",
-        "frecuencia": "VIERNES-SIN ASIGNAR-SIN ASIGNAR",
+        "frecuencia": "VIERNES",
         "dias": [
             "VIERNES"
         ],
@@ -28544,7 +28575,7 @@
         "supervisor": "JENY LAZO",
         "capacitador": "PENDING",
         "responsable": "APUESTA TOTAL",
-        "frecuencia": "LUNES-SIN ASIGNAR-SIN ASIGNAR",
+        "frecuencia": "LUNES",
         "dias": [
             "LUNES"
         ],
@@ -29129,7 +29160,7 @@
         "supervisor": "JENY LAZO",
         "capacitador": "PENDING",
         "responsable": "LIVESPORT",
-        "frecuencia": "MARTES-SIN ASIGNAR-SIN ASIGNAR",
+        "frecuencia": "MARTES",
         "dias": [
             "MARTES"
         ],
@@ -29398,7 +29429,7 @@
         "supervisor": "JENY LAZO",
         "capacitador": "PENDING",
         "responsable": "TINBET",
-        "frecuencia": "SIN ASIGNAR-SIN ASIGNAR-SIN ASIGNAR",
+        "frecuencia": "SIN ASIGNAR",
         "dias": [
             "SIN RUTA"
         ],
@@ -29424,9 +29455,10 @@
         "supervisor": "SIN SUPERVISOR",
         "capacitador": "PENDING",
         "responsable": "TINBET",
-        "frecuencia": "GESTION TELEFONICA",
+        "frecuencia": "SÁBADO-MIÉRCOLES",
         "dias": [
-            "GESTION TELEFONICA"
+            "SÁBADO",
+            "MIÉRCOLES"
         ],
         "meta_diaria": null,
         "direccion": "JIRON 28 DE JULIO 142",
@@ -29450,9 +29482,10 @@
         "supervisor": "SIN SUPERVISOR",
         "capacitador": "PENDING",
         "responsable": "TINBET",
-        "frecuencia": "GESTION TELEFONICA",
+        "frecuencia": "SÁBADO-MIÉRCOLES",
         "dias": [
-            "GESTION TELEFONICA"
+            "SÁBADO",
+            "MIÉRCOLES"
         ],
         "meta_diaria": null,
         "direccion": "JIRON DOS DE MAYO 665",
@@ -30229,11 +30262,11 @@
         "responsable": "TINBET",
         "frecuencia": "LUNES-JUEVES-MIÉRCOLES-JUEVES-VIERNES-SÁBADO",
         "dias": [
-            "JUEVES",
-            "LUNES",
-            "VIERNES",
+            "MIÉRCOLES",
             "SÁBADO",
-            "MIÉRCOLES"
+            "VIERNES",
+            "JUEVES",
+            "LUNES"
         ],
         "meta_diaria": null,
         "direccion": "PROLONGACIÓN LIMA NO. 593",
@@ -30414,9 +30447,10 @@
         "supervisor": "JENY LAZO",
         "capacitador": "PENDING",
         "responsable": "TINBET",
-        "frecuencia": "MIÉRCOLES",
+        "frecuencia": "MIÉRCOLES-VIERNES",
         "dias": [
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "VIERNES"
         ],
         "meta_diaria": null,
         "direccion": "AV. SANCHEZ CARRION N° 567",
@@ -30440,7 +30474,7 @@
         "supervisor": "JENY LAZO",
         "capacitador": "PENDING",
         "responsable": "TINBET",
-        "frecuencia": "MARTES-SIN ASIGNAR",
+        "frecuencia": "MARTES",
         "dias": [
             "MARTES"
         ],
@@ -30466,7 +30500,7 @@
         "supervisor": "JENY LAZO",
         "capacitador": "PENDING",
         "responsable": "TINBET",
-        "frecuencia": "JUEVES-SIN ASIGNAR",
+        "frecuencia": "JUEVES",
         "dias": [
             "JUEVES"
         ],
@@ -31043,8 +31077,9 @@
         "supervisor": "JENY LAZO",
         "capacitador": "PENDING",
         "responsable": "TINBET",
-        "frecuencia": "LUNES",
+        "frecuencia": "LUNES-JUEVES",
         "dias": [
+            "JUEVES",
             "LUNES"
         ],
         "meta_diaria": null,
@@ -31069,9 +31104,10 @@
         "supervisor": "JENY LAZO",
         "capacitador": "PENDING",
         "responsable": "TINBET",
-        "frecuencia": "MARTES",
+        "frecuencia": "MARTES-JUEVES",
         "dias": [
-            "MARTES"
+            "MARTES",
+            "JUEVES"
         ],
         "meta_diaria": null,
         "direccion": "JR. RICARDO PALMA N°902",
@@ -31095,8 +31131,9 @@
         "supervisor": "JENY LAZO",
         "capacitador": "PENDING",
         "responsable": "TINBET",
-        "frecuencia": "LUNES",
+        "frecuencia": "LUNES-JUEVES",
         "dias": [
+            "JUEVES",
             "LUNES"
         ],
         "meta_diaria": null,
@@ -31121,9 +31158,10 @@
         "supervisor": "JENY LAZO",
         "capacitador": "PENDING",
         "responsable": "TINBET",
-        "frecuencia": "MARTES",
+        "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": null,
         "direccion": "AV. JOSE ABELARDO QUIÑONES N°4028",
@@ -31147,9 +31185,10 @@
         "supervisor": "JENY LAZO",
         "capacitador": "PENDING",
         "responsable": "TINBET",
-        "frecuencia": "MARTES",
+        "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": null,
         "direccion": "CALLE MOORE N°1902",
@@ -31173,8 +31212,9 @@
         "supervisor": "JENY LAZO",
         "capacitador": "PENDING",
         "responsable": "TINBET",
-        "frecuencia": "LUNES",
+        "frecuencia": "LUNES-JUEVES",
         "dias": [
+            "JUEVES",
             "LUNES"
         ],
         "meta_diaria": null,
@@ -31199,8 +31239,9 @@
         "supervisor": "JENY LAZO",
         "capacitador": "PENDING",
         "responsable": "TINBET",
-        "frecuencia": "MIÉRCOLES",
+        "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
+            "SÁBADO",
             "MIÉRCOLES"
         ],
         "meta_diaria": null,
@@ -31225,8 +31266,9 @@
         "supervisor": "JENY LAZO",
         "capacitador": "PENDING",
         "responsable": "TINBET",
-        "frecuencia": "MIÉRCOLES",
+        "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
+            "SÁBADO",
             "MIÉRCOLES"
         ],
         "meta_diaria": null,
@@ -31251,9 +31293,10 @@
         "supervisor": "JENY LAZO",
         "capacitador": "PENDING",
         "responsable": "TINBET",
-        "frecuencia": "MARTES",
+        "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": null,
         "direccion": "JR. MORONA NO. 871 . URBANIZACIÓN IQUITOS",
@@ -31277,9 +31320,10 @@
         "supervisor": "JENY LAZO",
         "capacitador": "PENDING",
         "responsable": "TINBET",
-        "frecuencia": "MARTES",
+        "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": null,
         "direccion": "CALLE LIBERTAD N°459",
@@ -31303,8 +31347,9 @@
         "supervisor": "JENY LAZO",
         "capacitador": "PENDING",
         "responsable": "TINBET",
-        "frecuencia": "LUNES",
+        "frecuencia": "LUNES-JUEVES",
         "dias": [
+            "JUEVES",
             "LUNES"
         ],
         "meta_diaria": null,
@@ -31355,9 +31400,10 @@
         "supervisor": "JENY LAZO",
         "capacitador": "PENDING",
         "responsable": "TINBET",
-        "frecuencia": "MARTES",
+        "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": null,
         "direccion": "AV. PARTICIPACION N° 3276",
@@ -31381,8 +31427,9 @@
         "supervisor": "JENY LAZO",
         "capacitador": "PENDING",
         "responsable": "TINBET",
-        "frecuencia": "LUNES",
+        "frecuencia": "LUNES-JUEVES",
         "dias": [
+            "JUEVES",
             "LUNES"
         ],
         "meta_diaria": null,
@@ -31407,8 +31454,9 @@
         "supervisor": "JENY LAZO",
         "capacitador": "PENDING",
         "responsable": "TINBET",
-        "frecuencia": "LUNES",
+        "frecuencia": "LUNES-JUEVES",
         "dias": [
+            "JUEVES",
             "LUNES"
         ],
         "meta_diaria": null,
@@ -31433,8 +31481,9 @@
         "supervisor": "JENY LAZO",
         "capacitador": "PENDING",
         "responsable": "TINBET",
-        "frecuencia": "MIÉRCOLES",
+        "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
+            "SÁBADO",
             "MIÉRCOLES"
         ],
         "meta_diaria": null,
@@ -31459,8 +31508,9 @@
         "supervisor": "JENY LAZO",
         "capacitador": "PENDING",
         "responsable": "TINBET",
-        "frecuencia": "LUNES",
+        "frecuencia": "LUNES-JUEVES",
         "dias": [
+            "JUEVES",
             "LUNES"
         ],
         "meta_diaria": null,
@@ -31485,9 +31535,10 @@
         "supervisor": "JENY LAZO",
         "capacitador": "PENDING",
         "responsable": "TINBET",
-        "frecuencia": "MARTES",
+        "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": null,
         "direccion": "JR. CALVO DE ARAUJO N° 1899",
@@ -31511,9 +31562,10 @@
         "supervisor": "JENY LAZO",
         "capacitador": "PENDING",
         "responsable": "TINBET",
-        "frecuencia": "MARTES",
+        "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": null,
         "direccion": "AV. SAN ANTONIO N° 1118",
@@ -31564,8 +31616,9 @@
         "supervisor": "JENY LAZO",
         "capacitador": "PENDING",
         "responsable": "TINBET",
-        "frecuencia": "MIÉRCOLES",
+        "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
+            "SÁBADO",
             "MIÉRCOLES"
         ],
         "meta_diaria": null,
@@ -31642,9 +31695,10 @@
         "supervisor": "JENY LAZO",
         "capacitador": "PENDING",
         "responsable": "TINBET",
-        "frecuencia": "MARTES",
+        "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": null,
         "direccion": "AV PARTICIPACIÓN MANZANA 33A LOTE 10 ASENTAMIENTO HUMANO SAN PABLO DE LA LUZ",
@@ -31668,8 +31722,9 @@
         "supervisor": "JENY LAZO",
         "capacitador": "PENDING",
         "responsable": "TINBET",
-        "frecuencia": "MIÉRCOLES",
+        "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
+            "SÁBADO",
             "MIÉRCOLES"
         ],
         "meta_diaria": null,
@@ -31721,8 +31776,9 @@
         "supervisor": "JENY LAZO",
         "capacitador": "PENDING",
         "responsable": "TINBET",
-        "frecuencia": "MIÉRCOLES",
+        "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
+            "SÁBADO",
             "MIÉRCOLES"
         ],
         "meta_diaria": null,
@@ -31747,8 +31803,9 @@
         "supervisor": "JENY LAZO",
         "capacitador": "PENDING",
         "responsable": "TINBET",
-        "frecuencia": "MIÉRCOLES",
+        "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
+            "SÁBADO",
             "MIÉRCOLES"
         ],
         "meta_diaria": null,
@@ -31773,8 +31830,9 @@
         "supervisor": "JENY LAZO",
         "capacitador": "PENDING",
         "responsable": "TINBET",
-        "frecuencia": "MIÉRCOLES",
+        "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
+            "SÁBADO",
             "MIÉRCOLES"
         ],
         "meta_diaria": null,
@@ -31799,8 +31857,9 @@
         "supervisor": "JENY LAZO",
         "capacitador": "PENDING",
         "responsable": "TINBET",
-        "frecuencia": "MIÉRCOLES",
+        "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
+            "SÁBADO",
             "MIÉRCOLES"
         ],
         "meta_diaria": null,
@@ -31854,8 +31913,8 @@
         "responsable": "TINBET",
         "frecuencia": "MIÉRCOLES-VIERNES",
         "dias": [
-            "VIERNES",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "VIERNES"
         ],
         "meta_diaria": null,
         "direccion": "AV. AVENIDA MZ. Q LT. 26 LOTIZACION 12 DE NOVIEMBRE",
@@ -32089,8 +32148,9 @@
         "supervisor": "JENY LAZO",
         "capacitador": "PENDING",
         "responsable": "TINBET",
-        "frecuencia": "LUNES",
+        "frecuencia": "LUNES-JUEVES",
         "dias": [
+            "JUEVES",
             "LUNES"
         ],
         "meta_diaria": null,
@@ -32143,11 +32203,11 @@
         "responsable": "TINBET",
         "frecuencia": "LUNES-JUEVES-MIÉRCOLES-JUEVES-VIERNES-SÁBADO",
         "dias": [
-            "JUEVES",
-            "LUNES",
-            "VIERNES",
+            "MIÉRCOLES",
             "SÁBADO",
-            "MIÉRCOLES"
+            "VIERNES",
+            "JUEVES",
+            "LUNES"
         ],
         "meta_diaria": null,
         "direccion": "AV JACINTO IBARRA 420",
@@ -32173,11 +32233,11 @@
         "responsable": "TINBET",
         "frecuencia": "LUNES-JUEVES-MIÉRCOLES-JUEVES-VIERNES-SÁBADO",
         "dias": [
-            "JUEVES",
-            "LUNES",
-            "VIERNES",
+            "MIÉRCOLES",
             "SÁBADO",
-            "MIÉRCOLES"
+            "VIERNES",
+            "JUEVES",
+            "LUNES"
         ],
         "meta_diaria": null,
         "direccion": "AV. LA ESPERANZA 170 EL TAMBO",
@@ -32332,7 +32392,7 @@
         "supervisor": "JORGE SANCHEZ",
         "capacitador": "RODRIGO BRAVO",
         "responsable": "TAMBO",
-        "frecuencia": "VIERNES-SIN ASIGNAR",
+        "frecuencia": "VIERNES",
         "dias": [
             "VIERNES"
         ],
@@ -32439,7 +32499,7 @@
         "supervisor": "RODRIGO MARTINEZ",
         "capacitador": "JESUS OLIVEROS",
         "responsable": "TAMBO",
-        "frecuencia": "LUNES-SIN ASIGNAR",
+        "frecuencia": "LUNES",
         "dias": [
             "LUNES"
         ],
@@ -32465,7 +32525,7 @@
         "supervisor": "JORGE SANCHEZ",
         "capacitador": "RAMON RAZURI",
         "responsable": "TAMBO",
-        "frecuencia": "LUNES-SIN ASIGNAR",
+        "frecuencia": "LUNES",
         "dias": [
             "LUNES"
         ],
@@ -32491,7 +32551,7 @@
         "supervisor": "JORGE SANCHEZ",
         "capacitador": "SELEN CASTRO",
         "responsable": "TAMBO",
-        "frecuencia": "MIÉRCOLES-SIN ASIGNAR",
+        "frecuencia": "MIÉRCOLES",
         "dias": [
             "MIÉRCOLES"
         ],
@@ -32517,7 +32577,7 @@
         "supervisor": "RODRIGO MARTINEZ",
         "capacitador": "JESUS OLIVEROS",
         "responsable": "TAMBO",
-        "frecuencia": "MARTES-SIN ASIGNAR",
+        "frecuencia": "MARTES",
         "dias": [
             "MARTES"
         ],
@@ -32651,7 +32711,7 @@
         "supervisor": "JORGE SANCHEZ",
         "capacitador": "SELEN CASTRO",
         "responsable": "TAMBO",
-        "frecuencia": "VIERNES-SIN ASIGNAR",
+        "frecuencia": "VIERNES",
         "dias": [
             "VIERNES"
         ],
@@ -34898,9 +34958,10 @@
         "supervisor": "JENY LAZO",
         "capacitador": "PENDING",
         "responsable": "APUESTA TOTAL",
-        "frecuencia": "MARTES",
+        "frecuencia": "MARTES-JUEVES",
         "dias": [
-            "MARTES"
+            "MARTES",
+            "JUEVES"
         ],
         "meta_diaria": 8.0,
         "direccion": "Av Oscar Benavides 645 Chincha Alta",
@@ -34924,9 +34985,10 @@
         "supervisor": "JENY LAZO",
         "capacitador": "PENDING",
         "responsable": "APUESTA TOTAL",
-        "frecuencia": "MARTES-JUEVES",
+        "frecuencia": "MARTES-JUEVES-SÁBADO",
         "dias": [
             "MARTES",
+            "SÁBADO",
             "JUEVES"
         ],
         "meta_diaria": 13.8,
@@ -34951,9 +35013,10 @@
         "supervisor": "JENY LAZO",
         "capacitador": "PENDING",
         "responsable": "APUESTA TOTAL",
-        "frecuencia": "MARTES",
+        "frecuencia": "MARTES-JUEVES",
         "dias": [
-            "MARTES"
+            "MARTES",
+            "JUEVES"
         ],
         "meta_diaria": 17.25,
         "direccion": "Av. Andrés Avelino Cáceres Dpto. 1, Distrito De Marcona,",
@@ -34977,9 +35040,10 @@
         "supervisor": "JENY LAZO",
         "capacitador": "PENDING",
         "responsable": "APUESTA TOTAL",
-        "frecuencia": "MARTES",
+        "frecuencia": "MARTES-JUEVES",
         "dias": [
-            "MARTES"
+            "MARTES",
+            "JUEVES"
         ],
         "meta_diaria": 12.0,
         "direccion": "Jr. Perez Figuerola N° 270",
@@ -35003,10 +35067,11 @@
         "supervisor": "JENY LAZO",
         "capacitador": "PENDING",
         "responsable": "APUESTA TOTAL",
-        "frecuencia": "LUNES-MIÉRCOLES",
+        "frecuencia": "LUNES-MIÉRCOLES-VIERNES",
         "dias": [
-            "LUNES",
-            "MIÉRCOLES"
+            "VIERNES",
+            "MIÉRCOLES",
+            "LUNES"
         ],
         "meta_diaria": 10.0,
         "direccion": "Av. San Martín N° 168",
@@ -35030,9 +35095,10 @@
         "supervisor": "JENY LAZO",
         "capacitador": "PENDING",
         "responsable": "APUESTA TOTAL",
-        "frecuencia": "MARTES",
+        "frecuencia": "MARTES-JUEVES",
         "dias": [
-            "MARTES"
+            "MARTES",
+            "JUEVES"
         ],
         "meta_diaria": 16.5,
         "direccion": "Centro Poblado Pueblo Nuevo 2 Etapa Jr Santa Rosa 272 Mz 34 Lote 19",
@@ -35056,9 +35122,10 @@
         "supervisor": "JENY LAZO",
         "capacitador": "PENDING",
         "responsable": "APUESTA TOTAL",
-        "frecuencia": "MARTES",
+        "frecuencia": "MARTES-JUEVES",
         "dias": [
-            "MARTES"
+            "MARTES",
+            "JUEVES"
         ],
         "meta_diaria": 16.5,
         "direccion": "Av. Jose Faustino Sanchez Carrion 184, Oficina 104",
@@ -35082,9 +35149,10 @@
         "supervisor": "JENY LAZO",
         "capacitador": "PENDING",
         "responsable": "APUESTA TOTAL",
-        "frecuencia": "MARTES",
+        "frecuencia": "MARTES-JUEVES",
         "dias": [
-            "MARTES"
+            "MARTES",
+            "JUEVES"
         ],
         "meta_diaria": 13.8,
         "direccion": "Av. Luis Masaro N° 289",
@@ -36322,8 +36390,9 @@
         "supervisor": "JENY LAZO",
         "capacitador": "PENDING",
         "responsable": "APUESTA TOTAL",
-        "frecuencia": "VIERNES",
+        "frecuencia": "VIERNES-SÁBADO",
         "dias": [
+            "SÁBADO",
             "VIERNES"
         ],
         "meta_diaria": 41.45,
@@ -36348,8 +36417,9 @@
         "supervisor": "JENY LAZO",
         "capacitador": "PENDING",
         "responsable": "APUESTA TOTAL",
-        "frecuencia": "JUEVES",
+        "frecuencia": "JUEVES-SÁBADO",
         "dias": [
+            "SÁBADO",
             "JUEVES"
         ],
         "meta_diaria": 100.0,
@@ -36374,8 +36444,10 @@
         "supervisor": "JENY LAZO",
         "capacitador": "PENDING",
         "responsable": "APUESTA TOTAL",
-        "frecuencia": "LUNES",
+        "frecuencia": "LUNES-JUEVES-SÁBADO",
         "dias": [
+            "SÁBADO",
+            "JUEVES",
             "LUNES"
         ],
         "meta_diaria": 19.8,
@@ -36426,9 +36498,10 @@
         "supervisor": "JENY LAZO",
         "capacitador": "PENDING",
         "responsable": "APUESTA TOTAL",
-        "frecuencia": "MARTES",
+        "frecuencia": "MARTES-JUEVES",
         "dias": [
-            "MARTES"
+            "MARTES",
+            "JUEVES"
         ],
         "meta_diaria": 30.8,
         "direccion": "Av Cesar Vallejo 1189 Urb. Aranjuez",
@@ -36452,9 +36525,10 @@
         "supervisor": "JENY LAZO",
         "capacitador": "PENDING",
         "responsable": "APUESTA TOTAL",
-        "frecuencia": "MIÉRCOLES",
+        "frecuencia": "MIÉRCOLES-VIERNES",
         "dias": [
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "VIERNES"
         ],
         "meta_diaria": 55.0,
         "direccion": "Pueblo Joven Florencia De Mora Barrio – 4 Mz 4 Lote 23A (Dirección Municipal: Av. 26 De Marzo # 460)",
@@ -36478,9 +36552,10 @@
         "supervisor": "JENY LAZO",
         "capacitador": "PENDING",
         "responsable": "APUESTA TOTAL",
-        "frecuencia": "MARTES",
+        "frecuencia": "MARTES-JUEVES",
         "dias": [
-            "MARTES"
+            "MARTES",
+            "JUEVES"
         ],
         "meta_diaria": 65.75,
         "direccion": "Prolongación Cesar Vallejo Mz 46B Lote 01 Urb La Rinconada 3Era Etapa (Dirección Municipal:Av Vallejo Cesar Mz 46B Lt 01 Urb Rinconada Iii Etapa Ii Fase),",
@@ -36492,8 +36567,8 @@
     },
     {
         "nombre": "Red AT Pay Pay",
-        "lat": -8.095877,
-        "lng": -79.015848,
+        "lat": -8.09575756609616,
+        "lng": -79.0157490314192,
         "estado": "ACTIVO",
         "zona": "NORTE",
         "cluster": "BRONCE",
@@ -36504,8 +36579,9 @@
         "supervisor": "JENY LAZO",
         "capacitador": "PENDING",
         "responsable": "APUESTA TOTAL",
-        "frecuencia": "LUNES",
+        "frecuencia": "LUNES-SÁBADO",
         "dias": [
+            "SÁBADO",
             "LUNES"
         ],
         "meta_diaria": 19.8,
@@ -36556,9 +36632,10 @@
         "supervisor": "JENY LAZO",
         "capacitador": "PENDING",
         "responsable": "APUESTA TOTAL",
-        "frecuencia": "MIÉRCOLES",
+        "frecuencia": "MIÉRCOLES-VIERNES",
         "dias": [
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "VIERNES"
         ],
         "meta_diaria": 13.2,
         "direccion": "Prolongación Santa N° 2044 - La Marqueza",
@@ -36582,9 +36659,10 @@
         "supervisor": "JENY LAZO",
         "capacitador": "PENDING",
         "responsable": "APUESTA TOTAL",
-        "frecuencia": "MARTES",
+        "frecuencia": "MARTES-JUEVES",
         "dias": [
-            "MARTES"
+            "MARTES",
+            "JUEVES"
         ],
         "meta_diaria": 27.5,
         "direccion": "Av. Perú N° 1550, Urb. Daniel Hoyle",
@@ -36712,8 +36790,9 @@
         "supervisor": "JENY LAZO",
         "capacitador": "PENDING",
         "responsable": "APUESTA TOTAL",
-        "frecuencia": "LUNES",
+        "frecuencia": "LUNES-SÁBADO",
         "dias": [
+            "SÁBADO",
             "LUNES"
         ],
         "meta_diaria": 24.2,
@@ -37726,8 +37805,9 @@
         "supervisor": "JENY LAZO",
         "capacitador": "PENDING",
         "responsable": "APUESTA TOTAL",
-        "frecuencia": "LUNES",
+        "frecuencia": "LUNES-SÁBADO",
         "dias": [
+            "SÁBADO",
             "LUNES"
         ],
         "meta_diaria": 17.25,
@@ -37752,8 +37832,9 @@
         "supervisor": "JENY LAZO",
         "capacitador": "PENDING",
         "responsable": "APUESTA TOTAL",
-        "frecuencia": "LUNES",
+        "frecuencia": "LUNES-SÁBADO",
         "dias": [
+            "SÁBADO",
             "LUNES"
         ],
         "meta_diaria": 39.7,
@@ -37856,9 +37937,10 @@
         "supervisor": "JENY LAZO",
         "capacitador": "PENDING",
         "responsable": "APUESTA TOTAL",
-        "frecuencia": "MIÉRCOLES",
+        "frecuencia": "MIÉRCOLES-VIERNES",
         "dias": [
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "VIERNES"
         ],
         "meta_diaria": 28.35,
         "direccion": "Pueblo Joven El Porvenir-Sector La Union Barrio 1 Mz 12 Sub Lote 3A",
@@ -37908,9 +37990,10 @@
         "supervisor": "JENY LAZO",
         "capacitador": "PENDING",
         "responsable": "APUESTA TOTAL",
-        "frecuencia": "JUEVES",
+        "frecuencia": "JUEVES-VIERNES",
         "dias": [
-            "JUEVES"
+            "JUEVES",
+            "VIERNES"
         ],
         "meta_diaria": 16.5,
         "direccion": "Jr Hermanos Angulo 436",
@@ -38558,9 +38641,10 @@
         "supervisor": "JENY LAZO",
         "capacitador": "PENDING",
         "responsable": "APUESTA TOTAL",
-        "frecuencia": "MARTES",
+        "frecuencia": "MARTES-MIÉRCOLES",
         "dias": [
-            "MARTES"
+            "MARTES",
+            "MIÉRCOLES"
         ],
         "meta_diaria": 22.0,
         "direccion": "Calle Libertad N° 444",
@@ -38610,8 +38694,9 @@
         "supervisor": "JENY LAZO",
         "capacitador": "PENDING",
         "responsable": "APUESTA TOTAL",
-        "frecuencia": "LUNES",
+        "frecuencia": "LUNES-JUEVES",
         "dias": [
+            "JUEVES",
             "LUNES"
         ],
         "meta_diaria": 24.2,
@@ -38662,9 +38747,10 @@
         "supervisor": "JENY LAZO",
         "capacitador": "PENDING",
         "responsable": "APUESTA TOTAL",
-        "frecuencia": "MARTES",
+        "frecuencia": "MARTES-SÁBADO",
         "dias": [
-            "MARTES"
+            "MARTES",
+            "SÁBADO"
         ],
         "meta_diaria": 19.8,
         "direccion": "Ppjj Tacalá Mz. C1 - Lt. 10",
@@ -38948,8 +39034,9 @@
         "supervisor": "JENY LAZO",
         "capacitador": "PENDING",
         "responsable": "APUESTA TOTAL",
-        "frecuencia": "LUNES",
+        "frecuencia": "LUNES-JUEVES",
         "dias": [
+            "JUEVES",
             "LUNES"
         ],
         "meta_diaria": 16.5,
@@ -38974,8 +39061,9 @@
         "supervisor": "JENY LAZO",
         "capacitador": "PENDING",
         "responsable": "APUESTA TOTAL",
-        "frecuencia": "MIÉRCOLES",
+        "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
+            "SÁBADO",
             "MIÉRCOLES"
         ],
         "meta_diaria": 16.5,
@@ -39052,9 +39140,10 @@
         "supervisor": "JENY LAZO",
         "capacitador": "PENDING",
         "responsable": "APUESTA TOTAL",
-        "frecuencia": "MIÉRCOLES",
+        "frecuencia": "MIÉRCOLES-VIERNES",
         "dias": [
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "VIERNES"
         ],
         "meta_diaria": 15.0,
         "direccion": "Av. Dolores N° 163",
@@ -39104,9 +39193,10 @@
         "supervisor": "JENY LAZO",
         "capacitador": "PENDING",
         "responsable": "APUESTA TOTAL",
-        "frecuencia": "MARTES",
+        "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": 15.0,
         "direccion": "Av. Progreso N° 603",
@@ -39130,9 +39220,10 @@
         "supervisor": "JENY LAZO",
         "capacitador": "PENDING",
         "responsable": "APUESTA TOTAL",
-        "frecuencia": "MARTES",
+        "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": 20.0,
         "direccion": "Av. Progreso N° 401",
@@ -39156,8 +39247,9 @@
         "supervisor": "JENY LAZO",
         "capacitador": "PENDING",
         "responsable": "APUESTA TOTAL",
-        "frecuencia": "LUNES",
+        "frecuencia": "LUNES-SÁBADO",
         "dias": [
+            "SÁBADO",
             "LUNES"
         ],
         "meta_diaria": 17.25,
@@ -40952,11 +41044,11 @@
         "responsable": "APUESTA TOTAL",
         "frecuencia": "LUNES-JUEVES-MIÉRCOLES-JUEVES-VIERNES-SÁBADO",
         "dias": [
-            "JUEVES",
-            "LUNES",
-            "VIERNES",
+            "MIÉRCOLES",
             "SÁBADO",
-            "MIÉRCOLES"
+            "VIERNES",
+            "JUEVES",
+            "LUNES"
         ],
         "meta_diaria": 11.5,
         "direccion": "Av. Mariscal Castilla N° 1238 – Cercado El Tambo Del Distrito De El Tambo",
@@ -41034,11 +41126,11 @@
         "responsable": "APUESTA TOTAL",
         "frecuencia": "LUNES-JUEVES-MIÉRCOLES-JUEVES-VIERNES-SÁBADO",
         "dias": [
-            "JUEVES",
-            "LUNES",
-            "VIERNES",
+            "MIÉRCOLES",
             "SÁBADO",
-            "MIÉRCOLES"
+            "VIERNES",
+            "JUEVES",
+            "LUNES"
         ],
         "meta_diaria": 16.5,
         "direccion": "Av. Jose Carlos Mariátegui N° 600",
@@ -41426,7 +41518,7 @@
         "supervisor": "JORGE SANCHEZ",
         "capacitador": "SELEN CASTRO",
         "responsable": "TAMBO",
-        "frecuencia": "VIERNES-SIN ASIGNAR",
+        "frecuencia": "VIERNES",
         "dias": [
             "VIERNES"
         ],
@@ -41452,7 +41544,7 @@
         "supervisor": "JORGE SANCHEZ",
         "capacitador": "JOEL VENTURA",
         "responsable": "TAMBO",
-        "frecuencia": "MARTES-SIN ASIGNAR",
+        "frecuencia": "MARTES",
         "dias": [
             "MARTES"
         ],
@@ -41532,10 +41624,12 @@
         "supervisor": "JENY LAZO",
         "capacitador": "PENDING",
         "responsable": "TAMBO",
-        "frecuencia": "LUNES-MIÉRCOLES",
+        "frecuencia": "LUNES-MIÉRCOLES-VIERNES-SÁBADO",
         "dias": [
-            "LUNES",
-            "MIÉRCOLES"
+            "SÁBADO",
+            "VIERNES",
+            "MIÉRCOLES",
+            "LUNES"
         ],
         "meta_diaria": 20.0,
         "direccion": "JIRÓN BORGOÑO JUSTINIANO 195 DPTO 101 TRUJILLO TRUJILLO LA LIBERTAD",
@@ -41559,7 +41653,7 @@
         "supervisor": "JORGE SANCHEZ",
         "capacitador": "SELEN CASTRO",
         "responsable": "TAMBO",
-        "frecuencia": "MIÉRCOLES-SIN ASIGNAR",
+        "frecuencia": "MIÉRCOLES",
         "dias": [
             "MIÉRCOLES"
         ],
@@ -41585,7 +41679,7 @@
         "supervisor": "JORGE SANCHEZ",
         "capacitador": "JOEL VENTURA",
         "responsable": "TAMBO",
-        "frecuencia": "SÁBADO-SIN ASIGNAR",
+        "frecuencia": "SÁBADO",
         "dias": [
             "SÁBADO"
         ],
@@ -41611,7 +41705,7 @@
         "supervisor": "JORGE SANCHEZ",
         "capacitador": "RODRIGO BRAVO",
         "responsable": "TAMBO",
-        "frecuencia": "JUEVES-SIN ASIGNAR",
+        "frecuencia": "JUEVES",
         "dias": [
             "JUEVES"
         ],
@@ -41637,7 +41731,7 @@
         "supervisor": "JORGE SANCHEZ",
         "capacitador": "PENDING",
         "responsable": "TAMBO",
-        "frecuencia": "MARTES-SIN ASIGNAR",
+        "frecuencia": "MARTES",
         "dias": [
             "MARTES"
         ],
@@ -41663,9 +41757,10 @@
         "supervisor": "JENY LAZO",
         "capacitador": "PENDING",
         "responsable": "TAMBO",
-        "frecuencia": "MARTES-JUEVES",
+        "frecuencia": "MARTES-JUEVES-SÁBADO",
         "dias": [
             "MARTES",
+            "SÁBADO",
             "JUEVES"
         ],
         "meta_diaria": 20.0,
@@ -41690,7 +41785,7 @@
         "supervisor": "JORGE SANCHEZ",
         "capacitador": "PENDING",
         "responsable": "TAMBO",
-        "frecuencia": "MARTES-SIN ASIGNAR",
+        "frecuencia": "MARTES",
         "dias": [
             "MARTES"
         ],
@@ -41743,7 +41838,7 @@
         "supervisor": "JORGE SANCHEZ",
         "capacitador": "PENDING",
         "responsable": "TAMBO",
-        "frecuencia": "MIÉRCOLES-SIN ASIGNAR",
+        "frecuencia": "MIÉRCOLES",
         "dias": [
             "MIÉRCOLES"
         ],
@@ -41769,7 +41864,7 @@
         "supervisor": "JORGE SANCHEZ",
         "capacitador": "RODRIGO BRAVO",
         "responsable": "TAMBO",
-        "frecuencia": "JUEVES-SIN ASIGNAR",
+        "frecuencia": "JUEVES",
         "dias": [
             "JUEVES"
         ],
@@ -41795,7 +41890,7 @@
         "supervisor": "JORGE SANCHEZ",
         "capacitador": "PENDING",
         "responsable": "TAMBO",
-        "frecuencia": "MARTES-SIN ASIGNAR",
+        "frecuencia": "MARTES",
         "dias": [
             "MARTES"
         ],
@@ -41821,7 +41916,7 @@
         "supervisor": "RODRIGO MARTINEZ",
         "capacitador": "JESUS OLIVEROS",
         "responsable": "TAMBO",
-        "frecuencia": "JUEVES-SIN ASIGNAR",
+        "frecuencia": "JUEVES",
         "dias": [
             "JUEVES"
         ],
@@ -41847,7 +41942,7 @@
         "supervisor": "JORGE SANCHEZ",
         "capacitador": "SELEN CASTRO",
         "responsable": "TAMBO",
-        "frecuencia": "LUNES-SIN ASIGNAR",
+        "frecuencia": "LUNES",
         "dias": [
             "LUNES"
         ],
@@ -41873,7 +41968,7 @@
         "supervisor": "RODRIGO MARTINEZ",
         "capacitador": "RAMON RAZURI",
         "responsable": "TAMBO",
-        "frecuencia": "LUNES-SIN ASIGNAR",
+        "frecuencia": "LUNES",
         "dias": [
             "LUNES"
         ],
@@ -41899,7 +41994,7 @@
         "supervisor": "JORGE SANCHEZ",
         "capacitador": "JOEL VENTURA",
         "responsable": "TAMBO",
-        "frecuencia": "MIÉRCOLES-SIN ASIGNAR",
+        "frecuencia": "MIÉRCOLES",
         "dias": [
             "MIÉRCOLES"
         ],
@@ -41925,7 +42020,7 @@
         "supervisor": "JORGE SANCHEZ",
         "capacitador": "SELEN CASTRO",
         "responsable": "TAMBO",
-        "frecuencia": "LUNES-SIN ASIGNAR",
+        "frecuencia": "LUNES",
         "dias": [
             "LUNES"
         ],
@@ -42219,9 +42314,10 @@
         "supervisor": "JENY LAZO",
         "capacitador": "PENDING",
         "responsable": "LIVESPORT",
-        "frecuencia": "MARTES",
+        "frecuencia": "MARTES-JUEVES",
         "dias": [
-            "MARTES"
+            "MARTES",
+            "JUEVES"
         ],
         "meta_diaria": null,
         "direccion": "Jr. Ladislao Espinar 904 - Chimbote",
@@ -42481,7 +42577,7 @@
         "supervisor": "JORGE SANCHEZ",
         "capacitador": "SELEN CASTRO",
         "responsable": "TAMBO",
-        "frecuencia": "LUNES-SIN ASIGNAR",
+        "frecuencia": "LUNES",
         "dias": [
             "LUNES"
         ],
@@ -42561,7 +42657,7 @@
         "supervisor": "JENY LAZO",
         "capacitador": "PENDING",
         "responsable": "TAMBO",
-        "frecuencia": "MIÉRCOLES-SIN ASIGNAR",
+        "frecuencia": "MIÉRCOLES",
         "dias": [
             "MIÉRCOLES"
         ],
@@ -43114,7 +43210,7 @@
         "supervisor": "JORGE SANCHEZ",
         "capacitador": "PENDING",
         "responsable": "TAMBO",
-        "frecuencia": "VIERNES-SIN ASIGNAR",
+        "frecuencia": "VIERNES",
         "dias": [
             "VIERNES"
         ],
@@ -44684,9 +44780,10 @@
         "supervisor": "RODRIGO MARTINEZ",
         "capacitador": "PENDING",
         "responsable": "TAMBO",
-        "frecuencia": "GESTION TELEFONICA",
+        "frecuencia": "SÁBADO-MIÉRCOLES",
         "dias": [
-            "GESTION TELEFONICA"
+            "SÁBADO",
+            "MIÉRCOLES"
         ],
         "meta_diaria": 20.0,
         "direccion": "PUEBLO TRADICIONAL MALA - MZ 27 - LOTE 1 SECTOR 02 / CERCADO DE MALA - REAL - CAÑETE",
@@ -44764,7 +44861,7 @@
         "supervisor": "JORGE SANCHEZ",
         "capacitador": "JOEL VENTURA",
         "responsable": "TAMBO",
-        "frecuencia": "MIÉRCOLES-SIN ASIGNAR",
+        "frecuencia": "MIÉRCOLES",
         "dias": [
             "MIÉRCOLES"
         ],
@@ -44790,7 +44887,7 @@
         "supervisor": "RODRIGO MARTINEZ",
         "capacitador": "BEATRIZ HUAMAN",
         "responsable": "TAMBO",
-        "frecuencia": "JUEVES-SIN ASIGNAR",
+        "frecuencia": "JUEVES",
         "dias": [
             "JUEVES"
         ],
@@ -44816,7 +44913,7 @@
         "supervisor": "JORGE SANCHEZ",
         "capacitador": "RODRIGO BRAVO",
         "responsable": "TAMBO",
-        "frecuencia": "MIÉRCOLES-SIN ASIGNAR",
+        "frecuencia": "MIÉRCOLES",
         "dias": [
             "MIÉRCOLES"
         ],
@@ -44842,7 +44939,7 @@
         "supervisor": "JORGE SANCHEZ",
         "capacitador": "RODRIGO BRAVO",
         "responsable": "TAMBO",
-        "frecuencia": "MARTES-SIN ASIGNAR",
+        "frecuencia": "MARTES",
         "dias": [
             "MARTES"
         ],
@@ -46141,9 +46238,10 @@
         "supervisor": "SIN SUPERVISOR",
         "capacitador": "PENDING",
         "responsable": "TINBET",
-        "frecuencia": "SÁBADO",
+        "frecuencia": "SÁBADO-MIÉRCOLES",
         "dias": [
-            "SÁBADO"
+            "SÁBADO",
+            "MIÉRCOLES"
         ],
         "meta_diaria": null,
         "direccion": "AV. REAL NO. SN",
@@ -46167,8 +46265,9 @@
         "supervisor": "SIN SUPERVISOR",
         "capacitador": "PENDING",
         "responsable": "TINBET",
-        "frecuencia": "LUNES",
+        "frecuencia": "LUNES-JUEVES",
         "dias": [
+            "JUEVES",
             "LUNES"
         ],
         "meta_diaria": null,
@@ -46193,8 +46292,9 @@
         "supervisor": "SIN SUPERVISOR",
         "capacitador": "PENDING",
         "responsable": "TINBET",
-        "frecuencia": "LUNES",
+        "frecuencia": "LUNES-JUEVES",
         "dias": [
+            "JUEVES",
             "LUNES"
         ],
         "meta_diaria": null,
@@ -46245,9 +46345,10 @@
         "supervisor": "IVAN SALCEDO",
         "capacitador": "SELEN CASTRO",
         "responsable": "TINBET",
-        "frecuencia": "SÁBADO",
+        "frecuencia": "SÁBADO-MIÉRCOLES",
         "dias": [
-            "SÁBADO"
+            "SÁBADO",
+            "MIÉRCOLES"
         ],
         "meta_diaria": null,
         "direccion": "AV. ANTISUYO 495 MZ N3 LT 34 - TAHUANTINSUYO",
@@ -46271,8 +46372,9 @@
         "supervisor": "SIN SUPERVISOR",
         "capacitador": "PENDING",
         "responsable": "TINBET",
-        "frecuencia": "LUNES",
+        "frecuencia": "LUNES-JUEVES",
         "dias": [
+            "JUEVES",
             "LUNES"
         ],
         "meta_diaria": null,
@@ -46297,8 +46399,9 @@
         "supervisor": "SIN SUPERVISOR",
         "capacitador": "PENDING",
         "responsable": "TINBET",
-        "frecuencia": "LUNES",
+        "frecuencia": "LUNES-JUEVES",
         "dias": [
+            "JUEVES",
             "LUNES"
         ],
         "meta_diaria": null,
@@ -46323,8 +46426,9 @@
         "supervisor": "SIN SUPERVISOR",
         "capacitador": "PENDING",
         "responsable": "TINBET",
-        "frecuencia": "LUNES",
+        "frecuencia": "LUNES-JUEVES",
         "dias": [
+            "JUEVES",
             "LUNES"
         ],
         "meta_diaria": null,
@@ -46349,8 +46453,9 @@
         "supervisor": "SIN SUPERVISOR",
         "capacitador": "PENDING",
         "responsable": "TINBET",
-        "frecuencia": "LUNES",
+        "frecuencia": "LUNES-JUEVES",
         "dias": [
+            "JUEVES",
             "LUNES"
         ],
         "meta_diaria": null,
@@ -46375,8 +46480,9 @@
         "supervisor": "SIN SUPERVISOR",
         "capacitador": "PENDING",
         "responsable": "TINBET",
-        "frecuencia": "LUNES",
+        "frecuencia": "LUNES-JUEVES",
         "dias": [
+            "JUEVES",
             "LUNES"
         ],
         "meta_diaria": null,
@@ -46401,8 +46507,9 @@
         "supervisor": "SIN SUPERVISOR",
         "capacitador": "PENDING",
         "responsable": "TINBET",
-        "frecuencia": "LUNES",
+        "frecuencia": "LUNES-JUEVES",
         "dias": [
+            "JUEVES",
             "LUNES"
         ],
         "meta_diaria": null,
@@ -46427,8 +46534,9 @@
         "supervisor": "SIN SUPERVISOR",
         "capacitador": "PENDING",
         "responsable": "TINBET",
-        "frecuencia": "LUNES",
+        "frecuencia": "LUNES-JUEVES",
         "dias": [
+            "JUEVES",
             "LUNES"
         ],
         "meta_diaria": null,
@@ -46453,8 +46561,9 @@
         "supervisor": "SIN SUPERVISOR",
         "capacitador": "PENDING",
         "responsable": "TINBET",
-        "frecuencia": "LUNES",
+        "frecuencia": "LUNES-JUEVES",
         "dias": [
+            "JUEVES",
             "LUNES"
         ],
         "meta_diaria": null,
@@ -46479,8 +46588,9 @@
         "supervisor": "SIN SUPERVISOR",
         "capacitador": "PENDING",
         "responsable": "TINBET",
-        "frecuencia": "LUNES",
+        "frecuencia": "LUNES-JUEVES",
         "dias": [
+            "JUEVES",
             "LUNES"
         ],
         "meta_diaria": null,
@@ -46505,8 +46615,9 @@
         "supervisor": "SIN SUPERVISOR",
         "capacitador": "PENDING",
         "responsable": "TINBET",
-        "frecuencia": "LUNES",
+        "frecuencia": "LUNES-JUEVES",
         "dias": [
+            "JUEVES",
             "LUNES"
         ],
         "meta_diaria": null,
@@ -46531,9 +46642,10 @@
         "supervisor": "SIN SUPERVISOR",
         "capacitador": "PENDING",
         "responsable": "TINBET",
-        "frecuencia": "MARTES",
+        "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": null,
         "direccion": "JR. SIMON BOLIVAR 672 MZ. 50 LT. 10",
@@ -46557,8 +46669,9 @@
         "supervisor": "SIN SUPERVISOR",
         "capacitador": "PENDING",
         "responsable": "TINBET",
-        "frecuencia": "LUNES",
+        "frecuencia": "LUNES-JUEVES",
         "dias": [
+            "JUEVES",
             "LUNES"
         ],
         "meta_diaria": null,
@@ -46583,8 +46696,9 @@
         "supervisor": "SIN SUPERVISOR",
         "capacitador": "PENDING",
         "responsable": "TINBET",
-        "frecuencia": "LUNES",
+        "frecuencia": "LUNES-JUEVES",
         "dias": [
+            "JUEVES",
             "LUNES"
         ],
         "meta_diaria": null,
@@ -46609,8 +46723,9 @@
         "supervisor": "SIN SUPERVISOR",
         "capacitador": "PENDING",
         "responsable": "TINBET",
-        "frecuencia": "LUNES",
+        "frecuencia": "LUNES-JUEVES",
         "dias": [
+            "JUEVES",
             "LUNES"
         ],
         "meta_diaria": null,
@@ -46765,9 +46880,10 @@
         "supervisor": "SIN SUPERVISOR",
         "capacitador": "PENDING",
         "responsable": "TINBET",
-        "frecuencia": "MARTES",
+        "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": null,
         "direccion": "CALLE JOSE FRANCISCO BARDALES 640",
@@ -46791,9 +46907,10 @@
         "supervisor": "SIN SUPERVISOR",
         "capacitador": "PENDING",
         "responsable": "TINBET",
-        "frecuencia": "MARTES",
+        "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": null,
         "direccion": "CALLE ZAMORA 501",
@@ -46817,9 +46934,10 @@
         "supervisor": "SIN SUPERVISOR",
         "capacitador": "PENDING",
         "responsable": "TINBET",
-        "frecuencia": "MARTES",
+        "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": null,
         "direccion": "LAS AMERICAS 220",
@@ -46843,9 +46961,10 @@
         "supervisor": "SIN SUPERVISOR",
         "capacitador": "PENDING",
         "responsable": "TINBET",
-        "frecuencia": "MARTES",
+        "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": null,
         "direccion": "CALLE IQUITOS 303",
@@ -46869,9 +46988,10 @@
         "supervisor": "SIN SUPERVISOR",
         "capacitador": "PENDING",
         "responsable": "TINBET",
-        "frecuencia": "MARTES",
+        "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": null,
         "direccion": "CALLE JOSE GÁLVEZ 403",
@@ -46895,9 +47015,10 @@
         "supervisor": "SIN SUPERVISOR",
         "capacitador": "PENDING",
         "responsable": "TINBET",
-        "frecuencia": "MARTES",
+        "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": null,
         "direccion": "CALLE 26 DE JULIO 201",
@@ -46921,9 +47042,10 @@
         "supervisor": "SIN SUPERVISOR",
         "capacitador": "PENDING",
         "responsable": "TINBET",
-        "frecuencia": "MARTES",
+        "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": null,
         "direccion": "CALLE PADRE LUCERO NO. SN",
@@ -46947,8 +47069,9 @@
         "supervisor": "SIN SUPERVISOR",
         "capacitador": "PENDING",
         "responsable": "TINBET",
-        "frecuencia": "LUNES",
+        "frecuencia": "LUNES-JUEVES",
         "dias": [
+            "JUEVES",
             "LUNES"
         ],
         "meta_diaria": null,
@@ -46973,8 +47096,9 @@
         "supervisor": "SIN SUPERVISOR",
         "capacitador": "PENDING",
         "responsable": "TINBET",
-        "frecuencia": "LUNES",
+        "frecuencia": "LUNES-JUEVES",
         "dias": [
+            "JUEVES",
             "LUNES"
         ],
         "meta_diaria": null,
@@ -46999,8 +47123,9 @@
         "supervisor": "SIN SUPERVISOR",
         "capacitador": "PENDING",
         "responsable": "TINBET",
-        "frecuencia": "LUNES",
+        "frecuencia": "LUNES-JUEVES",
         "dias": [
+            "JUEVES",
             "LUNES"
         ],
         "meta_diaria": null,
@@ -47025,8 +47150,9 @@
         "supervisor": "SIN SUPERVISOR",
         "capacitador": "PENDING",
         "responsable": "TINBET",
-        "frecuencia": "LUNES",
+        "frecuencia": "LUNES-JUEVES",
         "dias": [
+            "JUEVES",
             "LUNES"
         ],
         "meta_diaria": null,
@@ -47051,9 +47177,10 @@
         "supervisor": "SIN SUPERVISOR",
         "capacitador": "PENDING",
         "responsable": "TINBET",
-        "frecuencia": "MARTES",
+        "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": null,
         "direccion": "AV. SAN MARTIN NO. SN",
@@ -47077,9 +47204,10 @@
         "supervisor": "SIN SUPERVISOR",
         "capacitador": "PENDING",
         "responsable": "TINBET",
-        "frecuencia": "MARTES",
+        "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": null,
         "direccion": "CALLE PROGRESO SEXTA CUADRA NO. SN LORETO",
@@ -47103,8 +47231,9 @@
         "supervisor": "SIN SUPERVISOR",
         "capacitador": "PENDING",
         "responsable": "TINBET",
-        "frecuencia": "LUNES",
+        "frecuencia": "LUNES-JUEVES",
         "dias": [
+            "JUEVES",
             "LUNES"
         ],
         "meta_diaria": null,
@@ -47155,8 +47284,9 @@
         "supervisor": "SIN SUPERVISOR",
         "capacitador": "PENDING",
         "responsable": "TINBET",
-        "frecuencia": "LUNES",
+        "frecuencia": "LUNES-JUEVES",
         "dias": [
+            "JUEVES",
             "LUNES"
         ],
         "meta_diaria": null,
@@ -47181,8 +47311,9 @@
         "supervisor": "SIN SUPERVISOR",
         "capacitador": "PENDING",
         "responsable": "TINBET",
-        "frecuencia": "LUNES",
+        "frecuencia": "LUNES-JUEVES",
         "dias": [
+            "JUEVES",
             "LUNES"
         ],
         "meta_diaria": null,
@@ -47233,8 +47364,9 @@
         "supervisor": "SIN SUPERVISOR",
         "capacitador": "PENDING",
         "responsable": "TINBET",
-        "frecuencia": "LUNES",
+        "frecuencia": "LUNES-JUEVES",
         "dias": [
+            "JUEVES",
             "LUNES"
         ],
         "meta_diaria": null,
@@ -47259,9 +47391,10 @@
         "supervisor": "SIN SUPERVISOR",
         "capacitador": "PENDING",
         "responsable": "TINBET",
-        "frecuencia": "MARTES",
+        "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": null,
         "direccion": "JR. 08 DE DICIEMBRE 617",
@@ -47285,9 +47418,10 @@
         "supervisor": "SIN SUPERVISOR",
         "capacitador": "PENDING",
         "responsable": "TINBET",
-        "frecuencia": "MARTES",
+        "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": null,
         "direccion": "CALLE RAMON CASTILLA MZ. 17 LT. 13",
@@ -47311,8 +47445,9 @@
         "supervisor": "SIN SUPERVISOR",
         "capacitador": "PENDING",
         "responsable": "TINBET",
-        "frecuencia": "LUNES",
+        "frecuencia": "LUNES-JUEVES",
         "dias": [
+            "JUEVES",
             "LUNES"
         ],
         "meta_diaria": null,
@@ -47337,8 +47472,9 @@
         "supervisor": "SIN SUPERVISOR",
         "capacitador": "PENDING",
         "responsable": "TINBET",
-        "frecuencia": "LUNES",
+        "frecuencia": "LUNES-JUEVES",
         "dias": [
+            "JUEVES",
             "LUNES"
         ],
         "meta_diaria": null,
@@ -47363,9 +47499,10 @@
         "supervisor": "SIN SUPERVISOR",
         "capacitador": "PENDING",
         "responsable": "TINBET",
-        "frecuencia": "MARTES",
+        "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": null,
         "direccion": "CALLE TUPAC AMARU NO. 317",
@@ -47389,8 +47526,9 @@
         "supervisor": "SIN SUPERVISOR",
         "capacitador": "PENDING",
         "responsable": "TINBET",
-        "frecuencia": "LUNES",
+        "frecuencia": "LUNES-JUEVES",
         "dias": [
+            "JUEVES",
             "LUNES"
         ],
         "meta_diaria": null,
@@ -47415,7 +47553,7 @@
         "supervisor": "JENY LAZO",
         "capacitador": "PENDING",
         "responsable": "TINBET",
-        "frecuencia": "SIN ASIGNAR",
+        "frecuencia": "",
         "dias": [
             "SIN RUTA"
         ],
@@ -47441,9 +47579,10 @@
         "supervisor": "SIN SUPERVISOR",
         "capacitador": "PENDING",
         "responsable": "TINBET",
-        "frecuencia": "MARTES",
+        "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": null,
         "direccion": "JR. PERU MZ. 6 LT. 34",
@@ -47467,8 +47606,9 @@
         "supervisor": "SIN SUPERVISOR",
         "capacitador": "PENDING",
         "responsable": "TINBET",
-        "frecuencia": "LUNES",
+        "frecuencia": "LUNES-JUEVES",
         "dias": [
+            "JUEVES",
             "LUNES"
         ],
         "meta_diaria": null,
@@ -47493,8 +47633,9 @@
         "supervisor": "SIN SUPERVISOR",
         "capacitador": "PENDING",
         "responsable": "TINBET",
-        "frecuencia": "LUNES",
+        "frecuencia": "LUNES-JUEVES",
         "dias": [
+            "JUEVES",
             "LUNES"
         ],
         "meta_diaria": null,
@@ -47571,8 +47712,9 @@
         "supervisor": "IVAN SALCEDO",
         "capacitador": "RODRIGO BRAVO",
         "responsable": "ACIERTALA",
-        "frecuencia": "MIÉRCOLES",
+        "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
+            "SÁBADO",
             "MIÉRCOLES"
         ],
         "meta_diaria": null,
@@ -47597,8 +47739,9 @@
         "supervisor": "IVAN SALCEDO",
         "capacitador": "RODRIGO BRAVO",
         "responsable": "ACIERTALA",
-        "frecuencia": "MIÉRCOLES",
+        "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
+            "SÁBADO",
             "MIÉRCOLES"
         ],
         "meta_diaria": null,
@@ -47623,9 +47766,10 @@
         "supervisor": "IVAN SALCEDO",
         "capacitador": "RODRIGO BRAVO",
         "responsable": "ACIERTALA",
-        "frecuencia": "MARTES",
+        "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": null,
         "direccion": "Av Canto Grande 2855, Urb. Canto Bello",
@@ -47649,8 +47793,9 @@
         "supervisor": "IVAN SALCEDO",
         "capacitador": "RODRIGO BRAVO",
         "responsable": "ACIERTALA",
-        "frecuencia": "LUNES",
+        "frecuencia": "LUNES-JUEVES",
         "dias": [
+            "JUEVES",
             "LUNES"
         ],
         "meta_diaria": null,
@@ -47675,9 +47820,10 @@
         "supervisor": "IVAN SALCEDO",
         "capacitador": "RODRIGO BRAVO",
         "responsable": "ACIERTALA",
-        "frecuencia": "MARTES",
+        "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": null,
         "direccion": "Av Los Postes Oeste 384",
@@ -47701,8 +47847,9 @@
         "supervisor": "IVAN SALCEDO",
         "capacitador": "RODRIGO BRAVO",
         "responsable": "ACIERTALA",
-        "frecuencia": "MIÉRCOLES",
+        "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
+            "SÁBADO",
             "MIÉRCOLES"
         ],
         "meta_diaria": null,
@@ -47727,8 +47874,9 @@
         "supervisor": "JORGE SANCHEZ",
         "capacitador": "RAMON RAZURI",
         "responsable": "TAMBO",
-        "frecuencia": "LUNES",
+        "frecuencia": "LUNES-JUEVES",
         "dias": [
+            "JUEVES",
             "LUNES"
         ],
         "meta_diaria": null,
@@ -47753,9 +47901,10 @@
         "supervisor": "JORGE SANCHEZ",
         "capacitador": "SELEN CASTRO",
         "responsable": "TAMBO",
-        "frecuencia": "SÁBADO",
+        "frecuencia": "SÁBADO-MIÉRCOLES",
         "dias": [
-            "SÁBADO"
+            "SÁBADO",
+            "MIÉRCOLES"
         ],
         "meta_diaria": null,
         "direccion": "AVENIDA GERARDO UNGER NRO 735 CDRA. 7 LADO IZQ. LUGAR URB. INGENIERÍA IV ETAPA SAN MARTÍN DE PORRES",
@@ -47779,9 +47928,10 @@
         "supervisor": "JORGE SANCHEZ",
         "capacitador": "SELEN CASTRO",
         "responsable": "TAMBO",
-        "frecuencia": "SÁBADO",
+        "frecuencia": "SÁBADO-MIÉRCOLES",
         "dias": [
-            "SÁBADO"
+            "SÁBADO",
+            "MIÉRCOLES"
         ],
         "meta_diaria": null,
         "direccion": "CA. LAS MAGNOLIAS N° 108-120 MZ D LOTE 04-A / CALLAO",
@@ -47805,9 +47955,10 @@
         "supervisor": "JORGE SANCHEZ",
         "capacitador": "JOEL VENTURA",
         "responsable": "TAMBO",
-        "frecuencia": "SÁBADO",
+        "frecuencia": "SÁBADO-MIÉRCOLES",
         "dias": [
-            "SÁBADO"
+            "SÁBADO",
+            "MIÉRCOLES"
         ],
         "meta_diaria": null,
         "direccion": "AV. TUPAC AMARU N° 3320 MZ. N LT. 010 - COMAS",
@@ -47831,8 +47982,9 @@
         "supervisor": "JORGE SANCHEZ",
         "capacitador": "RAMON RAZURI",
         "responsable": "TAMBO",
-        "frecuencia": "LUNES",
+        "frecuencia": "LUNES-JUEVES",
         "dias": [
+            "JUEVES",
             "LUNES"
         ],
         "meta_diaria": null,
@@ -47857,8 +48009,9 @@
         "supervisor": "JORGE SANCHEZ",
         "capacitador": "RODRIGO BRAVO",
         "responsable": "TAMBO",
-        "frecuencia": "LUNES",
+        "frecuencia": "LUNES-JUEVES",
         "dias": [
+            "JUEVES",
             "LUNES"
         ],
         "meta_diaria": null,
@@ -47883,9 +48036,10 @@
         "supervisor": "RODRIGO MARTINEZ",
         "capacitador": "BEATRIZ HUAMAN",
         "responsable": "TAMBO",
-        "frecuencia": "MARTES",
+        "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": null,
         "direccion": "PI. PACHACAMAC. S/VIRGEN DE LA CANDELARIA MZ. E LT. 01 - VILLA EL SALVADOR",
@@ -47909,9 +48063,10 @@
         "supervisor": "JORGE SANCHEZ",
         "capacitador": "JOEL VENTURA",
         "responsable": "TAMBO",
-        "frecuencia": "SÁBADO",
+        "frecuencia": "SÁBADO-MIÉRCOLES",
         "dias": [
-            "SÁBADO"
+            "SÁBADO",
+            "MIÉRCOLES"
         ],
         "meta_diaria": null,
         "direccion": "AV. CARABAYLLO NRO. 0968, DISTRITO DE COMAS",
@@ -47935,8 +48090,9 @@
         "supervisor": "JORGE SANCHEZ",
         "capacitador": "RODRIGO BRAVO",
         "responsable": "TAMBO",
-        "frecuencia": "VIERNES",
+        "frecuencia": "VIERNES-MARTES",
         "dias": [
+            "MARTES",
             "VIERNES"
         ],
         "meta_diaria": null,
@@ -47961,9 +48117,10 @@
         "supervisor": "JORGE SANCHEZ",
         "capacitador": "JOEL VENTURA",
         "responsable": "TAMBO",
-        "frecuencia": "MARTES",
+        "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": null,
         "direccion": "CONJUNTO HABITACIONAL EDWIN VASQUEZ- MZ. Q LT. 24/90 (AV. CHIMPU OCLLO CUADRA 8) - DISTRITO DE CARABAYLLO, PROVINCIA Y DEPARTAMENTO DE LIMA.",
@@ -47987,9 +48144,10 @@
         "supervisor": "RODRIGO MARTINEZ",
         "capacitador": "JESUS OLIVEROS",
         "responsable": "TAMBO",
-        "frecuencia": "SÁBADO",
+        "frecuencia": "SÁBADO-MIÉRCOLES",
         "dias": [
-            "SÁBADO"
+            "SÁBADO",
+            "MIÉRCOLES"
         ],
         "meta_diaria": null,
         "direccion": "JIRÓN ALDEBARAN N° 594 LC 2, DISTRITO DE SANTIAGO DE SURCO, PROVINCIA Y DEPARTAMENTO DE LIMA",
@@ -48013,9 +48171,10 @@
         "supervisor": "RODRIGO MARTINEZ",
         "capacitador": "BEATRIZ HUAMAN",
         "responsable": "TAMBO",
-        "frecuencia": "MARTES",
+        "frecuencia": "MARTES-VIERNES",
         "dias": [
-            "MARTES"
+            "MARTES",
+            "VIERNES"
         ],
         "meta_diaria": null,
         "direccion": "AV ANGAMOS ESTE 2600 SURQUILLO",
@@ -48039,9 +48198,10 @@
         "supervisor": "JORGE SANCHEZ",
         "capacitador": "RAMON RAZURI",
         "responsable": "TAMBO",
-        "frecuencia": "SÁBADO",
+        "frecuencia": "SÁBADO-MIÉRCOLES",
         "dias": [
-            "SÁBADO"
+            "SÁBADO",
+            "MIÉRCOLES"
         ],
         "meta_diaria": null,
         "direccion": "AVENIDA BRASIL 2007 JESUS MARIA Y JR. ESTADOS UNIDOS N° 108-112 - JESUS MARIA",
@@ -48065,9 +48225,10 @@
         "supervisor": "JORGE SANCHEZ",
         "capacitador": "JOEL VENTURA",
         "responsable": "TAMBO",
-        "frecuencia": "SÁBADO",
+        "frecuencia": "SÁBADO-MIÉRCOLES",
         "dias": [
-            "SÁBADO"
+            "SÁBADO",
+            "MIÉRCOLES"
         ],
         "meta_diaria": null,
         "direccion": "JIRON FRANCISCO ALVARIÑO 803 - MZ A SUB LOTE 9A URB EL RETABLO COMAS",
@@ -48091,9 +48252,10 @@
         "supervisor": "JENY LAZO",
         "capacitador": "PENDING",
         "responsable": "TAMBO",
-        "frecuencia": "MARTES",
+        "frecuencia": "MARTES-JUEVES",
         "dias": [
-            "MARTES"
+            "MARTES",
+            "JUEVES"
         ],
         "meta_diaria": null,
         "direccion": "CALLE PÉREZ FIGUEROLA N° 300-304,MZ.20, SECTOR CERCADO PISCO",
@@ -48117,9 +48279,10 @@
         "supervisor": "JENY LAZO",
         "capacitador": "PENDING",
         "responsable": "TAMBO",
-        "frecuencia": "MARTES",
+        "frecuencia": "MARTES-JUEVES",
         "dias": [
-            "MARTES"
+            "MARTES",
+            "JUEVES"
         ],
         "meta_diaria": null,
         "direccion": "AV. PROLONG. CESAR VALLEJO N° 1394 - URB. ANDRÉS RAZURI, I ETAPA, TRUJILLO",
@@ -48143,8 +48306,9 @@
         "supervisor": "JENY LAZO",
         "capacitador": "PENDING",
         "responsable": "TAMBO",
-        "frecuencia": "LUNES",
+        "frecuencia": "LUNES-JUEVES",
         "dias": [
+            "JUEVES",
             "LUNES"
         ],
         "meta_diaria": null,
@@ -48169,8 +48333,9 @@
         "supervisor": "SIN SUPERVISOR",
         "capacitador": "PENDING",
         "responsable": "TINBET",
-        "frecuencia": "LUNES",
+        "frecuencia": "LUNES-JUEVES",
         "dias": [
+            "JUEVES",
             "LUNES"
         ],
         "meta_diaria": null,
@@ -48195,8 +48360,9 @@
         "supervisor": "IVAN SALCEDO",
         "capacitador": "BEATRIZ HUAMAN",
         "responsable": "TINBET",
-        "frecuencia": "VIERNES",
+        "frecuencia": "VIERNES-MARTES",
         "dias": [
+            "MARTES",
             "VIERNES"
         ],
         "meta_diaria": null,
@@ -48221,9 +48387,10 @@
         "supervisor": "SIN SUPERVISOR",
         "capacitador": "PENDING",
         "responsable": "TINBET",
-        "frecuencia": "JUEVES",
+        "frecuencia": "JUEVES-LUNES",
         "dias": [
-            "JUEVES"
+            "JUEVES",
+            "LUNES"
         ],
         "meta_diaria": null,
         "direccion": "CENTENARIO S/N",
@@ -48247,8 +48414,9 @@
         "supervisor": "JENY LAZO",
         "capacitador": "PENDING",
         "responsable": "TINBET",
-        "frecuencia": "VIERNES",
+        "frecuencia": "VIERNES-MARTES",
         "dias": [
+            "MARTES",
             "VIERNES"
         ],
         "meta_diaria": null,
@@ -48273,8 +48441,9 @@
         "supervisor": "SIN SUPERVISOR",
         "capacitador": "PENDING",
         "responsable": "TINBET",
-        "frecuencia": "VIERNES",
+        "frecuencia": "VIERNES-MARTES",
         "dias": [
+            "MARTES",
             "VIERNES"
         ],
         "meta_diaria": null,
@@ -48299,8 +48468,9 @@
         "supervisor": "SIN SUPERVISOR",
         "capacitador": "PENDING",
         "responsable": "TINBET",
-        "frecuencia": "VIERNES",
+        "frecuencia": "VIERNES-MARTES",
         "dias": [
+            "MARTES",
             "VIERNES"
         ],
         "meta_diaria": null,
@@ -48325,9 +48495,10 @@
         "supervisor": "IVAN SALCEDO",
         "capacitador": "JOEL VENTURA",
         "responsable": "TINBET",
-        "frecuencia": "JUEVES",
+        "frecuencia": "JUEVES-LUNES",
         "dias": [
-            "JUEVES"
+            "JUEVES",
+            "LUNES"
         ],
         "meta_diaria": null,
         "direccion": "MZ. 05 LT. 22 ASENTAMIENTO HUMANO LOS LICENCIADOS",
@@ -48351,9 +48522,10 @@
         "supervisor": "IVAN SALCEDO",
         "capacitador": "JOEL VENTURA",
         "responsable": "TINBET",
-        "frecuencia": "JUEVES",
+        "frecuencia": "JUEVES-LUNES",
         "dias": [
-            "JUEVES"
+            "JUEVES",
+            "LUNES"
         ],
         "meta_diaria": null,
         "direccion": "EX ZONA COMERCIAL E INDUSTRIAL MZ. C7 LT. 14",
@@ -48377,9 +48549,10 @@
         "supervisor": "IVAN SALCEDO",
         "capacitador": "JOEL VENTURA",
         "responsable": "TINBET",
-        "frecuencia": "JUEVES",
+        "frecuencia": "JUEVES-LUNES",
         "dias": [
-            "JUEVES"
+            "JUEVES",
+            "LUNES"
         ],
         "meta_diaria": null,
         "direccion": "AV. LA PLAYA MZ. 05 LT. 22 ASENTAMIENTO HUMANO LOS LICENCIADOS",
@@ -48403,9 +48576,10 @@
         "supervisor": "IVAN SALCEDO",
         "capacitador": "JOEL VENTURA",
         "responsable": "TINBET",
-        "frecuencia": "JUEVES",
+        "frecuencia": "JUEVES-LUNES",
         "dias": [
-            "JUEVES"
+            "JUEVES",
+            "LUNES"
         ],
         "meta_diaria": null,
         "direccion": "MZ. 05 LT. 23 ASENTAMIENTO HUMANO LOS LICENCIADOS",
@@ -48429,9 +48603,10 @@
         "supervisor": "IVAN SALCEDO",
         "capacitador": "JOEL VENTURA",
         "responsable": "TINBET",
-        "frecuencia": "JUEVES",
+        "frecuencia": "JUEVES-LUNES",
         "dias": [
-            "JUEVES"
+            "JUEVES",
+            "LUNES"
         ],
         "meta_diaria": null,
         "direccion": "CALLE RICARDO PALMA NO. 174",
@@ -48455,9 +48630,10 @@
         "supervisor": "IVAN SALCEDO",
         "capacitador": "JOEL VENTURA",
         "responsable": "TINBET",
-        "frecuencia": "JUEVES",
+        "frecuencia": "JUEVES-LUNES",
         "dias": [
-            "JUEVES"
+            "JUEVES",
+            "LUNES"
         ],
         "meta_diaria": null,
         "direccion": "MZ. L LT. 12 SECTOR D PACHACUTEC",
@@ -48481,8 +48657,9 @@
         "supervisor": "IVAN SALCEDO",
         "capacitador": "JESUS OLIVEROS",
         "responsable": "TINBET",
-        "frecuencia": "VIERNES",
+        "frecuencia": "VIERNES-MARTES",
         "dias": [
+            "MARTES",
             "VIERNES"
         ],
         "meta_diaria": null,
@@ -48507,8 +48684,9 @@
         "supervisor": "IVAN SALCEDO",
         "capacitador": "BEATRIZ HUAMAN",
         "responsable": "TINBET",
-        "frecuencia": "VIERNES",
+        "frecuencia": "VIERNES-MARTES",
         "dias": [
+            "MARTES",
             "VIERNES"
         ],
         "meta_diaria": null,
@@ -48533,8 +48711,9 @@
         "supervisor": "IVAN SALCEDO",
         "capacitador": "BEATRIZ HUAMAN",
         "responsable": "TINBET",
-        "frecuencia": "MIÉRCOLES",
+        "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
+            "SÁBADO",
             "MIÉRCOLES"
         ],
         "meta_diaria": null,
@@ -48637,8 +48816,9 @@
         "supervisor": "SIN SUPERVISOR",
         "capacitador": "PENDING",
         "responsable": "TINBET",
-        "frecuencia": "MIÉRCOLES",
+        "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
+            "SÁBADO",
             "MIÉRCOLES"
         ],
         "meta_diaria": null,
@@ -48663,8 +48843,9 @@
         "supervisor": "SIN SUPERVISOR",
         "capacitador": "PENDING",
         "responsable": "TINBET",
-        "frecuencia": "MIÉRCOLES",
+        "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
+            "SÁBADO",
             "MIÉRCOLES"
         ],
         "meta_diaria": null,
@@ -48689,7 +48870,7 @@
         "supervisor": "JENY LAZO",
         "capacitador": "PENDING",
         "responsable": "TINBET",
-        "frecuencia": "SIN ASIGNAR",
+        "frecuencia": "",
         "dias": [
             "SIN RUTA"
         ],
@@ -48715,8 +48896,9 @@
         "supervisor": "SIN SUPERVISOR",
         "capacitador": "PENDING",
         "responsable": "TINBET",
-        "frecuencia": "VIERNES",
+        "frecuencia": "VIERNES-MARTES",
         "dias": [
+            "MARTES",
             "VIERNES"
         ],
         "meta_diaria": null,
@@ -48741,9 +48923,10 @@
         "supervisor": "SIN SUPERVISOR",
         "capacitador": "PENDING",
         "responsable": "TINBET",
-        "frecuencia": "JUEVES",
+        "frecuencia": "JUEVES-LUNES",
         "dias": [
-            "JUEVES"
+            "JUEVES",
+            "LUNES"
         ],
         "meta_diaria": null,
         "direccion": "ASOCIACION 16 DE ABRIL MZ. J LT. 13",
@@ -48767,9 +48950,10 @@
         "supervisor": "SIN SUPERVISOR",
         "capacitador": "PENDING",
         "responsable": "TINBET",
-        "frecuencia": "JUEVES",
+        "frecuencia": "JUEVES-LUNES",
         "dias": [
-            "JUEVES"
+            "JUEVES",
+            "LUNES"
         ],
         "meta_diaria": null,
         "direccion": "JR LIBERTAD 697 A",
@@ -48793,8 +48977,9 @@
         "supervisor": "SIN SUPERVISOR",
         "capacitador": "PENDING",
         "responsable": "TINBET",
-        "frecuencia": "LUNES",
+        "frecuencia": "LUNES-JUEVES",
         "dias": [
+            "JUEVES",
             "LUNES"
         ],
         "meta_diaria": null,
@@ -48871,9 +49056,10 @@
         "supervisor": "JENY LAZO",
         "capacitador": "PENDING",
         "responsable": "TINBET",
-        "frecuencia": "JUEVES",
+        "frecuencia": "JUEVES-LUNES",
         "dias": [
-            "JUEVES"
+            "JUEVES",
+            "LUNES"
         ],
         "meta_diaria": null,
         "direccion": "JR. CAHUIDE MZ W TL 2",
@@ -48897,9 +49083,10 @@
         "supervisor": "IVAN SALCEDO",
         "capacitador": "SELEN CASTRO",
         "responsable": "TINBET",
-        "frecuencia": "JUEVES",
+        "frecuencia": "JUEVES-LUNES",
         "dias": [
-            "JUEVES"
+            "JUEVES",
+            "LUNES"
         ],
         "meta_diaria": null,
         "direccion": "AV. MANCO CAPAC 297 CARMEN DE LA LEGUA REYNOSO - CALLAO",
@@ -48923,8 +49110,9 @@
         "supervisor": "IVAN SALCEDO",
         "capacitador": "BEATRIZ HUAMAN",
         "responsable": "TINBET",
-        "frecuencia": "MIÉRCOLES",
+        "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
+            "SÁBADO",
             "MIÉRCOLES"
         ],
         "meta_diaria": null,
@@ -48949,9 +49137,10 @@
         "supervisor": "SIN SUPERVISOR",
         "capacitador": "PENDING",
         "responsable": "TINBET",
-        "frecuencia": "JUEVES",
+        "frecuencia": "JUEVES-LUNES",
         "dias": [
-            "JUEVES"
+            "JUEVES",
+            "LUNES"
         ],
         "meta_diaria": null,
         "direccion": "AV. HUANCAVELICA N°1340",
@@ -49001,9 +49190,10 @@
         "supervisor": "SIN SUPERVISOR",
         "capacitador": "PENDING",
         "responsable": "TINBET",
-        "frecuencia": "JUEVES",
+        "frecuencia": "JUEVES-LUNES",
         "dias": [
-            "JUEVES"
+            "JUEVES",
+            "LUNES"
         ],
         "meta_diaria": null,
         "direccion": "JR. HUALLAYCO 1746",
@@ -49027,9 +49217,10 @@
         "supervisor": "SIN SUPERVISOR",
         "capacitador": "PENDING",
         "responsable": "TINBET",
-        "frecuencia": "JUEVES",
+        "frecuencia": "JUEVES-LUNES",
         "dias": [
-            "JUEVES"
+            "JUEVES",
+            "LUNES"
         ],
         "meta_diaria": null,
         "direccion": "JR. PROGRESO 090",
@@ -49053,9 +49244,10 @@
         "supervisor": "SIN SUPERVISOR",
         "capacitador": "PENDING",
         "responsable": "TINBET",
-        "frecuencia": "JUEVES",
+        "frecuencia": "JUEVES-LUNES",
         "dias": [
-            "JUEVES"
+            "JUEVES",
+            "LUNES"
         ],
         "meta_diaria": null,
         "direccion": "JR. GENERAL PRADO 211",
@@ -49339,8 +49531,9 @@
         "supervisor": "IVAN SALCEDO",
         "capacitador": "SELEN CASTRO",
         "responsable": "TINBET",
-        "frecuencia": "LUNES",
+        "frecuencia": "LUNES-JUEVES",
         "dias": [
+            "JUEVES",
             "LUNES"
         ],
         "meta_diaria": null,
@@ -49365,8 +49558,9 @@
         "supervisor": "IVAN SALCEDO",
         "capacitador": "JOEL VENTURA",
         "responsable": "TINBET",
-        "frecuencia": "VIERNES",
+        "frecuencia": "VIERNES-MARTES",
         "dias": [
+            "MARTES",
             "VIERNES"
         ],
         "meta_diaria": null,
@@ -49391,8 +49585,9 @@
         "supervisor": "IVAN SALCEDO",
         "capacitador": "JOEL VENTURA",
         "responsable": "TINBET",
-        "frecuencia": "VIERNES",
+        "frecuencia": "VIERNES-MARTES",
         "dias": [
+            "MARTES",
             "VIERNES"
         ],
         "meta_diaria": null,
@@ -49417,8 +49612,9 @@
         "supervisor": "IVAN SALCEDO",
         "capacitador": "JOEL VENTURA",
         "responsable": "TINBET",
-        "frecuencia": "VIERNES",
+        "frecuencia": "VIERNES-MARTES",
         "dias": [
+            "MARTES",
             "VIERNES"
         ],
         "meta_diaria": null,
@@ -49443,8 +49639,9 @@
         "supervisor": "IVAN SALCEDO",
         "capacitador": "JOEL VENTURA",
         "responsable": "TINBET",
-        "frecuencia": "MIÉRCOLES",
+        "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
+            "SÁBADO",
             "MIÉRCOLES"
         ],
         "meta_diaria": null,
@@ -49469,8 +49666,9 @@
         "supervisor": "IVAN SALCEDO",
         "capacitador": "JOEL VENTURA",
         "responsable": "TINBET",
-        "frecuencia": "VIERNES",
+        "frecuencia": "VIERNES-MARTES",
         "dias": [
+            "MARTES",
             "VIERNES"
         ],
         "meta_diaria": null,
@@ -49495,8 +49693,9 @@
         "supervisor": "IVAN SALCEDO",
         "capacitador": "JOEL VENTURA",
         "responsable": "TINBET",
-        "frecuencia": "VIERNES",
+        "frecuencia": "VIERNES-MARTES",
         "dias": [
+            "MARTES",
             "VIERNES"
         ],
         "meta_diaria": null,
@@ -49547,9 +49746,10 @@
         "supervisor": "SIN SUPERVISOR",
         "capacitador": "PENDING",
         "responsable": "TINBET",
-        "frecuencia": "JUEVES",
+        "frecuencia": "JUEVES-LUNES",
         "dias": [
-            "JUEVES"
+            "JUEVES",
+            "LUNES"
         ],
         "meta_diaria": null,
         "direccion": "JR. JORGE CHAVEZ 319",
@@ -49573,9 +49773,10 @@
         "supervisor": "SIN SUPERVISOR",
         "capacitador": "PENDING",
         "responsable": "TINBET",
-        "frecuencia": "JUEVES",
+        "frecuencia": "JUEVES-LUNES",
         "dias": [
-            "JUEVES"
+            "JUEVES",
+            "LUNES"
         ],
         "meta_diaria": null,
         "direccion": "JR. LEONCIO PRADO 246",
@@ -49599,8 +49800,9 @@
         "supervisor": "IVAN SALCEDO",
         "capacitador": "JESUS OLIVEROS",
         "responsable": "TINBET",
-        "frecuencia": "MIÉRCOLES",
+        "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
+            "SÁBADO",
             "MIÉRCOLES"
         ],
         "meta_diaria": null,
@@ -49651,8 +49853,9 @@
         "supervisor": "IVAN SALCEDO",
         "capacitador": "JOEL VENTURA",
         "responsable": "TINBET",
-        "frecuencia": "LUNES",
+        "frecuencia": "LUNES-JUEVES",
         "dias": [
+            "JUEVES",
             "LUNES"
         ],
         "meta_diaria": null,
@@ -49677,9 +49880,10 @@
         "supervisor": "SIN SUPERVISOR",
         "capacitador": "PENDING",
         "responsable": "TINBET",
-        "frecuencia": "JUEVES",
+        "frecuencia": "JUEVES-LUNES",
         "dias": [
-            "JUEVES"
+            "JUEVES",
+            "LUNES"
         ],
         "meta_diaria": null,
         "direccion": "JR. GERVACIO SANTILLANA 662",
@@ -49703,9 +49907,10 @@
         "supervisor": "SIN SUPERVISOR",
         "capacitador": "PENDING",
         "responsable": "TINBET",
-        "frecuencia": "JUEVES",
+        "frecuencia": "JUEVES-LUNES",
         "dias": [
-            "JUEVES"
+            "JUEVES",
+            "LUNES"
         ],
         "meta_diaria": null,
         "direccion": "JR. 9 DE DICIEMBRE N° 610",
@@ -49729,8 +49934,9 @@
         "supervisor": "SIN SUPERVISOR",
         "capacitador": "PENDING",
         "responsable": "TINBET",
-        "frecuencia": "MIÉRCOLES",
+        "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
+            "SÁBADO",
             "MIÉRCOLES"
         ],
         "meta_diaria": null,
@@ -49755,9 +49961,10 @@
         "supervisor": "SIN SUPERVISOR",
         "capacitador": "PENDING",
         "responsable": "TINBET",
-        "frecuencia": "JUEVES",
+        "frecuencia": "JUEVES-LUNES",
         "dias": [
-            "JUEVES"
+            "JUEVES",
+            "LUNES"
         ],
         "meta_diaria": null,
         "direccion": "AV. MANCO CAPAC NO. 105 ASENTAMIENTO HUMANO BELLAVISTA",
@@ -49781,8 +49988,9 @@
         "supervisor": "JENY LAZO",
         "capacitador": "PENDING",
         "responsable": "TINBET",
-        "frecuencia": "LUNES",
+        "frecuencia": "LUNES-SÁBADO",
         "dias": [
+            "SÁBADO",
             "LUNES"
         ],
         "meta_diaria": null,
@@ -49833,8 +50041,9 @@
         "supervisor": "SIN SUPERVISOR",
         "capacitador": "PENDING",
         "responsable": "TINBET",
-        "frecuencia": "MIÉRCOLES",
+        "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
+            "SÁBADO",
             "MIÉRCOLES"
         ],
         "meta_diaria": null,
@@ -49859,9 +50068,10 @@
         "supervisor": "SIN SUPERVISOR",
         "capacitador": "PENDING",
         "responsable": "TINBET",
-        "frecuencia": "JUEVES",
+        "frecuencia": "JUEVES-LUNES",
         "dias": [
-            "JUEVES"
+            "JUEVES",
+            "LUNES"
         ],
         "meta_diaria": null,
         "direccion": "JR. PROGRESO S/N MS G LT 27A",
@@ -49911,8 +50121,9 @@
         "supervisor": "IVAN SALCEDO",
         "capacitador": "BEATRIZ HUAMAN",
         "responsable": "TINBET",
-        "frecuencia": "MIÉRCOLES",
+        "frecuencia": "MIÉRCOLES-SÁBADO",
         "dias": [
+            "SÁBADO",
             "MIÉRCOLES"
         ],
         "meta_diaria": null,
@@ -49937,9 +50148,10 @@
         "supervisor": "IVAN SALCEDO",
         "capacitador": "BEATRIZ HUAMAN",
         "responsable": "TINBET",
-        "frecuencia": "JUEVES",
+        "frecuencia": "JUEVES-LUNES",
         "dias": [
-            "JUEVES"
+            "JUEVES",
+            "LUNES"
         ],
         "meta_diaria": null,
         "direccion": "AV. EL TRIUNFO NO. 501",
