@@ -8,16 +8,13 @@
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --bg:     #080810;
-      --surf:   #10101E;
-      --border: #1E1E35;
-      --text:   #FFFFFF;
-      --muted:  #8888AA;
-      --dim:    #444466;
-      --at-accent:  #E53535;
-      --at-glow:    rgba(229,53,53,.25);
-      --tin-accent: #16A34A;
-      --tin-glow:   rgba(22,163,74,.25);
+      --bg:    #050505;
+      --surf:  #0D0D0D;
+      --surf2: #161616;
+      --border:#242424;
+      --text:  #FFFFFF;
+      --muted: #888888;
+      --dim:   #444444;
     }
 
     body {
@@ -28,40 +25,32 @@
       -webkit-font-smoothing: antialiased;
     }
 
-    /* ── LOADING ─────────────────────────────────────────────── */
+    /* ── LOADING ──────────────────────────────────────── */
     #loading {
       min-height: 100vh;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      gap: 16px;
+      gap: 14px;
     }
-
     .spin {
-      width: 28px; height: 28px;
+      width: 26px; height: 26px;
       border: 2.5px solid var(--border);
       border-top-color: var(--muted);
       border-radius: 50%;
       animation: spin .7s linear infinite;
     }
     @keyframes spin { to { transform: rotate(360deg); } }
+    .loading-msg { font-size: 13px; color: var(--muted); }
 
-    .loading-msg {
-      font-size: 14px;
-      color: var(--muted);
-      text-align: center;
-      max-width: 260px;
-      line-height: 1.5;
-    }
-
-    /* ── PORTAL ──────────────────────────────────────────────── */
+    /* ── PORTAL ───────────────────────────────────────── */
     #portal {
       display: none;
-      min-height: 100vh;
       flex-direction: column;
       align-items: center;
-      padding: 52px 20px 60px;
+      padding: 44px 16px 64px;
+      min-height: 100vh;
     }
 
     .portal-eyebrow {
@@ -70,115 +59,129 @@
       letter-spacing: .2em;
       text-transform: uppercase;
       color: var(--muted);
-      margin-bottom: 10px;
-    }
-
-    .portal-heading {
-      font-size: clamp(26px, 6vw, 34px);
-      font-weight: 800;
-      line-height: 1.15;
-      text-align: center;
       margin-bottom: 8px;
     }
 
+    .portal-heading {
+      font-size: clamp(24px, 6vw, 32px);
+      font-weight: 800;
+      text-align: center;
+      margin-bottom: 6px;
+      text-wrap: balance;
+    }
+
     .portal-sub {
-      font-size: 14px;
+      font-size: 13px;
       color: var(--muted);
       text-align: center;
-      margin-bottom: 44px;
+      margin-bottom: 36px;
       max-width: 300px;
     }
 
-    .brand-grid {
+    /* ── PARTNER GRID ─────────────────────────────────── */
+    .partner-grid {
+      width: 100%;
+      max-width: 520px;
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 16px;
-      width: 100%;
-      max-width: 460px;
+      gap: 12px;
     }
 
-    @media (max-width: 360px) {
-      .brand-grid { grid-template-columns: 1fr; }
-    }
+    @media (max-width: 340px) { .partner-grid { grid-template-columns: 1fr; } }
 
-    /* ── BRAND CARD ──────────────────────────────────────────── */
-    .brand-card {
-      border-radius: 20px;
-      padding: 24px 18px 20px;
+    /* ── PARTNER CARD ─────────────────────────────────── */
+    .pcard {
+      border-radius: 18px;
+      padding: 18px 14px 16px;
       display: flex;
       flex-direction: column;
-      align-items: center;
-      gap: 12px;
-      cursor: pointer;
-      transition: transform .15s, box-shadow .15s;
+      gap: 10px;
       position: relative;
       overflow: hidden;
+      border: 1.5px solid transparent;
+      background: var(--surf);
+      transition: transform .15s, box-shadow .2s;
     }
 
-    .brand-card:hover { transform: translateY(-2px); }
-    .brand-card:active { transform: translateY(0); }
-
-    .brand-card.at {
-      background: linear-gradient(145deg, #1A0808 0%, #0E0808 100%);
-      border: 1.5px solid rgba(229,53,53,.35);
-      box-shadow: 0 0 30px rgba(229,53,53,.1);
+    .pcard.active {
+      border-color: color-mix(in srgb, var(--c) 35%, transparent);
+      background: color-mix(in srgb, var(--c) 6%, var(--surf));
+      cursor: default;
     }
-    .brand-card.at:hover { box-shadow: 0 4px 40px rgba(229,53,53,.25); }
-
-    .brand-card.tin {
-      background: linear-gradient(145deg, #081208 0%, #070F09 100%);
-      border: 1.5px solid rgba(22,163,74,.35);
-      box-shadow: 0 0 30px rgba(22,163,74,.1);
+    .pcard.active:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 30px color-mix(in srgb, var(--c) 20%, transparent);
     }
-    .brand-card.tin:hover { box-shadow: 0 4px 40px rgba(22,163,74,.25); }
 
-    .brand-badge {
-      font-size: 11px;
+    .pcard.soon {
+      border-color: var(--border);
+      opacity: .55;
+    }
+
+    .pcard-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 10px;
       font-weight: 800;
-      letter-spacing: .1em;
-      padding: 4px 12px;
-      border-radius: 20px;
+      letter-spacing: .08em;
       text-transform: uppercase;
+      padding: 3px 10px;
+      border-radius: 20px;
+      width: fit-content;
     }
-    .brand-card.at  .brand-badge { background: var(--at-accent);  color: #fff; }
-    .brand-card.tin .brand-badge { background: var(--tin-accent); color: #fff; }
+    .pcard.active  .pcard-badge { background: var(--c); color: #fff; }
+    .pcard.soon    .pcard-badge { background: var(--border); color: var(--muted); }
 
-    .brand-name {
-      font-size: 15px;
+    .pcard-name {
+      font-size: 14px;
       font-weight: 800;
-      text-align: center;
       line-height: 1.2;
+      color: color-mix(in srgb, var(--c) 70%, #fff);
     }
-    .brand-card.at  .brand-name { color: #FFA0A0; }
-    .brand-card.tin .brand-name { color: #86EFB0; }
+    .pcard.soon .pcard-name { color: var(--muted); }
 
-    /* Search inside card */
+    .soon-pill {
+      display: none;
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--dim);
+      border: 1px solid var(--border);
+      padding: 2px 8px;
+      border-radius: 20px;
+      width: fit-content;
+    }
+    .pcard.soon .soon-pill { display: block; }
+
+    /* Search inside active card */
     .card-search-wrap { width: 100%; position: relative; }
 
     .card-search-input {
       width: 100%;
-      background: rgba(0,0,0,.35);
-      border: 1px solid;
+      background: rgba(0,0,0,.4);
+      border: 1px solid color-mix(in srgb, var(--c) 30%, transparent);
       border-radius: 10px;
-      padding: 10px 12px 10px 36px;
-      font-size: 13px;
+      padding: 9px 10px 9px 32px;
+      font-size: 12px;
       color: var(--text);
       font-family: inherit;
       outline: none;
       transition: border-color .2s, box-shadow .2s;
     }
-    .brand-card.at  .card-search-input { border-color: rgba(229,53,53,.3); }
-    .brand-card.tin .card-search-input { border-color: rgba(22,163,74,.3); }
-    .brand-card.at  .card-search-input:focus { border-color: var(--at-accent);  box-shadow: 0 0 0 3px var(--at-glow); }
-    .brand-card.tin .card-search-input:focus { border-color: var(--tin-accent); box-shadow: 0 0 0 3px var(--tin-glow); }
+    .card-search-input:focus {
+      border-color: var(--c);
+      box-shadow: 0 0 0 3px color-mix(in srgb, var(--c) 20%, transparent);
+    }
     .card-search-input::placeholder { color: var(--dim); }
 
     .card-search-ico {
       position: absolute;
-      left: 10px;
+      left: 9px;
       top: 50%;
       transform: translateY(-50%);
-      font-size: 14px;
+      font-size: 13px;
       color: var(--dim);
       pointer-events: none;
     }
@@ -187,30 +190,31 @@
       position: absolute;
       top: calc(100% + 4px);
       left: 0; right: 0;
-      background: #16161E;
+      background: #111;
       border: 1px solid var(--border);
       border-radius: 10px;
       overflow: hidden;
       z-index: 30;
-      max-height: 220px;
+      max-height: 200px;
       overflow-y: auto;
       display: none;
     }
     .card-ac.open { display: block; }
 
     .card-ac-item {
-      padding: 9px 12px;
+      padding: 8px 12px;
       cursor: pointer;
       border-bottom: 1px solid var(--border);
       transition: background .1s;
     }
     .card-ac-item:last-child { border-bottom: none; }
-    .brand-card.at  .card-ac-item:hover { background: rgba(229,53,53,.12); }
-    .brand-card.tin .card-ac-item:hover { background: rgba(22,163,74,.12); }
+    .card-ac-item:hover {
+      background: color-mix(in srgb, var(--c) 12%, transparent);
+    }
     .card-ac-item .ci-name { font-size: 12px; font-weight: 600; }
     .card-ac-item .ci-meta { font-size: 10px; color: var(--dim); }
 
-    /* ── ERROR STATE ─────────────────────────────────────────── */
+    /* ── ERROR ────────────────────────────────────────── */
     #error-screen {
       display: none;
       min-height: 100vh;
@@ -221,8 +225,7 @@
       text-align: center;
       gap: 12px;
     }
-
-    .err-icon { font-size: 40px; }
+    .err-icon { font-size: 38px; }
     .err-msg  { font-size: 16px; font-weight: 700; }
     .err-sub  { font-size: 13px; color: var(--muted); max-width: 280px; }
     .err-btn  {
@@ -239,9 +242,9 @@
     }
     .err-btn:hover { border-color: var(--muted); color: var(--text); }
 
-    /* ── FOOTER ──────────────────────────────────────────────── */
+    /* ── FOOTER ───────────────────────────────────────── */
     .portal-footer {
-      margin-top: 40px;
+      margin-top: 36px;
       font-size: 11px;
       color: var(--dim);
       text-align: center;
@@ -252,60 +255,50 @@
 </head>
 <body>
 
-<!-- LOADING / REDIRECT -->
 <div id="loading">
   <div class="spin"></div>
   <div class="loading-msg" id="loading-msg">Identificando tienda…</div>
 </div>
 
-<!-- PORTAL (sin ID) -->
 <div id="portal">
   <div class="portal-eyebrow">GeoDor · Mi Progreso</div>
   <h1 class="portal-heading">¿Cómo va tu tienda?</h1>
-  <p class="portal-sub">Busca tu tienda por nombre o código para ver tu progreso del día</p>
+  <p class="portal-sub">Selecciona tu operador y busca tu punto de venta</p>
 
-  <div class="brand-grid">
-    <!-- AT -->
-    <div class="brand-card at">
-      <span class="brand-badge">AT</span>
-      <div class="brand-name">Apuesta Total</div>
-      <div class="card-search-wrap" id="at-wrap">
-        <span class="card-search-ico">🔍</span>
-        <input type="text" class="card-search-input" id="at-input"
-               placeholder="Nombre o código…" autocomplete="off" spellcheck="false"/>
-        <div class="card-ac" id="at-ac"></div>
-      </div>
-    </div>
-
-    <!-- Tinbet -->
-    <div class="brand-card tin">
-      <span class="brand-badge">TIN</span>
-      <div class="brand-name">Tinbet</div>
-      <div class="card-search-wrap" id="tin-wrap">
-        <span class="card-search-ico">🔍</span>
-        <input type="text" class="card-search-input" id="tin-input"
-               placeholder="Nombre o código…" autocomplete="off" spellcheck="false"/>
-        <div class="card-ac" id="tin-ac"></div>
-      </div>
-    </div>
+  <div class="partner-grid" id="partner-grid">
+    <!-- cards generados por JS -->
   </div>
 
   <div class="portal-footer">Desarrollado por <strong>Doriant C. F.</strong> · GeoDor</div>
 </div>
 
-<!-- ERROR -->
 <div id="error-screen">
   <div class="err-icon">🔍</div>
   <div class="err-msg" id="err-msg">Tienda no encontrada</div>
-  <div class="err-sub" id="err-sub">No se encontró una tienda con ese código en el sistema.</div>
+  <div class="err-sub" id="err-sub">No se encontró una tienda con ese código.</div>
   <button class="err-btn" onclick="showPortal()">Buscar manualmente</button>
 </div>
 
 <script>
-  const ROUTE_MAP = {
-    'APUESTA TOTAL': 'bonus_at.html',
-    'TINBET':        'bonus_tinbet.html',
-  };
+  // ── Configuración de partners ──────────────────────────
+  const PARTNERS = [
+    { key: 'APUESTA TOTAL', label: 'Apuesta Total', short: 'AT',     color: '#E53535', page: 'bonus_at.html',       active: true  },
+    { key: 'TINBET',        label: 'Tinbet',         short: 'TIN',    color: '#16A34A', page: 'bonus_tinbet.html',   active: true  },
+    { key: 'LIVESPORT',     label: 'Livesport',      short: 'LIVE',   color: '#2563EB', page: 'bonus_livesport.html',active: false },
+    { key: 'RETABET',       label: 'Retabet',         short: 'RET',    color: '#7C3AED', page: 'bonus_retabet.html',  active: false },
+    { key: 'DORADOBET',     label: 'Doradobet',       short: 'DOR',    color: '#D97706', page: null,                  active: false },
+    { key: 'ACIERTALA',     label: 'Aciertala',       short: 'ACT',    color: '#0891B2', page: null,                  active: false },
+    { key: 'LOTOBOLA',      label: 'Lotobola',         short: 'LOTO',   color: '#DB2777', page: null,                  active: false },
+    { key: 'TAMBO',         label: 'Tambo',            short: 'TMB',    color: '#DC2626', page: null,                  active: false },
+    { key: 'CENCOSUD',      label: 'Cencosud',         short: 'CEN',    color: '#0369A1', page: null,                  active: false },
+    { key: 'AUR BODEGA',    label: 'Aur Bodega',       short: 'AUR',    color: '#65A30D', page: null,                  active: false },
+    { key: 'FRANCO',        label: 'Franco',           short: 'FRA',    color: '#B45309', page: null,                  active: false },
+    { key: 'JS BODEGA',     label: 'JS Bodega',        short: 'JS',     color: '#6D28D9', page: null,                  active: false },
+    { key: 'MCG BODEGA',    label: 'MCG Bodega',       short: 'MCG',    color: '#0F766E', page: null,                  active: false },
+  ];
+
+  const PARTNER_MAP = {};
+  PARTNERS.forEach(p => { PARTNER_MAP[p.key] = p; });
 
   let allStores = [];
 
@@ -317,23 +310,22 @@
   }
 
   function redirect(store) {
-    const partner = (store.responsable || '').toUpperCase().trim();
-    const dest = ROUTE_MAP[partner];
-    if (dest) {
-      window.location.replace(dest + '?id=' + store.ID);
+    const pkey = (store.responsable || '').toUpperCase().trim();
+    const cfg  = PARTNER_MAP[pkey];
+    if (cfg && cfg.active && cfg.page) {
+      window.location.replace(cfg.page + '?id=' + store.ID);
+    } else if (cfg && !cfg.active) {
+      showError('Página en desarrollo', `El módulo de progreso para ${cfg.label} estará disponible próximamente.`);
     } else {
-      showError(
-        'Partner no reconocido',
-        `La tienda "${store.nombre}" tiene el partner "${store.responsable}", que aún no tiene página de progreso configurada.`
-      );
+      showError('Partner no reconocido', `La tienda "${store.nombre}" tiene el operador "${store.responsable}" que aún no está configurado.`);
     }
   }
 
   function showError(msg, sub) {
-    document.getElementById('loading').style.display = 'none';
-    document.getElementById('portal').style.display  = 'none';
-    document.getElementById('err-msg').textContent   = msg;
-    document.getElementById('err-sub').textContent   = sub;
+    document.getElementById('loading').style.display      = 'none';
+    document.getElementById('portal').style.display       = 'none';
+    document.getElementById('err-msg').textContent        = msg;
+    document.getElementById('err-sub').textContent        = sub;
     document.getElementById('error-screen').style.display = 'flex';
   }
 
@@ -343,70 +335,112 @@
     document.getElementById('portal').style.display       = 'flex';
   }
 
-  function setupSearch(inputId, acId, partner, destPage) {
-    const input = document.getElementById(inputId);
-    const ac    = document.getElementById(acId);
-    const stores = allStores.filter(p =>
-      (p.responsable || '').toUpperCase().trim() === partner &&
-      (p.estado || '').toUpperCase() !== 'INACTIVO'
-    );
+  function buildCard(cfg, stores) {
+    const card = document.createElement('div');
+    card.className = 'pcard ' + (cfg.active ? 'active' : 'soon');
+    card.style.setProperty('--c', cfg.color);
 
-    input.addEventListener('input', () => {
-      const q = input.value.trim().toLowerCase();
-      if (q.length < 2) { ac.classList.remove('open'); return; }
-      const hits = stores.filter(p =>
-        p.nombre.toLowerCase().includes(q) || String(p.ID).includes(q)
-      ).slice(0, 8);
-      if (!hits.length) { ac.classList.remove('open'); return; }
-      ac.innerHTML = hits.map(p => `
-        <div class="card-ac-item" data-id="${p.ID}">
-          <div class="ci-name">${p.nombre}</div>
-          <div class="ci-meta">${p.ID}${p.zona ? ' · ' + p.zona : ''}${p.distrito ? ' · ' + p.distrito : ''}</div>
-        </div>`).join('');
-      ac.classList.add('open');
-      ac.querySelectorAll('.card-ac-item').forEach(el => {
-        el.addEventListener('click', () => {
-          window.location.href = destPage + '?id=' + el.dataset.id;
+    const badgeEl = document.createElement('div');
+    badgeEl.className = 'pcard-badge';
+    badgeEl.textContent = cfg.short;
+
+    const nameEl = document.createElement('div');
+    nameEl.className = 'pcard-name';
+    nameEl.textContent = cfg.label;
+
+    card.appendChild(badgeEl);
+    card.appendChild(nameEl);
+
+    if (cfg.active) {
+      const wrap  = document.createElement('div');
+      wrap.className = 'card-search-wrap';
+
+      const ico = document.createElement('span');
+      ico.className = 'card-search-ico';
+      ico.textContent = '🔍';
+
+      const input = document.createElement('input');
+      input.type = 'text';
+      input.className = 'card-search-input';
+      input.placeholder = 'Nombre o código…';
+      input.autocomplete = 'off';
+      input.spellcheck = false;
+
+      const ac = document.createElement('div');
+      ac.className = 'card-ac';
+
+      wrap.appendChild(ico);
+      wrap.appendChild(input);
+      wrap.appendChild(ac);
+      card.appendChild(wrap);
+
+      input.addEventListener('input', () => {
+        const q = input.value.trim().toLowerCase();
+        if (q.length < 2) { ac.classList.remove('open'); return; }
+        const hits = stores.filter(p =>
+          p.nombre.toLowerCase().includes(q) || String(p.ID).includes(q)
+        ).slice(0, 8);
+        if (!hits.length) { ac.classList.remove('open'); return; }
+        ac.innerHTML = hits.map(p => `
+          <div class="card-ac-item" data-id="${p.ID}" style="--c:${cfg.color}">
+            <div class="ci-name">${p.nombre}</div>
+            <div class="ci-meta">${p.ID}${p.zona ? ' · ' + p.zona : ''}${p.distrito ? ' · ' + p.distrito : ''}</div>
+          </div>`).join('');
+        ac.classList.add('open');
+        ac.querySelectorAll('.card-ac-item').forEach(el => {
+          el.addEventListener('click', () => {
+            window.location.href = cfg.page + '?id=' + el.dataset.id;
+          });
         });
       });
-    });
 
-    document.addEventListener('click', e => {
-      if (!e.target.closest('#' + inputId.replace('-input', '-wrap'))) ac.classList.remove('open');
-    });
+      document.addEventListener('click', e => {
+        if (!e.target.closest('.card-search-wrap')) ac.classList.remove('open');
+      });
+
+    } else {
+      const pill = document.createElement('div');
+      pill.className = 'soon-pill';
+      pill.textContent = 'Próximamente';
+      card.appendChild(pill);
+    }
+
+    return card;
   }
 
   async function init() {
     try {
-      const params  = new URLSearchParams(location.search);
-      const idParam = params.get('id') || params.get('tienda') || params.get('codigo');
-
       const puntosData = await loadJSON('data/puntos.json');
       allStores = Array.isArray(puntosData) ? puntosData : [];
+
+      const params  = new URLSearchParams(location.search);
+      const idParam = params.get('id') || params.get('tienda') || params.get('codigo');
 
       if (idParam) {
         document.getElementById('loading-msg').textContent = 'Buscando código ' + idParam + '…';
         const store = allStores.find(p => String(p.ID) === String(idParam));
-        if (store) {
-          redirect(store);
-        } else {
-          showError(
-            'Código no encontrado',
-            `No existe ninguna tienda con el código "${idParam}" en el sistema.`
-          );
+        if (store) { redirect(store); }
+        else {
+          showError('Código no encontrado', `No existe ninguna tienda con el código "${idParam}".`);
         }
         return;
       }
 
-      // No ID — show portal
-      setupSearch('at-input',  'at-ac',  'APUESTA TOTAL', 'bonus_at.html');
-      setupSearch('tin-input', 'tin-ac', 'TINBET',        'bonus_tinbet.html');
+      // Sin ID → mostrar portal
+      const grid = document.getElementById('partner-grid');
+      PARTNERS.forEach(cfg => {
+        const stores = allStores.filter(p =>
+          (p.responsable || '').toUpperCase().trim() === cfg.key &&
+          (p.estado || '').toUpperCase() !== 'INACTIVO'
+        );
+        grid.appendChild(buildCard(cfg, stores));
+      });
+
       showPortal();
 
     } catch(e) {
-      document.getElementById('loading').style.display = 'none';
       document.getElementById('loading').innerHTML =
-        '<div style="color:#F04444;font-size:13px;text-align:center;padding:20px">Error al cargar datos:<br>' + e.message + '</div>';
+        `<div style="color:#F04444;font-size:13px;text-align:center;padding:20px">Error al cargar datos:<br>${e.message}</div>`;
       document.getElementById('loading').style.display = 'flex';
     }
   }
