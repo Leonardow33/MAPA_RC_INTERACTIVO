@@ -383,6 +383,8 @@
       border: 1px solid var(--border);
       border-radius: 16px;
       padding: 16px 14px;
+      position: relative;
+      overflow: hidden;
     }
 
     .card-title {
@@ -465,6 +467,8 @@
       border: 1px solid var(--border);
       border-radius: 16px;
       padding: 16px 14px 14px;
+      position: relative;
+      overflow: hidden;
     }
 
     .week-chart {
@@ -711,6 +715,8 @@
 
     <!-- Progreso mensual -->
     <div class="ring-card" id="ring-card">
+      <img src="sources/logos-games/suerte-1.png" aria-hidden="true"
+           style="position:absolute;width:88px;bottom:-8px;left:-6px;transform:rotate(-10deg);opacity:.22;pointer-events:none;">
       <div class="ring-card-glow" id="ring-glow"></div>
       <div class="ring-period-label">PROGRESO DEL MES</div>
       <div class="ring-wrap">
@@ -741,6 +747,8 @@
 
     <!-- Games breakdown -->
     <div class="games-card">
+      <img src="sources/logos-games/suerte-3.png" aria-hidden="true"
+           style="position:absolute;width:72px;bottom:-6px;right:-4px;transform:rotate(9deg);opacity:.2;pointer-events:none;">
       <div class="card-title">Desglose por juego · este mes</div>
       <div class="game-row">
         <div class="gr-name"><img src="sources/logos-games/pozopower.png" class="gr-logo" alt="">PozoPower</div>
@@ -765,28 +773,18 @@
 
     <!-- Weekly evolution chart -->
     <div class="week-card">
+      <img src="sources/logos-games/suerte-4.png" aria-hidden="true"
+           style="position:absolute;width:62px;top:-4px;right:-2px;transform:rotate(14deg);opacity:.18;pointer-events:none;">
       <div class="card-title">Evolución · semana en curso</div>
       <div class="week-chart" id="week-chart"></div>
       <div class="wc-tooltip" id="wc-tooltip" style="display:none"></div>
     </div>
 
-    <!-- Promo: video con llamitas en esquinas vacías (solo móvil) -->
+    <!-- Promo: video limpio (solo móvil) -->
     <div class="promo-card">
       <video autoplay muted loop playsinline class="promo-video">
         <source src="sources/logos-games/WhatsApp%20Video%202026-07-06%20at%202.57.39%20PM.mp4" type="video/mp4">
       </video>
-      <!-- esquina inferior-izquierda -->
-      <img src="sources/logos-games/suerte-2.png" class="promo-llama"
-           style="width:74px;bottom:6px;left:4px;transform:rotate(-8deg);" alt="">
-      <!-- esquina inferior-derecha -->
-      <img src="sources/logos-games/suerte-4.png" class="promo-llama"
-           style="width:62px;bottom:4px;right:6px;transform:rotate(7deg);" alt="">
-      <!-- esquina superior-izquierda -->
-      <img src="sources/logos-games/suerte-3.png" class="promo-llama"
-           style="width:48px;top:8px;left:10px;transform:rotate(-14deg);opacity:.9;" alt="">
-      <!-- esquina superior-derecha -->
-      <img src="sources/logos-games/suerte-1.png" class="promo-llama"
-           style="width:44px;top:6px;right:8px;transform:rotate(18deg);opacity:.85;" alt="">
     </div>
   </div>
 </div>
