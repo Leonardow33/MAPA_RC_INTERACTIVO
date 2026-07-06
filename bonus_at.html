@@ -8,21 +8,21 @@
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --bg:       #0E0808;
-      --surf:     #1D0E0E;
-      --surf2:    #2A1212;
-      --border:   #521A1A;
+      --bg:       #050505;
+      --surf:     #0D0D0D;
+      --surf2:    #161616;
+      --border:   #242424;
       --text:     #FFFFFF;
-      --muted:    #C07878;
-      --dim:      #7A3A3A;
+      --muted:    #888888;
+      --dim:      #444444;
       --accent:   #E53535;
       --accent-d: #B91C1C;
       --glow:     rgba(229,53,53,.3);
       --green:    #10D98A;
       --amber:    #F59E0B;
       --red:      #F04444;
-      --rose:     #F9A8D4;
-      --rose-soft: rgba(249,168,212,.14);
+      --rose:     rgba(255,255,255,.5);
+      --rose-soft: rgba(255,255,255,.04);
     }
 
     body {
@@ -133,7 +133,7 @@
     .ac-item:last-child { border-bottom: none; }
     .ac-item:hover, .ac-item.focused { background: rgba(229,53,53,.12); }
     .ac-item .ac-name { font-size: 13px; font-weight: 600; }
-    .ac-item .ac-meta { font-size: 11px; color: rgba(244,114,182,.55); }
+    .ac-item .ac-meta { font-size: 11px; color: rgba(255,255,255,.35); }
 
     .ss-hint {
       margin-top: 28px;
@@ -147,7 +147,7 @@
 
     .dash-nav {
       background: var(--surf);
-      border-top: 2px solid var(--rose);
+      border-top: 2px solid var(--accent);
       border-bottom: 1px solid var(--border);
       padding: 12px 16px;
       display: flex;
@@ -170,7 +170,7 @@
       transition: color .15s, border-color .15s;
       flex-shrink: 0;
     }
-    .back-btn:hover { color: var(--rose); border-color: rgba(244,114,182,.4); }
+    .back-btn:hover { color: var(--text); border-color: rgba(255,255,255,.25); }
 
     .nav-store { flex: 1; overflow: hidden; }
     .nav-store .ns-name {
@@ -180,7 +180,7 @@
       overflow: hidden;
       text-overflow: ellipsis;
     }
-    .nav-store .ns-id { font-size: 11px; color: rgba(244,114,182,.6); }
+    .nav-store .ns-id { font-size: 11px; color: rgba(255,255,255,.4); }
 
     .nav-badge {
       background: var(--accent);
@@ -335,8 +335,8 @@
     }
 
     .period-card--primary {
-      border-color: rgba(244,114,182,.3);
-      background: linear-gradient(135deg, rgba(244,114,182,.08) 0%, var(--surf) 60%);
+      border-color: rgba(229,53,53,.25);
+      background: linear-gradient(135deg, rgba(229,53,53,.07) 0%, var(--surf) 60%);
     }
 
     .pc-label {
@@ -501,7 +501,7 @@
       flex-shrink: 0;
     }
 
-    .wc-col--today .wc-day  { color: var(--rose); }
+    .wc-col--today .wc-day  { color: var(--accent); }
     .wc-col--today .wc-bar  { box-shadow: 0 0 8px rgba(229,53,53,.45); }
 
     /* ── NO-META STATE ──────────────────────────────────────── */
@@ -547,8 +547,7 @@
       pointer-events: none;
       z-index: 1;
     }
-    .suerte-side.left  { right: calc(50% + 246px); }
-    .suerte-side.right { left:  calc(50% + 246px); }
+    .suerte-side.left { right: calc(50% + 246px); }
     .suerte-deco-img {
       width: 80px;
       height: 80px;
@@ -559,6 +558,27 @@
     }
     .suerte-deco-img:hover { opacity: .8; pointer-events: auto; }
     @media (max-width: 700px) { .suerte-side { display: none; } }
+
+    /* ── VIDEO SIDE ─────────────────────────────────────── */
+    .video-side {
+      position: fixed;
+      left: calc(50% + 246px);
+      top: 50%;
+      transform: translateY(-50%);
+      width: 220px;
+      z-index: 1;
+      pointer-events: none;
+    }
+    .video-side video {
+      width: 100%;
+      display: block;
+      border-radius: 18px;
+      box-shadow:
+        0 0 0 1px rgba(229,53,53,.2),
+        0 8px 40px rgba(0,0,0,.7),
+        0 0 60px rgba(229,53,53,.15);
+    }
+    @media (max-width: 900px) { .video-side { display: none; } }
 
     @media (prefers-reduced-motion: reduce) {
       .ring-fill, .pbar-fill, .gr-fill { transition: none; }
@@ -689,14 +709,17 @@
   </div>
 </div>
 
-<!-- Llamitas Suerte: decoración en los lados vacíos (desktop) -->
+<!-- Llamitas Suerte: lado izquierdo (desktop) -->
 <div class="suerte-side left">
   <img src="sources/logos-games/suerte-1.png" class="suerte-deco-img" alt="">
   <img src="sources/logos-games/suerte-3.png" class="suerte-deco-img" alt="">
 </div>
-<div class="suerte-side right">
-  <img src="sources/logos-games/suerte-2.png" class="suerte-deco-img" alt="">
-  <img src="sources/logos-games/suerte-4.png" class="suerte-deco-img" alt="">
+
+<!-- Video promo: lado derecho (desktop) -->
+<div class="video-side">
+  <video autoplay muted loop playsinline>
+    <source src="sources/logos-games/WhatsApp%20Video%202026-07-06%20at%202.57.39%20PM.mp4" type="video/mp4">
+  </video>
 </div>
 
 <script>
