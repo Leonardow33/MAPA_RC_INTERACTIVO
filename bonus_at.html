@@ -511,6 +511,31 @@
     }
     @keyframes spin { to { transform: rotate(360deg); } }
 
+    /* ── SUERTE SIDE DECO ───────────────────────────────── */
+    .suerte-side {
+      position: fixed;
+      top: 50%;
+      transform: translateY(-50%);
+      display: flex;
+      flex-direction: column;
+      gap: 28px;
+      align-items: center;
+      pointer-events: none;
+      z-index: 1;
+    }
+    .suerte-side.left  { right: calc(50% + 246px); }
+    .suerte-side.right { left:  calc(50% + 246px); }
+    .suerte-deco-img {
+      width: 80px;
+      height: 80px;
+      object-fit: contain;
+      opacity: .45;
+      filter: drop-shadow(0 2px 14px rgba(236,72,153,.45));
+      transition: opacity .3s;
+    }
+    .suerte-deco-img:hover { opacity: .8; pointer-events: auto; }
+    @media (max-width: 700px) { .suerte-side { display: none; } }
+
     @media (prefers-reduced-motion: reduce) {
       .ring-fill, .pbar-fill, .gr-fill { transition: none; }
       .spin { animation: none; }
@@ -621,26 +646,6 @@
         <div class="gr-bar"><div class="gr-fill" id="ld-bar" style="background:#3B9EE8"></div></div>
         <div class="gr-val" id="ld-val">S/ 0</div>
       </div>
-      <div class="game-row">
-        <div class="gr-name"><img src="sources/logos-games/suerte-1.png" class="gr-logo" alt="">Suerte 1</div>
-        <div class="gr-bar"><div class="gr-fill" id="s1-bar" style="background:#F59E0B"></div></div>
-        <div class="gr-val" id="s1-val">S/ 0</div>
-      </div>
-      <div class="game-row">
-        <div class="gr-name"><img src="sources/logos-games/suerte-2.png" class="gr-logo" alt="">Suerte 2</div>
-        <div class="gr-bar"><div class="gr-fill" id="s2-bar" style="background:#8B5CF6"></div></div>
-        <div class="gr-val" id="s2-val">S/ 0</div>
-      </div>
-      <div class="game-row">
-        <div class="gr-name"><img src="sources/logos-games/suerte-3.png" class="gr-logo" alt="">Suerte 3</div>
-        <div class="gr-bar"><div class="gr-fill" id="s3-bar" style="background:#EC4899"></div></div>
-        <div class="gr-val" id="s3-val">S/ 0</div>
-      </div>
-      <div class="game-row">
-        <div class="gr-name"><img src="sources/logos-games/suerte-4.png" class="gr-logo" alt="">Suerte 4</div>
-        <div class="gr-bar"><div class="gr-fill" id="s4-bar" style="background:#10B981"></div></div>
-        <div class="gr-val" id="s4-val">S/ 0</div>
-      </div>
     </div>
 
     <!-- Motivational -->
@@ -662,12 +667,18 @@
   </div>
 </div>
 
+<!-- Llamitas Suerte: decoración en los lados vacíos (desktop) -->
+<div class="suerte-side left">
+  <img src="sources/logos-games/suerte-1.png" class="suerte-deco-img" alt="">
+  <img src="sources/logos-games/suerte-3.png" class="suerte-deco-img" alt="">
+</div>
+<div class="suerte-side right">
+  <img src="sources/logos-games/suerte-2.png" class="suerte-deco-img" alt="">
+  <img src="sources/logos-games/suerte-4.png" class="suerte-deco-img" alt="">
+</div>
+
 <script>
   const PARTNER = 'APUESTA TOTAL';
-
-  // Nombres de tipo_juego para juegos Suerte en el BI
-  // Ajustar si el BI usa nombres diferentes (ej. 'SUERTE1', 'Suerte Millones', etc.)
-  const SUERTE_TIPOS = ['Suerte 1', 'Suerte 2', 'Suerte 3', 'Suerte 4'];
 
   const DIA_JS = {
     'LUNES':1,'MARTES':2,'MIÉRCOLES':3,'MIERCOLES':3,
@@ -836,7 +847,6 @@
     // Aggregate ventas for this store
     const id       = String(store.ID);
     let totHoy = 0, totSem = 0, totMes = 0, ppMes = 0, ldMes = 0;
-    const suerteMes = [0, 0, 0, 0];
 
     allVentas.forEach(v => {
       if (String(v.org_code) !== id || !v.fecha) return;
@@ -850,9 +860,6 @@
       }
       if (tj === 'PozoPower' && f >= mesIni && f <= mesFin) ppMes += amt;
       if (tj === 'LakiDey'   && f >= mesIni && f <= mesFin) ldMes += amt;
-      SUERTE_TIPOS.forEach((tipo, i) => {
-        if (tj === tipo && f >= mesIni && f <= mesFin) suerteMes[i] += amt;
-      });
     });
 
     // Metas
@@ -912,16 +919,11 @@
     setBar(document.getElementById('sem-bar'), pctSem || 0, semCol);
 
     // Games
-    const maxGame = Math.max(ppMes, ldMes, ...suerteMes, 1);
+    const maxGame = Math.max(ppMes, ldMes, 1);
     document.getElementById('pp-val').textContent = fmtS(ppMes);
     document.getElementById('ld-val').textContent = fmtS(ldMes);
     setBar(document.getElementById('pp-bar'), ppMes / maxGame * 100, 'var(--accent)');
     setBar(document.getElementById('ld-bar'), ldMes / maxGame * 100, '#3B9EE8');
-    const sColors = ['#F59E0B', '#8B5CF6', '#EC4899', '#10B981'];
-    suerteMes.forEach((v, i) => {
-      document.getElementById(`s${i+1}-val`).textContent = fmtS(v);
-      setBar(document.getElementById(`s${i+1}-bar`), v / maxGame * 100, sColors[i]);
-    });
 
     // Motivation
     const m = motivation(pctMes);
