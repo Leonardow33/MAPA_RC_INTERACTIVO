@@ -575,32 +575,24 @@
 
     /* ── PROMO CARD (solo móvil) ────────────────────────── */
     .promo-card {
-      background: var(--surf);
       border: 1px solid var(--border);
       border-radius: 20px;
       overflow: hidden;
+      position: relative;
     }
 
     .promo-video {
       width: 100%;
       display: block;
-      max-height: 260px;
+      max-height: 280px;
       object-fit: cover;
     }
 
-    .promo-llamitas {
-      display: flex;
-      justify-content: space-around;
-      align-items: center;
-      padding: 14px 16px;
-      background: var(--surf2);
-    }
-
     .promo-llama {
-      width: 66px;
-      height: 66px;
+      position: absolute;
       object-fit: contain;
-      filter: drop-shadow(0 2px 10px rgba(236,72,153,.45));
+      pointer-events: none;
+      filter: drop-shadow(0 3px 10px rgba(0,0,0,.55));
     }
 
     @media (min-width: 901px) { .promo-card { display: none; } }
@@ -778,17 +770,23 @@
       <div class="wc-tooltip" id="wc-tooltip" style="display:none"></div>
     </div>
 
-    <!-- Promo: video + llamitas (solo móvil) -->
+    <!-- Promo: video con llamitas en esquinas vacías (solo móvil) -->
     <div class="promo-card">
       <video autoplay muted loop playsinline class="promo-video">
         <source src="sources/logos-games/WhatsApp%20Video%202026-07-06%20at%202.57.39%20PM.mp4" type="video/mp4">
       </video>
-      <div class="promo-llamitas">
-        <img src="sources/logos-games/suerte-1.png" class="promo-llama" alt="">
-        <img src="sources/logos-games/suerte-2.png" class="promo-llama" alt="">
-        <img src="sources/logos-games/suerte-3.png" class="promo-llama" alt="">
-        <img src="sources/logos-games/suerte-4.png" class="promo-llama" alt="">
-      </div>
+      <!-- esquina inferior-izquierda -->
+      <img src="sources/logos-games/suerte-2.png" class="promo-llama"
+           style="width:74px;bottom:6px;left:4px;transform:rotate(-8deg);" alt="">
+      <!-- esquina inferior-derecha -->
+      <img src="sources/logos-games/suerte-4.png" class="promo-llama"
+           style="width:62px;bottom:4px;right:6px;transform:rotate(7deg);" alt="">
+      <!-- esquina superior-izquierda -->
+      <img src="sources/logos-games/suerte-3.png" class="promo-llama"
+           style="width:48px;top:8px;left:10px;transform:rotate(-14deg);opacity:.9;" alt="">
+      <!-- esquina superior-derecha -->
+      <img src="sources/logos-games/suerte-1.png" class="promo-llama"
+           style="width:44px;top:6px;right:8px;transform:rotate(18deg);opacity:.85;" alt="">
     </div>
   </div>
 </div>
