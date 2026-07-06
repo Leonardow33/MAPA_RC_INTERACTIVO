@@ -15,12 +15,12 @@
         "responsable": "LOTOBOLA",
         "frecuencia": "LUNES-MARTES-MIÉRCOLES-JUEVES-VIERNES-SÁBADO",
         "dias": [
-            "VIERNES",
-            "LUNES",
+            "SÁBADO",
             "MARTES",
             "JUEVES",
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "VIERNES",
+            "LUNES"
         ],
         "meta_diaria": null,
         "direccion": "Av. Santo Toribio 143, San Isidro 15073",
@@ -2472,8 +2472,8 @@
         "responsable": "TAMBO",
         "frecuencia": "VIERNES -SÁBADO",
         "dias": [
-            "VIERNES",
-            "SÁBADO"
+            "SÁBADO",
+            "VIERNES"
         ],
         "meta_diaria": 20.0,
         "direccion": "AV. HÚSARES DE JUNÍN N° 1210, URBANIZACIÓN III ETAPA, DISTRITO Y PROVINCIA DE TRUJILLO, DEPARTAMENTO DE LA LIBERTAD",
@@ -12324,8 +12324,8 @@
         "responsable": "TAMBO",
         "frecuencia": "VIERNES-SÁBADO",
         "dias": [
-            "VIERNES",
-            "SÁBADO"
+            "SÁBADO",
+            "VIERNES"
         ],
         "meta_diaria": 20.0,
         "direccion": "AV. LOS ANGELES MZ. C, LT. 44, URB. LAS HORTENCIAS DE CALIFORNIA, DISTRITO DE VÍCTOR LARCO HERRERA, PROVINCIA DE TRUJILLO, DEPARTAMENTO DE LA LIBERTAD",
@@ -21772,12 +21772,12 @@
         "responsable": "JS BODEGA",
         "frecuencia": "LUNES-MARTES-MIÉRCOLES-JUEVES-VIERNES-SÁBADO",
         "dias": [
-            "VIERNES",
-            "LUNES",
+            "SÁBADO",
             "MARTES",
             "JUEVES",
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "VIERNES",
+            "LUNES"
         ],
         "meta_diaria": null,
         "direccion": "AV. HUANCAVELICA #387",
@@ -21803,12 +21803,12 @@
         "responsable": "JS BODEGA",
         "frecuencia": "LUNES-MARTES-MIÉRCOLES-JUEVES-VIERNES-SÁBADO",
         "dias": [
-            "VIERNES",
-            "LUNES",
+            "SÁBADO",
             "MARTES",
             "JUEVES",
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "VIERNES",
+            "LUNES"
         ],
         "meta_diaria": null,
         "direccion": "AV. TAYLOR 1802",
@@ -22764,8 +22764,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MARTES-MIÉRCOLES",
         "dias": [
-            "MIÉRCOLES",
-            "MARTES"
+            "MARTES",
+            "MIÉRCOLES"
         ],
         "meta_diaria": 20.0,
         "direccion": "AV. MANSICHE Nº 293 – 299, URB. SAN NICOLÁS, DISTRITO Y PROVINCIA DE TRUJILLO, DEPARTAMENTO DE LA LIBERTAD",
@@ -25663,11 +25663,11 @@
         "responsable": "TINBET",
         "frecuencia": "LUNES-JUEVES-MIÉRCOLES-JUEVES-VIERNES-SÁBADO",
         "dias": [
-            "VIERNES",
-            "LUNES",
-            "JUEVES",
             "SÁBADO",
-            "MIÉRCOLES"
+            "JUEVES",
+            "MIÉRCOLES",
+            "VIERNES",
+            "LUNES"
         ],
         "meta_diaria": null,
         "direccion": "AV DANIEL ALCIDES CARRION NRO. 1975",
@@ -25693,11 +25693,11 @@
         "responsable": "TINBET",
         "frecuencia": "LUNES-JUEVES-MIÉRCOLES-JUEVES-VIERNES-SÁBADO",
         "dias": [
-            "VIERNES",
-            "LUNES",
-            "JUEVES",
             "SÁBADO",
-            "MIÉRCOLES"
+            "JUEVES",
+            "MIÉRCOLES",
+            "VIERNES",
+            "LUNES"
         ],
         "meta_diaria": null,
         "direccion": "AV. INDEPENDENCIA 495",
@@ -25723,11 +25723,11 @@
         "responsable": "TINBET",
         "frecuencia": "LUNES-JUEVES-MIÉRCOLES-JUEVES-VIERNES-SÁBADO",
         "dias": [
-            "VIERNES",
-            "LUNES",
-            "JUEVES",
             "SÁBADO",
-            "MIÉRCOLES"
+            "JUEVES",
+            "MIÉRCOLES",
+            "VIERNES",
+            "LUNES"
         ],
         "meta_diaria": null,
         "direccion": "AV. MARISCAL CASTILLA N° 4131 ASENTAMIENTO HUMANO LA VICTORIA",
@@ -30229,11 +30229,11 @@
         "responsable": "TINBET",
         "frecuencia": "LUNES-JUEVES-MIÉRCOLES-JUEVES-VIERNES-SÁBADO",
         "dias": [
-            "VIERNES",
-            "LUNES",
-            "JUEVES",
             "SÁBADO",
-            "MIÉRCOLES"
+            "JUEVES",
+            "MIÉRCOLES",
+            "VIERNES",
+            "LUNES"
         ],
         "meta_diaria": null,
         "direccion": "PROLONGACIÓN LIMA NO. 593",
@@ -32143,11 +32143,11 @@
         "responsable": "TINBET",
         "frecuencia": "LUNES-JUEVES-MIÉRCOLES-JUEVES-VIERNES-SÁBADO",
         "dias": [
-            "VIERNES",
-            "LUNES",
-            "JUEVES",
             "SÁBADO",
-            "MIÉRCOLES"
+            "JUEVES",
+            "MIÉRCOLES",
+            "VIERNES",
+            "LUNES"
         ],
         "meta_diaria": null,
         "direccion": "AV JACINTO IBARRA 420",
@@ -32173,11 +32173,11 @@
         "responsable": "TINBET",
         "frecuencia": "LUNES-JUEVES-MIÉRCOLES-JUEVES-VIERNES-SÁBADO",
         "dias": [
-            "VIERNES",
-            "LUNES",
-            "JUEVES",
             "SÁBADO",
-            "MIÉRCOLES"
+            "JUEVES",
+            "MIÉRCOLES",
+            "VIERNES",
+            "LUNES"
         ],
         "meta_diaria": null,
         "direccion": "AV. LA ESPERANZA 170 EL TAMBO",
@@ -40952,11 +40952,11 @@
         "responsable": "APUESTA TOTAL",
         "frecuencia": "LUNES-JUEVES-MIÉRCOLES-JUEVES-VIERNES-SÁBADO",
         "dias": [
-            "VIERNES",
-            "LUNES",
-            "JUEVES",
             "SÁBADO",
-            "MIÉRCOLES"
+            "JUEVES",
+            "MIÉRCOLES",
+            "VIERNES",
+            "LUNES"
         ],
         "meta_diaria": 11.5,
         "direccion": "Av. Mariscal Castilla N° 1238 – Cercado El Tambo Del Distrito De El Tambo",
@@ -41034,11 +41034,11 @@
         "responsable": "APUESTA TOTAL",
         "frecuencia": "LUNES-JUEVES-MIÉRCOLES-JUEVES-VIERNES-SÁBADO",
         "dias": [
-            "VIERNES",
-            "LUNES",
-            "JUEVES",
             "SÁBADO",
-            "MIÉRCOLES"
+            "JUEVES",
+            "MIÉRCOLES",
+            "VIERNES",
+            "LUNES"
         ],
         "meta_diaria": 16.5,
         "direccion": "Av. Jose Carlos Mariátegui N° 600",
