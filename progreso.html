@@ -15,6 +15,7 @@
       --text:  #FFFFFF;
       --muted: #888888;
       --dim:   #444444;
+      --c:     #E53535;
     }
 
     body {
@@ -23,9 +24,10 @@
       font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
       min-height: 100vh;
       -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
     }
 
-    /* ── LOADING ──────────────────────────────────────── */
+    /* ── LOADING ─────────────────────────────────────────── */
     #loading {
       min-height: 100vh;
       display: flex;
@@ -44,177 +46,300 @@
     @keyframes spin { to { transform: rotate(360deg); } }
     .loading-msg { font-size: 13px; color: var(--muted); }
 
-    /* ── PORTAL ───────────────────────────────────────── */
-    #portal {
+    /* ── SCREENS WRAPPER ─────────────────────────────────── */
+    .screen {
       display: none;
+      min-height: 100vh;
       flex-direction: column;
       align-items: center;
       padding: 44px 16px 64px;
-      min-height: 100vh;
+      animation: fadeUp .25s ease both;
+    }
+    .screen.active { display: flex; }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(12px); }
+      to   { opacity: 1; transform: translateY(0); }
     }
 
-    .portal-eyebrow {
+    /* ── SHARED HEADER ───────────────────────────────────── */
+    .eyebrow {
       font-size: 10px;
       font-weight: 700;
       letter-spacing: .2em;
       text-transform: uppercase;
       color: var(--muted);
       margin-bottom: 8px;
+      text-align: center;
     }
-
-    .portal-heading {
-      font-size: clamp(24px, 6vw, 32px);
+    .heading {
+      font-size: clamp(22px, 5.5vw, 30px);
       font-weight: 800;
       text-align: center;
       margin-bottom: 6px;
       text-wrap: balance;
     }
-
-    .portal-sub {
+    .sub {
       font-size: 13px;
       color: var(--muted);
       text-align: center;
-      margin-bottom: 36px;
+      margin-bottom: 32px;
       max-width: 300px;
     }
 
-    /* ── PARTNER GRID ─────────────────────────────────── */
+    /* ── BACK LINK ───────────────────────────────────────── */
+    .back-link {
+      align-self: flex-start;
+      background: none;
+      border: none;
+      color: var(--muted);
+      font-size: 13px;
+      cursor: pointer;
+      font-family: inherit;
+      padding: 0;
+      margin-bottom: 28px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: color .15s;
+    }
+    .back-link:hover { color: var(--text); }
+
+    /* ── PARTNER GRID ────────────────────────────────────── */
     .partner-grid {
       width: 100%;
       max-width: 520px;
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 12px;
+      gap: 10px;
     }
+    @media (min-width: 480px) { .partner-grid { grid-template-columns: 1fr 1fr 1fr; } }
+    @media (max-width: 320px) { .partner-grid { grid-template-columns: 1fr; } }
 
-    @media (max-width: 340px) { .partner-grid { grid-template-columns: 1fr; } }
-
-    /* ── PARTNER CARD ─────────────────────────────────── */
     .pcard {
-      border-radius: 18px;
-      padding: 18px 14px 16px;
+      --c: #888;
+      border-radius: 16px;
+      padding: 16px 12px 14px;
+      background: var(--surf);
+      border: 1.5px solid color-mix(in srgb, var(--c) 30%, transparent);
+      cursor: pointer;
       display: flex;
       flex-direction: column;
-      gap: 10px;
-      position: relative;
-      overflow: hidden;
-      border: 1.5px solid transparent;
-      background: var(--surf);
-      transition: transform .15s, box-shadow .2s;
+      gap: 6px;
+      transition: transform .15s, box-shadow .2s, background .15s;
+      user-select: none;
     }
-
-    .pcard.active {
-      border-color: color-mix(in srgb, var(--c) 35%, transparent);
-      background: color-mix(in srgb, var(--c) 6%, var(--surf));
-      cursor: default;
-    }
-    .pcard.active:hover {
+    .pcard:hover {
       transform: translateY(-2px);
-      box-shadow: 0 6px 30px color-mix(in srgb, var(--c) 20%, transparent);
+      background: color-mix(in srgb, var(--c) 8%, var(--surf));
+      box-shadow: 0 6px 24px color-mix(in srgb, var(--c) 18%, transparent);
     }
-
-    .pcard.soon {
-      border-color: var(--border);
-      opacity: .55;
-    }
+    .pcard:active { transform: translateY(0); }
 
     .pcard-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      font-size: 10px;
-      font-weight: 800;
-      letter-spacing: .08em;
-      text-transform: uppercase;
-      padding: 3px 10px;
-      border-radius: 20px;
-      width: fit-content;
-    }
-    .pcard.active  .pcard-badge { background: var(--c); color: #fff; }
-    .pcard.soon    .pcard-badge { background: var(--border); color: var(--muted); }
-
-    .pcard-name {
-      font-size: 14px;
-      font-weight: 800;
-      line-height: 1.2;
-      color: color-mix(in srgb, var(--c) 70%, #fff);
-    }
-    .pcard.soon .pcard-name { color: var(--muted); }
-
-    .soon-pill {
-      display: none;
       font-size: 9px;
-      font-weight: 700;
+      font-weight: 800;
       letter-spacing: .1em;
       text-transform: uppercase;
-      color: var(--dim);
-      border: 1px solid var(--border);
+      background: var(--c);
+      color: #fff;
       padding: 2px 8px;
       border-radius: 20px;
       width: fit-content;
     }
-    .pcard.soon .soon-pill { display: block; }
+    .pcard-name {
+      font-size: 13px;
+      font-weight: 700;
+      color: color-mix(in srgb, var(--c) 65%, #fff);
+      line-height: 1.25;
+    }
 
-    /* Search inside active card */
-    .card-search-wrap { width: 100%; position: relative; }
+    /* ── PIN SCREEN ──────────────────────────────────────── */
+    .pin-header {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      margin-bottom: 32px;
+    }
+    .pin-partner-badge {
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      padding: 4px 14px;
+      border-radius: 20px;
+      background: var(--c);
+      color: #fff;
+    }
+    .pin-title {
+      font-size: 20px;
+      font-weight: 800;
+      text-align: center;
+    }
+    .pin-sub {
+      font-size: 13px;
+      color: var(--muted);
+      text-align: center;
+    }
 
-    .card-search-input {
+    .pin-box {
       width: 100%;
-      background: rgba(0,0,0,.4);
-      border: 1px solid color-mix(in srgb, var(--c) 30%, transparent);
-      border-radius: 10px;
-      padding: 9px 10px 9px 32px;
+      max-width: 320px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .pin-input-wrap {
+      position: relative;
+    }
+    .pin-input {
+      width: 100%;
+      background: var(--surf);
+      border: 1.5px solid var(--border);
+      border-radius: 14px;
+      padding: 14px 44px 14px 18px;
+      font-size: 18px;
+      letter-spacing: .18em;
+      color: var(--text);
+      font-family: inherit;
+      outline: none;
+      transition: border-color .2s, box-shadow .2s;
+      text-align: center;
+    }
+    .pin-input:focus {
+      border-color: var(--c);
+      box-shadow: 0 0 0 3px color-mix(in srgb, var(--c) 22%, transparent);
+    }
+    .pin-toggle {
+      position: absolute;
+      right: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      color: var(--dim);
+      cursor: pointer;
+      font-size: 16px;
+      line-height: 1;
+      padding: 4px;
+      transition: color .15s;
+    }
+    .pin-toggle:hover { color: var(--muted); }
+
+    .pin-error {
       font-size: 12px;
+      color: #F04444;
+      text-align: center;
+      min-height: 18px;
+    }
+
+    .pin-btn {
+      background: var(--c);
+      color: #fff;
+      border: none;
+      border-radius: 14px;
+      padding: 14px;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+      font-family: inherit;
+      transition: opacity .15s, transform .1s;
+    }
+    .pin-btn:hover  { opacity: .88; }
+    .pin-btn:active { transform: scale(.98); }
+
+    @keyframes shake {
+      0%,100% { transform: translateX(0); }
+      20%     { transform: translateX(-6px); }
+      40%     { transform: translateX(6px); }
+      60%     { transform: translateX(-4px); }
+      80%     { transform: translateX(4px); }
+    }
+    .pin-input.shake { animation: shake .35s ease; }
+
+    /* ── SEARCH SCREEN ───────────────────────────────────── */
+    .search-partner-label {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 24px;
+      font-size: 14px;
+      font-weight: 700;
+    }
+    .spl-dot {
+      width: 10px; height: 10px;
+      border-radius: 50%;
+      background: var(--c);
+      box-shadow: 0 0 8px var(--c);
+      flex-shrink: 0;
+    }
+
+    .search-wrap {
+      width: 100%;
+      max-width: 420px;
+      position: relative;
+    }
+    .search-input {
+      width: 100%;
+      background: var(--surf);
+      border: 1.5px solid var(--border);
+      border-radius: 14px;
+      padding: 14px 18px 14px 46px;
+      font-size: 15px;
       color: var(--text);
       font-family: inherit;
       outline: none;
       transition: border-color .2s, box-shadow .2s;
     }
-    .card-search-input:focus {
+    .search-input:focus {
       border-color: var(--c);
-      box-shadow: 0 0 0 3px color-mix(in srgb, var(--c) 20%, transparent);
+      box-shadow: 0 0 0 3px color-mix(in srgb, var(--c) 22%, transparent);
     }
-    .card-search-input::placeholder { color: var(--dim); }
-
-    .card-search-ico {
+    .search-input::placeholder { color: var(--dim); }
+    .search-ico {
       position: absolute;
-      left: 9px;
+      left: 15px;
       top: 50%;
       transform: translateY(-50%);
-      font-size: 13px;
+      font-size: 17px;
       color: var(--dim);
       pointer-events: none;
     }
 
-    .card-ac {
+    .ac-list {
       position: absolute;
-      top: calc(100% + 4px);
+      top: calc(100% + 6px);
       left: 0; right: 0;
       background: #111;
       border: 1px solid var(--border);
-      border-radius: 10px;
+      border-radius: 12px;
       overflow: hidden;
-      z-index: 30;
-      max-height: 200px;
+      z-index: 20;
+      max-height: 280px;
       overflow-y: auto;
       display: none;
     }
-    .card-ac.open { display: block; }
-
-    .card-ac-item {
-      padding: 8px 12px;
+    .ac-list.open { display: block; }
+    .ac-item {
+      padding: 11px 16px;
       cursor: pointer;
       border-bottom: 1px solid var(--border);
       transition: background .1s;
     }
-    .card-ac-item:last-child { border-bottom: none; }
-    .card-ac-item:hover {
-      background: color-mix(in srgb, var(--c) 12%, transparent);
-    }
-    .card-ac-item .ci-name { font-size: 12px; font-weight: 600; }
-    .card-ac-item .ci-meta { font-size: 10px; color: var(--dim); }
+    .ac-item:last-child { border-bottom: none; }
+    .ac-item:hover { background: color-mix(in srgb, var(--c) 12%, transparent); }
+    .ac-item .ac-name { font-size: 13px; font-weight: 600; }
+    .ac-item .ac-meta { font-size: 11px; color: var(--dim); }
 
-    /* ── ERROR ────────────────────────────────────────── */
+    .search-hint {
+      margin-top: 20px;
+      font-size: 12px;
+      color: var(--dim);
+      text-align: center;
+    }
+
+    /* ── ERROR ───────────────────────────────────────────── */
     #error-screen {
       display: none;
       min-height: 100vh;
@@ -242,205 +367,289 @@
     }
     .err-btn:hover { border-color: var(--muted); color: var(--text); }
 
-    /* ── FOOTER ───────────────────────────────────────── */
-    .portal-footer {
+    /* ── FOOTER ──────────────────────────────────────────── */
+    .footer {
       margin-top: 36px;
       font-size: 11px;
       color: var(--dim);
       text-align: center;
     }
 
-    @media (prefers-reduced-motion: reduce) { .spin { animation: none; } }
+    @media (prefers-reduced-motion: reduce) {
+      .screen { animation: none; }
+      .spin   { animation: none; }
+    }
   </style>
 </head>
 <body>
 
+<!-- LOADING -->
 <div id="loading">
   <div class="spin"></div>
-  <div class="loading-msg" id="loading-msg">Identificando tienda…</div>
+  <div class="loading-msg" id="loading-msg">Cargando…</div>
 </div>
 
-<div id="portal">
-  <div class="portal-eyebrow">GeoDor · Mi Progreso</div>
-  <h1 class="portal-heading">¿Cómo va tu tienda?</h1>
-  <p class="portal-sub">Selecciona tu operador y busca tu punto de venta</p>
+<!-- STEP 1: Elegir partner -->
+<div class="screen" id="s-partner">
+  <div class="eyebrow">GeoDor · Mi Progreso</div>
+  <h1 class="heading">¿Con qué operador trabajas?</h1>
+  <p class="sub">Selecciona tu empresa para continuar</p>
+  <div class="partner-grid" id="partner-grid"></div>
+  <div class="footer">Desarrollado por <strong>Doriant C. F.</strong> · GeoDor</div>
+</div>
 
-  <div class="partner-grid" id="partner-grid">
-    <!-- cards generados por JS -->
+<!-- STEP 2: Ingresar clave -->
+<div class="screen" id="s-pin">
+  <button class="back-link" onclick="goPartner()">← Volver</button>
+  <div class="pin-header">
+    <div class="pin-partner-badge" id="pin-badge">AT</div>
+    <div class="pin-title">Ingresa tu clave</div>
+    <div class="pin-sub" id="pin-sub">Clave de acceso para <span id="pin-partner-name">—</span></div>
   </div>
-
-  <div class="portal-footer">Desarrollado por <strong>Doriant C. F.</strong> · GeoDor</div>
+  <div class="pin-box">
+    <div class="pin-input-wrap">
+      <input type="password" class="pin-input" id="pin-input"
+             placeholder="••••••" autocomplete="off" spellcheck="false"/>
+      <button class="pin-toggle" id="pin-toggle" onclick="togglePin()">👁</button>
+    </div>
+    <div class="pin-error" id="pin-error"></div>
+    <button class="pin-btn" id="pin-btn" onclick="checkPin()">Continuar →</button>
+  </div>
 </div>
 
+<!-- STEP 3: Buscar tienda -->
+<div class="screen" id="s-search">
+  <button class="back-link" onclick="goPin()">← Volver</button>
+  <div class="search-partner-label">
+    <div class="spl-dot" id="spl-dot"></div>
+    <span id="spl-name">—</span>
+  </div>
+  <h1 class="heading">¿Cuál es tu tienda?</h1>
+  <div class="search-wrap">
+    <span class="search-ico">🔍</span>
+    <input type="text" class="search-input" id="search-input"
+           placeholder="Nombre o código de tienda…"
+           autocomplete="off" spellcheck="false"/>
+    <div class="ac-list" id="ac-list"></div>
+  </div>
+  <p class="search-hint">También puedes buscar por código numérico</p>
+</div>
+
+<!-- ERROR -->
 <div id="error-screen">
   <div class="err-icon">🔍</div>
   <div class="err-msg" id="err-msg">Tienda no encontrada</div>
-  <div class="err-sub" id="err-sub">No se encontró una tienda con ese código.</div>
-  <button class="err-btn" onclick="showPortal()">Buscar manualmente</button>
+  <div class="err-sub" id="err-sub">No se encontró ninguna tienda con ese código.</div>
+  <button class="err-btn" onclick="goPartner()">Buscar de nuevo</button>
 </div>
 
 <script>
-  // ── Configuración de partners ──────────────────────────
+  // ─────────────────────────────────────────────────────────
+  // CONFIGURACIÓN — cambiar claves aquí
+  // ─────────────────────────────────────────────────────────
   const PARTNERS = [
-    { key: 'APUESTA TOTAL', label: 'Apuesta Total', short: 'AT',     color: '#E53535', page: 'bonus_at.html',       active: true  },
-    { key: 'TINBET',        label: 'Tinbet',         short: 'TIN',    color: '#16A34A', page: 'bonus_tinbet.html',   active: true  },
-    { key: 'LIVESPORT',     label: 'Livesport',      short: 'LIVE',   color: '#2563EB', page: 'bonus_livesport.html',active: false },
-    { key: 'RETABET',       label: 'Retabet',         short: 'RET',    color: '#7C3AED', page: 'bonus_retabet.html',  active: false },
-    { key: 'DORADOBET',     label: 'Doradobet',       short: 'DOR',    color: '#D97706', page: null,                  active: false },
-    { key: 'ACIERTALA',     label: 'Aciertala',       short: 'ACT',    color: '#0891B2', page: null,                  active: false },
-    { key: 'LOTOBOLA',      label: 'Lotobola',         short: 'LOTO',   color: '#DB2777', page: null,                  active: false },
-    { key: 'TAMBO',         label: 'Tambo',            short: 'TMB',    color: '#DC2626', page: null,                  active: false },
-    { key: 'CENCOSUD',      label: 'Cencosud',         short: 'CEN',    color: '#0369A1', page: null,                  active: false },
-    { key: 'AUR BODEGA',    label: 'Aur Bodega',       short: 'AUR',    color: '#65A30D', page: null,                  active: false },
-    { key: 'FRANCO',        label: 'Franco',           short: 'FRA',    color: '#B45309', page: null,                  active: false },
-    { key: 'JS BODEGA',     label: 'JS Bodega',        short: 'JS',     color: '#6D28D9', page: null,                  active: false },
-    { key: 'MCG BODEGA',    label: 'MCG Bodega',       short: 'MCG',    color: '#0F766E', page: null,                  active: false },
+    { key: 'APUESTA TOTAL', label: 'Apuesta Total', short: 'AT',   color: '#E53535', page: 'bonus_at.html',        code: 'at2025'   },
+    { key: 'TINBET',        label: 'Tinbet',         short: 'TIN',  color: '#16A34A', page: 'bonus_tinbet.html',   code: 'tin2025'  },
+    { key: 'LIVESPORT',     label: 'Livesport',      short: 'LIVE', color: '#2563EB', page: 'bonus_livesport.html',code: 'live2025' },
+    { key: 'RETABET',       label: 'Retabet',         short: 'RET',  color: '#7C3AED', page: 'bonus_retabet.html', code: 'reta2025' },
+    { key: 'DORADOBET',     label: 'Doradobet',       short: 'DOR',  color: '#D97706', page: null,                 code: 'dora2025' },
+    { key: 'ACIERTALA',     label: 'Aciertala',       short: 'ACT',  color: '#0891B2', page: null,                 code: 'act2025'  },
+    { key: 'LOTOBOLA',      label: 'Lotobola',         short: 'LOTO', color: '#DB2777', page: null,                 code: 'loto2025' },
+    { key: 'TAMBO',         label: 'Tambo',            short: 'TMB',  color: '#DC2626', page: null,                 code: 'tmb2025'  },
+    { key: 'CENCOSUD',      label: 'Cencosud',         short: 'CEN',  color: '#0369A1', page: null,                 code: 'cen2025'  },
+    { key: 'AUR BODEGA',    label: 'Aur Bodega',       short: 'AUR',  color: '#65A30D', page: null,                 code: 'aur2025'  },
+    { key: 'FRANCO',        label: 'Franco',           short: 'FRA',  color: '#B45309', page: null,                 code: 'fra2025'  },
+    { key: 'JS BODEGA',     label: 'JS Bodega',        short: 'JS',   color: '#6D28D9', page: null,                 code: 'js2025'   },
+    { key: 'MCG BODEGA',    label: 'MCG Bodega',       short: 'MCG',  color: '#0F766E', page: null,                 code: 'mcg2025'  },
   ];
 
+  // ─────────────────────────────────────────────────────────
   const PARTNER_MAP = {};
   PARTNERS.forEach(p => { PARTNER_MAP[p.key] = p; });
 
-  let allStores = [];
+  let allStores       = [];
+  let selectedPartner = null;   // objeto PARTNERS activo
 
-  function loadJSON(u) {
-    return fetch(u + '?v=' + Date.now(), { cache: 'no-store' }).then(r => {
-      if (!r.ok) throw new Error(r.status);
-      return r.json();
+  // ── Helpers de pantalla ─────────────────────────────────
+  function showScreen(id) {
+    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+    const el = document.getElementById(id);
+    if (el) el.classList.add('active');
+  }
+
+  function setColor(color) {
+    document.documentElement.style.setProperty('--c', color);
+  }
+
+  function goPartner() {
+    selectedPartner = null;
+    setColor('#E53535');
+    showScreen('s-partner');
+  }
+
+  function goPin() {
+    if (!selectedPartner) return goPartner();
+    showScreen('s-pin');
+    document.getElementById('pin-input').value = '';
+    document.getElementById('pin-error').textContent = '';
+    document.getElementById('pin-input').focus();
+  }
+
+  // ── STEP 1: elegir partner ───────────────────────────────
+  function buildPartnerGrid() {
+    const grid = document.getElementById('partner-grid');
+    grid.innerHTML = '';
+    PARTNERS.forEach(cfg => {
+      const card = document.createElement('div');
+      card.className = 'pcard';
+      card.style.setProperty('--c', cfg.color);
+      card.innerHTML = `
+        <div class="pcard-badge">${cfg.short}</div>
+        <div class="pcard-name">${cfg.label}</div>`;
+      card.addEventListener('click', () => selectPartner(cfg));
+      grid.appendChild(card);
     });
   }
 
-  function redirect(store) {
+  function selectPartner(cfg) {
+    selectedPartner = cfg;
+    setColor(cfg.color);
+    document.getElementById('pin-badge').textContent       = cfg.short;
+    document.getElementById('pin-badge').style.background  = cfg.color;
+    document.getElementById('pin-partner-name').textContent = cfg.label;
+    document.getElementById('pin-btn').style.background    = cfg.color;
+    document.getElementById('pin-input').style.setProperty('--c', cfg.color);
+    goPin();
+  }
+
+  // ── STEP 2: PIN ─────────────────────────────────────────
+  function togglePin() {
+    const inp = document.getElementById('pin-input');
+    inp.type = inp.type === 'password' ? 'text' : 'password';
+  }
+
+  function checkPin() {
+    if (!selectedPartner) return goPartner();
+    const val = document.getElementById('pin-input').value.trim();
+    if (val === selectedPartner.code) {
+      openSearch();
+    } else {
+      const inp = document.getElementById('pin-input');
+      document.getElementById('pin-error').textContent = 'Clave incorrecta, intenta de nuevo';
+      inp.classList.remove('shake');
+      void inp.offsetWidth;
+      inp.classList.add('shake');
+      inp.value = '';
+      inp.focus();
+    }
+  }
+
+  document.getElementById('pin-input').addEventListener('keydown', e => {
+    if (e.key === 'Enter') checkPin();
+  });
+
+  // ── STEP 3: buscar tienda ────────────────────────────────
+  function openSearch() {
+    const cfg = selectedPartner;
+    setColor(cfg.color);
+    document.getElementById('spl-dot').style.background = cfg.color;
+    document.getElementById('spl-name').textContent = cfg.label;
+
+    const stores = allStores.filter(p =>
+      (p.responsable || '').toUpperCase().trim() === cfg.key &&
+      (p.estado || '').toUpperCase() !== 'INACTIVO'
+    );
+
+    const input  = document.getElementById('search-input');
+    const acList = document.getElementById('ac-list');
+    input.value  = '';
+    acList.classList.remove('open');
+    acList.innerHTML = '';
+
+    input.oninput = () => {
+      const q = input.value.trim().toLowerCase();
+      if (q.length < 2) { acList.classList.remove('open'); return; }
+      const hits = stores.filter(p =>
+        p.nombre.toLowerCase().includes(q) || String(p.ID).includes(q)
+      ).slice(0, 10);
+      if (!hits.length) { acList.classList.remove('open'); return; }
+      acList.innerHTML = hits.map(p => `
+        <div class="ac-item" data-id="${p.ID}">
+          <div class="ac-name">${p.nombre}</div>
+          <div class="ac-meta">${p.ID}${p.zona ? ' · ' + p.zona : ''}${p.distrito ? ' · ' + p.distrito : ''}</div>
+        </div>`).join('');
+      acList.classList.add('open');
+      acList.querySelectorAll('.ac-item').forEach(el => {
+        el.addEventListener('click', () => goStore(el.dataset.id));
+      });
+    };
+
+    document.addEventListener('click', e => {
+      if (!e.target.closest('.search-wrap')) acList.classList.remove('open');
+    }, { once: false });
+
+    showScreen('s-search');
+    input.focus();
+  }
+
+  function goStore(id) {
+    const cfg = selectedPartner;
+    if (cfg.page) {
+      window.location.href = cfg.page + '?id=' + id;
+    } else {
+      showError('Módulo no disponible', `La página de progreso para ${cfg.label} está en construcción.`);
+    }
+  }
+
+  // ── Routing directo por ?id= ─────────────────────────────
+  function handleDirectRoute(idParam) {
+    const store = allStores.find(p => String(p.ID) === String(idParam));
+    if (!store) {
+      showError('Código no encontrado', `No existe ninguna tienda con el código "${idParam}".`);
+      return;
+    }
     const pkey = (store.responsable || '').toUpperCase().trim();
     const cfg  = PARTNER_MAP[pkey];
-    if (cfg && cfg.active && cfg.page) {
+    if (cfg && cfg.page) {
       window.location.replace(cfg.page + '?id=' + store.ID);
-    } else if (cfg && !cfg.active) {
-      showError('Página en desarrollo', `El módulo de progreso para ${cfg.label} estará disponible próximamente.`);
+    } else if (cfg) {
+      showError('Módulo no disponible', `La página de ${cfg.label} está en construcción.`);
     } else {
-      showError('Partner no reconocido', `La tienda "${store.nombre}" tiene el operador "${store.responsable}" que aún no está configurado.`);
+      showError('Operador no reconocido', `La tienda "${store.nombre}" tiene el operador "${store.responsable}".`);
     }
   }
 
   function showError(msg, sub) {
-    document.getElementById('loading').style.display      = 'none';
-    document.getElementById('portal').style.display       = 'none';
-    document.getElementById('err-msg').textContent        = msg;
-    document.getElementById('err-sub').textContent        = sub;
+    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+    document.getElementById('loading').style.display = 'none';
+    document.getElementById('err-msg').textContent   = msg;
+    document.getElementById('err-sub').textContent   = sub;
     document.getElementById('error-screen').style.display = 'flex';
   }
 
-  function showPortal() {
-    document.getElementById('loading').style.display      = 'none';
-    document.getElementById('error-screen').style.display = 'none';
-    document.getElementById('portal').style.display       = 'flex';
-  }
-
-  function buildCard(cfg, stores) {
-    const card = document.createElement('div');
-    card.className = 'pcard ' + (cfg.active ? 'active' : 'soon');
-    card.style.setProperty('--c', cfg.color);
-
-    const badgeEl = document.createElement('div');
-    badgeEl.className = 'pcard-badge';
-    badgeEl.textContent = cfg.short;
-
-    const nameEl = document.createElement('div');
-    nameEl.className = 'pcard-name';
-    nameEl.textContent = cfg.label;
-
-    card.appendChild(badgeEl);
-    card.appendChild(nameEl);
-
-    if (cfg.active) {
-      const wrap  = document.createElement('div');
-      wrap.className = 'card-search-wrap';
-
-      const ico = document.createElement('span');
-      ico.className = 'card-search-ico';
-      ico.textContent = '🔍';
-
-      const input = document.createElement('input');
-      input.type = 'text';
-      input.className = 'card-search-input';
-      input.placeholder = 'Nombre o código…';
-      input.autocomplete = 'off';
-      input.spellcheck = false;
-
-      const ac = document.createElement('div');
-      ac.className = 'card-ac';
-
-      wrap.appendChild(ico);
-      wrap.appendChild(input);
-      wrap.appendChild(ac);
-      card.appendChild(wrap);
-
-      input.addEventListener('input', () => {
-        const q = input.value.trim().toLowerCase();
-        if (q.length < 2) { ac.classList.remove('open'); return; }
-        const hits = stores.filter(p =>
-          p.nombre.toLowerCase().includes(q) || String(p.ID).includes(q)
-        ).slice(0, 8);
-        if (!hits.length) { ac.classList.remove('open'); return; }
-        ac.innerHTML = hits.map(p => `
-          <div class="card-ac-item" data-id="${p.ID}" style="--c:${cfg.color}">
-            <div class="ci-name">${p.nombre}</div>
-            <div class="ci-meta">${p.ID}${p.zona ? ' · ' + p.zona : ''}${p.distrito ? ' · ' + p.distrito : ''}</div>
-          </div>`).join('');
-        ac.classList.add('open');
-        ac.querySelectorAll('.card-ac-item').forEach(el => {
-          el.addEventListener('click', () => {
-            window.location.href = cfg.page + '?id=' + el.dataset.id;
-          });
-        });
-      });
-
-      document.addEventListener('click', e => {
-        if (!e.target.closest('.card-search-wrap')) ac.classList.remove('open');
-      });
-
-    } else {
-      const pill = document.createElement('div');
-      pill.className = 'soon-pill';
-      pill.textContent = 'Próximamente';
-      card.appendChild(pill);
-    }
-
-    return card;
-  }
-
+  // ── Init ─────────────────────────────────────────────────
   async function init() {
     try {
-      const puntosData = await loadJSON('data/puntos.json');
-      allStores = Array.isArray(puntosData) ? puntosData : [];
+      const data = await fetch('data/puntos.json?v=' + Date.now(), { cache: 'no-store' })
+        .then(r => { if (!r.ok) throw new Error(r.status); return r.json(); });
+      allStores = Array.isArray(data) ? data : [];
 
       const params  = new URLSearchParams(location.search);
       const idParam = params.get('id') || params.get('tienda') || params.get('codigo');
 
+      document.getElementById('loading').style.display = 'none';
+
       if (idParam) {
-        document.getElementById('loading-msg').textContent = 'Buscando código ' + idParam + '…';
-        const store = allStores.find(p => String(p.ID) === String(idParam));
-        if (store) { redirect(store); }
-        else {
-          showError('Código no encontrado', `No existe ninguna tienda con el código "${idParam}".`);
-        }
-        return;
+        handleDirectRoute(idParam);
+      } else {
+        buildPartnerGrid();
+        showScreen('s-partner');
       }
-
-      // Sin ID → mostrar portal
-      const grid = document.getElementById('partner-grid');
-      PARTNERS.forEach(cfg => {
-        const stores = allStores.filter(p =>
-          (p.responsable || '').toUpperCase().trim() === cfg.key &&
-          (p.estado || '').toUpperCase() !== 'INACTIVO'
-        );
-        grid.appendChild(buildCard(cfg, stores));
-      });
-
-      showPortal();
-
     } catch(e) {
       document.getElementById('loading').innerHTML =
-        `<div style="color:#F04444;font-size:13px;text-align:center;padding:20px">Error al cargar datos:<br>${e.message}</div>`;
+        `<div style="color:#F04444;font-size:13px;text-align:center;padding:20px">
+          Error al cargar datos:<br>${e.message}
+        </div>`;
       document.getElementById('loading').style.display = 'flex';
     }
   }
