@@ -104,53 +104,64 @@
     }
     .back-link:hover { color: var(--text); }
 
-    /* ── PARTNER GRID ────────────────────────────────────── */
-    .partner-grid {
+    /* ── PARTNER PANEL ───────────────────────────────────── */
+    .partner-panel {
       width: 100%;
-      max-width: 520px;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 10px;
-    }
-    @media (min-width: 480px) { .partner-grid { grid-template-columns: 1fr 1fr 1fr; } }
-    @media (max-width: 320px) { .partner-grid { grid-template-columns: 1fr; } }
-
-    .pcard {
-      --c: #888;
-      border-radius: 16px;
-      padding: 16px 12px 14px;
+      max-width: 400px;
       background: var(--surf);
-      border: 1.5px solid color-mix(in srgb, var(--c) 30%, transparent);
-      cursor: pointer;
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      overflow: hidden;
+    }
+
+    .prow {
+      --c: #888;
       display: flex;
-      flex-direction: column;
-      gap: 6px;
-      transition: transform .15s, box-shadow .2s, background .15s;
+      align-items: center;
+      gap: 14px;
+      padding: 15px 20px;
+      cursor: pointer;
+      border-bottom: 1px solid var(--border);
+      transition: background .15s;
+      position: relative;
       user-select: none;
     }
-    .pcard:hover {
-      transform: translateY(-2px);
-      background: color-mix(in srgb, var(--c) 8%, var(--surf));
-      box-shadow: 0 6px 24px color-mix(in srgb, var(--c) 18%, transparent);
-    }
-    .pcard:active { transform: translateY(0); }
-
-    .pcard-badge {
-      font-size: 9px;
-      font-weight: 800;
-      letter-spacing: .1em;
-      text-transform: uppercase;
+    .prow:last-child { border-bottom: none; }
+    .prow::before {
+      content: '';
+      position: absolute;
+      left: 0; top: 0; bottom: 0;
+      width: 3px;
       background: var(--c);
-      color: #fff;
-      padding: 2px 8px;
-      border-radius: 20px;
-      width: fit-content;
+      opacity: 0;
+      transition: opacity .15s;
     }
-    .pcard-name {
-      font-size: 13px;
-      font-weight: 700;
-      color: color-mix(in srgb, var(--c) 65%, #fff);
-      line-height: 1.25;
+    .prow:hover { background: color-mix(in srgb, var(--c) 9%, var(--surf)); }
+    .prow:hover::before { opacity: 1; }
+    .prow:active { background: color-mix(in srgb, var(--c) 16%, var(--surf)); }
+
+    .prow-dot {
+      width: 9px; height: 9px;
+      border-radius: 50%;
+      background: var(--c);
+      flex-shrink: 0;
+      box-shadow: 0 0 6px var(--c);
+    }
+    .prow-name {
+      flex: 1;
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text);
+    }
+    .prow-arrow {
+      font-size: 18px;
+      color: var(--dim);
+      line-height: 1;
+      transition: color .15s, transform .15s;
+    }
+    .prow:hover .prow-arrow {
+      color: var(--muted);
+      transform: translateX(3px);
     }
 
     /* ── PIN SCREEN ──────────────────────────────────────── */
@@ -394,7 +405,7 @@
   <div class="eyebrow">GeoDor · Mi Progreso</div>
   <h1 class="heading">¿Con qué operador trabajas?</h1>
   <p class="sub">Selecciona tu empresa para continuar</p>
-  <div class="partner-grid" id="partner-grid"></div>
+  <div class="partner-panel" id="partner-grid"></div>
   <div class="footer">Desarrollado por <strong>Doriant C. F.</strong> · GeoDor</div>
 </div>
 
@@ -516,14 +527,15 @@
     const grid = document.getElementById('partner-grid');
     grid.innerHTML = '';
     PARTNERS.forEach(cfg => {
-      const card = document.createElement('div');
-      card.className = 'pcard';
-      card.style.setProperty('--c', cfg.color);
-      card.innerHTML = `
-        <div class="pcard-badge">${cfg.short}</div>
-        <div class="pcard-name">${cfg.label}</div>`;
-      card.addEventListener('click', () => selectPartner(cfg));
-      grid.appendChild(card);
+      const row = document.createElement('div');
+      row.className = 'prow';
+      row.style.setProperty('--c', cfg.color);
+      row.innerHTML = `
+        <div class="prow-dot"></div>
+        <div class="prow-name">${cfg.label}</div>
+        <div class="prow-arrow">›</div>`;
+      row.addEventListener('click', () => selectPartner(cfg));
+      grid.appendChild(row);
     });
   }
 
