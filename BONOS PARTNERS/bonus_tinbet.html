@@ -562,8 +562,8 @@
   async function init() {
     try {
       const [puntosData, ventasData] = await Promise.all([
-        loadJSON('data/puntos.json'),
-        loadJSON('data/ventas_mes.json'),
+        loadJSON('../data/puntos.json'),
+        loadJSON('../data/ventas_mes.json'),
       ]);
 
       allStores = (Array.isArray(puntosData) ? puntosData : []).filter(p =>

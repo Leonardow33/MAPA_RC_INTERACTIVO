@@ -847,7 +847,7 @@
 
     <!-- Progreso mensual -->
     <div class="ring-card" id="ring-card">
-      <img src="sources/logos-games/suerte-1.png" aria-hidden="true"
+      <img src="../sources/logos-games/suerte-1.png" aria-hidden="true"
            style="position:absolute;width:88px;bottom:-8px;left:-6px;transform:rotate(-10deg);opacity:.22;pointer-events:none;">
       <div class="ring-card-glow" id="ring-glow"></div>
       <div class="ring-period-label">PROGRESO DEL MES</div>
@@ -879,16 +879,16 @@
 
     <!-- Games breakdown -->
     <div class="games-card">
-      <img src="sources/logos-games/suerte-3.png" aria-hidden="true"
+      <img src="../sources/logos-games/suerte-3.png" aria-hidden="true"
            style="position:absolute;width:72px;bottom:-6px;right:-4px;transform:rotate(9deg);opacity:.2;pointer-events:none;">
       <div class="card-title">Desglose por juego · este mes</div>
       <div class="game-row">
-        <div class="gr-name"><img src="sources/logos-games/pozopower.png" class="gr-logo" alt="">PozoPower</div>
+        <div class="gr-name"><img src="../sources/logos-games/pozopower.png" class="gr-logo" alt="">PozoPower</div>
         <div class="gr-bar"><div class="gr-fill" id="pp-bar" style="background:var(--accent)"></div></div>
         <div class="gr-val" id="pp-val">S/ 0</div>
       </div>
       <div class="game-row">
-        <div class="gr-name"><img src="sources/logos-games/lakidey.png" class="gr-logo" alt="">LakiDey</div>
+        <div class="gr-name"><img src="../sources/logos-games/lakidey.png" class="gr-logo" alt="">LakiDey</div>
         <div class="gr-bar"><div class="gr-fill" id="ld-bar" style="background:#3B9EE8"></div></div>
         <div class="gr-val" id="ld-val">S/ 0</div>
       </div>
@@ -905,7 +905,7 @@
 
     <!-- Weekly evolution chart -->
     <div class="week-card">
-      <img src="sources/logos-games/suerte-4.png" aria-hidden="true"
+      <img src="../sources/logos-games/suerte-4.png" aria-hidden="true"
            style="position:absolute;width:62px;top:-4px;right:-2px;transform:rotate(14deg);opacity:.18;pointer-events:none;">
       <div class="card-title">Evolución · semana en curso</div>
       <div class="week-chart" id="week-chart"></div>
@@ -915,7 +915,7 @@
     <!-- Promo: video limpio (solo móvil) -->
     <div class="promo-card">
       <video autoplay muted loop playsinline class="promo-video">
-        <source src="sources/logos-games/WhatsApp%20Video%202026-07-06%20at%202.57.39%20PM.mp4" type="video/mp4">
+        <source src="../sources/logos-games/WhatsApp%20Video%202026-07-06%20at%202.57.39%20PM.mp4" type="video/mp4">
       </video>
     </div>
   </div>
@@ -923,14 +923,14 @@
 
 <!-- Llamitas Suerte: lado izquierdo (desktop) -->
 <div class="suerte-side left">
-  <img src="sources/logos-games/suerte-1.png" class="suerte-deco-img" alt="">
-  <img src="sources/logos-games/suerte-3.png" class="suerte-deco-img" alt="">
+  <img src="../sources/logos-games/suerte-1.png" class="suerte-deco-img" alt="">
+  <img src="../sources/logos-games/suerte-3.png" class="suerte-deco-img" alt="">
 </div>
 
 <!-- Video promo: lado derecho (desktop) -->
 <div class="video-side">
   <video autoplay muted loop playsinline>
-    <source src="sources/logos-games/WhatsApp%20Video%202026-07-06%20at%202.57.39%20PM.mp4" type="video/mp4">
+    <source src="../sources/logos-games/WhatsApp%20Video%202026-07-06%20at%202.57.39%20PM.mp4" type="video/mp4">
   </video>
 </div>
 
@@ -1060,8 +1060,8 @@
   async function init() {
     try {
       const [puntosData, ventasData] = await Promise.all([
-        loadJSON('data/puntos.json'),
-        loadJSON('data/ventas_mes.json'),
+        loadJSON('../data/puntos.json'),
+        loadJSON('../data/ventas_mes.json'),
       ]);
 
       allStores = (Array.isArray(puntosData) ? puntosData : []).filter(p =>
@@ -1081,7 +1081,7 @@
       }
 
       // Sin tienda válida en URL → volver al selector de partner
-      window.location.replace('progreso.html');
+      window.location.replace('../progreso.html');
     } catch(e) {
       document.getElementById('loading').textContent = 'Error al cargar datos: ' + e.message;
     }
