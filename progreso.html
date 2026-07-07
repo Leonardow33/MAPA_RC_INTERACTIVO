@@ -475,19 +475,19 @@
   // CONFIGURACIÓN — cambiar claves aquí
   // ─────────────────────────────────────────────────────────
   const PARTNERS = [
-    { key: 'APUESTA TOTAL', label: 'Apuesta Total', short: 'AT',   color: '#E53535', page: 'bonus_at.html',        seed: 'GEODOR_AT_2025'  },
-    { key: 'TINBET',        label: 'Tinbet',         short: 'TIN',  color: '#16A34A', page: 'bonus_tinbet.html',   code: 'tin2025'  },
-    { key: 'LIVESPORT',     label: 'Livesport',      short: 'LIVE', color: '#2563EB', page: 'bonus_livesport.html',code: 'live2025' },
-    { key: 'RETABET',       label: 'Retabet',         short: 'RET',  color: '#94A3B8', page: 'bonus_retabet.html', code: 'reta2025' },
-    { key: 'DORADOBET',     label: 'Doradobet',       short: 'DOR',  color: '#D97706', page: null,                 code: 'dora2025' },
-    { key: 'ACIERTALA',     label: 'Aciertala',       short: 'ACT',  color: '#0891B2', page: null,                 code: 'act2025'  },
-    { key: 'LOTOBOLA',      label: 'Lotobola',         short: 'LOTO', color: '#DB2777', page: null,                 code: 'loto2025' },
-    { key: 'TAMBO',         label: 'Tambo',            short: 'TMB',  color: '#9333EA', page: null,                 code: 'tmb2025'  },
-    { key: 'CENCOSUD',      label: 'Cencosud',         short: 'CEN',  color: '#0369A1', page: null,                 code: 'cen2025'  },
-    { key: 'AUR BODEGA',    label: 'Aur Bodega',       short: 'AUR',  color: '#65A30D', page: null,                 code: 'aur2025'  },
-    { key: 'FRANCO',        label: 'Franco',           short: 'FRA',  color: '#B45309', page: null,                 code: 'fra2025'  },
-    { key: 'JS BODEGA',     label: 'JS Bodega',        short: 'JS',   color: '#6D28D9', page: null,                 code: 'js2025'   },
-    { key: 'MCG BODEGA',    label: 'MCG Bodega',       short: 'MCG',  color: '#0F766E', page: null,                 code: 'mcg2025'  },
+    { key: 'APUESTA TOTAL', label: 'Apuesta Total', short: 'AT',   color: '#E53535', page: 'bonus_at.html',        seed: 'GEODOR_AT_2025'   },
+    { key: 'TINBET',        label: 'Tinbet',         short: 'TIN',  color: '#16A34A', page: 'bonus_tinbet.html',   seed: 'GEODOR_TIN_2025'  },
+    { key: 'LIVESPORT',     label: 'Livesport',      short: 'LIVE', color: '#2563EB', page: 'bonus_livesport.html',seed: 'GEODOR_LIVE_2025' },
+    { key: 'RETABET',       label: 'Retabet',        short: 'RET',  color: '#94A3B8', page: 'bonus_retabet.html',  seed: 'GEODOR_RET_2025'  },
+    { key: 'DORADOBET',     label: 'Doradobet',      short: 'DOR',  color: '#D97706', page: null,                  seed: 'GEODOR_DOR_2025'  },
+    { key: 'ACIERTALA',     label: 'Aciertala',      short: 'ACT',  color: '#0891B2', page: null,                  seed: 'GEODOR_ACT_2025'  },
+    { key: 'LOTOBOLA',      label: 'Lotobola',       short: 'LOTO', color: '#DB2777', page: null,                  seed: 'GEODOR_LOTO_2025' },
+    { key: 'TAMBO',         label: 'Tambo',          short: 'TMB',  color: '#9333EA', page: null,                  seed: 'GEODOR_TMB_2025'  },
+    { key: 'CENCOSUD',      label: 'Cencosud',       short: 'CEN',  color: '#0369A1', page: null,                  seed: 'GEODOR_CEN_2025'  },
+    { key: 'AUR BODEGA',    label: 'Aur Bodega',     short: 'AUR',  color: '#65A30D', page: null,                  seed: 'GEODOR_AUR_2025'  },
+    { key: 'FRANCO',        label: 'Franco',         short: 'FRA',  color: '#B45309', page: null,                  seed: 'GEODOR_FRA_2025'  },
+    { key: 'JS BODEGA',     label: 'JS Bodega',      short: 'JS',   color: '#6D28D9', page: null,                  seed: 'GEODOR_JS_2025'   },
+    { key: 'MCG BODEGA',    label: 'MCG Bodega',     short: 'MCG',  color: '#0F766E', page: null,                  seed: 'GEODOR_MCG_2025'  },
   ];
 
   // ─────────────────────────────────────────────────────────
@@ -559,9 +559,7 @@
   function checkPin() {
     if (!selectedPartner) return goPartner();
     const val      = document.getElementById('pin-input').value.trim().toUpperCase();
-    const expected = selectedPartner.seed
-      ? dailyCode(selectedPartner.seed)
-      : (selectedPartner.code || '').toUpperCase();
+    const expected = dailyCode(selectedPartner.seed);
     if (val === expected) {
       openSearch();
     } else {
