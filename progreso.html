@@ -8,13 +8,13 @@
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --bg:    #050505;
-      --surf:  #0D0D0D;
-      --surf2: #161616;
-      --border:#242424;
-      --text:  #FFFFFF;
-      --muted: #888888;
-      --dim:   #444444;
+      --bg:    #EBF4FF;
+      --surf:  #FFFFFF;
+      --surf2: #F4F8FE;
+      --border:#C2D8ED;
+      --text:  #0D1F35;
+      --muted: #5A7490;
+      --dim:   #A0BDD1;
       --c:     #E53535;
     }
 
@@ -322,7 +322,7 @@
       position: absolute;
       top: calc(100% + 6px);
       left: 0; right: 0;
-      background: #111;
+      background: var(--surf);
       border: 1px solid var(--border);
       border-radius: 12px;
       overflow: hidden;
@@ -341,7 +341,7 @@
     .ac-item:last-child { border-bottom: none; }
     .ac-item:hover { background: color-mix(in srgb, var(--c) 12%, transparent); }
     .ac-item .ac-name { font-size: 13px; font-weight: 600; }
-    .ac-item .ac-meta { font-size: 11px; color: var(--dim); }
+    .ac-item .ac-meta { font-size: 11px; color: rgba(13,31,53,.5); }
 
     .search-hint {
       margin-top: 20px;
