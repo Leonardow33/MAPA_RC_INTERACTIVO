@@ -258,7 +258,8 @@
       overflow: hidden;
       text-overflow: ellipsis;
     }
-    .nav-store .ns-id { font-size: 11px; color: rgba(13,31,53,.5); }
+    .nav-store .ns-id  { font-size: 11px; color: rgba(13,31,53,.5); }
+    .nav-store .ns-sup { font-size: 10px; color: rgba(13,31,53,.38); margin-top: 1px; }
 
     .nav-badge {
       background: var(--accent);
@@ -921,6 +922,7 @@
     <div class="nav-store">
       <div class="ns-name" id="nav-nombre">—</div>
       <div class="ns-id" id="nav-id">—</div>
+      <div class="ns-sup" id="nav-sup" style="display:none"></div>
     </div>
     <span class="nav-badge">AT</span>
   </nav>
@@ -1297,6 +1299,12 @@
     // Nav
     document.getElementById('nav-nombre').textContent = store.nombre;
     document.getElementById('nav-id').textContent = 'Código ' + store.ID;
+    const supParts = [];
+    if (store.jz && store.jz !== 'SIN INFO') supParts.push('JZ: ' + store.jz);
+    if (store.gz && store.gz !== 'SIN INFO') supParts.push('GZ: ' + store.gz);
+    const supEl = document.getElementById('nav-sup');
+    supEl.textContent = supParts.join(' · ');
+    supEl.style.display = supParts.length ? '' : 'none';
 
     const hasMeta = store.meta_diaria != null && store.meta_diaria > 0;
     document.getElementById('no-meta-note').style.display = hasMeta ? 'none' : '';
