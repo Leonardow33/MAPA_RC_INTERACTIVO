@@ -890,16 +890,10 @@
 <div id="search-screen" style="display:none">
   <a href="../progreso.html" class="ss-back">← Partners</a>
   <div class="ss-eyebrow">Aciertala · GeoDor</div>
-  <h1 class="ss-heading">¿Quién eres?</h1>
-  <p class="ss-sub">Selecciona tu rol para ver el progreso de tus tiendas</p>
+  <h1 class="ss-heading">¿Cuál es tu tienda?</h1>
+  <p class="ss-sub">Busca tu tienda para ver tu progreso</p>
 
-  <div class="role-tabs">
-    <button class="role-tab active" id="tab-tienda" onclick="setRole('tienda')">🏪 Mi tienda</button>
-    <button class="role-tab" id="tab-jz" onclick="setRole('jz')">Jefe Comercial</button>
-    <button class="role-tab" id="tab-gz" onclick="setRole('gz')">Supervisor</button>
-  </div>
-
-  <!-- Panel: Tienda → búsqueda por nombre/código + lista completa -->
+  <!-- Panel: Tienda -->
   <div id="role-panel-tienda">
     <div class="search-wrap">
       <span class="search-ico">🔍</span>
@@ -916,23 +910,6 @@
     <p class="sc-count" id="tienda-count"></p>
   </div>
 
-  <!-- Panel: JZ → seleccionar JZ → lista de tiendas -->
-  <div id="role-panel-jz" style="display:none">
-    <select class="role-select" id="jz-select">
-      <option value="">— Selecciona tu nombre —</option>
-    </select>
-    <div class="store-card-list" id="jz-store-list"></div>
-    <p class="sc-count" id="jz-count"></p>
-  </div>
-
-  <!-- Panel: GZ → seleccionar GZ → lista de tiendas -->
-  <div id="role-panel-gz" style="display:none">
-    <select class="role-select" id="gz-select">
-      <option value="">— Selecciona tu nombre —</option>
-    </select>
-    <div class="store-card-list" id="gz-store-list"></div>
-    <p class="sc-count" id="gz-count"></p>
-  </div>
 </div>
 
 <!-- DASHBOARD -->
@@ -1126,7 +1103,6 @@
     if (!selectorReady) {
       selectorReady = true;
       setupSearch();
-      setupRoleSelects();
     }
     document.getElementById('search-input').focus();
   }
