@@ -1,0 +1,1498 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1"/>
+  <title>Mi Progreso · Cencosud</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:       #F0FBF4;
+      --surf:     #FFFFFF;
+      --surf2:    #F4FDF7;
+      --border:   #B8D9C4;
+      --text:     #0A2416;
+      --muted:    #2A6645;
+      --dim:      #7AB894;
+      --accent:   #006633;
+      --accent-d: #004D26;
+      --glow:     rgba(0,102,51,.2);
+      --green:    #0DA870;
+      --amber:    #D97706;
+      --red:      #DC2626;
+      --rose:     rgba(10,36,22,.45);
+      --rose-soft: rgba(10,36,22,.04);
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      font-size: 14px;
+      min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── SEARCH SCREEN ──────────────────────────────────────── */
+    #search-screen {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      padding: 48px 24px 64px;
+    }
+
+    .ss-eyebrow {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 10px;
+    }
+
+    .ss-heading {
+      font-size: clamp(26px, 6vw, 34px);
+      font-weight: 800;
+      line-height: 1.15;
+      text-align: center;
+      color: var(--text);
+      margin-bottom: 8px;
+      text-wrap: balance;
+    }
+
+    .ss-sub {
+      font-size: 14px;
+      color: var(--muted);
+      text-align: center;
+      margin-bottom: 20px;
+      max-width: 280px;
+    }
+
+    .search-wrap {
+      width: 100%;
+      max-width: 420px;
+      position: relative;
+    }
+
+    .search-input {
+      width: 100%;
+      background: var(--surf);
+      border: 1.5px solid var(--border);
+      border-radius: 14px;
+      padding: 15px 18px 15px 48px;
+      font-size: 15px;
+      color: var(--text);
+      font-family: inherit;
+      outline: none;
+      transition: border-color .2s, box-shadow .2s;
+    }
+    .search-input::placeholder { color: var(--dim); }
+    .search-input:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px var(--glow);
+    }
+
+    .search-ico {
+      position: absolute;
+      left: 16px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--dim);
+      font-size: 18px;
+      pointer-events: none;
+      line-height: 1;
+    }
+
+    .ac-list {
+      position: absolute;
+      top: calc(100% + 6px);
+      left: 0; right: 0;
+      background: var(--surf2);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+      z-index: 20;
+      max-height: 300px;
+      overflow-y: auto;
+      display: none;
+    }
+    .ac-list.open { display: block; }
+
+    .ac-item {
+      padding: 11px 16px;
+      cursor: pointer;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      gap: 1px;
+      transition: background .12s;
+    }
+    .ac-item:last-child { border-bottom: none; }
+    .ac-item:hover, .ac-item.focused { background: rgba(0,102,51,.12); }
+    .ac-item .ac-name { font-size: 13px; font-weight: 600; }
+    .ac-item .ac-meta { font-size: 11px; color: rgba(13,31,53,.5); }
+
+    .ss-back {
+      align-self: flex-start;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--muted);
+      text-decoration: none;
+      padding: 7px 12px;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      background: var(--surf);
+      margin-bottom: 20px;
+      transition: color .15s, border-color .15s;
+    }
+    .ss-back:hover { color: var(--text); border-color: rgba(13,31,53,.3); }
+
+    .ss-hint {
+      margin-top: 28px;
+      font-size: 12px;
+      color: rgba(244,114,182,.45);
+      text-align: center;
+    }
+
+    /* ── ROLE SELECTOR ────────────────────────────────────── */
+    .role-tabs {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 24px;
+      width: 100%;
+      max-width: 420px;
+    }
+    .role-tab {
+      flex: 1;
+      padding: 10px 6px;
+      background: var(--surf);
+      border: 1.5px solid var(--border);
+      border-radius: 12px;
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 600;
+      font-family: inherit;
+      cursor: pointer;
+      transition: all .2s;
+    }
+    .role-tab.active {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: #fff;
+      box-shadow: 0 0 14px var(--glow);
+    }
+    .role-tab:not(.active):hover { border-color: rgba(0,102,51,.4); color: var(--text); }
+
+    #role-panel-tienda, #role-panel-jz, #role-panel-gz { width: 100%; max-width: 420px; }
+
+    .role-select {
+      width: 100%;
+      background: var(--surf);
+      border: 1.5px solid var(--border);
+      border-radius: 14px;
+      padding: 14px 40px 14px 18px;
+      font-size: 15px;
+      color: var(--text);
+      font-family: inherit;
+      outline: none;
+      appearance: none;
+      -webkit-appearance: none;
+      cursor: pointer;
+      transition: border-color .2s, box-shadow .2s;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' fill='none'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23888' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 16px center;
+      margin-bottom: 14px;
+    }
+    .role-select:focus { border-color: var(--accent); box-shadow: 0 0 0 3px var(--glow); }
+
+    .store-card-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      max-height: 52vh;
+      overflow-y: auto;
+      padding-bottom: 4px;
+    }
+    .store-card {
+      background: var(--surf);
+      border: 1.5px solid var(--border);
+      border-radius: 12px;
+      padding: 12px 14px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      transition: background .15s, border-color .15s;
+    }
+    .store-card:hover { background: var(--surf2); border-color: rgba(0,102,51,.4); }
+    .sc-info { flex: 1; overflow: hidden; }
+    .sc-name { font-size: 13px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .sc-meta { font-size: 11px; color: rgba(13,31,53,.5); margin-top: 2px; }
+    .sc-sup  { font-size: 10px; color: rgba(13,31,53,.38); margin-top: 1px; }
+    .sc-arrow { color: var(--accent); font-size: 18px; flex-shrink: 0; line-height: 1; }
+    .sc-count { font-size: 12px; color: var(--muted); text-align: center; margin-top: 10px; }
+
+    /* ── DASHBOARD ──────────────────────────────────────────── */
+    #dashboard { display: none; min-height: 100vh; }
+
+    .dash-nav {
+      background: var(--surf);
+      border-top: 2px solid var(--accent);
+      border-bottom: 1px solid var(--border);
+      padding: 12px 16px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+
+    .back-btn {
+      background: none;
+      border: 1px solid var(--border);
+      color: var(--muted);
+      font-size: 14px;
+      cursor: pointer;
+      padding: 6px 12px;
+      border-radius: 8px;
+      font-family: inherit;
+      transition: color .15s, border-color .15s;
+      flex-shrink: 0;
+    }
+    .back-btn:hover { color: var(--text); border-color: rgba(13,31,53,.3); }
+
+    .nav-store { flex: 1; overflow: hidden; }
+    .nav-store .ns-name {
+      font-size: 14px;
+      font-weight: 700;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .nav-store .ns-id  { font-size: 11px; color: rgba(13,31,53,.5); }
+    .nav-store .ns-sup { font-size: 10px; color: rgba(13,31,53,.38); margin-top: 1px; }
+
+    .nav-badge {
+      background: var(--accent);
+      color: #fff;
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: .06em;
+      padding: 3px 8px;
+      border-radius: 20px;
+      flex-shrink: 0;
+    }
+
+    .dash-body {
+      padding: 20px 16px 40px;
+      max-width: 460px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    /* ── HERO RING CARD ─────────────────────────────────────── */
+    .ring-card {
+      background: var(--surf);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 28px 20px 24px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .ring-card-glow {
+      position: absolute;
+      top: -40px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 200px;
+      height: 200px;
+      border-radius: 50%;
+      background: var(--glow-color, var(--glow));
+      filter: blur(50px);
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 1s ease;
+    }
+
+    .ring-period-label {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 20px;
+      position: relative;
+    }
+
+    .ring-wrap {
+      position: relative;
+      width: 168px;
+      height: 168px;
+      margin-bottom: 20px;
+      flex-shrink: 0;
+    }
+
+    .ring-svg {
+      width: 168px;
+      height: 168px;
+      transform: rotate(-90deg);
+    }
+
+    .ring-track { fill: none; stroke: var(--border); stroke-width: 11; }
+    .ring-fill  {
+      fill: none;
+      stroke-width: 11;
+      stroke-linecap: round;
+      stroke-dasharray: 424;
+      stroke-dashoffset: 424;
+      transition: stroke-dashoffset 1.1s cubic-bezier(.22,.6,.36,1), stroke .4s;
+    }
+
+    .ring-center {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 0;
+    }
+
+    .ring-pct {
+      font-size: 38px;
+      font-weight: 900;
+      line-height: 1;
+      font-variant-numeric: tabular-nums;
+      letter-spacing: -1px;
+    }
+
+    .ring-pct-sign { font-size: 20px; font-weight: 700; }
+    .ring-sub { font-size: 10px; color: var(--rose); letter-spacing: .06em; text-transform: uppercase; margin-top: 3px; }
+
+    .ring-amounts {
+      display: flex;
+      gap: 0;
+      width: 100%;
+      position: relative;
+    }
+
+    .ra-item {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 3px;
+      padding: 12px 8px;
+    }
+
+    .ra-item + .ra-item { border-left: 1px solid var(--border); }
+
+    .ra-val {
+      font-size: 20px;
+      font-weight: 800;
+      font-variant-numeric: tabular-nums;
+      line-height: 1;
+    }
+
+    .ra-lbl {
+      font-size: 10px;
+      color: var(--rose);
+      text-transform: uppercase;
+      letter-spacing: .08em;
+    }
+
+    /* ── PERIOD CARDS ───────────────────────────────────────── */
+    .period-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .period-card {
+      background: var(--surf);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 15px 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .period-card--primary {
+      border-color: rgba(0,102,51,.25);
+      background: linear-gradient(135deg, rgba(0,102,51,.07) 0%, var(--surf) 60%);
+    }
+
+    .pc-label {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--rose);
+    }
+
+    .pc-val {
+      font-size: 22px;
+      font-weight: 800;
+      font-variant-numeric: tabular-nums;
+      line-height: 1;
+    }
+
+    .pc-meta { font-size: 11px; color: var(--dim); }
+
+    .pbar-track {
+      height: 5px;
+      background: var(--border);
+      border-radius: 99px;
+      overflow: hidden;
+      margin-top: 2px;
+    }
+
+    .pbar-fill {
+      height: 100%;
+      border-radius: 99px;
+      width: 0;
+      transition: width .9s cubic-bezier(.22,.6,.36,1);
+    }
+
+    .pc-pct {
+      font-size: 11px;
+      font-weight: 700;
+      margin-top: 1px;
+    }
+
+    /* ── GAMES BREAKDOWN ────────────────────────────────────── */
+    .games-card {
+      background: var(--surf);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 16px 14px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card-title {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: var(--rose);
+      margin-bottom: 14px;
+    }
+
+    .game-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+    .game-row:last-child { margin-bottom: 0; }
+
+    .gr-name {
+      font-size: 12px;
+      font-weight: 700;
+      width: 96px;
+      flex-shrink: 0;
+      color: var(--text);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .gr-logo {
+      width: 22px;
+      height: 22px;
+      object-fit: contain;
+      flex-shrink: 0;
+      border-radius: 4px;
+    }
+
+    .gr-bar {
+      flex: 1;
+      height: 7px;
+      background: var(--border);
+      border-radius: 99px;
+      overflow: hidden;
+    }
+
+    .gr-fill {
+      height: 100%;
+      border-radius: 99px;
+      width: 0;
+      transition: width .9s cubic-bezier(.22,.6,.36,1) .2s;
+    }
+
+    .gr-val {
+      font-size: 13px;
+      font-weight: 700;
+      font-variant-numeric: tabular-nums;
+      width: 68px;
+      text-align: right;
+      flex-shrink: 0;
+    }
+
+    /* ── MOTIVATIONAL ───────────────────────────────────────── */
+    .motive-card {
+      border-radius: 16px;
+      padding: 16px 18px;
+      display: flex;
+      gap: 14px;
+      align-items: flex-start;
+    }
+
+    .mc-icon { font-size: 26px; line-height: 1; flex-shrink: 0; margin-top: 1px; }
+    .mc-body { display: flex; flex-direction: column; gap: 3px; }
+    .mc-msg { font-size: 14px; font-weight: 700; line-height: 1.35; }
+    .mc-detail { font-size: 12px; opacity: .7; line-height: 1.4; }
+
+    /* ── WEEKLY CHART ───────────────────────────────────────── */
+    .week-card {
+      background: var(--surf);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 16px 14px 14px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .week-chart {
+      display: flex;
+      align-items: flex-end;
+      gap: 5px;
+      height: 80px;
+      margin-top: 10px;
+    }
+
+    .wc-col {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 5px;
+      height: 100%;
+    }
+
+    .wc-bar {
+      width: 100%;
+      border-radius: 3px 3px 0 0;
+      min-height: 3px;
+      transition: height .9s cubic-bezier(.22,.6,.36,1) .1s, opacity .15s;
+      cursor: pointer;
+    }
+
+    .wc-amount {
+      font-size: 8px;
+      font-weight: 700;
+      font-variant-numeric: tabular-nums;
+      color: var(--muted);
+      text-align: center;
+      min-height: 11px;
+      transition: color .15s;
+      white-space: nowrap;
+    }
+
+    .wc-day {
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: .04em;
+      text-transform: uppercase;
+      color: var(--dim);
+      flex-shrink: 0;
+    }
+
+    .wc-col--today .wc-day   { color: var(--accent); }
+    .wc-col--today .wc-bar   { box-shadow: 0 0 8px rgba(0,102,51,.45); }
+    .wc-col--today .wc-amount{ color: var(--accent); }
+
+    /* selected state */
+    .wc-col--selected .wc-bar    { outline: 2px solid var(--text); outline-offset: 2px; }
+    .wc-col--selected .wc-day    { color: var(--text); }
+    .wc-col--selected .wc-amount { color: var(--text); font-size: 9px; }
+
+    /* selected tooltip strip */
+    .wc-tooltip {
+      margin-top: 10px;
+      background: var(--surf2);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 8px 12px;
+      font-size: 12px;
+      font-weight: 600;
+      text-align: center;
+      min-height: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: opacity .2s;
+    }
+    .wc-tooltip .wt-day  { color: var(--muted); font-size: 11px; }
+    .wc-tooltip .wt-val  { color: var(--text); font-size: 15px; font-weight: 800; font-variant-numeric: tabular-nums; }
+
+    /* ── PIN SCREEN ─────────────────────────────────────────── */
+    #pin-screen {
+      min-height: 100vh;
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 48px 24px 64px;
+      animation: fadeUp .22s ease both;
+    }
+    @keyframes fadeUp {
+      from { opacity:0; transform:translateY(10px); }
+      to   { opacity:1; transform:translateY(0); }
+    }
+
+    .pin-badge {
+      background: var(--accent);
+      color: #fff;
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      padding: 4px 14px;
+      border-radius: 20px;
+      margin-bottom: 16px;
+    }
+
+    .pin-title {
+      font-size: clamp(22px, 5vw, 28px);
+      font-weight: 800;
+      text-align: center;
+      margin-bottom: 6px;
+    }
+
+    .pin-sub {
+      font-size: 13px;
+      color: var(--muted);
+      text-align: center;
+      margin-bottom: 32px;
+      max-width: 260px;
+    }
+
+    .pin-box {
+      width: 100%;
+      max-width: 320px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .pin-input-wrap { position: relative; }
+
+    .pin-input {
+      width: 100%;
+      background: var(--surf);
+      border: 1.5px solid var(--border);
+      border-radius: 14px;
+      padding: 14px 44px 14px 18px;
+      font-size: 18px;
+      letter-spacing: .18em;
+      color: var(--text);
+      font-family: inherit;
+      text-align: center;
+      outline: none;
+      transition: border-color .2s, box-shadow .2s;
+    }
+    .pin-input:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px var(--glow);
+    }
+
+    .pin-eye {
+      position: absolute;
+      right: 14px; top: 50%;
+      transform: translateY(-50%);
+      background: none; border: none;
+      color: var(--dim); font-size: 16px;
+      cursor: pointer; padding: 4px;
+      transition: color .15s;
+    }
+    .pin-eye:hover { color: var(--muted); }
+
+    .pin-error {
+      font-size: 12px;
+      color: #F04444;
+      text-align: center;
+      min-height: 16px;
+    }
+
+    .pin-btn {
+      background: var(--accent);
+      color: #fff;
+      border: none;
+      border-radius: 14px;
+      padding: 14px;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+      font-family: inherit;
+      transition: opacity .15s, transform .1s;
+    }
+    .pin-btn:hover  { opacity: .88; }
+    .pin-btn:active { transform: scale(.98); }
+
+    @keyframes shake {
+      0%,100%{ transform:translateX(0); }
+      20%    { transform:translateX(-6px); }
+      40%    { transform:translateX(6px); }
+      60%    { transform:translateX(-4px); }
+      80%    { transform:translateX(4px); }
+    }
+    .pin-input.shake { animation: shake .35s ease; }
+
+    /* ── NO-META STATE ──────────────────────────────────────── */
+    .no-meta-note {
+      background: rgba(0,102,51,.08);
+      border: 1px solid rgba(0,102,51,.25);
+      border-radius: 12px;
+      padding: 12px 14px;
+      font-size: 12px;
+      color: var(--accent);
+      text-align: center;
+    }
+
+    /* ── LOADING ────────────────────────────────────────────── */
+    #loading {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--muted);
+      font-size: 13px;
+      gap: 10px;
+    }
+
+    .spin {
+      width: 20px; height: 20px;
+      border: 2px solid var(--border);
+      border-top-color: var(--accent);
+      border-radius: 50%;
+      animation: spin .7s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* ── PROMO CARD (solo móvil) ────────────────────────── */
+    .promo-card {
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .promo-video {
+      width: 100%;
+      display: block;
+      max-height: 280px;
+      object-fit: cover;
+    }
+
+    .promo-llama {
+      position: absolute;
+      object-fit: contain;
+      pointer-events: none;
+      filter: drop-shadow(0 3px 10px rgba(0,0,0,.55));
+    }
+
+    @media (min-width: 901px) { .promo-card { display: none; } }
+
+    /* ── SUERTE SIDE DECO ───────────────────────────────── */
+    .suerte-side {
+      position: fixed;
+      top: 50%;
+      transform: translateY(-50%);
+      display: flex;
+      flex-direction: column;
+      gap: 28px;
+      align-items: center;
+      pointer-events: none;
+      z-index: 1;
+    }
+    .suerte-side.left { right: calc(50% + 246px); }
+    .suerte-deco-img {
+      width: 80px;
+      height: 80px;
+      object-fit: contain;
+      opacity: .45;
+      filter: drop-shadow(0 2px 14px rgba(236,72,153,.45));
+      transition: opacity .3s;
+    }
+    .suerte-deco-img:hover { opacity: .8; pointer-events: auto; }
+    @media (max-width: 700px) { .suerte-side { display: none; } }
+
+    /* ── VIDEO SIDE ─────────────────────────────────────── */
+    .video-side {
+      position: fixed;
+      left: calc(50% + 246px);
+      top: 50%;
+      transform: translateY(-50%);
+      width: 220px;
+      z-index: 1;
+      pointer-events: none;
+    }
+    .video-side video {
+      width: 100%;
+      display: block;
+      border-radius: 18px;
+      box-shadow:
+        0 0 0 1px rgba(0,102,51,.2),
+        0 8px 40px rgba(0,0,0,.7),
+        0 0 60px rgba(0,102,51,.15);
+    }
+    @media (max-width: 900px) { .video-side { display: none; } }
+
+    @media (prefers-reduced-motion: reduce) {
+      .ring-fill, .pbar-fill, .gr-fill { transition: none; }
+      .spin { animation: none; }
+    }
+  </style>
+</head>
+<body>
+
+<div id="loading"><div class="spin"></div> Cargando datos…</div>
+
+<!-- PIN SCREEN -->
+<div id="pin-screen">
+  <div class="pin-badge">Cencosud</div>
+  <h1 class="pin-title">Ingresa tu clave de hoy</h1>
+  <p class="pin-sub">La clave cambia cada día. Consulta con tu RC si no la tienes.</p>
+  <div class="pin-box">
+    <div class="pin-input-wrap">
+      <input type="password" class="pin-input" id="pin-input"
+             placeholder="•••••" autocomplete="off" spellcheck="false"/>
+      <button class="pin-eye" onclick="
+        var i=document.getElementById('pin-input');
+        i.type=i.type==='password'?'text':'password'
+      ">👁</button>
+    </div>
+    <div class="pin-error" id="pin-error"></div>
+    <button class="pin-btn" onclick="checkPin()">Continuar →</button>
+  </div>
+</div>
+
+<!-- SEARCH / SELECTOR SCREEN -->
+<div id="search-screen" style="display:none">
+  <a href="../progreso.html" class="ss-back">← Inicio</a>
+  <div class="ss-eyebrow">Cencosud · GeoDor</div>
+  <h1 class="ss-heading">¿Cuál es tu tienda?</h1>
+  <p class="ss-sub">Busca tu tienda para ver tu progreso</p>
+
+  <!-- Panel: Tienda -->
+  <div id="role-panel-tienda">
+    <div class="search-wrap">
+      <span class="search-ico">🔍</span>
+      <input
+        type="text"
+        class="search-input"
+        id="search-input"
+        placeholder="Busca tu tienda…"
+        autocomplete="off"
+        spellcheck="false"
+      />
+    </div>
+    <div class="store-card-list" id="tienda-store-list" style="margin-top:12px"></div>
+    <p class="sc-count" id="tienda-count"></p>
+  </div>
+
+</div>
+
+<!-- DASHBOARD -->
+<div id="dashboard">
+  <nav class="dash-nav">
+    <button class="back-btn" onclick="volverBusqueda()">← Volver</button>
+    <div class="nav-store">
+      <div class="ns-name" id="nav-nombre">—</div>
+      <div class="ns-id" id="nav-id">—</div>
+      <div class="ns-sup" id="nav-sup" style="display:none"></div>
+    </div>
+    <span class="nav-badge">AT</span>
+  </nav>
+
+  <div class="dash-body">
+    <!-- No-meta notice (hidden when meta exists) -->
+    <div class="no-meta-note" id="no-meta-note" style="display:none">
+      ⚙️ Meta diaria aún no asignada — mostrando ventas acumuladas
+    </div>
+
+    <!-- PRIORIDAD: Hoy + Semana -->
+    <div class="period-grid">
+      <div class="period-card period-card--primary">
+        <div class="pc-label">Hoy</div>
+        <div class="pc-val" id="hoy-val">S/ 0</div>
+        <div class="pc-meta" id="hoy-meta">Meta: —</div>
+        <div class="pbar-track"><div class="pbar-fill" id="hoy-bar"></div></div>
+        <div class="pc-pct" id="hoy-pct">—</div>
+      </div>
+      <div class="period-card period-card--primary">
+        <div class="pc-label">Esta Semana</div>
+        <div class="pc-val" id="sem-val">S/ 0</div>
+        <div class="pc-meta" id="sem-meta">Meta: —</div>
+        <div class="pbar-track"><div class="pbar-fill" id="sem-bar"></div></div>
+        <div class="pc-pct" id="sem-pct">—</div>
+      </div>
+    </div>
+
+    <!-- Progreso mensual -->
+    <div class="ring-card" id="ring-card">
+      <img src="../sources/logos-games/suerte-1.png" aria-hidden="true"
+           style="position:absolute;width:88px;bottom:-8px;left:-6px;transform:rotate(-10deg);opacity:.22;pointer-events:none;">
+      <div class="ring-card-glow" id="ring-glow"></div>
+      <div class="ring-period-label">PROGRESO DEL MES</div>
+      <div class="ring-wrap">
+        <svg class="ring-svg" viewBox="0 0 168 168">
+          <circle class="ring-track" cx="84" cy="84" r="67.5"/>
+          <circle class="ring-fill" id="ring-fill" cx="84" cy="84" r="67.5"/>
+        </svg>
+        <div class="ring-center">
+          <div class="ring-pct" id="ring-pct">0<span class="ring-pct-sign">%</span></div>
+          <div class="ring-sub">del mes</div>
+        </div>
+      </div>
+      <div class="ring-amounts">
+        <div class="ra-item">
+          <div class="ra-val" id="ra-actual">S/ 0</div>
+          <div class="ra-lbl">Vendido</div>
+        </div>
+        <div class="ra-item">
+          <div class="ra-val" id="ra-meta" style="color:var(--muted)">S/ —</div>
+          <div class="ra-lbl">Meta mes</div>
+        </div>
+        <div class="ra-item">
+          <div class="ra-val" id="ra-falta" style="color:var(--muted)">—</div>
+          <div class="ra-lbl">Falta</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Games breakdown -->
+    <div class="games-card">
+      <img src="../sources/logos-games/suerte-3.png" aria-hidden="true"
+           style="position:absolute;width:72px;bottom:-6px;right:-4px;transform:rotate(9deg);opacity:.2;pointer-events:none;">
+      <div class="card-title">Desglose por juego · este mes</div>
+      <div class="game-row">
+        <div class="gr-name"><img src="../sources/logos-games/pozopower.png" class="gr-logo" alt="">PozoPower</div>
+        <div class="gr-bar"><div class="gr-fill" id="pp-bar" style="background:var(--accent)"></div></div>
+        <div class="gr-val" id="pp-val">S/ 0</div>
+      </div>
+      <div class="game-row">
+        <div class="gr-name"><img src="../sources/logos-games/lakidey.png" class="gr-logo" alt="">LakiDey</div>
+        <div class="gr-bar"><div class="gr-fill" id="ld-bar" style="background:#3B9EE8"></div></div>
+        <div class="gr-val" id="ld-val">S/ 0</div>
+      </div>
+      <div class="game-row">
+        <div class="gr-name"><img src="../sources/logos-games/rapiraspa.png" class="gr-logo" alt="">Scratchcard</div>
+        <div class="gr-bar"><div class="gr-fill" id="sc-bar" style="background:#16A34A"></div></div>
+        <div class="gr-val" id="sc-val">S/ 0</div>
+      </div>
+      <div class="game-row">
+        <div class="gr-name"><img src="../sources/logos-games/pozopower.png" class="gr-logo" alt="">Go</div>
+        <div class="gr-bar"><div class="gr-fill" id="go-bar" style="background:#D97706"></div></div>
+        <div class="gr-val" id="go-val">S/ 0</div>
+      </div>
+      <div class="game-row">
+        <div class="gr-name"><img src="../sources/logos-games/elige3.png" class="gr-logo" alt="">Elige 3</div>
+        <div class="gr-bar"><div class="gr-fill" id="e3-bar" style="background:#7C3AED"></div></div>
+        <div class="gr-val" id="e3-val">S/ 0</div>
+      </div>
+    </div>
+
+    <!-- Motivational -->
+    <div class="motive-card" id="motive-card">
+      <div class="mc-icon" id="motive-icon">⏳</div>
+      <div class="mc-body">
+        <div class="mc-msg" id="motive-msg">Cargando…</div>
+        <div class="mc-detail" id="motive-detail"></div>
+      </div>
+    </div>
+
+    <!-- Weekly evolution chart -->
+    <div class="week-card">
+      <img src="../sources/logos-games/suerte-4.png" aria-hidden="true"
+           style="position:absolute;width:62px;top:-4px;right:-2px;transform:rotate(14deg);opacity:.18;pointer-events:none;">
+      <div class="card-title">Evolución · semana en curso</div>
+      <div class="week-chart" id="week-chart"></div>
+      <div class="wc-tooltip" id="wc-tooltip" style="display:none"></div>
+    </div>
+
+    <!-- Promo: video limpio (solo móvil) -->
+    <div class="promo-card">
+      <video autoplay muted loop playsinline class="promo-video">
+        <source src="../sources/logos-games/WhatsApp%20Video%202026-07-06%20at%202.57.39%20PM.mp4" type="video/mp4">
+      </video>
+    </div>
+  </div>
+</div>
+
+<!-- Llamitas Suerte: lado izquierdo (desktop) -->
+<div class="suerte-side left">
+  <img src="../sources/logos-games/suerte-1.png" class="suerte-deco-img" alt="">
+  <img src="../sources/logos-games/suerte-3.png" class="suerte-deco-img" alt="">
+</div>
+
+<!-- Video promo: lado derecho (desktop) -->
+<div class="video-side">
+  <video autoplay muted loop playsinline>
+    <source src="../sources/logos-games/WhatsApp%20Video%202026-07-06%20at%202.57.39%20PM.mp4" type="video/mp4">
+  </video>
+</div>
+
+<script>
+  // ── Clave diaria rotatoria ────────────────────────────────
+  // Cambia AT_SEED para regenerar todos los códigos futuros
+  const AT_SEED = 'GEODOR_CEN_2025';
+
+  function isoDate() {
+    const d = new Date();
+    return d.getFullYear() + '-' +
+      String(d.getMonth()+1).padStart(2,'0') + '-' +
+      String(d.getDate()).padStart(2,'0');
+  }
+
+  function dailyCode(seed, date) {
+    const s = seed + '|' + date;
+    let h = 5381;
+    for (let i = 0; i < s.length; i++) {
+      h = (((h << 5) + h) ^ s.charCodeAt(i)) >>> 0;
+    }
+    return h.toString(36).toUpperCase().slice(0, 5);
+  }
+
+  function checkPin() {
+    const val   = document.getElementById('pin-input').value.trim().toUpperCase();
+    const valid = dailyCode(AT_SEED, isoDate());
+    if (val === valid) {
+      sessionStorage.setItem('cen_auth', isoDate());
+      showSelector();
+    } else {
+      const inp = document.getElementById('pin-input');
+      document.getElementById('pin-error').textContent = 'Clave incorrecta — intenta de nuevo';
+      inp.classList.remove('shake');
+      void inp.offsetWidth;
+      inp.classList.add('shake');
+      inp.value = '';
+      inp.focus();
+    }
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    document.getElementById('pin-input').addEventListener('keydown', e => {
+      if (e.key === 'Enter') checkPin();
+    });
+  });
+
+  function showSelector() {
+    document.getElementById('loading').style.display       = 'none';
+    document.getElementById('pin-screen').style.display    = 'none';
+    document.getElementById('search-screen').style.display = 'flex';
+    if (!selectorReady) {
+      selectorReady = true;
+      setupSearch();
+    }
+    document.getElementById('search-input').focus();
+  }
+
+  function setRole(role) {
+    ['tienda','jz','gz'].forEach(r => {
+      document.getElementById('tab-' + r).classList.toggle('active', r === role);
+      document.getElementById('role-panel-' + r).style.display = r === role ? '' : 'none';
+    });
+    if (role === 'tienda') document.getElementById('search-input').focus();
+  }
+
+  function setupRoleSelects() {
+    const gzSet = new Set(), jzSet = new Set();
+    allStores.forEach(p => {
+      if (p.gz && p.gz !== 'SIN INFO') gzSet.add(p.gz);
+      if (p.jz && p.jz !== 'SIN INFO') jzSet.add(p.jz);
+    });
+
+    const gzSel = document.getElementById('gz-select');
+    [...gzSet].sort().forEach(gz => {
+      const opt = document.createElement('option');
+      opt.value = gz; opt.textContent = gz;
+      gzSel.appendChild(opt);
+    });
+    gzSel.addEventListener('change', () => {
+      const gz = gzSel.value;
+      renderStoreCards('gz', gz ? allStores.filter(p => p.gz === gz) : []);
+    });
+
+    const jzSel = document.getElementById('jz-select');
+    [...jzSet].sort().forEach(jz => {
+      const opt = document.createElement('option');
+      opt.value = jz; opt.textContent = jz;
+      jzSel.appendChild(opt);
+    });
+    jzSel.addEventListener('change', () => {
+      const jz = jzSel.value;
+      renderStoreCards('jz', jz ? allStores.filter(p => p.jz === jz) : []);
+    });
+  }
+
+  function renderStoreCards(role, stores) {
+    const listEl  = document.getElementById(role + '-store-list');
+    const countEl = document.getElementById(role + '-count');
+    if (!stores.length) {
+      listEl.innerHTML = '';
+      countEl.textContent = '';
+      return;
+    }
+    listEl.innerHTML = stores.map(s => `
+      <div class="store-card" data-id="${s.ID}">
+        <div class="sc-info">
+          <div class="sc-name">${s.nombre}</div>
+          <div class="sc-meta">${s.ID} · ${s.zona || ''} · ${s.distrito || ''}</div>
+          ${(s.jz && s.jz !== 'SIN INFO') || (s.gz && s.gz !== 'SIN INFO') ? `<div class="sc-sup">${[s.jz && s.jz !== 'SIN INFO' ? 'JC: ' + s.jz : '', s.gz && s.gz !== 'SIN INFO' ? 'SUP: ' + s.gz : ''].filter(Boolean).join(' · ')}</div>` : ''}
+        </div>
+        <span class="sc-arrow">›</span>
+      </div>`).join('');
+    listEl.querySelectorAll('.store-card').forEach(el => {
+      el.addEventListener('click', () => {
+        const s = allStores.find(p => String(p.ID) === el.dataset.id);
+        if (s) renderDashboard(s);
+      });
+    });
+    countEl.textContent = stores.length + ' tienda' + (stores.length !== 1 ? 's' : '');
+  }
+
+  const PARTNER = 'CENCOSUD';
+
+  const DIA_JS = {
+    'LUNES':1,'MARTES':2,'MIÉRCOLES':3,'MIERCOLES':3,
+    'JUEVES':4,'VIERNES':5,'SÁBADO':6,'SABADO':6,'DOMINGO':0
+  };
+
+  let allStores = [], allVentas = [], sortedStores = [];
+  let selectorReady = false;
+
+  function loadJSON(u) {
+    return fetch(u + '?v=' + Date.now(), { cache: 'no-store' }).then(r => {
+      if (!r.ok) throw new Error(r.status);
+      return r.json();
+    });
+  }
+
+  function isoToday() {
+    const d = new Date();
+    return d.getFullYear() + '-' +
+      String(d.getMonth()+1).padStart(2,'0') + '-' +
+      String(d.getDate()).padStart(2,'0');
+  }
+
+  function juevesDe(d) {
+    const j = new Date(d);
+    j.setHours(0,0,0,0);
+    const wd = j.getDay();
+    j.setDate(j.getDate() - ((wd - 4 + 7) % 7)); // siempre retrocede al jueves anterior
+    return j;
+  }
+
+  function diasVisitaEnRango(dias, inicio, fin) {
+    const nums = (dias || []).map(d => DIA_JS[d.toUpperCase()]).filter(n => n !== undefined);
+    if (!nums.length) return 0;
+    let cnt = 0, cur = new Date(inicio);
+    while (cur <= fin) { if (nums.includes(cur.getDay())) cnt++; cur.setDate(cur.getDate()+1); }
+    return cnt;
+  }
+
+  function pctColor(pct) {
+    if (pct >= 100) return 'var(--green)';
+    if (pct >= 80)  return 'var(--accent)';
+    if (pct >= 50)  return 'var(--amber)';
+    return 'var(--red)';
+  }
+
+  function fmtS(n) {
+    if (!n && n !== 0) return 'S/ —';
+    return 'S/ ' + Math.round(n).toLocaleString('es-PE');
+  }
+
+  function fmtPct(pct) {
+    if (pct === null || pct === undefined || isNaN(pct)) return '—';
+    return Math.round(pct) + '%';
+  }
+
+  function setBar(el, pct, color) {
+    el.style.width  = Math.min(pct, 100) + '%';
+    el.style.background = color;
+  }
+
+  function motivation(pct) {
+    if (pct === null) return { icon:'📊', msg:'Registra tus ventas diariamente', detail:'Tu progreso aparecerá aquí en cuanto haya datos del mes.', bg:'rgba(90,116,153,.12)', clr:'var(--muted)' };
+    if (pct >= 110)   return { icon:'🏆', msg:'¡Meta superada! Excelente trabajo', detail:'Estás por encima del objetivo mensual. ¡Sigue así!', bg:'rgba(16,217,138,.12)', clr:'var(--green)' };
+    if (pct >= 100)   return { icon:'🎯', msg:'¡Meta cumplida este mes!', detail:'Lograste tu objetivo. Cada venta adicional suma al mes siguiente.', bg:'rgba(16,217,138,.1)', clr:'var(--green)' };
+    if (pct >= 80)    return { icon:'🔥', msg:'Casi llegas — ¡un último empuje!', detail:`Solo te falta el ${Math.round(100-pct)}% para alcanzar la meta mensual.`, bg:'rgba(0,102,51,.12)', clr:'var(--accent)' };
+    if (pct >= 60)    return { icon:'💪', msg:'Buen ritmo, mantén el paso', detail:'Vas bien. Enfócate en cerrar cada día con tu meta diaria cubierta.', bg:'rgba(245,158,11,.1)', clr:'var(--amber)' };
+    if (pct >= 30)    return { icon:'📈', msg:'Hay margen para mejorar', detail:'Cada venta cuenta. Recuerda atender a todos tus clientes frecuentes.', bg:'rgba(245,158,11,.08)', clr:'var(--amber)' };
+    return { icon:'⚡', msg:'¡Arranca con todo!', detail:'El mes es largo. Empieza fuerte y mantén el ritmo desde el primer día.', bg:'rgba(240,68,68,.1)', clr:'var(--red)' };
+  }
+
+  async function init() {
+    try {
+      const [puntosData, ventasData] = await Promise.all([
+        loadJSON('../data/puntos.json'),
+        loadJSON('../data/ventas_mes.json'),
+      ]);
+
+      allStores = (Array.isArray(puntosData) ? puntosData : []).filter(p =>
+        (p.responsable || '').toUpperCase() === PARTNER &&
+        (p.estado || '').toUpperCase() === 'ACTIVO'
+      );
+
+      const todos = ventasData.body || ventasData.ventas || [];
+      allVentas = todos.filter(v => (v.partner || '').toUpperCase() === PARTNER);
+
+      // URL param shortcut (viene de progreso.html ya autenticado)
+      const params  = new URLSearchParams(location.search);
+      const idParam = params.get('id') || params.get('tienda');
+      if (idParam) {
+        const found = allStores.find(p => String(p.ID) === String(idParam));
+        if (found) { renderDashboard(found); return; }
+      }
+
+      // Sin tienda válida en URL → mostrar selector (con PIN si no autenticado)
+      document.getElementById('loading').style.display = 'none';
+      if (sessionStorage.getItem('cen_auth') === isoDate()) {
+        showSelector();
+      } else {
+        document.getElementById('pin-screen').style.display = 'flex';
+      }
+    } catch(e) {
+      document.getElementById('loading').textContent = 'Error al cargar datos: ' + e.message;
+    }
+  }
+
+  function setupSearch() {
+    sortedStores = [...allStores].sort((a, b) => a.nombre.localeCompare(b.nombre));
+    renderStoreCards('tienda', sortedStores);
+    const input = document.getElementById('search-input');
+    input.addEventListener('input', () => {
+      const q = input.value.trim().toLowerCase();
+      const filtered = q.length < 2
+        ? sortedStores
+        : sortedStores.filter(p => p.nombre.toLowerCase().includes(q) || String(p.ID).includes(q));
+      renderStoreCards('tienda', filtered);
+    });
+  }
+
+  function volverBusqueda() {
+    document.getElementById('dashboard').style.display     = 'none';
+    document.getElementById('search-screen').style.display = 'flex';
+    const activeRole = document.querySelector('.role-tab.active')?.id?.replace('tab-','') || 'tienda';
+    if (activeRole === 'tienda') {
+      const input = document.getElementById('search-input');
+      input.value = '';
+      renderStoreCards('tienda', sortedStores);
+      input.focus();
+    }
+  }
+
+  function renderDashboard(store) {
+    document.getElementById('loading').style.display = 'none';
+    document.getElementById('search-screen').style.display = 'none';
+    document.getElementById('dashboard').style.display = 'block';
+
+    // Nav
+    document.getElementById('nav-nombre').textContent = store.nombre;
+    document.getElementById('nav-id').textContent = 'Código ' + store.ID;
+    const supParts = [];
+    if (store.jz && store.jz !== 'SIN INFO') supParts.push('JC: ' + store.jz);
+    if (store.gz && store.gz !== 'SIN INFO') supParts.push('SUP: ' + store.gz);
+    const supEl = document.getElementById('nav-sup');
+    supEl.textContent = supParts.join(' · ');
+    supEl.style.display = supParts.length ? '' : 'none';
+
+    const hasMeta = store.meta_diaria != null && store.meta_diaria > 0;
+    document.getElementById('no-meta-note').style.display = hasMeta ? 'none' : '';
+
+    const hoy      = isoToday();
+    const now      = new Date();
+    const mesIni   = new Date(now.getFullYear(), now.getMonth(), 1);
+    const mesFin   = new Date(now.getFullYear(), now.getMonth()+1, 0, 23, 59, 59);
+    const semJue   = juevesDe(now);
+    const semMie   = new Date(semJue); semMie.setDate(semJue.getDate()+6); semMie.setHours(23,59,59,999);
+
+    // Aggregate ventas for this store
+    const id       = String(store.ID);
+    let totHoy = 0, totSem = 0, totMes = 0, ppMes = 0, ldMes = 0, scMes = 0, goMes = 0, e3Mes = 0;
+
+    allVentas.forEach(v => {
+      if (String(v.org_code) !== id || !v.fecha) return;
+      const f   = new Date(v.fecha + 'T12:00:00');
+      const amt = v.total || 0;
+      const tj  = v.tipo_juego || '';
+      if (tj === 'TOTAL') {
+        if (v.fecha === hoy) totHoy += amt;
+        if (f >= semJue && f <= semMie) totSem += amt;
+        if (f >= mesIni && f <= mesFin) totMes += amt;
+      }
+      if (tj === 'PozoPower'   && f >= mesIni && f <= mesFin) ppMes += amt;
+      if (tj === 'LakiDey'     && f >= mesIni && f <= mesFin) ldMes += amt;
+      if (tj === 'Scratchcard' && f >= mesIni && f <= mesFin) scMes += amt;
+      if (tj === 'Go'          && f >= mesIni && f <= mesFin) goMes += amt;
+      if (tj === 'Elige 3'     && f >= mesIni && f <= mesFin) e3Mes += amt;
+    });
+
+    // Metas
+    const dias       = store.dias || [];
+    const metaDiaria = hasMeta ? store.meta_diaria : null;
+    const diasCalMes = mesFin.getDate();        // días en el mes actual (30, 31…)
+    const diasCalSem = 7;                       // la semana siempre tiene 7 días
+    const metaSem    = hasMeta ? metaDiaria * diasCalSem : null;
+    const metaMes    = hasMeta ? metaDiaria * diasCalMes : null;
+
+    const pctMes     = metaMes  ? Math.round(totMes  / metaMes  * 100) : null;
+    const pctSem     = metaSem  ? Math.round(totSem  / metaSem  * 100) : null;
+    const pctHoy     = metaDiaria ? Math.round(totHoy / metaDiaria * 100) : null;
+
+    // Ring (circumference for r=67.5: 2π×67.5 ≈ 424)
+    const CIRC  = 424;
+    const clamp = p => Math.min(p === null ? 0 : p, 100);
+    const ringEl = document.getElementById('ring-fill');
+    const glowEl = document.getElementById('ring-glow');
+    const col    = pctMes !== null ? pctColor(pctMes) : 'var(--dim)';
+
+    ringEl.style.stroke = col;
+    ringEl.style.strokeDashoffset = CIRC * (1 - clamp(pctMes) / 100);
+
+    glowEl.style.background =
+      col === 'var(--green)'  ? 'rgba(16,217,138,.28)'  :
+      col === 'var(--accent)' ? 'rgba(0,102,51,.35)'   :
+      col === 'var(--amber)'  ? 'rgba(245,158,11,.22)'  :
+      col === 'var(--red)'    ? 'rgba(240,68,68,.22)'   : 'transparent';
+    requestAnimationFrame(() => { glowEl.style.opacity = '1'; });
+
+    document.getElementById('ring-pct').innerHTML =
+      (pctMes !== null ? pctMes : '—') + '<span class="ring-pct-sign">%</span>';
+    document.getElementById('ring-pct').style.color = col;
+
+    document.getElementById('ra-actual').textContent = fmtS(totMes);
+    document.getElementById('ra-meta').textContent   = metaMes ? fmtS(metaMes) : 'S/ —';
+    document.getElementById('ra-falta').textContent  = metaMes && totMes < metaMes ? fmtS(metaMes - totMes) : metaMes ? '✓' : '—';
+    document.getElementById('ra-falta').style.color  = metaMes && totMes >= metaMes ? 'var(--green)' : 'var(--muted)';
+
+    // Today card
+    const hoyCol = pctHoy !== null ? pctColor(pctHoy) : 'var(--dim)';
+    document.getElementById('hoy-val').textContent  = fmtS(totHoy);
+    document.getElementById('hoy-val').style.color  = hoyCol;
+    document.getElementById('hoy-meta').textContent = metaDiaria ? 'Meta: ' + fmtS(metaDiaria) : 'Sin meta asignada';
+    document.getElementById('hoy-pct').textContent  = pctHoy !== null ? fmtPct(pctHoy) : '—';
+    document.getElementById('hoy-pct').style.color  = hoyCol;
+    setBar(document.getElementById('hoy-bar'), pctHoy || 0, hoyCol);
+
+    // Week card
+    const semCol = pctSem !== null ? pctColor(pctSem) : 'var(--dim)';
+    document.getElementById('sem-val').textContent  = fmtS(totSem);
+    document.getElementById('sem-val').style.color  = semCol;
+    document.getElementById('sem-meta').textContent = metaSem ? 'Meta: ' + fmtS(metaSem) : 'Sin meta asignada';
+    document.getElementById('sem-pct').textContent  = pctSem !== null ? fmtPct(pctSem) : '—';
+    document.getElementById('sem-pct').style.color  = semCol;
+    setBar(document.getElementById('sem-bar'), pctSem || 0, semCol);
+
+    // Games
+    const maxGame = Math.max(ppMes, ldMes, scMes, goMes, e3Mes, 1);
+    document.getElementById('pp-val').textContent = fmtS(ppMes);
+    document.getElementById('ld-val').textContent = fmtS(ldMes);
+    document.getElementById('sc-val').textContent = fmtS(scMes);
+    document.getElementById('go-val').textContent = fmtS(goMes);
+    document.getElementById('e3-val').textContent = fmtS(e3Mes);
+    setBar(document.getElementById('pp-bar'), ppMes / maxGame * 100, 'var(--accent)');
+    setBar(document.getElementById('ld-bar'), ldMes / maxGame * 100, '#3B9EE8');
+    setBar(document.getElementById('sc-bar'), scMes / maxGame * 100, '#16A34A');
+    setBar(document.getElementById('go-bar'), goMes / maxGame * 100, '#D97706');
+    setBar(document.getElementById('e3-bar'), e3Mes / maxGame * 100, '#7C3AED');
+
+    // Weekly chart (Thu→Wed, 7 days)
+    const DAY_NAMES      = ['Jue','Vie','Sáb','Dom','Lun','Mar','Mié'];
+    const DAY_NAMES_LONG = ['Jueves','Viernes','Sábado','Domingo','Lunes','Martes','Miércoles'];
+    const weekKeys = [];
+    for (let i = 0; i < 7; i++) {
+      const d = new Date(semJue);
+      d.setDate(semJue.getDate() + i);
+      weekKeys.push(
+        d.getFullYear() + '-' +
+        String(d.getMonth()+1).padStart(2,'0') + '-' +
+        String(d.getDate()).padStart(2,'0')
+      );
+    }
+    const dayTotals = new Array(7).fill(0);
+    allVentas.forEach(v => {
+      if (String(v.org_code) !== id || !v.fecha || v.tipo_juego !== 'TOTAL') return;
+      const idx = weekKeys.indexOf(v.fecha);
+      if (idx >= 0) dayTotals[idx] += v.total || 0;
+    });
+    const BAR_MAX_H = 52;
+    const maxDay    = Math.max(...dayTotals, 1);
+    const chartEl   = document.getElementById('week-chart');
+    const tooltipEl = document.getElementById('wc-tooltip');
+    let selectedIdx = null;
+
+    function selectDay(i) {
+      if (selectedIdx === i) {
+        selectedIdx = null;
+        tooltipEl.style.display = 'none';
+      } else {
+        selectedIdx = i;
+        const isFuture = weekKeys[i] > hoy;
+        tooltipEl.style.display = 'flex';
+        tooltipEl.innerHTML = `<span class="wt-day">${DAY_NAMES_LONG[i]}</span><span class="wt-val">${isFuture ? '—' : fmtS(dayTotals[i])}</span>`;
+      }
+      chartEl.querySelectorAll('.wc-col').forEach((col, j) => {
+        col.classList.toggle('wc-col--selected', j === selectedIdx);
+      });
+    }
+
+    chartEl.innerHTML = weekKeys.map((dk, i) => {
+      const isToday  = dk === hoy;
+      const isFuture = dk > hoy;
+      const cls = isToday ? 'wc-col--today' : isFuture ? 'wc-col--future' : 'wc-col--past';
+      const barH = isFuture ? 3 : Math.max(Math.round(dayTotals[i] / maxDay * BAR_MAX_H), 3);
+      const barColor = isToday ? 'var(--accent)' : isFuture ? 'var(--border)' : 'rgba(13,31,53,.14)';
+      const amt = !isFuture && dayTotals[i] > 0
+        ? Math.round(dayTotals[i]).toLocaleString('es-PE')
+        : '';
+      return `<div class="wc-col ${cls}" data-idx="${i}">
+        <div class="wc-amount">${amt}</div>
+        <div class="wc-bar" style="height:${barH}px;background:${barColor}"></div>
+        <div class="wc-day">${DAY_NAMES[i]}</div>
+      </div>`;
+    }).join('');
+
+    chartEl.querySelectorAll('.wc-col').forEach(col => {
+      col.addEventListener('click', () => selectDay(+col.dataset.idx));
+    });
+
+    // Motivation
+    const m = motivation(pctMes);
+    const mc = document.getElementById('motive-card');
+    mc.style.background = m.bg;
+    mc.style.border = '1px solid ' + m.clr.replace(')', ',.3)').replace('var(', 'color-mix(in srgb,').replace('var(--', '');
+    mc.style.borderColor = m.clr;
+    mc.style.opacity = '.9';
+    document.getElementById('motive-icon').textContent   = m.icon;
+    document.getElementById('motive-msg').textContent    = m.msg;
+    document.getElementById('motive-msg').style.color    = m.clr;
+    document.getElementById('motive-detail').textContent = m.detail;
+    mc.style.border = `1px solid ${m.clr}40`;
+  }
+
+  init();
+</script>
+</body>
+</html>
