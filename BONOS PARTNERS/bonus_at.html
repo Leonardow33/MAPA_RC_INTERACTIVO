@@ -135,6 +135,24 @@
     .ac-item .ac-name { font-size: 13px; font-weight: 600; }
     .ac-item .ac-meta { font-size: 11px; color: rgba(13,31,53,.5); }
 
+    .ss-back {
+      align-self: flex-start;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--muted);
+      text-decoration: none;
+      padding: 7px 12px;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      background: var(--surf);
+      margin-bottom: 20px;
+      transition: color .15s, border-color .15s;
+    }
+    .ss-back:hover { color: var(--text); border-color: rgba(13,31,53,.3); }
+
     .ss-hint {
       margin-top: 28px;
       font-size: 12px;
@@ -870,6 +888,7 @@
 
 <!-- SEARCH / SELECTOR SCREEN -->
 <div id="search-screen" style="display:none">
+  <a href="../progreso.html" class="ss-back">← Partners</a>
   <div class="ss-eyebrow">Apuesta Total · GeoDor</div>
   <h1 class="ss-heading">¿Quién eres?</h1>
   <p class="ss-sub">Selecciona tu rol para ver el progreso de tus tiendas</p>
