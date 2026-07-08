@@ -1354,43 +1354,75 @@
   function buildResumen() {
     window.RESUMEN_BUILT = true;
 
-    // Unión de semanas: vivas (ventas_mes) + históricas (historico_bonos)
+    // Pre-inicializar TODAS las tiendas Tambo (incluso las que no ganaron)
+    const storeMap = {};
+    (window.TAMBOS || []).forEach(p => {
+      const id = String(p.ID || '');
+      storeMap[id] = {
+        id, nombre: p.nombre || '',
+        cluster: (p.cluster_bono || '').trim().toUpperCase(),
+        rc: p.rc || '',
+        semanas: [], totalTienda: 0, totalAdmi: 0,
+      };
+    });
+
     const semanasVivas = window.SEMANAS_VIVAS_MAP || {};
     const allKeys = [...new Set([
       ...Object.keys(semanasVivas),
       ...(window.HISTORICO?.semanas || []).map(s => s.jueves),
     ])].sort();
 
-    const storeMap = {};
     let semanasContadas = 0;
 
     allKeys.forEach(jueStr => {
       let ganadores, label, bono_num, completa;
 
+      // 1) Intentar cálculo vivo (semana con datos en ventas_mes)
       if (semanasVivas[jueStr]) {
-        // ── Datos vivos: misma lógica que Bonos Semana ──
         const jFecha = semanasVivas[jueStr];
-        ganadores = getGanadoresSemana(jFecha);
-        label     = semanaLabel(jFecha);
-        bono_num  = getBonoNumero(jFecha);
-        completa  = true;
-      } else {
-        // ── Solo en historial (mes anterior sin datos vivos) ──
+        const liveG  = getGanadoresSemana(jFecha);
+        if (liveG.length > 0) {
+          ganadores = liveG;
+          label     = semanaLabel(jFecha);
+          bono_num  = getBonoNumero(jFecha);
+          completa  = true;
+        }
+      }
+
+      // 2) Fallback a snapshot si el cálculo vivo dio 0 o la semana no tiene ventas
+      //    (ej: ventas_mes.json tiene Jul 1 pero no toda la semana Jun 25-Jul 1)
+      if (!ganadores || !ganadores.length) {
         const snap = window.HISTORICO_MAP[jueStr];
         if (!snap || !(snap.ganadores || []).length) return;
-        ganadores = snap.ganadores;
-        label     = snap.semana;
-        bono_num  = snap.bono_num;
-        completa  = snap.completa !== false;
+
+        // Recalcular tier con claves actuales si el snapshot no lo guardó
+        const TO   = ['A','B','C','D'];
+        const KEYS = window.KEYS || {};
+        ganadores = snap.ganadores.map(g => {
+          if (g.bono_tier) return g; // ya tiene tier guardado
+          const fi = TO.indexOf(g.cluster);
+          if (fi < 0) return g;
+          for (let ti = 0; ti <= fi; ti++) {
+            const t = TO[ti], k = KEYS[t];
+            // g.pp en el snapshot ya es pp_uni (igual que lo que muestra Bonos Semana)
+            if (k && g.total >= k.meta && g.pp >= k.pp && g.ld >= k.lakidey) {
+              const prem = PREMIOS_MAP[t] || { tienda: 0, admi: 0 };
+              return { ...g, bono_tier: t, bono_tienda: prem.tienda, bono_admi: prem.admi };
+            }
+          }
+          return g;
+        });
+        label    = snap.semana;
+        bono_num = snap.bono_num;
+        completa = snap.completa !== false;
       }
 
       if (!ganadores.length) return;
       semanasContadas++;
 
       ganadores.forEach(g => {
-        if (!storeMap[g.id]) {
-          storeMap[g.id] = { id: g.id, nombre: g.nombre,
-            cluster: g.cluster, rc: g.rc || '',
+        if (!storeMap[g.id]) { // tienda histórica ya no activa en TAMBOS
+          storeMap[g.id] = { id: g.id, nombre: g.nombre, cluster: g.cluster, rc: g.rc || '',
             semanas: [], totalTienda: 0, totalAdmi: 0 };
         }
         storeMap[g.id].semanas.push({
@@ -1405,9 +1437,10 @@
     window.RESUMEN_STORES = Object.values(storeMap)
       .sort((a, b) => b.semanas.length - a.semanas.length || a.nombre.localeCompare(b.nombre));
 
-    // Stats globales
-    const totalAcum = window.RESUMEN_STORES.reduce((s, t) => s + t.totalTienda + t.totalAdmi, 0);
-    document.getElementById('res-n-tiendas').textContent = window.RESUMEN_STORES.length;
+    // Stats: conta solo ganadoras para el card
+    const ganadoras = window.RESUMEN_STORES.filter(t => t.semanas.length > 0);
+    const totalAcum = ganadoras.reduce((s, t) => s + t.totalTienda + t.totalAdmi, 0);
+    document.getElementById('res-n-tiendas').textContent = ganadoras.length;
     document.getElementById('res-n-semanas').textContent = semanasContadas;
     document.getElementById('res-total-acum').textContent = 'S/ ' + totalAcum.toLocaleString();
 
