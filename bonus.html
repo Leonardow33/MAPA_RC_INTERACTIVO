@@ -781,6 +781,7 @@
       window.HISTORICO     = historico;
       window.HISTORICO_MAP = {};
       (historico.semanas || []).forEach(s => { window.HISTORICO_MAP[s.jueves] = s; });
+      window.SEMANAS_MAP   = semanasMap;   // { 'YYYY-MM-DD': Date } semanas con ventas vivas
 
       // Filtrar solo tiendas Tambo (por tipo o por tener cluster_bono A/B/C/D)
       window.TAMBOS = puntos.filter(p => {
@@ -1306,30 +1307,93 @@
   // ════════════════════════════════════════════════════════════════
   // PANEL RESUMEN — semanas ganadas por tienda
   // ════════════════════════════════════════════════════════════════
+
+  // Calcula ganadores de una semana igual que Bonos Semana (datos vivos)
+  function getGanadoresSemana(juevesFecha) {
+    const mie = new Date(juevesFecha);
+    mie.setDate(juevesFecha.getDate() + 6);
+    mie.setHours(23, 59, 59, 999);
+
+    const vmap = {};
+    (window.TODAS_VENTAS || []).forEach(v => {
+      const f = new Date(v.fecha + 'T12:00:00');
+      if (f < juevesFecha || f > mie) return;
+      const id = String(v.org_code);
+      if (!vmap[id]) vmap[id] = { pp: 0, ld: 0, grand: 0 };
+      if (v.tipo_juego === 'TOTAL')     vmap[id].grand += (v.total || 0);
+      if (v.tipo_juego === 'PozoPower') vmap[id].pp    += (v.total || 0);
+      if (v.tipo_juego === 'LakiDey')  vmap[id].ld    += (v.total || 0);
+    });
+
+    const KEYS       = window.KEYS || {};
+    const TIER_ORDER = ['A','B','C','D'];
+    const out        = [];
+
+    (window.TAMBOS || []).forEach(p => {
+      const id  = String(p.ID || '');
+      const cb  = (p.cluster_bono || '').trim().toUpperCase();
+      const fi  = TIER_ORDER.indexOf(cb);
+      if (fi < 0) return;
+      const v      = vmap[id] || { pp: 0, ld: 0, grand: 0 };
+      const pp_uni = Math.floor(v.pp / 5);
+      let bonoTier = null;
+      for (let ti = 0; ti <= fi; ti++) {
+        const t = TIER_ORDER[ti], k = KEYS[t];
+        if (k && v.grand >= k.meta && pp_uni >= k.pp && v.ld >= k.lakidey) { bonoTier = t; break; }
+      }
+      if (!bonoTier) return;
+      const prem = PREMIOS_MAP[bonoTier] || { tienda: 0, admi: 0 };
+      out.push({ id, nombre: p.nombre || '', cluster: cb, rc: p.rc || '',
+                 bono_tier: bonoTier, bono_tienda: prem.tienda, bono_admi: prem.admi });
+    });
+    return out;
+  }
+
   function buildResumen() {
     window.RESUMEN_BUILT = true;
-    const semanas = (window.HISTORICO?.semanas || [])
-      .filter(s => (s.ganadores || []).length > 0)
-      .sort((a, b) => a.jueves.localeCompare(b.jueves));
 
-    // Agregar por tienda
+    // Unión de semanas: vivas (ventas_mes) + históricas (historico_bonos)
+    const semanasVivas = window.SEMANAS_MAP || {};
+    const allKeys = [...new Set([
+      ...Object.keys(semanasVivas),
+      ...(window.HISTORICO?.semanas || []).map(s => s.jueves),
+    ])].sort();
+
     const storeMap = {};
-    semanas.forEach(s => {
-      (s.ganadores || []).forEach(g => {
+    let semanasContadas = 0;
+
+    allKeys.forEach(jueStr => {
+      let ganadores, label, bono_num, completa;
+
+      if (semanasVivas[jueStr]) {
+        // ── Datos vivos: misma lógica que Bonos Semana ──
+        const jFecha = semanasVivas[jueStr];
+        ganadores = getGanadoresSemana(jFecha);
+        label     = semanaLabel(jFecha);
+        bono_num  = getBonoNumero(jFecha);
+        completa  = true;
+      } else {
+        // ── Solo en historial (mes anterior sin datos vivos) ──
+        const snap = window.HISTORICO_MAP[jueStr];
+        if (!snap || !(snap.ganadores || []).length) return;
+        ganadores = snap.ganadores;
+        label     = snap.semana;
+        bono_num  = snap.bono_num;
+        completa  = snap.completa !== false;
+      }
+
+      if (!ganadores.length) return;
+      semanasContadas++;
+
+      ganadores.forEach(g => {
         if (!storeMap[g.id]) {
-          storeMap[g.id] = {
-            id: g.id, nombre: g.nombre,
+          storeMap[g.id] = { id: g.id, nombre: g.nombre,
             cluster: g.cluster, rc: g.rc || '',
-            semanas: [], totalTienda: 0, totalAdmi: 0,
-          };
+            semanas: [], totalTienda: 0, totalAdmi: 0 };
         }
         storeMap[g.id].semanas.push({
-          label:       s.semana,
-          bono_num:    s.bono_num,
-          bono_tier:   g.bono_tier,
-          bono_tienda: g.bono_tienda,
-          bono_admi:   g.bono_admi,
-          completa:    s.completa !== false,
+          label, bono_num, bono_tier: g.bono_tier,
+          bono_tienda: g.bono_tienda, bono_admi: g.bono_admi, completa,
         });
         storeMap[g.id].totalTienda += g.bono_tienda;
         storeMap[g.id].totalAdmi   += g.bono_admi;
@@ -1342,7 +1406,7 @@
     // Stats globales
     const totalAcum = window.RESUMEN_STORES.reduce((s, t) => s + t.totalTienda + t.totalAdmi, 0);
     document.getElementById('res-n-tiendas').textContent = window.RESUMEN_STORES.length;
-    document.getElementById('res-n-semanas').textContent = semanas.length;
+    document.getElementById('res-n-semanas').textContent = semanasContadas;
     document.getElementById('res-total-acum').textContent = 'S/ ' + totalAcum.toLocaleString();
 
     // Poblar RC select
