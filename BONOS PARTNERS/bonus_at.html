@@ -40,7 +40,7 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: center;
+      justify-content: flex-start;
       padding: 48px 24px 64px;
     }
 
@@ -67,7 +67,7 @@
       font-size: 14px;
       color: var(--muted);
       text-align: center;
-      margin-bottom: 40px;
+      margin-bottom: 20px;
       max-width: 280px;
     }
 
@@ -171,7 +171,7 @@
     }
     .role-tab:not(.active):hover { border-color: rgba(229,53,53,.4); color: var(--text); }
 
-    #role-panel-jz, #role-panel-gz { width: 100%; max-width: 420px; }
+    #role-panel-tienda, #role-panel-jz, #role-panel-gz { width: 100%; max-width: 420px; }
 
     .role-select {
       width: 100%;
@@ -878,7 +878,7 @@
     <button class="role-tab" id="tab-gz" onclick="setRole('gz')">GZ</button>
   </div>
 
-  <!-- Panel: Tienda → búsqueda por nombre/código -->
+  <!-- Panel: Tienda → búsqueda por nombre/código + lista completa -->
   <div id="role-panel-tienda">
     <div class="search-wrap">
       <span class="search-ico">🔍</span>
@@ -890,9 +890,9 @@
         autocomplete="off"
         spellcheck="false"
       />
-      <div class="ac-list" id="ac-list"></div>
     </div>
-    <p class="ss-hint">También puedes ingresar el código de tu tienda</p>
+    <div class="store-card-list" id="tienda-store-list" style="margin-top:12px"></div>
+    <p class="sc-count" id="tienda-count"></p>
   </div>
 
   <!-- Panel: JZ → seleccionar JZ → lista de tiendas -->
@@ -1086,8 +1086,11 @@
     document.getElementById('loading').style.display       = 'none';
     document.getElementById('pin-screen').style.display    = 'none';
     document.getElementById('search-screen').style.display = 'flex';
-    setupSearch();
-    setupRoleSelects();
+    if (!selectorReady) {
+      selectorReady = true;
+      setupSearch();
+      setupRoleSelects();
+    }
     document.getElementById('search-input').focus();
   }
 
@@ -1161,7 +1164,8 @@
     'JUEVES':4,'VIERNES':5,'SÁBADO':6,'SABADO':6,'DOMINGO':0
   };
 
-  let allStores = [], allVentas = [];
+  let allStores = [], allVentas = [], sortedStores = [];
+  let selectorReady = false;
 
   function loadJSON(u) {
     return fetch(u + '?v=' + Date.now(), { cache: 'no-store' }).then(r => {
@@ -1260,35 +1264,16 @@
   }
 
   function setupSearch() {
+    sortedStores = [...allStores].sort((a, b) => a.nombre.localeCompare(b.nombre));
+    renderStoreCards('tienda', sortedStores);
     const input = document.getElementById('search-input');
-    const list  = document.getElementById('ac-list');
-
     input.addEventListener('input', () => {
       const q = input.value.trim().toLowerCase();
-      if (q.length < 2) { list.classList.remove('open'); return; }
-      const hits = allStores.filter(p =>
-        p.nombre.toLowerCase().includes(q) || String(p.ID).includes(q)
-      ).slice(0, 10);
-      if (!hits.length) { list.classList.remove('open'); return; }
-      list.innerHTML = hits.map(p => `
-        <div class="ac-item" data-id="${p.ID}">
-          <span class="ac-name">${p.nombre}</span>
-          <span class="ac-meta">${p.ID} · ${p.zona || ''} · ${p.distrito || ''}</span>
-        </div>`).join('');
-      list.classList.add('open');
-      list.querySelectorAll('.ac-item').forEach(el => {
-        el.addEventListener('click', () => {
-          const s = allStores.find(p => String(p.ID) === el.dataset.id);
-          if (s) { list.classList.remove('open'); renderDashboard(s); }
-        });
-      });
+      const filtered = q.length < 2
+        ? sortedStores
+        : sortedStores.filter(p => p.nombre.toLowerCase().includes(q) || String(p.ID).includes(q));
+      renderStoreCards('tienda', filtered);
     });
-
-    document.addEventListener('click', e => {
-      if (!e.target.closest('.search-wrap')) list.classList.remove('open');
-    });
-
-    input.focus();
   }
 
   function volverBusqueda() {
@@ -1296,9 +1281,10 @@
     document.getElementById('search-screen').style.display = 'flex';
     const activeRole = document.querySelector('.role-tab.active')?.id?.replace('tab-','') || 'tienda';
     if (activeRole === 'tienda') {
-      document.getElementById('search-input').value = '';
-      document.getElementById('ac-list').classList.remove('open');
-      document.getElementById('search-input').focus();
+      const input = document.getElementById('search-input');
+      input.value = '';
+      renderStoreCards('tienda', sortedStores);
+      input.focus();
     }
   }
 
