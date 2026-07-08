@@ -475,7 +475,7 @@
   // CONFIGURACIÓN — cambiar claves aquí
   // ─────────────────────────────────────────────────────────
   const PARTNERS = [
-    { key: 'APUESTA TOTAL', label: 'Apuesta Total', short: 'AT',   color: '#E53535', page: 'BONOS PARTNERS/bonus_at.html',        seed: 'GEODOR_AT_2025'   },
+    { key: 'APUESTA TOTAL', label: 'Apuesta Total', short: 'AT',   color: '#E53535', page: 'BONOS PARTNERS/bonus_at.html',        seed: 'GEODOR_AT_2025',   hasSelector: true, authKey: 'at_auth' },
     { key: 'TINBET',        label: 'Tinbet',        short: 'TIN',  color: '#16A34A', page: 'BONOS PARTNERS/bonus_tinbet.html',   seed: 'GEODOR_TIN_2025'  },
     { key: 'LIVESPORT',     label: 'Livesport',     short: 'LIVE', color: '#2563EB', page: 'BONOS PARTNERS/bonus_livesport.html',seed: 'GEODOR_LIVE_2025' },
     { key: 'RETABET',       label: 'Retabet',       short: 'RET',  color: '#94A3B8', page: 'BONOS PARTNERS/bonus_retabet.html',  seed: 'GEODOR_RET_2025'  },
@@ -554,7 +554,13 @@
     const val      = document.getElementById('pin-input').value.trim().toUpperCase();
     const expected = dailyCode(selectedPartner.seed);
     if (val === expected) {
-      openSearch();
+      if (selectedPartner.hasSelector && selectedPartner.page) {
+        // Este partner tiene su propio selector de rol — ir directo sin buscar tienda aquí
+        sessionStorage.setItem(selectedPartner.authKey, isoDate());
+        window.location.href = selectedPartner.page;
+      } else {
+        openSearch();
+      }
     } else {
       const inp = document.getElementById('pin-input');
       document.getElementById('pin-error').textContent = 'Clave incorrecta, intenta de nuevo';
