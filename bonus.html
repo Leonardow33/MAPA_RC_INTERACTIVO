@@ -1405,7 +1405,9 @@
       const weeksHTML = t.semanas.map(s => `
         <div class="res-week-item">
           <span class="res-week-label">Bono ${s.bono_num} · ${s.label}</span>
-          <span class="res-week-tier res-week-tier-${s.bono_tier}">Tier ${s.bono_tier}</span>
+          ${s.bono_tier
+            ? `<span class="res-week-tier res-week-tier-${s.bono_tier}">Tier ${s.bono_tier}</span>`
+            : `<span class="res-week-incomplete">tier no guardado</span>`}
           <span class="res-week-bono">S/ ${s.bono_tienda + s.bono_admi}</span>
           ${!s.completa ? '<span class="res-week-incomplete">parcial</span>' : ''}
         </div>`).join('');
