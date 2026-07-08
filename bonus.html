@@ -754,6 +754,8 @@
         const key = isoDate(jue);
         if (!semanasMap[key]) semanasMap[key] = jue;
       });
+      // Guardar mapa solo-vivas ANTES de agregar historico (para buildResumen)
+      window.SEMANAS_VIVAS_MAP = {...semanasMap};
       (historico.semanas || []).forEach(s => {
         if (!semanasMap[s.jueves]) semanasMap[s.jueves] = new Date(s.jueves + 'T12:00:00');
       });
@@ -1353,7 +1355,7 @@
     window.RESUMEN_BUILT = true;
 
     // Unión de semanas: vivas (ventas_mes) + históricas (historico_bonos)
-    const semanasVivas = window.SEMANAS_MAP || {};
+    const semanasVivas = window.SEMANAS_VIVAS_MAP || {};
     const allKeys = [...new Set([
       ...Object.keys(semanasVivas),
       ...(window.HISTORICO?.semanas || []).map(s => s.jueves),
