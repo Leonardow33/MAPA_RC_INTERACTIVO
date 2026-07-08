@@ -1,10 +1,7 @@
 name: Actualizar Ventas Mes
 
 on:
-  schedule:
-    - cron: '0 13 * * *'   # 8:00 AM Peru (UTC-5) todos los días
-    - cron: '0 4 * * *'    # 11:00 PM Peru (UTC-5) — descarga con datos del dia casi completo
-  workflow_dispatch:
+  workflow_dispatch:   # disparado externamente por cron-job.org cada 25 min
 
 jobs:
   update:
