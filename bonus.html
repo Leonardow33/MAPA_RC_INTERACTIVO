@@ -395,6 +395,94 @@
       color: var(--muted);
       font-size: 15px;
     }
+
+    /* ── PANEL RESUMEN ── */
+    .resumen-bar {
+      display: flex;
+      gap: 8px;
+      padding: 12px 20px;
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      flex-wrap: wrap;
+      align-items: center;
+    }
+    .resumen-bar input, .resumen-bar select {
+      background: var(--bg);
+      color: var(--text);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 6px 10px;
+      font-size: 13px;
+      outline: none;
+    }
+    .resumen-bar input { width: 240px; }
+    .resumen-bar input:focus, .resumen-bar select:focus { border-color: var(--accent); }
+    .resumen-bar .res-count { margin-left: auto; color: var(--muted); font-size: 12px; }
+
+    .res-stats {
+      display: flex;
+      gap: 12px;
+      padding: 14px 20px;
+      flex-wrap: wrap;
+    }
+
+    /* filas expandibles */
+    .res-row { cursor: pointer; }
+    .res-row:hover td { background: rgba(99,102,241,.06); }
+    .res-row td:first-child { position: relative; padding-left: 28px; }
+    .res-chevron {
+      position: absolute;
+      left: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 11px;
+      color: var(--muted);
+      transition: transform .2s;
+    }
+    .res-row.open .res-chevron { transform: translateY(-50%) rotate(90deg); }
+
+    .res-detail-row { display: none; }
+    .res-detail-row.open { display: table-row; }
+    .res-detail-cell {
+      padding: 0 12px 10px 28px !important;
+      background: rgba(99,102,241,.03);
+    }
+    .res-weeks-list {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      padding: 8px 0 4px;
+    }
+    .res-week-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 12px;
+      padding: 5px 10px;
+      border-radius: 6px;
+      background: var(--bg);
+      border: 1px solid var(--border);
+    }
+    .res-week-label { flex: 1; color: var(--text); }
+    .res-week-tier {
+      font-size: 10px;
+      font-weight: 700;
+      padding: 2px 7px;
+      border-radius: 20px;
+    }
+    .res-week-tier-A { background:#7C3AED22; color:#A78BFA; border:1px solid #7C3AED55; }
+    .res-week-tier-B { background:#0EA5E922; color:#38BDF8; border:1px solid #0EA5E955; }
+    .res-week-tier-C { background:#10B98122; color:#34D399; border:1px solid #10B98155; }
+    .res-week-tier-D { background:#F59E0B22; color:#FCD34D; border:1px solid #F59E0B55; }
+    .res-week-bono { font-variant-numeric: tabular-nums; color: var(--green); font-weight: 700; }
+    .res-week-incomplete { font-size: 10px; color: var(--muted); font-style: italic; }
+
+    .td-wins {
+      font-weight: 700;
+      font-variant-numeric: tabular-nums;
+      color: var(--accent);
+    }
+    .td-sum { font-variant-numeric: tabular-nums; font-weight: 600; }
   </style>
   <script src="https://unpkg.com/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
 </head>
@@ -407,7 +495,8 @@
 
 <nav class="tab-nav">
   <button class="tab-btn active" id="tab-bonos" onclick="setTab('bonos')">📊 Bonos Semana</button>
-  <button class="tab-btn" id="tab-pagos" onclick="setTab('pagos')">💳 Pagos SR</button>
+  <button class="tab-btn" id="tab-pagos"    onclick="setTab('pagos')">💳 Pagos SR</button>
+  <button class="tab-btn" id="tab-resumen" onclick="setTab('resumen')">📋 Resumen histórico</button>
 </nav>
 
 <div id="panel-bonos">
@@ -500,6 +589,52 @@
   </div>
   <div class="pagos-result" id="pagos-result">
     <div class="pagos-placeholder">Busca una tienda para ver su historial de pagos SR</div>
+  </div>
+</div>
+
+<!-- ── PANEL RESUMEN ─────────────────────────────── -->
+<div id="panel-resumen" style="display:none">
+  <div class="resumen-bar">
+    <input type="search" id="res-buscar" placeholder="🔍 Buscar tienda o código…" autocomplete="off"/>
+    <select id="res-cluster">
+      <option value="">Cluster</option>
+      <option value="A">Cluster A</option>
+      <option value="B">Cluster B</option>
+      <option value="C">Cluster C</option>
+      <option value="D">Cluster D</option>
+    </select>
+    <select id="res-rc"><option value="">RC</option></select>
+    <span class="res-count" id="res-count"></span>
+  </div>
+  <div class="res-stats">
+    <div class="stat-card green">
+      <span class="stat-val" id="res-n-tiendas">—</span>
+      <span class="stat-lbl">Tiendas ganadoras</span>
+    </div>
+    <div class="stat-card blue">
+      <span class="stat-val" id="res-n-semanas">—</span>
+      <span class="stat-lbl">Semanas en historial</span>
+    </div>
+    <div class="stat-card" style="border-color:#A78BFA55">
+      <span class="stat-val" id="res-total-acum" style="color:#A78BFA;font-size:18px">—</span>
+      <span class="stat-lbl">Bono acumulado</span>
+    </div>
+  </div>
+  <div class="tabla-wrap">
+    <div id="res-msg" class="msg" style="display:none">Cargando…</div>
+    <table id="res-tabla" style="min-width:680px">
+      <thead>
+        <tr>
+          <th>Tienda</th>
+          <th>Cluster</th>
+          <th>RC</th>
+          <th style="text-align:center">Semanas ganadas</th>
+          <th style="text-align:right">B. Tienda total</th>
+          <th style="text-align:right">B. Admin total</th>
+        </tr>
+      </thead>
+      <tbody id="res-tbody"></tbody>
+    </table>
   </div>
 </div>
 
@@ -643,6 +778,7 @@
       // Guardar estado global para recalcular al cambiar semana
       window.TODAS_VENTAS  = ventas.body || ventas.ventas || [];
       window.KEYS          = KEYS;
+      window.HISTORICO     = historico;
       window.HISTORICO_MAP = {};
       (historico.semanas || []).forEach(s => { window.HISTORICO_MAP[s.jueves] = s; });
 
@@ -1157,11 +1293,133 @@
   // TAB SWITCHING
   // ════════════════════════════════════════════════════════════════
   function setTab(name) {
-    document.getElementById('panel-bonos').style.display = name === 'bonos' ? '' : 'none';
-    document.getElementById('panel-pagos').style.display = name === 'pagos' ? '' : 'none';
-    document.getElementById('tab-bonos').classList.toggle('active', name === 'bonos');
-    document.getElementById('tab-pagos').classList.toggle('active', name === 'pagos');
-    if (name === 'pagos' && !window.PAGOS_DATA) initPagos();
+    document.getElementById('panel-bonos').style.display   = name === 'bonos'   ? '' : 'none';
+    document.getElementById('panel-pagos').style.display   = name === 'pagos'   ? '' : 'none';
+    document.getElementById('panel-resumen').style.display = name === 'resumen' ? '' : 'none';
+    document.getElementById('tab-bonos').classList.toggle('active',   name === 'bonos');
+    document.getElementById('tab-pagos').classList.toggle('active',   name === 'pagos');
+    document.getElementById('tab-resumen').classList.toggle('active', name === 'resumen');
+    if (name === 'pagos'   && !window.PAGOS_DATA)   initPagos();
+    if (name === 'resumen' && !window.RESUMEN_BUILT) buildResumen();
+  }
+
+  // ════════════════════════════════════════════════════════════════
+  // PANEL RESUMEN — semanas ganadas por tienda
+  // ════════════════════════════════════════════════════════════════
+  function buildResumen() {
+    window.RESUMEN_BUILT = true;
+    const semanas = (window.HISTORICO?.semanas || [])
+      .filter(s => (s.ganadores || []).length > 0)
+      .sort((a, b) => a.jueves.localeCompare(b.jueves));
+
+    // Agregar por tienda
+    const storeMap = {};
+    semanas.forEach(s => {
+      (s.ganadores || []).forEach(g => {
+        if (!storeMap[g.id]) {
+          storeMap[g.id] = {
+            id: g.id, nombre: g.nombre,
+            cluster: g.cluster, rc: g.rc || '',
+            semanas: [], totalTienda: 0, totalAdmi: 0,
+          };
+        }
+        storeMap[g.id].semanas.push({
+          label:       s.semana,
+          bono_num:    s.bono_num,
+          bono_tier:   g.bono_tier,
+          bono_tienda: g.bono_tienda,
+          bono_admi:   g.bono_admi,
+          completa:    s.completa !== false,
+        });
+        storeMap[g.id].totalTienda += g.bono_tienda;
+        storeMap[g.id].totalAdmi   += g.bono_admi;
+      });
+    });
+
+    window.RESUMEN_STORES = Object.values(storeMap)
+      .sort((a, b) => b.semanas.length - a.semanas.length || a.nombre.localeCompare(b.nombre));
+
+    // Stats globales
+    const totalAcum = window.RESUMEN_STORES.reduce((s, t) => s + t.totalTienda + t.totalAdmi, 0);
+    document.getElementById('res-n-tiendas').textContent = window.RESUMEN_STORES.length;
+    document.getElementById('res-n-semanas').textContent = semanas.length;
+    document.getElementById('res-total-acum').textContent = 'S/ ' + totalAcum.toLocaleString();
+
+    // Poblar RC select
+    const rcs = [...new Set(window.RESUMEN_STORES.map(t => t.rc).filter(Boolean))].sort();
+    const selRc = document.getElementById('res-rc');
+    selRc.innerHTML = '<option value="">RC</option>' +
+      rcs.map(r => `<option value="${r}">${r}</option>`).join('');
+
+    // Listeners filtros
+    ['res-buscar','res-cluster','res-rc'].forEach(id => {
+      document.getElementById(id).addEventListener('input',  renderResumen);
+      document.getElementById(id).addEventListener('change', renderResumen);
+    });
+
+    renderResumen();
+  }
+
+  function renderResumen() {
+    const q   = (document.getElementById('res-buscar').value  || '').toLowerCase();
+    const cls = document.getElementById('res-cluster').value  || '';
+    const rc  = document.getElementById('res-rc').value       || '';
+
+    const filtered = (window.RESUMEN_STORES || []).filter(t => {
+      if (cls && t.cluster !== cls) return false;
+      if (rc  && t.rc      !== rc)  return false;
+      if (q && !t.nombre.toLowerCase().includes(q) && !t.id.includes(q)) return false;
+      return true;
+    });
+
+    document.getElementById('res-count').textContent =
+      `${filtered.length} tienda${filtered.length !== 1 ? 's' : ''}`;
+
+    const tbody = document.getElementById('res-tbody');
+    tbody.innerHTML = '';
+
+    if (!filtered.length) {
+      tbody.innerHTML = '<tr><td colspan="6" class="msg">Sin resultados</td></tr>';
+      return;
+    }
+
+    filtered.forEach((t, idx) => {
+      // Fila resumen
+      const tr = document.createElement('tr');
+      tr.className = 'res-row';
+      tr.dataset.idx = idx;
+      tr.innerHTML = `
+        <td><span class="res-chevron">▶</span>
+          <div class="td-nombre">${t.nombre}</div>
+          <div class="td-code">${t.id}</div>
+        </td>
+        <td>${badgeCluster(t.cluster)}</td>
+        <td class="td-rc">${t.rc || '—'}</td>
+        <td style="text-align:center" class="td-wins">${t.semanas.length}</td>
+        <td style="text-align:right" class="td-sum">S/ ${t.totalTienda.toLocaleString()}</td>
+        <td style="text-align:right" class="td-sum" style="color:var(--blue)">S/ ${t.totalAdmi.toLocaleString()}</td>`;
+
+      // Fila detalle (oculta)
+      const trDet = document.createElement('tr');
+      trDet.className = 'res-detail-row';
+      const weeksHTML = t.semanas.map(s => `
+        <div class="res-week-item">
+          <span class="res-week-label">Bono ${s.bono_num} · ${s.label}</span>
+          <span class="res-week-tier res-week-tier-${s.bono_tier}">Tier ${s.bono_tier}</span>
+          <span class="res-week-bono">S/ ${s.bono_tienda + s.bono_admi}</span>
+          ${!s.completa ? '<span class="res-week-incomplete">parcial</span>' : ''}
+        </div>`).join('');
+      trDet.innerHTML = `<td class="res-detail-cell" colspan="6">
+        <div class="res-weeks-list">${weeksHTML}</div></td>`;
+
+      tr.addEventListener('click', () => {
+        tr.classList.toggle('open');
+        trDet.classList.toggle('open');
+      });
+
+      tbody.appendChild(tr);
+      tbody.appendChild(trDet);
+    });
   }
 
   // ════════════════════════════════════════════════════════════════
