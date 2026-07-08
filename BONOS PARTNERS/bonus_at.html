@@ -142,6 +142,84 @@
       text-align: center;
     }
 
+    /* ── ROLE SELECTOR ────────────────────────────────────── */
+    .role-tabs {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 24px;
+      width: 100%;
+      max-width: 420px;
+    }
+    .role-tab {
+      flex: 1;
+      padding: 10px 6px;
+      background: var(--surf);
+      border: 1.5px solid var(--border);
+      border-radius: 12px;
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 600;
+      font-family: inherit;
+      cursor: pointer;
+      transition: all .2s;
+    }
+    .role-tab.active {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: #fff;
+      box-shadow: 0 0 14px var(--glow);
+    }
+    .role-tab:not(.active):hover { border-color: rgba(229,53,53,.4); color: var(--text); }
+
+    #role-panel-jz, #role-panel-gz { width: 100%; max-width: 420px; }
+
+    .role-select {
+      width: 100%;
+      background: var(--surf);
+      border: 1.5px solid var(--border);
+      border-radius: 14px;
+      padding: 14px 40px 14px 18px;
+      font-size: 15px;
+      color: var(--text);
+      font-family: inherit;
+      outline: none;
+      appearance: none;
+      -webkit-appearance: none;
+      cursor: pointer;
+      transition: border-color .2s, box-shadow .2s;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' fill='none'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23888' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 16px center;
+      margin-bottom: 14px;
+    }
+    .role-select:focus { border-color: var(--accent); box-shadow: 0 0 0 3px var(--glow); }
+
+    .store-card-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      max-height: 52vh;
+      overflow-y: auto;
+      padding-bottom: 4px;
+    }
+    .store-card {
+      background: var(--surf);
+      border: 1.5px solid var(--border);
+      border-radius: 12px;
+      padding: 12px 14px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      transition: background .15s, border-color .15s;
+    }
+    .store-card:hover { background: var(--surf2); border-color: rgba(229,53,53,.4); }
+    .sc-info { flex: 1; overflow: hidden; }
+    .sc-name { font-size: 13px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .sc-meta { font-size: 11px; color: rgba(255,255,255,.35); margin-top: 2px; }
+    .sc-arrow { color: var(--accent); font-size: 18px; flex-shrink: 0; line-height: 1; }
+    .sc-count { font-size: 12px; color: var(--muted); text-align: center; margin-top: 10px; }
+
     /* ── DASHBOARD ──────────────────────────────────────────── */
     #dashboard { display: none; min-height: 100vh; }
 
@@ -788,26 +866,52 @@
   </div>
 </div>
 
-<!-- SEARCH SCREEN -->
+<!-- SEARCH / SELECTOR SCREEN -->
 <div id="search-screen" style="display:none">
   <div class="ss-eyebrow">Apuesta Total · GeoDor</div>
-  <h1 class="ss-heading">¿Cómo va tu tienda hoy?</h1>
-  <p class="ss-sub">Ingresa el nombre de tu punto de venta para ver tu progreso</p>
+  <h1 class="ss-heading">¿Quién eres?</h1>
+  <p class="ss-sub">Selecciona tu rol para ver el progreso de tus tiendas</p>
 
-  <div class="search-wrap">
-    <span class="search-ico">🔍</span>
-    <input
-      type="text"
-      class="search-input"
-      id="search-input"
-      placeholder="Busca tu tienda…"
-      autocomplete="off"
-      spellcheck="false"
-    />
-    <div class="ac-list" id="ac-list"></div>
+  <div class="role-tabs">
+    <button class="role-tab active" id="tab-tienda" onclick="setRole('tienda')">🏪 Mi tienda</button>
+    <button class="role-tab" id="tab-jz" onclick="setRole('jz')">JZ</button>
+    <button class="role-tab" id="tab-gz" onclick="setRole('gz')">GZ</button>
   </div>
 
-  <p class="ss-hint">También puedes ingresar el código de tu tienda</p>
+  <!-- Panel: Tienda → búsqueda por nombre/código -->
+  <div id="role-panel-tienda">
+    <div class="search-wrap">
+      <span class="search-ico">🔍</span>
+      <input
+        type="text"
+        class="search-input"
+        id="search-input"
+        placeholder="Busca tu tienda…"
+        autocomplete="off"
+        spellcheck="false"
+      />
+      <div class="ac-list" id="ac-list"></div>
+    </div>
+    <p class="ss-hint">También puedes ingresar el código de tu tienda</p>
+  </div>
+
+  <!-- Panel: JZ → seleccionar JZ → lista de tiendas -->
+  <div id="role-panel-jz" style="display:none">
+    <select class="role-select" id="jz-select">
+      <option value="">— Selecciona tu nombre —</option>
+    </select>
+    <div class="store-card-list" id="jz-store-list"></div>
+    <p class="sc-count" id="jz-count"></p>
+  </div>
+
+  <!-- Panel: GZ → seleccionar GZ → lista de tiendas -->
+  <div id="role-panel-gz" style="display:none">
+    <select class="role-select" id="gz-select">
+      <option value="">— Selecciona tu nombre —</option>
+    </select>
+    <div class="store-card-list" id="gz-store-list"></div>
+    <p class="sc-count" id="gz-count"></p>
+  </div>
 </div>
 
 <!-- DASHBOARD -->
@@ -960,7 +1064,7 @@
     const valid = dailyCode(AT_SEED, isoDate());
     if (val === valid) {
       sessionStorage.setItem('at_auth', isoDate());
-      showSearch();
+      showSelector();
     } else {
       const inp = document.getElementById('pin-input');
       document.getElementById('pin-error').textContent = 'Clave incorrecta — intenta de nuevo';
@@ -978,12 +1082,76 @@
     });
   });
 
-  function showSearch() {
+  function showSelector() {
     document.getElementById('loading').style.display       = 'none';
     document.getElementById('pin-screen').style.display    = 'none';
     document.getElementById('search-screen').style.display = 'flex';
     setupSearch();
+    setupRoleSelects();
     document.getElementById('search-input').focus();
+  }
+
+  function setRole(role) {
+    ['tienda','jz','gz'].forEach(r => {
+      document.getElementById('tab-' + r).classList.toggle('active', r === role);
+      document.getElementById('role-panel-' + r).style.display = r === role ? '' : 'none';
+    });
+    if (role === 'tienda') document.getElementById('search-input').focus();
+  }
+
+  function setupRoleSelects() {
+    const gzSet = new Set(), jzSet = new Set();
+    allStores.forEach(p => {
+      if (p.gz && p.gz !== 'SIN INFO') gzSet.add(p.gz);
+      if (p.jz && p.jz !== 'SIN INFO') jzSet.add(p.jz);
+    });
+
+    const gzSel = document.getElementById('gz-select');
+    [...gzSet].sort().forEach(gz => {
+      const opt = document.createElement('option');
+      opt.value = gz; opt.textContent = gz;
+      gzSel.appendChild(opt);
+    });
+    gzSel.addEventListener('change', () => {
+      const gz = gzSel.value;
+      renderStoreCards('gz', gz ? allStores.filter(p => p.gz === gz) : []);
+    });
+
+    const jzSel = document.getElementById('jz-select');
+    [...jzSet].sort().forEach(jz => {
+      const opt = document.createElement('option');
+      opt.value = jz; opt.textContent = jz;
+      jzSel.appendChild(opt);
+    });
+    jzSel.addEventListener('change', () => {
+      const jz = jzSel.value;
+      renderStoreCards('jz', jz ? allStores.filter(p => p.jz === jz) : []);
+    });
+  }
+
+  function renderStoreCards(role, stores) {
+    const listEl  = document.getElementById(role + '-store-list');
+    const countEl = document.getElementById(role + '-count');
+    if (!stores.length) {
+      listEl.innerHTML = '';
+      countEl.textContent = '';
+      return;
+    }
+    listEl.innerHTML = stores.map(s => `
+      <div class="store-card" data-id="${s.ID}">
+        <div class="sc-info">
+          <div class="sc-name">${s.nombre}</div>
+          <div class="sc-meta">${s.ID} · ${s.zona || ''} · ${s.distrito || ''}</div>
+        </div>
+        <span class="sc-arrow">›</span>
+      </div>`).join('');
+    listEl.querySelectorAll('.store-card').forEach(el => {
+      el.addEventListener('click', () => {
+        const s = allStores.find(p => String(p.ID) === el.dataset.id);
+        if (s) renderDashboard(s);
+      });
+    });
+    countEl.textContent = stores.length + ' tienda' + (stores.length !== 1 ? 's' : '');
   }
 
   const PARTNER = 'APUESTA TOTAL';
@@ -1080,8 +1248,12 @@
         if (found) { renderDashboard(found); return; }
       }
 
-      // Sin tienda válida en URL → volver al selector de partner
-      window.location.replace('../progreso.html');
+      // Sin tienda válida en URL → mostrar selector (con PIN si no autenticado)
+      document.getElementById('loading').style.display = 'none';
+      if (sessionStorage.getItem('at_auth') === isoDate()) {
+        showSelector();
+      }
+      // Si no está autenticado, el pin-screen ya es visible por defecto
     } catch(e) {
       document.getElementById('loading').textContent = 'Error al cargar datos: ' + e.message;
     }
@@ -1120,10 +1292,14 @@
   }
 
   function volverBusqueda() {
-    document.getElementById('dashboard').style.display = 'none';
+    document.getElementById('dashboard').style.display     = 'none';
     document.getElementById('search-screen').style.display = 'flex';
-    document.getElementById('search-input').value = '';
-    document.getElementById('ac-list').classList.remove('open');
+    const activeRole = document.querySelector('.role-tab.active')?.id?.replace('tab-','') || 'tienda';
+    if (activeRole === 'tienda') {
+      document.getElementById('search-input').value = '';
+      document.getElementById('ac-list').classList.remove('open');
+      document.getElementById('search-input').focus();
+    }
   }
 
   function renderDashboard(store) {
