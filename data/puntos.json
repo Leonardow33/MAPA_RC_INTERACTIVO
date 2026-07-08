@@ -10397,9 +10397,9 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-MIÉRCOLES-VIERNES",
         "dias": [
-            "VIERNES",
+            "MIÉRCOLES",
             "LUNES",
-            "MIÉRCOLES"
+            "VIERNES"
         ],
         "meta_diaria": 20.0,
         "direccion": "AV. JOSE MATIAS MANZANILLA NUM 0685 - 0695, URB. SAN MIGUEL, DISTRITO, PROVINCIA Y DEPARTAMENTO DE ICA",
@@ -10824,9 +10824,9 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-MIÉRCOLES-VIERNES",
         "dias": [
-            "VIERNES",
+            "MIÉRCOLES",
             "LUNES",
-            "MIÉRCOLES"
+            "VIERNES"
         ],
         "meta_diaria": 20.0,
         "direccion": "AV. GUARDIA CIVIL 100 MZ. B LT. 07, URB. MIRAFLORES 1 ETAPA DISTRITO CASTILLA PROVINCIA Y DEPARTAMENTO DE PIURA",
@@ -11277,9 +11277,9 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-MIÉRCOLES-VIERNES-SÁBADO",
         "dias": [
-            "VIERNES",
-            "LUNES",
             "MIÉRCOLES",
+            "LUNES",
+            "VIERNES",
             "SÁBADO"
         ],
         "meta_diaria": 20.0,
@@ -11599,9 +11599,9 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-MIÉRCOLES-VIERNES",
         "dias": [
-            "VIERNES",
+            "MIÉRCOLES",
             "LUNES",
-            "MIÉRCOLES"
+            "VIERNES"
         ],
         "meta_diaria": 20.0,
         "direccion": "AH PRIMAVERA I ETAPA AV. GUARDIA CIVIL MZ E-1 LT 1 DISTRITO CASTILLA - PIURA",
@@ -11732,9 +11732,9 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-MIÉRCOLES-VIERNES",
         "dias": [
-            "VIERNES",
+            "MIÉRCOLES",
             "LUNES",
-            "MIÉRCOLES"
+            "VIERNES"
         ],
         "meta_diaria": 20.0,
         "direccion": "AV. RICHARD CUSHING NÚM. 410 MZ. D, LOTE 10-A, URB. 4 DE ENERO, DISTRITO, PROVINCIA Y DEPARTAMENTO DE PIURA",
@@ -11895,9 +11895,9 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-MIÉRCOLES-VIERNES",
         "dias": [
-            "VIERNES",
+            "MIÉRCOLES",
             "LUNES",
-            "MIÉRCOLES"
+            "VIERNES"
         ],
         "meta_diaria": 20.0,
         "direccion": "AV. GRAU N° 526, MZ. A, LOTE 04, DISTRITO, PROVINCIA Y DEPARTAMENTO DE PIURA",
@@ -12458,9 +12458,9 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-MIÉRCOLES-VIERNES-SÁBADO",
         "dias": [
-            "VIERNES",
-            "LUNES",
             "MIÉRCOLES",
+            "LUNES",
+            "VIERNES",
             "SÁBADO"
         ],
         "meta_diaria": 100.0,
@@ -13214,9 +13214,9 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-MIÉRCOLES-VIERNES",
         "dias": [
-            "VIERNES",
+            "MIÉRCOLES",
             "LUNES",
-            "MIÉRCOLES"
+            "VIERNES"
         ],
         "meta_diaria": 20.0,
         "direccion": "AV. LORETO N° 509, DISTRITO, PROVINCIA Y DEPARTAMENTO DE PIURA.",
@@ -15348,11 +15348,11 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-MIÉRCOLES-VIERNES-JUEVES-SÁBADO",
         "dias": [
-            "MIÉRCOLES",
-            "VIERNES",
-            "SÁBADO",
+            "LUNES",
             "JUEVES",
-            "LUNES"
+            "MIÉRCOLES",
+            "SÁBADO",
+            "VIERNES"
         ],
         "meta_diaria": 20.0,
         "direccion": "AV. SAN MARTIN NO 598 MZ. A URB. LA MORALES, DISTRITO, PROVINCIA Y DEPARTAMENTO DE ICA",
@@ -15752,9 +15752,9 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-MIÉRCOLES-VIERNES-SÁBADO",
         "dias": [
-            "VIERNES",
-            "LUNES",
             "MIÉRCOLES",
+            "LUNES",
+            "VIERNES",
             "SÁBADO"
         ],
         "meta_diaria": 20.0,
@@ -16878,9 +16878,9 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-MIÉRCOLES-VIERNES",
         "dias": [
-            "VIERNES",
+            "MIÉRCOLES",
             "LUNES",
-            "MIÉRCOLES"
+            "VIERNES"
         ],
         "meta_diaria": 20.0,
         "direccion": "AA.HH ASOCIACIÓN DE VIVIENDA DE LA URBANIZACIÓN POPULAR EL REGIONAL DE ICA, MANZANA \"A\", SUB LOTE 6A, SECTOR COMATRANA DEL DISTRITO DE ICA, PROVINCIA Y DEPARTAMENTO DE ICA",
@@ -17334,9 +17334,9 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-MIÉRCOLES-VIERNES-SÁBADO",
         "dias": [
-            "VIERNES",
-            "LUNES",
             "MIÉRCOLES",
+            "LUNES",
+            "VIERNES",
             "SÁBADO"
         ],
         "meta_diaria": 20.0,
@@ -21267,9 +21267,9 @@
         "responsable": "MCG BODEGA",
         "frecuencia": "LUNES-MIÉRCOLES-VIERNES",
         "dias": [
-            "VIERNES",
+            "MIÉRCOLES",
             "LUNES",
-            "MIÉRCOLES"
+            "VIERNES"
         ],
         "meta_diaria": null,
         "direccion": "CALLE PARDO MIGUEL 613-BELLAVISTA JAEN",
@@ -21789,12 +21789,12 @@
         "responsable": "JS BODEGA",
         "frecuencia": "LUNES-MARTES-MIÉRCOLES-JUEVES-VIERNES-SÁBADO",
         "dias": [
+            "LUNES",
+            "JUEVES",
             "MIÉRCOLES",
             "MARTES",
-            "VIERNES",
             "SÁBADO",
-            "JUEVES",
-            "LUNES"
+            "VIERNES"
         ],
         "meta_diaria": null,
         "direccion": "AV. HUANCAVELICA #387",
@@ -21820,12 +21820,12 @@
         "responsable": "JS BODEGA",
         "frecuencia": "LUNES-MARTES-MIÉRCOLES-JUEVES-VIERNES-SÁBADO",
         "dias": [
+            "LUNES",
+            "JUEVES",
             "MIÉRCOLES",
             "MARTES",
-            "VIERNES",
             "SÁBADO",
-            "JUEVES",
-            "LUNES"
+            "VIERNES"
         ],
         "meta_diaria": null,
         "direccion": "AV. TAYLOR 1802",
@@ -22191,9 +22191,9 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-MIÉRCOLES-VIERNES",
         "dias": [
-            "VIERNES",
+            "MIÉRCOLES",
             "LUNES",
-            "MIÉRCOLES"
+            "VIERNES"
         ],
         "meta_diaria": 20.0,
         "direccion": "MZ. PUENTE BLANCO VI ETAPA MZ. A LOTE 4, URBANIZACIÓN PUENTE BLANCO, DISTRITO, PROVINCIA Y DEPARTAMENTO DE ICA",
@@ -22380,9 +22380,9 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-MIÉRCOLES-VIERNES-SÁBADO",
         "dias": [
-            "VIERNES",
-            "LUNES",
             "MIÉRCOLES",
+            "LUNES",
+            "VIERNES",
             "SÁBADO"
         ],
         "meta_diaria": 20.0,
@@ -25049,9 +25049,9 @@
         "responsable": "TINBET",
         "frecuencia": "LUNES-MIÉRCOLES-VIERNES",
         "dias": [
-            "VIERNES",
+            "MIÉRCOLES",
             "LUNES",
-            "MIÉRCOLES"
+            "VIERNES"
         ],
         "meta_diaria": 5.0,
         "direccion": "AV. LORETO N°1400",
@@ -25186,9 +25186,9 @@
         "responsable": "TINBET",
         "frecuencia": "LUNES-MIÉRCOLES-VIERNES",
         "dias": [
-            "VIERNES",
+            "MIÉRCOLES",
             "LUNES",
-            "MIÉRCOLES"
+            "VIERNES"
         ],
         "meta_diaria": 20.0,
         "direccion": "AV. RAMON CASTILLA N° 105 SUB LOTE 2B URB. MIRAFLORES",
@@ -25689,11 +25689,11 @@
         "responsable": "TINBET",
         "frecuencia": "LUNES-JUEVES-MIÉRCOLES-JUEVES-VIERNES-SÁBADO",
         "dias": [
-            "MIÉRCOLES",
-            "VIERNES",
-            "SÁBADO",
+            "LUNES",
             "JUEVES",
-            "LUNES"
+            "MIÉRCOLES",
+            "SÁBADO",
+            "VIERNES"
         ],
         "meta_diaria": 10.0,
         "direccion": "AV DANIEL ALCIDES CARRION NRO. 1975",
@@ -25719,11 +25719,11 @@
         "responsable": "TINBET",
         "frecuencia": "LUNES-JUEVES-MIÉRCOLES-JUEVES-VIERNES-SÁBADO",
         "dias": [
-            "MIÉRCOLES",
-            "VIERNES",
-            "SÁBADO",
+            "LUNES",
             "JUEVES",
-            "LUNES"
+            "MIÉRCOLES",
+            "SÁBADO",
+            "VIERNES"
         ],
         "meta_diaria": 5.0,
         "direccion": "AV. INDEPENDENCIA 495",
@@ -25749,11 +25749,11 @@
         "responsable": "TINBET",
         "frecuencia": "LUNES-JUEVES-MIÉRCOLES-JUEVES-VIERNES-SÁBADO",
         "dias": [
-            "MIÉRCOLES",
-            "VIERNES",
-            "SÁBADO",
+            "LUNES",
             "JUEVES",
-            "LUNES"
+            "MIÉRCOLES",
+            "SÁBADO",
+            "VIERNES"
         ],
         "meta_diaria": 5.0,
         "direccion": "AV. MARISCAL CASTILLA N° 4131 ASENTAMIENTO HUMANO LA VICTORIA",
@@ -27166,9 +27166,9 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-MIÉRCOLES-VIERNES",
         "dias": [
-            "VIERNES",
+            "MIÉRCOLES",
             "LUNES",
-            "MIÉRCOLES"
+            "VIERNES"
         ],
         "meta_diaria": 20.0,
         "direccion": "CLL SAN MARTIN MZ K-3 LTE 35 CERCADO DE ICA",
@@ -30262,11 +30262,11 @@
         "responsable": "TINBET",
         "frecuencia": "LUNES-JUEVES-MIÉRCOLES-JUEVES-VIERNES-SÁBADO",
         "dias": [
-            "MIÉRCOLES",
-            "VIERNES",
-            "SÁBADO",
+            "LUNES",
             "JUEVES",
-            "LUNES"
+            "MIÉRCOLES",
+            "SÁBADO",
+            "VIERNES"
         ],
         "meta_diaria": 10.0,
         "direccion": "PROLONGACIÓN LIMA NO. 593",
@@ -32203,11 +32203,11 @@
         "responsable": "TINBET",
         "frecuencia": "LUNES-JUEVES-MIÉRCOLES-JUEVES-VIERNES-SÁBADO",
         "dias": [
-            "MIÉRCOLES",
-            "VIERNES",
-            "SÁBADO",
+            "LUNES",
             "JUEVES",
-            "LUNES"
+            "MIÉRCOLES",
+            "SÁBADO",
+            "VIERNES"
         ],
         "meta_diaria": 5.0,
         "direccion": "AV JACINTO IBARRA 420",
@@ -32233,11 +32233,11 @@
         "responsable": "TINBET",
         "frecuencia": "LUNES-JUEVES-MIÉRCOLES-JUEVES-VIERNES-SÁBADO",
         "dias": [
-            "MIÉRCOLES",
-            "VIERNES",
-            "SÁBADO",
+            "LUNES",
             "JUEVES",
-            "LUNES"
+            "MIÉRCOLES",
+            "SÁBADO",
+            "VIERNES"
         ],
         "meta_diaria": 5.0,
         "direccion": "AV. LA ESPERANZA 170 EL TAMBO",
@@ -35069,9 +35069,9 @@
         "responsable": "APUESTA TOTAL",
         "frecuencia": "LUNES-MIÉRCOLES-VIERNES",
         "dias": [
-            "VIERNES",
+            "MIÉRCOLES",
             "LUNES",
-            "MIÉRCOLES"
+            "VIERNES"
         ],
         "meta_diaria": 10.0,
         "direccion": "Av. San Martín N° 168",
@@ -41044,11 +41044,11 @@
         "responsable": "APUESTA TOTAL",
         "frecuencia": "LUNES-JUEVES-MIÉRCOLES-JUEVES-VIERNES-SÁBADO",
         "dias": [
-            "MIÉRCOLES",
-            "VIERNES",
-            "SÁBADO",
+            "LUNES",
             "JUEVES",
-            "LUNES"
+            "MIÉRCOLES",
+            "SÁBADO",
+            "VIERNES"
         ],
         "meta_diaria": 10.0,
         "direccion": "Av. Mariscal Castilla N° 1238 – Cercado El Tambo Del Distrito De El Tambo",
@@ -41126,11 +41126,11 @@
         "responsable": "APUESTA TOTAL",
         "frecuencia": "LUNES-JUEVES-MIÉRCOLES-JUEVES-VIERNES-SÁBADO",
         "dias": [
-            "MIÉRCOLES",
-            "VIERNES",
-            "SÁBADO",
+            "LUNES",
             "JUEVES",
-            "LUNES"
+            "MIÉRCOLES",
+            "SÁBADO",
+            "VIERNES"
         ],
         "meta_diaria": 10.0,
         "direccion": "Av. Jose Carlos Mariátegui N° 600",
@@ -41626,9 +41626,9 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-MIÉRCOLES-VIERNES-SÁBADO",
         "dias": [
-            "VIERNES",
-            "LUNES",
             "MIÉRCOLES",
+            "LUNES",
+            "VIERNES",
             "SÁBADO"
         ],
         "meta_diaria": 20.0,
