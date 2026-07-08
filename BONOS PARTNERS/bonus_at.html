@@ -999,6 +999,21 @@
         <div class="gr-bar"><div class="gr-fill" id="ld-bar" style="background:#3B9EE8"></div></div>
         <div class="gr-val" id="ld-val">S/ 0</div>
       </div>
+      <div class="game-row">
+        <div class="gr-name"><img src="../sources/logos-games/rapiraspa.png" class="gr-logo" alt="">Scratchcard</div>
+        <div class="gr-bar"><div class="gr-fill" id="sc-bar" style="background:#16A34A"></div></div>
+        <div class="gr-val" id="sc-val">S/ 0</div>
+      </div>
+      <div class="game-row">
+        <div class="gr-name"><span class="gr-logo" style="display:inline-flex;align-items:center;justify-content:center;font-size:14px">⚡</span>Go</div>
+        <div class="gr-bar"><div class="gr-fill" id="go-bar" style="background:#D97706"></div></div>
+        <div class="gr-val" id="go-val">S/ 0</div>
+      </div>
+      <div class="game-row">
+        <div class="gr-name"><img src="../sources/logos-games/elige3.png" class="gr-logo" alt="">Elige 3</div>
+        <div class="gr-bar"><div class="gr-fill" id="e3-bar" style="background:#7C3AED"></div></div>
+        <div class="gr-val" id="e3-val">S/ 0</div>
+      </div>
     </div>
 
     <!-- Motivational -->
@@ -1320,7 +1335,7 @@
 
     // Aggregate ventas for this store
     const id       = String(store.ID);
-    let totHoy = 0, totSem = 0, totMes = 0, ppMes = 0, ldMes = 0;
+    let totHoy = 0, totSem = 0, totMes = 0, ppMes = 0, ldMes = 0, scMes = 0, goMes = 0, e3Mes = 0;
 
     allVentas.forEach(v => {
       if (String(v.org_code) !== id || !v.fecha) return;
@@ -1332,8 +1347,11 @@
         if (f >= semJue && f <= semMie) totSem += amt;
         if (f >= mesIni && f <= mesFin) totMes += amt;
       }
-      if (tj === 'PozoPower' && f >= mesIni && f <= mesFin) ppMes += amt;
-      if (tj === 'LakiDey'   && f >= mesIni && f <= mesFin) ldMes += amt;
+      if (tj === 'PozoPower'   && f >= mesIni && f <= mesFin) ppMes += amt;
+      if (tj === 'LakiDey'     && f >= mesIni && f <= mesFin) ldMes += amt;
+      if (tj === 'Scratchcard' && f >= mesIni && f <= mesFin) scMes += amt;
+      if (tj === 'Go'          && f >= mesIni && f <= mesFin) goMes += amt;
+      if (tj === 'Elige 3'     && f >= mesIni && f <= mesFin) e3Mes += amt;
     });
 
     // Metas
@@ -1393,11 +1411,17 @@
     setBar(document.getElementById('sem-bar'), pctSem || 0, semCol);
 
     // Games
-    const maxGame = Math.max(ppMes, ldMes, 1);
+    const maxGame = Math.max(ppMes, ldMes, scMes, goMes, e3Mes, 1);
     document.getElementById('pp-val').textContent = fmtS(ppMes);
     document.getElementById('ld-val').textContent = fmtS(ldMes);
+    document.getElementById('sc-val').textContent = fmtS(scMes);
+    document.getElementById('go-val').textContent = fmtS(goMes);
+    document.getElementById('e3-val').textContent = fmtS(e3Mes);
     setBar(document.getElementById('pp-bar'), ppMes / maxGame * 100, 'var(--accent)');
     setBar(document.getElementById('ld-bar'), ldMes / maxGame * 100, '#3B9EE8');
+    setBar(document.getElementById('sc-bar'), scMes / maxGame * 100, '#16A34A');
+    setBar(document.getElementById('go-bar'), goMes / maxGame * 100, '#D97706');
+    setBar(document.getElementById('e3-bar'), e3Mes / maxGame * 100, '#7C3AED');
 
     // Weekly chart (Thu→Wed, 7 days)
     const DAY_NAMES      = ['Jue','Vie','Sáb','Dom','Lun','Mar','Mié'];

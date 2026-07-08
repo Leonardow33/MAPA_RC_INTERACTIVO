@@ -18,7 +18,7 @@ from playwright.sync_api import sync_playwright
 GROUP_ID   = "84e9d9cc-3d1f-4f47-9552-2c117a974b46"
 DATASET_ID = "04929bbb-a61d-4ca0-a758-535cd102e1f8"
 
-DAX = """EVALUATE SUMMARIZECOLUMNS( RMS_sp_reporte_transacciones_retailer[org_code], RMS_sp_reporte_transacciones_retailer[nombre_agente], RMS_sp_reporte_transacciones_retailer[parent_org_name], 'Game Maste-Retaler'[Type Game 2], Fecha[Date], FILTER(ALL('Game Maste-Retaler'[Type Game 2]), 'Game Maste-Retaler'[Type Game 2] IN {"PozoPower", "LakiDey", "TOTAL"}), FILTER(ALL(Fecha[Date]), Fecha[Date] >= DATE(YEAR(TODAY()), MONTH(TODAY()), 1) && Fecha[Date] <= TODAY()), FILTER(ALL(RMS_sp_reporte_transacciones_retailer[parent_org_name]), RMS_sp_reporte_transacciones_retailer[parent_org_name] = "TAMBO"), "Total_Ventas", [Total Sales Retailer])"""
+DAX = """EVALUATE SUMMARIZECOLUMNS( RMS_sp_reporte_transacciones_retailer[org_code], RMS_sp_reporte_transacciones_retailer[nombre_agente], RMS_sp_reporte_transacciones_retailer[parent_org_name], 'Game Maste-Retaler'[Type Game 2], Fecha[Date], FILTER(ALL('Game Maste-Retaler'[Type Game 2]), 'Game Maste-Retaler'[Type Game 2] IN {"PozoPower", "LakiDey", "Scratchcard", "Go", "Elige 3", "TOTAL"}), FILTER(ALL(Fecha[Date]), Fecha[Date] >= DATE(YEAR(TODAY()), MONTH(TODAY()), 1) && Fecha[Date] <= TODAY()), FILTER(ALL(RMS_sp_reporte_transacciones_retailer[parent_org_name]), RMS_sp_reporte_transacciones_retailer[parent_org_name] IN {"APUESTA TOTAL", "TAMBO", "TINBET"}), "Total_Ventas", [Total Sales Retailer])"""
 
 API_URL = (f"https://api.powerbi.com/v1.0/myorg/groups/{GROUP_ID}"
            f"/datasets/{DATASET_ID}/executeQueries")
