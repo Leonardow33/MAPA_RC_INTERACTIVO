@@ -8,21 +8,21 @@
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --bg:       #06101E;
-      --surf:     #0D1A2E;
-      --surf2:    #132236;
-      --border:   #1E3050;
-      --text:     #FFFFFF;
-      --muted:    #888888;
-      --dim:      #444444;
-      --accent:   #94A3B8;
-      --accent-d: #64748B;
-      --glow:     rgba(148,163,184,.3);
-      --green:    #10D98A;
-      --amber:    #F59E0B;
-      --red:      #F04444;
-      --rose:     rgba(255,255,255,.5);
-      --rose-soft: rgba(255,255,255,.04);
+      --bg:       #F1F5F9;
+      --surf:     #FFFFFF;
+      --surf2:    #F8FAFC;
+      --border:   #CBD5E1;
+      --text:     #1E293B;
+      --muted:    #475569;
+      --dim:      #94A3B8;
+      --accent:   #64748B;
+      --accent-d: #475569;
+      --glow:     rgba(100,116,139,.2);
+      --green:    #0DA870;
+      --amber:    #D97706;
+      --red:      #DC2626;
+      --rose:     rgba(30,41,59,.45);
+      --rose-soft: rgba(30,41,59,.04);
     }
 
     body {
@@ -40,7 +40,7 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: center;
+      justify-content: flex-start;
       padding: 48px 24px 64px;
     }
 
@@ -67,7 +67,7 @@
       font-size: 14px;
       color: var(--muted);
       text-align: center;
-      margin-bottom: 40px;
+      margin-bottom: 20px;
       max-width: 280px;
     }
 
@@ -131,9 +131,27 @@
       transition: background .12s;
     }
     .ac-item:last-child { border-bottom: none; }
-    .ac-item:hover, .ac-item.focused { background: rgba(229,53,53,.12); }
+    .ac-item:hover, .ac-item.focused { background: rgba(100,116,139,.12); }
     .ac-item .ac-name { font-size: 13px; font-weight: 600; }
-    .ac-item .ac-meta { font-size: 11px; color: rgba(255,255,255,.35); }
+    .ac-item .ac-meta { font-size: 11px; color: rgba(13,31,53,.5); }
+
+    .ss-back {
+      align-self: flex-start;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--muted);
+      text-decoration: none;
+      padding: 7px 12px;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      background: var(--surf);
+      margin-bottom: 20px;
+      transition: color .15s, border-color .15s;
+    }
+    .ss-back:hover { color: var(--text); border-color: rgba(13,31,53,.3); }
 
     .ss-hint {
       margin-top: 28px;
@@ -141,6 +159,85 @@
       color: rgba(244,114,182,.45);
       text-align: center;
     }
+
+    /* ── ROLE SELECTOR ────────────────────────────────────── */
+    .role-tabs {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 24px;
+      width: 100%;
+      max-width: 420px;
+    }
+    .role-tab {
+      flex: 1;
+      padding: 10px 6px;
+      background: var(--surf);
+      border: 1.5px solid var(--border);
+      border-radius: 12px;
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 600;
+      font-family: inherit;
+      cursor: pointer;
+      transition: all .2s;
+    }
+    .role-tab.active {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: #fff;
+      box-shadow: 0 0 14px var(--glow);
+    }
+    .role-tab:not(.active):hover { border-color: rgba(100,116,139,.4); color: var(--text); }
+
+    #role-panel-tienda, #role-panel-jz, #role-panel-gz { width: 100%; max-width: 420px; }
+
+    .role-select {
+      width: 100%;
+      background: var(--surf);
+      border: 1.5px solid var(--border);
+      border-radius: 14px;
+      padding: 14px 40px 14px 18px;
+      font-size: 15px;
+      color: var(--text);
+      font-family: inherit;
+      outline: none;
+      appearance: none;
+      -webkit-appearance: none;
+      cursor: pointer;
+      transition: border-color .2s, box-shadow .2s;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' fill='none'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23888' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 16px center;
+      margin-bottom: 14px;
+    }
+    .role-select:focus { border-color: var(--accent); box-shadow: 0 0 0 3px var(--glow); }
+
+    .store-card-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      max-height: 52vh;
+      overflow-y: auto;
+      padding-bottom: 4px;
+    }
+    .store-card {
+      background: var(--surf);
+      border: 1.5px solid var(--border);
+      border-radius: 12px;
+      padding: 12px 14px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      transition: background .15s, border-color .15s;
+    }
+    .store-card:hover { background: var(--surf2); border-color: rgba(100,116,139,.4); }
+    .sc-info { flex: 1; overflow: hidden; }
+    .sc-name { font-size: 13px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .sc-meta { font-size: 11px; color: rgba(13,31,53,.5); margin-top: 2px; }
+    .sc-sup  { font-size: 10px; color: rgba(13,31,53,.38); margin-top: 1px; }
+    .sc-arrow { color: var(--accent); font-size: 18px; flex-shrink: 0; line-height: 1; }
+    .sc-count { font-size: 12px; color: var(--muted); text-align: center; margin-top: 10px; }
 
     /* ── DASHBOARD ──────────────────────────────────────────── */
     #dashboard { display: none; min-height: 100vh; }
@@ -170,7 +267,7 @@
       transition: color .15s, border-color .15s;
       flex-shrink: 0;
     }
-    .back-btn:hover { color: var(--text); border-color: rgba(255,255,255,.25); }
+    .back-btn:hover { color: var(--text); border-color: rgba(13,31,53,.3); }
 
     .nav-store { flex: 1; overflow: hidden; }
     .nav-store .ns-name {
@@ -180,7 +277,8 @@
       overflow: hidden;
       text-overflow: ellipsis;
     }
-    .nav-store .ns-id { font-size: 11px; color: rgba(255,255,255,.4); }
+    .nav-store .ns-id  { font-size: 11px; color: rgba(13,31,53,.5); }
+    .nav-store .ns-sup { font-size: 10px; color: rgba(13,31,53,.38); margin-top: 1px; }
 
     .nav-badge {
       background: var(--accent);
@@ -335,8 +433,8 @@
     }
 
     .period-card--primary {
-      border-color: rgba(229,53,53,.25);
-      background: linear-gradient(135deg, rgba(229,53,53,.07) 0%, var(--surf) 60%);
+      border-color: rgba(100,116,139,.25);
+      background: linear-gradient(135deg, rgba(100,116,139,.07) 0%, var(--surf) 60%);
     }
 
     .pc-label {
@@ -518,7 +616,7 @@
     }
 
     .wc-col--today .wc-day   { color: var(--accent); }
-    .wc-col--today .wc-bar   { box-shadow: 0 0 8px rgba(229,53,53,.45); }
+    .wc-col--today .wc-bar   { box-shadow: 0 0 8px rgba(100,116,139,.45); }
     .wc-col--today .wc-amount{ color: var(--accent); }
 
     /* selected state */
@@ -661,8 +759,8 @@
 
     /* ── NO-META STATE ──────────────────────────────────────── */
     .no-meta-note {
-      background: rgba(229,53,53,.08);
-      border: 1px solid rgba(229,53,53,.25);
+      background: rgba(100,116,139,.08);
+      border: 1px solid rgba(100,116,139,.25);
       border-radius: 12px;
       padding: 12px 14px;
       font-size: 12px;
@@ -753,9 +851,9 @@
       display: block;
       border-radius: 18px;
       box-shadow:
-        0 0 0 1px rgba(229,53,53,.2),
+        0 0 0 1px rgba(100,116,139,.2),
         0 8px 40px rgba(0,0,0,.7),
-        0 0 60px rgba(229,53,53,.15);
+        0 0 60px rgba(100,116,139,.15);
     }
     @media (max-width: 900px) { .video-side { display: none; } }
 
@@ -771,7 +869,7 @@
 
 <!-- PIN SCREEN -->
 <div id="pin-screen">
-  <div class="pin-badge">Apuesta Total</div>
+  <div class="pin-badge">Retabet</div>
   <h1 class="pin-title">Ingresa tu clave de hoy</h1>
   <p class="pin-sub">La clave cambia cada día. Consulta con tu RC si no la tienes.</p>
   <div class="pin-box">
@@ -788,26 +886,53 @@
   </div>
 </div>
 
-<!-- SEARCH SCREEN -->
+<!-- SEARCH / SELECTOR SCREEN -->
 <div id="search-screen" style="display:none">
-  <div class="ss-eyebrow">Apuesta Total · GeoDor</div>
-  <h1 class="ss-heading">¿Cómo va tu tienda hoy?</h1>
-  <p class="ss-sub">Ingresa el nombre de tu punto de venta para ver tu progreso</p>
+  <a href="../progreso.html" class="ss-back">← Partners</a>
+  <div class="ss-eyebrow">Retabet · GeoDor</div>
+  <h1 class="ss-heading">¿Quién eres?</h1>
+  <p class="ss-sub">Selecciona tu rol para ver el progreso de tus tiendas</p>
 
-  <div class="search-wrap">
-    <span class="search-ico">🔍</span>
-    <input
-      type="text"
-      class="search-input"
-      id="search-input"
-      placeholder="Busca tu tienda…"
-      autocomplete="off"
-      spellcheck="false"
-    />
-    <div class="ac-list" id="ac-list"></div>
+  <div class="role-tabs">
+    <button class="role-tab active" id="tab-tienda" onclick="setRole('tienda')">🏪 Mi tienda</button>
+    <button class="role-tab" id="tab-jz" onclick="setRole('jz')">Jefe Comercial</button>
+    <button class="role-tab" id="tab-gz" onclick="setRole('gz')">Supervisor</button>
   </div>
 
-  <p class="ss-hint">También puedes ingresar el código de tu tienda</p>
+  <!-- Panel: Tienda → búsqueda por nombre/código + lista completa -->
+  <div id="role-panel-tienda">
+    <div class="search-wrap">
+      <span class="search-ico">🔍</span>
+      <input
+        type="text"
+        class="search-input"
+        id="search-input"
+        placeholder="Busca tu tienda…"
+        autocomplete="off"
+        spellcheck="false"
+      />
+    </div>
+    <div class="store-card-list" id="tienda-store-list" style="margin-top:12px"></div>
+    <p class="sc-count" id="tienda-count"></p>
+  </div>
+
+  <!-- Panel: JZ → seleccionar JZ → lista de tiendas -->
+  <div id="role-panel-jz" style="display:none">
+    <select class="role-select" id="jz-select">
+      <option value="">— Selecciona tu nombre —</option>
+    </select>
+    <div class="store-card-list" id="jz-store-list"></div>
+    <p class="sc-count" id="jz-count"></p>
+  </div>
+
+  <!-- Panel: GZ → seleccionar GZ → lista de tiendas -->
+  <div id="role-panel-gz" style="display:none">
+    <select class="role-select" id="gz-select">
+      <option value="">— Selecciona tu nombre —</option>
+    </select>
+    <div class="store-card-list" id="gz-store-list"></div>
+    <p class="sc-count" id="gz-count"></p>
+  </div>
 </div>
 
 <!-- DASHBOARD -->
@@ -817,8 +942,9 @@
     <div class="nav-store">
       <div class="ns-name" id="nav-nombre">—</div>
       <div class="ns-id" id="nav-id">—</div>
+      <div class="ns-sup" id="nav-sup" style="display:none"></div>
     </div>
-    <span class="nav-badge">RET</span>
+    <span class="nav-badge">AT</span>
   </nav>
 
   <div class="dash-body">
@@ -892,6 +1018,21 @@
         <div class="gr-bar"><div class="gr-fill" id="ld-bar" style="background:#3B9EE8"></div></div>
         <div class="gr-val" id="ld-val">S/ 0</div>
       </div>
+      <div class="game-row">
+        <div class="gr-name"><img src="../sources/logos-games/rapiraspa.png" class="gr-logo" alt="">Scratchcard</div>
+        <div class="gr-bar"><div class="gr-fill" id="sc-bar" style="background:#16A34A"></div></div>
+        <div class="gr-val" id="sc-val">S/ 0</div>
+      </div>
+      <div class="game-row">
+        <div class="gr-name"><img src="../sources/logos-games/pozopower.png" class="gr-logo" alt="">Go</div>
+        <div class="gr-bar"><div class="gr-fill" id="go-bar" style="background:#D97706"></div></div>
+        <div class="gr-val" id="go-val">S/ 0</div>
+      </div>
+      <div class="game-row">
+        <div class="gr-name"><img src="../sources/logos-games/elige3.png" class="gr-logo" alt="">Elige 3</div>
+        <div class="gr-bar"><div class="gr-fill" id="e3-bar" style="background:#7C3AED"></div></div>
+        <div class="gr-val" id="e3-val">S/ 0</div>
+      </div>
     </div>
 
     <!-- Motivational -->
@@ -937,7 +1078,7 @@
 <script>
   // ── Clave diaria rotatoria ────────────────────────────────
   // Cambia AT_SEED para regenerar todos los códigos futuros
-  const AT_SEED = 'GEODOR_AT_2025';
+  const AT_SEED = 'GEODOR_RET_2025';
 
   function isoDate() {
     const d = new Date();
@@ -959,8 +1100,8 @@
     const val   = document.getElementById('pin-input').value.trim().toUpperCase();
     const valid = dailyCode(AT_SEED, isoDate());
     if (val === valid) {
-      sessionStorage.setItem('at_auth', isoDate());
-      showSearch();
+      sessionStorage.setItem('ret_auth', isoDate());
+      showSelector();
     } else {
       const inp = document.getElementById('pin-input');
       document.getElementById('pin-error').textContent = 'Clave incorrecta — intenta de nuevo';
@@ -978,12 +1119,80 @@
     });
   });
 
-  function showSearch() {
+  function showSelector() {
     document.getElementById('loading').style.display       = 'none';
     document.getElementById('pin-screen').style.display    = 'none';
     document.getElementById('search-screen').style.display = 'flex';
-    setupSearch();
+    if (!selectorReady) {
+      selectorReady = true;
+      setupSearch();
+      setupRoleSelects();
+    }
     document.getElementById('search-input').focus();
+  }
+
+  function setRole(role) {
+    ['tienda','jz','gz'].forEach(r => {
+      document.getElementById('tab-' + r).classList.toggle('active', r === role);
+      document.getElementById('role-panel-' + r).style.display = r === role ? '' : 'none';
+    });
+    if (role === 'tienda') document.getElementById('search-input').focus();
+  }
+
+  function setupRoleSelects() {
+    const gzSet = new Set(), jzSet = new Set();
+    allStores.forEach(p => {
+      if (p.gz && p.gz !== 'SIN INFO') gzSet.add(p.gz);
+      if (p.jz && p.jz !== 'SIN INFO') jzSet.add(p.jz);
+    });
+
+    const gzSel = document.getElementById('gz-select');
+    [...gzSet].sort().forEach(gz => {
+      const opt = document.createElement('option');
+      opt.value = gz; opt.textContent = gz;
+      gzSel.appendChild(opt);
+    });
+    gzSel.addEventListener('change', () => {
+      const gz = gzSel.value;
+      renderStoreCards('gz', gz ? allStores.filter(p => p.gz === gz) : []);
+    });
+
+    const jzSel = document.getElementById('jz-select');
+    [...jzSet].sort().forEach(jz => {
+      const opt = document.createElement('option');
+      opt.value = jz; opt.textContent = jz;
+      jzSel.appendChild(opt);
+    });
+    jzSel.addEventListener('change', () => {
+      const jz = jzSel.value;
+      renderStoreCards('jz', jz ? allStores.filter(p => p.jz === jz) : []);
+    });
+  }
+
+  function renderStoreCards(role, stores) {
+    const listEl  = document.getElementById(role + '-store-list');
+    const countEl = document.getElementById(role + '-count');
+    if (!stores.length) {
+      listEl.innerHTML = '';
+      countEl.textContent = '';
+      return;
+    }
+    listEl.innerHTML = stores.map(s => `
+      <div class="store-card" data-id="${s.ID}">
+        <div class="sc-info">
+          <div class="sc-name">${s.nombre}</div>
+          <div class="sc-meta">${s.ID} · ${s.zona || ''} · ${s.distrito || ''}</div>
+          ${(s.jz && s.jz !== 'SIN INFO') || (s.gz && s.gz !== 'SIN INFO') ? `<div class="sc-sup">${[s.jz && s.jz !== 'SIN INFO' ? 'JC: ' + s.jz : '', s.gz && s.gz !== 'SIN INFO' ? 'SUP: ' + s.gz : ''].filter(Boolean).join(' · ')}</div>` : ''}
+        </div>
+        <span class="sc-arrow">›</span>
+      </div>`).join('');
+    listEl.querySelectorAll('.store-card').forEach(el => {
+      el.addEventListener('click', () => {
+        const s = allStores.find(p => String(p.ID) === el.dataset.id);
+        if (s) renderDashboard(s);
+      });
+    });
+    countEl.textContent = stores.length + ' tienda' + (stores.length !== 1 ? 's' : '');
   }
 
   const PARTNER = 'RETABET';
@@ -993,7 +1202,8 @@
     'JUEVES':4,'VIERNES':5,'SÁBADO':6,'SABADO':6,'DOMINGO':0
   };
 
-  let allStores = [], allVentas = [];
+  let allStores = [], allVentas = [], sortedStores = [];
+  let selectorReady = false;
 
   function loadJSON(u) {
     return fetch(u + '?v=' + Date.now(), { cache: 'no-store' }).then(r => {
@@ -1051,7 +1261,7 @@
     if (pct === null) return { icon:'📊', msg:'Registra tus ventas diariamente', detail:'Tu progreso aparecerá aquí en cuanto haya datos del mes.', bg:'rgba(90,116,153,.12)', clr:'var(--muted)' };
     if (pct >= 110)   return { icon:'🏆', msg:'¡Meta superada! Excelente trabajo', detail:'Estás por encima del objetivo mensual. ¡Sigue así!', bg:'rgba(16,217,138,.12)', clr:'var(--green)' };
     if (pct >= 100)   return { icon:'🎯', msg:'¡Meta cumplida este mes!', detail:'Lograste tu objetivo. Cada venta adicional suma al mes siguiente.', bg:'rgba(16,217,138,.1)', clr:'var(--green)' };
-    if (pct >= 80)    return { icon:'🔥', msg:'Casi llegas — ¡un último empuje!', detail:`Solo te falta el ${Math.round(100-pct)}% para alcanzar la meta mensual.`, bg:'rgba(229,53,53,.12)', clr:'var(--accent)' };
+    if (pct >= 80)    return { icon:'🔥', msg:'Casi llegas — ¡un último empuje!', detail:`Solo te falta el ${Math.round(100-pct)}% para alcanzar la meta mensual.`, bg:'rgba(100,116,139,.12)', clr:'var(--accent)' };
     if (pct >= 60)    return { icon:'💪', msg:'Buen ritmo, mantén el paso', detail:'Vas bien. Enfócate en cerrar cada día con tu meta diaria cubierta.', bg:'rgba(245,158,11,.1)', clr:'var(--amber)' };
     if (pct >= 30)    return { icon:'📈', msg:'Hay margen para mejorar', detail:'Cada venta cuenta. Recuerda atender a todos tus clientes frecuentes.', bg:'rgba(245,158,11,.08)', clr:'var(--amber)' };
     return { icon:'⚡', msg:'¡Arranca con todo!', detail:'El mes es largo. Empieza fuerte y mantén el ritmo desde el primer día.', bg:'rgba(240,68,68,.1)', clr:'var(--red)' };
@@ -1080,50 +1290,41 @@
         if (found) { renderDashboard(found); return; }
       }
 
-      // Sin tienda válida en URL → volver al selector de partner
-      window.location.replace('../progreso.html');
+      // Sin tienda válida en URL → mostrar selector (con PIN si no autenticado)
+      document.getElementById('loading').style.display = 'none';
+      if (sessionStorage.getItem('ret_auth') === isoDate()) {
+        showSelector();
+      } else {
+        document.getElementById('pin-screen').style.display = 'flex';
+      }
     } catch(e) {
       document.getElementById('loading').textContent = 'Error al cargar datos: ' + e.message;
     }
   }
 
   function setupSearch() {
+    sortedStores = [...allStores].sort((a, b) => a.nombre.localeCompare(b.nombre));
+    renderStoreCards('tienda', sortedStores);
     const input = document.getElementById('search-input');
-    const list  = document.getElementById('ac-list');
-
     input.addEventListener('input', () => {
       const q = input.value.trim().toLowerCase();
-      if (q.length < 2) { list.classList.remove('open'); return; }
-      const hits = allStores.filter(p =>
-        p.nombre.toLowerCase().includes(q) || String(p.ID).includes(q)
-      ).slice(0, 10);
-      if (!hits.length) { list.classList.remove('open'); return; }
-      list.innerHTML = hits.map(p => `
-        <div class="ac-item" data-id="${p.ID}">
-          <span class="ac-name">${p.nombre}</span>
-          <span class="ac-meta">${p.ID} · ${p.zona || ''} · ${p.distrito || ''}</span>
-        </div>`).join('');
-      list.classList.add('open');
-      list.querySelectorAll('.ac-item').forEach(el => {
-        el.addEventListener('click', () => {
-          const s = allStores.find(p => String(p.ID) === el.dataset.id);
-          if (s) { list.classList.remove('open'); renderDashboard(s); }
-        });
-      });
+      const filtered = q.length < 2
+        ? sortedStores
+        : sortedStores.filter(p => p.nombre.toLowerCase().includes(q) || String(p.ID).includes(q));
+      renderStoreCards('tienda', filtered);
     });
-
-    document.addEventListener('click', e => {
-      if (!e.target.closest('.search-wrap')) list.classList.remove('open');
-    });
-
-    input.focus();
   }
 
   function volverBusqueda() {
-    document.getElementById('dashboard').style.display = 'none';
+    document.getElementById('dashboard').style.display     = 'none';
     document.getElementById('search-screen').style.display = 'flex';
-    document.getElementById('search-input').value = '';
-    document.getElementById('ac-list').classList.remove('open');
+    const activeRole = document.querySelector('.role-tab.active')?.id?.replace('tab-','') || 'tienda';
+    if (activeRole === 'tienda') {
+      const input = document.getElementById('search-input');
+      input.value = '';
+      renderStoreCards('tienda', sortedStores);
+      input.focus();
+    }
   }
 
   function renderDashboard(store) {
@@ -1134,6 +1335,12 @@
     // Nav
     document.getElementById('nav-nombre').textContent = store.nombre;
     document.getElementById('nav-id').textContent = 'Código ' + store.ID;
+    const supParts = [];
+    if (store.jz && store.jz !== 'SIN INFO') supParts.push('JC: ' + store.jz);
+    if (store.gz && store.gz !== 'SIN INFO') supParts.push('SUP: ' + store.gz);
+    const supEl = document.getElementById('nav-sup');
+    supEl.textContent = supParts.join(' · ');
+    supEl.style.display = supParts.length ? '' : 'none';
 
     const hasMeta = store.meta_diaria != null && store.meta_diaria > 0;
     document.getElementById('no-meta-note').style.display = hasMeta ? 'none' : '';
@@ -1147,7 +1354,7 @@
 
     // Aggregate ventas for this store
     const id       = String(store.ID);
-    let totHoy = 0, totSem = 0, totMes = 0, ppMes = 0, ldMes = 0;
+    let totHoy = 0, totSem = 0, totMes = 0, ppMes = 0, ldMes = 0, scMes = 0, goMes = 0, e3Mes = 0;
 
     allVentas.forEach(v => {
       if (String(v.org_code) !== id || !v.fecha) return;
@@ -1159,8 +1366,11 @@
         if (f >= semJue && f <= semMie) totSem += amt;
         if (f >= mesIni && f <= mesFin) totMes += amt;
       }
-      if (tj === 'PozoPower' && f >= mesIni && f <= mesFin) ppMes += amt;
-      if (tj === 'LakiDey'   && f >= mesIni && f <= mesFin) ldMes += amt;
+      if (tj === 'PozoPower'   && f >= mesIni && f <= mesFin) ppMes += amt;
+      if (tj === 'LakiDey'     && f >= mesIni && f <= mesFin) ldMes += amt;
+      if (tj === 'Scratchcard' && f >= mesIni && f <= mesFin) scMes += amt;
+      if (tj === 'Go'          && f >= mesIni && f <= mesFin) goMes += amt;
+      if (tj === 'Elige 3'     && f >= mesIni && f <= mesFin) e3Mes += amt;
     });
 
     // Metas
@@ -1187,7 +1397,7 @@
 
     glowEl.style.background =
       col === 'var(--green)'  ? 'rgba(16,217,138,.28)'  :
-      col === 'var(--accent)' ? 'rgba(229,53,53,.35)'   :
+      col === 'var(--accent)' ? 'rgba(100,116,139,.35)'   :
       col === 'var(--amber)'  ? 'rgba(245,158,11,.22)'  :
       col === 'var(--red)'    ? 'rgba(240,68,68,.22)'   : 'transparent';
     requestAnimationFrame(() => { glowEl.style.opacity = '1'; });
@@ -1220,11 +1430,17 @@
     setBar(document.getElementById('sem-bar'), pctSem || 0, semCol);
 
     // Games
-    const maxGame = Math.max(ppMes, ldMes, 1);
+    const maxGame = Math.max(ppMes, ldMes, scMes, goMes, e3Mes, 1);
     document.getElementById('pp-val').textContent = fmtS(ppMes);
     document.getElementById('ld-val').textContent = fmtS(ldMes);
+    document.getElementById('sc-val').textContent = fmtS(scMes);
+    document.getElementById('go-val').textContent = fmtS(goMes);
+    document.getElementById('e3-val').textContent = fmtS(e3Mes);
     setBar(document.getElementById('pp-bar'), ppMes / maxGame * 100, 'var(--accent)');
     setBar(document.getElementById('ld-bar'), ldMes / maxGame * 100, '#3B9EE8');
+    setBar(document.getElementById('sc-bar'), scMes / maxGame * 100, '#16A34A');
+    setBar(document.getElementById('go-bar'), goMes / maxGame * 100, '#D97706');
+    setBar(document.getElementById('e3-bar'), e3Mes / maxGame * 100, '#7C3AED');
 
     // Weekly chart (Thu→Wed, 7 days)
     const DAY_NAMES      = ['Jue','Vie','Sáb','Dom','Lun','Mar','Mié'];
@@ -1271,7 +1487,7 @@
       const isFuture = dk > hoy;
       const cls = isToday ? 'wc-col--today' : isFuture ? 'wc-col--future' : 'wc-col--past';
       const barH = isFuture ? 3 : Math.max(Math.round(dayTotals[i] / maxDay * BAR_MAX_H), 3);
-      const barColor = isToday ? 'var(--accent)' : isFuture ? 'var(--border)' : 'rgba(255,255,255,.2)';
+      const barColor = isToday ? 'var(--accent)' : isFuture ? 'var(--border)' : 'rgba(13,31,53,.14)';
       const amt = !isFuture && dayTotals[i] > 0
         ? Math.round(dayTotals[i]).toLocaleString('es-PE')
         : '';
