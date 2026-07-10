@@ -964,6 +964,7 @@
     .sup-chv   { font-size: 11px; color: var(--dim); line-height: 1; transition: transform .2s; }
     .sup-chv.open { transform: rotate(180deg); }
     .sup-rows  { display: flex; flex-direction: column; gap: 6px; padding: 0 10px 10px; }
+    .sup-rows .store-row { background: var(--surf2); }
 
     /* ── JZ DOWNLOAD ────────────────────────────────────── */
     .jz-dl-card  { background: var(--surf); border: 1.5px solid var(--border); border-radius: 12px; padding: 12px 14px; margin-top: 10px; display: flex; align-items: center; justify-content: space-between; gap: 12px; }
@@ -1379,14 +1380,44 @@
     const d   = now.getDate();
     const mes = ['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'][now.getMonth()];
     wrap.innerHTML = `
-      <div class="jz-dl-card">
+      <div class="jz-dl-card" id="jz-dl-card">
         <div class="jz-dl-left">
           <div class="jz-dl-title">📊 Reporte de avance</div>
           <div class="jz-dl-sub">${stores.length} tiendas · Corte día ${d} de ${mes}</div>
         </div>
         <button class="jz-dl-btn" id="jz-dl-btn">⬇ Excel</button>
       </div>`;
-    document.getElementById('jz-dl-btn').onclick = () => downloadJzReport(jz, stores);
+    document.getElementById('jz-dl-btn').onclick = () => {
+      const card = document.getElementById('jz-dl-card');
+      card.innerHTML = `
+        <div class="jz-dl-left">
+          <div class="jz-dl-title" style="margin-bottom:6px">🔐 Clave del día</div>
+          <input id="jz-dl-code" type="password" placeholder="•••••" autocomplete="off"
+                 style="width:140px;padding:8px 12px;border:1.5px solid var(--border);border-radius:10px;font-size:15px;font-family:inherit;background:var(--surf);color:var(--text);outline:none"/>
+          <div id="jz-dl-err" style="font-size:11px;color:#F04444;min-height:14px;margin-top:3px"></div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:6px;flex-shrink:0">
+          <button class="jz-dl-btn" id="jz-dl-ok">Descargar</button>
+          <button class="jz-dl-btn" id="jz-dl-no" style="background:var(--border);color:var(--muted)">Cancelar</button>
+        </div>`;
+      const inp = document.getElementById('jz-dl-code');
+      inp.focus();
+      const check = () => {
+        const val = inp.value.trim().toUpperCase();
+        if (val === dailyCode(AT_SEED, isoDate())) {
+          renderJzDownload(jz, stores);
+          downloadJzReport(jz, stores);
+        } else {
+          document.getElementById('jz-dl-err').textContent = 'Clave incorrecta — intenta de nuevo';
+          inp.style.borderColor = '#F04444';
+          inp.style.boxShadow   = '0 0 0 3px rgba(240,68,68,.2)';
+          setTimeout(() => { inp.style.borderColor = ''; inp.style.boxShadow = ''; }, 1500);
+        }
+      };
+      inp.addEventListener('keydown', e => { if (e.key === 'Enter') check(); });
+      document.getElementById('jz-dl-ok').onclick  = check;
+      document.getElementById('jz-dl-no').onclick  = () => renderJzDownload(jz, stores);
+    };
   }
 
   function downloadJzReport(jz, stores) {
@@ -1525,7 +1556,8 @@
     const container = document.createElement('div');
     container.style.cssText = 'display:flex;flex-direction:column;gap:8px;';
 
-    Object.entries(supMap).sort(([a],[b]) => a.localeCompare(b)).forEach(([gz, gzStores]) => {
+    const supPct = ss => { let v=0,m=0; ss.forEach(s=>{v+=vm[String(s.ID)]||0;if(s.meta_diaria)m+=s.meta_diaria*diasCalMes;}); return m?v/m:-1; };
+    Object.entries(supMap).sort(([,a],[,b]) => supPct(b)-supPct(a)).forEach(([gz, gzStores]) => {
       let totV = 0, totM = 0;
       gzStores.forEach(s => {
         totV += vm[String(s.ID)] || 0;
