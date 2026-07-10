@@ -239,9 +239,8 @@
   // ── Links + ventas ──────────────────────────────────────────
   const partnerCards = document.getElementById('partner-cards');
 
-  // Crear cards con placeholder
-  const cardEls = {};
-  PARTNERS.forEach(p => {
+  // Crear cards con placeholder (IDs numéricos para evitar espacios en selectores)
+  PARTNERS.forEach((p, i) => {
     const url = BASE + p.file;
     const el = document.createElement('div');
     el.className = 'pc';
@@ -251,17 +250,16 @@
       <div class="pc-info">
         <div class="pc-name" style="color:${p.color}">${p.label}</div>
         <div class="pc-meta">
-          <span class="pc-ventas" id="v-${p.key}">S/ —</span>
-          <span class="pc-upd" id="u-${p.key}">cargando…</span>
+          <span class="pc-ventas" id="pv${i}">S/ —</span>
+          <span class="pc-upd" id="pu${i}">cargando…</span>
         </div>
       </div>
-      <button class="pc-copy" id="btn-${p.key}">Copiar link</button>`;
+      <button class="pc-copy" id="pb${i}">Copiar link</button>`;
     partnerCards.appendChild(el);
-    cardEls[p.key] = el;
 
-    el.querySelector(`#btn-${p.key}`).onclick = () => {
+    document.getElementById(`pb${i}`).onclick = () => {
       navigator.clipboard.writeText(url).then(() => {
-        const btn = el.querySelector(`#btn-${p.key}`);
+        const btn = document.getElementById(`pb${i}`);
         btn.textContent = '¡Copiado!';
         btn.classList.add('copied');
         setTimeout(() => { btn.textContent = 'Copiar link'; btn.classList.remove('copied'); }, 2000);
@@ -274,11 +272,9 @@
     .then(r => r.json())
     .then(data => {
       const ventas = data.body || data.ventas || [];
-      const updStr = data.updated || '';
-      const updTime = fmtUpd(updStr);
-      const mesIni = today.slice(0, 7); // "2026-07"
+      const updTime = fmtUpd(data.updated || '');
+      const mesIni = today.slice(0, 7);
 
-      // Sumar por partner (solo TOTAL del mes)
       const totales = {};
       ventas.forEach(v => {
         if (v.tipo_juego !== 'TOTAL') return;
@@ -287,17 +283,14 @@
         totales[k] = (totales[k] || 0) + (v.total || 0);
       });
 
-      PARTNERS.forEach(p => {
-        const vEl = document.getElementById(`v-${p.key}`);
-        const uEl = document.getElementById(`u-${p.key}`);
-        if (vEl) vEl.textContent = fmtS(totales[p.key] || 0);
-        if (uEl) uEl.textContent = updTime ? `Act. ${updTime}` : '—';
+      PARTNERS.forEach((p, i) => {
+        document.getElementById(`pv${i}`).textContent = fmtS(totales[p.key] || 0);
+        document.getElementById(`pu${i}`).textContent = updTime ? `Act. ${updTime}` : '—';
       });
     })
     .catch(() => {
-      PARTNERS.forEach(p => {
-        const uEl = document.getElementById(`u-${p.key}`);
-        if (uEl) uEl.textContent = 'sin datos';
+      PARTNERS.forEach((p, i) => {
+        document.getElementById(`pu${i}`).textContent = 'sin datos';
       });
     });
 </script>
