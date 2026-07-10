@@ -929,6 +929,41 @@
       border-color: var(--accent);
       background: var(--rose-soft);
     }
+
+    /* ── STORE SALES ROWS (detalle GZ) ──────────────────── */
+    .store-row {
+      background: var(--surf);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 10px 12px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      transition: background .12s, border-color .12s;
+    }
+    .store-row:hover { background: var(--surf2); border-color: var(--accent); }
+    .sr-info { flex: 1; min-width: 0; }
+    .sr-name { font-size: 12px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .sr-bar-wrap { height: 4px; background: var(--border); border-radius: 99px; overflow: hidden; margin-top: 5px; }
+    .sr-bar-fill  { height: 100%; border-radius: 99px; }
+    .sr-right { display: flex; flex-direction: column; align-items: flex-end; gap: 2px; flex-shrink: 0; }
+    .sr-val   { font-size: 12px; font-weight: 700; font-variant-numeric: tabular-nums; }
+    .sr-pct   { font-size: 10px; font-weight: 700; }
+
+    /* ── SUPERVISOR CARDS (panel JZ) ────────────────────── */
+    .sup-card { background: var(--surf); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; }
+    .sup-header { padding: 12px 14px; cursor: pointer; display: flex; align-items: center; gap: 10px; transition: background .12s; }
+    .sup-header:hover { background: var(--surf2); }
+    .sup-name    { font-size: 13px; font-weight: 700; }
+    .sup-submeta { font-size: 11px; color: var(--muted); margin-top: 2px; }
+    .sup-bar-wrap { height: 4px; background: var(--border); border-radius: 99px; overflow: hidden; margin-top: 6px; }
+    .sup-bar-fill { height: 100%; border-radius: 99px; }
+    .sup-right { display: flex; flex-direction: column; align-items: flex-end; gap: 3px; flex-shrink: 0; }
+    .sup-pct   { font-size: 20px; font-weight: 900; font-variant-numeric: tabular-nums; }
+    .sup-chv   { font-size: 11px; color: var(--dim); line-height: 1; transition: transform .2s; }
+    .sup-chv.open { transform: rotate(180deg); }
+    .sup-rows  { display: flex; flex-direction: column; gap: 6px; padding: 0 10px 10px; }
   </style>
 </head>
 <body>
@@ -1229,7 +1264,7 @@
       const gz     = gzSel.value;
       const stores = gz ? allStores.filter(p => p.gz === gz) : [];
       renderRoleSummary('gz', gz, stores);
-      renderStoreCards('gz', stores);
+      renderGzDetail(stores);
       document.getElementById('gz-stores-wrap').style.display = 'none';
     });
 
@@ -1243,7 +1278,7 @@
       const jz     = jzSel.value;
       const stores = jz ? allStores.filter(p => p.jz === jz) : [];
       renderRoleSummary('jz', jz, stores);
-      renderStoreCards('jz', stores);
+      renderJzDetail(stores);
       document.getElementById('jz-stores-wrap').style.display = 'none';
     });
   }
@@ -1312,16 +1347,144 @@
             <div style="font-size:11px;opacity:.75;margin-top:3px;line-height:1.4">${m.detail}</div>
           </div>
         </div>
-        <button class="gz-det-btn" id="${role}-det-btn" onclick="toggleRoleDetail('${role}')">Ver detalle por tienda ▾</button>
+        <button class="gz-det-btn" id="${role}-det-btn" onclick="toggleRoleDetail('${role}')">${role === 'jz' ? 'Ver supervisores y tiendas ▾' : 'Ver detalle por tienda ▾'}</button>
       </div>`;
   }
 
   function toggleRoleDetail(role) {
-    const wrap = document.getElementById(role + '-stores-wrap');
-    const btn  = document.getElementById(role + '-det-btn');
-    const open = wrap.style.display !== 'none';
+    const wrap  = document.getElementById(role + '-stores-wrap');
+    const btn   = document.getElementById(role + '-det-btn');
+    const open  = wrap.style.display !== 'none';
+    const label = role === 'jz' ? 'Ver supervisores y tiendas' : 'Ver detalle por tienda';
     wrap.style.display = open ? 'none' : '';
-    btn.textContent    = open ? 'Ver detalle por tienda ▾' : 'Ocultar detalle ▲';
+    btn.textContent    = open ? label + ' ▾' : 'Ocultar ▲';
+  }
+
+  function monthlyVentasMap(ids) {
+    const now    = new Date();
+    const mesIni = new Date(now.getFullYear(), now.getMonth(), 1);
+    const mesFin = new Date(now.getFullYear(), now.getMonth()+1, 0, 23, 59, 59);
+    const map    = {};
+    allVentas.forEach(v => {
+      if (!v.fecha || v.tipo_juego !== 'TOTAL') return;
+      const sid = String(v.org_code);
+      if (!ids.has(sid)) return;
+      const f = new Date(v.fecha + 'T12:00:00');
+      if (f >= mesIni && f <= mesFin) map[sid] = (map[sid] || 0) + (v.total || 0);
+    });
+    return map;
+  }
+
+  function buildStoreRows(stores, vm, diasCalMes) {
+    const frag = document.createDocumentFragment();
+    [...stores].sort((a, b) => {
+      const pA = a.meta_diaria ? (vm[String(a.ID)] || 0) / (a.meta_diaria * diasCalMes) : -1;
+      const pB = b.meta_diaria ? (vm[String(b.ID)] || 0) / (b.meta_diaria * diasCalMes) : -1;
+      return pB - pA;
+    }).forEach(s => {
+      const sold = vm[String(s.ID)] || 0;
+      const meta = s.meta_diaria ? s.meta_diaria * diasCalMes : null;
+      const pct  = meta ? Math.round(sold / meta * 100) : null;
+      const col  = pct !== null ? pctColor(pct) : 'var(--dim)';
+      const row  = document.createElement('div');
+      row.className = 'store-row';
+      row.innerHTML = `
+        <div class="sr-info">
+          <div class="sr-name">${s.nombre}</div>
+          <div class="sr-bar-wrap"><div class="sr-bar-fill" style="width:${Math.min(pct||0,100)}%;background:${col}"></div></div>
+        </div>
+        <div class="sr-right">
+          <div class="sr-val" style="color:${col}">${fmtS(sold)}</div>
+          <div class="sr-pct" style="color:${col}">${pct !== null ? pct+'%' : '—'}</div>
+        </div>`;
+      row.addEventListener('click', () => renderDashboard(s));
+      frag.appendChild(row);
+    });
+    return frag;
+  }
+
+  function renderGzDetail(stores) {
+    const wrap       = document.getElementById('gz-stores-wrap');
+    const now        = new Date();
+    const diasCalMes = new Date(now.getFullYear(), now.getMonth()+1, 0).getDate();
+    const ids        = new Set(stores.map(s => String(s.ID)));
+    const vm         = monthlyVentasMap(ids);
+    const list       = document.createElement('div');
+    list.style.cssText = 'display:flex;flex-direction:column;gap:6px;max-height:55vh;overflow-y:auto;';
+    list.appendChild(buildStoreRows(stores, vm, diasCalMes));
+    wrap.innerHTML = '';
+    wrap.appendChild(list);
+    const cnt = document.createElement('p');
+    cnt.className = 'sc-count';
+    cnt.textContent = stores.length + ' tienda' + (stores.length !== 1 ? 's' : '');
+    wrap.appendChild(cnt);
+  }
+
+  function renderJzDetail(stores) {
+    const wrap       = document.getElementById('jz-stores-wrap');
+    const now        = new Date();
+    const diasCalMes = new Date(now.getFullYear(), now.getMonth()+1, 0).getDate();
+    const ids        = new Set(stores.map(s => String(s.ID)));
+    const vm         = monthlyVentasMap(ids);
+
+    const supMap = {};
+    stores.forEach(s => {
+      const gz = (s.gz && s.gz !== 'SIN INFO') ? s.gz : '(Sin supervisor)';
+      if (!supMap[gz]) supMap[gz] = [];
+      supMap[gz].push(s);
+    });
+
+    wrap.innerHTML = '';
+    const container = document.createElement('div');
+    container.style.cssText = 'display:flex;flex-direction:column;gap:8px;max-height:65vh;overflow-y:auto;';
+
+    Object.entries(supMap).sort(([a],[b]) => a.localeCompare(b)).forEach(([gz, gzStores]) => {
+      let totV = 0, totM = 0;
+      gzStores.forEach(s => {
+        totV += vm[String(s.ID)] || 0;
+        if (s.meta_diaria) totM += s.meta_diaria * diasCalMes;
+      });
+      const pct  = totM ? Math.round(totV / totM * 100) : null;
+      const col  = pct !== null ? pctColor(pct) : 'var(--dim)';
+      const barW = Math.min(pct || 0, 100);
+
+      const card = document.createElement('div');
+      card.className = 'sup-card';
+      card.innerHTML = `
+        <div class="sup-header">
+          <div style="flex:1;min-width:0">
+            <div class="sup-name">${gz}</div>
+            <div class="sup-submeta">${gzStores.length} tienda${gzStores.length!==1?'s':''} · ${fmtS(totV)}</div>
+            <div class="sup-bar-wrap"><div class="sup-bar-fill" style="width:${barW}%;background:${col}"></div></div>
+          </div>
+          <div class="sup-right">
+            <div class="sup-pct" style="color:${col}">${pct!==null?pct+'%':'—'}</div>
+            <div class="sup-chv">▾</div>
+          </div>
+        </div>
+        <div class="sup-rows" style="display:none"></div>`;
+
+      const hdr     = card.querySelector('.sup-header');
+      const rowsDiv = card.querySelector('.sup-rows');
+      const chv     = card.querySelector('.sup-chv');
+      let rendered  = false;
+
+      hdr.addEventListener('click', () => {
+        const open = rowsDiv.style.display !== 'none';
+        if (!rendered) { rowsDiv.appendChild(buildStoreRows(gzStores, vm, diasCalMes)); rendered = true; }
+        rowsDiv.style.display = open ? 'none' : '';
+        chv.classList.toggle('open', !open);
+      });
+
+      container.appendChild(card);
+    });
+
+    const cnt = document.createElement('p');
+    cnt.className = 'sc-count';
+    cnt.style.paddingTop = '4px';
+    cnt.textContent = stores.length + ' tienda' + (stores.length !== 1 ? 's' : '') + ' en total';
+    container.appendChild(cnt);
+    wrap.appendChild(container);
   }
 
   function renderStoreCards(role, stores) {
