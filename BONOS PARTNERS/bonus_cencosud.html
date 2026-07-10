@@ -8,21 +8,22 @@
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --bg:       #F0FBF4;
+      --bg:       #EBF2FB;
       --surf:     #FFFFFF;
-      --surf2:    #F4FDF7;
-      --border:   #B8D9C4;
-      --text:     #0A2416;
-      --muted:    #2A6645;
-      --dim:      #7AB894;
-      --accent:   #006633;
-      --accent-d: #004D26;
-      --glow:     rgba(0,102,51,.2);
+      --surf2:    #F0F6FF;
+      --border:   #BDD0E8;
+      --text:     #091830;
+      --muted:    #2A5080;
+      --dim:      #7A9FC8;
+      --accent:   #1565C0;
+      --accent-d: #0D47A1;
+      --glow:     rgba(21,101,192,.22);
+      --orange:   #FF6B00;
       --green:    #0DA870;
       --amber:    #D97706;
       --red:      #DC2626;
-      --rose:     rgba(10,36,22,.45);
-      --rose-soft: rgba(10,36,22,.04);
+      --rose:     rgba(9,24,48,.45);
+      --rose-soft: rgba(9,24,48,.04);
     }
 
     body {
@@ -402,10 +403,12 @@
     .ra-item + .ra-item { border-left: 1px solid var(--border); }
 
     .ra-val {
-      font-size: 20px;
+      font-size: clamp(13px, 4vw, 20px);
       font-weight: 800;
       font-variant-numeric: tabular-nums;
       line-height: 1;
+      word-break: break-all;
+      text-align: center;
     }
 
     .ra-lbl {
@@ -433,8 +436,8 @@
     }
 
     .period-card--primary {
-      border-color: rgba(0,102,51,.25);
-      background: linear-gradient(135deg, rgba(0,102,51,.07) 0%, var(--surf) 60%);
+      border-color: rgba(21,101,192,.25);
+      background: linear-gradient(135deg, rgba(21,101,192,.07) 0%, var(--surf) 60%);
     }
 
     .pc-label {
@@ -446,7 +449,7 @@
     }
 
     .pc-val {
-      font-size: 22px;
+      font-size: clamp(17px, 5vw, 22px);
       font-weight: 800;
       font-variant-numeric: tabular-nums;
       line-height: 1;
@@ -1272,13 +1275,9 @@
         if (found) { renderDashboard(found); return; }
       }
 
-      // Sin tienda válida en URL → mostrar selector (con PIN si no autenticado)
+      // PIN desactivado temporalmente — acceso directo al selector
       document.getElementById('loading').style.display = 'none';
-      if (sessionStorage.getItem('cen_auth') === isoDate()) {
-        showSelector();
-      } else {
-        document.getElementById('pin-screen').style.display = 'flex';
-      }
+      showSelector();
     } catch(e) {
       document.getElementById('loading').textContent = 'Error al cargar datos: ' + e.message;
     }
