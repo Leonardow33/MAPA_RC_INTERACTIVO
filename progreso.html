@@ -459,10 +459,7 @@
   // PIN diario rotativo (misma lógica que admin_claves.html)
   // ─────────────────────────────────────────────────────────
   function isoDate() {
-    const d = new Date();
-    return d.getFullYear() + '-' +
-      String(d.getMonth()+1).padStart(2,'0') + '-' +
-      String(d.getDate()).padStart(2,'0');
+    return new Date().toLocaleDateString('sv', { timeZone: 'America/Lima' });
   }
   function dailyCode(seed) {
     const s = seed + '|' + isoDate();
