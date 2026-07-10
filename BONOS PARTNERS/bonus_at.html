@@ -41,7 +41,7 @@
       flex-direction: column;
       align-items: center;
       justify-content: flex-start;
-      padding: 48px 24px 64px;
+      padding: 48px 24px 96px;
     }
 
     .ss-eyebrow {
@@ -997,8 +997,8 @@
 
   <div class="role-tabs">
     <button class="role-tab active" id="tab-tienda" onclick="setRole('tienda')">🏪 Mi tienda</button>
-    <button class="role-tab" id="tab-jz" onclick="setRole('jz')">Jefe Comercial</button>
     <button class="role-tab" id="tab-gz" onclick="setRole('gz')">Supervisor</button>
+    <button class="role-tab" id="tab-jz" onclick="setRole('jz')">Jefe Comercial</button>
   </div>
 
   <!-- Panel: Tienda → búsqueda por nombre/código + lista completa -->
@@ -1410,7 +1410,7 @@
     const ids        = new Set(stores.map(s => String(s.ID)));
     const vm         = monthlyVentasMap(ids);
     const list       = document.createElement('div');
-    list.style.cssText = 'display:flex;flex-direction:column;gap:6px;max-height:55vh;overflow-y:auto;';
+    list.style.cssText = 'display:flex;flex-direction:column;gap:6px;';
     list.appendChild(buildStoreRows(stores, vm, diasCalMes));
     wrap.innerHTML = '';
     wrap.appendChild(list);
@@ -1436,7 +1436,7 @@
 
     wrap.innerHTML = '';
     const container = document.createElement('div');
-    container.style.cssText = 'display:flex;flex-direction:column;gap:8px;max-height:65vh;overflow-y:auto;';
+    container.style.cssText = 'display:flex;flex-direction:column;gap:8px;';
 
     Object.entries(supMap).sort(([a],[b]) => a.localeCompare(b)).forEach(([gz, gzStores]) => {
       let totV = 0, totM = 0;
