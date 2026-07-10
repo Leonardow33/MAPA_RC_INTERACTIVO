@@ -1425,17 +1425,18 @@
     const ids        = new Set(stores.map(s => String(s.ID)));
     const vm         = monthlyVentasMap(ids);
     const esc        = v => String(v == null ? '' : v).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
-    const cols       = ['Jefe Comercial','Supervisor','ID Tienda','Tienda','Período','Días','Ventas S/','Meta S/','Avance %','Falta S/'];
+    const cols      = ['Jefe Comercial','Supervisor','ID Tienda','Tienda','Período','Días transcurridos','Ventas S/','Meta Mensual S/','Avance % (mes)','Falta para meta S/'];
+    const totalDias = new Date(now.getFullYear(), now.getMonth()+1, 0).getDate();
 
     const filas = [...stores]
       .sort((a, b) => {
-        const pA = a.meta_diaria ? (vm[String(a.ID)] || 0) / (a.meta_diaria * diasCalMes) : -1;
-        const pB = b.meta_diaria ? (vm[String(b.ID)] || 0) / (b.meta_diaria * diasCalMes) : -1;
+        const pA = a.meta_diaria ? (vm[String(a.ID)] || 0) / (a.meta_diaria * totalDias) : -1;
+        const pB = b.meta_diaria ? (vm[String(b.ID)] || 0) / (b.meta_diaria * totalDias) : -1;
         return pB - pA;
       })
       .map(s => {
         const sold = vm[String(s.ID)] || 0;
-        const meta = s.meta_diaria ? s.meta_diaria * diasCalMes : 0;
+        const meta = s.meta_diaria ? s.meta_diaria * totalDias : 0;
         const pct  = meta > 0 ? Math.round(sold / meta * 100) : '';
         const falt = meta > 0 ? Math.round(sold < meta ? sold - meta : 0) : '';
         return [jz, s.gz || '', s.ID || '', s.nombre || '', mesLabel, diasCalMes,
