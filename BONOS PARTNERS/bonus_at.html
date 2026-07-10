@@ -861,6 +861,74 @@
       .ring-fill, .pbar-fill, .gr-fill { transition: none; }
       .spin { animation: none; }
     }
+
+    /* ── GZ SUMMARY ─────────────────────────────────────── */
+    .gz-sum-card {
+      background: var(--surf);
+      border: 1.5px solid var(--border);
+      border-radius: 16px;
+      padding: 16px 16px 14px;
+      margin-bottom: 12px;
+    }
+    .gz-sum-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 4px;
+    }
+    .gz-sum-title {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+    .gz-sum-pct {
+      font-size: 30px;
+      font-weight: 900;
+      font-variant-numeric: tabular-nums;
+      line-height: 1;
+    }
+    .gz-sum-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 8px;
+      margin-bottom: 14px;
+    }
+    .gz-sum-stat {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+      align-items: center;
+      text-align: center;
+    }
+    .gz-sum-val {
+      font-size: 14px;
+      font-weight: 800;
+      font-variant-numeric: tabular-nums;
+    }
+    .gz-sum-lbl {
+      font-size: 10px;
+      color: var(--muted);
+    }
+    .gz-det-btn {
+      width: 100%;
+      background: var(--surf2);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 10px;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--muted);
+      font-family: inherit;
+      cursor: pointer;
+      transition: color .15s, border-color .15s, background .15s;
+    }
+    .gz-det-btn:hover {
+      color: var(--text);
+      border-color: var(--accent);
+      background: var(--rose-soft);
+    }
   </style>
 </head>
 <body>
@@ -924,13 +992,16 @@
     <p class="sc-count" id="jz-count"></p>
   </div>
 
-  <!-- Panel: GZ → seleccionar GZ → lista de tiendas -->
+  <!-- Panel: GZ → seleccionar GZ → resumen + lista de tiendas -->
   <div id="role-panel-gz" style="display:none">
     <select class="role-select" id="gz-select">
       <option value="">— Selecciona tu nombre —</option>
     </select>
-    <div class="store-card-list" id="gz-store-list"></div>
-    <p class="sc-count" id="gz-count"></p>
+    <div id="gz-summary" style="display:none"></div>
+    <div id="gz-stores-wrap" style="display:none">
+      <div class="store-card-list" id="gz-store-list"></div>
+      <p class="sc-count" id="gz-count"></p>
+    </div>
   </div>
 </div>
 
@@ -1152,8 +1223,11 @@
       gzSel.appendChild(opt);
     });
     gzSel.addEventListener('change', () => {
-      const gz = gzSel.value;
-      renderStoreCards('gz', gz ? allStores.filter(p => p.gz === gz) : []);
+      const gz     = gzSel.value;
+      const stores = gz ? allStores.filter(p => p.gz === gz) : [];
+      renderGzSummary(gz, stores);
+      renderStoreCards('gz', stores);
+      document.getElementById('gz-stores-wrap').style.display = 'none';
     });
 
     const jzSel = document.getElementById('jz-select');
@@ -1166,6 +1240,74 @@
       const jz = jzSel.value;
       renderStoreCards('jz', jz ? allStores.filter(p => p.jz === jz) : []);
     });
+  }
+
+  function renderGzSummary(gz, stores) {
+    const summaryEl = document.getElementById('gz-summary');
+    const wrapEl    = document.getElementById('gz-stores-wrap');
+    if (!gz || !stores.length) {
+      summaryEl.style.display = 'none';
+      wrapEl.style.display    = 'none';
+      return;
+    }
+    const now        = new Date();
+    const mesIni     = new Date(now.getFullYear(), now.getMonth(), 1);
+    const mesFin     = new Date(now.getFullYear(), now.getMonth()+1, 0, 23, 59, 59);
+    const diasCalMes = mesFin.getDate();
+    const ids        = new Set(stores.map(s => String(s.ID)));
+
+    let totalVentas = 0;
+    allVentas.forEach(v => {
+      if (!ids.has(String(v.org_code)) || !v.fecha || v.tipo_juego !== 'TOTAL') return;
+      const f = new Date(v.fecha + 'T12:00:00');
+      if (f >= mesIni && f <= mesFin) totalVentas += v.total || 0;
+    });
+
+    let totalMeta = 0;
+    stores.forEach(s => {
+      if (s.meta_diaria && s.meta_diaria > 0) totalMeta += s.meta_diaria * diasCalMes;
+    });
+
+    const pct        = totalMeta > 0 ? Math.round(totalVentas / totalMeta * 100) : null;
+    const col        = pct !== null ? pctColor(pct) : 'var(--dim)';
+    const faltaAmt   = totalMeta && totalVentas < totalMeta ? fmtS(totalMeta - totalVentas) : totalMeta ? '✓' : '—';
+    const faltaColor = totalMeta && totalVentas < totalMeta ? 'var(--red)' : 'var(--green)';
+    const barW       = Math.min(pct || 0, 100);
+
+    summaryEl.style.display = '';
+    summaryEl.innerHTML = `
+      <div class="gz-sum-card">
+        <div class="gz-sum-top">
+          <div class="gz-sum-title">${stores.length} tienda${stores.length !== 1 ? 's' : ''} · este mes</div>
+          <div class="gz-sum-pct" style="color:${col}">${pct !== null ? pct + '%' : '—'}</div>
+        </div>
+        <div class="pbar-track" style="margin:8px 0 14px">
+          <div class="pbar-fill" style="width:${barW}%;background:${col}"></div>
+        </div>
+        <div class="gz-sum-row">
+          <div class="gz-sum-stat">
+            <div class="gz-sum-val">${fmtS(totalVentas)}</div>
+            <div class="gz-sum-lbl">Vendido</div>
+          </div>
+          <div class="gz-sum-stat">
+            <div class="gz-sum-val" style="color:var(--muted)">${totalMeta ? fmtS(totalMeta) : 'S/ —'}</div>
+            <div class="gz-sum-lbl">Meta mes</div>
+          </div>
+          <div class="gz-sum-stat">
+            <div class="gz-sum-val" style="color:${faltaColor}">${faltaAmt}</div>
+            <div class="gz-sum-lbl">Falta</div>
+          </div>
+        </div>
+        <button class="gz-det-btn" id="gz-det-btn" onclick="toggleGzDetail()">Ver detalle por tienda ▾</button>
+      </div>`;
+  }
+
+  function toggleGzDetail() {
+    const wrap = document.getElementById('gz-stores-wrap');
+    const btn  = document.getElementById('gz-det-btn');
+    const open = wrap.style.display !== 'none';
+    wrap.style.display = open ? 'none' : '';
+    btn.textContent    = open ? 'Ver detalle por tienda ▾' : 'Ocultar detalle ▲';
   }
 
   function renderStoreCards(role, stores) {
