@@ -995,7 +995,7 @@
         <div class="gr-val" id="ld-val">S/ 0</div>
       </div>
       <div class="game-row">
-        <div class="gr-name"><img src="../sources/logos-games/rapiraspa.png" class="gr-logo" alt="">Scratchcard</div>
+        <div class="gr-name"><img src="../sources/logos-games/rapiraspa.png" class="gr-logo" alt="">Rapiraspa</div>
         <div class="gr-bar"><div class="gr-fill" id="sc-bar" style="background:#16A34A"></div></div>
         <div class="gr-val" id="sc-val">S/ 0</div>
       </div>
@@ -1198,7 +1198,14 @@
     const j = new Date(d);
     j.setHours(0,0,0,0);
     const wd = j.getDay();
-    j.setDate(j.getDate() - ((wd - 4 + 7) % 7)); // siempre retrocede al jueves anterior
+    j.setDate(j.getDate() - ((wd - 4 + 7) % 7));
+    return j;
+  }
+  function lunesDe(d) {
+    const j = new Date(d);
+    j.setHours(0,0,0,0);
+    const wd = j.getDay();
+    j.setDate(j.getDate() - ((wd + 6) % 7)); // retrocede al lunes anterior
     return j;
   }
 
@@ -1321,7 +1328,9 @@
     const mesIni   = new Date(now.getFullYear(), now.getMonth(), 1);
     const mesFin   = new Date(now.getFullYear(), now.getMonth()+1, 0, 23, 59, 59);
     const semJue   = juevesDe(now);
+    const semLun   = lunesDe(now);
     const semMie   = new Date(semJue); semMie.setDate(semJue.getDate()+6); semMie.setHours(23,59,59,999);
+    const semDom   = new Date(semLun); semDom.setDate(semLun.getDate()+6); semDom.setHours(23,59,59,999);
 
     // Aggregate ventas for this store
     const id       = String(store.ID);
@@ -1334,7 +1343,7 @@
       const tj  = v.tipo_juego || '';
       if (tj === 'TOTAL') {
         if (v.fecha === hoy) totHoy += amt;
-        if (f >= semJue && f <= semMie) totSem += amt;
+        if (f >= semLun && f <= semDom) totSem += amt;
         if (f >= mesIni && f <= mesFin) totMes += amt;
       }
       if (tj === 'PozoPower'   && f >= mesIni && f <= mesFin) ppMes += amt;
@@ -1413,13 +1422,13 @@
     setBar(document.getElementById('go-bar'), goMes / maxGame * 100, '#D97706');
     setBar(document.getElementById('e3-bar'), e3Mes / maxGame * 100, '#7C3AED');
 
-    // Weekly chart (Thu→Wed, 7 days)
-    const DAY_NAMES      = ['Jue','Vie','Sáb','Dom','Lun','Mar','Mié'];
-    const DAY_NAMES_LONG = ['Jueves','Viernes','Sábado','Domingo','Lunes','Martes','Miércoles'];
+    // Weekly chart (Lun→Dom, 7 days)
+    const DAY_NAMES      = ['Lun','Mar','Mié','Jue','Vie','Sáb','Dom'];
+    const DAY_NAMES_LONG = ['Lunes','Martes','Miércoles','Jueves','Viernes','Sábado','Domingo'];
     const weekKeys = [];
     for (let i = 0; i < 7; i++) {
-      const d = new Date(semJue);
-      d.setDate(semJue.getDate() + i);
+      const d = new Date(semLun);
+      d.setDate(semLun.getDate() + i);
       weekKeys.push(
         d.getFullYear() + '-' +
         String(d.getMonth()+1).padStart(2,'0') + '-' +
