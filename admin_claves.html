@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Claves del día · GeoDor</title>
+  <title>Admin · GeoDor</title>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     body {
@@ -14,142 +14,179 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: center;
-      padding: 40px 20px;
-      gap: 24px;
+      padding: 36px 20px 56px;
+      gap: 0;
     }
+
     .eyebrow {
       font-size: 10px;
       font-weight: 700;
       letter-spacing: .2em;
       text-transform: uppercase;
-      color: #888;
+      color: #556;
+      margin-bottom: 6px;
     }
-    h1 {
-      font-size: 22px;
+    .page-title {
+      font-size: 24px;
       font-weight: 800;
       text-align: center;
+      margin-bottom: 4px;
     }
     .date-label {
       font-size: 13px;
-      color: #888;
+      color: #556;
       text-align: center;
+      margin-bottom: 28px;
     }
-    .cards {
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-      width: 100%;
-      max-width: 360px;
-    }
-    .code-card {
-      background: #060F2A;
-      border: 1.5px solid;
-      border-radius: 16px;
-      padding: 16px 18px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-    .cc-left { display: flex; flex-direction: column; gap: 3px; }
-    .cc-partner {
-      font-size: 13px;
-      font-weight: 700;
-    }
-    .cc-hint { font-size: 11px; color: #555; }
-    .cc-code {
-      font-size: 26px;
-      font-weight: 900;
-      font-variant-numeric: tabular-nums;
-      letter-spacing: .08em;
-    }
-    .footer {
-      font-size: 11px;
-      color: #333;
-      text-align: center;
-      max-width: 300px;
-    }
-    .links-section {
-      width: 100%;
-      max-width: 360px;
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-    }
-    .links-title {
+
+    /* ── SECCIÓN LINKS ───────────────────────────────────── */
+    .section-label {
       font-size: 10px;
       font-weight: 700;
       letter-spacing: .18em;
       text-transform: uppercase;
-      color: #555;
-      margin-top: 8px;
-      margin-bottom: 2px;
+      color: #445;
+      align-self: flex-start;
+      max-width: 420px;
+      width: 100%;
+      margin-bottom: 10px;
     }
-    .link-row {
+
+    .partner-cards {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      width: 100%;
+      max-width: 420px;
+      margin-bottom: 32px;
+    }
+
+    .pc {
       background: #060F2A;
-      border: 1.5px solid #1a2a4a;
-      border-radius: 12px;
-      padding: 11px 14px;
+      border: 1.5px solid;
+      border-radius: 16px;
+      padding: 14px 16px;
       display: flex;
       align-items: center;
-      justify-content: space-between;
-      gap: 10px;
+      gap: 12px;
     }
-    .lr-label {
+    .pc-bar {
+      width: 4px;
+      height: 44px;
+      border-radius: 4px;
+      flex-shrink: 0;
+    }
+    .pc-info {
+      flex: 1;
+      min-width: 0;
+    }
+    .pc-name {
+      font-size: 15px;
+      font-weight: 800;
+      line-height: 1.2;
+    }
+    .pc-meta {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 4px;
+      flex-wrap: wrap;
+    }
+    .pc-ventas {
       font-size: 13px;
       font-weight: 700;
+      font-variant-numeric: tabular-nums;
+      color: #cdd;
     }
-    .lr-copy {
+    .pc-upd {
       font-size: 11px;
+      color: #445;
+    }
+    .pc-copy {
       background: none;
-      border: 1px solid #334;
-      color: #888;
-      border-radius: 7px;
-      padding: 4px 10px;
-      cursor: pointer;
+      border: 1.5px solid #223;
+      color: #667;
+      font-size: 12px;
+      font-weight: 600;
       font-family: inherit;
-      transition: color .15s, border-color .15s;
+      border-radius: 10px;
+      padding: 8px 14px;
+      cursor: pointer;
+      transition: color .15s, border-color .15s, background .15s;
       white-space: nowrap;
       flex-shrink: 0;
     }
-    .lr-copy:hover { color: #fff; border-color: #666; }
-    .lr-copy.copied { color: #4ade80; border-color: #4ade80; }
+    .pc-copy:hover { color: #fff; border-color: #556; background: #0d1830; }
+    .pc-copy.copied { color: #4ade80; border-color: #4ade80; }
+
+    /* ── SECCIÓN CLAVES ──────────────────────────────────── */
+    .code-cards {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      width: 100%;
+      max-width: 420px;
+    }
+    .cc {
+      background: #060F2A;
+      border: 1.5px solid;
+      border-radius: 14px;
+      padding: 13px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .cc-left { display: flex; flex-direction: column; gap: 2px; }
+    .cc-partner { font-size: 13px; font-weight: 700; }
+    .cc-hint { font-size: 10px; color: #445; }
+    .cc-code {
+      font-size: 22px;
+      font-weight: 900;
+      font-variant-numeric: tabular-nums;
+      letter-spacing: .08em;
+    }
+
+    .footer {
+      font-size: 11px;
+      color: #334;
+      text-align: center;
+      max-width: 300px;
+      margin-top: 24px;
+    }
   </style>
 </head>
 <body>
   <div class="eyebrow">GeoDor · Administración</div>
-  <h1>Claves del día</h1>
+  <h1 class="page-title">Panel de Partners</h1>
   <div class="date-label" id="date-label">—</div>
-  <div class="cards" id="cards"></div>
 
-  <div class="links-section">
-    <div class="links-title">Links de acceso directo</div>
-    <div id="link-rows"></div>
-  </div>
+  <div class="section-label">Links de acceso directo</div>
+  <div class="partner-cards" id="partner-cards"></div>
 
-  <div class="footer" style="margin-top:16px">
-    Esta página es solo para uso interno.<br>
-    Comparte la clave de cada partner únicamente con sus cajeras.
+  <div class="section-label">Claves del día</div>
+  <div class="code-cards" id="code-cards"></div>
+
+  <div class="footer">
+    Uso interno · GeoDor<br>
+    Comparte la clave de cada partner solo con sus cajeras.
   </div>
 
 <script>
-  // ── Misma lógica que en los HTML de cada partner ──────────
-  // Si cambias AT_SEED en bonus_at.html, cambia también aquí
-  const CONFIGS = [
-    { label: 'Apuesta Total', color: '#E53535', seed: 'GEODOR_AT_2025'   },
-    { label: 'Tinbet',        color: '#16A34A', seed: 'GEODOR_TIN_2025'  },
-    { label: 'Livesport',     color: '#2563EB', seed: 'GEODOR_LIVE_2025' },
-    { label: 'Retabet',       color: '#94A3B8', seed: 'GEODOR_RET_2025'  },
-    { label: 'Doradobet',     color: '#D97706', seed: 'GEODOR_DOR_2025'  },
-    { label: 'Aciertala',     color: '#0891B2', seed: 'GEODOR_ACT_2025'  },
-    { label: 'Cencosud',      color: '#006633', seed: 'GEODOR_CEN_2025'  },
+  const BASE = 'https://leonardow33.github.io/MAPA_RC_INTERACTIVO/BONOS%20PARTNERS/';
+
+  const PARTNERS = [
+    { label: 'Apuesta Total', color: '#E53535', seed: 'GEODOR_AT_2025',   file: 'bonus_at.html',        key: 'APUESTA TOTAL' },
+    { label: 'Tinbet',        color: '#16A34A', seed: 'GEODOR_TIN_2025',  file: 'bonus_tinbet.html',    key: 'TINBET'        },
+    { label: 'Livesport',     color: '#2563EB', seed: 'GEODOR_LIVE_2025', file: 'bonus_livesport.html', key: 'LIVESPORT'     },
+    { label: 'Retabet',       color: '#64748B', seed: 'GEODOR_RET_2025',  file: 'bonus_retabet.html',   key: 'RETABET'       },
+    { label: 'Doradobet',     color: '#D97706', seed: 'GEODOR_DOR_2025',  file: 'bonus_doradobet.html', key: 'DORADOBET'     },
+    { label: 'Aciertala',     color: '#0891B2', seed: 'GEODOR_ACT_2025',  file: 'bonus_aciertala.html', key: 'ACIERTALA'     },
+    { label: 'Cencosud',      color: '#006633', seed: 'GEODOR_CEN_2025',  file: 'bonus_cencosud.html',  key: 'CENCOSUD'      },
   ];
 
   function isoDate() {
     const d = new Date();
-    return d.getFullYear() + '-' +
-      String(d.getMonth()+1).padStart(2,'0') + '-' +
-      String(d.getDate()).padStart(2,'0');
+    return d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0');
   }
 
   function dailyCode(seed, date) {
@@ -161,60 +198,108 @@
     return h.toString(36).toUpperCase().slice(0, 5);
   }
 
-  const today = isoDate();
-  const days  = ['Domingo','Lunes','Martes','Miércoles','Jueves','Viernes','Sábado'];
-  const months= ['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
-  const d     = new Date();
-  document.getElementById('date-label').textContent =
-    `${days[d.getDay()]} ${d.getDate()} de ${months[d.getMonth()]} ${d.getFullYear()}`;
+  function fmtS(n) {
+    if (!n) return 'S/ 0';
+    return 'S/ ' + Math.round(n).toLocaleString('es-PE');
+  }
 
-  const cards = document.getElementById('cards');
-  CONFIGS.forEach(cfg => {
-    const code = dailyCode(cfg.seed, today);
-    const card = document.createElement('div');
-    card.className = 'code-card';
-    card.style.borderColor = cfg.color + '55';
-    card.innerHTML = `
+  function fmtUpd(utcStr) {
+    if (!utcStr) return '—';
+    // "2026-07-10 14:35 UTC" → Peru (UTC-5)
+    const clean = utcStr.replace(' UTC', '').replace(' ', 'T') + ':00Z';
+    const d = new Date(clean);
+    if (isNaN(d)) return utcStr;
+    return d.toLocaleTimeString('es-PE', { hour: '2-digit', minute: '2-digit', timeZone: 'America/Lima' });
+  }
+
+  // ── Fecha ──────────────────────────────────────────────────
+  const today = isoDate();
+  const days   = ['Domingo','Lunes','Martes','Miércoles','Jueves','Viernes','Sábado'];
+  const months = ['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
+  const now = new Date();
+  document.getElementById('date-label').textContent =
+    `${days[now.getDay()]} ${now.getDate()} de ${months[now.getMonth()]} ${now.getFullYear()}`;
+
+  // ── Claves ─────────────────────────────────────────────────
+  const codeCards = document.getElementById('code-cards');
+  PARTNERS.forEach(p => {
+    const code = dailyCode(p.seed, today);
+    const el = document.createElement('div');
+    el.className = 'cc';
+    el.style.borderColor = p.color + '44';
+    el.innerHTML = `
       <div class="cc-left">
-        <div class="cc-partner" style="color:${cfg.color}">${cfg.label}</div>
+        <div class="cc-partner" style="color:${p.color}">${p.label}</div>
         <div class="cc-hint">válida solo hoy</div>
       </div>
-      <div class="cc-code" style="color:${cfg.color}">${code}</div>`;
-    cards.appendChild(card);
+      <div class="cc-code" style="color:${p.color}">${code}</div>`;
+    codeCards.appendChild(el);
   });
 
-  // ── Links de acceso directo ───────────────────────────────
-  const BASE = 'https://leonardow33.github.io/MAPA_RC_INTERACTIVO/BONOS%20PARTNERS/';
-  const LINKS = [
-    { label: 'Apuesta Total', color: '#E53535', file: 'bonus_at.html'        },
-    { label: 'Tinbet',        color: '#16A34A', file: 'bonus_tinbet.html'    },
-    { label: 'Livesport',     color: '#2563EB', file: 'bonus_livesport.html' },
-    { label: 'Retabet',       color: '#64748B', file: 'bonus_retabet.html'   },
-    { label: 'Doradobet',     color: '#D97706', file: 'bonus_doradobet.html' },
-    { label: 'Aciertala',     color: '#0891B2', file: 'bonus_aciertala.html' },
-    { label: 'Cencosud',      color: '#006633', file: 'bonus_cencosud.html'  },
-  ];
+  // ── Links + ventas ──────────────────────────────────────────
+  const partnerCards = document.getElementById('partner-cards');
 
-  const linkRows = document.getElementById('link-rows');
-  LINKS.forEach(lk => {
-    const url = BASE + lk.file;
-    const row = document.createElement('div');
-    row.className = 'link-row';
-    row.style.borderColor = lk.color + '44';
-    const btn = document.createElement('button');
-    btn.className = 'lr-copy';
-    btn.textContent = 'Copiar link';
-    btn.onclick = () => {
+  // Crear cards con placeholder
+  const cardEls = {};
+  PARTNERS.forEach(p => {
+    const url = BASE + p.file;
+    const el = document.createElement('div');
+    el.className = 'pc';
+    el.style.borderColor = p.color + '44';
+    el.innerHTML = `
+      <div class="pc-bar" style="background:${p.color}"></div>
+      <div class="pc-info">
+        <div class="pc-name" style="color:${p.color}">${p.label}</div>
+        <div class="pc-meta">
+          <span class="pc-ventas" id="v-${p.key}">S/ —</span>
+          <span class="pc-upd" id="u-${p.key}">cargando…</span>
+        </div>
+      </div>
+      <button class="pc-copy" id="btn-${p.key}">Copiar link</button>`;
+    partnerCards.appendChild(el);
+    cardEls[p.key] = el;
+
+    el.querySelector(`#btn-${p.key}`).onclick = () => {
       navigator.clipboard.writeText(url).then(() => {
+        const btn = el.querySelector(`#btn-${p.key}`);
         btn.textContent = '¡Copiado!';
         btn.classList.add('copied');
         setTimeout(() => { btn.textContent = 'Copiar link'; btn.classList.remove('copied'); }, 2000);
       });
     };
-    row.innerHTML = `<span class="lr-label" style="color:${lk.color}">${lk.label}</span>`;
-    row.appendChild(btn);
-    linkRows.appendChild(row);
   });
+
+  // Cargar ventas
+  fetch('data/ventas_mes.json')
+    .then(r => r.json())
+    .then(data => {
+      const ventas = data.body || data.ventas || [];
+      const updStr = data.updated || '';
+      const updTime = fmtUpd(updStr);
+      const mesIni = today.slice(0, 7); // "2026-07"
+
+      // Sumar por partner (solo TOTAL del mes)
+      const totales = {};
+      ventas.forEach(v => {
+        if (v.tipo_juego !== 'TOTAL') return;
+        if (!v.fecha || !v.fecha.startsWith(mesIni)) return;
+        const k = (v.partner || '').toUpperCase();
+        totales[k] = (totales[k] || 0) + (v.total || 0);
+      });
+
+      PARTNERS.forEach(p => {
+        const vEl = document.getElementById(`v-${p.key}`);
+        const uEl = document.getElementById(`u-${p.key}`);
+        if (vEl) vEl.textContent = fmtS(totales[p.key] || 0);
+        if (uEl) uEl.textContent = updTime ? `Act. ${updTime}` : '—';
+      });
+    })
+    .catch(() => {
+      PARTNERS.forEach(p => {
+        const uEl = document.getElementById(`u-${p.key}`);
+        if (uEl) uEl.textContent = 'sin datos';
+      });
+    });
 </script>
 </body>
 </html>
