@@ -69,6 +69,51 @@
       text-align: center;
       max-width: 300px;
     }
+    .links-section {
+      width: 100%;
+      max-width: 360px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .links-title {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      color: #555;
+      margin-top: 8px;
+      margin-bottom: 2px;
+    }
+    .link-row {
+      background: #060F2A;
+      border: 1.5px solid #1a2a4a;
+      border-radius: 12px;
+      padding: 11px 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+    .lr-label {
+      font-size: 13px;
+      font-weight: 700;
+    }
+    .lr-copy {
+      font-size: 11px;
+      background: none;
+      border: 1px solid #334;
+      color: #888;
+      border-radius: 7px;
+      padding: 4px 10px;
+      cursor: pointer;
+      font-family: inherit;
+      transition: color .15s, border-color .15s;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+    .lr-copy:hover { color: #fff; border-color: #666; }
+    .lr-copy.copied { color: #4ade80; border-color: #4ade80; }
   </style>
 </head>
 <body>
@@ -76,7 +121,13 @@
   <h1>Claves del día</h1>
   <div class="date-label" id="date-label">—</div>
   <div class="cards" id="cards"></div>
-  <div class="footer">
+
+  <div class="links-section">
+    <div class="links-title">Links de acceso directo</div>
+    <div id="link-rows"></div>
+  </div>
+
+  <div class="footer" style="margin-top:16px">
     Esta página es solo para uso interno.<br>
     Comparte la clave de cada partner únicamente con sus cajeras.
   </div>
@@ -130,6 +181,39 @@
       </div>
       <div class="cc-code" style="color:${cfg.color}">${code}</div>`;
     cards.appendChild(card);
+  });
+
+  // ── Links de acceso directo ───────────────────────────────
+  const BASE = 'https://leonardow33.github.io/MAPA_RC_INTERACTIVO/BONOS%20PARTNERS/';
+  const LINKS = [
+    { label: 'Apuesta Total', color: '#E53535', file: 'bonus_at.html'        },
+    { label: 'Tinbet',        color: '#16A34A', file: 'bonus_tinbet.html'    },
+    { label: 'Livesport',     color: '#2563EB', file: 'bonus_livesport.html' },
+    { label: 'Retabet',       color: '#64748B', file: 'bonus_retabet.html'   },
+    { label: 'Doradobet',     color: '#D97706', file: 'bonus_doradobet.html' },
+    { label: 'Aciertala',     color: '#0891B2', file: 'bonus_aciertala.html' },
+    { label: 'Cencosud',      color: '#006633', file: 'bonus_cencosud.html'  },
+  ];
+
+  const linkRows = document.getElementById('link-rows');
+  LINKS.forEach(lk => {
+    const url = BASE + lk.file;
+    const row = document.createElement('div');
+    row.className = 'link-row';
+    row.style.borderColor = lk.color + '44';
+    const btn = document.createElement('button');
+    btn.className = 'lr-copy';
+    btn.textContent = 'Copiar link';
+    btn.onclick = () => {
+      navigator.clipboard.writeText(url).then(() => {
+        btn.textContent = '¡Copiado!';
+        btn.classList.add('copied');
+        setTimeout(() => { btn.textContent = 'Copiar link'; btn.classList.remove('copied'); }, 2000);
+      });
+    };
+    row.innerHTML = `<span class="lr-label" style="color:${lk.color}">${lk.label}</span>`;
+    row.appendChild(btn);
+    linkRows.appendChild(row);
   });
 </script>
 </body>

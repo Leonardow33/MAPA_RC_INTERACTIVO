@@ -1290,13 +1290,9 @@
         if (found) { renderDashboard(found); return; }
       }
 
-      // Sin tienda válida en URL → mostrar selector (con PIN si no autenticado)
+      // PIN desactivado temporalmente — acceso directo al selector
       document.getElementById('loading').style.display = 'none';
-      if (sessionStorage.getItem('tin_auth') === isoDate()) {
-        showSelector();
-      } else {
-        document.getElementById('pin-screen').style.display = 'flex';
-      }
+      showSelector();
     } catch(e) {
       document.getElementById('loading').textContent = 'Error al cargar datos: ' + e.message;
     }
