@@ -39,6 +39,13 @@
       margin-bottom: 28px;
     }
 
+    /* ── GRID PRINCIPAL ──────────────────────────────────── */
+    .main-grid { width: 100%; max-width: 880px; display: flex; flex-direction: column; }
+    .grid-col  { width: 100%; }
+    @media (min-width: 780px) {
+      .main-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; align-items: start; }
+    }
+
     /* ── SECCIÓN LINKS ───────────────────────────────────── */
     .section-label {
       font-size: 10px;
@@ -46,8 +53,6 @@
       letter-spacing: .18em;
       text-transform: uppercase;
       color: #445;
-      align-self: flex-start;
-      max-width: 420px;
       width: 100%;
       margin-bottom: 10px;
     }
@@ -57,7 +62,6 @@
       flex-direction: column;
       gap: 10px;
       width: 100%;
-      max-width: 420px;
       margin-bottom: 32px;
     }
 
@@ -102,6 +106,7 @@
       font-size: 11px;
       color: #445;
     }
+    .pc-actions { display: flex; gap: 8px; align-items: center; flex-shrink: 0; }
     .pc-copy {
       background: none;
       border: 1.5px solid #223;
@@ -114,19 +119,28 @@
       cursor: pointer;
       transition: color .15s, border-color .15s, background .15s;
       white-space: nowrap;
-      flex-shrink: 0;
     }
     .pc-copy:hover { color: #fff; border-color: #556; background: #0d1830; }
     .pc-copy.copied { color: #4ade80; border-color: #4ade80; }
+    .pc-open {
+      background: none;
+      border: 1.5px solid #223;
+      color: #667;
+      font-size: 12px;
+      font-weight: 600;
+      border-radius: 10px;
+      padding: 8px 14px;
+      cursor: pointer;
+      transition: color .15s, border-color .15s, background .15s;
+      white-space: nowrap;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+    }
+    .pc-open:hover { color: #fff; border-color: #556; background: #0d1830; }
 
     /* ── SECCIÓN CLAVES ──────────────────────────────────── */
-    .code-cards {
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-      width: 100%;
-      max-width: 420px;
-    }
+    .code-cards { display: flex; flex-direction: column; gap: 8px; width: 100%; }
     .cc {
       background: #060F2A;
       border: 1.5px solid;
@@ -135,10 +149,14 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
+      cursor: pointer;
+      transition: background .15s;
     }
+    .cc:hover { background: #0b1a3a; }
     .cc-left { display: flex; flex-direction: column; gap: 2px; }
     .cc-partner { font-size: 13px; font-weight: 700; }
-    .cc-hint { font-size: 10px; color: #445; }
+    .cc-hint { font-size: 10px; color: #445; transition: color .15s; }
+    .cc.copied .cc-hint { color: #4ade80; }
     .cc-code {
       font-size: 22px;
       font-weight: 900;
@@ -160,11 +178,16 @@
   <h1 class="page-title">Panel de Partners</h1>
   <div class="date-label" id="date-label">—</div>
 
-  <div class="section-label">Links de acceso directo</div>
-  <div class="partner-cards" id="partner-cards"></div>
-
-  <div class="section-label">Claves del día</div>
-  <div class="code-cards" id="code-cards"></div>
+  <div class="main-grid">
+    <div class="grid-col">
+      <div class="section-label">Links de acceso directo</div>
+      <div class="partner-cards" id="partner-cards"></div>
+    </div>
+    <div class="grid-col">
+      <div class="section-label">Claves del día</div>
+      <div class="code-cards" id="code-cards"></div>
+    </div>
+  </div>
 
   <div class="footer">
     Uso interno · GeoDor<br>
@@ -229,9 +252,19 @@
     el.innerHTML = `
       <div class="cc-left">
         <div class="cc-partner" style="color:${p.color}">${p.label}</div>
-        <div class="cc-hint">válida solo hoy</div>
+        <div class="cc-hint">toca para copiar</div>
       </div>
       <div class="cc-code" style="color:${p.color}">${code}</div>`;
+    el.onclick = () => {
+      navigator.clipboard.writeText(code).then(() => {
+        el.classList.add('copied');
+        el.querySelector('.cc-hint').textContent = '¡Copiado!';
+        setTimeout(() => {
+          el.classList.remove('copied');
+          el.querySelector('.cc-hint').textContent = 'toca para copiar';
+        }, 2000);
+      });
+    };
     codeCards.appendChild(el);
   });
 
@@ -253,7 +286,10 @@
           <span class="pc-upd" id="pu${i}">cargando…</span>
         </div>
       </div>
-      <button class="pc-copy" id="pb${i}">Copiar link</button>`;
+      <div class="pc-actions">
+        <a class="pc-open" href="${url}" target="_blank">Abrir ↗</a>
+        <button class="pc-copy" id="pb${i}">Copiar link</button>
+      </div>`;
     partnerCards.appendChild(el);
 
     document.getElementById(`pb${i}`).onclick = () => {
