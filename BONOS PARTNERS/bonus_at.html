@@ -983,13 +983,16 @@
     <p class="sc-count" id="tienda-count"></p>
   </div>
 
-  <!-- Panel: JZ → seleccionar JZ → lista de tiendas -->
+  <!-- Panel: JZ → seleccionar JZ → resumen + lista de tiendas -->
   <div id="role-panel-jz" style="display:none">
     <select class="role-select" id="jz-select">
       <option value="">— Selecciona tu nombre —</option>
     </select>
-    <div class="store-card-list" id="jz-store-list"></div>
-    <p class="sc-count" id="jz-count"></p>
+    <div id="jz-summary" style="display:none"></div>
+    <div id="jz-stores-wrap" style="display:none">
+      <div class="store-card-list" id="jz-store-list"></div>
+      <p class="sc-count" id="jz-count"></p>
+    </div>
   </div>
 
   <!-- Panel: GZ → seleccionar GZ → resumen + lista de tiendas -->
@@ -1225,7 +1228,7 @@
     gzSel.addEventListener('change', () => {
       const gz     = gzSel.value;
       const stores = gz ? allStores.filter(p => p.gz === gz) : [];
-      renderGzSummary(gz, stores);
+      renderRoleSummary('gz', gz, stores);
       renderStoreCards('gz', stores);
       document.getElementById('gz-stores-wrap').style.display = 'none';
     });
@@ -1237,15 +1240,18 @@
       jzSel.appendChild(opt);
     });
     jzSel.addEventListener('change', () => {
-      const jz = jzSel.value;
-      renderStoreCards('jz', jz ? allStores.filter(p => p.jz === jz) : []);
+      const jz     = jzSel.value;
+      const stores = jz ? allStores.filter(p => p.jz === jz) : [];
+      renderRoleSummary('jz', jz, stores);
+      renderStoreCards('jz', stores);
+      document.getElementById('jz-stores-wrap').style.display = 'none';
     });
   }
 
-  function renderGzSummary(gz, stores) {
-    const summaryEl = document.getElementById('gz-summary');
-    const wrapEl    = document.getElementById('gz-stores-wrap');
-    if (!gz || !stores.length) {
+  function renderRoleSummary(role, name, stores) {
+    const summaryEl = document.getElementById(role + '-summary');
+    const wrapEl    = document.getElementById(role + '-stores-wrap');
+    if (!name || !stores.length) {
       summaryEl.style.display = 'none';
       wrapEl.style.display    = 'none';
       return;
@@ -1298,13 +1304,13 @@
             <div class="gz-sum-lbl">Falta</div>
           </div>
         </div>
-        <button class="gz-det-btn" id="gz-det-btn" onclick="toggleGzDetail()">Ver detalle por tienda ▾</button>
+        <button class="gz-det-btn" id="${role}-det-btn" onclick="toggleRoleDetail('${role}')">Ver detalle por tienda ▾</button>
       </div>`;
   }
 
-  function toggleGzDetail() {
-    const wrap = document.getElementById('gz-stores-wrap');
-    const btn  = document.getElementById('gz-det-btn');
+  function toggleRoleDetail(role) {
+    const wrap = document.getElementById(role + '-stores-wrap');
+    const btn  = document.getElementById(role + '-det-btn');
     const open = wrap.style.display !== 'none';
     wrap.style.display = open ? 'none' : '';
     btn.textContent    = open ? 'Ver detalle por tienda ▾' : 'Ocultar detalle ▲';
