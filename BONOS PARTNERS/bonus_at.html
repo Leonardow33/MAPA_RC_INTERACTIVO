@@ -964,6 +964,15 @@
     .sup-chv   { font-size: 11px; color: var(--dim); line-height: 1; transition: transform .2s; }
     .sup-chv.open { transform: rotate(180deg); }
     .sup-rows  { display: flex; flex-direction: column; gap: 6px; padding: 0 10px 10px; }
+
+    /* ── JZ DOWNLOAD ────────────────────────────────────── */
+    .jz-dl-card  { background: var(--surf); border: 1.5px solid var(--border); border-radius: 12px; padding: 12px 14px; margin-top: 10px; display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+    .jz-dl-left  { flex: 1; min-width: 0; }
+    .jz-dl-title { font-size: 13px; font-weight: 700; color: var(--text); }
+    .jz-dl-sub   { font-size: 11px; color: var(--muted); margin-top: 2px; }
+    .jz-dl-btn   { background: var(--accent); color: #fff; border: none; border-radius: 10px; padding: 9px 14px; font-size: 13px; font-weight: 700; font-family: inherit; cursor: pointer; display: flex; align-items: center; gap: 5px; white-space: nowrap; flex-shrink: 0; transition: background .15s, transform .1s; }
+    .jz-dl-btn:hover  { background: var(--accent-d); }
+    .jz-dl-btn:active { transform: scale(.96); }
   </style>
 </head>
 <body>
@@ -1024,6 +1033,7 @@
       <option value="">— Selecciona tu nombre —</option>
     </select>
     <div id="jz-summary" style="display:none"></div>
+    <div id="jz-download"></div>
     <div id="jz-stores-wrap" style="display:none">
       <div class="store-card-list" id="jz-store-list"></div>
       <p class="sc-count" id="jz-count"></p>
@@ -1278,6 +1288,7 @@
       const jz     = jzSel.value;
       const stores = jz ? allStores.filter(p => p.jz === jz) : [];
       renderRoleSummary('jz', jz, stores);
+      renderJzDownload(jz, stores);
       renderJzDetail(stores);
       document.getElementById('jz-stores-wrap').style.display = 'none';
     });
@@ -1358,6 +1369,82 @@
     const label = role === 'jz' ? 'Ver supervisores y tiendas' : 'Ver detalle por tienda';
     wrap.style.display = open ? 'none' : '';
     btn.textContent    = open ? label + ' ▾' : 'Ocultar ▲';
+  }
+
+  function renderJzDownload(jz, stores) {
+    const wrap = document.getElementById('jz-download');
+    if (!wrap) return;
+    if (!jz || !stores.length) { wrap.innerHTML = ''; return; }
+    const now = new Date();
+    const d   = now.getDate();
+    const mes = ['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'][now.getMonth()];
+    wrap.innerHTML = `
+      <div class="jz-dl-card">
+        <div class="jz-dl-left">
+          <div class="jz-dl-title">📊 Reporte de avance</div>
+          <div class="jz-dl-sub">${stores.length} tiendas · Corte día ${d} de ${mes}</div>
+        </div>
+        <button class="jz-dl-btn" id="jz-dl-btn">⬇ Excel</button>
+      </div>`;
+    document.getElementById('jz-dl-btn').onclick = () => downloadJzReport(jz, stores);
+  }
+
+  function downloadJzReport(jz, stores) {
+    const now        = new Date();
+    const diasCalMes = now.getDate();
+    const meses      = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
+    const mesLabel   = meses[now.getMonth()] + ' ' + now.getFullYear();
+    const ids        = new Set(stores.map(s => String(s.ID)));
+    const vm         = monthlyVentasMap(ids);
+    const esc        = v => String(v == null ? '' : v).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+    const cols       = ['Jefe Comercial','Supervisor','ID Tienda','Tienda','Período','Días','Ventas S/','Meta S/','Avance %','Falta S/'];
+
+    const filas = [...stores]
+      .sort((a, b) => {
+        const pA = a.meta_diaria ? (vm[String(a.ID)] || 0) / (a.meta_diaria * diasCalMes) : -1;
+        const pB = b.meta_diaria ? (vm[String(b.ID)] || 0) / (b.meta_diaria * diasCalMes) : -1;
+        return pB - pA;
+      })
+      .map(s => {
+        const sold = vm[String(s.ID)] || 0;
+        const meta = s.meta_diaria ? s.meta_diaria * diasCalMes : 0;
+        const pct  = meta > 0 ? Math.round(sold / meta * 100) : '';
+        const falt = meta > 0 ? Math.round(sold < meta ? sold - meta : 0) : '';
+        return [jz, s.gz || '', s.ID || '', s.nombre || '', mesLabel, diasCalMes,
+                Math.round(sold), Math.round(meta), pct, falt];
+      });
+
+    let xml = '<?xml version="1.0" encoding="UTF-8"?><?mso-application progid="Excel.Sheet"?>' +
+      '<Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet" xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet">' +
+      '<Styles>' +
+        '<Style ss:ID="h"><Font ss:Bold="1" ss:Color="#FFFFFF"/><Interior ss:Color="#1F2937" ss:Pattern="Solid"/></Style>' +
+        '<Style ss:ID="n"><NumberFormat ss:Format="#,##0"/></Style>' +
+      '</Styles>' +
+      '<Worksheet ss:Name="Avance"><Table>' +
+      '<Row>' + cols.map(c => '<Cell ss:StyleID="h"><Data ss:Type="String">' + esc(c) + '</Data></Cell>').join('') + '</Row>';
+
+    filas.forEach(r => {
+      xml += '<Row>';
+      r.forEach((v, i) => {
+        if (i >= 6 && v !== '') {
+          xml += '<Cell ss:StyleID="n"><Data ss:Type="Number">' + v + '</Data></Cell>';
+        } else {
+          xml += '<Cell><Data ss:Type="String">' + esc(v) + '</Data></Cell>';
+        }
+      });
+      xml += '</Row>';
+    });
+    xml += '</Table></Worksheet></Workbook>';
+
+    const blob = new Blob([xml], { type: 'application/vnd.ms-excel' });
+    const url  = URL.createObjectURL(blob);
+    const a    = document.createElement('a');
+    a.href     = url;
+    a.download = 'Avance_' + jz.replace(/[^a-zA-Z0-9]/g,'_') + '_dia' + diasCalMes + '.xls';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
   }
 
   function monthlyVentasMap(ids) {
