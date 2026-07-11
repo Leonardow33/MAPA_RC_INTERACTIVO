@@ -161,6 +161,7 @@ jobs:
                       "cluster_bono": s(row.get("CLUSTER")),
                       "ID":           str(row.get("ORG_CODE", "")),
                       "rc":           s(row.get("RC_NOMBRE")),
+                      "rc_codigo":    s(row.get("RC_ENCARGADO_DE_TIENDA")),
                       "username":     s(row.get("USERNAME")),
                       "supervisor":   s(row.get("SUPERVISOR")),
                       "capacitador":  s(row.get("CAPACITADOR")),

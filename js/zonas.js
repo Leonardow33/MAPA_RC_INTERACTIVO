@@ -625,7 +625,7 @@ function descargarSugerenciasRC() {
                 : (mejor.frecuencia || '');
             data.push([
                 p.ID, p.nombre, p.tipo || '', p.distrito || '', p.zonal_tipo || '',
-                mejor.rc, mejor.username || '', mejor.supervisor || '', mejor.capacitador || '',
+                mejor.rc, mejor.rc_codigo || '', mejor.supervisor || '', mejor.capacitador || '',
                 dias, mejor.nombre, parseFloat(minDist.toFixed(2)), p.lat, p.lng
             ]);
         });
