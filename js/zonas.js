@@ -630,11 +630,8 @@ function descargarSugerenciasRC() {
             ]);
         });
 
-        // Ordenar por RC sugerido (A→Z), luego por distancia (menor→mayor)
-        data.sort((a, b) => {
-            const rc = String(a[5]).localeCompare(String(b[5]));
-            return rc !== 0 ? rc : a[10] - b[10];
-        });
+        // Ordenar por distancia ascendente (más cercano primero), luego por nombre PDV
+        data.sort((a, b) => a[10] - b[10] || String(a[1]).localeCompare(String(b[1])));
 
         // ── Excel SpreadsheetML ──────────────────────────────────────────
         const esc      = v => String(v ?? '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
