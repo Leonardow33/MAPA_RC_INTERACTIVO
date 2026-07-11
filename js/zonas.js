@@ -606,7 +606,7 @@ function descargarSugerenciasRC() {
             return;
         }
 
-        const cols = ['ID','Nombre','Tipo','Distrito','Zona','RC Sugerido','Supervisor',
+        const cols = ['ID','Nombre','Tipo','Distrito','Zona','RC Sugerido','Código RC','Supervisor',
                       'Capacitador','Días Visita (ref)','Tienda Referencia','Distancia km','Lat','Lng'];
         const data = [];
 
@@ -625,17 +625,17 @@ function descargarSugerenciasRC() {
                 : (mejor.frecuencia || '');
             data.push([
                 p.ID, p.nombre, p.tipo || '', p.distrito || '', p.zonal_tipo || '',
-                mejor.rc, mejor.supervisor || '', mejor.capacitador || '',
+                mejor.rc, mejor.username || '', mejor.supervisor || '', mejor.capacitador || '',
                 dias, mejor.nombre, parseFloat(minDist.toFixed(2)), p.lat, p.lng
             ]);
         });
 
         // Ordenar por distancia ascendente (más cercano primero), luego por nombre PDV
-        data.sort((a, b) => a[10] - b[10] || String(a[1]).localeCompare(String(b[1])));
+        data.sort((a, b) => a[11] - b[11] || String(a[1]).localeCompare(String(b[1])));
 
         // ── Excel SpreadsheetML ──────────────────────────────────────────
         const esc      = v => String(v ?? '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
-        const numCols  = new Set([10, 11, 12]); // Distancia km, Lat, Lng
+        const numCols  = new Set([11, 12, 13]); // Distancia km, Lat, Lng (índices desplazados +1)
         const hdrXml   = cols.map(h => `<Cell ss:StyleID="H"><Data ss:Type="String">${esc(h)}</Data></Cell>`).join('');
         const rowsXml  = data.map(row =>
             '<Row>' + row.map((v, i) =>
