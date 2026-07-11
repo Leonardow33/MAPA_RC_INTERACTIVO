@@ -861,6 +861,14 @@
       .ring-fill, .pbar-fill, .gr-fill { transition: none; }
       .spin { animation: none; }
     }
+    .dev-badge {
+      position: fixed; bottom: 12px; right: 14px;
+      font-size: 9px; font-weight: 600; letter-spacing: .05em;
+      color: rgba(255,255,255,.3); background: rgba(255,255,255,.05);
+      border: 1px solid rgba(255,255,255,.1);
+      border-radius: 20px; padding: 4px 11px;
+      pointer-events: none; z-index: 999; white-space: nowrap;
+    }
   </style>
 </head>
 <body>
@@ -888,7 +896,7 @@
 
 <!-- SEARCH / SELECTOR SCREEN -->
 <div id="search-screen" style="display:none">
-    <div class="ss-eyebrow">Livesport · GeoDor</div>
+    <div class="ss-eyebrow">Livesport · LOTOBOLA</div>
   <h1 class="ss-heading">¿Cuál es tu tienda?</h1>
   <p class="ss-sub">Busca tu tienda para ver tu progreso</p>
 
@@ -1495,5 +1503,6 @@
 
   init();
 </script>
+<div class="dev-badge">Desarrollado por Dorinat C.</div>
 </body>
 </html>

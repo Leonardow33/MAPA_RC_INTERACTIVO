@@ -106,10 +106,18 @@
     .cc-code { font-size: 22px; font-weight: 900; font-variant-numeric: tabular-nums; letter-spacing: .08em; }
 
     .footer { font-size: 11px; color: #C0A0B0; text-align: center; max-width: 300px; margin-top: 24px; }
+    .dev-badge {
+      position: fixed; bottom: 12px; right: 14px;
+      font-size: 9px; font-weight: 600; letter-spacing: .05em;
+      color: #C0A0B0; background: rgba(180,80,120,.06);
+      border: 1px solid #E8C8D4;
+      border-radius: 20px; padding: 4px 11px;
+      pointer-events: none; z-index: 999; white-space: nowrap;
+    }
   </style>
 </head>
 <body>
-  <div class="eyebrow">GeoDor · Administración</div>
+  <div class="eyebrow">LOTOBOLA · Administración</div>
   <h1 class="page-title">Panel de Partners</h1>
   <div class="date-label" id="date-label">—</div>
 
@@ -289,5 +297,6 @@
       render();
     });
 </script>
+<div class="dev-badge">Desarrollado por Dorinat C.</div>
 </body>
 </html>
