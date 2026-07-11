@@ -591,12 +591,25 @@ function descargarSugerenciasRC() {
     btn.textContent = '⏳ Calculando...'; btn.disabled = true;
 
     setTimeout(() => {
-        const conRC   = allData.filter(p => p.rc && p.rc !== 'SIN RC');
-        const sinRC   = allData.filter(p => !p.rc || p.rc === 'SIN RC');
+        const f = getFiltros();
 
-        if (!sinRC.length) { alert('Todos los puntos tienen RC asignado.'); btn.textContent = '📋 Sugerir RC'; btn.disabled = false; return; }
+        // PDV con RC: pool de referencia completo (sin filtrar por RC/sup para no limitar opciones)
+        const conRC = allData.filter(p => p.rc && p.rc !== 'SIN RC');
 
-        const rows = [['ID','Nombre','Tipo','Distrito','RC Sugerido','Supervisor','Capacitador','Días Visita (ref)','Tienda Referencia','Distancia km','Lat','Lng']];
+        // PDV sin RC: aplica filtros activos de zona/tipo/día pero ignora filtro de RC y supervisor
+        const fSinRC = { ...f, rc: 'ALL', sup: 'ALL' };
+        const sinRC  = allData.filter(p => (!p.rc || p.rc === 'SIN RC') && matchFiltros(p, fSinRC));
+
+        if (!sinRC.length) {
+            alert('No hay PDV sin RC en la selección actual.');
+            btn.textContent = '⬇ Sin asignar'; btn.disabled = false;
+            return;
+        }
+
+        const cols = ['ID','Nombre','Tipo','Distrito','Zona','RC Sugerido','Supervisor',
+                      'Capacitador','Días Visita (ref)','Tienda Referencia','Distancia km','Lat','Lng'];
+        const data = [];
+
         sinRC.forEach(p => {
             const tipoP = (p.tipo || '').toUpperCase();
             const pool  = conRC.filter(r => (r.tipo||'').toUpperCase() === tipoP);
@@ -610,23 +623,52 @@ function descargarSugerenciasRC() {
             const dias = Array.isArray(mejor.dias)
                 ? mejor.dias.filter(d => d !== 'SIN RUTA').join(' - ')
                 : (mejor.frecuencia || '');
-            rows.push([
-                p.ID, p.nombre, p.tipo || '', p.distrito || '',
-                mejor.rc, mejor.supervisor, mejor.capacitador || '',
-                dias, mejor.nombre, minDist.toFixed(2), p.lat, p.lng
+            data.push([
+                p.ID, p.nombre, p.tipo || '', p.distrito || '', p.zonal_tipo || '',
+                mejor.rc, mejor.supervisor || '', mejor.capacitador || '',
+                dias, mejor.nombre, parseFloat(minDist.toFixed(2)), p.lat, p.lng
             ]);
         });
 
-        rows.sort((a,b) => parseFloat(a[7]) - parseFloat(b[7]));
-        const csv  = rows.map(r => r.map(v => `"${String(v||'').replace(/"/g,'""')}"`).join(',')).join('\n');
-        const blob = new Blob(['﻿'+csv], {type:'text/csv;charset=utf-8;'});
+        // Ordenar por RC sugerido (A→Z), luego por distancia (menor→mayor)
+        data.sort((a, b) => {
+            const rc = String(a[5]).localeCompare(String(b[5]));
+            return rc !== 0 ? rc : a[10] - b[10];
+        });
+
+        // ── Excel SpreadsheetML ──────────────────────────────────────────
+        const esc      = v => String(v ?? '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+        const numCols  = new Set([10, 11, 12]); // Distancia km, Lat, Lng
+        const hdrXml   = cols.map(h => `<Cell ss:StyleID="H"><Data ss:Type="String">${esc(h)}</Data></Cell>`).join('');
+        const rowsXml  = data.map(row =>
+            '<Row>' + row.map((v, i) =>
+                `<Cell><Data ss:Type="${numCols.has(i)?'Number':'String'}">${esc(v)}</Data></Cell>`
+            ).join('') + '</Row>'
+        ).join('');
+
+        const xml = `<?xml version="1.0"?><?mso-application progid="Excel.Sheet"?>` +
+            `<Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet" xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet">` +
+            `<Styles><Style ss:ID="H"><Font ss:Bold="1"/><Interior ss:Color="#D9E1F2" ss:Pattern="Solid"/></Style></Styles>` +
+            `<Worksheet ss:Name="PDV Sin Asignar">` +
+            `<Table><Row>${hdrXml}</Row>${rowsXml}</Table>` +
+            `</Worksheet></Workbook>`;
+
+        // Nombre dinámico según filtros activos
+        const zonaNombre = f.zona === 'ALL'      ? 'Todos'
+                         : f.zona === 'LIMA'     ? 'Lima'
+                         : 'Provincia';
+        const tipoSufijo = f.tipo !== 'ALL' ? `_${f.tipo.replace(/\s+/g,'_')}` : '';
+        const diaSufijo  = f.dia  !== 'ALL' ? `_${f.dia}` : '';
+
+        const blob = new Blob([xml], { type: 'application/vnd.ms-excel' });
         const url  = URL.createObjectURL(blob);
         const a    = document.createElement('a');
-        a.href = url; a.download = 'sugerencias_rc.csv'; a.click();
+        a.href = url;
+        a.download = `SinAsignar_RC_${zonaNombre}${tipoSufijo}${diaSufijo}.xls`;
+        a.click();
         URL.revokeObjectURL(url);
 
-        btn.textContent = '📋 Sugerir RC'; btn.disabled = false;
-        alert(`${sinRC.length} tiendas sin RC procesadas.\nRevisa el CSV con las sugerencias por cercanía.`);
+        btn.textContent = '⬇ Sin asignar'; btn.disabled = false;
     }, 50);
 }
 
