@@ -66,15 +66,16 @@ jobs:
           phone = os.environ['ZAPI_PHONE']
           payload = json.dumps({'phone': phone, 'message': message}).encode()
 
+          import urllib.error
           req = urllib.request.Request(url, data=payload,
                                        headers={'Content-Type': 'application/json'})
-          with urllib.request.urlopen(req) as resp:
-              result = json.loads(resp.read())
-
-          print(f"Z-API response: {result}")
-          if result.get('zaapId') or result.get('id') or result.get('messageId'):
+          try:
+              with urllib.request.urlopen(req) as resp:
+                  result = json.loads(resp.read())
+              print(f"Z-API response: {result}")
               print(f"✓ Mensaje enviado a {phone}")
-          else:
-              print(f"✗ Respuesta inesperada: {result}")
+          except urllib.error.HTTPError as e:
+              body = e.read().decode('utf-8', errors='replace')
+              print(f"✗ HTTP {e.code}: {body}")
               raise SystemExit(1)
           PYEOF
