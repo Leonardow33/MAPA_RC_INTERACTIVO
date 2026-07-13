@@ -35,7 +35,6 @@ jobs:
               {'label': 'Retabet',       'emoji': '🟣', 'seed': 'GEODOR_RET_2025'},
               {'label': 'Doradobet',     'emoji': '🟡', 'seed': 'GEODOR_DOR_2025'},
               {'label': 'Aciertala',     'emoji': '🩵', 'seed': 'GEODOR_ACT_2025'},
-              {'label': 'Cencosud',      'emoji': '🟩', 'seed': 'GEODOR_CEN_2025'},
           ]
 
           BASE36 = '0123456789abcdefghijklmnopqrstuvwxyz'
@@ -55,11 +54,14 @@ jobs:
                   h = (((h << 5) + h) ^ ord(c)) & 0xFFFFFFFF
               return to_base36(h).upper()[:5]
 
+          LINK = "https://leonardow33.github.io/MAPA_RC_INTERACTIVO/admin_claves.html"
+
           lines = [f"🔑 *Claves del día — {fecha_bonita}*\n"]
           for p in PARTNERS:
               code = daily_code(p['seed'], today)
               lines.append(f"{p['emoji']} {p['label']}: *{code}*")
-          lines.append("\n_Solo válidas hoy. Comparte solo la de tu partner._")
+          lines.append(f"\n🔗 {LINK}")
+          lines.append("_Solo válidas hoy. Comparte solo la de tu partner._")
           message = '\n'.join(lines)
 
           url          = os.environ['ZAPI_URL']
