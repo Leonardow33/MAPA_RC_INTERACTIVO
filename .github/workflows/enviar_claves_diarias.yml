@@ -35,8 +35,7 @@ jobs:
               {'label': 'Retabet',       'emoji': '🟣', 'seed': 'GEODOR_RET_2025'},
               {'label': 'Doradobet',     'emoji': '🟡', 'seed': 'GEODOR_DOR_2025'},
               {'label': 'Aciertala',     'emoji': '🩵', 'seed': 'GEODOR_ACT_2025'},
-              {'label': 'Lotobola',      'emoji': '🩷', 'seed': 'GEODOR_LOTO_2025'},
-              {'label': 'Tambo',         'emoji': '⚪', 'seed': 'GEODOR_TMB_2025'},
+              {'label': 'Cencosud',      'emoji': '🟩', 'seed': 'GEODOR_CEN_2025'},
           ]
 
           BASE36 = '0123456789abcdefghijklmnopqrstuvwxyz'
