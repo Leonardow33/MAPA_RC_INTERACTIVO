@@ -1311,7 +1311,7 @@
     const now        = new Date();
     const mesIni     = new Date(now.getFullYear(), now.getMonth(), 1);
     const mesFin     = new Date(now.getFullYear(), now.getMonth()+1, 0, 23, 59, 59);
-    const diasCalMes = mesFin.getDate();
+    const diasCalMes = 30;
     const ids        = new Set(stores.map(s => String(s.ID)));
 
     let totalVentas = 0;
@@ -1434,7 +1434,7 @@
     const vm         = monthlyVentasMap(ids);
     const esc        = v => String(v == null ? '' : v).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
     const cols      = ['Jefe Comercial','Supervisor','ID Tienda','Tienda','Período','Días transcurridos','Ventas S/','Meta Mensual S/','Avance % (mes)','Falta para meta S/'];
-    const totalDias = new Date(now.getFullYear(), now.getMonth()+1, 0).getDate();
+    const totalDias = 30;
 
     const filas = [...stores]
       .sort((a, b) => {
@@ -1530,7 +1530,7 @@
   function renderGzDetail(stores) {
     const wrap       = document.getElementById('gz-stores-wrap');
     const now        = new Date();
-    const diasCalMes = new Date(now.getFullYear(), now.getMonth()+1, 0).getDate();
+    const diasCalMes = 30;
     const ids        = new Set(stores.map(s => String(s.ID)));
     const vm         = monthlyVentasMap(ids);
     const list       = document.createElement('div');
@@ -1547,7 +1547,7 @@
   function renderJzDetail(stores) {
     const wrap       = document.getElementById('jz-stores-wrap');
     const now        = new Date();
-    const diasCalMes = new Date(now.getFullYear(), now.getMonth()+1, 0).getDate();
+    const diasCalMes = 30;
     const ids        = new Set(stores.map(s => String(s.ID)));
     const vm         = monthlyVentasMap(ids);
 
@@ -1824,7 +1824,7 @@
     // Metas
     const dias       = store.dias || [];
     const metaDiaria = hasMeta ? store.meta_diaria : null;
-    const diasCalMes = mesFin.getDate();        // días en el mes actual (30, 31…)
+    const diasCalMes = 30;                      // siempre 30 para homogenizar todos los meses
     const diasCalSem = 7;                       // la semana siempre tiene 7 días
     const metaSem    = hasMeta ? metaDiaria * diasCalSem : null;
     const metaMes    = hasMeta ? metaDiaria * diasCalMes : null;
