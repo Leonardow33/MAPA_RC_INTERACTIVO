@@ -1,0 +1,85 @@
+name: Enviar Claves Diarias
+
+on:
+  schedule:
+    - cron: '0 12 * * *'   # 7:00 AM Peru (UTC-5) todos los días
+  workflow_dispatch:         # también se puede correr manualmente desde GitHub
+
+jobs:
+  enviar:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Calcular y enviar claves del día
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID:   ${{ secrets.TELEGRAM_CHAT_ID }}
+        run: |
+          python3 - << 'PYEOF'
+          import os, urllib.request, urllib.parse, json
+          from datetime import datetime, timezone, timedelta
+
+          PERU_TZ = timezone(timedelta(hours=-5))
+          now     = datetime.now(PERU_TZ)
+          today   = now.strftime('%Y-%m-%d')
+
+          DIAS  = ['Lun','Mar','Mié','Jue','Vie','Sáb','Dom']
+          MESES = ['','Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic']
+          fecha_bonita = f"{DIAS[now.weekday()]} {now.day} {MESES[now.month]}"
+
+          PARTNERS = [
+              {'label': 'Apuesta Total', 'emoji': '🔴', 'seed': 'GEODOR_AT_2025'},
+              {'label': 'Tinbet',        'emoji': '🟢', 'seed': 'GEODOR_TIN_2025'},
+              {'label': 'Livesport',     'emoji': '🔵', 'seed': 'GEODOR_LIVE_2025'},
+              {'label': 'Retabet',       'emoji': '🟣', 'seed': 'GEODOR_RET_2025'},
+              {'label': 'Doradobet',     'emoji': '🟡', 'seed': 'GEODOR_DOR_2025'},
+              {'label': 'Aciertala',     'emoji': '🩵', 'seed': 'GEODOR_ACT_2025'},
+              {'label': 'Lotobola',      'emoji': '🩷', 'seed': 'GEODOR_LOTO_2025'},
+              {'label': 'Tambo',         'emoji': '⚪', 'seed': 'GEODOR_TMB_2025'},
+          ]
+
+          BASE36 = '0123456789abcdefghijklmnopqrstuvwxyz'
+
+          def to_base36(n):
+              if n == 0: return '0'
+              r = ''
+              while n:
+                  r = BASE36[n % 36] + r
+                  n //= 36
+              return r
+
+          def daily_code(seed, date_str):
+              s = seed + '|' + date_str
+              h = 5381
+              for c in s:
+                  h = (((h << 5) + h) ^ ord(c)) & 0xFFFFFFFF
+              return to_base36(h).upper()[:5]
+
+          lines = [f"🔑 *Claves del día — {fecha_bonita}*\n"]
+          for p in PARTNERS:
+              code = daily_code(p['seed'], today)
+              lines.append(f"{p['emoji']} *{p['label']}*: `{code}`")
+
+          lines.append("\n_Solo válidas hoy. Comparte solo la de tu partner._")
+          message = '\n'.join(lines)
+
+          token   = os.environ['TELEGRAM_BOT_TOKEN']
+          chat_id = os.environ['TELEGRAM_CHAT_ID']
+          url     = f"https://api.telegram.org/bot{token}/sendMessage"
+          payload = json.dumps({
+              'chat_id':    chat_id,
+              'text':       message,
+              'parse_mode': 'Markdown',
+          }).encode()
+
+          req = urllib.request.Request(url, data=payload,
+                                       headers={'Content-Type': 'application/json'})
+          with urllib.request.urlopen(req) as resp:
+              result = json.loads(resp.read())
+
+          if result.get('ok'):
+              print(f"✓ Mensaje enviado correctamente a chat_id={chat_id}")
+          else:
+              print(f"✗ Error Telegram: {result}")
+              raise SystemExit(1)
+          PYEOF
