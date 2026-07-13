@@ -10,13 +10,14 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Calcular y enviar claves del día
+      - name: Calcular y enviar claves del día por WhatsApp
         env:
-          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
-          TELEGRAM_CHAT_ID:   ${{ secrets.TELEGRAM_CHAT_ID }}
+          ZAPI_INSTANCE: ${{ secrets.ZAPI_INSTANCE }}
+          ZAPI_TOKEN:    ${{ secrets.ZAPI_TOKEN }}
+          ZAPI_PHONE:    ${{ secrets.ZAPI_PHONE }}
         run: |
           python3 - << 'PYEOF'
-          import os, urllib.request, urllib.parse, json
+          import os, urllib.request, json
           from datetime import datetime, timezone, timedelta
 
           PERU_TZ = timezone(timedelta(hours=-5))
@@ -58,28 +59,26 @@ jobs:
           lines = [f"🔑 *Claves del día — {fecha_bonita}*\n"]
           for p in PARTNERS:
               code = daily_code(p['seed'], today)
-              lines.append(f"{p['emoji']} *{p['label']}*: `{code}`")
-
+              lines.append(f"{p['emoji']} {p['label']}: *{code}*")
           lines.append("\n_Solo válidas hoy. Comparte solo la de tu partner._")
           message = '\n'.join(lines)
 
-          token   = os.environ['TELEGRAM_BOT_TOKEN']
-          chat_id = os.environ['TELEGRAM_CHAT_ID']
-          url     = f"https://api.telegram.org/bot{token}/sendMessage"
-          payload = json.dumps({
-              'chat_id':    chat_id,
-              'text':       message,
-              'parse_mode': 'Markdown',
-          }).encode()
+          instance = os.environ['ZAPI_INSTANCE']
+          token    = os.environ['ZAPI_TOKEN']
+          phone    = os.environ['ZAPI_PHONE']
+
+          url = f"https://api.z-api.io/instances/{instance}/token/{token}/send-text"
+          payload = json.dumps({'phone': phone, 'message': message}).encode()
 
           req = urllib.request.Request(url, data=payload,
                                        headers={'Content-Type': 'application/json'})
           with urllib.request.urlopen(req) as resp:
               result = json.loads(resp.read())
 
-          if result.get('ok'):
-              print(f"✓ Mensaje enviado correctamente a chat_id={chat_id}")
+          print(f"Z-API response: {result}")
+          if result.get('zaapId') or result.get('id') or result.get('messageId'):
+              print(f"✓ Mensaje enviado a {phone}")
           else:
-              print(f"✗ Error Telegram: {result}")
+              print(f"✗ Respuesta inesperada: {result}")
               raise SystemExit(1)
           PYEOF
