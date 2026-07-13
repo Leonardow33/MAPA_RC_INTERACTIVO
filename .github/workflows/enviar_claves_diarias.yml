@@ -12,9 +12,8 @@ jobs:
     steps:
       - name: Calcular y enviar claves del día por WhatsApp
         env:
-          ZAPI_INSTANCE: ${{ secrets.ZAPI_INSTANCE }}
-          ZAPI_TOKEN:    ${{ secrets.ZAPI_TOKEN }}
-          ZAPI_PHONE:    ${{ secrets.ZAPI_PHONE }}
+          ZAPI_URL:   ${{ secrets.ZAPI_URL }}
+          ZAPI_PHONE: ${{ secrets.ZAPI_PHONE }}
         run: |
           python3 - << 'PYEOF'
           import os, urllib.request, json
@@ -63,11 +62,8 @@ jobs:
           lines.append("\n_Solo válidas hoy. Comparte solo la de tu partner._")
           message = '\n'.join(lines)
 
-          instance = os.environ['ZAPI_INSTANCE']
-          token    = os.environ['ZAPI_TOKEN']
-          phone    = os.environ['ZAPI_PHONE']
-
-          url = f"https://api.z-api.io/instances/{instance}/token/{token}/send-text"
+          url   = os.environ['ZAPI_URL']
+          phone = os.environ['ZAPI_PHONE']
           payload = json.dumps({'phone': phone, 'message': message}).encode()
 
           req = urllib.request.Request(url, data=payload,
