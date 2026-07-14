@@ -1515,10 +1515,10 @@
     const metaMes     = hasMeta ? metaDiaria * diasCalMes : null;
 
     // Metas por juego (solo Cencosud tiene valores; otros stores tendrán null/0)
-    const metaPP   = store.meta_pp      || 0;
-    const metaPPGO = store.meta_ppgo    || 0;
-    const metaLD   = store.meta_lakidey || 0;
-    const metaSC   = (store.meta_sc_e3  || 0) + (store.meta_turbito || 0);
+    const metaPP   = (store.meta_pp      || 0) * diasCalMes;
+    const metaPPGO = (store.meta_ppgo    || 0) * diasCalMes;
+    const metaLD   = (store.meta_lakidey || 0) * diasCalMes;
+    const metaSC   = ((store.meta_sc_e3  || 0) + (store.meta_turbito || 0)) * diasCalMes;
 
     // Proyectado: ritmo actual × días del mes
     const hoyDia     = now.getDate();
