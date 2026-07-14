@@ -607,6 +607,7 @@
     }
 
     .gr-bar {
+      position: relative;
       width: 100%;
       height: 4px;
       background: var(--border);
@@ -615,26 +616,39 @@
     }
 
     .gr-fill {
+      position: absolute;
+      top: 0; left: 0;
       height: 100%;
       border-radius: 99px;
       width: 0;
       transition: width .9s cubic-bezier(.22,.6,.36,1) .2s;
+      z-index: 2;
     }
 
-    .gr-line-70, .gr-line-proj {
+    .gr-proj-fill {
+      position: absolute;
+      top: 0; left: 0;
+      height: 100%;
+      width: 0;
+      border-radius: 99px;
+      background: rgba(249, 115, 22, 0.38);
+      transition: width .9s cubic-bezier(.22,.6,.36,1) .2s;
+      z-index: 1;
+    }
+
+    .gr-line-70 {
       position: absolute;
       top: 50%;
       transform: translate(-50%, -50%);
       width: 2px;
       height: 18px;
       border-radius: 1px;
+      background: #F59E0B;
       opacity: 0;
       pointer-events: none;
       transition: left .9s cubic-bezier(.22,.6,.36,1) .2s, opacity .3s;
       z-index: 3;
     }
-    .gr-line-70   { background: #F59E0B; }
-    .gr-line-proj { background: var(--text); }
 
     .gr-lbl-bar {
       position: absolute;
@@ -981,7 +995,7 @@
     @media (max-width: 900px) { .video-side { display: none; } }
 
     @media (prefers-reduced-motion: reduce) {
-      .ring-fill, .pbar-fill, .gr-fill, .gr-line-70, .gr-line-proj, .gr-lbl-bar { transition: none; }
+      .ring-fill, .pbar-fill, .gr-fill, .gr-proj-fill, .gr-line-70, .gr-lbl-bar { transition: none; }
       .spin { animation: none; }
     }
     .dev-badge {
@@ -1142,10 +1156,12 @@
       <div class="game-row">
         <div class="gr-name"><img src="../sources/logos-games/pozopower.png" class="gr-logo" alt="">PozoPower</div>
         <div class="gr-bar-wrap">
-          <div class="gr-bar"><div class="gr-fill" id="pp-bar" style="background:var(--accent)"></div></div>
+          <div class="gr-bar">
+            <div class="gr-proj-fill" id="pp-proj-fill"></div>
+            <div class="gr-fill" id="pp-bar" style="background:var(--accent)"></div>
+          </div>
           <div class="gr-line-70"  id="pp-dot70"></div>
           <div class="gr-lbl-bar gr-lbl-70"   id="pp-lbl70">70%</div>
-          <div class="gr-line-proj" id="pp-proj-line"></div>
           <div class="gr-lbl-bar gr-lbl-proj" id="pp-lbl-proj">Proy.</div>
         </div>
         <div class="gr-val" id="pp-val">S/ 0</div>
@@ -1154,10 +1170,12 @@
       <div class="game-row">
         <div class="gr-name"><img src="../sources/logos-games/lakidey.png" class="gr-logo" alt="">LakiDey</div>
         <div class="gr-bar-wrap">
-          <div class="gr-bar"><div class="gr-fill" id="ld-bar" style="background:#3B9EE8"></div></div>
+          <div class="gr-bar">
+            <div class="gr-proj-fill" id="ld-proj-fill"></div>
+            <div class="gr-fill" id="ld-bar" style="background:#3B9EE8"></div>
+          </div>
           <div class="gr-line-70"  id="ld-dot70"></div>
           <div class="gr-lbl-bar gr-lbl-70"   id="ld-lbl70">70%</div>
-          <div class="gr-line-proj" id="ld-proj-line"></div>
           <div class="gr-lbl-bar gr-lbl-proj" id="ld-lbl-proj">Proy.</div>
         </div>
         <div class="gr-val" id="ld-val">S/ 0</div>
@@ -1166,10 +1184,12 @@
       <div class="game-row">
         <div class="gr-name"><img src="../sources/logos-games/rapiraspa.png" class="gr-logo" alt="">Rapiraspas</div>
         <div class="gr-bar-wrap">
-          <div class="gr-bar"><div class="gr-fill" id="sc-bar" style="background:#16A34A"></div></div>
+          <div class="gr-bar">
+            <div class="gr-proj-fill" id="sc-proj-fill"></div>
+            <div class="gr-fill" id="sc-bar" style="background:#16A34A"></div>
+          </div>
           <div class="gr-line-70"  id="sc-dot70"></div>
           <div class="gr-lbl-bar gr-lbl-70"   id="sc-lbl70">70%</div>
-          <div class="gr-line-proj" id="sc-proj-line"></div>
           <div class="gr-lbl-bar gr-lbl-proj" id="sc-lbl-proj">Proy.</div>
         </div>
         <div class="gr-val" id="sc-val">S/ 0</div>
@@ -1178,12 +1198,16 @@
       <div class="game-row">
         <div class="gr-name"><img src="../sources/logos-games/pozopower.png" class="gr-logo" alt="">Go</div>
         <div class="gr-bar-wrap">
-          <div class="gr-bar"><div class="gr-fill" id="go-bar" style="background:#D97706"></div></div>
-          <div class="gr-line-proj" id="go-proj-line"></div>
+          <div class="gr-bar">
+            <div class="gr-proj-fill" id="go-proj-fill"></div>
+            <div class="gr-fill" id="go-bar" style="background:#D97706"></div>
+          </div>
+          <div class="gr-line-70"  id="go-dot70"></div>
+          <div class="gr-lbl-bar gr-lbl-70"   id="go-lbl70">70%</div>
           <div class="gr-lbl-bar gr-lbl-proj" id="go-lbl-proj">Proy.</div>
         </div>
         <div class="gr-val" id="go-val">S/ 0</div>
-        <div class="gr-meta">—</div>
+        <div class="gr-meta" id="go-meta">—</div>
       </div>
     </div>
 
@@ -1420,10 +1444,9 @@
     lblEl.style.opacity = p > 0 ? '0.9' : '0';
   }
 
-  function setLineProj(el, lblEl, pct) {
+  function setProjFill(fillEl, lblEl, pct) {
     const p = Math.min(pct, 100);
-    el.style.left       = p + '%';
-    el.style.opacity    = p > 0 ? '0.85' : '0';
+    fillEl.style.width  = p + '%';
     lblEl.style.left    = p + '%';
     lblEl.style.opacity = p > 0 ? '0.85' : '0';
   }
@@ -1598,8 +1621,8 @@
 
     document.getElementById('ra-actual').textContent     = fmtS(totMes);
     document.getElementById('ra-meta').textContent       = metaMes ? fmtS(metaMes) : 'S/ —';
-    document.getElementById('ra-falta').textContent      = metaMes && totMes < metaMes ? fmtS(metaMes - totMes) : metaMes ? '✓' : '—';
-    document.getElementById('ra-falta').style.color      = metaMes && totMes >= metaMes ? 'var(--green)' : 'var(--muted)';
+    document.getElementById('ra-falta').textContent      = metaMes && totMes < metaMes ? '−' + fmtS(metaMes - totMes) : metaMes ? '✓' : '—';
+    document.getElementById('ra-falta').style.color      = metaMes && totMes >= metaMes ? 'var(--green)' : metaMes ? 'var(--red)' : 'var(--muted)';
     document.getElementById('ra-proyectado').textContent = proyectado > 0 ? fmtS(proyectado) : '—';
     document.getElementById('ra-proyectado').style.color = proyectado > 0 ? proCol : 'var(--muted)';
 
@@ -1626,7 +1649,7 @@
     const ldProy  = hoyDia > 0 && ldMes > 0 ? Math.round(ldMes / hoyDia * diasCalMes) : 0;
     const scProy  = hoyDia > 0 && scMes > 0 ? Math.round(scMes / hoyDia * diasCalMes) : 0;
     const goProy  = hoyDia > 0 && goMes > 0 ? Math.round(goMes / hoyDia * diasCalMes) : 0;
-    const maxGame = Math.max(ppMes, ldMes, scMes, goMes, ppProy, ldProy, scProy, goProy, metaPP||0, metaLD||0, metaSC||0, 1);
+    const maxGame = Math.max(ppMes, ldMes, scMes, goMes, ppProy, ldProy, scProy, goProy, metaPP||0, metaLD||0, metaSC||0, metaPPGO||0, 1);
 
     function setFalta(id, actual, meta) {
       const el = document.getElementById(id);
@@ -1642,24 +1665,26 @@
     setFalta('pp-val', ppMes, metaPP);
     setFalta('ld-val', ldMes, metaLD);
     setFalta('sc-val', scMes, metaSC);
-    document.getElementById('go-val').textContent = fmtS(goMes);
+    setFalta('go-val', goMes, metaPPGO);
 
-    document.getElementById('pp-meta').textContent = metaPP > 0 ? fmtS(metaPP) : '—';
-    document.getElementById('ld-meta').textContent = metaLD > 0 ? fmtS(metaLD) : '—';
-    document.getElementById('sc-meta').textContent = metaSC > 0 ? fmtS(metaSC) : '—';
+    document.getElementById('pp-meta').textContent = metaPP   > 0 ? fmtS(metaPP)   : '—';
+    document.getElementById('ld-meta').textContent = metaLD   > 0 ? fmtS(metaLD)   : '—';
+    document.getElementById('sc-meta').textContent = metaSC   > 0 ? fmtS(metaSC)   : '—';
+    document.getElementById('go-meta').textContent = metaPPGO > 0 ? fmtS(metaPPGO) : '—';
 
     setBar(document.getElementById('pp-bar'), ppMes / maxGame * 100, 'var(--accent)');
     setBar(document.getElementById('ld-bar'), ldMes / maxGame * 100, '#3B9EE8');
     setBar(document.getElementById('sc-bar'), scMes / maxGame * 100, '#16A34A');
     setBar(document.getElementById('go-bar'), goMes / maxGame * 100, '#D97706');
 
-    if (metaPP > 0) setDot70(document.getElementById('pp-dot70'), document.getElementById('pp-lbl70'), metaPP * 0.7 / maxGame * 100);
-    if (metaLD > 0) setDot70(document.getElementById('ld-dot70'), document.getElementById('ld-lbl70'), metaLD * 0.7 / maxGame * 100);
-    if (metaSC > 0) setDot70(document.getElementById('sc-dot70'), document.getElementById('sc-lbl70'), metaSC * 0.7 / maxGame * 100);
-    if (ppProy > 0) setLineProj(document.getElementById('pp-proj-line'), document.getElementById('pp-lbl-proj'), ppProy / maxGame * 100);
-    if (ldProy > 0) setLineProj(document.getElementById('ld-proj-line'), document.getElementById('ld-lbl-proj'), ldProy / maxGame * 100);
-    if (scProy > 0) setLineProj(document.getElementById('sc-proj-line'), document.getElementById('sc-lbl-proj'), scProy / maxGame * 100);
-    if (goProy > 0) setLineProj(document.getElementById('go-proj-line'), document.getElementById('go-lbl-proj'), goProy / maxGame * 100);
+    if (metaPP   > 0) setDot70(document.getElementById('pp-dot70'), document.getElementById('pp-lbl70'), metaPP   * 0.7 / maxGame * 100);
+    if (metaLD   > 0) setDot70(document.getElementById('ld-dot70'), document.getElementById('ld-lbl70'), metaLD   * 0.7 / maxGame * 100);
+    if (metaSC   > 0) setDot70(document.getElementById('sc-dot70'), document.getElementById('sc-lbl70'), metaSC   * 0.7 / maxGame * 100);
+    if (metaPPGO > 0) setDot70(document.getElementById('go-dot70'), document.getElementById('go-lbl70'), metaPPGO * 0.7 / maxGame * 100);
+    if (ppProy > 0) setProjFill(document.getElementById('pp-proj-fill'), document.getElementById('pp-lbl-proj'), ppProy / maxGame * 100);
+    if (ldProy > 0) setProjFill(document.getElementById('ld-proj-fill'), document.getElementById('ld-lbl-proj'), ldProy / maxGame * 100);
+    if (scProy > 0) setProjFill(document.getElementById('sc-proj-fill'), document.getElementById('sc-lbl-proj'), scProy / maxGame * 100);
+    if (goProy > 0) setProjFill(document.getElementById('go-proj-fill'), document.getElementById('go-lbl-proj'), goProy / maxGame * 100);
 
     // Weekly chart (Lun→Dom, 7 days)
     const DAY_NAMES      = ['Lun','Mar','Mié','Jue','Vie','Sáb','Dom'];
