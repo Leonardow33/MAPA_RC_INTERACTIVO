@@ -341,15 +341,38 @@
 
     .ring-wrap {
       position: relative;
-      width: 168px;
-      height: 168px;
-      margin-bottom: 20px;
+      width: 128px;
+      height: 128px;
       flex-shrink: 0;
     }
 
+    .ring-duo {
+      display: flex;
+      gap: 20px;
+      width: 100%;
+      justify-content: center;
+      margin-bottom: 4px;
+    }
+
+    .ring-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .ring-item-lbl {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--muted);
+      text-align: center;
+    }
+
     .ring-svg {
-      width: 168px;
-      height: 168px;
+      width: 128px;
+      height: 128px;
       transform: rotate(-90deg);
     }
 
@@ -364,12 +387,11 @@
     }
     .ring-proj  {
       fill: none;
-      stroke-width: 6;
+      stroke-width: 11;
       stroke-linecap: round;
       stroke-dasharray: 424;
       stroke-dashoffset: 424;
-      opacity: .32;
-      transition: stroke-dashoffset 1.4s cubic-bezier(.22,.6,.36,1), stroke .4s;
+      transition: stroke-dashoffset 1.1s cubic-bezier(.22,.6,.36,1), stroke .4s;
     }
     /* Zona pre-meta: primeros 70% del ring en ámbar muy suave */
     .ring-zone  {
@@ -403,7 +425,7 @@
     }
 
     .ring-pct {
-      font-size: 38px;
+      font-size: 26px;
       font-weight: 900;
       line-height: 1;
       font-variant-numeric: tabular-nums;
@@ -622,8 +644,8 @@
 
     .gr-meta {
       font-size: 11px;
-      font-weight: 600;
-      color: var(--muted);
+      font-weight: 700;
+      color: var(--green);
       font-variant-numeric: tabular-nums;
       width: 58px;
       text-align: right;
@@ -1046,22 +1068,35 @@
            style="position:absolute;width:88px;bottom:-8px;left:-6px;transform:rotate(-10deg);opacity:.22;pointer-events:none;">
       <div class="ring-card-glow" id="ring-glow"></div>
       <div class="ring-period-label">PROGRESO DEL MES</div>
-      <div class="ring-wrap">
-        <svg class="ring-svg" viewBox="0 0 168 168">
-          <circle class="ring-track"  cx="84" cy="84" r="67.5"/>
-          <circle class="ring-zone"   cx="84" cy="84" r="67.5"/>
-          <circle class="ring-marker" cx="84" cy="84" r="67.5"/>
-          <circle class="ring-proj"   id="ring-proj"  cx="84" cy="84" r="67.5"/>
-          <circle class="ring-fill"   id="ring-fill"  cx="84" cy="84" r="67.5"/>
-        </svg>
-        <div class="ring-center">
-          <div class="ring-pct" id="ring-pct">0<span class="ring-pct-sign">%</span></div>
-          <div class="ring-sub">del mes</div>
+      <div class="ring-duo">
+        <div class="ring-item">
+          <div class="ring-wrap">
+            <svg class="ring-svg" viewBox="0 0 168 168">
+              <circle class="ring-track"  cx="84" cy="84" r="67.5"/>
+              <circle class="ring-zone"   cx="84" cy="84" r="67.5"/>
+              <circle class="ring-marker" cx="84" cy="84" r="67.5"/>
+              <circle class="ring-fill"   id="ring-fill"  cx="84" cy="84" r="67.5"/>
+            </svg>
+            <div class="ring-center">
+              <div class="ring-pct" id="ring-pct">0<span class="ring-pct-sign">%</span></div>
+              <div class="ring-sub">del mes</div>
+            </div>
+          </div>
+          <div class="ring-item-lbl">Avance <span style="color:#F59E0B">●</span> 70%</div>
         </div>
-      </div>
-      <div class="ring-legend">
-        <span class="rl-item"><span class="rl-dot" style="background:#F59E0B"></span>Pre-meta 70%</span>
-        <span class="rl-item rl-proj"><span class="rl-dot"></span>Proyectado</span>
+        <div class="ring-item">
+          <div class="ring-wrap">
+            <svg class="ring-svg" viewBox="0 0 168 168">
+              <circle class="ring-track" cx="84" cy="84" r="67.5"/>
+              <circle class="ring-proj"  id="ring-proj" cx="84" cy="84" r="67.5"/>
+            </svg>
+            <div class="ring-center">
+              <div class="ring-pct" id="ring-proj-pct">—<span class="ring-pct-sign">%</span></div>
+              <div class="ring-sub">proyectado</div>
+            </div>
+          </div>
+          <div class="ring-item-lbl">Proyectado</div>
+        </div>
       </div>
       <div class="ring-amounts">
         <div class="ra-item">
@@ -1069,7 +1104,7 @@
           <div class="ra-lbl">Vendido</div>
         </div>
         <div class="ra-item">
-          <div class="ra-val" id="ra-meta" style="color:var(--muted)">S/ —</div>
+          <div class="ra-val" id="ra-meta" style="color:var(--green)">S/ —</div>
           <div class="ra-lbl">Meta mes</div>
         </div>
         <div class="ra-item">
@@ -1505,10 +1540,13 @@
     ringEl.style.stroke          = col;
     ringEl.style.strokeDashoffset = CIRC * (1 - clamp(pctMes) / 100);
 
-    // Arco proyectado (mismo color, más delgado y semitransparente — va adelante)
+    // Ring 2: Proyectado vs Meta
     const pctPro = metaMes && proyectado > 0 ? Math.round(proyectado / metaMes * 100) : 0;
-    projEl.style.stroke           = col;
+    const proCol = pctPro > 0 ? pctColor(pctPro) : 'var(--dim)';
+    projEl.style.stroke           = proCol;
     projEl.style.strokeDashoffset = CIRC * (1 - clamp(pctPro) / 100);
+    document.getElementById('ring-proj-pct').innerHTML = (pctPro > 0 ? pctPro : '—') + '<span class="ring-pct-sign">%</span>';
+    document.getElementById('ring-proj-pct').style.color = proCol;
 
     glowEl.style.background =
       col === 'var(--green)'  ? 'rgba(16,217,138,.28)'  :
@@ -1525,7 +1563,6 @@
     document.getElementById('ra-meta').textContent       = metaMes ? fmtS(metaMes) : 'S/ —';
     document.getElementById('ra-falta').textContent      = metaMes && totMes < metaMes ? fmtS(metaMes - totMes) : metaMes ? '✓' : '—';
     document.getElementById('ra-falta').style.color      = metaMes && totMes >= metaMes ? 'var(--green)' : 'var(--muted)';
-    const proCol = metaMes ? pctColor(Math.round(proyectado / metaMes * 100)) : 'var(--muted)';
     document.getElementById('ra-proyectado').textContent = proyectado > 0 ? fmtS(proyectado) : '—';
     document.getElementById('ra-proyectado').style.color = proyectado > 0 ? proCol : 'var(--muted)';
 
@@ -1548,7 +1585,7 @@
     setBar(document.getElementById('sem-bar'), pctSem || 0, semCol);
 
     // Games
-    const maxGame = Math.max(ppMes, ldMes, scMes, goMes, 1);
+    const maxGame = Math.max(ppMes, ldMes, scMes, goMes, metaPP||0, metaLD||0, metaSC||0, 1);
     document.getElementById('pp-val').textContent  = fmtS(ppMes);
     document.getElementById('ld-val').textContent  = fmtS(ldMes);
     document.getElementById('sc-val').textContent  = fmtS(scMes);
