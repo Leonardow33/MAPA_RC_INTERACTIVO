@@ -576,8 +576,13 @@
       border-radius: 4px;
     }
 
-    .gr-bar {
+    .gr-bar-wrap {
       flex: 1;
+      position: relative;
+    }
+
+    .gr-bar {
+      width: 100%;
       height: 7px;
       background: var(--border);
       border-radius: 99px;
@@ -591,11 +596,36 @@
       transition: width .9s cubic-bezier(.22,.6,.36,1) .2s;
     }
 
+    .gr-dot70 {
+      position: absolute;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: #F59E0B;
+      border: 1.5px solid #fff;
+      opacity: 0;
+      pointer-events: none;
+      transition: left .9s cubic-bezier(.22,.6,.36,1) .2s, opacity .3s;
+      z-index: 2;
+    }
+
     .gr-val {
       font-size: 13px;
       font-weight: 700;
       font-variant-numeric: tabular-nums;
       width: 68px;
+      text-align: right;
+      flex-shrink: 0;
+    }
+
+    .gr-meta {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--muted);
+      font-variant-numeric: tabular-nums;
+      width: 58px;
       text-align: right;
       flex-shrink: 0;
     }
@@ -913,7 +943,7 @@
     @media (max-width: 900px) { .video-side { display: none; } }
 
     @media (prefers-reduced-motion: reduce) {
-      .ring-fill, .pbar-fill, .gr-fill { transition: none; }
+      .ring-fill, .pbar-fill, .gr-fill, .gr-dot70 { transition: none; }
       .spin { animation: none; }
     }
     .dev-badge {
@@ -1060,23 +1090,38 @@
       <div class="card-title">Desglose por juego · este mes</div>
       <div class="game-row">
         <div class="gr-name"><img src="../sources/logos-games/pozopower.png" class="gr-logo" alt="">PozoPower</div>
-        <div class="gr-bar"><div class="gr-fill" id="pp-bar" style="background:var(--accent)"></div></div>
+        <div class="gr-bar-wrap">
+          <div class="gr-bar"><div class="gr-fill" id="pp-bar" style="background:var(--accent)"></div></div>
+          <div class="gr-dot70" id="pp-dot70"></div>
+        </div>
         <div class="gr-val" id="pp-val">S/ 0</div>
+        <div class="gr-meta" id="pp-meta">—</div>
       </div>
       <div class="game-row">
         <div class="gr-name"><img src="../sources/logos-games/lakidey.png" class="gr-logo" alt="">LakiDey</div>
-        <div class="gr-bar"><div class="gr-fill" id="ld-bar" style="background:#3B9EE8"></div></div>
+        <div class="gr-bar-wrap">
+          <div class="gr-bar"><div class="gr-fill" id="ld-bar" style="background:#3B9EE8"></div></div>
+          <div class="gr-dot70" id="ld-dot70"></div>
+        </div>
         <div class="gr-val" id="ld-val">S/ 0</div>
+        <div class="gr-meta" id="ld-meta">—</div>
       </div>
       <div class="game-row">
         <div class="gr-name"><img src="../sources/logos-games/rapiraspa.png" class="gr-logo" alt="">Rapiraspas</div>
-        <div class="gr-bar"><div class="gr-fill" id="sc-bar" style="background:#16A34A"></div></div>
+        <div class="gr-bar-wrap">
+          <div class="gr-bar"><div class="gr-fill" id="sc-bar" style="background:#16A34A"></div></div>
+          <div class="gr-dot70" id="sc-dot70"></div>
+        </div>
         <div class="gr-val" id="sc-val">S/ 0</div>
+        <div class="gr-meta" id="sc-meta">—</div>
       </div>
       <div class="game-row">
         <div class="gr-name"><img src="../sources/logos-games/pozopower.png" class="gr-logo" alt="">Go</div>
-        <div class="gr-bar"><div class="gr-fill" id="go-bar" style="background:#D97706"></div></div>
+        <div class="gr-bar-wrap">
+          <div class="gr-bar"><div class="gr-fill" id="go-bar" style="background:#D97706"></div></div>
+        </div>
         <div class="gr-val" id="go-val">S/ 0</div>
+        <div class="gr-meta">—</div>
       </div>
     </div>
 
@@ -1305,6 +1350,12 @@
     el.style.background = color;
   }
 
+  function setDot70(el, pct) {
+    const p = Math.min(pct, 100);
+    el.style.left    = p + '%';
+    el.style.opacity = p > 0 ? '0.9' : '0';
+  }
+
   function motivation(pct) {
     if (pct === null) return { icon:'📊', msg:'Registra tus ventas diariamente', detail:'Tu progreso aparecerá aquí en cuanto haya datos del mes.', bg:'rgba(90,116,153,.12)', clr:'var(--muted)' };
     if (pct >= 110)   return { icon:'🏆', msg:'¡Meta superada! Excelente trabajo', detail:'Estás por encima del objetivo mensual. ¡Sigue así!', bg:'rgba(16,217,138,.12)', clr:'var(--green)' };
@@ -1498,14 +1549,20 @@
 
     // Games
     const maxGame = Math.max(ppMes, ldMes, scMes, goMes, 1);
-    document.getElementById('pp-val').textContent = metaPP   ? `${fmtS(ppMes)} / ${fmtS(metaPP)}`   : fmtS(ppMes);
-    document.getElementById('ld-val').textContent = metaLD   ? `${fmtS(ldMes)} / ${fmtS(metaLD)}`   : fmtS(ldMes);
-    document.getElementById('sc-val').textContent = metaSC   ? `${fmtS(scMes)} / ${fmtS(metaSC)}`   : fmtS(scMes);
-    document.getElementById('go-val').textContent = fmtS(goMes);
+    document.getElementById('pp-val').textContent  = fmtS(ppMes);
+    document.getElementById('ld-val').textContent  = fmtS(ldMes);
+    document.getElementById('sc-val').textContent  = fmtS(scMes);
+    document.getElementById('go-val').textContent  = fmtS(goMes);
+    document.getElementById('pp-meta').textContent = metaPP > 0 ? fmtS(metaPP) : '—';
+    document.getElementById('ld-meta').textContent = metaLD > 0 ? fmtS(metaLD) : '—';
+    document.getElementById('sc-meta').textContent = metaSC > 0 ? fmtS(metaSC) : '—';
     setBar(document.getElementById('pp-bar'), ppMes / maxGame * 100, 'var(--accent)');
     setBar(document.getElementById('ld-bar'), ldMes / maxGame * 100, '#3B9EE8');
     setBar(document.getElementById('sc-bar'), scMes / maxGame * 100, '#16A34A');
     setBar(document.getElementById('go-bar'), goMes / maxGame * 100, '#D97706');
+    if (metaPP > 0) setDot70(document.getElementById('pp-dot70'), metaPP * 0.7 / maxGame * 100);
+    if (metaLD > 0) setDot70(document.getElementById('ld-dot70'), metaLD * 0.7 / maxGame * 100);
+    if (metaSC > 0) setDot70(document.getElementById('sc-dot70'), metaSC * 0.7 / maxGame * 100);
 
     // Weekly chart (Lun→Dom, 7 days)
     const DAY_NAMES      = ['Lun','Mar','Mié','Jue','Vie','Sáb','Dom'];
