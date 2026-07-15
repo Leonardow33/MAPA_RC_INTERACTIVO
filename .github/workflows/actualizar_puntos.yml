@@ -124,14 +124,21 @@ jobs:
 
           print(f"Excel listo: {EXCEL}")
 
-          # ── Leer hoja BASE_RSUM ──────────────────────────────────────
+          # ── Leer hoja BASE ───────────────────────────────────────────
+          import openpyxl
+          wb = openpyxl.load_workbook(EXCEL, read_only=True)
+          print(f"  -> Hojas disponibles: {wb.sheetnames}")
+          wb.close()
+
           print(f"Leyendo hoja '{HOJA}'...")
           df = pd.read_excel(EXCEL, sheet_name=HOJA)
-          df.columns = df.columns.str.strip()   # quitar espacios en nombres de columna
-          print(f"  -> {len(df)} filas")
-          # Debug: columnas que contienen META
-          meta_cols = [c for c in df.columns if 'META' in str(c).upper()]
-          print(f"  -> columnas META encontradas: {meta_cols}")
+          df.columns = df.columns.str.strip()
+          print(f"  -> {len(df)} filas, {len(df.columns)} columnas")
+          print(f"  -> Columnas: {list(df.columns)}")
+          lat_sample = df['LATITUD'].dropna().head(3).tolist() if 'LATITUD' in df.columns else 'COLUMNA NO ENCONTRADA'
+          print(f"  -> LATITUD sample: {lat_sample}")
+          est_sample = df['ESTATUS'].dropna().unique().tolist()[:5] if 'ESTATUS' in df.columns else 'COLUMNA NO ENCONTRADA'
+          print(f"  -> ESTATUS valores: {est_sample}")
 
           data = []
 
