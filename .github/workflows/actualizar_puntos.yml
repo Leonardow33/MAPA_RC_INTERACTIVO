@@ -36,7 +36,7 @@ jobs:
           from playwright.sync_api import sync_playwright
 
           URL   = "https://elotgroup2020-my.sharepoint.com/:x:/g/personal/doriant_elotgroup_com/IQB-NddQMXR2So7GfQzrHRtsAWTJsTyNAclAXDO5jp5x7pA?e=vcQRbw"
-          HOJA  = "BASE"
+          HOJA  = "BASE_RSUM"
           EXCEL = "/tmp/base_mapas.xlsx"
 
           # ── Descargar Excel ──────────────────────────────────────────
@@ -124,21 +124,14 @@ jobs:
 
           print(f"Excel listo: {EXCEL}")
 
-          # ── Leer hoja BASE ───────────────────────────────────────────
-          import openpyxl
-          wb = openpyxl.load_workbook(EXCEL, read_only=True)
-          print(f"  -> Hojas disponibles: {wb.sheetnames}")
-          wb.close()
-
+          # ── Leer hoja BASE_RSUM ──────────────────────────────────────
           print(f"Leyendo hoja '{HOJA}'...")
           df = pd.read_excel(EXCEL, sheet_name=HOJA)
-          df.columns = df.columns.str.strip()
-          print(f"  -> {len(df)} filas, {len(df.columns)} columnas")
-          print(f"  -> Columnas: {list(df.columns)}")
-          lat_sample = df['LATITUD'].dropna().head(3).tolist() if 'LATITUD' in df.columns else 'COLUMNA NO ENCONTRADA'
-          print(f"  -> LATITUD sample: {lat_sample}")
-          est_sample = df['ESTATUS'].dropna().unique().tolist()[:5] if 'ESTATUS' in df.columns else 'COLUMNA NO ENCONTRADA'
-          print(f"  -> ESTATUS valores: {est_sample}")
+          df.columns = df.columns.str.strip()   # quitar espacios en nombres de columna
+          print(f"  -> {len(df)} filas")
+          # Debug: columnas que contienen META
+          meta_cols = [c for c in df.columns if 'META' in str(c).upper()]
+          print(f"  -> columnas META encontradas: {meta_cols}")
 
           data = []
 
