@@ -642,20 +642,21 @@ async function init() {
   const cols = colsData.value;
   console.log('[EditorPDV] Columnas BASE MAESTRA:', cols.map(c => `${c.InternalName} | ${c.Title}`));
 
-  S.colRC         = findCol(cols, ['RC_ENCARGADO_DE_TIENDA','RC ENCARGADO DE TIENDA','RC_ENCARGADO']);
-  S.colSup        = findCol(cols, ['SUPERVISOR']);
-  S.colFrecuencia = findCol(cols, ['FRECUENCIA_NORMAL','FRECUENCIA NORMAL','FRECUENCIA']);
-  S.colNombre     = findCol(cols, ['NOMBRE_DE_TIENDA','NOMBRE DE TIENDA','NOMBRE_TIENDA','NOMBRE TIENDA','NOMBRE']);
-  S.colCluster    = findCol(cols, ['CLUSTER']);
-  S.colZona       = findCol(cols, ['ZONA']);
-  S.colDistrito   = findCol(cols, ['DISTRITO']);
+  S.colRC         = findCol(cols, ['RC_ENCARGADO_DE_TIENDA','RC ENCARGADO DE TIENDA','RC_ENCARGADO']) || 'field_18';
+  S.colSup        = findCol(cols, ['SUPERVISOR'])                                                   || 'field_34';
+  S.colFrecuencia = findCol(cols, ['FRECUENCIA_NORMAL','FRECUENCIA-NORMAL','FRECUENCIA NORMAL','FRECUENCIA']) || 'field_37';
+  S.colNombre     = findCol(cols, ['NOMBRE_DE_TIENDA','NOMBRE DE TIENDA','NOMBRE_TIENDA','NOMBRE TIENDA','NOMBRE']) || 'field_2';
+  S.colCluster    = findCol(cols, ['CLUSTER'])   || 'field_9';
+  S.colZona       = findCol(cols, ['ZONA','ZONAL']) || 'field_22';
+  S.colDistrito   = findCol(cols, ['DISTRITO','DISTRITOS']) || 'field_23';
+  // Días: fallback a field_11..16 (confirmado desde trigger output)
   S.colDias = [];
   for (let i = 1; i <= N_DIAS; i++) {
     S.colDias.push(findCol(cols, [
       `DIA_DE_VISITA_${i}`, `DÍA_DE_VISITA_${i}`,
       `DIA DE VISITA ${i}`, `DÍA DE VISITA ${i}`,
       `VISITA_${i}`, `DIA_VISITA_${i}`
-    ]) || null);
+    ]) || `field_${10 + i}`);
   }
   console.log('[EditorPDV] colRC:', S.colRC, '| colSup:', S.colSup, '| colNombre:', S.colNombre, '| colDias:', S.colDias);
 
