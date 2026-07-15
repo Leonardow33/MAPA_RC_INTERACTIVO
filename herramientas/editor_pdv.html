@@ -507,15 +507,19 @@
           </div>
           <div class="info-item">
             <div class="info-val" id="s-cluster"></div>
-            <div class="info-lbl">Cluster</div>
+            <div class="info-lbl">Cluster Interno</div>
           </div>
           <div class="info-item full">
             <div class="info-val" id="s-nombre"></div>
             <div class="info-lbl">Nombre</div>
           </div>
-          <div class="info-item full">
+          <div class="info-item">
             <div class="info-val" id="s-zona"></div>
             <div class="info-lbl">Zona / Distrito</div>
+          </div>
+          <div class="info-item">
+            <div class="info-val" id="s-partner"></div>
+            <div class="info-lbl">Partner</div>
           </div>
         </div>
       </div>
@@ -544,6 +548,11 @@
           <label class="field-label">JZ (Jefe de Zona)</label>
           <input class="field-input" list="jz-list" id="inp-jz" placeholder="Escribe o selecciona JZ..." autocomplete="off"/>
           <datalist id="jz-list"></datalist>
+        </div>
+
+        <div class="field-group">
+          <label class="field-label">Cluster Interno</label>
+          <select class="field-select" id="sel-cluster"></select>
         </div>
 
         <label class="field-label">Días de visita</label>
@@ -633,7 +642,8 @@ const S = {
   colGZ:         null,   // field_27
   colSkill:        null,   // field_29 rc_skillrock
   colCodSup:       null,   // field_33 COD_SUP
-  colResponsable:  null,   // P_RESPONSABLE
+  colResponsable:    null,   // P_RESPONSABLE
+  colClusterInterno: null,   // CLUSTER INTERNO
   // RCS ACTUALES columns
   rcsColRC:      null,
   rcsColRC2:     null,
@@ -658,6 +668,8 @@ const S = {
   gzJzMap:           {},   // { RESPONSABLE: { GZ: [JZ...] } }
   currentResponsable:'',
   allStores:         [],
+  clusterOptions:    [],
+  originalCluster:   null,
   // original values for change detection
   originalRC:    null,
   originalSup:   null,
@@ -739,7 +751,8 @@ async function init() {
   S.colJZ         = findCol(cols, ['JZ'])        || 'field_28';
   S.colSkill       = findCol(cols, ['RC_SKILLROCK','RC SKILLROCK','SKILLROCK','RCSKILLROCK']) || 'field_29';
   S.colCodSup      = findCol(cols, ['COD_SUP','CODSUP','COD SUP']) || 'field_33';
-  S.colResponsable = findCol(cols, ['P_RESPONSABLE','RESPONSABLE','PARTNER']) || null;
+  S.colResponsable    = findCol(cols, ['P_RESPONSABLE','RESPONSABLE','PARTNER']) || null;
+  S.colClusterInterno = findCol(cols, ['CLUSTER_INTERNO','CLUSTER INTERNO','CLUSTERINTERNO']) || null;
   // Días: fallback a field_11..16 (confirmado desde trigger output)
   S.colDias = [];
   for (let i = 1; i <= N_DIAS; i++) {
@@ -792,13 +805,16 @@ async function init() {
 
   // GZ/JZ map por P_RESPONSABLE + listado de tiendas para buscador
   try {
-    const respCol = S.colResponsable || 'Title';
+    const respCol = S.colResponsable    || 'Title';
+    const clCol   = S.colClusterInterno || 'Title';
     const gzjzData = await spGet(
       `/web/lists/getbytitle('${BASE_LIST_NAME}')/items` +
-      `?$select=Title,${S.colNombre},${S.colGZ},${S.colJZ},${respCol}&$top=2000`
+      `?$select=Title,${S.colNombre},${S.colGZ},${S.colJZ},${respCol},${clCol}&$top=2000`
     );
-    S.gzJzMap  = {};
-    S.allStores = [];
+    S.gzJzMap       = {};
+    S.allStores     = [];
+    S.clusterOptions = [];
+    const clSet = new Set();
     gzjzData.value.forEach(item => {
       const gz   = (item[S.colGZ] || '').trim();
       const jz   = (item[S.colJZ] || '').trim();
@@ -809,13 +825,17 @@ async function init() {
         if (!S.gzJzMap[key][gz])  S.gzJzMap[key][gz] = [];
         if (jz && !S.gzJzMap[key][gz].includes(jz)) S.gzJzMap[key][gz].push(jz);
       }
-      const code   = item.Title || '';
+      const code = item.Title || '';
       const nombre = S.colNombre ? (item[S.colNombre] || '') : '';
       if (code) S.allStores.push({ code, nombre });
+      const cl = S.colClusterInterno ? (item[S.colClusterInterno] || '').trim() : '';
+      if (cl) clSet.add(cl);
     });
+    S.clusterOptions = [...clSet].sort();
     buildGZDatalist();
     buildSearchDatalist();
-    console.log('[EditorPDV] GZ/JZ map:', Object.keys(S.gzJzMap).length, 'grupos | tiendas:', S.allStores.length);
+    buildClusterSelect();
+    console.log('[EditorPDV] GZ/JZ map:', Object.keys(S.gzJzMap).length, 'grupos | tiendas:', S.allStores.length, '| clusters:', S.clusterOptions.length);
   } catch(e) {
     console.warn('[EditorPDV] Error cargando GZ/JZ/tiendas:', e.message);
   }
@@ -983,6 +1003,17 @@ function updateJZDatalist(gz) {
   });
 }
 
+function buildClusterSelect() {
+  const sel = document.getElementById('sel-cluster');
+  if (!sel) return;
+  sel.innerHTML = '<option value="">— Sin cluster —</option>';
+  S.clusterOptions.forEach(c => {
+    const opt = document.createElement('option');
+    opt.value = c; opt.textContent = c;
+    sel.appendChild(opt);
+  });
+}
+
 function buildSearchDatalist() {
   const dl = document.getElementById('search-list');
   dl.innerHTML = '';
@@ -997,10 +1028,16 @@ function buildSearchDatalist() {
 function renderStore(item) {
   const f = item;
   document.getElementById('s-code').textContent    = f.Title || '—';
-  document.getElementById('s-nombre').textContent  = (S.colNombre   ? f[S.colNombre]   : null) || '—';
-  document.getElementById('s-cluster').textContent = (S.colCluster  ? f[S.colCluster]  : null) || '—';
+  document.getElementById('s-nombre').textContent  = (S.colNombre         ? f[S.colNombre]         : null) || '—';
+  document.getElementById('s-cluster').textContent = (S.colClusterInterno ? f[S.colClusterInterno] : null) || '—';
+  document.getElementById('s-partner').textContent = (S.colResponsable    ? f[S.colResponsable]    : null) || '—';
   const zona = [(S.colZona ? f[S.colZona] : ''), (S.colDistrito ? f[S.colDistrito] : '')].filter(Boolean).join(' / ');
   document.getElementById('s-zona').textContent    = zona || '';
+
+  // Cluster interno editable
+  const clVal = S.colClusterInterno ? (f[S.colClusterInterno] || '') : '';
+  S.originalCluster = clVal;
+  document.getElementById('sel-cluster').value = clVal;
 
   // RC + Supervisor — guardar originales para detección de cambio
   const rcVal  = S.colRC  ? (f[S.colRC]  || '') : '';
@@ -1049,16 +1086,18 @@ async function saveStore() {
   btn.disabled = true;
   btn.textContent = 'Guardando...';
 
-  const newRC  = document.getElementById('sel-rc').value;
-  const newSup = document.getElementById('sel-supervisor').value;
-  const newGZ  = document.getElementById('inp-gz').value.trim();
-  const newJZ  = document.getElementById('inp-jz').value.trim();
+  const newRC      = document.getElementById('sel-rc').value;
+  const newSup     = document.getElementById('sel-supervisor').value;
+  const newGZ      = document.getElementById('inp-gz').value.trim();
+  const newJZ      = document.getElementById('inp-jz').value.trim();
+  const newCluster = document.getElementById('sel-cluster').value;
 
   const fields = {};
-  if (S.colRC)  fields[S.colRC]  = newRC;
-  if (S.colSup) fields[S.colSup] = newSup;
-  if (S.colGZ)  fields[S.colGZ]  = newGZ;
-  if (S.colJZ)  fields[S.colJZ]  = newJZ;
+  if (S.colRC)             fields[S.colRC]             = newRC;
+  if (S.colSup)            fields[S.colSup]            = newSup;
+  if (S.colGZ)             fields[S.colGZ]             = newGZ;
+  if (S.colJZ)             fields[S.colJZ]             = newJZ;
+  if (S.colClusterInterno) fields[S.colClusterInterno] = newCluster;
 
   for (let i = 0; i < N_DIAS; i++) {
     if (S.colDias[i]) {
@@ -1083,16 +1122,17 @@ async function saveStore() {
     );
 
     // ── DETECCIÓN DE CAMBIOS ─────────────────────
-    const rcChanged  = newRC  !== (S.originalRC  || '');
-    const supChanged = newSup !== (S.originalSup || '');
-    const gzChanged  = newGZ  !== (S.originalGZ  || '');
-    const jzChanged  = newJZ  !== (S.originalJZ  || '');
+    const rcChanged      = newRC      !== (S.originalRC      || '');
+    const supChanged     = newSup     !== (S.originalSup     || '');
+    const gzChanged      = newGZ      !== (S.originalGZ      || '');
+    const jzChanged      = newJZ      !== (S.originalJZ      || '');
+    const clusterChanged = newCluster !== (S.originalCluster || '');
 
-    if (rcChanged || supChanged || gzChanged || jzChanged) {
+    if (rcChanged || supChanged || gzChanged || jzChanged || clusterChanged) {
       const tienda  = S.colNombre ? (S.currentItem[S.colNombre] || '') : '';
       const codSup  = S.colCodSup ? (S.currentItem[S.colCodSup] || '') : '';
       const rcObj   = S.rcs.find(r => r.code === newRC);
-      const tipos   = [rcChanged && 'RC', supChanged && 'SUPERVISOR', gzChanged && 'GZ', jzChanged && 'JZ'].filter(Boolean);
+      const tipos   = [rcChanged && 'RC', supChanged && 'SUPERVISOR', gzChanged && 'GZ', jzChanged && 'JZ', clusterChanged && 'CLUSTER'].filter(Boolean);
 
       // Log de sesión (admin download)
       S.changeLog.push({
@@ -1133,10 +1173,11 @@ async function saveStore() {
         });
       }
 
-      S.originalRC  = newRC;
-      S.originalSup = newSup;
-      S.originalGZ  = newGZ;
-      S.originalJZ  = newJZ;
+      S.originalRC      = newRC;
+      S.originalSup     = newSup;
+      S.originalGZ      = newGZ;
+      S.originalJZ      = newJZ;
+      S.originalCluster = newCluster;
     }
 
     toast('Cambios guardados ✓', 'ok');
