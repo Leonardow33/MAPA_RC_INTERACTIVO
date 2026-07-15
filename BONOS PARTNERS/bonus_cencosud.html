@@ -403,15 +403,15 @@
       stroke-dashoffset: 0;
       opacity: .13;
     }
-    /* Tick/dot en el 70% exacto */
+    /* Tick en el 70% exacto */
     .ring-marker {
       fill: none;
       stroke: #F59E0B;
-      stroke-width: 14;
-      stroke-linecap: round;
-      stroke-dasharray: 3 421;
-      stroke-dashoffset: 127.2; /* 424×0.3 → posiciona el dot en 70% */
-      opacity: .92;
+      stroke-width: 16;
+      stroke-linecap: butt;
+      stroke-dasharray: 2 422;
+      stroke-dashoffset: 127.2;
+      opacity: .95;
     }
 
     .ring-center {
@@ -641,7 +641,7 @@
       top: 50%;
       transform: translate(-50%, -50%);
       width: 2px;
-      height: 18px;
+      height: 10px;
       border-radius: 1px;
       background: #F59E0B;
       opacity: 0;
@@ -1103,7 +1103,6 @@
           <div class="ring-wrap">
             <svg class="ring-svg" viewBox="0 0 168 168">
               <circle class="ring-track"  cx="84" cy="84" r="67.5"/>
-              <circle class="ring-zone"   cx="84" cy="84" r="67.5"/>
               <circle class="ring-marker" cx="84" cy="84" r="67.5"/>
               <circle class="ring-fill"   id="ring-fill"  cx="84" cy="84" r="67.5"/>
             </svg>
