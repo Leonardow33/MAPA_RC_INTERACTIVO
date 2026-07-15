@@ -1,0 +1,1014 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1"/>
+  <title>Editor PDV — Elot Group</title>
+  <script src="https://alcdn.msauth.net/browser/2.38.3/js/msal-browser.min.js"></script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:      #F0F4FA;
+      --surf:    #FFFFFF;
+      --surf2:   #F7F9FC;
+      --border:  #DDE4EF;
+      --text:    #0D1F3C;
+      --muted:   #4A6080;
+      --dim:     #8FA3BC;
+      --accent:  #1565C0;
+      --green:   #0DA870;
+      --red:     #DC2626;
+      --amber:   #D97706;
+      --glow:    rgba(21,101,192,.18);
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      font-size: 14px;
+      min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── LOGIN ──────────────────────────────────── */
+    #login-screen {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+    }
+    .login-card {
+      background: var(--surf);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 48px 40px;
+      max-width: 380px;
+      width: 100%;
+      text-align: center;
+      box-shadow: 0 8px 32px rgba(13,31,60,.08);
+    }
+    .login-logo {
+      font-size: 40px;
+      margin-bottom: 16px;
+    }
+    .login-title {
+      font-size: 24px;
+      font-weight: 800;
+      color: var(--text);
+      margin-bottom: 6px;
+    }
+    .login-sub {
+      font-size: 13px;
+      color: var(--muted);
+      margin-bottom: 32px;
+    }
+    .login-btn {
+      width: 100%;
+      background: var(--accent);
+      color: #fff;
+      border: none;
+      border-radius: 12px;
+      padding: 14px 20px;
+      font-size: 15px;
+      font-weight: 700;
+      font-family: inherit;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      transition: opacity .2s;
+    }
+    .login-btn:hover { opacity: .88; }
+
+    /* ── APP ────────────────────────────────────── */
+    #app { display: none; min-height: 100vh; }
+
+    .app-header {
+      background: var(--text);
+      color: #fff;
+      padding: 12px 20px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+    .app-header-title {
+      font-size: 16px;
+      font-weight: 800;
+      letter-spacing: -.3px;
+      flex: 1;
+    }
+    .app-header-user {
+      font-size: 12px;
+      color: rgba(255,255,255,.6);
+    }
+    .logout-btn {
+      background: rgba(255,255,255,.1);
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      padding: 6px 12px;
+      font-size: 12px;
+      font-family: inherit;
+      cursor: pointer;
+      transition: background .15s;
+    }
+    .logout-btn:hover { background: rgba(255,255,255,.18); }
+
+    /* ── TABS ───────────────────────────────────── */
+    .tabs {
+      background: var(--surf);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      padding: 0 16px;
+      gap: 4px;
+    }
+    .tab-btn {
+      background: none;
+      border: none;
+      border-bottom: 2px solid transparent;
+      padding: 13px 16px;
+      font-size: 13px;
+      font-weight: 600;
+      font-family: inherit;
+      color: var(--muted);
+      cursor: pointer;
+      transition: color .15s, border-color .15s;
+      white-space: nowrap;
+    }
+    .tab-btn.active { color: var(--accent); border-bottom-color: var(--accent); }
+    .tab-btn:not(.active):hover { color: var(--text); }
+
+    /* ── PAGE ───────────────────────────────────── */
+    .page { display: none; padding: 20px 16px; max-width: 600px; margin: 0 auto; }
+    .page.active { display: block; }
+
+    /* ── SEARCH BAR ─────────────────────────────── */
+    .search-row {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 20px;
+    }
+    .search-input {
+      flex: 1;
+      background: var(--surf);
+      border: 1.5px solid var(--border);
+      border-radius: 12px;
+      padding: 12px 16px;
+      font-size: 15px;
+      color: var(--text);
+      font-family: inherit;
+      outline: none;
+      transition: border-color .2s, box-shadow .2s;
+    }
+    .search-input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px var(--glow); }
+    .search-input::placeholder { color: var(--dim); }
+    .search-btn {
+      background: var(--accent);
+      color: #fff;
+      border: none;
+      border-radius: 12px;
+      padding: 12px 20px;
+      font-size: 14px;
+      font-weight: 700;
+      font-family: inherit;
+      cursor: pointer;
+      transition: opacity .2s;
+      white-space: nowrap;
+    }
+    .search-btn:hover { opacity: .88; }
+    .search-btn:disabled { opacity: .5; cursor: not-allowed; }
+
+    /* ── CARDS ──────────────────────────────────── */
+    .card {
+      background: var(--surf);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 18px;
+      margin-bottom: 14px;
+    }
+    .card-title {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: var(--dim);
+      margin-bottom: 14px;
+    }
+
+    /* ── STORE INFO ─────────────────────────────── */
+    .info-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+    .info-item { display: flex; flex-direction: column; gap: 2px; }
+    .info-val {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--text);
+      word-break: break-word;
+    }
+    .info-lbl { font-size: 10px; color: var(--dim); text-transform: uppercase; letter-spacing: .06em; }
+    .info-item.full { grid-column: 1 / -1; }
+
+    /* ── EDIT FORM ──────────────────────────────── */
+    .field-group { margin-bottom: 14px; }
+    .field-label {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: .06em;
+      margin-bottom: 6px;
+      display: block;
+    }
+    .field-select {
+      width: 100%;
+      background: var(--surf2);
+      border: 1.5px solid var(--border);
+      border-radius: 10px;
+      padding: 11px 36px 11px 14px;
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text);
+      font-family: inherit;
+      outline: none;
+      appearance: none;
+      -webkit-appearance: none;
+      cursor: pointer;
+      transition: border-color .2s, box-shadow .2s;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' fill='none'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23888' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 14px center;
+    }
+    .field-select:focus { border-color: var(--accent); box-shadow: 0 0 0 3px var(--glow); }
+
+    .days-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-bottom: 14px;
+    }
+
+    .frecuencia-row {
+      background: var(--surf2);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 10px 14px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 18px;
+    }
+    .frec-lbl {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: .06em;
+      white-space: nowrap;
+    }
+    .frec-val {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--accent);
+      word-break: break-all;
+    }
+
+    .save-btn {
+      width: 100%;
+      background: var(--green);
+      color: #fff;
+      border: none;
+      border-radius: 12px;
+      padding: 14px;
+      font-size: 15px;
+      font-weight: 800;
+      font-family: inherit;
+      cursor: pointer;
+      transition: opacity .2s;
+      letter-spacing: -.2px;
+    }
+    .save-btn:hover { opacity: .88; }
+    .save-btn:disabled { opacity: .5; cursor: not-allowed; }
+
+    /* ── TOAST ──────────────────────────────────── */
+    .toast {
+      position: fixed;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%) translateY(80px);
+      background: var(--text);
+      color: #fff;
+      padding: 12px 20px;
+      border-radius: 12px;
+      font-size: 13px;
+      font-weight: 600;
+      transition: transform .3s cubic-bezier(.22,.6,.36,1);
+      z-index: 100;
+      white-space: nowrap;
+    }
+    .toast.show { transform: translateX(-50%) translateY(0); }
+    .toast.ok  { background: var(--green); }
+    .toast.err { background: var(--red); }
+
+    /* ── ADMIN — RCS ────────────────────────────── */
+    .rc-list { display: flex; flex-direction: column; gap: 8px; margin-bottom: 20px; }
+    .rc-item {
+      background: var(--surf);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 12px 14px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .rc-item-info { flex: 1; }
+    .rc-item-name { font-size: 13px; font-weight: 700; }
+    .rc-item-meta { font-size: 11px; color: var(--muted); margin-top: 2px; }
+    .rc-chip {
+      font-size: 10px;
+      font-weight: 700;
+      padding: 3px 8px;
+      border-radius: 99px;
+      background: rgba(21,101,192,.1);
+      color: var(--accent);
+    }
+    .rc-del-btn {
+      background: none;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 5px 10px;
+      font-size: 12px;
+      color: var(--red);
+      cursor: pointer;
+      font-family: inherit;
+      transition: background .15s;
+    }
+    .rc-del-btn:hover { background: rgba(220,38,38,.06); }
+
+    .add-rc-form {
+      background: var(--surf);
+      border: 1.5px dashed var(--border);
+      border-radius: 14px;
+      padding: 18px;
+    }
+    .add-rc-title {
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .1em;
+      color: var(--muted);
+      margin-bottom: 14px;
+    }
+    .form-input {
+      width: 100%;
+      background: var(--surf2);
+      border: 1.5px solid var(--border);
+      border-radius: 10px;
+      padding: 10px 14px;
+      font-size: 14px;
+      color: var(--text);
+      font-family: inherit;
+      outline: none;
+      margin-bottom: 10px;
+      transition: border-color .2s;
+    }
+    .form-input:focus { border-color: var(--accent); }
+    .add-btn {
+      width: 100%;
+      background: var(--accent);
+      color: #fff;
+      border: none;
+      border-radius: 10px;
+      padding: 11px;
+      font-size: 14px;
+      font-weight: 700;
+      font-family: inherit;
+      cursor: pointer;
+      transition: opacity .2s;
+    }
+    .add-btn:hover { opacity: .88; }
+
+    /* ── STATUS ─────────────────────────────────── */
+    .status-msg {
+      text-align: center;
+      padding: 32px 16px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+    .spinner {
+      display: inline-block;
+      width: 18px; height: 18px;
+      border: 2px solid var(--border);
+      border-top-color: var(--accent);
+      border-radius: 50%;
+      animation: spin .7s linear infinite;
+      vertical-align: middle;
+      margin-right: 8px;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+  </style>
+</head>
+<body>
+
+<!-- ── LOGIN ──────────────────────────────────────── -->
+<div id="login-screen">
+  <div class="login-card">
+    <div class="login-logo">🏪</div>
+    <div class="login-title">Editor PDV</div>
+    <div class="login-sub">Gestión de puntos de venta Tambo<br>Inicia sesión con tu cuenta Elot Group</div>
+    <button class="login-btn" id="login-btn">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M11.5 2H2v9.5h9.5V2zm1 0v9.5H22V2h-9.5zm-1 10.5H2V22h9.5v-9.5zm1 0V22H22v-9.5h-9.5z"/>
+      </svg>
+      Iniciar sesión con Microsoft
+    </button>
+  </div>
+</div>
+
+<!-- ── APP ────────────────────────────────────────── -->
+<div id="app">
+  <header class="app-header">
+    <div class="app-header-title">Editor PDV</div>
+    <span class="app-header-user" id="header-user"></span>
+    <button class="logout-btn" id="logout-btn">Salir</button>
+  </header>
+
+  <div class="tabs">
+    <button class="tab-btn active" data-tab="search">Buscar tienda</button>
+    <button class="tab-btn admin-tab" data-tab="rcs" style="display:none">Gestionar RCs</button>
+  </div>
+
+  <!-- SEARCH PAGE -->
+  <div class="page active" id="page-search">
+    <div class="search-row">
+      <input class="search-input" id="search-input" type="text"
+             placeholder="Código de tienda (ej: 102)"
+             autocomplete="off" autocorrect="off" spellcheck="false"/>
+      <button class="search-btn" id="search-btn">Buscar</button>
+    </div>
+
+    <div id="search-status"></div>
+
+    <div id="store-card" style="display:none">
+      <!-- Info -->
+      <div class="card">
+        <div class="card-title">Información de tienda</div>
+        <div class="info-grid">
+          <div class="info-item">
+            <div class="info-val" id="s-code"></div>
+            <div class="info-lbl">Código</div>
+          </div>
+          <div class="info-item">
+            <div class="info-val" id="s-cluster"></div>
+            <div class="info-lbl">Cluster</div>
+          </div>
+          <div class="info-item full">
+            <div class="info-val" id="s-nombre"></div>
+            <div class="info-lbl">Nombre</div>
+          </div>
+          <div class="info-item full">
+            <div class="info-val" id="s-zona"></div>
+            <div class="info-lbl">Zona / Distrito</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Edit -->
+      <div class="card">
+        <div class="card-title">Editar asignación</div>
+
+        <div class="field-group">
+          <label class="field-label">RC Encargado</label>
+          <select class="field-select" id="sel-rc"></select>
+        </div>
+
+        <div class="field-group">
+          <label class="field-label">Supervisor</label>
+          <select class="field-select" id="sel-supervisor"></select>
+        </div>
+
+        <label class="field-label">Días de visita</label>
+        <div class="days-grid" id="days-grid"></div>
+
+        <div class="frecuencia-row">
+          <span class="frec-lbl">Frecuencia:</span>
+          <span class="frec-val" id="frec-val">—</span>
+        </div>
+
+        <button class="save-btn" id="save-btn">Guardar cambios</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- RCS PAGE (admin) -->
+  <div class="page" id="page-rcs">
+    <div class="card">
+      <div class="card-title">RCs activos</div>
+      <div class="rc-list" id="rc-list">
+        <div class="status-msg"><span class="spinner"></span>Cargando...</div>
+      </div>
+    </div>
+
+    <div class="add-rc-form">
+      <div class="add-rc-title">+ Agregar RC</div>
+      <input class="form-input" id="new-rc-code"       placeholder="Código interno (ej: RC_LIMA_SUR_3)"/>
+      <input class="form-input" id="new-rc-name"       placeholder="Nombre (ej: Nashira Salvador)"/>
+      <input class="form-input" id="new-rc-skillrock"  placeholder="Código Skillrock (ej: TAMBO_RC2)"/>
+      <select class="field-select" id="new-rc-sup" style="margin-bottom:10px">
+        <option value="">Seleccionar Supervisor...</option>
+      </select>
+      <select class="field-select" id="new-rc-tipo" style="margin-bottom:10px">
+        <option value="RC_TAMBO">RC_TAMBO</option>
+        <option value="RC_CASADEAPUESTAS">RC_CASADEAPUESTAS</option>
+        <option value="RC_TRANSVERSAL">RC_TRANSVERSAL</option>
+      </select>
+      <button class="add-btn" id="add-rc-btn">Agregar RC</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// ── CONFIG ─────────────────────────────────────────
+const CLIENT_ID      = 'b11152e5-5dfe-4a53-a1cb-866020568c25';
+const TENANT_ID      = '35cc2240-7d09-4ebb-90bd-36ab26254034';
+const SITE_DOMAIN    = 'elotgroup2020.sharepoint.com';
+const SITE_PATH      = '/sites/EquipoComercialELOT';
+const BASE_LIST_NAME = 'BASE MAESTRA INTERNA';
+const RCS_LIST_NAME  = 'RCS ACTUALES';
+const ADMIN_EMAIL    = 'doriant@elotgroup.com';
+const DAYS_OPTIONS   = ['SIN ASIGNAR','Lunes','Martes','Miércoles','Jueves','Viernes','Sábado','Domingo'];
+const N_DIAS         = 6;
+
+// ── MSAL ───────────────────────────────────────────
+const msalConfig = {
+  auth: {
+    clientId:    CLIENT_ID,
+    authority:   `https://login.microsoftonline.com/${TENANT_ID}`,
+    redirectUri: window.location.href.split('?')[0]
+  },
+  cache: { cacheLocation: 'sessionStorage' }
+};
+const msal_app = new msal.PublicClientApplication(msalConfig);
+const SCOPES   = ['Sites.ReadWrite.All', 'User.Read'];
+
+// ── STATE ──────────────────────────────────────────
+const S = {
+  account:       null,
+  siteId:        null,
+  baseListId:    null,
+  rcsListId:     null,
+  colRC:         null,   // internal column name
+  colSup:        null,
+  colDias:       [],     // [col_name_1..6]
+  colFrecuencia: null,
+  rcs:           [],
+  supervisors:   [],
+  currentItem:   null,
+  isAdmin:       false,
+};
+
+// ── GRAPH ──────────────────────────────────────────
+async function getToken() {
+  const req = { scopes, account: S.account };
+  try {
+    const r = await msal_app.acquireTokenSilent(req);
+    return r.accessToken;
+  } catch {
+    const r = await msal_app.acquireTokenPopup(req);
+    return r.accessToken;
+  }
+}
+
+async function gGet(path) {
+  const tok = await getToken();
+  const r = await fetch('https://graph.microsoft.com/v1.0' + path, {
+    headers: { Authorization: 'Bearer ' + tok }
+  });
+  if (!r.ok) throw new Error(`Graph GET ${path} → ${r.status}`);
+  return r.json();
+}
+
+async function gPatch(path, body) {
+  const tok = await getToken();
+  const r = await fetch('https://graph.microsoft.com/v1.0' + path, {
+    method: 'PATCH',
+    headers: { Authorization: 'Bearer ' + tok, 'Content-Type': 'application/json' },
+    body: JSON.stringify(body)
+  });
+  if (!r.ok) throw new Error(`Graph PATCH ${path} → ${r.status}`);
+  return r.json();
+}
+
+async function gPost(path, body) {
+  const tok = await getToken();
+  const r = await fetch('https://graph.microsoft.com/v1.0' + path, {
+    method: 'POST',
+    headers: { Authorization: 'Bearer ' + tok, 'Content-Type': 'application/json' },
+    body: JSON.stringify(body)
+  });
+  if (!r.ok) throw new Error(`Graph POST ${path} → ${r.status}`);
+  return r.json();
+}
+
+async function gDelete(path) {
+  const tok = await getToken();
+  const r = await fetch('https://graph.microsoft.com/v1.0' + path, {
+    method: 'DELETE',
+    headers: { Authorization: 'Bearer ' + tok }
+  });
+  if (!r.ok) throw new Error(`Graph DELETE ${path} → ${r.status}`);
+}
+
+// ── INIT ───────────────────────────────────────────
+async function init() {
+  setStatus('<span class="spinner"></span>Conectando con SharePoint...');
+
+  // Site
+  const site = await gGet(`/sites/${SITE_DOMAIN}:${SITE_PATH}`);
+  S.siteId = site.id;
+
+  // Lists
+  const lists = await gGet(`/sites/${S.siteId}/lists?$select=id,displayName`);
+  const baseList = lists.value.find(l => l.displayName === BASE_LIST_NAME);
+  const rcsList  = lists.value.find(l => l.displayName === RCS_LIST_NAME);
+  if (!baseList) throw new Error(`Lista "${BASE_LIST_NAME}" no encontrada`);
+  if (!rcsList)  throw new Error(`Lista "${RCS_LIST_NAME}" no encontrada`);
+  S.baseListId = baseList.id;
+  S.rcsListId  = rcsList.id;
+
+  // Columns for base list
+  const cols = await gGet(`/sites/${S.siteId}/lists/${S.baseListId}/columns`);
+  const norm = s => s.toUpperCase().normalize('NFD').replace(/[̀-ͯ]/g,'').replace(/\s/g,'_');
+
+  S.colRC  = findCol(cols.value, ['RC_ENCARGADO_DE_TIENDA','RC_ENCARGADO']);
+  S.colSup = findCol(cols.value, ['SUPERVISOR']);
+  S.colFrecuencia = findCol(cols.value, ['FRECUENCIA_NORMAL','FRECUENCIA']);
+
+  // Day columns
+  S.colDias = [];
+  for (let i = 1; i <= N_DIAS; i++) {
+    const c = findCol(cols.value, [`DIA_DE_VISITA_${i}`, `DÍA_DE_VISITA_${i}`, `VISITA_${i}`]);
+    S.colDias.push(c || null);
+  }
+
+  // Load RCs
+  await loadRCs();
+
+  // Build days dropdowns
+  buildDaysGrid();
+
+  setStatus('');
+  document.getElementById('store-card').style.display = 'none';
+
+  // Admin?
+  if (S.isAdmin) {
+    document.querySelector('.admin-tab').style.display = '';
+    renderRCList();
+  }
+}
+
+function findCol(cols, names) {
+  const norm = s => s.toUpperCase().normalize('NFD').replace(/[̀-ͯ]/g,'');
+  for (const name of names) {
+    const n = norm(name);
+    const found = cols.find(c => norm(c.displayName) === n || norm(c.name) === n);
+    if (found) return found.name;
+  }
+  return null;
+}
+
+async function loadRCs() {
+  const items = await gGet(
+    `/sites/${S.siteId}/lists/${S.rcsListId}/items?$expand=fields&$top=200`
+  );
+  S.rcs = items.value
+    .filter(i => i.fields.RC && i.fields.RC2)
+    .map(i => ({
+      id:         i.id,
+      code:       i.fields.RC        || '',
+      name:       i.fields.RC2       || '',
+      supervisor: i.fields.SUPERVISOR || '',
+      tipo:       i.fields.TIPO       || '',
+      skillrock:  i.fields.RC_SKILLROCK || '',
+    }));
+  S.supervisors = [...new Set(S.rcs.map(r => r.supervisor).filter(Boolean))].sort();
+
+  // Populate RC select
+  const selRC = document.getElementById('sel-rc');
+  selRC.innerHTML = '<option value="">— Seleccionar RC —</option>';
+  S.rcs.forEach(rc => {
+    const opt = document.createElement('option');
+    opt.value = rc.code;
+    opt.textContent = rc.name + (rc.code ? ` (${rc.code})` : '');
+    selRC.appendChild(opt);
+  });
+
+  // Populate Supervisor select
+  const selSup = document.getElementById('sel-supervisor');
+  selSup.innerHTML = '<option value="">— Seleccionar Supervisor —</option>';
+  S.supervisors.forEach(s => {
+    const opt = document.createElement('option');
+    opt.value = s; opt.textContent = s;
+    selSup.appendChild(opt);
+  });
+
+  // Populate admin supervisor select
+  const newSupSel = document.getElementById('new-rc-sup');
+  newSupSel.innerHTML = '<option value="">Supervisor...</option>';
+  S.supervisors.forEach(s => {
+    const opt = document.createElement('option');
+    opt.value = s; opt.textContent = s;
+    newSupSel.appendChild(opt);
+  });
+}
+
+function buildDaysGrid() {
+  const grid = document.getElementById('days-grid');
+  grid.innerHTML = '';
+  for (let i = 0; i < N_DIAS; i++) {
+    const wrap = document.createElement('div');
+    wrap.className = 'field-group';
+    wrap.style.marginBottom = '0';
+    const lbl = document.createElement('label');
+    lbl.className = 'field-label';
+    lbl.textContent = `Día ${i + 1}`;
+    const sel = document.createElement('select');
+    sel.className = 'field-select';
+    sel.id = `sel-day-${i}`;
+    DAYS_OPTIONS.forEach(d => {
+      const opt = document.createElement('option');
+      opt.value = d; opt.textContent = d;
+      sel.appendChild(opt);
+    });
+    sel.addEventListener('change', updateFrecuencia);
+    wrap.appendChild(lbl);
+    wrap.appendChild(sel);
+    grid.appendChild(wrap);
+  }
+}
+
+// ── SEARCH ─────────────────────────────────────────
+async function searchStore() {
+  const code = document.getElementById('search-input').value.trim();
+  if (!code) return;
+  const btn = document.getElementById('search-btn');
+  btn.disabled = true;
+  document.getElementById('store-card').style.display = 'none';
+  setStatus('<span class="spinner"></span>Buscando...');
+
+  try {
+    const r = await gGet(
+      `/sites/${S.siteId}/lists/${S.baseListId}/items` +
+      `?$filter=fields/Title eq '${encodeURIComponent(code)}'` +
+      `&$expand=fields&$top=1`
+    );
+    if (!r.value.length) {
+      setStatus('No se encontró ninguna tienda con ese código.');
+      return;
+    }
+    S.currentItem = r.value[0];
+    renderStore(S.currentItem);
+    setStatus('');
+    document.getElementById('store-card').style.display = 'block';
+  } catch(e) {
+    setStatus('Error al buscar: ' + e.message);
+  } finally {
+    btn.disabled = false;
+  }
+}
+
+function renderStore(item) {
+  const f = item.fields;
+  document.getElementById('s-code').textContent    = f.Title || '—';
+  document.getElementById('s-nombre').textContent  = f['NOMBRE_DE_TIENDA'] || f['NOMBRE DE TIENDA'] || f['NombreDeTienda'] || '—';
+  document.getElementById('s-cluster').textContent = f['CLUSTER'] || f['Cluster'] || '—';
+  document.getElementById('s-zona').textContent    = (f['ZONA'] || f['Zona'] || '') + ' ' + (f['DISTRITO'] || f['Distrito'] || '');
+
+  // RC
+  const rcVal = S.colRC ? (f[S.colRC] || '') : '';
+  document.getElementById('sel-rc').value = rcVal;
+
+  // Supervisor
+  const supVal = S.colSup ? (f[S.colSup] || '') : '';
+  document.getElementById('sel-supervisor').value = supVal;
+
+  // Days
+  for (let i = 0; i < N_DIAS; i++) {
+    const colName = S.colDias[i];
+    const val = colName ? (f[colName] || 'SIN ASIGNAR') : 'SIN ASIGNAR';
+    const sel = document.getElementById(`sel-day-${i}`);
+    if (sel) sel.value = DAYS_OPTIONS.includes(val) ? val : 'SIN ASIGNAR';
+  }
+  updateFrecuencia();
+}
+
+function updateFrecuencia() {
+  const days = [];
+  for (let i = 0; i < N_DIAS; i++) {
+    const sel = document.getElementById(`sel-day-${i}`);
+    if (sel && sel.value && sel.value !== 'SIN ASIGNAR') days.push(sel.value);
+  }
+  document.getElementById('frec-val').textContent = days.length ? days.join('-') : '—';
+}
+
+// ── SAVE ───────────────────────────────────────────
+async function saveStore() {
+  if (!S.currentItem) return;
+  const btn = document.getElementById('save-btn');
+  btn.disabled = true;
+  btn.textContent = 'Guardando...';
+
+  const fields = {};
+  if (S.colRC)  fields[S.colRC]  = document.getElementById('sel-rc').value;
+  if (S.colSup) fields[S.colSup] = document.getElementById('sel-supervisor').value;
+
+  for (let i = 0; i < N_DIAS; i++) {
+    if (S.colDias[i]) {
+      fields[S.colDias[i]] = document.getElementById(`sel-day-${i}`).value;
+    }
+  }
+
+  // Frecuencia
+  if (S.colFrecuencia) {
+    const days = [];
+    for (let i = 0; i < N_DIAS; i++) {
+      const v = document.getElementById(`sel-day-${i}`).value;
+      if (v && v !== 'SIN ASIGNAR') days.push(v);
+    }
+    fields[S.colFrecuencia] = days.join('-');
+  }
+
+  try {
+    await gPatch(
+      `/sites/${S.siteId}/lists/${S.baseListId}/items/${S.currentItem.id}/fields`,
+      fields
+    );
+    toast('Cambios guardados ✓', 'ok');
+  } catch(e) {
+    toast('Error al guardar: ' + e.message, 'err');
+  } finally {
+    btn.disabled = false;
+    btn.textContent = 'Guardar cambios';
+  }
+}
+
+// ── ADMIN — RC LIST ────────────────────────────────
+function renderRCList() {
+  const container = document.getElementById('rc-list');
+  if (!S.rcs.length) {
+    container.innerHTML = '<div class="status-msg">Sin RCs registrados.</div>';
+    return;
+  }
+  container.innerHTML = '';
+  S.rcs.forEach(rc => {
+    const div = document.createElement('div');
+    div.className = 'rc-item';
+    div.innerHTML = `
+      <div class="rc-item-info">
+        <div class="rc-item-name">${rc.name}</div>
+        <div class="rc-item-meta">${rc.supervisor || 'Sin supervisor'} · <span style="color:var(--dim)">${rc.code}</span></div>
+      </div>
+      <span class="rc-chip">${rc.tipo.replace('RC_','')}</span>
+      <button class="rc-del-btn" data-id="${rc.id}">Eliminar</button>
+    `;
+    div.querySelector('.rc-del-btn').addEventListener('click', () => deleteRC(rc.id, rc.name));
+    container.appendChild(div);
+  });
+}
+
+async function deleteRC(id, name) {
+  if (!confirm(`¿Eliminar a ${name}?`)) return;
+  try {
+    await gDelete(`/sites/${S.siteId}/lists/${S.rcsListId}/items/${id}`);
+    await loadRCs();
+    renderRCList();
+    toast('RC eliminado', 'ok');
+  } catch(e) {
+    toast('Error: ' + e.message, 'err');
+  }
+}
+
+async function addRC() {
+  const code      = document.getElementById('new-rc-code').value.trim();
+  const name      = document.getElementById('new-rc-name').value.trim();
+  const skillrock = document.getElementById('new-rc-skillrock').value.trim();
+  const sup       = document.getElementById('new-rc-sup').value;
+  const tipo      = document.getElementById('new-rc-tipo').value;
+
+  if (!code || !name) { toast('Código y nombre son obligatorios', 'err'); return; }
+
+  const btn = document.getElementById('add-rc-btn');
+  btn.disabled = true;
+  btn.textContent = 'Agregando...';
+
+  try {
+    await gPost(`/sites/${S.siteId}/lists/${S.rcsListId}/items`, {
+      fields: {
+        RC:           code,
+        RC2:          name,
+        PARA_SKLL:    name.toUpperCase(),
+        RC_SKILLROCK: skillrock,
+        SUPERVISOR:   sup,
+        TIPO:         tipo,
+      }
+    });
+    document.getElementById('new-rc-code').value      = '';
+    document.getElementById('new-rc-name').value      = '';
+    document.getElementById('new-rc-skillrock').value = '';
+    await loadRCs();
+    renderRCList();
+    toast('RC agregado ✓', 'ok');
+  } catch(e) {
+    toast('Error: ' + e.message, 'err');
+  } finally {
+    btn.disabled = false;
+    btn.textContent = 'Agregar RC';
+  }
+}
+
+// ── TABS ───────────────────────────────────────────
+function showTab(id) {
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.toggle('active', b.dataset.tab === id));
+  document.querySelectorAll('.page').forEach(p => p.classList.toggle('active', p.id === 'page-' + id));
+  if (id === 'rcs') renderRCList();
+}
+
+// ── UI HELPERS ─────────────────────────────────────
+function setStatus(html) {
+  document.getElementById('search-status').innerHTML = html
+    ? `<div class="status-msg">${html}</div>` : '';
+}
+
+let toastTimer;
+function toast(msg, type = '') {
+  const el = document.getElementById('toast');
+  el.textContent = msg;
+  el.className = 'toast show' + (type ? ' ' + type : '');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => el.classList.remove('show'), 3000);
+}
+
+// ── AUTH ───────────────────────────────────────────
+async function login() {
+  try {
+    const r = await msal_app.loginPopup({ scopes: SCOPES });
+    S.account = r.account;
+    onLoggedIn();
+  } catch(e) {
+    alert('Error de inicio de sesión: ' + e.message);
+  }
+}
+
+function logout() {
+  msal_app.logoutPopup({ account: S.account });
+}
+
+async function onLoggedIn() {
+  const email = S.account.username.toLowerCase();
+  S.isAdmin = email === ADMIN_EMAIL.toLowerCase();
+  document.getElementById('header-user').textContent = S.account.name || email;
+  document.getElementById('login-screen').style.display = 'none';
+  document.getElementById('app').style.display = 'block';
+  try {
+    await init();
+  } catch(e) {
+    setStatus('Error de conexión: ' + e.message);
+  }
+}
+
+// ── EVENTS ─────────────────────────────────────────
+document.getElementById('login-btn').addEventListener('click', login);
+document.getElementById('logout-btn').addEventListener('click', logout);
+document.getElementById('search-btn').addEventListener('click', searchStore);
+document.getElementById('save-btn').addEventListener('click', saveStore);
+document.getElementById('add-rc-btn').addEventListener('click', addRC);
+document.getElementById('search-input').addEventListener('keydown', e => {
+  if (e.key === 'Enter') searchStore();
+});
+document.querySelectorAll('.tab-btn').forEach(btn => {
+  btn.addEventListener('click', () => showTab(btn.dataset.tab));
+});
+
+// ── AUTO LOGIN ─────────────────────────────────────
+(async () => {
+  await msal_app.initialize();
+  const accounts = msal_app.getAllAccounts();
+  if (accounts.length) {
+    S.account = accounts[0];
+    onLoggedIn();
+  }
+})();
+</script>
+</body>
+</html>
