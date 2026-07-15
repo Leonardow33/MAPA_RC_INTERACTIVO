@@ -542,13 +542,13 @@
 // ── CONFIG ─────────────────────────────────────────
 const CLIENT_ID      = 'b11152e5-5dfe-4a53-a1cb-866020568c25';
 const TENANT_ID      = '35cc2240-7d09-4ebb-90bd-36ab26254034';
-const SITE_DOMAIN    = 'elotgroup2020.sharepoint.com';
-const SITE_PATH      = '/sites/EquipoComercialELOT';
+const SP_URL         = 'https://elotgroup2020.sharepoint.com/sites/EquipoComercialELOT/_api';
 const BASE_LIST_NAME = 'BASE MAESTRA INTERNA';
 const RCS_LIST_NAME  = 'RCS ACTUALES';
 const ADMIN_EMAIL    = 'doriant@elotgroup.com';
 const DAYS_OPTIONS   = ['SIN ASIGNAR','Lunes','Martes','Miércoles','Jueves','Viernes','Sábado','Domingo'];
 const N_DIAS         = 6;
+const SCOPES         = ['https://elotgroup2020.sharepoint.com/AllSites.Write'];
 
 // ── MSAL ───────────────────────────────────────────
 const msalConfig = {
@@ -560,17 +560,13 @@ const msalConfig = {
   cache: { cacheLocation: 'sessionStorage' }
 };
 const msal_app = new msal.PublicClientApplication(msalConfig);
-const SCOPES   = ['Sites.ReadWrite.All', 'User.Read'];
 
 // ── STATE ──────────────────────────────────────────
 const S = {
   account:       null,
-  siteId:        null,
-  baseListId:    null,
-  rcsListId:     null,
-  colRC:         null,   // internal column name
+  colRC:         null,
   colSup:        null,
-  colDias:       [],     // [col_name_1..6]
+  colDias:       [],
   colFrecuencia: null,
   rcs:           [],
   supervisors:   [],
@@ -578,7 +574,7 @@ const S = {
   isAdmin:       false,
 };
 
-// ── GRAPH ──────────────────────────────────────────
+// ── SHAREPOINT REST ─────────────────────────────────
 async function getToken() {
   const req = { scopes: SCOPES, account: S.account };
   try {
@@ -590,88 +586,63 @@ async function getToken() {
   }
 }
 
-async function gGet(path) {
+async function spGet(path) {
   const tok = await getToken();
-  const r = await fetch('https://graph.microsoft.com/v1.0' + path, {
-    headers: { Authorization: 'Bearer ' + tok }
+  const r = await fetch(SP_URL + path, {
+    headers: {
+      Authorization: 'Bearer ' + tok,
+      Accept: 'application/json;odata=nometadata'
+    }
   });
-  if (!r.ok) throw new Error(`Graph GET ${path} → ${r.status}`);
+  if (!r.ok) throw new Error(`SP GET → ${r.status}: ${await r.text()}`);
   return r.json();
 }
 
-async function gPatch(path, body) {
+async function spOp(path, body, xMethod) {
   const tok = await getToken();
-  const r = await fetch('https://graph.microsoft.com/v1.0' + path, {
-    method: 'PATCH',
-    headers: { Authorization: 'Bearer ' + tok, 'Content-Type': 'application/json' },
-    body: JSON.stringify(body)
+  const headers = {
+    Authorization:  'Bearer ' + tok,
+    Accept:         'application/json;odata=nometadata',
+    'Content-Type': 'application/json;odata=nometadata',
+  };
+  if (xMethod && xMethod !== 'POST') {
+    headers['X-HTTP-Method'] = xMethod;
+    headers['IF-MATCH']      = '*';
+  }
+  const r = await fetch(SP_URL + path, {
+    method:  'POST',
+    headers,
+    body:    body ? JSON.stringify(body) : undefined
   });
-  if (!r.ok) throw new Error(`Graph PATCH ${path} → ${r.status}`);
-  return r.json();
-}
-
-async function gPost(path, body) {
-  const tok = await getToken();
-  const r = await fetch('https://graph.microsoft.com/v1.0' + path, {
-    method: 'POST',
-    headers: { Authorization: 'Bearer ' + tok, 'Content-Type': 'application/json' },
-    body: JSON.stringify(body)
-  });
-  if (!r.ok) throw new Error(`Graph POST ${path} → ${r.status}`);
-  return r.json();
-}
-
-async function gDelete(path) {
-  const tok = await getToken();
-  const r = await fetch('https://graph.microsoft.com/v1.0' + path, {
-    method: 'DELETE',
-    headers: { Authorization: 'Bearer ' + tok }
-  });
-  if (!r.ok) throw new Error(`Graph DELETE ${path} → ${r.status}`);
+  if (!r.ok && r.status !== 204)
+    throw new Error(`SP ${xMethod || 'POST'} → ${r.status}: ${await r.text()}`);
+  if (r.status === 204) return null;
+  return r.json().catch(() => null);
 }
 
 // ── INIT ───────────────────────────────────────────
 async function init() {
   setStatus('<span class="spinner"></span>Conectando con SharePoint...');
 
-  // Site
-  const site = await gGet(`/sites/${SITE_DOMAIN}:${SITE_PATH}`);
-  S.siteId = site.id;
-
-  // Lists
-  const lists = await gGet(`/sites/${S.siteId}/lists?$select=id,displayName`);
-  const baseList = lists.value.find(l => l.displayName === BASE_LIST_NAME);
-  const rcsList  = lists.value.find(l => l.displayName === RCS_LIST_NAME);
-  if (!baseList) throw new Error(`Lista "${BASE_LIST_NAME}" no encontrada`);
-  if (!rcsList)  throw new Error(`Lista "${RCS_LIST_NAME}" no encontrada`);
-  S.baseListId = baseList.id;
-  S.rcsListId  = rcsList.id;
-
-  // Columns for base list
-  const cols = await gGet(`/sites/${S.siteId}/lists/${S.baseListId}/columns`);
-  const norm = s => s.toUpperCase().normalize('NFD').replace(/[̀-ͯ]/g,'').replace(/\s/g,'_');
-
-  S.colRC  = findCol(cols.value, ['RC_ENCARGADO_DE_TIENDA','RC_ENCARGADO']);
-  S.colSup = findCol(cols.value, ['SUPERVISOR']);
-  S.colFrecuencia = findCol(cols.value, ['FRECUENCIA_NORMAL','FRECUENCIA']);
-
-  // Day columns
+  // Columns for base list (SP REST: InternalName + Title)
+  const colsData = await spGet(
+    `/web/lists/getbytitle('${BASE_LIST_NAME}')/fields` +
+    `?$filter=Hidden eq false and ReadOnlyField eq false&$select=InternalName,Title`
+  );
+  const cols = colsData.value;
+  S.colRC         = findCol(cols, ['RC_ENCARGADO_DE_TIENDA','RC_ENCARGADO']);
+  S.colSup        = findCol(cols, ['SUPERVISOR']);
+  S.colFrecuencia = findCol(cols, ['FRECUENCIA_NORMAL','FRECUENCIA']);
   S.colDias = [];
   for (let i = 1; i <= N_DIAS; i++) {
-    const c = findCol(cols.value, [`DIA_DE_VISITA_${i}`, `DÍA_DE_VISITA_${i}`, `VISITA_${i}`]);
-    S.colDias.push(c || null);
+    S.colDias.push(findCol(cols, [`DIA_DE_VISITA_${i}`,`D_A_DE_VISITA_${i}`,`VISITA_${i}`]) || null);
   }
 
-  // Load RCs
   await loadRCs();
-
-  // Build days dropdowns
   buildDaysGrid();
-
   setStatus('');
   document.getElementById('store-card').style.display = 'none';
 
-  // Admin?
   if (S.isAdmin) {
     document.querySelector('.admin-tab').style.display = '';
     renderRCList();
@@ -679,28 +650,29 @@ async function init() {
 }
 
 function findCol(cols, names) {
-  const norm = s => s.toUpperCase().normalize('NFD').replace(/[̀-ͯ]/g,'');
+  const norm = s => s.toUpperCase().normalize('NFD').replace(/[̀-ͯ]/g,'').replace(/\s+/g,'_');
   for (const name of names) {
     const n = norm(name);
-    const found = cols.find(c => norm(c.displayName) === n || norm(c.name) === n);
-    if (found) return found.name;
+    const found = cols.find(c => norm(c.InternalName) === n || norm(c.Title) === n);
+    if (found) return found.InternalName;
   }
   return null;
 }
 
 async function loadRCs() {
-  const items = await gGet(
-    `/sites/${S.siteId}/lists/${S.rcsListId}/items?$expand=fields&$top=200`
+  const data = await spGet(
+    `/web/lists/getbytitle('${RCS_LIST_NAME}')/items` +
+    `?$select=ID,RC,RC2,SUPERVISOR,TIPO,RC_SKILLROCK&$top=200`
   );
-  S.rcs = items.value
-    .filter(i => i.fields.RC && i.fields.RC2)
+  S.rcs = data.value
+    .filter(i => i.RC && i.RC2)
     .map(i => ({
-      id:         i.id,
-      code:       i.fields.RC        || '',
-      name:       i.fields.RC2       || '',
-      supervisor: i.fields.SUPERVISOR || '',
-      tipo:       i.fields.TIPO       || '',
-      skillrock:  i.fields.RC_SKILLROCK || '',
+      id:         i.ID,
+      code:       i.RC           || '',
+      name:       i.RC2          || '',
+      supervisor: i.SUPERVISOR   || '',
+      tipo:       i.TIPO         || '',
+      skillrock:  i.RC_SKILLROCK || '',
     }));
   S.supervisors = [...new Set(S.rcs.map(r => r.supervisor).filter(Boolean))].sort();
 
@@ -768,10 +740,9 @@ async function searchStore() {
   setStatus('<span class="spinner"></span>Buscando...');
 
   try {
-    const r = await gGet(
-      `/sites/${S.siteId}/lists/${S.baseListId}/items` +
-      `?$filter=fields/Title eq '${encodeURIComponent(code)}'` +
-      `&$expand=fields&$top=1`
+    const r = await spGet(
+      `/web/lists/getbytitle('${BASE_LIST_NAME}')/items` +
+      `?$filter=Title eq '${code.replace(/'/g,"''")}'&$top=1`
     );
     if (!r.value.length) {
       setStatus('No se encontró ninguna tienda con ese código.');
@@ -789,11 +760,11 @@ async function searchStore() {
 }
 
 function renderStore(item) {
-  const f = item.fields;
+  const f = item;  // SP REST: campos directamente en el objeto
   document.getElementById('s-code').textContent    = f.Title || '—';
-  document.getElementById('s-nombre').textContent  = f['NOMBRE_DE_TIENDA'] || f['NOMBRE DE TIENDA'] || f['NombreDeTienda'] || '—';
-  document.getElementById('s-cluster').textContent = f['CLUSTER'] || f['Cluster'] || '—';
-  document.getElementById('s-zona').textContent    = (f['ZONA'] || f['Zona'] || '') + ' ' + (f['DISTRITO'] || f['Distrito'] || '');
+  document.getElementById('s-nombre').textContent  = f['NOMBRE_DE_TIENDA'] || '—';
+  document.getElementById('s-cluster').textContent = f['CLUSTER'] || '—';
+  document.getElementById('s-zona').textContent    = (f['ZONA'] || '') + ' ' + (f['DISTRITO'] || '');
 
   // RC
   const rcVal = S.colRC ? (f[S.colRC] || '') : '';
@@ -850,9 +821,10 @@ async function saveStore() {
   }
 
   try {
-    await gPatch(
-      `/sites/${S.siteId}/lists/${S.baseListId}/items/${S.currentItem.id}/fields`,
-      fields
+    await spOp(
+      `/web/lists/getbytitle('${BASE_LIST_NAME}')/items(${S.currentItem.ID})`,
+      fields,
+      'MERGE'
     );
     toast('Cambios guardados ✓', 'ok');
   } catch(e) {
@@ -890,7 +862,11 @@ function renderRCList() {
 async function deleteRC(id, name) {
   if (!confirm(`¿Eliminar a ${name}?`)) return;
   try {
-    await gDelete(`/sites/${S.siteId}/lists/${S.rcsListId}/items/${id}`);
+    await spOp(
+      `/web/lists/getbytitle('${RCS_LIST_NAME}')/items(${id})`,
+      null,
+      'DELETE'
+    );
     await loadRCs();
     renderRCList();
     toast('RC eliminado', 'ok');
@@ -913,16 +889,14 @@ async function addRC() {
   btn.textContent = 'Agregando...';
 
   try {
-    await gPost(`/sites/${S.siteId}/lists/${S.rcsListId}/items`, {
-      fields: {
-        RC:           code,
-        RC2:          name,
-        PARA_SKLL:    name.toUpperCase(),
-        RC_SKILLROCK: skillrock,
-        SUPERVISOR:   sup,
-        TIPO:         tipo,
-      }
-    });
+    await spOp(
+      `/web/lists/getbytitle('${RCS_LIST_NAME}')/items`,
+      {
+        RC: code, RC2: name, PARA_SKLL: name.toUpperCase(),
+        RC_SKILLROCK: skillrock, SUPERVISOR: sup, TIPO: tipo,
+      },
+      'POST'
+    );
     document.getElementById('new-rc-code').value      = '';
     document.getElementById('new-rc-name').value      = '';
     document.getElementById('new-rc-skillrock').value = '';
