@@ -626,17 +626,23 @@ async function init() {
 
   // Columns for base list (SP REST: InternalName + Title)
   const colsData = await spGet(
-    `/web/lists/getbytitle('${BASE_LIST_NAME}')/fields` +
-    `?$filter=Hidden eq false and ReadOnlyField eq false&$select=InternalName,Title`
+    `/web/lists/getbytitle('${BASE_LIST_NAME}')/fields?$select=InternalName,Title`
   );
   const cols = colsData.value;
+  console.log('[EditorPDV] Columnas BASE MAESTRA:', cols.map(c => `${c.InternalName} | ${c.Title}`));
+
   S.colRC         = findCol(cols, ['RC_ENCARGADO_DE_TIENDA','RC_ENCARGADO']);
   S.colSup        = findCol(cols, ['SUPERVISOR']);
   S.colFrecuencia = findCol(cols, ['FRECUENCIA_NORMAL','FRECUENCIA']);
   S.colDias = [];
   for (let i = 1; i <= N_DIAS; i++) {
-    S.colDias.push(findCol(cols, [`DIA_DE_VISITA_${i}`,`D_A_DE_VISITA_${i}`,`VISITA_${i}`]) || null);
+    S.colDias.push(findCol(cols, [
+      `DIA_DE_VISITA_${i}`, `D_A_DE_VISITA_${i}`,
+      `DIA DE VISITA ${i}`, `DÍA DE VISITA ${i}`,
+      `VISITA_${i}`
+    ]) || null);
   }
+  console.log('[EditorPDV] colRC:', S.colRC, '| colSup:', S.colSup, '| colDias:', S.colDias);
 
   await loadRCs();
   buildDaysGrid();
@@ -664,6 +670,7 @@ async function loadRCs() {
     `/web/lists/getbytitle('${RCS_LIST_NAME}')/items` +
     `?$select=ID,RC,RC2,SUPERVISOR,TIPO,RC_SKILLROCK&$top=200`
   );
+  console.log('[EditorPDV] RCS raw sample:', data.value[0] ? Object.keys(data.value[0]) : 'vacío');
   S.rcs = data.value
     .filter(i => i.RC && i.RC2)
     .map(i => ({
@@ -749,6 +756,7 @@ async function searchStore() {
       return;
     }
     S.currentItem = r.value[0];
+    console.log('[EditorPDV] Item keys:', Object.keys(S.currentItem));
     renderStore(S.currentItem);
     setStatus('');
     document.getElementById('store-card').style.display = 'block';
