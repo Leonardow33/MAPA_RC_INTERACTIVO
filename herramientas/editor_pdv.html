@@ -534,12 +534,14 @@
 
         <div class="field-group">
           <label class="field-label">GZ (Gerente de Zona)</label>
-          <input class="field-input" id="inp-gz" placeholder="Escribe el GZ..." autocomplete="off"/>
+          <input class="field-input" list="gz-list" id="inp-gz" placeholder="Escribe o selecciona GZ..." autocomplete="off"/>
+          <datalist id="gz-list"></datalist>
         </div>
 
         <div class="field-group">
           <label class="field-label">JZ (Jefe de Zona)</label>
-          <input class="field-input" id="inp-jz" placeholder="Escribe el JZ..." autocomplete="off"/>
+          <input class="field-input" list="jz-list" id="inp-jz" placeholder="Escribe o selecciona JZ..." autocomplete="off"/>
+          <datalist id="jz-list"></datalist>
         </div>
 
         <label class="field-label">Días de visita</label>
@@ -645,7 +647,12 @@ const S = {
   histColSupNuevo: null,
   histColCodSup:   null,
   histColEditor:   null,
+  histColGZAntes:  null,
+  histColGZNuevo:  null,
+  histColJZAntes:  null,
+  histColJZNuevo:  null,
   histListExists:  false,
+  gzJzMap:         {},
   // original values for change detection
   originalRC:    null,
   originalSup:   null,
@@ -767,10 +774,34 @@ async function init() {
     S.histColSupNuevo = findCol(hCols, ['SUP_NUEVO','SUPNUEVO','SUP NUEVO']);
     S.histColCodSup   = findCol(hCols, ['COD_SUP','CODSUP','COD SUP']);
     S.histColEditor   = findCol(hCols, ['EDITOR_EMAIL','EDITOR','EDITOREMAIL']);
+    S.histColGZAntes  = findCol(hCols, ['GZ_ANTERIOR','GZANTERIOR','GZ ANTERIOR']);
+    S.histColGZNuevo  = findCol(hCols, ['GZ_NUEVO','GZNUEVO','GZ NUEVO']);
+    S.histColJZAntes  = findCol(hCols, ['JZ_ANTERIOR','JZANTERIOR','JZ ANTERIOR']);
+    S.histColJZNuevo  = findCol(hCols, ['JZ_NUEVO','JZNUEVO','JZ NUEVO']);
     S.histListExists  = true;
     console.log('[EditorPDV] HISTORIAL_CAMBIOS encontrada — notificaciones activas');
   } catch(e) {
     console.warn('[EditorPDV] Lista HISTORIAL_CAMBIOS no encontrada — notificaciones desactivadas');
+  }
+
+  // GZ/JZ relationship map
+  try {
+    const gzjzData = await spGet(
+      `/web/lists/getbytitle('${BASE_LIST_NAME}')/items?$select=${S.colGZ},${S.colJZ}&$top=2000`
+    );
+    S.gzJzMap = {};
+    gzjzData.value.forEach(item => {
+      const gz = (item[S.colGZ] || '').trim();
+      const jz = (item[S.colJZ] || '').trim();
+      if (gz) {
+        if (!S.gzJzMap[gz]) S.gzJzMap[gz] = [];
+        if (jz && !S.gzJzMap[gz].includes(jz)) S.gzJzMap[gz].push(jz);
+      }
+    });
+    buildGZDatalist();
+    console.log('[EditorPDV] GZ/JZ map:', Object.keys(S.gzJzMap).length, 'GZs');
+  } catch(e) {
+    console.warn('[EditorPDV] Error cargando GZ/JZ map:', e.message);
   }
 
   await loadRCs();
@@ -900,6 +931,27 @@ async function searchStore() {
   }
 }
 
+function buildGZDatalist() {
+  const dl = document.getElementById('gz-list');
+  dl.innerHTML = '';
+  Object.keys(S.gzJzMap).sort().forEach(gz => {
+    const opt = document.createElement('option');
+    opt.value = gz;
+    dl.appendChild(opt);
+  });
+}
+
+function updateJZDatalist(gz) {
+  const dl = document.getElementById('jz-list');
+  dl.innerHTML = '';
+  const jzs = gz && S.gzJzMap[gz] ? S.gzJzMap[gz] : Object.values(S.gzJzMap).flat();
+  [...new Set(jzs)].sort().forEach(jz => {
+    const opt = document.createElement('option');
+    opt.value = jz;
+    dl.appendChild(opt);
+  });
+}
+
 function renderStore(item) {
   const f = item;
   document.getElementById('s-code').textContent    = f.Title || '—';
@@ -923,6 +975,7 @@ function renderStore(item) {
   S.originalJZ = jzVal;
   document.getElementById('inp-gz').value = gzVal;
   document.getElementById('inp-jz').value = jzVal;
+  updateJZDatalist(gzVal);
 
   // Days
   for (let i = 0; i < N_DIAS; i++) {
@@ -1016,18 +1069,22 @@ async function saveStore() {
         editor:      S.account?.username || '',
       });
 
-      // Escribir en HISTORIAL_CAMBIOS solo si RC o Supervisor cambiaron (activa alerta PA)
-      if (rcChanged || supChanged) {
+      // Escribir en HISTORIAL_CAMBIOS para RC, Supervisor, GZ o JZ
+      if (rcChanged || supChanged || gzChanged || jzChanged) {
         await writeHistorial({
           codigo:      S.currentItem.Title || '',
           tienda,
-          tipo:        [rcChanged && 'RC', supChanged && 'SUPERVISOR'].filter(Boolean).join('+'),
-          rcAnterior:  S.originalRC || '',
+          tipo:        tipos.join('+'),
+          rcAnterior:  S.originalRC  || '',
           rcNuevo:     newRC,
           rcSkillrock: rcObj?.skillrock || '',
           supAnterior: S.originalSup || '',
           supNuevo:    newSup,
           codSup,
+          gzAnterior:  S.originalGZ || '',
+          gzNuevo:     newGZ,
+          jzAnterior:  S.originalJZ || '',
+          jzNuevo:     newJZ,
           editor:      S.account?.username || '',
         });
       }
@@ -1060,6 +1117,10 @@ async function writeHistorial(entry) {
     if (S.histColSupAntes) body[S.histColSupAntes]   = entry.supAnterior;
     if (S.histColSupNuevo) body[S.histColSupNuevo]   = entry.supNuevo;
     if (S.histColCodSup)   body[S.histColCodSup]     = entry.codSup;
+    if (S.histColGZAntes)  body[S.histColGZAntes]    = entry.gzAnterior;
+    if (S.histColGZNuevo)  body[S.histColGZNuevo]    = entry.gzNuevo;
+    if (S.histColJZAntes)  body[S.histColJZAntes]    = entry.jzAnterior;
+    if (S.histColJZNuevo)  body[S.histColJZNuevo]    = entry.jzNuevo;
     if (S.histColEditor)   body[S.histColEditor]     = entry.editor;
     await spOp(`/web/lists/getbytitle('${HISTORIAL_LIST_NAME}')/items`, body, 'POST');
     console.log('[EditorPDV] Historial escrito para', entry.codigo);
@@ -1230,6 +1291,9 @@ document.getElementById('search-btn').addEventListener('click', searchStore);
 document.getElementById('save-btn').addEventListener('click', saveStore);
 document.getElementById('add-rc-btn').addEventListener('click', addRC);
 document.getElementById('dl-historial-btn').addEventListener('click', downloadHistorial);
+document.getElementById('inp-gz').addEventListener('input', () => {
+  updateJZDatalist(document.getElementById('inp-gz').value.trim());
+});
 document.getElementById('search-input').addEventListener('keydown', e => {
   if (e.key === 'Enter') searchStore();
 });
