@@ -580,7 +580,7 @@ const S = {
 
 // ── GRAPH ──────────────────────────────────────────
 async function getToken() {
-  const req = { scopes, account: S.account };
+  const req = { scopes: SCOPES, account: S.account };
   try {
     const r = await msal_app.acquireTokenSilent(req);
     return r.accessToken;
@@ -1002,12 +1002,22 @@ document.querySelectorAll('.tab-btn').forEach(btn => {
 
 // ── AUTO LOGIN ─────────────────────────────────────
 (async () => {
-  await msal_app.initialize();
-  const accounts = msal_app.getAllAccounts();
-  if (accounts.length) {
-    S.account = accounts[0];
-    onLoggedIn();
+  const loginBtn = document.getElementById('login-btn');
+  loginBtn.disabled = true;
+  loginBtn.textContent = 'Cargando...';
+  try {
+    await msal_app.initialize();
+    const accounts = msal_app.getAllAccounts();
+    if (accounts.length) {
+      S.account = accounts[0];
+      onLoggedIn();
+      return;
+    }
+  } catch(e) {
+    console.error('MSAL init error:', e);
   }
+  loginBtn.disabled = false;
+  loginBtn.innerHTML = '<svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M11.5 2H2v9.5h9.5V2zm1 0v9.5H22V2h-9.5zm-1 10.5H2V22h9.5v-9.5zm1 0V22H22v-9.5h-9.5z"/></svg> Iniciar sesión con Microsoft';
 })();
 </script>
 </body>
