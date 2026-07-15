@@ -487,8 +487,10 @@
   <div class="page active" id="page-search">
     <div class="search-row">
       <input class="search-input" id="search-input" type="text"
-             placeholder="Código de tienda (ej: 102)"
-             autocomplete="off" autocorrect="off" spellcheck="false"/>
+             list="search-list"
+             placeholder="Código o nombre de tienda..."
+             autocorrect="off" spellcheck="false"/>
+      <datalist id="search-list"></datalist>
       <button class="search-btn" id="search-btn">Buscar</button>
     </div>
 
@@ -629,8 +631,9 @@ const S = {
   colDistrito:   null,
   colJZ:         null,   // field_28
   colGZ:         null,   // field_27
-  colSkill:      null,   // field_29 rc_skillrock
-  colCodSup:     null,   // field_33 COD_SUP
+  colSkill:        null,   // field_29 rc_skillrock
+  colCodSup:       null,   // field_33 COD_SUP
+  colResponsable:  null,   // P_RESPONSABLE
   // RCS ACTUALES columns
   rcsColRC:      null,
   rcsColRC2:     null,
@@ -651,8 +654,10 @@ const S = {
   histColGZNuevo:  null,
   histColJZAntes:  null,
   histColJZNuevo:  null,
-  histListExists:  false,
-  gzJzMap:         {},
+  histListExists:    false,
+  gzJzMap:           {},   // { RESPONSABLE: { GZ: [JZ...] } }
+  currentResponsable:'',
+  allStores:         [],
   // original values for change detection
   originalRC:    null,
   originalSup:   null,
@@ -732,8 +737,9 @@ async function init() {
   S.colDistrito   = findCol(cols, ['DISTRITO','DISTRITOS']) || 'field_23';
   S.colGZ         = findCol(cols, ['GZ'])        || 'field_27';
   S.colJZ         = findCol(cols, ['JZ'])        || 'field_28';
-  S.colSkill      = findCol(cols, ['RC_SKILLROCK','RC SKILLROCK','SKILLROCK','RCSKILLROCK']) || 'field_29';
-  S.colCodSup     = findCol(cols, ['COD_SUP','CODSUP','COD SUP']) || 'field_33';
+  S.colSkill       = findCol(cols, ['RC_SKILLROCK','RC SKILLROCK','SKILLROCK','RCSKILLROCK']) || 'field_29';
+  S.colCodSup      = findCol(cols, ['COD_SUP','CODSUP','COD SUP']) || 'field_33';
+  S.colResponsable = findCol(cols, ['P_RESPONSABLE','RESPONSABLE','PARTNER']) || null;
   // Días: fallback a field_11..16 (confirmado desde trigger output)
   S.colDias = [];
   for (let i = 1; i <= N_DIAS; i++) {
@@ -784,24 +790,34 @@ async function init() {
     console.warn('[EditorPDV] Lista HISTORIAL_CAMBIOS no encontrada — notificaciones desactivadas');
   }
 
-  // GZ/JZ relationship map
+  // GZ/JZ map por P_RESPONSABLE + listado de tiendas para buscador
   try {
+    const respCol = S.colResponsable || 'Title';
     const gzjzData = await spGet(
-      `/web/lists/getbytitle('${BASE_LIST_NAME}')/items?$select=${S.colGZ},${S.colJZ}&$top=2000`
+      `/web/lists/getbytitle('${BASE_LIST_NAME}')/items` +
+      `?$select=Title,${S.colNombre},${S.colGZ},${S.colJZ},${respCol}&$top=2000`
     );
-    S.gzJzMap = {};
+    S.gzJzMap  = {};
+    S.allStores = [];
     gzjzData.value.forEach(item => {
-      const gz = (item[S.colGZ] || '').trim();
-      const jz = (item[S.colJZ] || '').trim();
+      const gz   = (item[S.colGZ] || '').trim();
+      const jz   = (item[S.colJZ] || '').trim();
+      const resp = S.colResponsable ? (item[S.colResponsable] || '').trim().toUpperCase() : '';
+      const key  = resp || '__ALL__';
       if (gz) {
-        if (!S.gzJzMap[gz]) S.gzJzMap[gz] = [];
-        if (jz && !S.gzJzMap[gz].includes(jz)) S.gzJzMap[gz].push(jz);
+        if (!S.gzJzMap[key])      S.gzJzMap[key] = {};
+        if (!S.gzJzMap[key][gz])  S.gzJzMap[key][gz] = [];
+        if (jz && !S.gzJzMap[key][gz].includes(jz)) S.gzJzMap[key][gz].push(jz);
       }
+      const code   = item.Title || '';
+      const nombre = S.colNombre ? (item[S.colNombre] || '') : '';
+      if (code) S.allStores.push({ code, nombre });
     });
     buildGZDatalist();
-    console.log('[EditorPDV] GZ/JZ map:', Object.keys(S.gzJzMap).length, 'GZs');
+    buildSearchDatalist();
+    console.log('[EditorPDV] GZ/JZ map:', Object.keys(S.gzJzMap).length, 'grupos | tiendas:', S.allStores.length);
   } catch(e) {
-    console.warn('[EditorPDV] Error cargando GZ/JZ map:', e.message);
+    console.warn('[EditorPDV] Error cargando GZ/JZ/tiendas:', e.message);
   }
 
   await loadRCs();
@@ -931,10 +947,24 @@ async function searchStore() {
   }
 }
 
+function getGZBucket() {
+  const key = (S.currentResponsable || '').toUpperCase();
+  if (S.gzJzMap[key]) return S.gzJzMap[key];
+  // fallback: merge todos los grupos
+  const merged = {};
+  Object.values(S.gzJzMap).forEach(gzMap => {
+    Object.entries(gzMap).forEach(([gz, jzs]) => {
+      if (!merged[gz]) merged[gz] = [];
+      jzs.forEach(jz => { if (!merged[gz].includes(jz)) merged[gz].push(jz); });
+    });
+  });
+  return merged;
+}
+
 function buildGZDatalist() {
   const dl = document.getElementById('gz-list');
   dl.innerHTML = '';
-  Object.keys(S.gzJzMap).sort().forEach(gz => {
+  Object.keys(getGZBucket()).sort().forEach(gz => {
     const opt = document.createElement('option');
     opt.value = gz;
     dl.appendChild(opt);
@@ -944,10 +974,22 @@ function buildGZDatalist() {
 function updateJZDatalist(gz) {
   const dl = document.getElementById('jz-list');
   dl.innerHTML = '';
-  const jzs = gz && S.gzJzMap[gz] ? S.gzJzMap[gz] : Object.values(S.gzJzMap).flat();
+  const bucket = getGZBucket();
+  const jzs = gz && bucket[gz] ? bucket[gz] : Object.values(bucket).flat();
   [...new Set(jzs)].sort().forEach(jz => {
     const opt = document.createElement('option');
     opt.value = jz;
+    dl.appendChild(opt);
+  });
+}
+
+function buildSearchDatalist() {
+  const dl = document.getElementById('search-list');
+  dl.innerHTML = '';
+  S.allStores.forEach(s => {
+    const opt = document.createElement('option');
+    opt.value = s.code;
+    opt.label = s.nombre ? `${s.code} — ${s.nombre}` : s.code;
     dl.appendChild(opt);
   });
 }
@@ -968,11 +1010,13 @@ function renderStore(item) {
   document.getElementById('sel-rc').value         = rcVal;
   document.getElementById('sel-supervisor').value = supVal;
 
-  // GZ / JZ
+  // GZ / JZ — filtrar opciones por P_RESPONSABLE del PDV
+  S.currentResponsable = S.colResponsable ? (f[S.colResponsable] || '') : '';
   const gzVal = S.colGZ ? (f[S.colGZ] || '') : '';
   const jzVal = S.colJZ ? (f[S.colJZ] || '') : '';
   S.originalGZ = gzVal;
   S.originalJZ = jzVal;
+  buildGZDatalist();
   document.getElementById('inp-gz').value = gzVal;
   document.getElementById('inp-jz').value = jzVal;
   updateJZDatalist(gzVal);
