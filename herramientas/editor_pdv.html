@@ -564,10 +564,21 @@ const msal_app = new msal.PublicClientApplication(msalConfig);
 // ── STATE ──────────────────────────────────────────
 const S = {
   account:       null,
+  // BASE MAESTRA columns
   colRC:         null,
   colSup:        null,
   colDias:       [],
   colFrecuencia: null,
+  colNombre:     null,
+  colCluster:    null,
+  colZona:       null,
+  colDistrito:   null,
+  // RCS ACTUALES columns
+  rcsColRC:      null,
+  rcsColRC2:     null,
+  rcsColSup:     null,
+  rcsColTipo:    null,
+  rcsColSkill:   null,
   rcs:           [],
   supervisors:   [],
   currentItem:   null,
@@ -631,18 +642,36 @@ async function init() {
   const cols = colsData.value;
   console.log('[EditorPDV] Columnas BASE MAESTRA:', cols.map(c => `${c.InternalName} | ${c.Title}`));
 
-  S.colRC         = findCol(cols, ['RC_ENCARGADO_DE_TIENDA','RC_ENCARGADO']);
+  S.colRC         = findCol(cols, ['RC_ENCARGADO_DE_TIENDA','RC ENCARGADO DE TIENDA','RC_ENCARGADO']);
   S.colSup        = findCol(cols, ['SUPERVISOR']);
-  S.colFrecuencia = findCol(cols, ['FRECUENCIA_NORMAL','FRECUENCIA']);
+  S.colFrecuencia = findCol(cols, ['FRECUENCIA_NORMAL','FRECUENCIA NORMAL','FRECUENCIA']);
+  S.colNombre     = findCol(cols, ['NOMBRE_DE_TIENDA','NOMBRE DE TIENDA','NOMBRE_TIENDA','NOMBRE TIENDA','NOMBRE']);
+  S.colCluster    = findCol(cols, ['CLUSTER']);
+  S.colZona       = findCol(cols, ['ZONA']);
+  S.colDistrito   = findCol(cols, ['DISTRITO']);
   S.colDias = [];
   for (let i = 1; i <= N_DIAS; i++) {
     S.colDias.push(findCol(cols, [
-      `DIA_DE_VISITA_${i}`, `D_A_DE_VISITA_${i}`,
+      `DIA_DE_VISITA_${i}`, `DÍA_DE_VISITA_${i}`,
       `DIA DE VISITA ${i}`, `DÍA DE VISITA ${i}`,
-      `VISITA_${i}`
+      `VISITA_${i}`, `DIA_VISITA_${i}`
     ]) || null);
   }
-  console.log('[EditorPDV] colRC:', S.colRC, '| colSup:', S.colSup, '| colDias:', S.colDias);
+  console.log('[EditorPDV] colRC:', S.colRC, '| colSup:', S.colSup, '| colNombre:', S.colNombre, '| colDias:', S.colDias);
+
+  // Columns for RCS list
+  const rcsColsData = await spGet(
+    `/web/lists/getbytitle('${RCS_LIST_NAME}')/fields?$select=InternalName,Title`
+  );
+  const rcsCols = rcsColsData.value;
+  console.log('[EditorPDV] Columnas RCS ACTUALES:', rcsCols.map(c => `${c.InternalName} | ${c.Title}`));
+
+  S.rcsColRC    = findCol(rcsCols, ['RC']);
+  S.rcsColRC2   = findCol(rcsCols, ['RC2','NOMBRE_RC','NOMBRE RC','NOMBRE DE RC']);
+  S.rcsColSup   = findCol(rcsCols, ['SUPERVISOR']);
+  S.rcsColTipo  = findCol(rcsCols, ['TIPO']);
+  S.rcsColSkill = findCol(rcsCols, ['RC_SKILLROCK','RC SKILLROCK','SKILLROCK','CODIGO_SKILLROCK']);
+  console.log('[EditorPDV] rcsColRC:', S.rcsColRC, '| rcsColRC2:', S.rcsColRC2, '| rcsColSup:', S.rcsColSup);
 
   await loadRCs();
   buildDaysGrid();
@@ -667,19 +696,23 @@ function findCol(cols, names) {
 
 async function loadRCs() {
   const data = await spGet(
-    `/web/lists/getbytitle('${RCS_LIST_NAME}')/items` +
-    `?$select=ID,RC,RC2,SUPERVISOR,TIPO,RC_SKILLROCK&$top=200`
+    `/web/lists/getbytitle('${RCS_LIST_NAME}')/items?$top=200`
   );
-  console.log('[EditorPDV] RCS raw sample:', data.value[0] ? Object.keys(data.value[0]) : 'vacío');
+  console.log('[EditorPDV] RCS raw sample keys:', data.value[0] ? Object.keys(data.value[0]) : 'vacío');
+  const rc   = S.rcsColRC;
+  const rc2  = S.rcsColRC2;
+  const sup  = S.rcsColSup;
+  const tipo = S.rcsColTipo;
+  const skl  = S.rcsColSkill;
   S.rcs = data.value
-    .filter(i => i.RC && i.RC2)
+    .filter(i => rc && rc2 && i[rc] && i[rc2])
     .map(i => ({
       id:         i.ID,
-      code:       i.RC           || '',
-      name:       i.RC2          || '',
-      supervisor: i.SUPERVISOR   || '',
-      tipo:       i.TIPO         || '',
-      skillrock:  i.RC_SKILLROCK || '',
+      code:       i[rc]   || '',
+      name:       i[rc2]  || '',
+      supervisor: i[sup]  || '',
+      tipo:       i[tipo] || '',
+      skillrock:  i[skl]  || '',
     }));
   S.supervisors = [...new Set(S.rcs.map(r => r.supervisor).filter(Boolean))].sort();
 
@@ -770,9 +803,10 @@ async function searchStore() {
 function renderStore(item) {
   const f = item;  // SP REST: campos directamente en el objeto
   document.getElementById('s-code').textContent    = f.Title || '—';
-  document.getElementById('s-nombre').textContent  = f['NOMBRE_DE_TIENDA'] || '—';
-  document.getElementById('s-cluster').textContent = f['CLUSTER'] || '—';
-  document.getElementById('s-zona').textContent    = (f['ZONA'] || '') + ' ' + (f['DISTRITO'] || '');
+  document.getElementById('s-nombre').textContent  = (S.colNombre   ? f[S.colNombre]   : null) || '—';
+  document.getElementById('s-cluster').textContent = (S.colCluster  ? f[S.colCluster]  : null) || '—';
+  const zona = [(S.colZona ? f[S.colZona] : ''), (S.colDistrito ? f[S.colDistrito] : '')].filter(Boolean).join(' ');
+  document.getElementById('s-zona').textContent    = zona || '';
 
   // RC
   const rcVal = S.colRC ? (f[S.colRC] || '') : '';
@@ -897,12 +931,15 @@ async function addRC() {
   btn.textContent = 'Agregando...';
 
   try {
+    const body = {};
+    if (S.rcsColRC)    body[S.rcsColRC]    = code;
+    if (S.rcsColRC2)   body[S.rcsColRC2]   = name;
+    if (S.rcsColSup)   body[S.rcsColSup]   = sup;
+    if (S.rcsColTipo)  body[S.rcsColTipo]  = tipo;
+    if (S.rcsColSkill) body[S.rcsColSkill] = skillrock;
     await spOp(
       `/web/lists/getbytitle('${RCS_LIST_NAME}')/items`,
-      {
-        RC: code, RC2: name, PARA_SKLL: name.toUpperCase(),
-        RC_SKILLROCK: skillrock, SUPERVISOR: sup, TIPO: tipo,
-      },
+      body,
       'POST'
     );
     document.getElementById('new-rc-code').value      = '';
