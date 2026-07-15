@@ -546,7 +546,7 @@ const SP_URL         = 'https://elotgroup2020.sharepoint.com/sites/EquipoComerci
 const BASE_LIST_NAME = 'BASE MAESTRA INTERNA';
 const RCS_LIST_NAME  = 'RCS ACTUALES';
 const ADMIN_EMAIL    = 'doriant@elotgroup.com';
-const DAYS_OPTIONS   = ['SIN ASIGNAR','Lunes','Martes','Miércoles','Jueves','Viernes','Sábado','Domingo'];
+const DAYS_OPTIONS   = ['SIN ASIGNAR','LUNES','MARTES','MIÉRCOLES','JUEVES','VIERNES','SÁBADO','DOMINGO'];
 const N_DIAS         = 6;
 const SCOPES         = ['https://elotgroup2020.sharepoint.com/AllSites.Write'];
 
@@ -722,7 +722,7 @@ async function loadRCs() {
   S.rcs.forEach(rc => {
     const opt = document.createElement('option');
     opt.value = rc.code;
-    opt.textContent = rc.name + (rc.code ? ` (${rc.code})` : '');
+    opt.textContent = rc.name.toUpperCase() + (rc.code ? ` (${rc.code})` : '');
     selRC.appendChild(opt);
   });
 
@@ -819,9 +819,11 @@ function renderStore(item) {
   // Days
   for (let i = 0; i < N_DIAS; i++) {
     const colName = S.colDias[i];
-    const val = colName ? (f[colName] || 'SIN ASIGNAR') : 'SIN ASIGNAR';
+    const raw = colName ? (f[colName] || '') : '';
+    const upper = raw.toUpperCase().trim();
+    const match = DAYS_OPTIONS.find(d => d === upper) || 'SIN ASIGNAR';
     const sel = document.getElementById(`sel-day-${i}`);
-    if (sel) sel.value = DAYS_OPTIONS.includes(val) ? val : 'SIN ASIGNAR';
+    if (sel) sel.value = match;
   }
   updateFrecuencia();
 }
