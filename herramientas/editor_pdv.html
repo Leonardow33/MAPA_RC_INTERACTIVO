@@ -299,6 +299,42 @@
     .save-btn:hover { opacity: .88; }
     .save-btn:disabled { opacity: .5; cursor: not-allowed; }
 
+    .field-input {
+      width: 100%;
+      background: var(--surf2);
+      border: 1.5px solid var(--border);
+      border-radius: 10px;
+      padding: 11px 14px;
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--text);
+      font-family: inherit;
+      outline: none;
+      transition: border-color .2s, box-shadow .2s;
+    }
+    .field-input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px var(--glow); }
+    .field-input::placeholder { color: var(--dim); }
+
+    .dl-btn {
+      width: 100%;
+      background: var(--surf);
+      color: var(--accent);
+      border: 1.5px solid var(--accent);
+      border-radius: 12px;
+      padding: 12px;
+      font-size: 14px;
+      font-weight: 700;
+      font-family: inherit;
+      cursor: pointer;
+      transition: background .15s;
+      margin-bottom: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+    .dl-btn:hover { background: rgba(21,101,192,.07); }
+
     /* ── TOAST ──────────────────────────────────── */
     .toast {
       position: fixed;
@@ -496,6 +532,16 @@
           <select class="field-select" id="sel-supervisor"></select>
         </div>
 
+        <div class="field-group">
+          <label class="field-label">GZ (Gerente de Zona)</label>
+          <input class="field-input" id="inp-gz" placeholder="Escribe el GZ..." autocomplete="off"/>
+        </div>
+
+        <div class="field-group">
+          <label class="field-label">JZ (Jefe de Zona)</label>
+          <input class="field-input" id="inp-jz" placeholder="Escribe el JZ..." autocomplete="off"/>
+        </div>
+
         <label class="field-label">Días de visita</label>
         <div class="days-grid" id="days-grid"></div>
 
@@ -511,6 +557,11 @@
 
   <!-- RCS PAGE (admin) -->
   <div class="page" id="page-rcs">
+    <button class="dl-btn" id="dl-historial-btn">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+      Descargar historial del día (CSV)
+    </button>
+
     <div class="card">
       <div class="card-title">RCs activos</div>
       <div class="rc-list" id="rc-list">
@@ -543,9 +594,10 @@
 const CLIENT_ID      = 'b11152e5-5dfe-4a53-a1cb-866020568c25';
 const TENANT_ID      = '35cc2240-7d09-4ebb-90bd-36ab26254034';
 const SP_URL         = 'https://elotgroup2020.sharepoint.com/sites/EquipoComercialELOT/_api';
-const BASE_LIST_NAME = 'BASE MAESTRA INTERNA';
-const RCS_LIST_NAME  = 'RCS ACTUALES';
-const ADMIN_EMAIL    = 'doriant@elotgroup.com';
+const BASE_LIST_NAME     = 'BASE MAESTRA INTERNA';
+const RCS_LIST_NAME      = 'RCS ACTUALES';
+const HISTORIAL_LIST_NAME= 'HISTORIAL_CAMBIOS';
+const ADMIN_EMAIL        = 'doriant@elotgroup.com';
 const DAYS_OPTIONS   = ['SIN ASIGNAR','LUNES','MARTES','MIÉRCOLES','JUEVES','VIERNES','SÁBADO','DOMINGO'];
 const N_DIAS         = 6;
 const SCOPES         = ['https://elotgroup2020.sharepoint.com/AllSites.Write'];
@@ -573,12 +625,34 @@ const S = {
   colCluster:    null,
   colZona:       null,
   colDistrito:   null,
+  colJZ:         null,   // field_28
+  colGZ:         null,   // field_27
+  colSkill:      null,   // field_29 rc_skillrock
+  colCodSup:     null,   // field_33 COD_SUP
   // RCS ACTUALES columns
   rcsColRC:      null,
   rcsColRC2:     null,
   rcsColSup:     null,
   rcsColTipo:    null,
   rcsColSkill:   null,
+  // HISTORIAL_CAMBIOS columns
+  histColTienda:   null,
+  histColTipo:     null,
+  histColRCAntes:  null,
+  histColRCNuevo:  null,
+  histColSkill:    null,
+  histColSupAntes: null,
+  histColSupNuevo: null,
+  histColCodSup:   null,
+  histColEditor:   null,
+  histListExists:  false,
+  // original values for change detection
+  originalRC:    null,
+  originalSup:   null,
+  originalGZ:    null,
+  originalJZ:    null,
+  // session change log
+  changeLog:     [],
   rcs:           [],
   supervisors:   [],
   currentItem:   null,
@@ -649,6 +723,10 @@ async function init() {
   S.colCluster    = findCol(cols, ['CLUSTER'])   || 'field_9';
   S.colZona       = findCol(cols, ['ZONA','ZONAL']) || 'field_22';
   S.colDistrito   = findCol(cols, ['DISTRITO','DISTRITOS']) || 'field_23';
+  S.colGZ         = findCol(cols, ['GZ'])        || 'field_27';
+  S.colJZ         = findCol(cols, ['JZ'])        || 'field_28';
+  S.colSkill      = findCol(cols, ['RC_SKILLROCK','RC SKILLROCK','SKILLROCK','RCSKILLROCK']) || 'field_29';
+  S.colCodSup     = findCol(cols, ['COD_SUP','CODSUP','COD SUP']) || 'field_33';
   // Días: fallback a field_11..16 (confirmado desde trigger output)
   S.colDias = [];
   for (let i = 1; i <= N_DIAS; i++) {
@@ -658,7 +736,7 @@ async function init() {
       `VISITA_${i}`, `DIA_VISITA_${i}`
     ]) || `field_${10 + i}`);
   }
-  console.log('[EditorPDV] colRC:', S.colRC, '| colSup:', S.colSup, '| colNombre:', S.colNombre, '| colDias:', S.colDias);
+  console.log('[EditorPDV] colRC:', S.colRC, '| colSup:', S.colSup, '| colGZ:', S.colGZ, '| colJZ:', S.colJZ);
 
   // Columns for RCS list
   const rcsColsData = await spGet(
@@ -673,6 +751,27 @@ async function init() {
   S.rcsColTipo  = findCol(rcsCols, ['TIPO']);
   S.rcsColSkill = findCol(rcsCols, ['RC_SKILLROCK','RC SKILLROCK','SKILLROCK','CODIGO_SKILLROCK']);
   console.log('[EditorPDV] rcsColRC:', S.rcsColRC, '| rcsColRC2:', S.rcsColRC2, '| rcsColSup:', S.rcsColSup);
+
+  // HISTORIAL_CAMBIOS — optional list for PA notifications
+  try {
+    const hColsData = await spGet(
+      `/web/lists/getbytitle('${HISTORIAL_LIST_NAME}')/fields?$select=InternalName,Title`
+    );
+    const hCols = hColsData.value;
+    S.histColTienda   = findCol(hCols, ['TIENDA','NOMBRE_TIENDA','TIENDA_NOMBRE']);
+    S.histColTipo     = findCol(hCols, ['TIPO_CAMBIO','TIPO']);
+    S.histColRCAntes  = findCol(hCols, ['RC_ANTERIOR','RCANTERIOR','RC ANTERIOR']);
+    S.histColRCNuevo  = findCol(hCols, ['RC_NUEVO','RCNUEVO','RC NUEVO']);
+    S.histColSkill    = findCol(hCols, ['RC_SKILLROCK','SKILLROCK','RCSKILLROCK']);
+    S.histColSupAntes = findCol(hCols, ['SUP_ANTERIOR','SUPANTERIOR','SUP ANTERIOR']);
+    S.histColSupNuevo = findCol(hCols, ['SUP_NUEVO','SUPNUEVO','SUP NUEVO']);
+    S.histColCodSup   = findCol(hCols, ['COD_SUP','CODSUP','COD SUP']);
+    S.histColEditor   = findCol(hCols, ['EDITOR_EMAIL','EDITOR','EDITOREMAIL']);
+    S.histListExists  = true;
+    console.log('[EditorPDV] HISTORIAL_CAMBIOS encontrada — notificaciones activas');
+  } catch(e) {
+    console.warn('[EditorPDV] Lista HISTORIAL_CAMBIOS no encontrada — notificaciones desactivadas');
+  }
 
   await loadRCs();
   buildDaysGrid();
@@ -802,20 +901,28 @@ async function searchStore() {
 }
 
 function renderStore(item) {
-  const f = item;  // SP REST: campos directamente en el objeto
+  const f = item;
   document.getElementById('s-code').textContent    = f.Title || '—';
   document.getElementById('s-nombre').textContent  = (S.colNombre   ? f[S.colNombre]   : null) || '—';
   document.getElementById('s-cluster').textContent = (S.colCluster  ? f[S.colCluster]  : null) || '—';
-  const zona = [(S.colZona ? f[S.colZona] : ''), (S.colDistrito ? f[S.colDistrito] : '')].filter(Boolean).join(' ');
+  const zona = [(S.colZona ? f[S.colZona] : ''), (S.colDistrito ? f[S.colDistrito] : '')].filter(Boolean).join(' / ');
   document.getElementById('s-zona').textContent    = zona || '';
 
-  // RC
-  const rcVal = S.colRC ? (f[S.colRC] || '') : '';
-  document.getElementById('sel-rc').value = rcVal;
-
-  // Supervisor
+  // RC + Supervisor — guardar originales para detección de cambio
+  const rcVal  = S.colRC  ? (f[S.colRC]  || '') : '';
   const supVal = S.colSup ? (f[S.colSup] || '') : '';
+  S.originalRC  = rcVal;
+  S.originalSup = supVal;
+  document.getElementById('sel-rc').value         = rcVal;
   document.getElementById('sel-supervisor').value = supVal;
+
+  // GZ / JZ
+  const gzVal = S.colGZ ? (f[S.colGZ] || '') : '';
+  const jzVal = S.colJZ ? (f[S.colJZ] || '') : '';
+  S.originalGZ = gzVal;
+  S.originalJZ = jzVal;
+  document.getElementById('inp-gz').value = gzVal;
+  document.getElementById('inp-jz').value = jzVal;
 
   // Days
   for (let i = 0; i < N_DIAS; i++) {
@@ -845,9 +952,16 @@ async function saveStore() {
   btn.disabled = true;
   btn.textContent = 'Guardando...';
 
+  const newRC  = document.getElementById('sel-rc').value;
+  const newSup = document.getElementById('sel-supervisor').value;
+  const newGZ  = document.getElementById('inp-gz').value.trim();
+  const newJZ  = document.getElementById('inp-jz').value.trim();
+
   const fields = {};
-  if (S.colRC)  fields[S.colRC]  = document.getElementById('sel-rc').value;
-  if (S.colSup) fields[S.colSup] = document.getElementById('sel-supervisor').value;
+  if (S.colRC)  fields[S.colRC]  = newRC;
+  if (S.colSup) fields[S.colSup] = newSup;
+  if (S.colGZ)  fields[S.colGZ]  = newGZ;
+  if (S.colJZ)  fields[S.colJZ]  = newJZ;
 
   for (let i = 0; i < N_DIAS; i++) {
     if (S.colDias[i]) {
@@ -855,7 +969,6 @@ async function saveStore() {
     }
   }
 
-  // Frecuencia
   if (S.colFrecuencia) {
     const days = [];
     for (let i = 0; i < N_DIAS; i++) {
@@ -871,6 +984,60 @@ async function saveStore() {
       fields,
       'MERGE'
     );
+
+    // ── DETECCIÓN DE CAMBIOS ─────────────────────
+    const rcChanged  = newRC  !== (S.originalRC  || '');
+    const supChanged = newSup !== (S.originalSup || '');
+    const gzChanged  = newGZ  !== (S.originalGZ  || '');
+    const jzChanged  = newJZ  !== (S.originalJZ  || '');
+
+    if (rcChanged || supChanged || gzChanged || jzChanged) {
+      const tienda  = S.colNombre ? (S.currentItem[S.colNombre] || '') : '';
+      const codSup  = S.colCodSup ? (S.currentItem[S.colCodSup] || '') : '';
+      const rcObj   = S.rcs.find(r => r.code === newRC);
+      const tipos   = [rcChanged && 'RC', supChanged && 'SUPERVISOR', gzChanged && 'GZ', jzChanged && 'JZ'].filter(Boolean);
+
+      // Log de sesión (admin download)
+      S.changeLog.push({
+        fecha:       new Date().toLocaleString('es-PE'),
+        codigo:      S.currentItem.Title || '',
+        tienda,
+        tipo:        tipos.join('+'),
+        rcAnterior:  S.originalRC  || '',
+        rcNuevo:     newRC,
+        rcSkillrock: rcObj?.skillrock || '',
+        supAnterior: S.originalSup || '',
+        supNuevo:    newSup,
+        codSup,
+        gzAnterior:  S.originalGZ || '',
+        gzNuevo:     newGZ,
+        jzAnterior:  S.originalJZ || '',
+        jzNuevo:     newJZ,
+        editor:      S.account?.username || '',
+      });
+
+      // Escribir en HISTORIAL_CAMBIOS solo si RC o Supervisor cambiaron (activa alerta PA)
+      if (rcChanged || supChanged) {
+        await writeHistorial({
+          codigo:      S.currentItem.Title || '',
+          tienda,
+          tipo:        [rcChanged && 'RC', supChanged && 'SUPERVISOR'].filter(Boolean).join('+'),
+          rcAnterior:  S.originalRC || '',
+          rcNuevo:     newRC,
+          rcSkillrock: rcObj?.skillrock || '',
+          supAnterior: S.originalSup || '',
+          supNuevo:    newSup,
+          codSup,
+          editor:      S.account?.username || '',
+        });
+      }
+
+      S.originalRC  = newRC;
+      S.originalSup = newSup;
+      S.originalGZ  = newGZ;
+      S.originalJZ  = newJZ;
+    }
+
     toast('Cambios guardados ✓', 'ok');
   } catch(e) {
     toast('Error al guardar: ' + e.message, 'err');
@@ -878,6 +1045,53 @@ async function saveStore() {
     btn.disabled = false;
     btn.textContent = 'Guardar cambios';
   }
+}
+
+// ── HISTORIAL ──────────────────────────────────────
+async function writeHistorial(entry) {
+  if (!S.histListExists) return;
+  try {
+    const body = { Title: entry.codigo };
+    if (S.histColTienda)   body[S.histColTienda]   = entry.tienda;
+    if (S.histColTipo)     body[S.histColTipo]      = entry.tipo;
+    if (S.histColRCAntes)  body[S.histColRCAntes]   = entry.rcAnterior;
+    if (S.histColRCNuevo)  body[S.histColRCNuevo]   = entry.rcNuevo;
+    if (S.histColSkill)    body[S.histColSkill]      = entry.rcSkillrock;
+    if (S.histColSupAntes) body[S.histColSupAntes]   = entry.supAnterior;
+    if (S.histColSupNuevo) body[S.histColSupNuevo]   = entry.supNuevo;
+    if (S.histColCodSup)   body[S.histColCodSup]     = entry.codSup;
+    if (S.histColEditor)   body[S.histColEditor]     = entry.editor;
+    await spOp(`/web/lists/getbytitle('${HISTORIAL_LIST_NAME}')/items`, body, 'POST');
+    console.log('[EditorPDV] Historial escrito para', entry.codigo);
+  } catch(e) {
+    console.warn('[EditorPDV] Error al escribir historial:', e.message);
+  }
+}
+
+function downloadHistorial() {
+  if (!S.changeLog.length) {
+    toast('Sin cambios registrados en esta sesión', 'err');
+    return;
+  }
+  const header = ['Fecha','Codigo','Tienda','Tipo_Cambio','RC_Anterior','RC_Nuevo','RC_Skillrock','Sup_Anterior','Sup_Nuevo','COD_SUP','GZ_Anterior','GZ_Nuevo','JZ_Anterior','JZ_Nuevo','Editor'];
+  const rows = S.changeLog.map(e => [
+    e.fecha, e.codigo, e.tienda, e.tipo,
+    e.rcAnterior, e.rcNuevo, e.rcSkillrock,
+    e.supAnterior, e.supNuevo, e.codSup,
+    e.gzAnterior, e.gzNuevo, e.jzAnterior, e.jzNuevo,
+    e.editor
+  ].map(v => `"${(v || '').replace(/"/g, '""')}"`));
+
+  const csv  = [header.join(','), ...rows.map(r => r.join(','))].join('\r\n');
+  const blob = new Blob(['﻿' + csv], { type: 'text/csv;charset=utf-8;' });
+  const url  = URL.createObjectURL(blob);
+  const a    = document.createElement('a');
+  const today = new Date().toISOString().slice(0, 10);
+  a.href = url;
+  a.download = `historial_cambios_${today}.csv`;
+  a.click();
+  URL.revokeObjectURL(url);
+  toast(`${S.changeLog.length} cambio(s) descargados ✓`, 'ok');
 }
 
 // ── ADMIN — RC LIST ────────────────────────────────
@@ -1015,6 +1229,7 @@ document.getElementById('logout-btn').addEventListener('click', logout);
 document.getElementById('search-btn').addEventListener('click', searchStore);
 document.getElementById('save-btn').addEventListener('click', saveStore);
 document.getElementById('add-rc-btn').addEventListener('click', addRC);
+document.getElementById('dl-historial-btn').addEventListener('click', downloadHistorial);
 document.getElementById('search-input').addEventListener('keydown', e => {
   if (e.key === 'Enter') searchStore();
 });
