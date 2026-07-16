@@ -21,6 +21,7 @@ let materialPopCodes = new Set();
 let activeCluster = null;
 let userLat = null, userLng = null;
 let userMarker = null;
+let geoWatchId = null;
 let routeLayer = null;
 let routeMarkersLayer = L.layerGroup().addTo(map);
 let sinAgrupacion = false;
@@ -870,7 +871,11 @@ function irAUbicacion() {
 
 // 📍 GEOLOCALIZACIÓN
 function startWatchPosition() {
-    navigator.geolocation.watchPosition(pos => {
+    if (geoWatchId !== null) {
+        navigator.geolocation.clearWatch(geoWatchId);
+        geoWatchId = null;
+    }
+    geoWatchId = navigator.geolocation.watchPosition(pos => {
         userLat = pos.coords.latitude;
         userLng = pos.coords.longitude;
         ocultarGPSBanner();
@@ -886,8 +891,12 @@ function startWatchPosition() {
             }).addTo(map).bindPopup("Estás aquí");
         }
     }, (err) => {
-        if (err.code === 1) mostrarGPSBanner('denied');
-    }, { enableHighAccuracy: true });
+        if (err.code === 1) {
+            mostrarGPSBanner('denied');
+        } else if (err.code === 2 || err.code === 3) {
+            mostrarGPSBanner('prompt');
+        }
+    }, { enableHighAccuracy: true, timeout: 15000, maximumAge: 5000 });
 }
 
 function mostrarGPSBanner(tipo) {
@@ -926,10 +935,10 @@ async function initGeolocation() {
                 mostrarGPSBanner('prompt');
                 startWatchPosition();
             }
-            result.onchange = () => {
+            result.addEventListener('change', () => {
                 if (result.state === 'granted') { ocultarGPSBanner(); startWatchPosition(); }
                 else if (result.state === 'denied') mostrarGPSBanner('denied');
-            };
+            });
             return;
         } catch (e) { }
     }

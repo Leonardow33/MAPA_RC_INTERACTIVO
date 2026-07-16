@@ -417,8 +417,9 @@ fetch("https://raw.githubusercontent.com/Leonardow33/MAPA_RC_INTERACTIVO/main/da
     .then(data => { allData = data; poblarPartners(); });
 
 // ── GPS ───────────────────────────────────────────────────────────────────
+let geoWatchId = null;
 if (navigator.geolocation) {
-    navigator.geolocation.watchPosition(pos => {
+    geoWatchId = navigator.geolocation.watchPosition(pos => {
         userLatLng = [pos.coords.latitude, pos.coords.longitude];
         if (!userMarker) {
             userMarker = L.circleMarker(userLatLng, {
@@ -429,7 +430,7 @@ if (navigator.geolocation) {
         } else {
             userMarker.setLatLng(userLatLng);
         }
-    }, null, { enableHighAccuracy: true });
+    }, () => {}, { enableHighAccuracy: true, timeout: 15000, maximumAge: 5000 });
 }
 
 // ── POBLAR FILTROS ────────────────────────────────────────────────────────
