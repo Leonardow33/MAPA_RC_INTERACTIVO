@@ -398,6 +398,7 @@ let routeLayer    = null;
 let stopMarkers   = [];
 let userMarker    = null;
 let userLatLng    = null;
+let accuracyCircle = null;
 let rutaOrdenada  = [];
 const displayLayer = L.layerGroup().addTo(map);
 
@@ -421,16 +422,27 @@ let geoWatchId = null;
 if (navigator.geolocation) {
     geoWatchId = navigator.geolocation.watchPosition(pos => {
         userLatLng = [pos.coords.latitude, pos.coords.longitude];
+        const acc = Math.round(pos.coords.accuracy);
         if (!userMarker) {
             userMarker = L.circleMarker(userLatLng, {
                 radius: 11, color: "#1565C0",
                 fillColor: "#42a5f5", fillOpacity: 0.9, weight: 3
-            }).addTo(map).bindPopup("Tu ubicacion actual");
+            }).addTo(map).bindPopup(`Tu ubicacion actual (±${acc}m)`);
             map.setView(userLatLng, 12);
         } else {
             userMarker.setLatLng(userLatLng);
+            userMarker.setPopupContent(`Tu ubicacion actual (±${acc}m)`);
         }
-    }, () => {}, { enableHighAccuracy: true, timeout: 15000, maximumAge: 5000 });
+        if (accuracyCircle) {
+            accuracyCircle.setLatLng(userLatLng).setRadius(pos.coords.accuracy);
+        } else {
+            accuracyCircle = L.circle(userLatLng, {
+                radius: pos.coords.accuracy,
+                color: '#1565C0', fillColor: '#42a5f5',
+                fillOpacity: 0.08, weight: 1
+            }).addTo(map);
+        }
+    }, () => {}, { enableHighAccuracy: true, timeout: 15000, maximumAge: 0 });
 }
 
 // ── POBLAR FILTROS ────────────────────────────────────────────────────────

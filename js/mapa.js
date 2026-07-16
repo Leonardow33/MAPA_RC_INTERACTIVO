@@ -22,6 +22,7 @@ let activeCluster = null;
 let userLat = null, userLng = null;
 let userMarker = null;
 let geoWatchId = null;
+let accuracyCircle = null;
 let routeLayer = null;
 let routeMarkersLayer = L.layerGroup().addTo(map);
 let sinAgrupacion = false;
@@ -878,9 +879,11 @@ function startWatchPosition() {
     geoWatchId = navigator.geolocation.watchPosition(pos => {
         userLat = pos.coords.latitude;
         userLng = pos.coords.longitude;
+        const acc = Math.round(pos.coords.accuracy);
         ocultarGPSBanner();
         if (userMarker) {
             userMarker.setLatLng([userLat, userLng]);
+            userMarker.setPopupContent(`Estás aquí (±${acc}m)`);
         } else {
             userMarker = L.circleMarker([userLat, userLng], {
                 radius: 10,
@@ -888,7 +891,18 @@ function startWatchPosition() {
                 color: 'white',
                 weight: 3,
                 fillOpacity: 1
-            }).addTo(map).bindPopup("Estás aquí");
+            }).addTo(map).bindPopup(`Estás aquí (±${acc}m)`);
+        }
+        if (accuracyCircle) {
+            accuracyCircle.setLatLng([userLat, userLng]).setRadius(pos.coords.accuracy);
+        } else {
+            accuracyCircle = L.circle([userLat, userLng], {
+                radius: pos.coords.accuracy,
+                color: '#2196F3',
+                fillColor: '#2196F3',
+                fillOpacity: 0.08,
+                weight: 1
+            }).addTo(map);
         }
     }, (err) => {
         if (err.code === 1) {
@@ -896,7 +910,7 @@ function startWatchPosition() {
         } else if (err.code === 2 || err.code === 3) {
             mostrarGPSBanner('prompt');
         }
-    }, { enableHighAccuracy: true, timeout: 15000, maximumAge: 5000 });
+    }, { enableHighAccuracy: true, timeout: 15000, maximumAge: 0 });
 }
 
 function mostrarGPSBanner(tipo) {
