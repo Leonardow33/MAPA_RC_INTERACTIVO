@@ -13008,8 +13008,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MARTES-JUEVES",
         "dias": [
-            "JUEVES",
-            "MARTES"
+            "MARTES",
+            "JUEVES"
         ],
         "meta_diaria": 20.0,
         "meta_pp": 0.0,
@@ -13138,8 +13138,8 @@
         "frecuencia": "MARTES-JUEVES-SÁBADO",
         "dias": [
             "SÁBADO",
-            "JUEVES",
-            "MARTES"
+            "MARTES",
+            "JUEVES"
         ],
         "meta_diaria": 20.0,
         "meta_pp": 0.0,
@@ -13272,8 +13272,8 @@
         "frecuencia": "MARTES-JUEVES-SÁBADO",
         "dias": [
             "SÁBADO",
-            "JUEVES",
-            "MARTES"
+            "MARTES",
+            "JUEVES"
         ],
         "meta_diaria": 20.0,
         "meta_pp": 0.0,
@@ -13404,8 +13404,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MARTES-JUEVES",
         "dias": [
-            "JUEVES",
-            "MARTES"
+            "MARTES",
+            "JUEVES"
         ],
         "meta_diaria": 20.0,
         "meta_pp": 0.0,
@@ -13662,8 +13662,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MARTES-JUEVES",
         "dias": [
-            "JUEVES",
-            "MARTES"
+            "MARTES",
+            "JUEVES"
         ],
         "meta_diaria": 20.0,
         "meta_pp": 0.0,
@@ -14023,8 +14023,8 @@
         "frecuencia": "MARTES-JUEVES-SÁBADO",
         "dias": [
             "SÁBADO",
-            "JUEVES",
-            "MARTES"
+            "MARTES",
+            "JUEVES"
         ],
         "meta_diaria": 20.0,
         "meta_pp": 0.0,
@@ -14252,8 +14252,8 @@
         "responsable": "TAMBO",
         "frecuencia": "SÁBADO-MIÉRCOLES",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "meta_diaria": 20.0,
         "meta_pp": 0.0,
@@ -14384,8 +14384,8 @@
         "frecuencia": "MARTES-JUEVES-SÁBADO",
         "dias": [
             "SÁBADO",
-            "JUEVES",
-            "MARTES"
+            "MARTES",
+            "JUEVES"
         ],
         "meta_diaria": 20.0,
         "meta_pp": 0.0,
@@ -14417,8 +14417,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MARTES-JUEVES",
         "dias": [
-            "JUEVES",
-            "MARTES"
+            "MARTES",
+            "JUEVES"
         ],
         "meta_diaria": 20.0,
         "meta_pp": 0.0,
@@ -14515,8 +14515,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MARTES-JUEVES",
         "dias": [
-            "JUEVES",
-            "MARTES"
+            "MARTES",
+            "JUEVES"
         ],
         "meta_diaria": 20.0,
         "meta_pp": 0.0,
@@ -15601,8 +15601,8 @@
         "frecuencia": "MARTES-JUEVES-SÁBADO",
         "dias": [
             "SÁBADO",
-            "JUEVES",
-            "MARTES"
+            "MARTES",
+            "JUEVES"
         ],
         "meta_diaria": 20.0,
         "meta_pp": 0.0,
@@ -15865,8 +15865,8 @@
         "frecuencia": "MARTES-JUEVES-SÁBADO",
         "dias": [
             "SÁBADO",
-            "JUEVES",
-            "MARTES"
+            "MARTES",
+            "JUEVES"
         ],
         "meta_diaria": 20.0,
         "meta_pp": 0.0,
@@ -16195,8 +16195,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MARTES-JUEVES",
         "dias": [
-            "JUEVES",
-            "MARTES"
+            "MARTES",
+            "JUEVES"
         ],
         "meta_diaria": 50.0,
         "meta_pp": 0.0,
@@ -16718,8 +16718,8 @@
         "responsable": "TAMBO",
         "frecuencia": "SÁBADO-MIÉRCOLES",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "meta_diaria": 20.0,
         "meta_pp": 0.0,
@@ -16914,8 +16914,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MARTES-JUEVES",
         "dias": [
-            "JUEVES",
-            "MARTES"
+            "MARTES",
+            "JUEVES"
         ],
         "meta_diaria": 20.0,
         "meta_pp": 0.0,
@@ -17599,8 +17599,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MARTES-JUEVES",
         "dias": [
-            "JUEVES",
-            "MARTES"
+            "MARTES",
+            "JUEVES"
         ],
         "meta_diaria": 20.0,
         "meta_pp": 0.0,
@@ -18775,11 +18775,11 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-MIÉRCOLES-VIERNES-JUEVES-SÁBADO",
         "dias": [
+            "VIERNES",
             "MIÉRCOLES",
-            "LUNES",
-            "JUEVES",
             "SÁBADO",
-            "VIERNES"
+            "JUEVES",
+            "LUNES"
         ],
         "meta_diaria": 20.0,
         "meta_pp": 0.0,
@@ -18876,8 +18876,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MARTES-JUEVES",
         "dias": [
-            "JUEVES",
-            "MARTES"
+            "MARTES",
+            "JUEVES"
         ],
         "meta_diaria": 20.0,
         "meta_pp": 0.0,
@@ -20058,8 +20058,8 @@
         "frecuencia": "MARTES-JUEVES-SÁBADO-SÁBADO",
         "dias": [
             "SÁBADO",
-            "JUEVES",
-            "MARTES"
+            "MARTES",
+            "JUEVES"
         ],
         "meta_diaria": 20.0,
         "meta_pp": 0.0,
@@ -20713,8 +20713,8 @@
         "responsable": "TAMBO",
         "frecuencia": "SÁBADO-MIÉRCOLES",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "meta_diaria": 20.0,
         "meta_pp": 0.0,
@@ -20877,8 +20877,8 @@
         "responsable": "TAMBO",
         "frecuencia": "SÁBADO-MIÉRCOLES",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "meta_diaria": 20.0,
         "meta_pp": 0.0,
@@ -26662,12 +26662,12 @@
         "responsable": "JS BODEGA",
         "frecuencia": "LUNES-MARTES-MIÉRCOLES-JUEVES-VIERNES-SÁBADO",
         "dias": [
+            "VIERNES",
             "MIÉRCOLES",
-            "LUNES",
-            "JUEVES",
-            "MARTES",
             "SÁBADO",
-            "VIERNES"
+            "JUEVES",
+            "LUNES",
+            "MARTES"
         ],
         "meta_diaria": null,
         "meta_pp": 0.0,
@@ -26699,12 +26699,12 @@
         "responsable": "JS BODEGA",
         "frecuencia": "LUNES-MARTES-MIÉRCOLES-JUEVES-VIERNES-SÁBADO",
         "dias": [
+            "VIERNES",
             "MIÉRCOLES",
-            "LUNES",
-            "JUEVES",
-            "MARTES",
             "SÁBADO",
-            "VIERNES"
+            "JUEVES",
+            "LUNES",
+            "MARTES"
         ],
         "meta_diaria": null,
         "meta_pp": 0.0,
@@ -27811,8 +27811,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MARTES-JUEVES",
         "dias": [
-            "JUEVES",
-            "MARTES"
+            "MARTES",
+            "JUEVES"
         ],
         "meta_diaria": 20.0,
         "meta_pp": 0.0,
@@ -29050,8 +29050,8 @@
         "frecuencia": "MARTES-JUEVES-SÁBADO",
         "dias": [
             "SÁBADO",
-            "JUEVES",
-            "MARTES"
+            "MARTES",
+            "JUEVES"
         ],
         "meta_diaria": 20.0,
         "meta_pp": 0.0,
@@ -29116,8 +29116,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MARTES-JUEVES",
         "dias": [
-            "JUEVES",
-            "MARTES"
+            "MARTES",
+            "JUEVES"
         ],
         "meta_diaria": 20.0,
         "meta_pp": 0.0,
@@ -29346,8 +29346,8 @@
         "responsable": "TINBET",
         "frecuencia": "MARTES-JUEVES",
         "dias": [
-            "JUEVES",
-            "MARTES"
+            "MARTES",
+            "JUEVES"
         ],
         "meta_diaria": 20.0,
         "meta_pp": 0.0,
@@ -30227,8 +30227,8 @@
         "responsable": "TINBET",
         "frecuencia": "SÁBADO-MIÉRCOLES",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "meta_diaria": 50.0,
         "meta_pp": 0.0,
@@ -30358,8 +30358,8 @@
         "responsable": "TINBET",
         "frecuencia": "SÁBADO-MIÉRCOLES",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "meta_diaria": 5.0,
         "meta_pp": 0.0,
@@ -30456,8 +30456,8 @@
         "responsable": "TINBET",
         "frecuencia": "SÁBADO-MIÉRCOLES",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "meta_diaria": 5.0,
         "meta_pp": 0.0,
@@ -30489,8 +30489,8 @@
         "responsable": "TINBET",
         "frecuencia": "SÁBADO-MIÉRCOLES",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "meta_diaria": 10.0,
         "meta_pp": 0.0,
@@ -30522,8 +30522,8 @@
         "responsable": "TINBET",
         "frecuencia": "SÁBADO-MIÉRCOLES",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "meta_diaria": 30.0,
         "meta_pp": 0.0,
@@ -30588,8 +30588,8 @@
         "responsable": "TINBET",
         "frecuencia": "SÁBADO-MIÉRCOLES",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "meta_diaria": 5.0,
         "meta_pp": 0.0,
@@ -30621,8 +30621,8 @@
         "responsable": "TINBET",
         "frecuencia": "SÁBADO-MIÉRCOLES",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "meta_diaria": 5.0,
         "meta_pp": 0.0,
@@ -30688,8 +30688,8 @@
         "responsable": "TINBET",
         "frecuencia": "SÁBADO-MIÉRCOLES",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "meta_diaria": 5.0,
         "meta_pp": 0.0,
@@ -30788,8 +30788,8 @@
         "frecuencia": "MARTES-JUEVES-SÁBADO",
         "dias": [
             "SÁBADO",
-            "JUEVES",
-            "MARTES"
+            "MARTES",
+            "JUEVES"
         ],
         "meta_diaria": 10.0,
         "meta_pp": 0.0,
@@ -30856,8 +30856,8 @@
         "frecuencia": "MARTES-JUEVES-SÁBADO",
         "dias": [
             "SÁBADO",
-            "JUEVES",
-            "MARTES"
+            "MARTES",
+            "JUEVES"
         ],
         "meta_diaria": 5.0,
         "meta_pp": 0.0,
@@ -31438,11 +31438,11 @@
         "responsable": "TINBET",
         "frecuencia": "LUNES-JUEVES-MIÉRCOLES-JUEVES-VIERNES-SÁBADO",
         "dias": [
+            "VIERNES",
             "MIÉRCOLES",
-            "LUNES",
-            "JUEVES",
             "SÁBADO",
-            "VIERNES"
+            "JUEVES",
+            "LUNES"
         ],
         "meta_diaria": 10.0,
         "meta_pp": 0.0,
@@ -31474,11 +31474,11 @@
         "responsable": "TINBET",
         "frecuencia": "LUNES-JUEVES-MIÉRCOLES-JUEVES-VIERNES-SÁBADO",
         "dias": [
+            "VIERNES",
             "MIÉRCOLES",
-            "LUNES",
-            "JUEVES",
             "SÁBADO",
-            "VIERNES"
+            "JUEVES",
+            "LUNES"
         ],
         "meta_diaria": 5.0,
         "meta_pp": 0.0,
@@ -31510,11 +31510,11 @@
         "responsable": "TINBET",
         "frecuencia": "LUNES-JUEVES-MIÉRCOLES-JUEVES-VIERNES-SÁBADO",
         "dias": [
+            "VIERNES",
             "MIÉRCOLES",
-            "LUNES",
-            "JUEVES",
             "SÁBADO",
-            "VIERNES"
+            "JUEVES",
+            "LUNES"
         ],
         "meta_diaria": 5.0,
         "meta_pp": 0.0,
@@ -31611,8 +31611,8 @@
         "responsable": "TINBET",
         "frecuencia": "SÁBADO-MIÉRCOLES",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "meta_diaria": 5.0,
         "meta_pp": 0.0,
@@ -32237,8 +32237,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MARTES-JUEVES",
         "dias": [
-            "JUEVES",
-            "MARTES"
+            "MARTES",
+            "JUEVES"
         ],
         "meta_diaria": 20.0,
         "meta_pp": 0.0,
@@ -32563,8 +32563,8 @@
         "frecuencia": "MARTES-JUEVES-SÁBADO-SÁBADO",
         "dias": [
             "SÁBADO",
-            "JUEVES",
-            "MARTES"
+            "MARTES",
+            "JUEVES"
         ],
         "meta_diaria": 20.0,
         "meta_pp": 0.0,
@@ -32628,8 +32628,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MARTES-JUEVES",
         "dias": [
-            "JUEVES",
-            "MARTES"
+            "MARTES",
+            "JUEVES"
         ],
         "meta_diaria": 20.0,
         "meta_pp": 0.0,
@@ -33771,8 +33771,8 @@
         "frecuencia": "MARTES-JUEVES-SÁBADO",
         "dias": [
             "SÁBADO",
-            "JUEVES",
-            "MARTES"
+            "MARTES",
+            "JUEVES"
         ],
         "meta_diaria": 20.0,
         "meta_pp": 0.0,
@@ -34551,8 +34551,8 @@
         "responsable": "TINBET",
         "frecuencia": "MARTES-JUEVES",
         "dias": [
-            "JUEVES",
-            "MARTES"
+            "MARTES",
+            "JUEVES"
         ],
         "meta_diaria": 5.0,
         "meta_pp": 0.0,
@@ -34714,8 +34714,8 @@
         "responsable": "TINBET",
         "frecuencia": "SÁBADO-MIÉRCOLES",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "meta_diaria": 5.0,
         "meta_pp": 0.0,
@@ -36019,8 +36019,8 @@
         "responsable": "TINBET",
         "frecuencia": "SÁBADO-MIÉRCOLES",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "meta_diaria": null,
         "meta_pp": 0.0,
@@ -36052,8 +36052,8 @@
         "responsable": "TINBET",
         "frecuencia": "SÁBADO-MIÉRCOLES",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "meta_diaria": 10.0,
         "meta_pp": 0.0,
@@ -37004,11 +37004,11 @@
         "responsable": "TINBET",
         "frecuencia": "LUNES-JUEVES-MIÉRCOLES-JUEVES-VIERNES-SÁBADO",
         "dias": [
+            "VIERNES",
             "MIÉRCOLES",
-            "LUNES",
-            "JUEVES",
             "SÁBADO",
-            "VIERNES"
+            "JUEVES",
+            "LUNES"
         ],
         "meta_diaria": 10.0,
         "meta_pp": 0.0,
@@ -38040,8 +38040,8 @@
         "responsable": "TINBET",
         "frecuencia": "MARTES-JUEVES",
         "dias": [
-            "JUEVES",
-            "MARTES"
+            "MARTES",
+            "JUEVES"
         ],
         "meta_diaria": 10.0,
         "meta_pp": 0.0,
@@ -39383,11 +39383,11 @@
         "responsable": "TINBET",
         "frecuencia": "LUNES-JUEVES-MIÉRCOLES-JUEVES-VIERNES-SÁBADO",
         "dias": [
+            "VIERNES",
             "MIÉRCOLES",
-            "LUNES",
-            "JUEVES",
             "SÁBADO",
-            "VIERNES"
+            "JUEVES",
+            "LUNES"
         ],
         "meta_diaria": 5.0,
         "meta_pp": 0.0,
@@ -39419,11 +39419,11 @@
         "responsable": "TINBET",
         "frecuencia": "LUNES-JUEVES-MIÉRCOLES-JUEVES-VIERNES-SÁBADO",
         "dias": [
+            "VIERNES",
             "MIÉRCOLES",
-            "LUNES",
-            "JUEVES",
             "SÁBADO",
-            "VIERNES"
+            "JUEVES",
+            "LUNES"
         ],
         "meta_diaria": 5.0,
         "meta_pp": 0.0,
@@ -42758,8 +42758,8 @@
         "responsable": "APUESTA TOTAL",
         "frecuencia": "MARTES-JUEVES",
         "dias": [
-            "JUEVES",
-            "MARTES"
+            "MARTES",
+            "JUEVES"
         ],
         "meta_diaria": 10.0,
         "meta_pp": 0.0,
@@ -42792,8 +42792,8 @@
         "frecuencia": "MARTES-JUEVES-SÁBADO",
         "dias": [
             "SÁBADO",
-            "JUEVES",
-            "MARTES"
+            "MARTES",
+            "JUEVES"
         ],
         "meta_diaria": 20.0,
         "meta_pp": 0.0,
@@ -42825,8 +42825,8 @@
         "responsable": "APUESTA TOTAL",
         "frecuencia": "MARTES-JUEVES",
         "dias": [
-            "JUEVES",
-            "MARTES"
+            "MARTES",
+            "JUEVES"
         ],
         "meta_diaria": 10.0,
         "meta_pp": 0.0,
@@ -42858,8 +42858,8 @@
         "responsable": "APUESTA TOTAL",
         "frecuencia": "MARTES-JUEVES",
         "dias": [
-            "JUEVES",
-            "MARTES"
+            "MARTES",
+            "JUEVES"
         ],
         "meta_diaria": 10.0,
         "meta_pp": 0.0,
@@ -42925,8 +42925,8 @@
         "responsable": "APUESTA TOTAL",
         "frecuencia": "MARTES-JUEVES",
         "dias": [
-            "JUEVES",
-            "MARTES"
+            "MARTES",
+            "JUEVES"
         ],
         "meta_diaria": 10.0,
         "meta_pp": 0.0,
@@ -42958,8 +42958,8 @@
         "responsable": "APUESTA TOTAL",
         "frecuencia": "MARTES-JUEVES",
         "dias": [
-            "JUEVES",
-            "MARTES"
+            "MARTES",
+            "JUEVES"
         ],
         "meta_diaria": 20.0,
         "meta_pp": 0.0,
@@ -42991,8 +42991,8 @@
         "responsable": "APUESTA TOTAL",
         "frecuencia": "MARTES-JUEVES",
         "dias": [
-            "JUEVES",
-            "MARTES"
+            "MARTES",
+            "JUEVES"
         ],
         "meta_diaria": 10.0,
         "meta_pp": 0.0,
@@ -44646,8 +44646,8 @@
         "responsable": "APUESTA TOTAL",
         "frecuencia": "MARTES-JUEVES",
         "dias": [
-            "JUEVES",
-            "MARTES"
+            "MARTES",
+            "JUEVES"
         ],
         "meta_diaria": 30.0,
         "meta_pp": 0.0,
@@ -44712,8 +44712,8 @@
         "responsable": "APUESTA TOTAL",
         "frecuencia": "MARTES-JUEVES",
         "dias": [
-            "JUEVES",
-            "MARTES"
+            "MARTES",
+            "JUEVES"
         ],
         "meta_diaria": 40.0,
         "meta_pp": 0.0,
@@ -44843,8 +44843,8 @@
         "responsable": "APUESTA TOTAL",
         "frecuencia": "MARTES-JUEVES",
         "dias": [
-            "JUEVES",
-            "MARTES"
+            "MARTES",
+            "JUEVES"
         ],
         "meta_diaria": 40.0,
         "meta_pp": 0.0,
@@ -50234,11 +50234,11 @@
         "responsable": "APUESTA TOTAL",
         "frecuencia": "LUNES-JUEVES-MIÉRCOLES-JUEVES-VIERNES-SÁBADO",
         "dias": [
+            "VIERNES",
             "MIÉRCOLES",
-            "LUNES",
-            "JUEVES",
             "SÁBADO",
-            "VIERNES"
+            "JUEVES",
+            "LUNES"
         ],
         "meta_diaria": 10.0,
         "meta_pp": 0.0,
@@ -50334,11 +50334,11 @@
         "responsable": "APUESTA TOTAL",
         "frecuencia": "LUNES-JUEVES-MIÉRCOLES-JUEVES-VIERNES-SÁBADO",
         "dias": [
+            "VIERNES",
             "MIÉRCOLES",
-            "LUNES",
-            "JUEVES",
             "SÁBADO",
-            "VIERNES"
+            "JUEVES",
+            "LUNES"
         ],
         "meta_diaria": 10.0,
         "meta_pp": 0.0,
@@ -51112,8 +51112,8 @@
         "frecuencia": "MARTES-JUEVES-SÁBADO",
         "dias": [
             "SÁBADO",
-            "JUEVES",
-            "MARTES"
+            "MARTES",
+            "JUEVES"
         ],
         "meta_diaria": 20.0,
         "meta_pp": 0.0,
@@ -51794,8 +51794,8 @@
         "responsable": "LIVESPORT",
         "frecuencia": "MARTES-JUEVES",
         "dias": [
-            "JUEVES",
-            "MARTES"
+            "MARTES",
+            "JUEVES"
         ],
         "meta_diaria": 20.0,
         "meta_pp": 0.0,
@@ -54824,8 +54824,8 @@
         "responsable": "TAMBO",
         "frecuencia": "SÁBADO-MIÉRCOLES",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "meta_diaria": 20.0,
         "meta_pp": 0.0,
@@ -56612,8 +56612,8 @@
         "responsable": "TINBET",
         "frecuencia": "SÁBADO-MIÉRCOLES",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "meta_diaria": null,
         "meta_pp": 0.0,
@@ -56743,8 +56743,8 @@
         "responsable": "TINBET",
         "frecuencia": "SÁBADO-MIÉRCOLES",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "meta_diaria": 5.0,
         "meta_pp": 0.0,
@@ -58647,8 +58647,8 @@
         "responsable": "TAMBO",
         "frecuencia": "SÁBADO-MIÉRCOLES",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "meta_diaria": null,
         "meta_pp": 0.0,
@@ -58680,8 +58680,8 @@
         "responsable": "TAMBO",
         "frecuencia": "SÁBADO-MIÉRCOLES",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "meta_diaria": null,
         "meta_pp": 0.0,
@@ -58713,8 +58713,8 @@
         "responsable": "TAMBO",
         "frecuencia": "SÁBADO-MIÉRCOLES",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "meta_diaria": null,
         "meta_pp": 0.0,
@@ -58845,8 +58845,8 @@
         "responsable": "TAMBO",
         "frecuencia": "SÁBADO-MIÉRCOLES",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "meta_diaria": null,
         "meta_pp": 0.0,
@@ -58944,8 +58944,8 @@
         "responsable": "TAMBO",
         "frecuencia": "SÁBADO-MIÉRCOLES",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "meta_diaria": null,
         "meta_pp": 0.0,
@@ -59010,8 +59010,8 @@
         "responsable": "TAMBO",
         "frecuencia": "SÁBADO-MIÉRCOLES",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "meta_diaria": null,
         "meta_pp": 0.0,
@@ -59043,8 +59043,8 @@
         "responsable": "TAMBO",
         "frecuencia": "SÁBADO-MIÉRCOLES",
         "dias": [
-            "SÁBADO",
-            "MIÉRCOLES"
+            "MIÉRCOLES",
+            "SÁBADO"
         ],
         "meta_diaria": null,
         "meta_pp": 0.0,
@@ -59076,8 +59076,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MARTES-JUEVES",
         "dias": [
-            "JUEVES",
-            "MARTES"
+            "MARTES",
+            "JUEVES"
         ],
         "meta_diaria": null,
         "meta_pp": 0.0,
@@ -59109,8 +59109,8 @@
         "responsable": "TAMBO",
         "frecuencia": "MARTES-JUEVES",
         "dias": [
-            "JUEVES",
-            "MARTES"
+            "MARTES",
+            "JUEVES"
         ],
         "meta_diaria": null,
         "meta_pp": 0.0,
