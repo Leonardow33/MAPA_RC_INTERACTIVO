@@ -8715,8 +8715,8 @@
         "responsable": "TAMBO",
         "frecuencia": "VIERNES-MARTES",
         "dias": [
-            "MARTES",
-            "VIERNES"
+            "VIERNES",
+            "MARTES"
         ],
         "meta_diaria": 20.0,
         "meta_pp": 0.0,
@@ -13794,8 +13794,8 @@
         "dias": [
             "LUNES",
             "VIERNES",
-            "MIÉRCOLES",
-            "SÁBADO"
+            "SÁBADO",
+            "MIÉRCOLES"
         ],
         "meta_diaria": 20.0,
         "meta_pp": 0.0,
@@ -15239,8 +15239,8 @@
         "dias": [
             "LUNES",
             "VIERNES",
-            "MIÉRCOLES",
-            "SÁBADO"
+            "SÁBADO",
+            "MIÉRCOLES"
         ],
         "meta_diaria": 100.0,
         "meta_pp": 0.0,
@@ -18775,11 +18775,11 @@
         "responsable": "TAMBO",
         "frecuencia": "LUNES-MIÉRCOLES-VIERNES-JUEVES-SÁBADO",
         "dias": [
-            "LUNES",
-            "MIÉRCOLES",
-            "SÁBADO",
             "JUEVES",
-            "VIERNES"
+            "VIERNES",
+            "SÁBADO",
+            "LUNES",
+            "MIÉRCOLES"
         ],
         "meta_diaria": 20.0,
         "meta_pp": 0.0,
@@ -19271,8 +19271,8 @@
         "dias": [
             "LUNES",
             "VIERNES",
-            "MIÉRCOLES",
-            "SÁBADO"
+            "SÁBADO",
+            "MIÉRCOLES"
         ],
         "meta_diaria": 20.0,
         "meta_pp": 0.0,
@@ -21207,8 +21207,8 @@
         "dias": [
             "LUNES",
             "VIERNES",
-            "MIÉRCOLES",
-            "SÁBADO"
+            "SÁBADO",
+            "MIÉRCOLES"
         ],
         "meta_diaria": 20.0,
         "meta_pp": 0.0,
@@ -26662,12 +26662,12 @@
         "responsable": "JS BODEGA",
         "frecuencia": "LUNES-MARTES-MIÉRCOLES-JUEVES-VIERNES-SÁBADO",
         "dias": [
-            "LUNES",
-            "MIÉRCOLES",
-            "MARTES",
-            "SÁBADO",
             "JUEVES",
-            "VIERNES"
+            "MARTES",
+            "VIERNES",
+            "SÁBADO",
+            "LUNES",
+            "MIÉRCOLES"
         ],
         "meta_diaria": null,
         "meta_pp": 0.0,
@@ -26699,12 +26699,12 @@
         "responsable": "JS BODEGA",
         "frecuencia": "LUNES-MARTES-MIÉRCOLES-JUEVES-VIERNES-SÁBADO",
         "dias": [
-            "LUNES",
-            "MIÉRCOLES",
-            "MARTES",
-            "SÁBADO",
             "JUEVES",
-            "VIERNES"
+            "MARTES",
+            "VIERNES",
+            "SÁBADO",
+            "LUNES",
+            "MIÉRCOLES"
         ],
         "meta_diaria": null,
         "meta_pp": 0.0,
@@ -27387,8 +27387,8 @@
         "dias": [
             "LUNES",
             "VIERNES",
-            "MIÉRCOLES",
-            "SÁBADO"
+            "SÁBADO",
+            "MIÉRCOLES"
         ],
         "meta_diaria": 20.0,
         "meta_pp": 0.0,
@@ -27878,8 +27878,8 @@
         "frecuencia": "MARTES-MIÉRCOLES-SÁBADO",
         "dias": [
             "MARTES",
-            "MIÉRCOLES",
-            "SÁBADO"
+            "SÁBADO",
+            "MIÉRCOLES"
         ],
         "meta_diaria": 20.0,
         "meta_pp": 0.0,
@@ -30066,8 +30066,8 @@
         "responsable": "TINBET",
         "frecuencia": "VIERNES-MARTES",
         "dias": [
-            "MARTES",
-            "VIERNES"
+            "VIERNES",
+            "MARTES"
         ],
         "meta_diaria": 10.0,
         "meta_pp": 0.0,
@@ -30260,8 +30260,8 @@
         "responsable": "TINBET",
         "frecuencia": "VIERNES-MARTES",
         "dias": [
-            "MARTES",
-            "VIERNES"
+            "VIERNES",
+            "MARTES"
         ],
         "meta_diaria": 10.0,
         "meta_pp": 0.0,
@@ -30889,8 +30889,8 @@
         "responsable": "TINBET",
         "frecuencia": "JUEVES-LUNES",
         "dias": [
-            "LUNES",
-            "JUEVES"
+            "JUEVES",
+            "LUNES"
         ],
         "meta_diaria": 5.0,
         "meta_pp": 0.0,
@@ -31438,11 +31438,11 @@
         "responsable": "TINBET",
         "frecuencia": "LUNES-JUEVES-MIÉRCOLES-JUEVES-VIERNES-SÁBADO",
         "dias": [
-            "LUNES",
-            "MIÉRCOLES",
-            "SÁBADO",
             "JUEVES",
-            "VIERNES"
+            "VIERNES",
+            "SÁBADO",
+            "LUNES",
+            "MIÉRCOLES"
         ],
         "meta_diaria": 10.0,
         "meta_pp": 0.0,
@@ -31474,11 +31474,11 @@
         "responsable": "TINBET",
         "frecuencia": "LUNES-JUEVES-MIÉRCOLES-JUEVES-VIERNES-SÁBADO",
         "dias": [
-            "LUNES",
-            "MIÉRCOLES",
-            "SÁBADO",
             "JUEVES",
-            "VIERNES"
+            "VIERNES",
+            "SÁBADO",
+            "LUNES",
+            "MIÉRCOLES"
         ],
         "meta_diaria": 5.0,
         "meta_pp": 0.0,
@@ -31510,11 +31510,11 @@
         "responsable": "TINBET",
         "frecuencia": "LUNES-JUEVES-MIÉRCOLES-JUEVES-VIERNES-SÁBADO",
         "dias": [
-            "LUNES",
-            "MIÉRCOLES",
-            "SÁBADO",
             "JUEVES",
-            "VIERNES"
+            "VIERNES",
+            "SÁBADO",
+            "LUNES",
+            "MIÉRCOLES"
         ],
         "meta_diaria": 5.0,
         "meta_pp": 0.0,
@@ -34584,8 +34584,8 @@
         "responsable": "TINBET",
         "frecuencia": "JUEVES-LUNES",
         "dias": [
-            "LUNES",
-            "JUEVES"
+            "JUEVES",
+            "LUNES"
         ],
         "meta_diaria": 5.0,
         "meta_pp": 0.0,
@@ -34843,8 +34843,8 @@
         "responsable": "TINBET",
         "frecuencia": "JUEVES-LUNES",
         "dias": [
-            "LUNES",
-            "JUEVES"
+            "JUEVES",
+            "LUNES"
         ],
         "meta_diaria": 5.0,
         "meta_pp": 0.0,
@@ -34876,8 +34876,8 @@
         "responsable": "TINBET",
         "frecuencia": "JUEVES-LUNES",
         "dias": [
-            "LUNES",
-            "JUEVES"
+            "JUEVES",
+            "LUNES"
         ],
         "meta_diaria": 10.0,
         "meta_pp": 0.0,
@@ -36249,8 +36249,8 @@
         "responsable": "LIVESPORT",
         "frecuencia": "JUEVES-LUNES",
         "dias": [
-            "LUNES",
-            "JUEVES"
+            "JUEVES",
+            "LUNES"
         ],
         "meta_diaria": 10.0,
         "meta_pp": 0.0,
@@ -37004,11 +37004,11 @@
         "responsable": "TINBET",
         "frecuencia": "LUNES-JUEVES-MIÉRCOLES-JUEVES-VIERNES-SÁBADO",
         "dias": [
-            "LUNES",
-            "MIÉRCOLES",
-            "SÁBADO",
             "JUEVES",
-            "VIERNES"
+            "VIERNES",
+            "SÁBADO",
+            "LUNES",
+            "MIÉRCOLES"
         ],
         "meta_diaria": 10.0,
         "meta_pp": 0.0,
@@ -39383,11 +39383,11 @@
         "responsable": "TINBET",
         "frecuencia": "LUNES-JUEVES-MIÉRCOLES-JUEVES-VIERNES-SÁBADO",
         "dias": [
-            "LUNES",
-            "MIÉRCOLES",
-            "SÁBADO",
             "JUEVES",
-            "VIERNES"
+            "VIERNES",
+            "SÁBADO",
+            "LUNES",
+            "MIÉRCOLES"
         ],
         "meta_diaria": 5.0,
         "meta_pp": 0.0,
@@ -39419,11 +39419,11 @@
         "responsable": "TINBET",
         "frecuencia": "LUNES-JUEVES-MIÉRCOLES-JUEVES-VIERNES-SÁBADO",
         "dias": [
-            "LUNES",
-            "MIÉRCOLES",
-            "SÁBADO",
             "JUEVES",
-            "VIERNES"
+            "VIERNES",
+            "SÁBADO",
+            "LUNES",
+            "MIÉRCOLES"
         ],
         "meta_diaria": 5.0,
         "meta_pp": 0.0,
@@ -44581,8 +44581,8 @@
         "frecuencia": "LUNES-JUEVES-SÁBADO",
         "dias": [
             "LUNES",
-            "JUEVES",
-            "SÁBADO"
+            "SÁBADO",
+            "JUEVES"
         ],
         "meta_diaria": 20.0,
         "meta_pp": 0.0,
@@ -50234,11 +50234,11 @@
         "responsable": "APUESTA TOTAL",
         "frecuencia": "LUNES-JUEVES-MIÉRCOLES-JUEVES-VIERNES-SÁBADO",
         "dias": [
-            "LUNES",
-            "MIÉRCOLES",
-            "SÁBADO",
             "JUEVES",
-            "VIERNES"
+            "VIERNES",
+            "SÁBADO",
+            "LUNES",
+            "MIÉRCOLES"
         ],
         "meta_diaria": 10.0,
         "meta_pp": 0.0,
@@ -50334,11 +50334,11 @@
         "responsable": "APUESTA TOTAL",
         "frecuencia": "LUNES-JUEVES-MIÉRCOLES-JUEVES-VIERNES-SÁBADO",
         "dias": [
-            "LUNES",
-            "MIÉRCOLES",
-            "SÁBADO",
             "JUEVES",
-            "VIERNES"
+            "VIERNES",
+            "SÁBADO",
+            "LUNES",
+            "MIÉRCOLES"
         ],
         "meta_diaria": 10.0,
         "meta_pp": 0.0,
@@ -50950,8 +50950,8 @@
         "dias": [
             "LUNES",
             "VIERNES",
-            "MIÉRCOLES",
-            "SÁBADO"
+            "SÁBADO",
+            "MIÉRCOLES"
         ],
         "meta_diaria": 20.0,
         "meta_pp": 0.0,
@@ -56546,8 +56546,8 @@
         "responsable": "RETABET",
         "frecuencia": "JUEVES-LUNES",
         "dias": [
-            "LUNES",
-            "JUEVES"
+            "JUEVES",
+            "LUNES"
         ],
         "meta_diaria": 10.0,
         "meta_pp": 0.0,
@@ -58878,8 +58878,8 @@
         "responsable": "TAMBO",
         "frecuencia": "VIERNES-MARTES",
         "dias": [
-            "MARTES",
-            "VIERNES"
+            "VIERNES",
+            "MARTES"
         ],
         "meta_diaria": null,
         "meta_pp": 0.0,
@@ -59208,8 +59208,8 @@
         "responsable": "TINBET",
         "frecuencia": "VIERNES-MARTES",
         "dias": [
-            "MARTES",
-            "VIERNES"
+            "VIERNES",
+            "MARTES"
         ],
         "meta_diaria": null,
         "meta_pp": 0.0,
@@ -59241,8 +59241,8 @@
         "responsable": "TINBET",
         "frecuencia": "JUEVES-LUNES",
         "dias": [
-            "LUNES",
-            "JUEVES"
+            "JUEVES",
+            "LUNES"
         ],
         "meta_diaria": null,
         "meta_pp": 0.0,
@@ -59274,8 +59274,8 @@
         "responsable": "TINBET",
         "frecuencia": "VIERNES-MARTES",
         "dias": [
-            "MARTES",
-            "VIERNES"
+            "VIERNES",
+            "MARTES"
         ],
         "meta_diaria": null,
         "meta_pp": 0.0,
@@ -59307,8 +59307,8 @@
         "responsable": "TINBET",
         "frecuencia": "VIERNES-MARTES",
         "dias": [
-            "MARTES",
-            "VIERNES"
+            "VIERNES",
+            "MARTES"
         ],
         "meta_diaria": null,
         "meta_pp": 0.0,
@@ -59340,8 +59340,8 @@
         "responsable": "TINBET",
         "frecuencia": "VIERNES-MARTES",
         "dias": [
-            "MARTES",
-            "VIERNES"
+            "VIERNES",
+            "MARTES"
         ],
         "meta_diaria": null,
         "meta_pp": 0.0,
@@ -59373,8 +59373,8 @@
         "responsable": "TINBET",
         "frecuencia": "JUEVES-LUNES",
         "dias": [
-            "LUNES",
-            "JUEVES"
+            "JUEVES",
+            "LUNES"
         ],
         "meta_diaria": null,
         "meta_pp": 0.0,
@@ -59406,8 +59406,8 @@
         "responsable": "TINBET",
         "frecuencia": "JUEVES-LUNES",
         "dias": [
-            "LUNES",
-            "JUEVES"
+            "JUEVES",
+            "LUNES"
         ],
         "meta_diaria": null,
         "meta_pp": 0.0,
@@ -59439,8 +59439,8 @@
         "responsable": "TINBET",
         "frecuencia": "JUEVES-LUNES",
         "dias": [
-            "LUNES",
-            "JUEVES"
+            "JUEVES",
+            "LUNES"
         ],
         "meta_diaria": null,
         "meta_pp": 0.0,
@@ -59472,8 +59472,8 @@
         "responsable": "TINBET",
         "frecuencia": "JUEVES-LUNES",
         "dias": [
-            "LUNES",
-            "JUEVES"
+            "JUEVES",
+            "LUNES"
         ],
         "meta_diaria": null,
         "meta_pp": 0.0,
@@ -59505,8 +59505,8 @@
         "responsable": "TINBET",
         "frecuencia": "JUEVES-LUNES",
         "dias": [
-            "LUNES",
-            "JUEVES"
+            "JUEVES",
+            "LUNES"
         ],
         "meta_diaria": null,
         "meta_pp": 0.0,
@@ -59538,8 +59538,8 @@
         "responsable": "TINBET",
         "frecuencia": "JUEVES-LUNES",
         "dias": [
-            "LUNES",
-            "JUEVES"
+            "JUEVES",
+            "LUNES"
         ],
         "meta_diaria": null,
         "meta_pp": 0.0,
@@ -59571,8 +59571,8 @@
         "responsable": "TINBET",
         "frecuencia": "VIERNES-MARTES",
         "dias": [
-            "MARTES",
-            "VIERNES"
+            "VIERNES",
+            "MARTES"
         ],
         "meta_diaria": null,
         "meta_pp": 0.0,
@@ -59604,8 +59604,8 @@
         "responsable": "TINBET",
         "frecuencia": "VIERNES-MARTES",
         "dias": [
-            "MARTES",
-            "VIERNES"
+            "VIERNES",
+            "MARTES"
         ],
         "meta_diaria": null,
         "meta_pp": 0.0,
@@ -59864,8 +59864,8 @@
         "responsable": "TINBET",
         "frecuencia": "VIERNES-MARTES",
         "dias": [
-            "MARTES",
-            "VIERNES"
+            "VIERNES",
+            "MARTES"
         ],
         "meta_diaria": null,
         "meta_pp": 0.0,
@@ -59897,8 +59897,8 @@
         "responsable": "TINBET",
         "frecuencia": "JUEVES-LUNES",
         "dias": [
-            "LUNES",
-            "JUEVES"
+            "JUEVES",
+            "LUNES"
         ],
         "meta_diaria": null,
         "meta_pp": 0.0,
@@ -59930,8 +59930,8 @@
         "responsable": "TINBET",
         "frecuencia": "JUEVES-LUNES",
         "dias": [
-            "LUNES",
-            "JUEVES"
+            "JUEVES",
+            "LUNES"
         ],
         "meta_diaria": null,
         "meta_pp": 0.0,
@@ -60060,8 +60060,8 @@
         "responsable": "TINBET",
         "frecuencia": "JUEVES-LUNES",
         "dias": [
-            "LUNES",
-            "JUEVES"
+            "JUEVES",
+            "LUNES"
         ],
         "meta_diaria": null,
         "meta_pp": 0.0,
@@ -60093,8 +60093,8 @@
         "responsable": "TINBET",
         "frecuencia": "JUEVES-LUNES",
         "dias": [
-            "LUNES",
-            "JUEVES"
+            "JUEVES",
+            "LUNES"
         ],
         "meta_diaria": 10.0,
         "meta_pp": 0.0,
@@ -60159,8 +60159,8 @@
         "responsable": "TINBET",
         "frecuencia": "JUEVES-LUNES",
         "dias": [
-            "LUNES",
-            "JUEVES"
+            "JUEVES",
+            "LUNES"
         ],
         "meta_diaria": null,
         "meta_pp": 0.0,
@@ -60224,8 +60224,8 @@
         "responsable": "TINBET",
         "frecuencia": "JUEVES-LUNES",
         "dias": [
-            "LUNES",
-            "JUEVES"
+            "JUEVES",
+            "LUNES"
         ],
         "meta_diaria": null,
         "meta_pp": 0.0,
@@ -60257,8 +60257,8 @@
         "responsable": "TINBET",
         "frecuencia": "JUEVES-LUNES",
         "dias": [
-            "LUNES",
-            "JUEVES"
+            "JUEVES",
+            "LUNES"
         ],
         "meta_diaria": null,
         "meta_pp": 0.0,
@@ -60290,8 +60290,8 @@
         "responsable": "TINBET",
         "frecuencia": "JUEVES-LUNES",
         "dias": [
-            "LUNES",
-            "JUEVES"
+            "JUEVES",
+            "LUNES"
         ],
         "meta_diaria": null,
         "meta_pp": 0.0,
@@ -60676,8 +60676,8 @@
         "responsable": "TINBET",
         "frecuencia": "VIERNES-MARTES",
         "dias": [
-            "MARTES",
-            "VIERNES"
+            "VIERNES",
+            "MARTES"
         ],
         "meta_diaria": null,
         "meta_pp": 0.0,
@@ -60709,8 +60709,8 @@
         "responsable": "TINBET",
         "frecuencia": "VIERNES-MARTES",
         "dias": [
-            "MARTES",
-            "VIERNES"
+            "VIERNES",
+            "MARTES"
         ],
         "meta_diaria": null,
         "meta_pp": 0.0,
@@ -60742,8 +60742,8 @@
         "responsable": "TINBET",
         "frecuencia": "VIERNES-MARTES",
         "dias": [
-            "MARTES",
-            "VIERNES"
+            "VIERNES",
+            "MARTES"
         ],
         "meta_diaria": null,
         "meta_pp": 0.0,
@@ -60808,8 +60808,8 @@
         "responsable": "TINBET",
         "frecuencia": "VIERNES-MARTES",
         "dias": [
-            "MARTES",
-            "VIERNES"
+            "VIERNES",
+            "MARTES"
         ],
         "meta_diaria": null,
         "meta_pp": 0.0,
@@ -60841,8 +60841,8 @@
         "responsable": "TINBET",
         "frecuencia": "VIERNES-MARTES",
         "dias": [
-            "MARTES",
-            "VIERNES"
+            "VIERNES",
+            "MARTES"
         ],
         "meta_diaria": null,
         "meta_pp": 0.0,
@@ -60906,8 +60906,8 @@
         "responsable": "TINBET",
         "frecuencia": "JUEVES-LUNES",
         "dias": [
-            "LUNES",
-            "JUEVES"
+            "JUEVES",
+            "LUNES"
         ],
         "meta_diaria": null,
         "meta_pp": 0.0,
@@ -60939,8 +60939,8 @@
         "responsable": "TINBET",
         "frecuencia": "JUEVES-LUNES",
         "dias": [
-            "LUNES",
-            "JUEVES"
+            "JUEVES",
+            "LUNES"
         ],
         "meta_diaria": null,
         "meta_pp": 0.0,
@@ -61070,8 +61070,8 @@
         "responsable": "TINBET",
         "frecuencia": "JUEVES-LUNES",
         "dias": [
-            "LUNES",
-            "JUEVES"
+            "JUEVES",
+            "LUNES"
         ],
         "meta_diaria": 5.0,
         "meta_pp": 0.0,
@@ -61103,8 +61103,8 @@
         "responsable": "TINBET",
         "frecuencia": "JUEVES-LUNES",
         "dias": [
-            "LUNES",
-            "JUEVES"
+            "JUEVES",
+            "LUNES"
         ],
         "meta_diaria": null,
         "meta_pp": 0.0,
@@ -61169,8 +61169,8 @@
         "responsable": "TINBET",
         "frecuencia": "JUEVES-LUNES",
         "dias": [
-            "LUNES",
-            "JUEVES"
+            "JUEVES",
+            "LUNES"
         ],
         "meta_diaria": null,
         "meta_pp": 0.0,
@@ -61300,8 +61300,8 @@
         "responsable": "TINBET",
         "frecuencia": "JUEVES-LUNES",
         "dias": [
-            "LUNES",
-            "JUEVES"
+            "JUEVES",
+            "LUNES"
         ],
         "meta_diaria": null,
         "meta_pp": 0.0,
@@ -61398,8 +61398,8 @@
         "responsable": "TINBET",
         "frecuencia": "JUEVES-LUNES",
         "dias": [
-            "LUNES",
-            "JUEVES"
+            "JUEVES",
+            "LUNES"
         ],
         "meta_diaria": null,
         "meta_pp": 0.0,
