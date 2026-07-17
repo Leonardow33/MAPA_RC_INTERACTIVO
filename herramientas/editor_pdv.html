@@ -621,6 +621,50 @@
       <button class="add-btn" id="add-rc-btn">Agregar RC</button>
     </div>
   </div>
+
+  <!-- COORDINADORES PAGE -->
+  <div class="page" id="page-coord">
+    <div class="card bulk-card">
+      <div class="card-title">Reemplazar GZ en bloque</div>
+      <div class="bulk-row">
+        <select id="bulk-gz-old"><option value="">— GZ actual —</option></select>
+        <input type="text" id="bulk-gz-new" list="gz-bulk-list" placeholder="GZ nuevo..." autocomplete="off"/>
+        <datalist id="gz-bulk-list"></datalist>
+        <button class="bulk-apply" id="bulk-gz-btn">Aplicar</button>
+      </div>
+      <div class="bulk-progress" id="bulk-gz-prog">
+        <div class="bulk-bar-bg"><div class="bulk-bar" id="bulk-gz-bar"></div></div>
+        <div class="bulk-result" id="bulk-gz-res"></div>
+      </div>
+    </div>
+
+    <div class="card bulk-card">
+      <div class="card-title">Reemplazar JZ en bloque</div>
+      <div class="bulk-row">
+        <select id="bulk-jz-old"><option value="">— JZ actual —</option></select>
+        <input type="text" id="bulk-jz-new" list="jz-bulk-list" placeholder="JZ nuevo..." autocomplete="off"/>
+        <datalist id="jz-bulk-list"></datalist>
+        <button class="bulk-apply" id="bulk-jz-btn">Aplicar</button>
+      </div>
+      <div class="bulk-progress" id="bulk-jz-prog">
+        <div class="bulk-bar-bg"><div class="bulk-bar" id="bulk-jz-bar"></div></div>
+        <div class="bulk-result" id="bulk-jz-res"></div>
+      </div>
+    </div>
+
+    <div class="card bulk-card">
+      <div class="card-title">Reemplazar Cluster Interno en bloque</div>
+      <div class="bulk-row">
+        <select id="bulk-cl-old"><option value="">— Cluster actual —</option></select>
+        <select id="bulk-cl-new"><option value="">— Cluster nuevo —</option></select>
+        <button class="bulk-apply" id="bulk-cl-btn">Aplicar</button>
+      </div>
+      <div class="bulk-progress" id="bulk-cl-prog">
+        <div class="bulk-bar-bg"><div class="bulk-bar" id="bulk-cl-bar"></div></div>
+        <div class="bulk-result" id="bulk-cl-res"></div>
+      </div>
+    </div>
+  </div>
 </div>
 
 <!-- PIN MODAL -->
@@ -633,50 +677,6 @@
     <div class="pin-btns">
       <button class="pin-cancel" id="pin-cancel">Cancelar</button>
       <button class="pin-ok" id="pin-ok">Ingresar</button>
-    </div>
-  </div>
-</div>
-
-<!-- COORDINADORES PAGE -->
-<div class="page" id="page-coord">
-  <div class="card bulk-card">
-    <div class="card-title">Reemplazar GZ en bloque</div>
-    <div class="bulk-row">
-      <select id="bulk-gz-old"><option value="">— GZ actual —</option></select>
-      <input type="text" id="bulk-gz-new" list="gz-bulk-list" placeholder="GZ nuevo..." autocomplete="off"/>
-      <datalist id="gz-bulk-list"></datalist>
-      <button class="bulk-apply" id="bulk-gz-btn">Aplicar</button>
-    </div>
-    <div class="bulk-progress" id="bulk-gz-prog">
-      <div class="bulk-bar-bg"><div class="bulk-bar" id="bulk-gz-bar"></div></div>
-      <div class="bulk-result" id="bulk-gz-res"></div>
-    </div>
-  </div>
-
-  <div class="card bulk-card">
-    <div class="card-title">Reemplazar JZ en bloque</div>
-    <div class="bulk-row">
-      <select id="bulk-jz-old"><option value="">— JZ actual —</option></select>
-      <input type="text" id="bulk-jz-new" list="jz-bulk-list" placeholder="JZ nuevo..." autocomplete="off"/>
-      <datalist id="jz-bulk-list"></datalist>
-      <button class="bulk-apply" id="bulk-jz-btn">Aplicar</button>
-    </div>
-    <div class="bulk-progress" id="bulk-jz-prog">
-      <div class="bulk-bar-bg"><div class="bulk-bar" id="bulk-jz-bar"></div></div>
-      <div class="bulk-result" id="bulk-jz-res"></div>
-    </div>
-  </div>
-
-  <div class="card bulk-card">
-    <div class="card-title">Reemplazar Cluster Interno en bloque</div>
-    <div class="bulk-row">
-      <select id="bulk-cl-old"><option value="">— Cluster actual —</option></select>
-      <select id="bulk-cl-new"><option value="">— Cluster nuevo —</option></select>
-      <button class="bulk-apply" id="bulk-cl-btn">Aplicar</button>
-    </div>
-    <div class="bulk-progress" id="bulk-cl-prog">
-      <div class="bulk-bar-bg"><div class="bulk-bar" id="bulk-cl-bar"></div></div>
-      <div class="bulk-result" id="bulk-cl-res"></div>
     </div>
   </div>
 </div>
