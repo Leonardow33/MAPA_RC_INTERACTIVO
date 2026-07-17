@@ -550,7 +550,7 @@
           <datalist id="jz-list"></datalist>
         </div>
 
-        <div class="field-group">
+        <div class="field-group" id="cluster-row" style="display:none">
           <label class="field-label">Cluster Interno</label>
           <select class="field-select" id="sel-cluster"></select>
         </div>
@@ -849,6 +849,7 @@ async function init() {
 
   if (S.isAdmin) {
     document.querySelector('.admin-tab').style.display = '';
+    document.getElementById('cluster-row').style.display = '';
     renderRCList();
   }
 }
