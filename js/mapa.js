@@ -16,6 +16,27 @@ L.control.layers({
 }, null, { position: 'bottomright' }).addTo(map);
 
 let allData = [];
+
+function normalizePuntos(data) {
+    return data.map(p => {
+        let dias = p.dias;
+        if (!Array.isArray(dias)) {
+            const s = typeof dias === 'string' ? dias.trim() : '';
+            if (!s) { dias = ['SIN RUTA']; }
+            else {
+                try { dias = JSON.parse(s); } catch(e) {
+                    dias = s.split(',').map(x => x.trim()).filter(Boolean);
+                }
+                if (!Array.isArray(dias)) dias = [String(dias)];
+            }
+        }
+        return { ...p,
+            lat: typeof p.lat === 'string' ? parseFloat(p.lat) : p.lat,
+            lng: typeof p.lng === 'string' ? parseFloat(p.lng) : p.lng,
+            dias };
+    });
+}
+
 let currentFiltered = [];
 let materialPopCodes = new Set();
 let activeCluster = null;
@@ -247,7 +268,7 @@ fetch((_BASE_DATA + 'puntos.json?v=') + new Date().getTime(), { cache: 'no-store
     .then(data => {
         try {
 
-            allData = data;
+            allData = normalizePuntos(data);
 
             // PIN ESPECIAL ELOT (nunca se agrupa)
             const elotPoint = data.find(p => (p.nombre || "").toUpperCase().includes("OFICINA ELOT"));
@@ -1754,7 +1775,7 @@ loadPartidos();
                     fetch((_BASE_DATA + 'puntos.json?v=') + Date.now(), { cache: 'no-store' })
                         .then(r => r.json())
                         .then(data => {
-                            allData = data;
+                            allData = normalizePuntos(data);
                             updateFilters();
                             console.log('Datos actualizados automaticamente:', d.v);
                         }).catch(() => { });

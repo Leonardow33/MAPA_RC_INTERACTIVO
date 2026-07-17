@@ -50,6 +50,27 @@ let rcColores = {};
 let todosRCs = [];
 
 let puntosData = [];
+
+function normalizePuntos(data) {
+    return data.map(p => {
+        let dias = p.dias;
+        if (!Array.isArray(dias)) {
+            const s = typeof dias === 'string' ? dias.trim() : '';
+            if (!s) { dias = ['SIN RUTA']; }
+            else {
+                try { dias = JSON.parse(s); } catch(e) {
+                    dias = s.split(',').map(x => x.trim()).filter(Boolean);
+                }
+                if (!Array.isArray(dias)) dias = [String(dias)];
+            }
+        }
+        return { ...p,
+            lat: typeof p.lat === 'string' ? parseFloat(p.lat) : p.lat,
+            lng: typeof p.lng === 'string' ? parseFloat(p.lng) : p.lng,
+            dias };
+    });
+}
+
 let sinVentaCodes = new Set();
 let sinVentaActive = false;
 let selectedDate = '';
@@ -952,7 +973,7 @@ document.getElementById('btnModoCap').classList.toggle('activo', modoVista === '
 document.getElementById('btnRutaHoy').style.display = modoVista === 'cap' ? 'none' : '';
 fetch((_BASE_DATA + 'puntos.json?v=') + new Date().getTime(), {cache: 'no-store'})
     .then(r => r.json())
-    .then(data => { puntosData = data; cargarDatos(); cargarDatosSemanales(); })
+    .then(data => { puntosData = normalizePuntos(data); cargarDatos(); cargarDatosSemanales(); })
     .catch(e => console.error('Error cargando puntos.json:', e));
 
 // ── AUTO-REFRESH cuando cambia version.json ────────────────────────────────
@@ -969,7 +990,7 @@ fetch((_BASE_DATA + 'puntos.json?v=') + new Date().getTime(), {cache: 'no-store'
                     fetch((_BASE_DATA + 'puntos.json?v=') + Date.now(), {cache: 'no-store'})
                         .then(r => r.json())
                         .then(data => {
-                            puntosData = data;
+                            puntosData = normalizePuntos(data);
                             scheduleFullRender();
                             console.log('Datos actualizados automaticamente:', d.v);
                         }).catch(() => {});

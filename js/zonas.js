@@ -37,6 +37,27 @@ const distritoLayer = L.layerGroup().addTo(map);
 const markerLayer   = L.layerGroup().addTo(map);
 
 let allData      = [];
+
+function normalizePuntos(data) {
+    return data.map(p => {
+        let dias = p.dias;
+        if (!Array.isArray(dias)) {
+            const s = typeof dias === 'string' ? dias.trim() : '';
+            if (!s) { dias = ['SIN RUTA']; }
+            else {
+                try { dias = JSON.parse(s); } catch(e) {
+                    dias = s.split(',').map(x => x.trim()).filter(Boolean);
+                }
+                if (!Array.isArray(dias)) dias = [String(dias)];
+            }
+        }
+        return { ...p,
+            lat: typeof p.lat === 'string' ? parseFloat(p.lat) : p.lat,
+            lng: typeof p.lng === 'string' ? parseFloat(p.lng) : p.lng,
+            dias };
+    });
+}
+
 let distritosGeo = null;
 let rcColorMap   = {};
 let rcSelected   = null;
@@ -726,7 +747,7 @@ Promise.all([
     fetch(PUNTOS_URL   + '?v=' + Date.now()).then(r => r.json()),
     fetch(DISTRITOS_URL + '?v=' + Date.now()).then(r => r.json()),
 ]).then(([puntos, distritos]) => {
-    allData      = puntos.filter(p => p.lat && p.lng && (p.estado||'').toUpperCase() !== 'CERRADO');
+    allData      = normalizePuntos(puntos).filter(p => p.lat && p.lng && (p.estado||'').toUpperCase() !== 'CERRADO');
     distritosGeo = distritos;
     poblarFiltros();
     render();
