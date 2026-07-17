@@ -1095,8 +1095,10 @@ async function saveStore() {
   const newCluster = document.getElementById('sel-cluster').value;
 
   const fields = {};
+  const rcObj = S.rcs.find(r => r.code === newRC);
   if (S.colRC)       fields[S.colRC]       = newRC;
-  if (S.colRCNombre) fields[S.colRCNombre] = S.rcs.find(r => r.code === newRC)?.name || '';
+  if (S.colRCNombre) fields[S.colRCNombre] = rcObj?.name      || '';
+  if (S.colSkill)    fields[S.colSkill]    = rcObj?.skillrock || '';
   if (S.colSup)      fields[S.colSup]      = newSup;
   if (S.colGZ)             fields[S.colGZ]             = newGZ;
   if (S.colJZ)             fields[S.colJZ]             = newJZ;
