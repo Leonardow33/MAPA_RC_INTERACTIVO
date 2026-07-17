@@ -631,6 +631,7 @@ const S = {
   account:       null,
   // BASE MAESTRA columns
   colRC:         null,
+  colRCNombre:   null,
   colSup:        null,
   colDias:       [],
   colFrecuencia: null,
@@ -741,6 +742,7 @@ async function init() {
   console.log('[EditorPDV] Columnas BASE MAESTRA:', cols.map(c => `${c.InternalName} | ${c.Title}`));
 
   S.colRC         = findCol(cols, ['RC_ENCARGADO_DE_TIENDA','RC ENCARGADO DE TIENDA','RC_ENCARGADO']) || 'field_18';
+  S.colRCNombre   = findCol(cols, ['RC_NOMBRE','RC NOMBRE','NOMBRE_RC','NOMBRE RC']) || 'field_19';
   S.colSup        = findCol(cols, ['SUPERVISOR'])                                                   || 'field_34';
   S.colFrecuencia = findCol(cols, ['FRECUENCIA_NORMAL','FRECUENCIA-NORMAL','FRECUENCIA NORMAL','FRECUENCIA']) || 'field_37';
   S.colNombre     = findCol(cols, ['NOMBRE_DE_TIENDA','NOMBRE DE TIENDA','NOMBRE_TIENDA','NOMBRE TIENDA','NOMBRE']) || 'field_2';
@@ -1093,8 +1095,9 @@ async function saveStore() {
   const newCluster = document.getElementById('sel-cluster').value;
 
   const fields = {};
-  if (S.colRC)             fields[S.colRC]             = newRC;
-  if (S.colSup)            fields[S.colSup]            = newSup;
+  if (S.colRC)       fields[S.colRC]       = newRC;
+  if (S.colRCNombre) fields[S.colRCNombre] = S.rcs.find(r => r.code === newRC)?.name || '';
+  if (S.colSup)      fields[S.colSup]      = newSup;
   if (S.colGZ)             fields[S.colGZ]             = newGZ;
   if (S.colJZ)             fields[S.colJZ]             = newJZ;
   if (S.colClusterInterno) fields[S.colClusterInterno] = newCluster;
