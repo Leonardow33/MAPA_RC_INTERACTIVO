@@ -355,6 +355,28 @@
     .toast.ok  { background: var(--green); }
     .toast.err { background: var(--red); }
 
+    /* ── PIN MODAL ──────────────────────────────── */
+    #pin-overlay { display:none; position:fixed; inset:0; background:rgba(0,0,0,.5); z-index:9999; align-items:center; justify-content:center; }
+    #pin-overlay.show { display:flex; }
+    .pin-box { background:var(--card); border-radius:14px; padding:28px 24px; width:290px; box-shadow:0 8px 32px rgba(0,0,0,.25); }
+    .pin-title { font-weight:700; font-size:16px; margin-bottom:6px; }
+    .pin-sub { font-size:13px; color:var(--text-muted); margin-bottom:18px; }
+    .pin-input { width:100%; padding:11px; border:1.5px solid var(--border); border-radius:8px; font-size:15px; box-sizing:border-box; margin-bottom:8px; background:var(--bg); color:var(--text); }
+    .pin-err { color:#e53935; font-size:12px; margin-bottom:10px; display:none; }
+    .pin-btns { display:flex; gap:8px; }
+    .pin-btns button { flex:1; padding:10px; border-radius:8px; font-weight:600; cursor:pointer; border:none; }
+    .pin-cancel { background:transparent; border:1.5px solid var(--border) !important; color:var(--text); }
+    .pin-ok { background:var(--accent); color:white; }
+    /* ── COORDINADORES ───────────────────────────── */
+    .bulk-card { margin-bottom:14px; }
+    .bulk-row { display:flex; gap:8px; align-items:center; flex-wrap:wrap; }
+    .bulk-row select, .bulk-row input[type=text] { flex:1; min-width:110px; padding:9px 10px; border:1.5px solid var(--border); border-radius:8px; background:var(--bg); color:var(--text); font-size:14px; }
+    .bulk-apply { padding:9px 16px; border:none; border-radius:8px; background:var(--accent); color:white; font-weight:600; cursor:pointer; white-space:nowrap; }
+    .bulk-apply:disabled { opacity:.5; cursor:default; }
+    .bulk-progress { margin-top:10px; display:none; }
+    .bulk-bar-bg { background:var(--border); border-radius:6px; height:6px; overflow:hidden; }
+    .bulk-bar { background:var(--accent); height:6px; border-radius:6px; width:0%; transition:width .15s; }
+    .bulk-result { font-size:13px; margin-top:6px; }
     /* ── ADMIN — RCS ────────────────────────────── */
     .rc-list { display: flex; flex-direction: column; gap: 8px; margin-bottom: 20px; }
     .rc-item {
@@ -481,6 +503,7 @@
   <div class="tabs">
     <button class="tab-btn active" data-tab="search">Buscar tienda</button>
     <button class="tab-btn admin-tab" data-tab="rcs" style="display:none">Gestionar RCs</button>
+    <button class="tab-btn" data-tab="coord">Coordinadores</button>
   </div>
 
   <!-- SEARCH PAGE -->
@@ -600,6 +623,64 @@
   </div>
 </div>
 
+<!-- PIN MODAL -->
+<div id="pin-overlay">
+  <div class="pin-box">
+    <div class="pin-title">Acceso coordinadores</div>
+    <div class="pin-sub">Ingresa el PIN para continuar</div>
+    <input class="pin-input" id="pin-input" type="password" placeholder="PIN"/>
+    <div class="pin-err" id="pin-err">PIN incorrecto</div>
+    <div class="pin-btns">
+      <button class="pin-cancel" id="pin-cancel">Cancelar</button>
+      <button class="pin-ok" id="pin-ok">Ingresar</button>
+    </div>
+  </div>
+</div>
+
+<!-- COORDINADORES PAGE -->
+<div class="page" id="page-coord">
+  <div class="card bulk-card">
+    <div class="card-title">Reemplazar GZ en bloque</div>
+    <div class="bulk-row">
+      <select id="bulk-gz-old"><option value="">— GZ actual —</option></select>
+      <input type="text" id="bulk-gz-new" list="gz-bulk-list" placeholder="GZ nuevo..." autocomplete="off"/>
+      <datalist id="gz-bulk-list"></datalist>
+      <button class="bulk-apply" id="bulk-gz-btn">Aplicar</button>
+    </div>
+    <div class="bulk-progress" id="bulk-gz-prog">
+      <div class="bulk-bar-bg"><div class="bulk-bar" id="bulk-gz-bar"></div></div>
+      <div class="bulk-result" id="bulk-gz-res"></div>
+    </div>
+  </div>
+
+  <div class="card bulk-card">
+    <div class="card-title">Reemplazar JZ en bloque</div>
+    <div class="bulk-row">
+      <select id="bulk-jz-old"><option value="">— JZ actual —</option></select>
+      <input type="text" id="bulk-jz-new" list="jz-bulk-list" placeholder="JZ nuevo..." autocomplete="off"/>
+      <datalist id="jz-bulk-list"></datalist>
+      <button class="bulk-apply" id="bulk-jz-btn">Aplicar</button>
+    </div>
+    <div class="bulk-progress" id="bulk-jz-prog">
+      <div class="bulk-bar-bg"><div class="bulk-bar" id="bulk-jz-bar"></div></div>
+      <div class="bulk-result" id="bulk-jz-res"></div>
+    </div>
+  </div>
+
+  <div class="card bulk-card">
+    <div class="card-title">Reemplazar Cluster Interno en bloque</div>
+    <div class="bulk-row">
+      <select id="bulk-cl-old"><option value="">— Cluster actual —</option></select>
+      <select id="bulk-cl-new"><option value="">— Cluster nuevo —</option></select>
+      <button class="bulk-apply" id="bulk-cl-btn">Aplicar</button>
+    </div>
+    <div class="bulk-progress" id="bulk-cl-prog">
+      <div class="bulk-bar-bg"><div class="bulk-bar" id="bulk-cl-bar"></div></div>
+      <div class="bulk-result" id="bulk-cl-res"></div>
+    </div>
+  </div>
+</div>
+
 <div class="toast" id="toast"></div>
 
 <script>
@@ -611,6 +692,7 @@ const BASE_LIST_NAME     = 'BASE MAESTRA INTERNA';
 const RCS_LIST_NAME      = 'RCS ACTUALES';
 const HISTORIAL_LIST_NAME= 'HISTORIAL_CAMBIOS';
 const ADMIN_EMAIL        = 'doriant@elotgroup.com';
+const COORD_PIN          = 'Lotobola123';
 const DAYS_OPTIONS   = ['SIN ASIGNAR','LUNES','MARTES','MIÉRCOLES','JUEVES','VIERNES','SÁBADO','DOMINGO'];
 const N_DIAS         = 6;
 const SCOPES         = ['https://elotgroup2020.sharepoint.com/AllSites.Write'];
@@ -676,6 +758,7 @@ const S = {
   originalSup:   null,
   originalGZ:    null,
   originalJZ:    null,
+  coordUnlocked: false,
   // session change log
   changeLog:     [],
   rcs:           [],
@@ -1327,9 +1410,11 @@ async function addRC() {
 
 // ── TABS ───────────────────────────────────────────
 function showTab(id) {
+  if (id === 'coord' && !S.coordUnlocked) { showPinModal(); return; }
   document.querySelectorAll('.tab-btn').forEach(b => b.classList.toggle('active', b.dataset.tab === id));
   document.querySelectorAll('.page').forEach(p => p.classList.toggle('active', p.id === 'page-' + id));
   if (id === 'rcs') renderRCList();
+  if (id === 'coord') initCoordPage();
 }
 
 // ── UI HELPERS ─────────────────────────────────────
@@ -1390,6 +1475,147 @@ document.getElementById('search-input').addEventListener('keydown', e => {
 });
 document.querySelectorAll('.tab-btn').forEach(btn => {
   btn.addEventListener('click', () => showTab(btn.dataset.tab));
+});
+
+// ── PIN MODAL ──────────────────────────────────────
+function showPinModal() {
+  const inp = document.getElementById('pin-input');
+  inp.value = '';
+  document.getElementById('pin-err').style.display = 'none';
+  document.getElementById('pin-overlay').classList.add('show');
+  setTimeout(() => inp.focus(), 80);
+}
+function hidePinModal() {
+  document.getElementById('pin-overlay').classList.remove('show');
+}
+document.getElementById('pin-cancel').addEventListener('click', hidePinModal);
+document.getElementById('pin-ok').addEventListener('click', () => {
+  if (document.getElementById('pin-input').value === COORD_PIN) {
+    S.coordUnlocked = true;
+    hidePinModal();
+    showTab('coord');
+  } else {
+    document.getElementById('pin-err').style.display = 'block';
+    document.getElementById('pin-input').value = '';
+    document.getElementById('pin-input').focus();
+  }
+});
+document.getElementById('pin-input').addEventListener('keydown', e => {
+  if (e.key === 'Enter') document.getElementById('pin-ok').click();
+});
+
+// ── COORDINADORES — BULK REPLACE ───────────────────
+function initCoordPage() {
+  // GZ selects
+  const allGZ = [...new Set(
+    Object.values(S.gzJzMap).flatMap(m => Object.keys(m))
+  )].sort();
+  const allJZ = [...new Set(
+    Object.values(S.gzJzMap).flatMap(m => Object.values(m).flat())
+  )].sort();
+
+  const gzOld = document.getElementById('bulk-gz-old');
+  gzOld.innerHTML = '<option value="">— GZ actual —</option>';
+  allGZ.forEach(v => { const o = document.createElement('option'); o.value = v; o.textContent = v; gzOld.appendChild(o); });
+
+  const jzOld = document.getElementById('bulk-jz-old');
+  jzOld.innerHTML = '<option value="">— JZ actual —</option>';
+  allJZ.forEach(v => { const o = document.createElement('option'); o.value = v; o.textContent = v; jzOld.appendChild(o); });
+
+  // Datalists for new values
+  const gzDl = document.getElementById('gz-bulk-list');
+  gzDl.innerHTML = '';
+  allGZ.forEach(v => { const o = document.createElement('option'); o.value = v; gzDl.appendChild(o); });
+
+  const jzDl = document.getElementById('jz-bulk-list');
+  jzDl.innerHTML = '';
+  allJZ.forEach(v => { const o = document.createElement('option'); o.value = v; jzDl.appendChild(o); });
+
+  // Cluster selects
+  ['bulk-cl-old','bulk-cl-new'].forEach((id, i) => {
+    const sel = document.getElementById(id);
+    sel.innerHTML = `<option value="">— Cluster ${i === 0 ? 'actual' : 'nuevo'} —</option>`;
+    S.clusterOptions.forEach(v => { const o = document.createElement('option'); o.value = v; o.textContent = v; sel.appendChild(o); });
+  });
+}
+
+async function bulkReplace(col, oldVal, newVal, barId, resId, progId, btnId) {
+  if (!oldVal || !newVal || oldVal === newVal) { toast('Selecciona valores distintos', 'error'); return; }
+  const btn  = document.getElementById(btnId);
+  const prog = document.getElementById(progId);
+  const bar  = document.getElementById(barId);
+  const res  = document.getElementById(resId);
+
+  btn.disabled = true;
+  prog.style.display = 'block';
+  bar.style.width = '0%';
+  res.textContent = 'Buscando tiendas...';
+  res.style.color = 'var(--text-muted)';
+
+  try {
+    const enc = encodeURIComponent(oldVal.replace(/'/g, "''"));
+    const data = await spGet(
+      `/web/lists/getbytitle('${BASE_LIST_NAME}')/items` +
+      `?$filter=${col} eq '${enc}'&$select=ID&$top=5000`
+    );
+    const items = data.value;
+    if (!items.length) { res.textContent = 'No se encontraron tiendas con ese valor.'; btn.disabled = false; return; }
+
+    res.textContent = `Actualizando 0 / ${items.length}...`;
+    let done = 0;
+    for (const item of items) {
+      await spOp(`/web/lists/getbytitle('${BASE_LIST_NAME}')/items(${item.ID})`, { [col]: newVal }, 'MERGE');
+      done++;
+      const pct = Math.round(done / items.length * 100);
+      bar.style.width = pct + '%';
+      res.textContent = `Actualizando ${done} / ${items.length}...`;
+    }
+
+    res.textContent = `✓ ${items.length} tiendas actualizadas`;
+    res.style.color = '#2e7d32';
+    toast(`${items.length} tiendas actualizadas`);
+
+    // Refrescar gzJzMap si aplica
+    if (col === S.colGZ || col === S.colJZ) {
+      Object.values(S.gzJzMap).forEach(m => {
+        if (col === S.colGZ && m[oldVal]) {
+          m[newVal] = [...(m[newVal] || []), ...m[oldVal]];
+          delete m[oldVal];
+        } else if (col === S.colJZ) {
+          Object.keys(m).forEach(gz => {
+            m[gz] = m[gz].map(jz => jz === oldVal ? newVal : jz);
+          });
+        }
+      });
+      buildGZDatalist();
+      initCoordPage();
+    }
+    if (col === S.colClusterInterno) {
+      if (!S.clusterOptions.includes(newVal)) S.clusterOptions.push(newVal);
+      S.clusterOptions = S.clusterOptions.sort();
+      initCoordPage();
+    }
+  } catch(e) {
+    res.textContent = 'Error: ' + e.message;
+    res.style.color = '#e53935';
+  }
+  btn.disabled = false;
+}
+
+document.getElementById('bulk-gz-btn').addEventListener('click', () => {
+  bulkReplace(S.colGZ, document.getElementById('bulk-gz-old').value,
+    document.getElementById('bulk-gz-new').value.trim(),
+    'bulk-gz-bar','bulk-gz-res','bulk-gz-prog','bulk-gz-btn');
+});
+document.getElementById('bulk-jz-btn').addEventListener('click', () => {
+  bulkReplace(S.colJZ, document.getElementById('bulk-jz-old').value,
+    document.getElementById('bulk-jz-new').value.trim(),
+    'bulk-jz-bar','bulk-jz-res','bulk-jz-prog','bulk-jz-btn');
+});
+document.getElementById('bulk-cl-btn').addEventListener('click', () => {
+  bulkReplace(S.colClusterInterno, document.getElementById('bulk-cl-old').value,
+    document.getElementById('bulk-cl-new').value,
+    'bulk-cl-bar','bulk-cl-res','bulk-cl-prog','bulk-cl-btn');
 });
 
 // ── AUTO LOGIN ─────────────────────────────────────
