@@ -656,7 +656,7 @@ function renderMap(filterRC, filterDia, filterSup, filterPartner, filterZona, fi
         }
         return (
             !(p.nombre || "").toUpperCase().includes("OFICINA ELOT") &&
-            (p.estado || "").toUpperCase() !== "CERRADO" &&
+            (p.estado || "").toUpperCase() === "ACTIVO" &&
             (filterSup === "ALL" || p.supervisor === filterSup) &&
             (filterRC === "ALL" || p.rc === filterRC) &&
             (filterDia === "ALL" || (p.dias && p.dias.includes(filterDia))) &&
@@ -1279,7 +1279,7 @@ buscador.addEventListener("input", function () {
     }
 
     let resultados = allData.filter(p =>
-        (p.estado || "").toUpperCase() !== "CERRADO" &&
+        (p.estado || "").toUpperCase() === "ACTIVO" &&
         (p.nombre.toLowerCase().includes(texto) ||
             p.ID.toString().includes(texto))
     ).slice(0, 10);
@@ -1433,7 +1433,7 @@ function renderSinVentaLayer() {
     allData.forEach(p => {
         if (!sinVentaCodes.has(String(p.ID))) return;
         if (!p.lat || !p.lng) return;
-        if ((p.estado || '').toUpperCase() === 'CERRADO') return;
+        if ((p.estado || '').toUpperCase() !== 'ACTIVO') return;
         if (sup !== 'ALL' && p.supervisor !== sup) return;
         if (rc !== 'ALL' && p.rc !== rc) return;
         if (partner !== 'ALL' && p.responsable !== partner) return;
