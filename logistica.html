@@ -472,7 +472,7 @@ function filtrar() {
 
 function actualizarKPIs() {
     const n    = filt.length;
-    const act  = filt.filter(p => p.estado === 'ACTIVO').length;
+    const act  = filt.filter(p => (p.estado || '').toUpperCase() !== 'CERRADO').length;
     const inac = n - act;
     const pct  = n > 0 ? Math.round(act / n * 100) : 0;
     const lima = filt.filter(p => p.zonal_tipo === 'LIMA').length;
@@ -529,7 +529,7 @@ function render(resetSortUI = true) {
         <td>${x(p.distrito||'-')}</td>
         <td>${x(p.zona||'-')}</td>
         <td>${x(p.zonal_tipo||'-')}</td>
-        <td>${p.estado==='ACTIVO'?'<span class="badge ba">ACTIVO</span>':'<span class="badge bi">INACTIVO</span>'}</td>
+        <td>${(p.estado||'').toUpperCase()!=='CERRADO'?'<span class="badge ba">'+(p.estado||'ACTIVO')+'</span>':'<span class="badge bi">CERRADO</span>'}</td>
         <td>${x(p.rc||'-')}</td>
         <td>${x(p.supervisor||'-')}</td>
         <td>${x(p.gz||'-')}</td>

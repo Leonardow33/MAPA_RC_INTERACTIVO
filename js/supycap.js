@@ -18,6 +18,12 @@ L.control.layers({
 let allData = [];
 
 function normalizePuntos(data) {
+    const toNum = v => {
+        if (v === null || v === undefined || v === '') return null;
+        if (typeof v === 'number') return isNaN(v) ? null : v;
+        const n = parseFloat(String(v));
+        return isNaN(n) ? null : n;
+    };
     return data.map(p => {
         let dias = p.dias;
         if (!Array.isArray(dias)) {
@@ -33,7 +39,13 @@ function normalizePuntos(data) {
         return { ...p,
             lat: typeof p.lat === 'string' ? parseFloat(p.lat) : p.lat,
             lng: typeof p.lng === 'string' ? parseFloat(p.lng) : p.lng,
-            dias };
+            dias,
+            meta_diaria:  toNum(p.meta_diaria),
+            meta_pp:      toNum(p.meta_pp),
+            meta_ppgo:    toNum(p.meta_ppgo),
+            meta_lakidey: toNum(p.meta_lakidey),
+            meta_sc_e3:   toNum(p.meta_sc_e3),
+            meta_turbito: toNum(p.meta_turbito) };
     });
 }
 
@@ -715,7 +727,7 @@ function renderSinVentaLayer() {
     allData.forEach(p => {
         if (!sinVentaCodes.has(String(p.ID))) return;
         if (!p.lat || !p.lng) return;
-        if ((p.estado || '').toUpperCase() !== 'ACTIVO') return;
+        if ((p.estado || '').toUpperCase() === 'CERRADO') return;
         if (partner !== 'ALL' && p.responsable  !== partner) return;
         if (nombre  !== 'ALL' && rol === 'supervisor'  && p.supervisor  !== nombre) return;
         if (nombre  !== 'ALL' && rol === 'capacitador' && p.capacitador !== nombre) return;

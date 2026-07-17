@@ -52,6 +52,12 @@ let todosRCs = [];
 let puntosData = [];
 
 function normalizePuntos(data) {
+    const toNum = v => {
+        if (v === null || v === undefined || v === '') return null;
+        if (typeof v === 'number') return isNaN(v) ? null : v;
+        const n = parseFloat(String(v));
+        return isNaN(n) ? null : n;
+    };
     return data.map(p => {
         let dias = p.dias;
         if (!Array.isArray(dias)) {
@@ -67,7 +73,13 @@ function normalizePuntos(data) {
         return { ...p,
             lat: typeof p.lat === 'string' ? parseFloat(p.lat) : p.lat,
             lng: typeof p.lng === 'string' ? parseFloat(p.lng) : p.lng,
-            dias };
+            dias,
+            meta_diaria:  toNum(p.meta_diaria),
+            meta_pp:      toNum(p.meta_pp),
+            meta_ppgo:    toNum(p.meta_ppgo),
+            meta_lakidey: toNum(p.meta_lakidey),
+            meta_sc_e3:   toNum(p.meta_sc_e3),
+            meta_turbito: toNum(p.meta_turbito) };
     });
 }
 
@@ -412,7 +424,7 @@ function renderTodosLosPuntos() {
     if (!todosLosPointsActive) { btn.textContent = '📍 Todos los puntos'; renderCobertura(); return; }
     const zf = getZonalFiltro();
     let activos = puntosData.filter(p =>
-        (p.estado || '').toUpperCase() === 'ACTIVO' &&
+        (p.estado || '').toUpperCase() !== 'CERRADO' &&
         (zf === 'ALL' || (p.zonal_tipo || '').toUpperCase() === zf)
     );
     if (selectedRCFilter) activos = activos.filter(p => matchRCFilter(p));
@@ -459,7 +471,7 @@ function renderCobertura() {
 
     const zf = getZonalFiltro();
     let activos = puntosData.filter(p =>
-        (p.estado || '').toUpperCase() === 'ACTIVO' &&
+        (p.estado || '').toUpperCase() !== 'CERRADO' &&
         (zf === 'ALL' || (p.zonal_tipo || '').toUpperCase() === zf)
     );
     if (selectedRCFilter) activos = activos.filter(p => matchRCFilter(p));
@@ -626,7 +638,7 @@ function renderSinVisitar() {
                 : (id) => (visitCountsSemana[id] || 0) > 0;
 
     const noVisitados = puntosData.filter(p =>
-        (p.estado || '').toUpperCase() === 'ACTIVO' &&
+        (p.estado || '').toUpperCase() !== 'CERRADO' &&
         !fueVisitado(normalizeID(p.ID)) &&
         (selectedRCFilter ? matchRCFilter(p) : true) &&
         (p.dias || []).some(d => normDia(d) === selectedDiaFilter) &&
@@ -660,7 +672,7 @@ function renderRutaHoy() {
     const zf         = getZonalFiltro();
 
     const rutaHoy = puntosData.filter(p =>
-        (p.estado || '').toUpperCase() === 'ACTIVO' &&
+        (p.estado || '').toUpperCase() !== 'CERRADO' &&
         matchRCFilter(p) &&
         Array.isArray(p.dias) && p.dias.some(d => normDia(d) === todayAbbr) &&
         (zf !== 'ALL' ? (p.zonal_tipo || '').toUpperCase() === zf : true)
@@ -827,7 +839,7 @@ function renderSinVentaLayer() {
     puntosData.forEach(p => {
         if (!sinVentaCodes.has(String(p.ID))) return;
         if (!p.lat || !p.lng) return;
-        if ((p.estado || '').toUpperCase() !== 'ACTIVO') return;
+        if ((p.estado || '').toUpperCase() === 'CERRADO') return;
         if (selectedRCFilter && p.rc !== selectedRCFilter) return;
         if (zf !== 'ALL' && (p.zonal_tipo || '').toUpperCase() !== zf) return;
         const hora = sinVentaTimes[String(p.ID)] || '-';
@@ -875,7 +887,7 @@ function _getActivosConFiltros() {
     const zf  = getZonalFiltro();
     const sup = document.getElementById('supFilter').value;
     let activos = puntosData.filter(p =>
-        (p.estado || '').toUpperCase() === 'ACTIVO' &&
+        (p.estado || '').toUpperCase() !== 'CERRADO' &&
         (zf === 'ALL' || (p.zonal_tipo || '').toUpperCase() === zf) &&
         (sup === 'ALL' || p.supervisor === sup)
     );
