@@ -567,24 +567,39 @@ function renderDisplayPoints() {
 
     filtered.forEach(p => {
         const t100 = top100Map[String(p.ID)] || null;
-        const color = t100 ? '#FFD700' : colorPartner(p.responsable);
-        const radius = t100 ? 9 : 6;
-        const weight = t100 ? 2.5 : 1.5;
         const top100Line = t100
             ? "<div style='background:linear-gradient(135deg,#7a5800,#c9930a);color:#FFE680;font-weight:900;font-size:11px;padding:5px 10px;border-radius:4px;margin-bottom:6px;'>🏆 Rank #" + t100.rank + " · META S/ " + Math.round(t100.meta) + " diarios</div>"
             : "";
-        const m = L.circleMarker([p.lat, p.lng], {
-            radius: radius, color: color, fillColor: color,
-            fillOpacity: t100 ? 0.9 : 0.75, weight: weight
-        }).bindPopup(
+        const popup =
             top100Line +
             "<b>" + p.nombre + "</b><br>" +
             "ORG_CODE: " + p.ID + "<br>" +
             "RC: " + (p.rc||"-") + "<br>" +
             "Distrito: " + (p.distrito||"-") + "<br>" +
             "GZ: " + (p.gz||"-") + " · JZ: " + (p.jz||"-") + "<br><br>" +
-            "<button onclick=\"addStopById('" + p.ID + "')\" style=\"width:100%;padding:7px;background:#1565C0;color:white;border:none;border-radius:6px;cursor:pointer;font-size:13px;\">+ Agregar a ruta</button>"
-        );
+            "<button onclick=\"addStopById('" + p.ID + "')\" style=\"width:100%;padding:7px;background:#1565C0;color:white;border:none;border-radius:6px;cursor:pointer;font-size:13px;\">+ Agregar a ruta</button>";
+
+        let m;
+        if (t100) {
+            const rk = t100.rank;
+            const bg = rk <= 10 ? '#FFD700' : rk <= 50 ? '#C0C0C0' : '#CD7F32';
+            const fg = rk <= 50 ? '#3a2600' : '#fff';
+            const fs = rk < 10 ? 9 : rk < 100 ? 8 : 7;
+            const icon = L.divIcon({
+                html: '<div style="width:20px;height:20px;border-radius:50%;background:' + bg + ';border:2px solid rgba(0,0,0,0.4);display:flex;align-items:center;justify-content:center;font-size:' + fs + 'px;font-weight:900;color:' + fg + ';box-shadow:0 1px 5px rgba(0,0,0,0.4);font-variant-numeric:tabular-nums;">' + rk + '</div>',
+                className: '',
+                iconSize: [20, 20],
+                iconAnchor: [10, 10],
+                popupAnchor: [0, -12]
+            });
+            m = L.marker([p.lat, p.lng], { icon }).bindPopup(popup);
+        } else {
+            const color = colorPartner(p.responsable);
+            m = L.circleMarker([p.lat, p.lng], {
+                radius: 6, color: color, fillColor: color,
+                fillOpacity: 0.75, weight: 1.5
+            }).bindPopup(popup);
+        }
         displayLayer.addLayer(m);
         group.addLayer(m);
     });
