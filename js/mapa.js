@@ -16,6 +16,19 @@ L.control.layers({
 }, null, { position: 'bottomright' }).addTo(map);
 
 let allData = [];
+let top100Map = {};
+let top100Active = false;
+
+fetch(_BASE_DATA + 'top100_tambo.json?v=' + Date.now(), { cache: 'no-store' })
+    .then(r => r.json())
+    .then(d => { top100Map = d; updateFilters(); })
+    .catch(() => {});
+
+function toggleTop100() {
+    top100Active = !top100Active;
+    document.getElementById('btnTop100').classList.toggle('activo', top100Active);
+    updateFilters();
+}
 
 function normalizePuntos(data) {
     const toNum = v => {
@@ -144,7 +157,7 @@ function getIconUrl(responsable) {
     return "icons/default.png";
 }
 
-function makePinIcon(responsable, estado, dias, relocated = false) {
+function makePinIcon(responsable, estado, dias, relocated = false, top100Info = null) {
     const url = getIconUrl(responsable);
     let color, extraStyle = "", imgStyle = "width:100%;height:100%;object-fit:cover;";
 
@@ -163,14 +176,31 @@ function makePinIcon(responsable, estado, dias, relocated = false) {
         ? `<div style="position:absolute;top:-2px;right:-2px;width:10px;height:10px;background:#00BCD4;border-radius:50%;border:1.5px solid #fff;z-index:2;box-shadow:0 1px 3px rgba(0,0,0,0.4)"></div>`
         : '';
 
+    const pulseRing = top100Info ? `<div class="t100-ring"></div>` : '';
+    const rankColor = top100Info
+        ? (top100Info.rank <= 10 ? '#FFD700' : top100Info.rank <= 50 ? '#C0C0C0' : '#CD7F32')
+        : null;
+    const rankBadge = top100Info
+        ? `<div style="position:absolute;top:-7px;left:-7px;min-width:17px;height:17px;border-radius:9px;
+            background:${rankColor};border:1.5px solid #fff;z-index:3;
+            font-size:7px;font-weight:900;color:${top100Info.rank <= 50 ? '#3a2600' : '#fff'};
+            display:flex;align-items:center;justify-content:center;padding:0 2px;
+            box-shadow:0 1px 4px rgba(0,0,0,0.4);font-variant-numeric:tabular-nums;">${top100Info.rank}</div>`
+        : '';
+    const circleShadow = top100Info
+        ? `box-shadow:0 0 0 2px ${rankColor},0 3px 8px rgba(0,0,0,0.45);`
+        : `box-shadow:0 3px 8px rgba(0,0,0,0.45);`;
+
     const html = `
         <div style="display:flex;flex-direction:column;align-items:center;width:34px;${extraStyle}">
             <div style="position:relative;width:30px;height:30px;">
-                <div style="width:30px;height:30px;border-radius:50%;overflow:hidden;
-                    border:2.5px solid ${color};box-shadow:0 3px 8px rgba(0,0,0,0.45);">
+                ${pulseRing}
+                <div style="position:relative;z-index:1;width:30px;height:30px;border-radius:50%;overflow:hidden;
+                    border:2.5px solid ${color};${circleShadow}">
                     <img src="${url}" style="${imgStyle}" />
                 </div>
                 ${badge}
+                ${rankBadge}
             </div>
             <div style="width:0;height:0;border-left:6px solid transparent;
                 border-right:6px solid transparent;border-top:9px solid ${color};
@@ -663,6 +693,7 @@ function renderMap(filterRC, filterDia, filterSup, filterPartner, filterZona, fi
             (filterPartner === "ALL" || p.responsable === filterPartner) &&
             (filterZona === "ALL" || p.zona === filterZona) &&
             (activeCluster === null || (p.cluster || "").toUpperCase() === activeCluster) &&
+            (!top100Active || !!top100Map[String(p.ID)]) &&
             tipoOk
         );
     });
@@ -673,7 +704,8 @@ function renderMap(filterRC, filterDia, filterSup, filterPartner, filterZona, fi
     filtered.forEach(p => {
 
         const hasOverride = !!localStorage.getItem('geoOverride_' + p.ID);
-        let icon = makePinIcon(p.responsable, getEstadoPunto(p.ID), p.dias, hasOverride);
+        const top100Info = top100Map[String(p.ID)] || null;
+        let icon = makePinIcon(p.responsable, getEstadoPunto(p.ID), p.dias, hasOverride, top100Info);
 
         let marker = L.marker(getEffectiveLatLng(p), { icon: icon });
         marker.bindPopup(buildPopupContent(p), { autoPan: false });

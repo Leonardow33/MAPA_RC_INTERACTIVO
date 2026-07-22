@@ -586,6 +586,27 @@ html, body {
 .bc-ta  { background: #7B1FA2; }
 .bc-tb  { background: #9C27B0; }
 .bc-tc  { background: #CE93D8; color: #4a0072; }
+/* Top 100 */
+#btnTop100 {
+    font-size: 11px; padding: 0 10px; border-radius: 20px;
+    border: 1.5px solid #B8860B; background: transparent; color: #B8860B;
+    font-weight: 700; cursor: pointer; opacity: 0.65; transition: all 0.2s;
+    white-space: nowrap; height: 26px; letter-spacing: 0.3px;
+}
+#btnTop100.activo { opacity: 1; background: #FFD700; color: #3a2600; border-color: #FFD700; box-shadow: 0 0 0 2px rgba(255,215,0,0.35); }
+#btnTop100:hover { opacity: 0.9; }
+@keyframes top100Pulse {
+    0%   { width: 30px; height: 30px; opacity: 0.8; }
+    100% { width: 62px; height: 62px; opacity: 0; }
+}
+.t100-ring {
+    position: absolute; top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 50%; border: 2px solid #FFD700;
+    animation: top100Pulse 1.9s ease-out infinite;
+    pointer-events: none; z-index: 0;
+    box-shadow: 0 0 6px rgba(255,215,0,0.5);
+}
 .bc-bro { background: #8B5E3C; }
 .bc-dia { background: linear-gradient(135deg, #e0f7fa, #00E5FF); color: #004D61; text-shadow: 0 0 4px rgba(255,255,255,0.8); box-shadow: 0 0 6px rgba(0,229,255,0.5); }
 .bc-oro { background: #F9A825; color: #3e2000; }
