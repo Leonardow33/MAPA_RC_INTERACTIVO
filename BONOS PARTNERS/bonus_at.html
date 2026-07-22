@@ -1165,6 +1165,11 @@
         <div class="gr-bar"><div class="gr-fill" id="turbito-bar" style="background:#0891B2"></div></div>
         <div class="gr-val" id="turbito-val">S/ 0</div>
       </div>
+      <div class="game-row" id="otros-row" style="display:none">
+        <div class="gr-name">Ventas sin detalle</div>
+        <div class="gr-bar"><div class="gr-fill" id="otros-bar" style="background:#6B7280"></div></div>
+        <div class="gr-val" id="otros-val">S/ 0</div>
+      </div>
     </div>
 
     <!-- Motivational -->
@@ -1819,6 +1824,7 @@
         if (v.fecha === hoy) totHoy += amt;
         if (f >= semLun && f <= semDom) totSem += amt;
         if (f >= mesIni && f <= mesFin) totMes += amt;
+        return;
       }
       if (tj === 'PozoPower'        && f >= mesIni && f <= mesFin) ppMes      += amt;
       if (tj === 'LakiDey'          && f >= mesIni && f <= mesFin) ldMes      += amt;
@@ -1885,19 +1891,23 @@
     setBar(document.getElementById('sem-bar'), pctSem || 0, semCol);
 
     // Games
-    const maxGame = Math.max(ppMes, ldMes, scMes, goMes, e3Mes, turbitoMes, 1);
+    const otrosMes = Math.max(0, totMes - (ppMes + ldMes + scMes + goMes + e3Mes + turbitoMes));
+    const maxGame = Math.max(ppMes, ldMes, scMes, goMes, e3Mes, turbitoMes, otrosMes, 1);
     document.getElementById('pp-val').textContent      = fmtS(ppMes);
     document.getElementById('ld-val').textContent      = fmtS(ldMes);
     document.getElementById('sc-val').textContent      = fmtS(scMes);
     document.getElementById('go-val').textContent      = fmtS(goMes);
     document.getElementById('e3-val').textContent      = fmtS(e3Mes);
     document.getElementById('turbito-val').textContent = fmtS(turbitoMes);
+    document.getElementById('otros-val').textContent   = fmtS(otrosMes);
+    document.getElementById('otros-row').style.display = otrosMes > 0 ? '' : 'none';
     setBar(document.getElementById('pp-bar'),      ppMes      / maxGame * 100, 'var(--accent)');
     setBar(document.getElementById('ld-bar'),      ldMes      / maxGame * 100, '#3B9EE8');
     setBar(document.getElementById('sc-bar'),      scMes      / maxGame * 100, '#16A34A');
     setBar(document.getElementById('go-bar'),      goMes      / maxGame * 100, '#D97706');
     setBar(document.getElementById('e3-bar'),      e3Mes      / maxGame * 100, '#7C3AED');
     setBar(document.getElementById('turbito-bar'), turbitoMes / maxGame * 100, '#0891B2');
+    setBar(document.getElementById('otros-bar'),   otrosMes   / maxGame * 100, '#6B7280');
 
     // Weekly chart (Lun→Dom, 7 days)
     const DAY_NAMES      = ['Lun','Mar','Mié','Jue','Vie','Sáb','Dom'];

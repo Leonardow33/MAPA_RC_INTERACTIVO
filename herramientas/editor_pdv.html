@@ -860,7 +860,8 @@ async function init() {
   S.rcsColRC2   = findCol(rcsCols, ['RC2','NOMBRE_RC','NOMBRE RC','NOMBRE DE RC']);
   S.rcsColSup   = findCol(rcsCols, ['SUPERVISOR']);
   S.rcsColTipo  = findCol(rcsCols, ['TIPO']);
-  S.rcsColSkill = findCol(rcsCols, ['RC_SKILLROCK','RC SKILLROCK','SKILLROCK','CODIGO_SKILLROCK']);
+  S.rcsColSkill  = findCol(rcsCols, ['RC_SKILLROCK','RC SKILLROCK','SKILLROCK','CODIGO_SKILLROCK']);
+  S.rcsColCodSup = findCol(rcsCols, ['COD_SUPERVISOR','COD_SUP','CODSUPERVISOR','CODIGO_SUPERVISOR']);
   console.log('[EditorPDV] rcsColRC:', S.rcsColRC, '| rcsColRC2:', S.rcsColRC2, '| rcsColSup:', S.rcsColSup);
 
   // HISTORIAL_CAMBIOS — optional list for PA notifications
@@ -966,6 +967,7 @@ async function loadRCs() {
       supervisor: i[sup]  || '',
       tipo:       i[tipo] || '',
       skillrock:  i[skl]  || '',
+      codSup:     S.rcsColCodSup ? (i[S.rcsColCodSup] || '') : '',
     }));
   S.supervisors = [...new Set(S.rcs.map(r => r.supervisor).filter(Boolean))].sort();
 
@@ -1179,11 +1181,13 @@ async function saveStore() {
   const newCluster = document.getElementById('sel-cluster').value;
 
   const fields = {};
-  const rcObj = S.rcs.find(r => r.code === newRC);
+  const rcObj  = S.rcs.find(r => r.code === newRC);
+  const supObj = S.rcs.find(r => r.supervisor === newSup);
   if (S.colRC)       fields[S.colRC]       = newRC;
   if (S.colRCNombre) fields[S.colRCNombre] = rcObj?.name      || '';
   if (S.colSkill)    fields[S.colSkill]    = rcObj?.skillrock || '';
   if (S.colSup)      fields[S.colSup]      = newSup;
+  if (S.colCodSup)   fields[S.colCodSup]   = supObj?.codSup  || '';
   if (S.colGZ)             fields[S.colGZ]             = newGZ;
   if (S.colJZ)             fields[S.colJZ]             = newJZ;
   if (S.colClusterInterno) fields[S.colClusterInterno] = newCluster;
@@ -1219,7 +1223,7 @@ async function saveStore() {
 
     if (rcChanged || supChanged || gzChanged || jzChanged || clusterChanged) {
       const tienda  = S.colNombre ? (S.currentItem[S.colNombre] || '') : '';
-      const codSup  = S.colCodSup ? (S.currentItem[S.colCodSup] || '') : '';
+      const codSup  = supObj?.codSup || (S.colCodSup ? (S.currentItem[S.colCodSup] || '') : '');
       const rcObj   = S.rcs.find(r => r.code === newRC);
       const tipos   = [rcChanged && 'RC', supChanged && 'SUPERVISOR', gzChanged && 'GZ', jzChanged && 'JZ', clusterChanged && 'CLUSTER'].filter(Boolean);
 
