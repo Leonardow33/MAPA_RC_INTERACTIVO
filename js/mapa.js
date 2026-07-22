@@ -475,9 +475,18 @@ function buildPopupContent(p) {
                </a>
              </div>
            </div>`) : '';
+    const top100Banner = p._top100
+        ? `<div style="background:linear-gradient(135deg,#7a5800,#c9930a);padding:8px 12px;display:flex;align-items:center;gap:9px;border-radius:4px 4px 0 0">
+             <span style="font-size:18px;line-height:1;flex-shrink:0">🏆</span>
+             <div>
+               <div style="font-size:10px;font-weight:800;color:rgba(255,240,180,0.85);text-transform:uppercase;letter-spacing:0.5px">Top 100 Tambo · Rank #${p._top100.rank}</div>
+               <div style="font-size:12px;font-weight:900;color:#FFE680;margin-top:1px;letter-spacing:0.2px">META S/ ${Math.round(p._top100.meta)} diarios</div>
+             </div>
+           </div>`
+        : '';
     return `
     <div class="popup-card">
-      ${popBanner}
+      ${top100Banner}${popBanner}
       <div class="popup-header" style="background:${color}">
         <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:6px">
           <div>
@@ -705,6 +714,7 @@ function renderMap(filterRC, filterDia, filterSup, filterPartner, filterZona, fi
 
         const hasOverride = !!localStorage.getItem('geoOverride_' + p.ID);
         const top100Info = top100Map[String(p.ID)] || null;
+        p._top100 = top100Info;
         let icon = makePinIcon(p.responsable, getEstadoPunto(p.ID), p.dias, hasOverride, top100Info);
 
         let marker = L.marker(getEffectiveLatLng(p), { icon: icon });
