@@ -242,6 +242,14 @@
             margin-left: auto; font-size: 12px;
             color: #6d3d2a; font-weight: bold;
         }
+        #btnTop100Rutas {
+            font-size: 11px; padding: 5px 10px; border-radius: 20px;
+            border: 1.5px solid #B8860B; background: transparent; color: #B8860B;
+            font-weight: 700; cursor: pointer; opacity: 0.65; transition: all 0.2s;
+            white-space: nowrap; height: 28px; letter-spacing: 0.3px;
+        }
+        #btnTop100Rutas.activo { opacity: 1; background: #FFD700; color: #3a2600; border-color: #FFD700; box-shadow: 0 0 0 2px rgba(255,215,0,0.35); }
+        #btnTop100Rutas:hover { opacity: 0.9; }
 
         /* ── WATERMARK ────────────────────────────────────────── */
         #watermark {
@@ -366,6 +374,7 @@
             style="display:none;background:#c4897a;border:none;color:white;border-radius:6px;padding:4px 8px;font-size:12px;cursor:pointer;">&#x2715;</button>
         <div id="map-dist-sugg" style="display:none;position:absolute;top:100%;left:0;min-width:180px;background:white;border:1.5px solid #c4897a;border-radius:0 0 8px 8px;max-height:200px;overflow-y:auto;z-index:999;"></div>
     </div>
+    <button id="btnTop100Rutas" onclick="toggleTop100Rutas()" title="Top 100 Tambo julio">🏆 Top 100</button>
     <span id="map-total"></span>
 </div>
 
@@ -393,6 +402,8 @@ L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
 }).addTo(map);
 
 let allData       = [];
+let top100Map     = {};
+let top100Active  = false;
 let selectedStops = [];
 let routeLayer    = null;
 let stopMarkers   = [];
@@ -416,6 +427,17 @@ function colorPartner(r) { return COLORES[r] || "#757575"; }
 fetch("https://raw.githubusercontent.com/Leonardow33/MAPA_RC_INTERACTIVO/main/data/puntos.json")
     .then(r => r.json())
     .then(data => { allData = data; poblarPartners(); });
+
+fetch("https://raw.githubusercontent.com/Leonardow33/MAPA_RC_INTERACTIVO/main/data/top100_tambo.json")
+    .then(r => r.json())
+    .then(d => { top100Map = d; renderDisplayPoints(); })
+    .catch(() => {});
+
+function toggleTop100Rutas() {
+    top100Active = !top100Active;
+    document.getElementById('btnTop100Rutas').classList.toggle('activo', top100Active);
+    renderDisplayPoints();
+}
 
 // ── GPS ───────────────────────────────────────────────────────────────────
 let geoWatchId = null;
@@ -535,7 +557,8 @@ function renderDisplayPoints() {
 
     const filtered = allData.filter(p =>
         (!partnerVal  || p.responsable === partnerVal) &&
-        (!distritoVal || p.distrito    === distritoVal)
+        (!distritoVal || p.distrito    === distritoVal) &&
+        (!top100Active || !!top100Map[String(p.ID)])
     );
 
     document.getElementById("map-total").textContent = filtered.length + " puntos";
@@ -543,11 +566,18 @@ function renderDisplayPoints() {
     const group = L.featureGroup();
 
     filtered.forEach(p => {
-        const color = colorPartner(p.responsable);
+        const t100 = top100Map[String(p.ID)] || null;
+        const color = t100 ? '#FFD700' : colorPartner(p.responsable);
+        const radius = t100 ? 9 : 6;
+        const weight = t100 ? 2.5 : 1.5;
+        const top100Line = t100
+            ? "<div style='background:linear-gradient(135deg,#7a5800,#c9930a);color:#FFE680;font-weight:900;font-size:11px;padding:5px 10px;border-radius:4px;margin-bottom:6px;'>🏆 Rank #" + t100.rank + " · META S/ " + Math.round(t100.meta) + " diarios</div>"
+            : "";
         const m = L.circleMarker([p.lat, p.lng], {
-            radius: 6, color: color, fillColor: color,
-            fillOpacity: 0.75, weight: 1.5
+            radius: radius, color: color, fillColor: color,
+            fillOpacity: t100 ? 0.9 : 0.75, weight: weight
         }).bindPopup(
+            top100Line +
             "<b>" + p.nombre + "</b><br>" +
             "ORG_CODE: " + p.ID + "<br>" +
             "RC: " + (p.rc||"-") + "<br>" +
