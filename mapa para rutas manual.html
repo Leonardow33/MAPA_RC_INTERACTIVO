@@ -433,9 +433,33 @@ fetch("https://raw.githubusercontent.com/Leonardow33/MAPA_RC_INTERACTIVO/main/da
     .then(d => { top100Map = d; renderDisplayPoints(); })
     .catch(() => {});
 
+function sincronizarFiltrosMapa() {
+    const pool = top100Active
+        ? allData.filter(p => !!top100Map[String(p.ID)])
+        : allData;
+
+    const partners  = [...new Set(pool.map(p => p.responsable).filter(Boolean))].sort();
+    const distritos = [...new Set(pool.map(p => p.distrito).filter(Boolean))].sort();
+
+    const mpSel = document.getElementById("map-partner-sel");
+    const prev  = mpSel.value;
+    mpSel.innerHTML = '<option value="">Todos</option>';
+    partners.forEach(v => {
+        const o = document.createElement("option");
+        o.value = v; o.textContent = v;
+        mpSel.appendChild(o);
+    });
+    mpSel.value = partners.includes(prev) ? prev : "";
+
+    if (window._setDistritosPool) window._setDistritosPool(distritos);
+    const curDist = window._getMapDistrito ? window._getMapDistrito() : "";
+    if (curDist && !distritos.includes(curDist) && window.clearMapDistrito) window.clearMapDistrito();
+}
+
 function toggleTop100Rutas() {
     top100Active = !top100Active;
     document.getElementById('btnTop100Rutas').classList.toggle('activo', top100Active);
+    sincronizarFiltrosMapa();
     renderDisplayPoints();
 }
 
@@ -505,12 +529,15 @@ function poblarPartners() {
     const mapDistSugg  = document.getElementById("map-dist-sugg");
     const mapDistClear = document.getElementById("map-dist-clear");
     let   mapDistrito  = "";
+    let   distritosPool = distritos;
+
+    window._setDistritosPool = function(list) { distritosPool = list; };
 
     mapDistInput.addEventListener("input", function () {
         const q = this.value.trim().toLowerCase();
         mapDistSugg.innerHTML = "";
         if (q.length < 1) { mapDistSugg.style.display = "none"; return; }
-        const matches = distritos.filter(d => d.toLowerCase().includes(q)).slice(0, 30);
+        const matches = distritosPool.filter(d => d.toLowerCase().includes(q)).slice(0, 30);
         if (!matches.length) { mapDistSugg.style.display = "none"; return; }
         matches.forEach(d => {
             const div = document.createElement("div");
