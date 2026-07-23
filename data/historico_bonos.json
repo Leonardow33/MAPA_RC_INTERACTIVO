@@ -2323,6 +2323,126 @@
           "bono_admi": 30
         }
       ]
+    },
+    {
+      "jueves": "2026-07-16",
+      "miercoles": "2026-07-22",
+      "semana": "16 Jul – 22 Jul 2026",
+      "bono_num": 3,
+      "completa": true,
+      "total_ganadores": 8,
+      "por_cluster": {
+        "C": 1,
+        "D": 5,
+        "A": 1,
+        "B": 1
+      },
+      "ganadores": [
+        {
+          "id": "237",
+          "nombre": "CHINCHON",
+          "cluster": "C",
+          "bono_tier": "A",
+          "rc": "FLOR CHAFLOQUE",
+          "supervisor": "RODRIGO MARTINEZ",
+          "total": 623.0,
+          "pp": 36.0,
+          "ld": 107.0,
+          "bono_tienda": 100,
+          "bono_admi": 70
+        },
+        {
+          "id": "3066",
+          "nombre": "REPUBLICADECOLOMBIA-C5",
+          "cluster": "C",
+          "bono_tier": "B",
+          "rc": "FLOR CHAFLOQUE",
+          "supervisor": "RODRIGO MARTINEZ",
+          "total": 560.0,
+          "pp": 37.0,
+          "ld": 213.0,
+          "bono_tienda": 70,
+          "bono_admi": 50
+        },
+        {
+          "id": "147",
+          "nombre": "TELLO",
+          "cluster": "C",
+          "bono_tier": "C",
+          "rc": "FLOR CHAFLOQUE",
+          "supervisor": "RODRIGO MARTINEZ",
+          "total": 474.0,
+          "pp": 34.0,
+          "ld": 84.0,
+          "bono_tienda": 50,
+          "bono_admi": 40
+        },
+        {
+          "id": "2751",
+          "nombre": "BENAVIDES-C36",
+          "cluster": "D",
+          "bono_tier": "D",
+          "rc": "MAYRA CHAFLOQUE ",
+          "supervisor": "RODRIGO MARTINEZ",
+          "total": 377.0,
+          "pp": 13.0,
+          "ld": 42.0,
+          "bono_tienda": 40,
+          "bono_admi": 30
+        },
+        {
+          "id": "450",
+          "nombre": "GARCILAZO-C12",
+          "cluster": "D",
+          "bono_tier": "D",
+          "rc": "JESSICA LEON",
+          "supervisor": "JORGE SANCHEZ",
+          "total": 329.0,
+          "pp": 22.0,
+          "ld": 139.0,
+          "bono_tienda": 40,
+          "bono_admi": 30
+        },
+        {
+          "id": "158",
+          "nombre": "QUECHUAS-C14",
+          "cluster": "D",
+          "bono_tier": "D",
+          "rc": "JENNIFER RIOS",
+          "supervisor": "RODRIGO MARTINEZ",
+          "total": 364.0,
+          "pp": 30.0,
+          "ld": 129.0,
+          "bono_tienda": 40,
+          "bono_admi": 30
+        },
+        {
+          "id": "485",
+          "nombre": "SANTUARIO",
+          "cluster": "D",
+          "bono_tier": "D",
+          "rc": "PIERINA OSCO",
+          "supervisor": "RODRIGO MARTINEZ",
+          "total": 357.0,
+          "pp": 14.0,
+          "ld": 115.0,
+          "bono_tienda": 40,
+          "bono_admi": 30
+        },
+        {
+          "id": "153",
+          "nombre": "TRIGAL",
+          "cluster": "D",
+          "bono_tier": "D",
+          "rc": "MAYRA CHAFLOQUE ",
+          "supervisor": "RODRIGO MARTINEZ",
+          "total": 328.0,
+          "pp": 26.0,
+          "ld": 69.0,
+          "bono_tienda": 40,
+          "bono_admi": 30
+        }
+      ]
     }
   ]
 }
