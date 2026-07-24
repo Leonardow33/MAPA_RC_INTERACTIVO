@@ -28,7 +28,7 @@ jobs:
       - name: Descargar archivos de ventas desde SharePoint
         run: |
           python3 - << 'PYEOF'
-          import sys, json
+          import sys, json, re, requests
           from datetime import datetime, timezone
           from playwright.sync_api import sync_playwright
 
@@ -50,25 +50,52 @@ jobs:
               ),
           ]
 
+          SP_BASE = "https://elotgroup2020-my.sharepoint.com"
+
+          def token_from_url(url):
+              m = re.search(r'/personal/[^/]+/([A-Za-z0-9_\-]+)\?', url)
+              return m.group(1) if m else None
+
+          def es_valido(data):
+              return isinstance(data.get("body"), list) or isinstance(data.get("ventas"), list)
+
           def descargar(context, url, dest, label):
               content = None
 
-              # ── Intento 1: expect_download ────────────────────────────────
-              try:
-                  print(f"[{label}] Intento 1: expect_download...")
-                  page = context.new_page()
-                  with page.expect_download(timeout=45000) as dl_info:
-                      page.goto(url + "&download=1", wait_until="commit", timeout=30000)
-                  path = dl_info.value.path()
-                  with open(path, encoding="utf-8") as f:
-                      content = f.read()
-                  print(f"  -> {len(content)} chars")
-              except Exception as e:
-                  print(f"  -> fallo: {e}")
+              # ── Intento 1: requests directo via /_layouts/15/download.aspx ──
+              token = token_from_url(url)
+              if token:
+                  dl_url = f"{SP_BASE}/_layouts/15/download.aspx?share={token}"
+                  try:
+                      print(f"[{label}] Intento 1: requests directo...")
+                      r = requests.get(dl_url, headers={"User-Agent": "Mozilla/5.0"}, timeout=60, allow_redirects=True)
+                      print(f"  -> status={r.status_code}, size={len(r.content)}")
+                      t = r.text.strip()
+                      if r.status_code == 200 and t.startswith("{"):
+                          parsed = json.loads(t)
+                          if es_valido(parsed):
+                              content = r.text
+                              print(f"  -> OK")
+                  except Exception as e:
+                      print(f"  -> error: {e}")
 
-              # ── Intento 2: interceptar respuesta JSON ─────────────────────
+              # ── Intento 2: Playwright expect_download ─────────────────────
+              if not content:
+                  try:
+                      print(f"[{label}] Intento 2: expect_download...")
+                      page = context.new_page()
+                      with page.expect_download(timeout=45000) as dl_info:
+                          page.goto(url + "&download=1", wait_until="commit", timeout=30000)
+                      path = dl_info.value.path()
+                      with open(path, encoding="utf-8") as f:
+                          content = f.read()
+                      print(f"  -> {len(content)} chars")
+                  except Exception as e:
+                      print(f"  -> fallo: {e}")
+
+              # ── Intento 3: Playwright interceptar respuesta JSON ──────────
               if not content or not content.strip().startswith("{"):
-                  print(f"[{label}] Intento 2: interceptar respuestas...")
+                  print(f"[{label}] Intento 3: interceptar respuestas...")
                   captured = []
 
                   def on_response(resp):
@@ -77,9 +104,8 @@ jobs:
                           stripped = text.strip()
                           if not stripped.startswith("{"):
                               return
-                          print(f"  [dbg] JSON interceptado ({len(stripped)} chars): {stripped[:120]}")
                           parsed = json.loads(stripped)
-                          if isinstance(parsed.get("body"), list) or isinstance(parsed.get("ventas"), list):
+                          if es_valido(parsed):
                               captured.append(text)
                               print(f"  -> JSON con body/ventas ({len(text)} chars)")
                       except Exception:
