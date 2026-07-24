@@ -648,6 +648,7 @@ document.getElementById("btn-nearest").addEventListener("click", () => {
     const partner  = document.getElementById("partner-filter").value;
     const distSel  = document.getElementById("distrito-filter").value;
     let pool = allData;
+    if (top100Active) pool = pool.filter(p => !!top100Map[String(p.ID)]);
     if (partner) pool = pool.filter(p => p.responsable === partner);
     if (distSel) pool = pool.filter(p => p.distrito === distSel);
 
