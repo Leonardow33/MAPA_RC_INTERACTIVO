@@ -124,8 +124,10 @@ jobs:
                   if not content:
                       try:
                           import re as _re
+                          page2.wait_for_timeout(3000)
                           inner = page2.evaluate("() => document.body.innerText || ''")
                           start = inner.find('[{')
+                          print(f"  [dom] inner={len(inner)} chars, start={start}, preview={inner[max(0,start-10):start+60]!r}")
                           if start >= 0:
                               end = inner.rfind(']', start)
                               if end > start:
