@@ -85,7 +85,10 @@ jobs:
                       print(f"[{label}] Intento 2: expect_download...")
                       page = context.new_page()
                       with page.expect_download(timeout=45000) as dl_info:
-                          page.goto(url + "&download=1", wait_until="commit", timeout=30000)
+                          try:
+                              page.goto(url + "&download=1", wait_until="commit", timeout=30000)
+                          except Exception:
+                              pass  # "Download is starting" — la descarga inicio, esperamos dl_info
                       path = dl_info.value.path()
                       with open(path, encoding="utf-8") as f:
                           content = f.read()
