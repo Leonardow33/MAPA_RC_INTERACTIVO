@@ -1655,7 +1655,7 @@
     'JUEVES':4,'VIERNES':5,'SÁBADO':6,'SABADO':6,'DOMINGO':0
   };
 
-  let allStores = [], allVentas = [], sortedStores = [];
+  let allStores = [], allVentas = [], allRaspes = [], allLoteria = [], sortedStores = [];
   let selectorReady = false;
 
   function loadJSON(u) {
@@ -1729,9 +1729,11 @@
 
   async function init() {
     try {
-      const [puntosData, ventasData] = await Promise.all([
+      const [puntosData, ventasData, raspesData, loteriaData] = await Promise.all([
         loadJSON('../data/puntos.json'),
         loadJSON('../data/ventas_mes.json'),
+        loadJSON('../data/ventas_raspes.json'),
+        loadJSON('../data/ventas_loteria.json'),
       ]);
 
       allStores = (Array.isArray(puntosData) ? puntosData : []).filter(p =>
@@ -1740,7 +1742,9 @@
       );
 
       const todos = ventasData.body || ventasData.ventas || [];
-      allVentas = todos.filter(v => (v.partner || '').toUpperCase() === PARTNER);
+      allVentas  = todos.filter(v => (v.partner || '').toUpperCase() === PARTNER);
+      allRaspes  = (raspesData.body  || raspesData.ventas  || []).filter(v => (v.partner || '').toUpperCase() === PARTNER);
+      allLoteria = (loteriaData.body || loteriaData.ventas || []).filter(v => (v.partner || '').toUpperCase() === PARTNER);
 
       // URL param shortcut (viene de progreso.html ya autenticado)
       const params  = new URLSearchParams(location.search);
@@ -1812,26 +1816,31 @@
 
     // Aggregate ventas for this store
     const id       = String(store.ID);
-    const SCRATCHCARDS = new Set(['Scratchcard','Jack','Raspa Wicho','Blin O Blin','7 Pecados','Gol De Oro','El Dorado','Rojoy Negro']);
     let totHoy = 0, totSem = 0, totMes = 0, ppMes = 0, ldMes = 0, scMes = 0, goMes = 0, e3Mes = 0, turbitoMes = 0;
 
     allVentas.forEach(v => {
+      if (String(v.org_code) !== id || !v.fecha || v.tipo_juego !== 'TOTAL') return;
+      const f = new Date(v.fecha + 'T12:00:00');
+      const amt = v.total || 0;
+      if (v.fecha === hoy) totHoy += amt;
+      if (f >= semLun && f <= semDom) totSem += amt;
+      if (f >= mesIni && f <= mesFin) totMes += amt;
+    });
+    allRaspes.forEach(v => {
+      if (String(v.org_code) !== id || !v.fecha) return;
+      const f = new Date(v.fecha + 'T12:00:00');
+      if (f >= mesIni && f <= mesFin) scMes += (v.total || 0);
+    });
+    allLoteria.forEach(v => {
       if (String(v.org_code) !== id || !v.fecha) return;
       const f   = new Date(v.fecha + 'T12:00:00');
       const amt = v.total || 0;
       const tj  = v.tipo_juego || '';
-      if (tj === 'TOTAL') {
-        if (v.fecha === hoy) totHoy += amt;
-        if (f >= semLun && f <= semDom) totSem += amt;
-        if (f >= mesIni && f <= mesFin) totMes += amt;
-        return;
-      }
-      if (tj === 'PozoPower'        && f >= mesIni && f <= mesFin) ppMes      += amt;
-      if (tj === 'LakiDey'          && f >= mesIni && f <= mesFin) ldMes      += amt;
-      if (SCRATCHCARDS.has(tj)      && f >= mesIni && f <= mesFin) scMes      += amt;
-      if (tj === 'Go'               && f >= mesIni && f <= mesFin) goMes      += amt;
-      if (tj === 'Elige 3'          && f >= mesIni && f <= mesFin) e3Mes      += amt;
-      if (tj === 'Turbito'          && f >= mesIni && f <= mesFin) turbitoMes += amt;
+      if (tj === 'PozoPower'   && f >= mesIni && f <= mesFin) ppMes      += amt;
+      if (tj === 'LakiDey'     && f >= mesIni && f <= mesFin) ldMes      += amt;
+      if (tj === 'PozoPowerGo' && f >= mesIni && f <= mesFin) goMes      += amt;
+      if (tj === 'Elige 3'     && f >= mesIni && f <= mesFin) e3Mes      += amt;
+      if (tj === 'Turbito'     && f >= mesIni && f <= mesFin) turbitoMes += amt;
     });
 
     // Metas
