@@ -97,7 +97,7 @@ jobs:
                       print(f"  -> fallo: {e}")
 
               # ── Intento 3: Playwright interceptar respuesta JSON ──────────
-              if not content or not content.strip().startswith("{"):
+              if not content or not content.strip().lstrip('﻿').startswith(("{", "[")):
                   print(f"[{label}] Intento 3: interceptar respuestas...")
                   captured = []
 
@@ -145,14 +145,18 @@ jobs:
                           print(f"  -> DOM: {e}")
 
               # ── Validar y guardar ─────────────────────────────────────────
-              if not content or not content.strip().startswith("{"):
+              stripped_c = content.strip().lstrip('﻿') if content else ''
+              if not stripped_c or not stripped_c.startswith(("{", "[")):
                   print(f"ERROR [{label}]: no se obtuvo JSON valido")
                   return False
               try:
-                  data = json.loads(content)
+                  data = json.loads(stripped_c)
               except json.JSONDecodeError as e:
                   print(f"ERROR [{label}]: JSON invalido: {e}")
                   return False
+
+              if isinstance(data, list):
+                  data = {"ventas": data}
 
               registros = data.get("ventas") or data.get("body") or []
               if len(registros) == 0:
