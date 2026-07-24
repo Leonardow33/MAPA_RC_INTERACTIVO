@@ -119,11 +119,19 @@ jobs:
                       print(f"  -> navegacion: {e}")
                   if captured:
                       content = captured[-1]
-                  # Fallback: archivos pequeños se renderizan en el DOM en vez de servirse como respuesta HTTP
+                  # Debug: ver qué está en la página para archivos pequeños
                   if not content:
                       try:
-                          raw = page2.evaluate("() => document.body.innerText || ''")
-                          raw = raw.strip()
+                          cur_url = page2.url
+                          title   = page2.title()
+                          inner   = page2.evaluate("() => document.body.innerText || ''")
+                          html    = page2.evaluate("() => document.body.innerHTML || ''")
+                          print(f"  [dbg] url={cur_url[:100]}")
+                          print(f"  [dbg] title={title}")
+                          print(f"  [dbg] innerText ({len(inner)} chars): {inner[:300]}")
+                          print(f"  [dbg] innerHTML ({len(html)} chars): {html[:300]}")
+                          # Intentar parsear directamente
+                          raw = inner.strip()
                           parsed = json.loads(raw)
                           if es_valido(parsed):
                               content = json.dumps(parsed)
