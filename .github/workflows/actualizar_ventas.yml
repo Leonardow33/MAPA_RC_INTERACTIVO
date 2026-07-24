@@ -119,23 +119,17 @@ jobs:
                       print(f"  -> navegacion: {e}")
                   if captured:
                       content = captured[-1]
-                  # Debug: ver qué está en la página para archivos pequeños
+                  # Fallback: archivos pequeños se muestran como preview en OneDrive
+                  # El innerText contiene el array JSON precedido de texto de UI
                   if not content:
                       try:
-                          cur_url = page2.url
-                          title   = page2.title()
-                          inner   = page2.evaluate("() => document.body.innerText || ''")
-                          html    = page2.evaluate("() => document.body.innerHTML || ''")
-                          print(f"  [dbg] url={cur_url[:100]}")
-                          print(f"  [dbg] title={title}")
-                          print(f"  [dbg] innerText ({len(inner)} chars): {inner[:300]}")
-                          print(f"  [dbg] innerHTML ({len(html)} chars): {html[:300]}")
-                          # Intentar parsear directamente
-                          raw = inner.strip()
-                          parsed = json.loads(raw)
-                          if es_valido(parsed):
-                              content = json.dumps(parsed)
-                              print(f"  -> JSON desde DOM ({len(raw)} chars)")
+                          inner = page2.evaluate("() => document.body.innerText || ''")
+                          idx = inner.find('[{')
+                          if idx >= 0:
+                              arr = json.loads(inner[idx:])
+                              if isinstance(arr, list) and len(arr) > 0:
+                                  content = json.dumps({"ventas": arr})
+                                  print(f"  -> JSON array desde DOM ({len(arr)} items)")
                       except Exception as e:
                           print(f"  -> DOM: {e}")
 
