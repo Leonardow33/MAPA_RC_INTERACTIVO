@@ -120,16 +120,22 @@ jobs:
                   if captured:
                       content = captured[-1]
                   # Fallback: archivos pequeños se muestran como preview en OneDrive
-                  # El innerText contiene el array JSON precedido de texto de UI
+                  # El innerText tiene el array JSON con numeros de linea y newlines intercalados
                   if not content:
                       try:
+                          import re as _re
                           inner = page2.evaluate("() => document.body.innerText || ''")
-                          idx = inner.find('[{')
-                          if idx >= 0:
-                              arr = json.loads(inner[idx:])
-                              if isinstance(arr, list) and len(arr) > 0:
-                                  content = json.dumps({"ventas": arr})
-                                  print(f"  -> JSON array desde DOM ({len(arr)} items)")
+                          start = inner.find('[{')
+                          if start >= 0:
+                              end = inner.rfind(']', start)
+                              if end > start:
+                                  chunk = inner[start:end+1]
+                                  chunk = _re.sub(r'\n\s*\d+\s*\n', '', chunk)
+                                  chunk = chunk.replace('\n', '')
+                                  arr = json.loads(chunk)
+                                  if isinstance(arr, list) and len(arr) > 0:
+                                      content = json.dumps({"ventas": arr})
+                                      print(f"  -> JSON array desde DOM ({len(arr)} items)")
                       except Exception as e:
                           print(f"  -> DOM: {e}")
 
