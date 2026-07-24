@@ -75,9 +75,12 @@ jobs:
                       try:
                           text = resp.body().decode("utf-8", errors="replace")
                           stripped = text.strip()
-                          if stripped.startswith("{") and len(stripped) > 5:
+                          if not stripped.startswith("{"):
+                              return
+                          parsed = json.loads(stripped)
+                          if isinstance(parsed.get("body"), list) or isinstance(parsed.get("ventas"), list):
                               captured.append(text)
-                              print(f"  -> JSON capturado ({len(text)} chars)")
+                              print(f"  -> JSON con body/ventas ({len(text)} chars)")
                       except Exception:
                           pass
 
