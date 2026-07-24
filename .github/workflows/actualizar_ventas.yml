@@ -119,6 +119,17 @@ jobs:
                       print(f"  -> navegacion: {e}")
                   if captured:
                       content = captured[-1]
+                  # Fallback: archivos pequeños se renderizan en el DOM en vez de servirse como respuesta HTTP
+                  if not content:
+                      try:
+                          raw = page2.evaluate("() => document.body.innerText || ''")
+                          raw = raw.strip()
+                          parsed = json.loads(raw)
+                          if es_valido(parsed):
+                              content = json.dumps(parsed)
+                              print(f"  -> JSON desde DOM ({len(raw)} chars)")
+                      except Exception as e:
+                          print(f"  -> DOM: {e}")
 
               # ── Validar y guardar ─────────────────────────────────────────
               if not content or not content.strip().startswith("{"):
