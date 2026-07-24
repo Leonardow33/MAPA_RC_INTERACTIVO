@@ -1573,7 +1573,7 @@
       const tj  = v.tipo_juego || '';
       if (tj === 'PozoPower'   && f >= mesIni && f <= mesFin) ppMes += amt;
       if (tj === 'LakiDey'     && f >= mesIni && f <= mesFin) ldMes += amt;
-      if (tj === 'PozoPowerGo' && f >= mesIni && f <= mesFin) goMes += amt;
+      if ((tj === 'PozoPowerGo' || tj === 'Go') && f >= mesIni && f <= mesFin) goMes += amt;
       if ((tj === 'Elige 3' || tj === 'Turbito') && f >= mesIni && f <= mesFin) scMes += amt;
     });
 
