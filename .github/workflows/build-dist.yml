@@ -15,6 +15,8 @@ on:
       - 'data/version.json'
       - 'data/partners.json'
       - 'data/ventas_mes.json'
+      - 'data/ventas_raspes.json'
+      - 'data/ventas_loteria.json'
       - 'data/keys_bonos.json'
       - 'data/historico_bonos.json'
       - 'icons/**'
