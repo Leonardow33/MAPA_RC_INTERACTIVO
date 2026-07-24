@@ -74,7 +74,8 @@ jobs:
                   def on_response(resp):
                       try:
                           text = resp.body().decode("utf-8", errors="replace")
-                          if ('"body"' in text or '"ventas"' in text) and text.strip().startswith("{"):
+                          stripped = text.strip()
+                          if stripped.startswith("{") and len(stripped) > 5:
                               captured.append(text)
                               print(f"  -> JSON capturado ({len(text)} chars)")
                       except Exception:
