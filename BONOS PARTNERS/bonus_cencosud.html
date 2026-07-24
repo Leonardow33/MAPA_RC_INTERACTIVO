@@ -1069,6 +1069,9 @@
   </nav>
 
   <div class="dash-body">
+    <div id="pronto-badge" style="display:none;background:linear-gradient(90deg,#7f1d1d,#b91c1c);color:#fecaca;font-size:11px;font-weight:700;text-align:center;padding:7px 16px;letter-spacing:.04em;text-transform:uppercase;">
+      ⚠️ Tienda próxima a cerrar — Meta calculada sobre promedio histórico
+    </div>
     <!-- No-meta notice (hidden when meta exists) -->
     <div class="no-meta-note" id="no-meta-note" style="display:none">
       ⚙️ Meta diaria aún no asignada — mostrando ventas acumuladas
@@ -1373,7 +1376,7 @@
     'JUEVES':4,'VIERNES':5,'SÁBADO':6,'SABADO':6,'DOMINGO':0
   };
 
-  let allStores = [], allVentas = [], sortedStores = [];
+  let allStores = [], allVentas = [], sortedStores = [], metasCencosud = null;
   let selectorReady = false;
 
   function loadJSON(u) {
@@ -1462,10 +1465,12 @@
 
   async function init() {
     try {
-      const [puntosData, ventasData] = await Promise.all([
+      const [puntosData, ventasData, metasData] = await Promise.all([
         loadJSON('../data/puntos.json'),
         loadJSON('../data/ventas_mes.json'),
+        loadJSON('../data/metas_cencosud.json'),
       ]);
+      metasCencosud = metasData;
 
       allStores = (Array.isArray(puntosData) ? puntosData : []).filter(p =>
         (p.responsable || '').toUpperCase() === PARTNER &&
@@ -1531,9 +1536,6 @@
     supEl.textContent = supParts.join(' · ');
     supEl.style.display = supParts.length ? '' : 'none';
 
-    const hasMeta = store.meta_diaria != null && store.meta_diaria > 0;
-    document.getElementById('no-meta-note').style.display = hasMeta ? 'none' : '';
-
     const hoy      = isoToday();
     const now      = new Date();
     const mesIni   = new Date(now.getFullYear(), now.getMonth(), 1);
@@ -1545,7 +1547,6 @@
 
     // Aggregate ventas for this store
     const id       = String(store.ID);
-    // Para Cencosud: Rapiraspas agrupa todos los scratch + Elige 3 + Turbito
     const SC_CENCOSUD = new Set(['Scratchcard','Jack','Raspa Wicho','Blin O Blin','7 Pecados','Gol De Oro','El Dorado','Rojoy Negro']);
     let totHoy = 0, totSem = 0, totMes = 0, ppMes = 0, ldMes = 0, scMes = 0, goMes = 0;
 
@@ -1559,21 +1560,53 @@
         if (f >= semLun && f <= semDom) totSem += amt;
         if (f >= mesIni && f <= mesFin) totMes += amt;
       }
-      if (tj === 'PozoPower'                                                    && f >= mesIni && f <= mesFin) ppMes += amt;
-      if (tj === 'LakiDey'                                                      && f >= mesIni && f <= mesFin) ldMes += amt;
-      if ((SC_CENCOSUD.has(tj) || tj === 'Elige 3' || tj === 'Turbito')        && f >= mesIni && f <= mesFin) scMes += amt;
-      if (tj === 'Go'                                                            && f >= mesIni && f <= mesFin) goMes += amt;
+      if (tj === 'PozoPower'                                             && f >= mesIni && f <= mesFin) ppMes += amt;
+      if (tj === 'LakiDey'                                               && f >= mesIni && f <= mesFin) ldMes += amt;
+      if ((SC_CENCOSUD.has(tj) || tj === 'Elige 3' || tj === 'Turbito') && f >= mesIni && f <= mesFin) scMes += amt;
+      if (tj === 'Go'                                                    && f >= mesIni && f <= mesFin) goMes += amt;
     });
 
-    // Metas
-    const dias        = store.dias || [];
-    const metaDiaria  = hasMeta ? store.meta_diaria : null;
-    const diasCalMes  = mesFin.getDate();
-    const diasCalSem  = 7;
-    const metaSem     = hasMeta ? metaDiaria * diasCalSem : null;
-    const metaMes     = hasMeta ? metaDiaria * diasCalMes : null;
+    // ── METAS DESDE EXCEL (metas_cencosud.json) ─────────────────
+    const storeNombre = (store.nombre || '').trim();
+    const metaActiva  = metasCencosud?.activas.find(a => a.tienda === storeNombre) || null;
+    const metaPronto  = metasCencosud?.prontoCerrar.find(p => p.tienda === storeNombre) || null;
+    const isPronto    = !!metaPronto && !metaActiva;
 
-    // Metas por juego (solo Cencosud tiene valores; otros stores tendrán null/0)
+    // Pesos por día
+    const DAY_KEYS   = ['Domingo','Lunes','Martes','Miercoles','Jueves','Viernes','Sabado'];
+    const dayKey     = DAY_KEYS[now.getDay()];
+    const dw         = metasCencosud?.dayWeights || {};
+    const dayWeight  = dw[dayKey] || 0;
+
+    // Días de la semana actual que pertenecen al mes en curso
+    let diasSemEnMes = 0;
+    for (let d = new Date(semLun); d <= semDom; d.setDate(d.getDate() + 1)) {
+      if (d.getMonth() === now.getMonth() && d.getFullYear() === now.getFullYear()) diasSemEnMes++;
+    }
+    const diasCalMes = mesFin.getDate();
+
+    let metaDiaria = null, metaSem = null, metaMes = null;
+    const hasMeta = !!(metaActiva || metaPronto);
+
+    if (metaActiva) {
+      const mi = now.getMonth();
+      metaMes    = mi === 6 ? metaActiva.meta_jul : mi === 7 ? metaActiva.meta_ago : mi === 8 ? metaActiva.meta_sep : 0;
+      metaSem    = (metaMes / diasCalMes) * diasSemEnMes;
+      metaDiaria = metaSem * dayWeight;
+    } else if (metaPronto) {
+      const totalPool = metasCencosud.totalPromedioPronto;
+      metaDiaria = totalPool * dayWeight * metaPronto.porcentaje;
+      metaSem    = metaPronto.promedio_semanal;
+      metaMes    = null; // no hay meta mensual para tiendas pronto a cerrar
+    }
+
+    // Badge pronto a cerrar
+    const prontoBadge = document.getElementById('pronto-badge');
+    if (prontoBadge) prontoBadge.style.display = isPronto ? '' : 'none';
+    document.getElementById('no-meta-note').style.display = hasMeta ? 'none' : '';
+
+    // Metas por juego (conservadas para el desglose visual)
+    const diasCalSem = 7;
     const metaPP   = (store.meta_pp      || 0) * diasCalMes;
     const metaPPGO = (store.meta_ppgo    || 0) * diasCalMes;
     const metaLD   = (store.meta_lakidey || 0) * diasCalMes;
