@@ -1476,7 +1476,7 @@
 
       allStores = (Array.isArray(puntosData) ? puntosData : []).filter(p =>
         (p.responsable || '').toUpperCase() === PARTNER &&
-        (p.estado || '').toUpperCase() !== 'CERRADO'
+        (p.estado || '').toUpperCase() === 'ACTIVO'
       );
 
       const todos = ventasData.body || ventasData.ventas || [];
