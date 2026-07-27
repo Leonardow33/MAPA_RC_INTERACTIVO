@@ -681,6 +681,20 @@
       text-align: right;
       flex-shrink: 0;
     }
+    .gr-val-wrap, .gr-meta-wrap {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      flex-shrink: 0;
+    }
+    .gr-col-lbl {
+      font-size: 9px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: .04em;
+      color: var(--dim);
+      margin-bottom: 1px;
+    }
 
     /* ── MOTIVATIONAL ───────────────────────────────────────── */
     .motive-card {
@@ -1166,8 +1180,14 @@
           <div class="gr-lbl-bar gr-lbl-70"   id="pp-lbl70">70%</div>
           <div class="gr-lbl-bar gr-lbl-proj" id="pp-lbl-proj">Proy.</div>
         </div>
-        <div class="gr-val" id="pp-val">S/ 0</div>
-        <div class="gr-meta" id="pp-meta">—</div>
+        <div class="gr-val-wrap">
+          <span class="gr-col-lbl">Falta</span>
+          <div class="gr-val" id="pp-val">S/ 0</div>
+        </div>
+        <div class="gr-meta-wrap">
+          <span class="gr-col-lbl">Meta</span>
+          <div class="gr-meta" id="pp-meta">—</div>
+        </div>
       </div>
       <div class="game-row">
         <div class="gr-name"><img src="../sources/logos-games/lakidey.png" class="gr-logo" alt="">LakiDey</div>
@@ -1180,8 +1200,14 @@
           <div class="gr-lbl-bar gr-lbl-70"   id="ld-lbl70">70%</div>
           <div class="gr-lbl-bar gr-lbl-proj" id="ld-lbl-proj">Proy.</div>
         </div>
-        <div class="gr-val" id="ld-val">S/ 0</div>
-        <div class="gr-meta" id="ld-meta">—</div>
+        <div class="gr-val-wrap">
+          <span class="gr-col-lbl">Falta</span>
+          <div class="gr-val" id="ld-val">S/ 0</div>
+        </div>
+        <div class="gr-meta-wrap">
+          <span class="gr-col-lbl">Meta</span>
+          <div class="gr-meta" id="ld-meta">—</div>
+        </div>
       </div>
       <div class="game-row">
         <div class="gr-name"><img src="../sources/logos-games/rapiraspa.png" class="gr-logo" alt="">Rapiraspas</div>
@@ -1194,8 +1220,14 @@
           <div class="gr-lbl-bar gr-lbl-70"   id="sc-lbl70">70%</div>
           <div class="gr-lbl-bar gr-lbl-proj" id="sc-lbl-proj">Proy.</div>
         </div>
-        <div class="gr-val" id="sc-val">S/ 0</div>
-        <div class="gr-meta" id="sc-meta">—</div>
+        <div class="gr-val-wrap">
+          <span class="gr-col-lbl">Falta</span>
+          <div class="gr-val" id="sc-val">S/ 0</div>
+        </div>
+        <div class="gr-meta-wrap">
+          <span class="gr-col-lbl">Meta</span>
+          <div class="gr-meta" id="sc-meta">—</div>
+        </div>
       </div>
       <div class="game-row">
         <div class="gr-name"><img src="../sources/logos-games/pozopower.png" class="gr-logo" alt="">Go</div>
@@ -1208,8 +1240,14 @@
           <div class="gr-lbl-bar gr-lbl-70"   id="go-lbl70">70%</div>
           <div class="gr-lbl-bar gr-lbl-proj" id="go-lbl-proj">Proy.</div>
         </div>
-        <div class="gr-val" id="go-val">S/ 0</div>
-        <div class="gr-meta" id="go-meta">—</div>
+        <div class="gr-val-wrap">
+          <span class="gr-col-lbl">Falta</span>
+          <div class="gr-val" id="go-val">S/ 0</div>
+        </div>
+        <div class="gr-meta-wrap">
+          <span class="gr-col-lbl">Meta</span>
+          <div class="gr-meta" id="go-meta">—</div>
+        </div>
       </div>
     </div>
 
