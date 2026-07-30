@@ -2443,6 +2443,16 @@
           "bono_admi": 30
         }
       ]
+    },
+    {
+      "jueves": "2026-07-23",
+      "miercoles": "2026-07-29",
+      "semana": "23 Jul – 29 Jul 2026",
+      "bono_num": 4,
+      "completa": true,
+      "total_ganadores": 0,
+      "por_cluster": {},
+      "ganadores": []
     }
   ]
 }
