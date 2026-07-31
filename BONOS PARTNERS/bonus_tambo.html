@@ -8,21 +8,21 @@
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --bg:       #EDFBF3;
+      --bg:       #F5F0FF;
       --surf:     #FFFFFF;
-      --surf2:    #F2FAF6;
-      --border:   #B8E4CB;
-      --text:     #0A2318;
-      --muted:    #3A7252;
-      --dim:      #8ABDA3;
-      --accent:   #00A650;
-      --accent-d: #007D3C;
-      --glow:     rgba(0,166,80,.22);
-      --green:    #0DA870;
+      --surf2:    #EDE9FE;
+      --border:   #C4B5FD;
+      --text:     #1E0A3C;
+      --muted:    #6B21A8;
+      --dim:      #A78BFA;
+      --accent:   #7C3AED;
+      --accent-d: #6D28D9;
+      --glow:     rgba(124,58,237,.22);
+      --green:    #10B981;
       --amber:    #D97706;
       --red:      #DC2626;
-      --rose:     rgba(10,35,24,.45);
-      --rose-soft: rgba(10,35,24,.04);
+      --rose:     rgba(30,10,60,.5);
+      --rose-soft: rgba(30,10,60,.04);
     }
 
     body {
@@ -131,7 +131,7 @@
       transition: background .12s;
     }
     .ac-item:last-child { border-bottom: none; }
-    .ac-item:hover, .ac-item.focused { background: rgba(0,166,80,.12); }
+    .ac-item:hover, .ac-item.focused { background: rgba(124,58,237,.1); }
     .ac-item .ac-name { font-size: 13px; font-weight: 600; }
     .ac-item .ac-meta { font-size: 11px; color: rgba(10,35,24,.5); }
 
@@ -187,7 +187,7 @@
       color: #fff;
       box-shadow: 0 0 14px var(--glow);
     }
-    .role-tab:not(.active):hover { border-color: rgba(0,166,80,.4); color: var(--text); }
+    .role-tab:not(.active):hover { border-color: rgba(124,58,237,.4); color: var(--text); }
 
     #role-panel-tienda, #role-panel-jz, #role-panel-gz { width: 100%; max-width: 420px; }
 
@@ -231,7 +231,7 @@
       gap: 12px;
       transition: background .15s, border-color .15s;
     }
-    .store-card:hover { background: var(--surf2); border-color: rgba(0,166,80,.4); }
+    .store-card:hover { background: var(--surf2); border-color: rgba(124,58,237,.4); }
     .sc-info { flex: 1; overflow: hidden; }
     .sc-name { font-size: 13px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
     .sc-meta { font-size: 11px; color: rgba(10,35,24,.5); margin-top: 2px; }
@@ -244,7 +244,7 @@
 
     .dash-nav {
       background: var(--surf);
-      border-top: 2px solid var(--accent);
+      border-top: 3px solid #FBBF24;
       border-bottom: 1px solid var(--border);
       padding: 12px 16px;
       display: flex;
@@ -281,8 +281,8 @@
     .nav-store .ns-sup { font-size: 10px; color: rgba(10,35,24,.38); margin-top: 1px; }
 
     .nav-badge {
-      background: var(--accent);
-      color: #fff;
+      background: #FBBF24;
+      color: #1E0A3C;
       font-size: 10px;
       font-weight: 800;
       letter-spacing: .06em;
@@ -433,8 +433,8 @@
     }
 
     .period-card--primary {
-      border-color: rgba(0,166,80,.25);
-      background: linear-gradient(135deg, rgba(0,166,80,.07) 0%, var(--surf) 60%);
+      border-color: rgba(124,58,237,.25);
+      background: linear-gradient(135deg, rgba(124,58,237,.07) 0%, var(--surf) 60%);
     }
 
     .pc-label {
@@ -616,7 +616,7 @@
     }
 
     .wc-col--today .wc-day   { color: var(--accent); }
-    .wc-col--today .wc-bar   { box-shadow: 0 0 8px rgba(0,166,80,.45); }
+    .wc-col--today .wc-bar   { box-shadow: 0 0 8px rgba(124,58,237,.45); }
     .wc-col--today .wc-amount{ color: var(--accent); }
 
     .wc-col--selected .wc-bar    { outline: 2px solid var(--text); outline-offset: 2px; }
@@ -658,8 +658,8 @@
     }
 
     .pin-badge {
-      background: var(--accent);
-      color: #fff;
+      background: #FBBF24;
+      color: #1E0A3C;
       font-size: 11px;
       font-weight: 800;
       letter-spacing: .1em;
@@ -757,8 +757,8 @@
 
     /* ── NO-META STATE ──────────────────────────────────────── */
     .no-meta-note {
-      background: rgba(0,166,80,.08);
-      border: 1px solid rgba(0,166,80,.25);
+      background: rgba(124,58,237,.08);
+      border: 1px solid rgba(124,58,237,.25);
       border-radius: 12px;
       padding: 12px 14px;
       font-size: 12px;
@@ -821,7 +821,7 @@
       height: 80px;
       object-fit: contain;
       opacity: .45;
-      filter: drop-shadow(0 2px 14px rgba(0,166,80,.45));
+      filter: drop-shadow(0 2px 14px rgba(124,58,237,.45));
       transition: opacity .3s;
     }
     .suerte-deco-img:hover { opacity: .8; pointer-events: auto; }
@@ -842,9 +842,9 @@
       display: block;
       border-radius: 18px;
       box-shadow:
-        0 0 0 1px rgba(0,166,80,.2),
+        0 0 0 1px rgba(124,58,237,.2),
         0 8px 40px rgba(0,0,0,.7),
-        0 0 60px rgba(0,166,80,.15);
+        0 0 60px rgba(124,58,237,.15);
     }
     @media (max-width: 900px) { .video-side { display: none; } }
 
@@ -1699,7 +1699,7 @@
     if (pct === null) return { icon:'📊', msg:'Registra tus ventas diariamente', detail:'Tu progreso aparecerá aquí en cuanto haya datos del mes.', bg:'rgba(58,114,82,.12)', clr:'var(--muted)' };
     if (pct >= 110)   return { icon:'🏆', msg:'¡Meta superada! Excelente trabajo', detail:'Estás por encima del objetivo mensual. ¡Sigue así!', bg:'rgba(16,217,138,.12)', clr:'var(--green)' };
     if (pct >= 100)   return { icon:'🎯', msg:'¡Meta cumplida este mes!', detail:'Lograste tu objetivo. ¡Sigue vendiendo y cierra el mes fuerte!', bg:'rgba(16,217,138,.1)', clr:'var(--green)' };
-    if (pct >= 80)    return { icon:'🔥', msg:'Casi llegas — ¡un último empuje!', detail:`Solo te falta el ${Math.round(100-pct)}% para alcanzar la meta mensual.`, bg:'rgba(0,166,80,.12)', clr:'var(--accent)' };
+    if (pct >= 80)    return { icon:'🔥', msg:'Casi llegas — ¡un último empuje!', detail:`Solo te falta el ${Math.round(100-pct)}% para alcanzar la meta mensual.`, bg:'rgba(124,58,237,.1)', clr:'var(--accent)' };
     if (pct >= 60)    return { icon:'💪', msg:'Buen ritmo, mantén el paso', detail:'Vas bien. Enfócate en cerrar cada día con tu meta diaria cubierta.', bg:'rgba(245,158,11,.1)', clr:'var(--amber)' };
     if (pct >= 30)    return { icon:'📈', msg:'Hay margen para mejorar', detail:'Cada venta cuenta. Recuerda atender a todos tus clientes frecuentes.', bg:'rgba(245,158,11,.08)', clr:'var(--amber)' };
     return { icon:'⚡', msg:'¡VAMOS POR MÁS!', detail:'Aprovecha cada oportunidad para superar tu meta del mes.', bg:'rgba(240,68,68,.1)', clr:'var(--red)' };
@@ -1836,7 +1836,7 @@
 
     glowEl.style.background =
       col === 'var(--green)'  ? 'rgba(16,217,138,.28)'  :
-      col === 'var(--accent)' ? 'rgba(0,166,80,.35)'    :
+      col === 'var(--accent)' ? 'rgba(124,58,237,.35)'    :
       col === 'var(--amber)'  ? 'rgba(245,158,11,.22)'  :
       col === 'var(--red)'    ? 'rgba(240,68,68,.22)'   : 'transparent';
     requestAnimationFrame(() => { glowEl.style.opacity = '1'; });
