@@ -771,7 +771,8 @@
       selSemana.innerHTML = '';
       semanas.forEach((jue, i) => {
         const val       = isoDate(jue);
-        const tieneSnap = snapKeys.has(val);
+        const snapEntry = historico.semanas && historico.semanas.find(s => s.jueves === val);
+        const tieneSnap = !!snapEntry && snapEntry.completa !== false;
         const opt = document.createElement('option');
         opt.value = val;
         opt.textContent = semanaLabel(jue)
@@ -816,9 +817,9 @@
     const selVal = document.getElementById('filtro-semana').value;
     if (!selVal) return;
 
-    // Si hay snapshot guardado para esta semana, usarlo directamente
+    // Si hay snapshot COMPLETO guardado para esta semana, usarlo directamente
     const snap = window.HISTORICO_MAP && window.HISTORICO_MAP[selVal];
-    if (snap) { usarSnapshot(snap); return; }
+    if (snap && snap.completa !== false) { usarSnapshot(snap); return; }
 
     const jueves    = new Date(selVal + 'T00:00:00');
     window.SEMANA_JUEVES = jueves;
