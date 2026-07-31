@@ -224,18 +224,35 @@ jobs:
               'D': {'tienda':  40, 'admi': 30},
           }
 
-          ventas_data = json.loads(Path('data/ventas_mes.json').read_text(encoding='utf-8'))
-          puntos_data = json.loads(Path('data/puntos.json').read_text(encoding='utf-8'))
-          keys_data   = json.loads(Path('data/keys_bonos.json').read_text(encoding='utf-8'))
+          ventas_data  = json.loads(Path('data/ventas_mes.json').read_text(encoding='utf-8'))
+          loteria_data = json.loads(Path('data/ventas_loteria.json').read_text(encoding='utf-8'))
+          puntos_data  = json.loads(Path('data/puntos.json').read_text(encoding='utf-8'))
+          keys_data    = json.loads(Path('data/keys_bonos.json').read_text(encoding='utf-8'))
 
           keys   = {k['cluster']: k for k in keys_data}
           tambos = [p for p in puntos_data
                     if 'TAMBO' in str(p.get('tipo', '')).upper()
                     or str(p.get('cluster_bono', '')).strip().upper() in ['A','B','C','D']]
 
+          # TOTAL desde ventas_mes.json
           ventas = ventas_data.get('body') or ventas_data.get('ventas') or []
           ventas_map = {}
           for v in ventas:
+              try:
+                  fecha = date.fromisoformat(v.get('fecha', '1900-01-01'))
+              except ValueError:
+                  continue
+              if fecha < jueves or fecha > miercoles_real:
+                  continue
+              if v.get('tipo_juego') != 'TOTAL':
+                  continue
+              vid = str(v.get('org_code', ''))
+              if vid not in ventas_map:
+                  ventas_map[vid] = {'pp': 0, 'ld': 0, 'grand': 0}
+              ventas_map[vid]['grand'] += v.get('total') or 0
+          # PozoPower y LakiDey desde ventas_loteria.json
+          loteria_rows = loteria_data.get('ventas') or loteria_data.get('body') or []
+          for v in loteria_rows:
               try:
                   fecha = date.fromisoformat(v.get('fecha', '1900-01-01'))
               except ValueError:
@@ -247,9 +264,8 @@ jobs:
                   ventas_map[vid] = {'pp': 0, 'ld': 0, 'grand': 0}
               tj  = v.get('tipo_juego', '')
               amt = v.get('total') or 0
-              if tj == 'TOTAL':     ventas_map[vid]['grand'] += amt
-              if tj == 'PozoPower': ventas_map[vid]['pp']    += amt
-              if tj == 'LakiDey':  ventas_map[vid]['ld']    += amt
+              if tj == 'PozoPower': ventas_map[vid]['pp'] += amt
+              if tj == 'LakiDey':  ventas_map[vid]['ld'] += amt
 
           TIER_ORDER  = ['A', 'B', 'C', 'D']
           ganadores   = []
