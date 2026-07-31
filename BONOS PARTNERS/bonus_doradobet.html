@@ -1378,7 +1378,7 @@
     // Metas
     const dias       = store.dias || [];
     const metaDiaria = hasMeta ? store.meta_diaria : null;
-    const diasCalMes = mesFin.getDate();        // días en el mes actual (30, 31…)
+    const diasCalMes = 30;                      // siempre 30 para homogenizar todos los meses
     const diasCalSem = 7;                       // la semana siempre tiene 7 días
     const metaSem    = hasMeta ? metaDiaria * diasCalSem : null;
     const metaMes    = hasMeta ? metaDiaria * diasCalMes : null;
