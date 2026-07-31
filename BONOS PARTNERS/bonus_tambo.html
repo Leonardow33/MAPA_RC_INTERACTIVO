@@ -1006,8 +1006,8 @@
 
   <div class="role-tabs">
     <button class="role-tab active" id="tab-tienda" onclick="setRole('tienda')">🏪 Mi tienda</button>
-    <button class="role-tab" id="tab-gz" onclick="setRole('gz')">Supervisor</button>
-    <button class="role-tab" id="tab-jz" onclick="setRole('jz')">Jefe Comercial</button>
+    <button class="role-tab" id="tab-gz" onclick="setRole('gz')">Jefe Comercial</button>
+    <button class="role-tab" id="tab-jz" onclick="setRole('jz')">Supervisor</button>
   </div>
 
   <!-- Panel: Tienda -->
@@ -1362,7 +1362,7 @@
             <div style="font-size:11px;opacity:.75;margin-top:3px;line-height:1.4">${m.detail}</div>
           </div>
         </div>
-        <button class="gz-det-btn" id="${role}-det-btn" onclick="toggleRoleDetail('${role}')">${role === 'jz' ? 'Ver supervisores y tiendas ▾' : 'Ver detalle por tienda ▾'}</button>
+        <button class="gz-det-btn" id="${role}-det-btn" onclick="toggleRoleDetail('${role}')">${role === 'jz' ? 'Ver JCs y tiendas ▾' : 'Ver detalle por tienda ▾'}</button>
       </div>`;
   }
 
@@ -1370,7 +1370,7 @@
     const wrap  = document.getElementById(role + '-stores-wrap');
     const btn   = document.getElementById(role + '-det-btn');
     const open  = wrap.style.display !== 'none';
-    const label = role === 'jz' ? 'Ver supervisores y tiendas' : 'Ver detalle por tienda';
+    const label = role === 'jz' ? 'Ver JCs y tiendas' : 'Ver detalle por tienda';
     wrap.style.display = open ? 'none' : '';
     btn.textContent    = open ? label + ' ▾' : 'Ocultar ▲';
   }
@@ -1431,7 +1431,7 @@
     const ids        = new Set(stores.map(s => String(s.ID)));
     const vm         = monthlyVentasMap(ids);
     const esc        = v => String(v == null ? '' : v).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
-    const cols       = ['Jefe Comercial','Supervisor','ID Tienda','Tienda','Período','Días transcurridos','Ventas S/','Meta Mensual S/','Avance % (mes)','Falta para meta S/'];
+    const cols       = ['Supervisor','Jefe Comercial','ID Tienda','Tienda','Período','Días transcurridos','Ventas S/','Meta Mensual S/','Avance % (mes)','Falta para meta S/'];
     const totalDias  = 30;
 
     const filas = [...stores]
@@ -1621,7 +1621,7 @@
         <div class="sc-info">
           <div class="sc-name">${s.nombre}</div>
           <div class="sc-meta">${s.ID} · ${s.zona || ''} · ${s.distrito || ''}</div>
-          ${(s.jz && s.jz !== 'SIN INFO') || (s.gz && s.gz !== 'SIN INFO') ? `<div class="sc-sup">${[s.jz && s.jz !== 'SIN INFO' ? 'JC: ' + s.jz : '', s.gz && s.gz !== 'SIN INFO' ? 'SUP: ' + s.gz : ''].filter(Boolean).join(' · ')}</div>` : ''}
+          ${(s.jz && s.jz !== 'SIN INFO') || (s.gz && s.gz !== 'SIN INFO') ? `<div class="sc-sup">${[s.gz && s.gz !== 'SIN INFO' ? 'JC: ' + s.gz : '', s.jz && s.jz !== 'SIN INFO' ? 'SUP: ' + s.jz : ''].filter(Boolean).join(' · ')}</div>` : ''}
         </div>
         <span class="sc-arrow">›</span>
       </div>`).join('');
@@ -1771,8 +1771,8 @@
     document.getElementById('nav-nombre').textContent = store.nombre;
     document.getElementById('nav-id').textContent = 'Código ' + store.ID;
     const supParts = [];
-    if (store.jz && store.jz !== 'SIN INFO') supParts.push('JC: ' + store.jz);
-    if (store.gz && store.gz !== 'SIN INFO') supParts.push('SUP: ' + store.gz);
+    if (store.gz && store.gz !== 'SIN INFO') supParts.push('JC: ' + store.gz);
+    if (store.jz && store.jz !== 'SIN INFO') supParts.push('SUP: ' + store.jz);
     const supEl = document.getElementById('nav-sup');
     supEl.textContent = supParts.join(' · ');
     supEl.style.display = supParts.length ? '' : 'none';
