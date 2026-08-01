@@ -1721,8 +1721,9 @@
 
       const todos = ventasData.body || ventasData.ventas || [];
       allVentas  = todos.filter(v => (v.partner || '').toUpperCase() === PARTNER);
-      allRaspes  = (raspesData.body  || raspesData.ventas  || []).filter(v => (v.partner || '').toUpperCase() === PARTNER);
-      allLoteria = (loteriaData.body || loteriaData.ventas || []).filter(v => (v.partner || '').toUpperCase() === PARTNER);
+      allRaspes  = (raspesData.ventas  || raspesData.body  || []).filter(v => (v.partner || '').toUpperCase() === PARTNER);
+      allLoteria = (loteriaData.ventas || loteriaData.body  || []).filter(v => (v.partner || '').toUpperCase() === PARTNER);
+      console.log('[TAMBO] allStores:', allStores.length, 'allVentas:', allVentas.length, 'allRaspes:', allRaspes.length, 'allLoteria:', allLoteria.length);
 
       const params  = new URLSearchParams(location.search);
       const idParam = params.get('id') || params.get('tienda');
@@ -1866,6 +1867,7 @@
     document.getElementById('sem-pct').style.color  = semCol;
     setBar(document.getElementById('sem-bar'), pctSem || 0, semCol);
 
+    console.log('[TAMBO] store:', id, '| totMes:', totMes, '| ppMes:', ppMes, '| ldMes:', ldMes, '| scMes:', scMes, '| goMes:', goMes, '| e3Mes:', e3Mes, '| turbito:', turbitoMes);
     const otrosMes = Math.max(0, totMes - (ppMes + ldMes + scMes + goMes + e3Mes + turbitoMes));
     const maxGame  = Math.max(ppMes, ldMes, scMes, goMes, e3Mes, turbitoMes, otrosMes, 1);
     document.getElementById('pp-val').textContent      = fmtS(ppMes);
