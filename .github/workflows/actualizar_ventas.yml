@@ -160,7 +160,18 @@ jobs:
 
               registros = data.get("ventas") or data.get("body") or []
               if len(registros) == 0:
-                  print(f"ADVERTENCIA [{label}]: 0 registros")
+                  # Leer cuántos registros tiene el archivo actual para comparar
+                  existing_count = 0
+                  try:
+                      with open(dest, encoding="utf-8") as ef:
+                          existing = json.load(ef)
+                          existing_count = len(existing.get("ventas") or existing.get("body") or [])
+                  except Exception:
+                      pass
+                  if existing_count > 0:
+                      print(f"PROTECCIÓN [{label}]: descarga devolvió 0 registros pero el archivo actual tiene {existing_count} — no se sobreescribe")
+                      return True  # no es un error, simplemente se conserva el archivo anterior
+                  print(f"ADVERTENCIA [{label}]: 0 registros (archivo también estaba vacío)")
 
               data["updated"] = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC")
               with open(dest, "w", encoding="utf-8") as f:
