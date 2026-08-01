@@ -1402,6 +1402,7 @@
   }
 
   const PARTNER = 'CENCOSUD';
+  const isMesPrev = new URLSearchParams(location.search).get('mes') === 'prev';
 
   const DIA_JS = {
     'LUNES':1,'MARTES':2,'MIÉRCOLES':3,'MIERCOLES':3,
@@ -1499,10 +1500,10 @@
     try {
       const [puntosData, ventasData, metasData, raspesData, loteriaData] = await Promise.all([
         loadJSON('../data/puntos.json'),
-        loadJSON('../data/ventas_mes.json'),
+        loadJSON('../data/' + (isMesPrev ? 'ventas_mes_prev' : 'ventas_mes') + '.json'),
         loadJSON('../data/metas_cencosud.json'),
-        loadJSON('../data/ventas_raspes.json'),
-        loadJSON('../data/ventas_loteria.json'),
+        loadJSON('../data/' + (isMesPrev ? 'ventas_raspes_prev' : 'ventas_raspes') + '.json'),
+        loadJSON('../data/' + (isMesPrev ? 'ventas_loteria_prev' : 'ventas_loteria') + '.json'),
       ]);
       metasCencosud = metasData;
 
@@ -1574,8 +1575,8 @@
 
     const hoy      = isoToday();
     const now      = new Date();
-    const mesIni   = new Date(now.getFullYear(), now.getMonth(), 1);
-    const mesFin   = new Date(now.getFullYear(), now.getMonth()+1, 0, 23, 59, 59);
+    const mesIni   = new Date(now.getFullYear(), now.getMonth() - (isMesPrev ? 1 : 0), 1);
+    const mesFin   = new Date(now.getFullYear(), now.getMonth() - (isMesPrev ? 1 : 0) + 1, 0, 23, 59, 59);
     const semJue   = juevesDe(now);
     const semLun   = lunesDe(now);
     const semMie   = new Date(semJue); semMie.setDate(semJue.getDate()+6); semMie.setHours(23,59,59,999);
@@ -1834,6 +1835,25 @@
     document.getElementById('motive-detail').textContent = m.detail;
     mc.style.border = `1px solid ${m.clr}40`;
   }
+
+  // ── Banner mes anterior ────────────────────────────────────────────────────
+  (function() {
+    var _q  = new URLSearchParams(location.search);
+    var _mp = _q.get('mes') === 'prev';
+    if (!_mp) return;
+    var _d  = new Date();
+    var _pm = new Date(_d.getFullYear(), _d.getMonth()-1, 1);
+    var _ms = ['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
+    var _bn = document.createElement('div');
+    _bn.id  = 'prev-mes-banner';
+    _bn.style.cssText = 'position:fixed;top:0;left:0;right:0;z-index:9999;background:#F59E0B;color:#1C1917;font-size:13px;font-weight:700;text-align:center;padding:8px 12px;display:flex;align-items:center;justify-content:center;gap:12px;box-shadow:0 2px 8px rgba(0,0,0,.18)';
+    _bn.innerHTML = '<span>Viendo datos de <strong>' + _ms[_pm.getMonth()] + ' ' + _pm.getFullYear() + '</strong></span><a href="' + location.pathname + '" style="background:white;color:#1C1917;border-radius:8px;padding:3px 10px;text-decoration:none;font-size:12px">Ver mes actual</a>';
+    document.body.prepend(_bn);
+    setTimeout(function() {
+      var db = document.getElementById('dashboard');
+      if (db && db.style.display !== 'none') db.style.paddingTop = '48px';
+    }, 500);
+  })();
 
   init();
 </script>

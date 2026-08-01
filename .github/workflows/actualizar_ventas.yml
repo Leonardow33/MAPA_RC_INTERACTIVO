@@ -159,19 +159,36 @@ jobs:
                   data = {"ventas": data}
 
               registros = data.get("ventas") or data.get("body") or []
-              if len(registros) == 0:
-                  # Leer cuántos registros tiene el archivo actual para comparar
-                  existing_count = 0
-                  try:
+              existing_arr = []
+              try:
+                  import os as _os
+                  if _os.path.exists(dest):
                       with open(dest, encoding="utf-8") as ef:
-                          existing = json.load(ef)
-                          existing_count = len(existing.get("ventas") or existing.get("body") or [])
-                  except Exception:
-                      pass
-                  if existing_count > 0:
-                      print(f"PROTECCIÓN [{label}]: descarga devolvió 0 registros pero el archivo actual tiene {existing_count} — no se sobreescribe")
-                      return True  # no es un error, simplemente se conserva el archivo anterior
+                          existing_d = json.load(ef)
+                      existing_arr = existing_d.get("ventas") or existing_d.get("body") or []
+              except Exception:
+                  pass
+
+              if len(registros) == 0:
+                  if len(existing_arr) > 0:
+                      print(f"PROTECCIÓN [{label}]: descarga devolvió 0 registros pero el archivo actual tiene {len(existing_arr)} — no se sobreescribe")
+                      return True
                   print(f"ADVERTENCIA [{label}]: 0 registros (archivo también estaba vacío)")
+              elif len(existing_arr) > 0:
+                  # Detectar cambio de mes: si la fecha máxima de los nuevos datos
+                  # es de un mes distinto al de los datos existentes, crear backup _prev
+                  import shutil as _sh
+                  try:
+                      new_dates = [v.get("fecha","") for v in registros if v.get("fecha")]
+                      old_dates = [v.get("fecha","") for v in existing_arr if v.get("fecha")]
+                      new_month = max(new_dates)[:7] if new_dates else ""
+                      old_month = max(old_dates)[:7] if old_dates else ""
+                      if new_month and old_month and new_month != old_month:
+                          prev_dest = dest.replace(".json", "_prev.json")
+                          _sh.copy2(dest, prev_dest)
+                          print(f"  -> Mes cambió {old_month}→{new_month}, backup guardado: {prev_dest}")
+                  except Exception as _e:
+                      print(f"  -> No se pudo crear backup de mes: {_e}")
 
               data["updated"] = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC")
               with open(dest, "w", encoding="utf-8") as f:
@@ -375,6 +392,7 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add data/ventas_mes.json data/ventas_raspes.json data/ventas_loteria.json data/historico_bonos.json
+          git add data/ventas_mes_prev.json data/ventas_raspes_prev.json data/ventas_loteria_prev.json 2>/dev/null || true
           git diff --cached --quiet || {
             git commit -m "chore: actualizar ventas_mes.json"
             for i in 1 2 3 4 5; do
