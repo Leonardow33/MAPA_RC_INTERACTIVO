@@ -1008,6 +1008,8 @@
     <button class="role-tab active" id="tab-tienda" onclick="setRole('tienda')">🏪 Mi tienda</button>
     <button class="role-tab" id="tab-gz" onclick="setRole('gz')">Jefe Comercial</button>
     <button class="role-tab" id="tab-jz" onclick="setRole('jz')">Supervisor</button>
+    <button class="role-tab" id="tab-rc" onclick="setRole('rc')">RC</button>
+    <button class="role-tab" id="tab-supervisor" onclick="setRole('supervisor')">Supervisor RC</button>
   </div>
 
   <!-- Panel: Tienda -->
@@ -1049,6 +1051,30 @@
     <div id="gz-stores-wrap" style="display:none">
       <div class="store-card-list" id="gz-store-list"></div>
       <p class="sc-count" id="gz-count"></p>
+    </div>
+  </div>
+
+  <!-- Panel: RC -->
+  <div id="role-panel-rc" style="display:none">
+    <select class="role-select" id="rc-select">
+      <option value="">— Selecciona tu nombre —</option>
+    </select>
+    <div id="rc-summary" style="display:none"></div>
+    <div id="rc-stores-wrap" style="display:none">
+      <div class="store-card-list" id="rc-store-list"></div>
+      <p class="sc-count" id="rc-count"></p>
+    </div>
+  </div>
+
+  <!-- Panel: Supervisor RC -->
+  <div id="role-panel-supervisor" style="display:none">
+    <select class="role-select" id="supervisor-select">
+      <option value="">— Selecciona tu nombre —</option>
+    </select>
+    <div id="supervisor-summary" style="display:none"></div>
+    <div id="supervisor-stores-wrap" style="display:none">
+      <div class="store-card-list" id="supervisor-store-list"></div>
+      <p class="sc-count" id="supervisor-count"></p>
     </div>
   </div>
 </div>
@@ -1254,7 +1280,7 @@
   }
 
   function setRole(role) {
-    ['tienda','jz','gz'].forEach(r => {
+    ['tienda','jz','gz','rc','supervisor'].forEach(r => {
       document.getElementById('tab-' + r).classList.toggle('active', r === role);
       document.getElementById('role-panel-' + r).style.display = r === role ? '' : 'none';
     });
@@ -1262,10 +1288,12 @@
   }
 
   function setupRoleSelects() {
-    const gzSet = new Set(), jzSet = new Set();
+    const gzSet = new Set(), jzSet = new Set(), rcSet = new Set(), supervisorSet = new Set();
     allStores.forEach(p => {
       if (p.gz && p.gz !== 'SIN INFO') gzSet.add(p.gz);
       if (p.jz && p.jz !== 'SIN INFO') jzSet.add(p.jz);
+      if (p.rc && p.rc !== 'SIN INFO') rcSet.add(p.rc);
+      if (p.supervisor && p.supervisor !== 'SIN INFO') supervisorSet.add(p.supervisor);
     });
 
     const gzSel = document.getElementById('gz-select');
@@ -1295,6 +1323,34 @@
       renderJzDownload(jz, stores);
       renderJzDetail(stores);
       document.getElementById('jz-stores-wrap').style.display = 'none';
+    });
+
+    const rcSel = document.getElementById('rc-select');
+    [...rcSet].sort().forEach(rc => {
+      const opt = document.createElement('option');
+      opt.value = rc; opt.textContent = rc;
+      rcSel.appendChild(opt);
+    });
+    rcSel.addEventListener('change', () => {
+      const rc     = rcSel.value;
+      const stores = rc ? allStores.filter(p => p.rc === rc) : [];
+      renderRoleSummary('rc', rc, stores);
+      renderSimpleDetail('rc', stores);
+      document.getElementById('rc-stores-wrap').style.display = 'none';
+    });
+
+    const supSel = document.getElementById('supervisor-select');
+    [...supervisorSet].sort().forEach(sv => {
+      const opt = document.createElement('option');
+      opt.value = sv; opt.textContent = sv;
+      supSel.appendChild(opt);
+    });
+    supSel.addEventListener('change', () => {
+      const sv     = supSel.value;
+      const stores = sv ? allStores.filter(p => p.supervisor === sv) : [];
+      renderRoleSummary('supervisor', sv, stores);
+      renderSimpleDetail('supervisor', stores);
+      document.getElementById('supervisor-stores-wrap').style.display = 'none';
     });
   }
 
@@ -1527,6 +1583,22 @@
 
   function renderGzDetail(stores) {
     const wrap       = document.getElementById('gz-stores-wrap');
+    const diasCalMes = 30;
+    const ids        = new Set(stores.map(s => String(s.ID)));
+    const vm         = monthlyVentasMap(ids);
+    const list       = document.createElement('div');
+    list.style.cssText = 'display:flex;flex-direction:column;gap:6px;';
+    list.appendChild(buildStoreRows(stores, vm, diasCalMes));
+    wrap.innerHTML = '';
+    wrap.appendChild(list);
+    const cnt = document.createElement('p');
+    cnt.className = 'sc-count';
+    cnt.textContent = stores.length + ' tienda' + (stores.length !== 1 ? 's' : '');
+    wrap.appendChild(cnt);
+  }
+
+  function renderSimpleDetail(role, stores) {
+    const wrap       = document.getElementById(role + '-stores-wrap');
     const diasCalMes = 30;
     const ids        = new Set(stores.map(s => String(s.ID)));
     const vm         = monthlyVentasMap(ids);
