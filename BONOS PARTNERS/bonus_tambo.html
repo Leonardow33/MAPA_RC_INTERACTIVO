@@ -1109,7 +1109,7 @@
         <div class="pc-pct" id="hoy-pct">—</div>
       </div>
       <div class="period-card period-card--primary">
-        <div class="pc-label">Esta Semana <span style="font-size:10px;opacity:.65">(Jue–Mié)</span></div>
+        <div class="pc-label">Semana Incentivo <span style="font-size:10px;opacity:.65">(Jue–Mié)</span></div>
         <div class="pc-val" id="sem-val">S/ 0</div>
         <div class="pc-meta" id="sem-meta">Meta: —</div>
         <div class="pbar-track"><div class="pbar-fill" id="sem-bar"></div></div>
@@ -2040,18 +2040,22 @@
     document.getElementById('nav-nombre').textContent = store.nombre;
     document.getElementById('nav-id').textContent = 'Código ' + store.ID;
 
-    const clParts = [];
-    if (store.cluster) clParts.push(store.cluster);
-    if (store.cluster_bono) clParts.push('Bono ' + store.cluster_bono);
     const navCl = document.getElementById('nav-cluster');
-    navCl.textContent = clParts.join(' · ');
-    navCl.style.display = clParts.length ? '' : 'none';
+    const clLines = [];
+    if (store.cluster_bono && store.cluster_bono !== 'SIN CLUSTER')
+      clLines.push('CLUSTER ' + store.cluster_bono + ' INCENTIVO SEMANAL');
+    if (store.cluster && store.cluster !== 'SIN CLUSTER') {
+      const cl = store.cluster;
+      clLines.push((cl.startsWith('TOP') ? cl : 'TOP ' + cl) + ' DIARIO');
+    }
+    navCl.innerHTML = clLines.join('<br>');
+    navCl.style.display = clLines.length ? '' : 'none';
 
     const supParts = [];
-    if (store.gz && store.gz !== 'SIN INFO') supParts.push('JC: ' + store.gz);
-    if (store.gz && store.gz !== 'SIN INFO') supParts.push('JC: ' + store.gz);
-    if (store.jz && store.jz !== 'SIN INFO') supParts.push('SUP: ' + store.jz);
-    if (store.rc && store.rc !== 'SIN INFO') supParts.push('RC: ' + store.rc);
+    if (store.gz         && store.gz         !== 'SIN INFO') supParts.push('JC: '     + store.gz);
+    if (store.jz         && store.jz         !== 'SIN INFO') supParts.push('SUP: '    + store.jz);
+    if (store.rc         && store.rc         !== 'SIN INFO') supParts.push('RC: '     + store.rc);
+    if (store.supervisor && store.supervisor !== 'SIN INFO') supParts.push('SUP RC: ' + store.supervisor);
     const supEl = document.getElementById('nav-sup');
     supEl.textContent = supParts.join(' · ');
     supEl.style.display = supParts.length ? '' : 'none';
