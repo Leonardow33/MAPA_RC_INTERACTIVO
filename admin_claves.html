@@ -105,6 +105,33 @@
     .cc.copied .cc-hint { color: #0DA870; }
     .cc-code { font-size: 22px; font-weight: 900; font-variant-numeric: tabular-nums; letter-spacing: .08em; }
 
+    /* ── SECCIÓN HERRAMIENTAS ───────────────────────────────── */
+    .sec-sep { width: 100%; max-width: 880px; border: none; border-top: 1px solid #F0D0DC; margin: 32px 0 20px; }
+    .sec-eyebrow { font-size: 10px; font-weight: 700; letter-spacing: .2em; text-transform: uppercase; color: #C090A8; margin-bottom: 12px; width: 100%; max-width: 880px; }
+
+    .tool-grid { width: 100%; max-width: 880px; display: flex; flex-direction: column; gap: 8px; }
+    .tc {
+      background: #FFFFFF; border: 1.5px solid; border-radius: 14px;
+      padding: 12px 16px; display: flex; align-items: center; gap: 12px;
+      box-shadow: 0 1px 4px rgba(180,80,120,.07);
+    }
+    .tc-bar { width: 4px; border-radius: 4px; flex-shrink: 0; align-self: stretch; min-height: 32px; }
+    .tc-info { flex: 1; min-width: 0; }
+    .tc-name { font-size: 14px; font-weight: 800; line-height: 1.2; }
+    .tc-sub  { font-size: 11px; color: #C0A0B0; margin-top: 2px; }
+    .tc-actions { display: flex; gap: 8px; align-items: center; flex-shrink: 0; flex-wrap: wrap; justify-content: flex-end; }
+    .tc-chip {
+      font-size: 13px; font-weight: 800; letter-spacing: .04em;
+      font-variant-numeric: tabular-nums;
+      background: #FFF0F4; border: 1.5px solid #E8C8D4;
+      border-radius: 10px; padding: 6px 14px; cursor: pointer;
+      transition: background .15s, border-color .15s, color .15s; color: #4A2030;
+      white-space: nowrap; user-select: none;
+    }
+    .tc-chip:hover { background: #FFE4EE; border-color: #C090A8; }
+    .tc-chip.copied { background: rgba(13,168,112,.08); border-color: #0DA870; color: #0DA870; }
+    .tc-note { font-size: 10px; color: #C0A0B0; }
+
     .footer { font-size: 11px; color: #C0A0B0; text-align: center; max-width: 300px; margin-top: 24px; }
     .dev-badge {
       position: fixed; bottom: 12px; right: 14px;
@@ -127,6 +154,87 @@
   </div>
 
   <div class="main-grid" id="main-grid"></div>
+
+  <hr class="sec-sep">
+  <div class="sec-eyebrow">Herramientas · acceso con clave fija</div>
+
+  <div class="tool-grid">
+
+    <!-- visitas.html -->
+    <div class="tc" style="border-color:#7C3AED44">
+      <div class="tc-bar" style="background:#7C3AED"></div>
+      <div class="tc-info">
+        <div class="tc-name" style="color:#7C3AED">Visitas</div>
+        <div class="tc-sub">Registro de visitas de campo · RC y Capacitador</div>
+      </div>
+      <div class="tc-actions">
+        <div style="display:flex;flex-direction:column;align-items:flex-end;gap:4px">
+          <div style="display:flex;gap:6px;align-items:center">
+            <span style="font-size:10px;color:#C0A0B0;white-space:nowrap">RC</span>
+            <span class="tc-chip" onclick="copyStatic(this,'Geodor2026-1')">Geodor2026-1</span>
+          </div>
+          <div style="display:flex;gap:6px;align-items:center">
+            <span style="font-size:10px;color:#C0A0B0;white-space:nowrap">Capacitador</span>
+            <span class="tc-chip" onclick="copyStatic(this,'Geodor2026-2')">Geodor2026-2</span>
+          </div>
+        </div>
+        <a class="pc-open" href="visitas.html" target="_blank">Abrir ↗</a>
+      </div>
+    </div>
+
+    <!-- logistica.html -->
+    <div class="tc" style="border-color:#0891B244">
+      <div class="tc-bar" style="background:#0891B2"></div>
+      <div class="tc-info">
+        <div class="tc-name" style="color:#0891B2">Logística</div>
+        <div class="tc-sub">Panel de logística · acceso coordinadores</div>
+      </div>
+      <div class="tc-actions">
+        <span class="tc-chip" onclick="copyStatic(this,'LogLoto26')">LogLoto26</span>
+        <a class="pc-open" href="logistica.html" target="_blank">Abrir ↗</a>
+      </div>
+    </div>
+
+    <!-- editor_pdv.html -->
+    <div class="tc" style="border-color:#16A34A44">
+      <div class="tc-bar" style="background:#16A34A"></div>
+      <div class="tc-info">
+        <div class="tc-name" style="color:#16A34A">Editor PDV</div>
+        <div class="tc-sub">Edición de puntos de venta · tab Coordinadores</div>
+      </div>
+      <div class="tc-actions">
+        <span class="tc-chip" onclick="copyStatic(this,'Lotobola123')">Lotobola123</span>
+        <a class="pc-open" href="herramientas/editor_pdv.html" target="_blank">Abrir ↗</a>
+      </div>
+    </div>
+
+    <!-- mapa.html PIN reunión -->
+    <div class="tc" style="border-color:#D9770644">
+      <div class="tc-bar" style="background:#D97706"></div>
+      <div class="tc-info">
+        <div class="tc-name" style="color:#D97706">Mapa · PIN Reunión mensual</div>
+        <div class="tc-sub">Cambia cada mes · actualizar en js/mapa.js → REUNION_PIN</div>
+      </div>
+      <div class="tc-actions">
+        <span class="tc-chip" onclick="copyStatic(this,'0810')">0810</span>
+        <a class="pc-open" href="mapa.html" target="_blank">Abrir ↗</a>
+      </div>
+    </div>
+
+    <!-- progreso.html -->
+    <div class="tc" style="border-color:#E5353544">
+      <div class="tc-bar" style="background:#E53535"></div>
+      <div class="tc-info">
+        <div class="tc-name" style="color:#E53535">Progreso</div>
+        <div class="tc-sub">Portal unificado de acceso a bonus partners · usa las claves diarias de cada partner</div>
+      </div>
+      <div class="tc-actions">
+        <span class="tc-note">Clave diaria de cada partner ↑</span>
+        <a class="pc-open" href="progreso.html" target="_blank">Abrir ↗</a>
+      </div>
+    </div>
+
+  </div>
 
   <div class="footer">
     Uso interno · GeoDor<br>
@@ -274,6 +382,15 @@
     }
     render();
   });
+
+  function copyStatic(el, text) {
+    navigator.clipboard.writeText(text).then(() => {
+      const orig = el.textContent;
+      el.textContent = '¡Copiado!';
+      el.classList.add('copied');
+      setTimeout(() => { el.textContent = orig; el.classList.remove('copied'); }, 2000);
+    });
+  }
 
   // Render inicial
   render();
