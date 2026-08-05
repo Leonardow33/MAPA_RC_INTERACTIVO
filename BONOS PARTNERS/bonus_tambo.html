@@ -1006,8 +1006,8 @@
 
   <div class="role-tabs">
     <button class="role-tab active" id="tab-tienda" onclick="setRole('tienda')">🏪 Mi tienda</button>
-    <button class="role-tab" id="tab-gz" onclick="setRole('gz')">Jefe Comercial</button>
-    <button class="role-tab" id="tab-jz" onclick="setRole('jz')">Supervisor</button>
+    <button class="role-tab" id="tab-gz" onclick="setRole('gz')">Gerente Regional</button>
+    <button class="role-tab" id="tab-jz" onclick="setRole('jz')">Jefe Zonal</button>
     <button class="role-tab" id="tab-rc" onclick="setRole('rc')">RC</button>
     <button class="role-tab" id="tab-supervisor" onclick="setRole('supervisor')">Supervisor RC</button>
   </div>
@@ -1436,7 +1436,7 @@
             <div style="font-size:11px;opacity:.75;margin-top:3px;line-height:1.4">${m.detail}</div>
           </div>
         </div>
-        <button class="gz-det-btn" id="${role}-det-btn" onclick="toggleRoleDetail('${role}')">${role === 'gz' ? 'Ver Supervisores y tiendas ▾' : role === 'supervisor' ? 'Ver RCs y tiendas ▾' : 'Ver detalle por tienda ▾'}</button>
+        <button class="gz-det-btn" id="${role}-det-btn" onclick="toggleRoleDetail('${role}')">${role === 'gz' ? 'Ver Jefes Zonales y tiendas ▾' : role === 'supervisor' ? 'Ver RCs y tiendas ▾' : 'Ver detalle por tienda ▾'}</button>
       </div>`;
   }
 
@@ -1444,7 +1444,7 @@
     const wrap  = document.getElementById(role + '-stores-wrap');
     const btn   = document.getElementById(role + '-det-btn');
     const open  = wrap.style.display !== 'none';
-    const label = role === 'gz' ? 'Ver Supervisores y tiendas' : role === 'supervisor' ? 'Ver RCs y tiendas' : 'Ver detalle por tienda';
+    const label = role === 'gz' ? 'Ver Jefes Zonales y tiendas' : role === 'supervisor' ? 'Ver RCs y tiendas' : 'Ver detalle por tienda';
     wrap.style.display = open ? 'none' : '';
     btn.textContent    = open ? label + ' ▾' : 'Ocultar ▲';
   }
@@ -1505,7 +1505,7 @@
     const ids        = new Set(stores.map(s => String(s.ID)));
     const vm         = monthlyVentasMap(ids);
     const esc        = v => String(v == null ? '' : v).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
-    const cols       = ['Supervisor','Jefe Comercial','ID Tienda','Tienda','Período','Días transcurridos','Ventas S/','Meta Mensual S/','Avance % (mes)','Falta para meta S/'];
+    const cols       = ['Jefe Zonal','Gerente Regional','ID Tienda','Tienda','Período','Días transcurridos','Ventas S/','Meta Mensual S/','Avance % (mes)','Falta para meta S/'];
     const totalDias  = 30;
 
     const filas = [...stores]
@@ -1753,8 +1753,8 @@
     const ids      = new Set(stores.map(s => String(s.ID)));
     const vm       = monthlyVentasMap(ids);
     const esc      = v => String(v == null ? '' : v).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
-    const col1     = role === 'gz' ? 'Jefe Comercial' : 'Supervisor RC';
-    const col2     = role === 'gz' ? 'Supervisor' : 'RC';
+    const col1     = role === 'gz' ? 'Gerente Regional' : 'Supervisor RC';
+    const col2     = role === 'gz' ? 'Jefe Zonal' : 'RC';
     const cols     = [col1, col2, 'ID Tienda', 'Tienda', 'Período', 'Días', 'Ventas S/', 'Meta Mensual S/', 'Avance %', 'Falta S/'];
     const filas    = [...stores].sort((a, b) => {
       const pA = a.meta_diaria ? (vm[String(a.ID)]||0)/(a.meta_diaria*totalDias) : -1;
