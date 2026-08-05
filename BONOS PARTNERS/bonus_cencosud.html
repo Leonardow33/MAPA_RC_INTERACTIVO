@@ -1624,7 +1624,7 @@
     const metaPP   = (store.meta_pp      || 0) * diasCalMes;
     const metaPPGO = (store.meta_ppgo    || 0) * diasCalMes;
     const metaLD   = (store.meta_lakidey || 0) * diasCalMes;
-    const metaSC   = ((store.meta_sc_e3  || 0) + (store.meta_turbito || 0)) * diasCalMes;
+    const metaSC   = ((parseFloat(store.meta_sc_e3) || 0) + (parseFloat(store.meta_turbito) || 0)) * diasCalMes;
 
     // Proyectado: ritmo actual × días del mes
     const hoyDia     = now.getDate();
