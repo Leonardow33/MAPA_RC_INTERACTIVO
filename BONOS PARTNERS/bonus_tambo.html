@@ -1048,6 +1048,7 @@
       <option value="">— Selecciona tu nombre —</option>
     </select>
     <div id="gz-summary" style="display:none"></div>
+    <div id="gz-download"></div>
     <div id="gz-stores-wrap" style="display:none">
       <div class="store-card-list" id="gz-store-list"></div>
       <p class="sc-count" id="gz-count"></p>
@@ -1072,6 +1073,7 @@
       <option value="">— Selecciona tu nombre —</option>
     </select>
     <div id="supervisor-summary" style="display:none"></div>
+    <div id="supervisor-download"></div>
     <div id="supervisor-stores-wrap" style="display:none">
       <div class="store-card-list" id="supervisor-store-list"></div>
       <p class="sc-count" id="supervisor-count"></p>
@@ -1086,6 +1088,7 @@
     <div class="nav-store">
       <div class="ns-name" id="nav-nombre">—</div>
       <div class="ns-id" id="nav-id">—</div>
+      <div id="nav-cluster" style="display:none;margin-top:2px;font-size:11px;opacity:.8;letter-spacing:.3px"></div>
       <div class="ns-sup" id="nav-sup" style="display:none"></div>
     </div>
     <span class="nav-badge">TAMBO</span>
@@ -1106,11 +1109,63 @@
         <div class="pc-pct" id="hoy-pct">—</div>
       </div>
       <div class="period-card period-card--primary">
-        <div class="pc-label">Esta Semana</div>
+        <div class="pc-label">Esta Semana <span style="font-size:10px;opacity:.65">(Jue–Mié)</span></div>
         <div class="pc-val" id="sem-val">S/ 0</div>
         <div class="pc-meta" id="sem-meta">Meta: —</div>
         <div class="pbar-track"><div class="pbar-fill" id="sem-bar"></div></div>
         <div class="pc-pct" id="sem-pct">—</div>
+      </div>
+    </div>
+
+    <!-- Games breakdown -->
+    <div class="games-card">
+      <img src="../sources/logos-games/suerte-3.png" aria-hidden="true"
+           style="position:absolute;width:72px;bottom:-6px;right:-4px;transform:rotate(9deg);opacity:.2;pointer-events:none;">
+      <div class="card-title">Desglose por juego · este mes</div>
+      <div class="game-row">
+        <div class="gr-name"><img src="../sources/logos-games/pozopower.png" class="gr-logo" alt="">PozoPower</div>
+        <div class="gr-bar"><div class="gr-fill" id="pp-bar" style="background:var(--accent)"></div></div>
+        <div class="gr-val" id="pp-val">S/ 0</div>
+      </div>
+      <div class="game-row" id="pp-meta-row" style="display:none">
+        <div class="gr-name" style="font-size:11px;opacity:.65;padding-left:26px">Meta PP</div>
+        <div class="gr-bar"><div class="gr-fill" id="pp-meta-bar" style="background:rgba(124,58,237,.2)"></div></div>
+        <div class="gr-val" style="font-size:12px;opacity:.65" id="pp-meta-val">—</div>
+      </div>
+      <div class="game-row">
+        <div class="gr-name"><img src="../sources/logos-games/lakidey.png" class="gr-logo" alt="">LakiDey</div>
+        <div class="gr-bar"><div class="gr-fill" id="ld-bar" style="background:#3B9EE8"></div></div>
+        <div class="gr-val" id="ld-val">S/ 0</div>
+      </div>
+      <div class="game-row" id="ld-meta-row" style="display:none">
+        <div class="gr-name" style="font-size:11px;opacity:.65;padding-left:26px">Meta LakiDey</div>
+        <div class="gr-bar"><div class="gr-fill" id="ld-meta-bar" style="background:rgba(59,158,232,.2)"></div></div>
+        <div class="gr-val" style="font-size:12px;opacity:.65" id="ld-meta-val">—</div>
+      </div>
+      <div class="game-row">
+        <div class="gr-name"><img src="../sources/logos-games/rapiraspa.png" class="gr-logo" alt="">Rapiraspas</div>
+        <div class="gr-bar"><div class="gr-fill" id="sc-bar" style="background:#16A34A"></div></div>
+        <div class="gr-val" id="sc-val">S/ 0</div>
+      </div>
+      <div class="game-row">
+        <div class="gr-name"><img src="../sources/logos-games/pozopower.png" class="gr-logo" alt="">Go</div>
+        <div class="gr-bar"><div class="gr-fill" id="go-bar" style="background:#D97706"></div></div>
+        <div class="gr-val" id="go-val">S/ 0</div>
+      </div>
+      <div class="game-row">
+        <div class="gr-name"><img src="../sources/logos-games/elige3.png" class="gr-logo" alt="">Elige 3</div>
+        <div class="gr-bar"><div class="gr-fill" id="e3-bar" style="background:#7C3AED"></div></div>
+        <div class="gr-val" id="e3-val">S/ 0</div>
+      </div>
+      <div class="game-row">
+        <div class="gr-name"><img src="../sources/logos-games/Turbito.png" class="gr-logo" alt="">Turbito</div>
+        <div class="gr-bar"><div class="gr-fill" id="turbito-bar" style="background:#0891B2"></div></div>
+        <div class="gr-val" id="turbito-val">S/ 0</div>
+      </div>
+      <div class="game-row" id="otros-row" style="display:none">
+        <div class="gr-name">Ventas sin detalle</div>
+        <div class="gr-bar"><div class="gr-fill" id="otros-bar" style="background:#6B7280"></div></div>
+        <div class="gr-val" id="otros-val">S/ 0</div>
       </div>
     </div>
 
@@ -1143,48 +1198,6 @@
           <div class="ra-val" id="ra-falta" style="color:var(--muted)">—</div>
           <div class="ra-lbl">Falta</div>
         </div>
-      </div>
-    </div>
-
-    <!-- Games breakdown -->
-    <div class="games-card">
-      <img src="../sources/logos-games/suerte-3.png" aria-hidden="true"
-           style="position:absolute;width:72px;bottom:-6px;right:-4px;transform:rotate(9deg);opacity:.2;pointer-events:none;">
-      <div class="card-title">Desglose por juego · este mes</div>
-      <div class="game-row">
-        <div class="gr-name"><img src="../sources/logos-games/pozopower.png" class="gr-logo" alt="">PozoPower</div>
-        <div class="gr-bar"><div class="gr-fill" id="pp-bar" style="background:var(--accent)"></div></div>
-        <div class="gr-val" id="pp-val">S/ 0</div>
-      </div>
-      <div class="game-row">
-        <div class="gr-name"><img src="../sources/logos-games/lakidey.png" class="gr-logo" alt="">LakiDey</div>
-        <div class="gr-bar"><div class="gr-fill" id="ld-bar" style="background:#3B9EE8"></div></div>
-        <div class="gr-val" id="ld-val">S/ 0</div>
-      </div>
-      <div class="game-row">
-        <div class="gr-name"><img src="../sources/logos-games/rapiraspa.png" class="gr-logo" alt="">Rapiraspas</div>
-        <div class="gr-bar"><div class="gr-fill" id="sc-bar" style="background:#16A34A"></div></div>
-        <div class="gr-val" id="sc-val">S/ 0</div>
-      </div>
-      <div class="game-row">
-        <div class="gr-name"><img src="../sources/logos-games/pozopower.png" class="gr-logo" alt="">Go</div>
-        <div class="gr-bar"><div class="gr-fill" id="go-bar" style="background:#D97706"></div></div>
-        <div class="gr-val" id="go-val">S/ 0</div>
-      </div>
-      <div class="game-row">
-        <div class="gr-name"><img src="../sources/logos-games/elige3.png" class="gr-logo" alt="">Elige 3</div>
-        <div class="gr-bar"><div class="gr-fill" id="e3-bar" style="background:#7C3AED"></div></div>
-        <div class="gr-val" id="e3-val">S/ 0</div>
-      </div>
-      <div class="game-row">
-        <div class="gr-name"><img src="../sources/logos-games/Turbito.png" class="gr-logo" alt="">Turbito</div>
-        <div class="gr-bar"><div class="gr-fill" id="turbito-bar" style="background:#0891B2"></div></div>
-        <div class="gr-val" id="turbito-val">S/ 0</div>
-      </div>
-      <div class="game-row" id="otros-row" style="display:none">
-        <div class="gr-name">Ventas sin detalle</div>
-        <div class="gr-bar"><div class="gr-fill" id="otros-bar" style="background:#6B7280"></div></div>
-        <div class="gr-val" id="otros-val">S/ 0</div>
       </div>
     </div>
 
@@ -1306,7 +1319,8 @@
       const gz     = gzSel.value;
       const stores = gz ? allStores.filter(p => p.gz === gz) : [];
       renderRoleSummary('gz', gz, stores);
-      renderGzDetail(stores);
+      renderRoleDownload('gz', gz, stores);
+      renderGzDetailGrouped(stores);
       document.getElementById('gz-stores-wrap').style.display = 'none';
     });
 
@@ -1320,8 +1334,7 @@
       const jz     = jzSel.value;
       const stores = jz ? allStores.filter(p => p.jz === jz) : [];
       renderRoleSummary('jz', jz, stores);
-      renderJzDownload(jz, stores);
-      renderJzDetail(stores);
+      renderSimpleDetail('jz', stores);
       document.getElementById('jz-stores-wrap').style.display = 'none';
     });
 
@@ -1349,7 +1362,8 @@
       const sv     = supSel.value;
       const stores = sv ? allStores.filter(p => p.supervisor === sv) : [];
       renderRoleSummary('supervisor', sv, stores);
-      renderSimpleDetail('supervisor', stores);
+      renderRoleDownload('supervisor', sv, stores);
+      renderSupervisorDetailGrouped(stores);
       document.getElementById('supervisor-stores-wrap').style.display = 'none';
     });
   }
@@ -1418,7 +1432,7 @@
             <div style="font-size:11px;opacity:.75;margin-top:3px;line-height:1.4">${m.detail}</div>
           </div>
         </div>
-        <button class="gz-det-btn" id="${role}-det-btn" onclick="toggleRoleDetail('${role}')">${role === 'jz' ? 'Ver JCs y tiendas ▾' : 'Ver detalle por tienda ▾'}</button>
+        <button class="gz-det-btn" id="${role}-det-btn" onclick="toggleRoleDetail('${role}')">${role === 'gz' ? 'Ver Supervisores y tiendas ▾' : role === 'supervisor' ? 'Ver RCs y tiendas ▾' : 'Ver detalle por tienda ▾'}</button>
       </div>`;
   }
 
@@ -1426,7 +1440,7 @@
     const wrap  = document.getElementById(role + '-stores-wrap');
     const btn   = document.getElementById(role + '-det-btn');
     const open  = wrap.style.display !== 'none';
-    const label = role === 'jz' ? 'Ver JCs y tiendas' : 'Ver detalle por tienda';
+    const label = role === 'gz' ? 'Ver Supervisores y tiendas' : role === 'supervisor' ? 'Ver RCs y tiendas' : 'Ver detalle por tienda';
     wrap.style.display = open ? 'none' : '';
     btn.textContent    = open ? label + ' ▾' : 'Ocultar ▲';
   }
@@ -1613,6 +1627,166 @@
     wrap.appendChild(cnt);
   }
 
+  function _renderGroupedDetail(wrapId, groupFn, groupLabel, stores) {
+    const wrap       = document.getElementById(wrapId);
+    const diasCalMes = 30;
+    const ids        = new Set(stores.map(s => String(s.ID)));
+    const vm         = monthlyVentasMap(ids);
+    const grpMap     = {};
+    stores.forEach(s => {
+      const key = groupFn(s);
+      if (!grpMap[key]) grpMap[key] = [];
+      grpMap[key].push(s);
+    });
+    wrap.innerHTML = '';
+    const container = document.createElement('div');
+    container.style.cssText = 'display:flex;flex-direction:column;gap:8px;';
+    const grpPct = ss => { let v=0,m=0; ss.forEach(s=>{v+=vm[String(s.ID)]||0;if(s.meta_diaria)m+=s.meta_diaria*diasCalMes;}); return m?v/m:-1; };
+    Object.entries(grpMap).sort(([,a],[,b]) => grpPct(b)-grpPct(a)).forEach(([key, grpStores]) => {
+      let totV = 0, totM = 0;
+      grpStores.forEach(s => { totV += vm[String(s.ID)] || 0; if (s.meta_diaria) totM += s.meta_diaria * diasCalMes; });
+      const pct  = totM ? Math.round(totV / totM * 100) : null;
+      const col  = pct !== null ? pctColor(pct) : 'var(--dim)';
+      const card = document.createElement('div');
+      card.className = 'sup-card';
+      card.innerHTML = `
+        <div class="sup-header">
+          <div style="flex:1;min-width:0">
+            <div class="sup-name">${key}</div>
+            <div class="sup-submeta">${grpStores.length} tienda${grpStores.length!==1?'s':''} · ${fmtS(totV)}</div>
+            <div class="sup-bar-wrap"><div class="sup-bar-fill" style="width:${Math.min(pct||0,100)}%;background:${col}"></div></div>
+          </div>
+          <div class="sup-right">
+            <div class="sup-pct" style="color:${col}">${pct!==null?pct+'%':'—'}</div>
+            <div class="sup-chv">▾</div>
+          </div>
+        </div>
+        <div class="sup-rows" style="display:none"></div>`;
+      const hdr = card.querySelector('.sup-header');
+      const rowsDiv = card.querySelector('.sup-rows');
+      const chv = card.querySelector('.sup-chv');
+      let rendered = false;
+      hdr.addEventListener('click', () => {
+        const open = rowsDiv.style.display !== 'none';
+        if (!rendered) { rowsDiv.appendChild(buildStoreRows(grpStores, vm, diasCalMes)); rendered = true; }
+        rowsDiv.style.display = open ? 'none' : '';
+        chv.classList.toggle('open', !open);
+      });
+      container.appendChild(card);
+    });
+    const cnt = document.createElement('p');
+    cnt.className = 'sc-count';
+    cnt.style.paddingTop = '4px';
+    cnt.textContent = stores.length + ' tienda' + (stores.length !== 1 ? 's' : '') + ' en total';
+    container.appendChild(cnt);
+    wrap.appendChild(container);
+  }
+
+  function renderGzDetailGrouped(stores) {
+    _renderGroupedDetail('gz-stores-wrap',
+      s => (s.jz && s.jz !== 'SIN INFO') ? s.jz : '(Sin supervisor)',
+      'Supervisor', stores);
+  }
+
+  function renderSupervisorDetailGrouped(stores) {
+    _renderGroupedDetail('supervisor-stores-wrap',
+      s => (s.rc && s.rc !== 'SIN INFO') ? s.rc : '(Sin RC)',
+      'RC', stores);
+  }
+
+  function renderRoleDownload(role, name, stores) {
+    const wrap = document.getElementById(role + '-download');
+    if (!wrap) return;
+    if (!name || !stores.length) { wrap.innerHTML = ''; return; }
+    const now = new Date();
+    const d   = now.getDate();
+    const mes = ['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'][now.getMonth()];
+    wrap.innerHTML = `
+      <div class="jz-dl-card" id="${role}-dl-card">
+        <div class="jz-dl-left">
+          <div class="jz-dl-title">📊 Reporte de avance</div>
+          <div class="jz-dl-sub">${stores.length} tiendas · Corte día ${d} de ${mes}</div>
+        </div>
+        <button class="jz-dl-btn" id="${role}-dl-btn">⬇ Excel</button>
+      </div>`;
+    document.getElementById(role + '-dl-btn').onclick = () => {
+      const card = document.getElementById(role + '-dl-card');
+      card.innerHTML = `
+        <div class="jz-dl-left">
+          <div class="jz-dl-title" style="margin-bottom:6px">🔐 Clave del día</div>
+          <input id="${role}-dl-code" type="password" placeholder="•••••" autocomplete="off"
+                 style="width:140px;padding:8px 12px;border:1.5px solid var(--border);border-radius:10px;font-size:15px;font-family:inherit;background:var(--surf);color:var(--text);outline:none"/>
+          <div id="${role}-dl-err" style="font-size:11px;color:#F04444;min-height:14px;margin-top:3px"></div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:6px;flex-shrink:0">
+          <button class="jz-dl-btn" id="${role}-dl-ok">Descargar</button>
+          <button class="jz-dl-btn" id="${role}-dl-no" style="background:var(--border);color:var(--muted)">Cancelar</button>
+        </div>`;
+      const inp = document.getElementById(role + '-dl-code');
+      inp.focus();
+      const check = () => {
+        const val = inp.value.trim().toUpperCase();
+        if (val === dailyCode(TAMBO_SEED, isoDate())) {
+          renderRoleDownload(role, name, stores);
+          downloadRoleReport(role, name, stores);
+        } else {
+          document.getElementById(role + '-dl-err').textContent = 'Clave incorrecta — intenta de nuevo';
+          inp.style.borderColor = '#F04444'; inp.style.boxShadow = '0 0 0 3px rgba(240,68,68,.2)';
+          setTimeout(() => { inp.style.borderColor = ''; inp.style.boxShadow = ''; }, 1500);
+        }
+      };
+      inp.addEventListener('keydown', e => { if (e.key === 'Enter') check(); });
+      document.getElementById(role + '-dl-ok').onclick = check;
+      document.getElementById(role + '-dl-no').onclick = () => renderRoleDownload(role, name, stores);
+    };
+  }
+
+  function downloadRoleReport(role, name, stores) {
+    const now      = new Date();
+    const meses    = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
+    const mesLabel = meses[now.getMonth()] + ' ' + now.getFullYear();
+    const totalDias = 30;
+    const ids      = new Set(stores.map(s => String(s.ID)));
+    const vm       = monthlyVentasMap(ids);
+    const esc      = v => String(v == null ? '' : v).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+    const col1     = role === 'gz' ? 'Jefe Comercial' : 'Supervisor RC';
+    const col2     = role === 'gz' ? 'Supervisor' : 'RC';
+    const cols     = [col1, col2, 'ID Tienda', 'Tienda', 'Período', 'Días', 'Ventas S/', 'Meta Mensual S/', 'Avance %', 'Falta S/'];
+    const filas    = [...stores].sort((a, b) => {
+      const pA = a.meta_diaria ? (vm[String(a.ID)]||0)/(a.meta_diaria*totalDias) : -1;
+      const pB = b.meta_diaria ? (vm[String(b.ID)]||0)/(b.meta_diaria*totalDias) : -1;
+      return pB - pA;
+    }).map(s => {
+      const sold = vm[String(s.ID)] || 0;
+      const meta = s.meta_diaria ? s.meta_diaria * totalDias : 0;
+      const pct  = meta > 0 ? Math.round(sold / meta * 100) : '';
+      const falt = meta > 0 ? Math.round(sold < meta ? sold - meta : 0) : '';
+      const sub  = role === 'gz' ? (s.jz || '') : (s.rc || '');
+      return [name, sub, s.ID || '', s.nombre || '', mesLabel, totalDias, Math.round(sold), Math.round(meta), pct, falt];
+    });
+    let xml = '<?xml version="1.0" encoding="UTF-8"?><?mso-application progid="Excel.Sheet"?>' +
+      '<Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet" xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet">' +
+      '<Styles><Style ss:ID="h"><Font ss:Bold="1" ss:Color="#FFFFFF"/><Interior ss:Color="#1F2937" ss:Pattern="Solid"/></Style>' +
+      '<Style ss:ID="n"><NumberFormat ss:Format="#,##0"/></Style></Styles>' +
+      '<Worksheet ss:Name="Avance"><Table>' +
+      '<Row>' + cols.map(c => '<Cell ss:StyleID="h"><Data ss:Type="String">' + esc(c) + '</Data></Cell>').join('') + '</Row>';
+    filas.forEach(r => {
+      xml += '<Row>';
+      r.forEach((v, i) => {
+        xml += i >= 6 && v !== ''
+          ? '<Cell ss:StyleID="n"><Data ss:Type="Number">' + v + '</Data></Cell>'
+          : '<Cell><Data ss:Type="String">' + esc(v) + '</Data></Cell>';
+      });
+      xml += '</Row>';
+    });
+    xml += '</Table></Worksheet></Workbook>';
+    const blob = new Blob([xml], { type: 'application/vnd.ms-excel' });
+    const url  = URL.createObjectURL(blob);
+    const a    = document.createElement('a');
+    a.href = url; a.download = 'Avance_' + name.replace(/[^a-zA-Z0-9]/g,'_') + '_dia' + totalDias + '.xls';
+    document.body.appendChild(a); a.click(); document.body.removeChild(a); URL.revokeObjectURL(url);
+  }
+
   function renderJzDetail(stores) {
     const wrap       = document.getElementById('jz-stores-wrap');
     const diasCalMes = 30;
@@ -1715,6 +1889,7 @@
   };
 
   let allStores = [], allVentas = [], allRaspes = [], allLoteria = [], sortedStores = [];
+  let allVentasPrev = [];
   let selectorReady = false;
 
   function loadJSON(u) {
@@ -1796,6 +1971,18 @@
       allVentas  = todos.filter(v => (v.partner || '').toUpperCase() === PARTNER);
       allRaspes  = (raspesData.ventas  || raspesData.body  || []).filter(v => (v.partner || '').toUpperCase() === PARTNER);
       allLoteria = (loteriaData.ventas || loteriaData.body  || []).filter(v => (v.partner || '').toUpperCase() === PARTNER);
+
+      // Si la semana Jue-Mié actual arranca en el mes anterior, cargamos ventas_mes_prev para el cálculo semanal
+      if (!isMesPrev) {
+        const _semJue = juevesDe(new Date());
+        const _now = new Date();
+        if (_semJue.getMonth() !== _now.getMonth() || _semJue.getFullYear() !== _now.getFullYear()) {
+          try {
+            const prevD = await loadJSON('../data/ventas_mes_prev.json');
+            allVentasPrev = (prevD.body || prevD.ventas || []).filter(v => (v.partner || '').toUpperCase() === PARTNER);
+          } catch(_) { allVentasPrev = []; }
+        } else { allVentasPrev = []; }
+      }
       console.log('[TAMBO] allStores:', allStores.length, 'allVentas:', allVentas.length, 'allRaspes:', allRaspes.length, 'allLoteria:', allLoteria.length);
 
       const params  = new URLSearchParams(location.search);
@@ -1844,9 +2031,18 @@
 
     document.getElementById('nav-nombre').textContent = store.nombre;
     document.getElementById('nav-id').textContent = 'Código ' + store.ID;
+
+    const clParts = [];
+    if (store.cluster) clParts.push(store.cluster);
+    if (store.cluster_bono) clParts.push('Bono ' + store.cluster_bono);
+    const navCl = document.getElementById('nav-cluster');
+    navCl.textContent = clParts.join(' · ');
+    navCl.style.display = clParts.length ? '' : 'none';
+
     const supParts = [];
     if (store.gz && store.gz !== 'SIN INFO') supParts.push('JC: ' + store.gz);
     if (store.jz && store.jz !== 'SIN INFO') supParts.push('SUP: ' + store.jz);
+    if (store.rc && store.rc !== 'SIN INFO') supParts.push('RC: ' + store.rc);
     const supEl = document.getElementById('nav-sup');
     supEl.textContent = supParts.join(' · ');
     supEl.style.display = supParts.length ? '' : 'none';
@@ -1858,8 +2054,8 @@
     const now      = new Date();
     const mesIni   = new Date(now.getFullYear(), now.getMonth() - (isMesPrev ? 1 : 0), 1);
     const mesFin   = new Date(now.getFullYear(), now.getMonth() - (isMesPrev ? 1 : 0) + 1, 0, 23, 59, 59);
-    const semLun   = lunesDe(now);
-    const semDom   = new Date(semLun); semDom.setDate(semLun.getDate()+6); semDom.setHours(23,59,59,999);
+    const semJue   = juevesDe(now);
+    const semMie   = new Date(semJue); semMie.setDate(semJue.getDate()+6); semMie.setHours(23,59,59,999);
 
     const id = String(store.ID);
     let totHoy = 0, totSem = 0, totMes = 0, ppMes = 0, ldMes = 0, scMes = 0, goMes = 0, e3Mes = 0, turbitoMes = 0;
@@ -1869,8 +2065,13 @@
       const f = new Date(v.fecha + 'T12:00:00');
       const amt = v.total || 0;
       if (v.fecha === hoy) totHoy += amt;
-      if (f >= semLun && f <= semDom) totSem += amt;
+      if (f >= semJue && f <= semMie) totSem += amt;
       if (f >= mesIni && f <= mesFin) totMes += amt;
+    });
+    allVentasPrev.forEach(v => {
+      if (String(v.org_code) !== id || !v.fecha || v.tipo_juego !== 'TOTAL') return;
+      const f = new Date(v.fecha + 'T12:00:00');
+      if (f >= semJue && f <= semMie) totSem += v.total || 0;
     });
     allRaspes.forEach(v => {
       if (String(v.org_code) !== id || !v.fecha) return;
@@ -1942,7 +2143,9 @@
 
     console.log('[TAMBO] store:', id, '| totMes:', totMes, '| ppMes:', ppMes, '| ldMes:', ldMes, '| scMes:', scMes, '| goMes:', goMes, '| e3Mes:', e3Mes, '| turbito:', turbitoMes);
     const otrosMes = Math.max(0, totMes - (ppMes + ldMes + scMes + goMes + e3Mes + turbitoMes));
-    const maxGame  = Math.max(ppMes, ldMes, scMes, goMes, e3Mes, turbitoMes, otrosMes, 1);
+    const metaPP   = parseFloat(store.meta_pp) || 0;
+    const metaLD   = parseFloat(store.meta_lakidey) || 0;
+    const maxGame  = Math.max(ppMes, ldMes, scMes, goMes, e3Mes, turbitoMes, otrosMes, metaPP, metaLD, 1);
     document.getElementById('pp-val').textContent      = fmtS(ppMes);
     document.getElementById('ld-val').textContent      = fmtS(ldMes);
     document.getElementById('sc-val').textContent      = fmtS(scMes);
@@ -1958,13 +2161,24 @@
     setBar(document.getElementById('e3-bar'),      e3Mes      / maxGame * 100, '#7C3AED');
     setBar(document.getElementById('turbito-bar'), turbitoMes / maxGame * 100, '#0891B2');
     setBar(document.getElementById('otros-bar'),   otrosMes   / maxGame * 100, '#6B7280');
+    // Meta PP / LakiDey comparativa
+    if (metaPP > 0) {
+      document.getElementById('pp-meta-row').style.display = '';
+      document.getElementById('pp-meta-val').textContent   = fmtS(metaPP) + ' meta';
+      setBar(document.getElementById('pp-meta-bar'), metaPP / maxGame * 100, 'rgba(124,58,237,.25)');
+    } else { document.getElementById('pp-meta-row').style.display = 'none'; }
+    if (metaLD > 0) {
+      document.getElementById('ld-meta-row').style.display = '';
+      document.getElementById('ld-meta-val').textContent   = fmtS(metaLD) + ' meta';
+      setBar(document.getElementById('ld-meta-bar'), metaLD / maxGame * 100, 'rgba(59,158,232,.25)');
+    } else { document.getElementById('ld-meta-row').style.display = 'none'; }
 
-    const DAY_NAMES      = ['Lun','Mar','Mié','Jue','Vie','Sáb','Dom'];
-    const DAY_NAMES_LONG = ['Lunes','Martes','Miércoles','Jueves','Viernes','Sábado','Domingo'];
+    const DAY_NAMES      = ['Jue','Vie','Sáb','Dom','Lun','Mar','Mié'];
+    const DAY_NAMES_LONG = ['Jueves','Viernes','Sábado','Domingo','Lunes','Martes','Miércoles'];
     const weekKeys = [];
     for (let i = 0; i < 7; i++) {
-      const d = new Date(semLun);
-      d.setDate(semLun.getDate() + i);
+      const d = new Date(semJue);
+      d.setDate(semJue.getDate() + i);
       weekKeys.push(
         d.getFullYear() + '-' +
         String(d.getMonth()+1).padStart(2,'0') + '-' +
@@ -1973,6 +2187,11 @@
     }
     const dayTotals = new Array(7).fill(0);
     allVentas.forEach(v => {
+      if (String(v.org_code) !== id || !v.fecha || v.tipo_juego !== 'TOTAL') return;
+      const idx = weekKeys.indexOf(v.fecha);
+      if (idx >= 0) dayTotals[idx] += v.total || 0;
+    });
+    allVentasPrev.forEach(v => {
       if (String(v.org_code) !== id || !v.fecha || v.tipo_juego !== 'TOTAL') return;
       const idx = weekKeys.indexOf(v.fecha);
       if (idx >= 0) dayTotals[idx] += v.total || 0;
