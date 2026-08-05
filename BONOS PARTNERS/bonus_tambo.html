@@ -1121,7 +1121,7 @@
     <div class="games-card">
       <img src="../sources/logos-games/suerte-3.png" aria-hidden="true"
            style="position:absolute;width:72px;bottom:-6px;right:-4px;transform:rotate(9deg);opacity:.2;pointer-events:none;">
-      <div class="card-title">Desglose por juego · este mes</div>
+      <div class="card-title">Desglose por juego · esta semana</div>
       <div class="game-row">
         <div class="gr-name"><img src="../sources/logos-games/pozopower.png" class="gr-logo" alt="">PozoPower</div>
         <div class="gr-bar"><div class="gr-fill" id="pp-bar" style="background:var(--accent)"></div></div>
@@ -2049,6 +2049,7 @@
 
     const supParts = [];
     if (store.gz && store.gz !== 'SIN INFO') supParts.push('JC: ' + store.gz);
+    if (store.gz && store.gz !== 'SIN INFO') supParts.push('JC: ' + store.gz);
     if (store.jz && store.jz !== 'SIN INFO') supParts.push('SUP: ' + store.jz);
     if (store.rc && store.rc !== 'SIN INFO') supParts.push('RC: ' + store.rc);
     const supEl = document.getElementById('nav-sup');
@@ -2067,6 +2068,7 @@
 
     const id = String(store.ID);
     let totHoy = 0, totSem = 0, totMes = 0, ppMes = 0, ldMes = 0, scMes = 0, goMes = 0, e3Mes = 0, turbitoMes = 0;
+    let ppSem = 0, ldSem = 0, scSem = 0, goSem = 0, e3Sem = 0, turbitoSem = 0;
 
     allVentas.forEach(v => {
       if (String(v.org_code) !== id || !v.fecha || v.tipo_juego !== 'TOTAL') return;
@@ -2085,6 +2087,7 @@
       if (String(v.org_code) !== id || !v.fecha) return;
       const f = new Date(v.fecha + 'T12:00:00');
       if (f >= mesIni && f <= mesFin) scMes += (v.total || 0);
+      if (f >= semJue && f <= semMie) scSem += (v.total || 0);
     });
     allLoteria.forEach(v => {
       if (String(v.org_code) !== id || !v.fecha) return;
@@ -2096,6 +2099,11 @@
       if ((tj === 'PozoPowerGo' || tj === 'Go') && f >= mesIni && f <= mesFin) goMes += amt;
       if (tj === 'Elige 3'     && f >= mesIni && f <= mesFin) e3Mes      += amt;
       if (tj === 'Turbito'     && f >= mesIni && f <= mesFin) turbitoMes += amt;
+      if (tj === 'PozoPower'   && f >= semJue && f <= semMie) ppSem      += amt;
+      if (tj === 'LakiDey'     && f >= semJue && f <= semMie) ldSem      += amt;
+      if ((tj === 'PozoPowerGo' || tj === 'Go') && f >= semJue && f <= semMie) goSem += amt;
+      if (tj === 'Elige 3'     && f >= semJue && f <= semMie) e3Sem      += amt;
+      if (tj === 'Turbito'     && f >= semJue && f <= semMie) turbitoSem += amt;
     });
 
     const metaDiaria = hasMeta ? store.meta_diaria : null;
@@ -2149,26 +2157,25 @@
     document.getElementById('sem-pct').style.color  = semCol;
     setBar(document.getElementById('sem-bar'), pctSem || 0, semCol);
 
-    console.log('[TAMBO] store:', id, '| totMes:', totMes, '| ppMes:', ppMes, '| ldMes:', ldMes, '| scMes:', scMes, '| goMes:', goMes, '| e3Mes:', e3Mes, '| turbito:', turbitoMes);
-    const otrosMes = Math.max(0, totMes - (ppMes + ldMes + scMes + goMes + e3Mes + turbitoMes));
+    const otrosSem = Math.max(0, totSem - (ppSem + ldSem + scSem + goSem + e3Sem + turbitoSem));
     const metaPP   = parseFloat(store.meta_pp) || 0;
     const metaLD   = parseFloat(store.meta_lakidey) || 0;
-    const maxGame  = Math.max(ppMes, ldMes, scMes, goMes, e3Mes, turbitoMes, otrosMes, metaPP, metaLD, 1);
-    document.getElementById('pp-val').textContent      = fmtS(ppMes);
-    document.getElementById('ld-val').textContent      = fmtS(ldMes);
-    document.getElementById('sc-val').textContent      = fmtS(scMes);
-    document.getElementById('go-val').textContent      = fmtS(goMes);
-    document.getElementById('e3-val').textContent      = fmtS(e3Mes);
-    document.getElementById('turbito-val').textContent = fmtS(turbitoMes);
-    document.getElementById('otros-val').textContent   = fmtS(otrosMes);
-    document.getElementById('otros-row').style.display = otrosMes > 0 ? '' : 'none';
-    setBar(document.getElementById('pp-bar'),      ppMes      / maxGame * 100, 'var(--accent)');
-    setBar(document.getElementById('ld-bar'),      ldMes      / maxGame * 100, '#3B9EE8');
-    setBar(document.getElementById('sc-bar'),      scMes      / maxGame * 100, '#16A34A');
-    setBar(document.getElementById('go-bar'),      goMes      / maxGame * 100, '#D97706');
-    setBar(document.getElementById('e3-bar'),      e3Mes      / maxGame * 100, '#7C3AED');
-    setBar(document.getElementById('turbito-bar'), turbitoMes / maxGame * 100, '#0891B2');
-    setBar(document.getElementById('otros-bar'),   otrosMes   / maxGame * 100, '#6B7280');
+    const maxGame  = Math.max(ppSem, ldSem, scSem, goSem, e3Sem, turbitoSem, otrosSem, metaPP, metaLD, 1);
+    document.getElementById('pp-val').textContent      = fmtS(ppSem);
+    document.getElementById('ld-val').textContent      = fmtS(ldSem);
+    document.getElementById('sc-val').textContent      = fmtS(scSem);
+    document.getElementById('go-val').textContent      = fmtS(goSem);
+    document.getElementById('e3-val').textContent      = fmtS(e3Sem);
+    document.getElementById('turbito-val').textContent = fmtS(turbitoSem);
+    document.getElementById('otros-val').textContent   = fmtS(otrosSem);
+    document.getElementById('otros-row').style.display = otrosSem > 0 ? '' : 'none';
+    setBar(document.getElementById('pp-bar'),      ppSem      / maxGame * 100, 'var(--accent)');
+    setBar(document.getElementById('ld-bar'),      ldSem      / maxGame * 100, '#3B9EE8');
+    setBar(document.getElementById('sc-bar'),      scSem      / maxGame * 100, '#16A34A');
+    setBar(document.getElementById('go-bar'),      goSem      / maxGame * 100, '#D97706');
+    setBar(document.getElementById('e3-bar'),      e3Sem      / maxGame * 100, '#7C3AED');
+    setBar(document.getElementById('turbito-bar'), turbitoSem / maxGame * 100, '#0891B2');
+    setBar(document.getElementById('otros-bar'),   otrosSem   / maxGame * 100, '#6B7280');
     // Meta PP / LakiDey comparativa — dos columnas Avance | Meta
     const ppAvLbl  = document.getElementById('pp-avance-lbl');
     const ppMetaCol= document.getElementById('pp-meta-col');
@@ -2176,7 +2183,7 @@
       ppAvLbl.style.display   = '';
       ppMetaCol.style.display = 'flex';
       document.getElementById('pp-meta-val').textContent = fmtS(metaPP);
-      setBar(document.getElementById('pp-bar'), ppMes / metaPP * 100, 'var(--accent)');
+      setBar(document.getElementById('pp-bar'), ppSem / metaPP * 100, 'var(--accent)');
     } else {
       ppAvLbl.style.display   = 'none';
       ppMetaCol.style.display = 'none';
@@ -2187,7 +2194,7 @@
       ldAvLbl.style.display   = '';
       ldMetaCol.style.display = 'flex';
       document.getElementById('ld-meta-val').textContent = fmtS(metaLD);
-      setBar(document.getElementById('ld-bar'), ldMes / metaLD * 100, '#3B9EE8');
+      setBar(document.getElementById('ld-bar'), ldSem / metaLD * 100, '#3B9EE8');
     } else {
       ldAvLbl.style.display   = 'none';
       ldMetaCol.style.display = 'none';
