@@ -1409,7 +1409,7 @@
     'JUEVES':4,'VIERNES':5,'SÁBADO':6,'SABADO':6,'DOMINGO':0
   };
 
-  let allStores = [], allVentas = [], allRaspes = [], allLoteria = [], sortedStores = [], metasCencosud = null;
+  let allStores = [], allVentas = [], allRaspes = [], allLoteria = [], sortedStores = [];
   let selectorReady = false;
 
   function loadJSON(u) {
@@ -1498,14 +1498,12 @@
 
   async function init() {
     try {
-      const [puntosData, ventasData, metasData, raspesData, loteriaData] = await Promise.all([
+      const [puntosData, ventasData, raspesData, loteriaData] = await Promise.all([
         loadJSON('../data/puntos.json'),
         loadJSON('../data/' + (isMesPrev ? 'ventas_mes_prev' : 'ventas_mes') + '.json'),
-        loadJSON('../data/metas_cencosud.json'),
         loadJSON('../data/' + (isMesPrev ? 'ventas_raspes_prev' : 'ventas_raspes') + '.json'),
         loadJSON('../data/' + (isMesPrev ? 'ventas_loteria_prev' : 'ventas_loteria') + '.json'),
       ]);
-      metasCencosud = metasData;
 
       allStores = (Array.isArray(puntosData) ? puntosData : []).filter(p =>
         (p.responsable || '').toUpperCase() === PARTNER &&
@@ -1610,47 +1608,19 @@
       if ((tj === 'Elige 3' || tj === 'Turbito') && f >= mesIni && f <= mesFin) scMes += amt;
     });
 
-    // ── METAS DESDE EXCEL (metas_cencosud.json) ─────────────────
-    const storeNombre = (store.nombre || '').trim();
-    const metaActiva  = metasCencosud?.activas.find(a => a.tienda === storeNombre) || null;
-    const metaPronto  = metasCencosud?.prontoCerrar.find(p => p.tienda === storeNombre) || null;
-    const isPronto    = !!metaPronto && !metaActiva;
-
-    // Pesos por día
-    const DAY_KEYS   = ['Domingo','Lunes','Martes','Miercoles','Jueves','Viernes','Sabado'];
-    const dayKey     = DAY_KEYS[now.getDay()];
-    const dw         = metasCencosud?.dayWeights || {};
-    const dayWeight  = dw[dayKey] || 0;
-
-    // Días de la semana actual que pertenecen al mes en curso
-    let diasSemEnMes = 0;
-    for (let d = new Date(semLun); d <= semDom; d.setDate(d.getDate() + 1)) {
-      if (d.getMonth() === now.getMonth() && d.getFullYear() === now.getFullYear()) diasSemEnMes++;
-    }
+    // ── METAS DESDE PUNTOS.JSON ───────────────────────────────────
     const diasCalMes = mesFin.getDate();
+    const diasCalSem = 7;
+    const metaDiaria = parseFloat(store.meta_diaria) || 0;
+    const hasMeta    = metaDiaria > 0;
+    const metaMes    = hasMeta ? metaDiaria * diasCalMes : null;
+    const metaSem    = hasMeta ? metaDiaria * diasCalSem : null;
 
-    let metaDiaria = null, metaSem = null, metaMes = null;
-    const hasMeta = !!(metaActiva || metaPronto);
-
-    if (metaActiva) {
-      const mi = now.getMonth();
-      metaMes    = mi === 6 ? metaActiva.meta_jul : mi === 7 ? metaActiva.meta_ago : mi === 8 ? metaActiva.meta_sep : 0;
-      metaSem    = (metaMes / diasCalMes) * diasSemEnMes;
-      metaDiaria = metaSem * dayWeight;
-    } else if (metaPronto) {
-      const totalPool = metasCencosud.totalPromedioPronto;
-      metaDiaria = totalPool * dayWeight * metaPronto.porcentaje;
-      metaSem    = metaPronto.promedio_semanal;
-      metaMes    = null; // no hay meta mensual para tiendas pronto a cerrar
-    }
-
-    // Badge pronto a cerrar
     const prontoBadge = document.getElementById('pronto-badge');
-    if (prontoBadge) prontoBadge.style.display = isPronto ? '' : 'none';
+    if (prontoBadge) prontoBadge.style.display = 'none';
     document.getElementById('no-meta-note').style.display = hasMeta ? 'none' : '';
 
-    // Metas por juego (conservadas para el desglose visual)
-    const diasCalSem = 7;
+    // Metas por juego
     const metaPP   = (store.meta_pp      || 0) * diasCalMes;
     const metaPPGO = (store.meta_ppgo    || 0) * diasCalMes;
     const metaLD   = (store.meta_lakidey || 0) * diasCalMes;
