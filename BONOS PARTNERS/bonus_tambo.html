@@ -1125,22 +1125,30 @@
       <div class="game-row">
         <div class="gr-name"><img src="../sources/logos-games/pozopower.png" class="gr-logo" alt="">PozoPower</div>
         <div class="gr-bar"><div class="gr-fill" id="pp-bar" style="background:var(--accent)"></div></div>
-        <div class="gr-val" id="pp-val">S/ 0</div>
-      </div>
-      <div class="game-row" id="pp-meta-row" style="display:none">
-        <div class="gr-name" style="font-size:11px;opacity:.65;padding-left:26px">Meta PP</div>
-        <div class="gr-bar"><div class="gr-fill" id="pp-meta-bar" style="background:rgba(124,58,237,.2)"></div></div>
-        <div class="gr-val" style="font-size:12px;opacity:.65" id="pp-meta-val">—</div>
+        <div style="display:flex;gap:10px;align-items:flex-end">
+          <div style="display:flex;flex-direction:column;align-items:flex-end">
+            <div id="pp-avance-lbl" style="display:none;font-size:9px;opacity:.55;text-transform:uppercase;letter-spacing:.4px;margin-bottom:1px">Avance</div>
+            <div class="gr-val" id="pp-val">S/ 0</div>
+          </div>
+          <div id="pp-meta-col" style="display:none;flex-direction:column;align-items:flex-end;border-left:1px solid var(--border);padding-left:10px">
+            <div style="font-size:9px;opacity:.55;text-transform:uppercase;letter-spacing:.4px;margin-bottom:1px">Meta</div>
+            <div class="gr-val" id="pp-meta-val" style="opacity:.7">—</div>
+          </div>
+        </div>
       </div>
       <div class="game-row">
         <div class="gr-name"><img src="../sources/logos-games/lakidey.png" class="gr-logo" alt="">LakiDey</div>
         <div class="gr-bar"><div class="gr-fill" id="ld-bar" style="background:#3B9EE8"></div></div>
-        <div class="gr-val" id="ld-val">S/ 0</div>
-      </div>
-      <div class="game-row" id="ld-meta-row" style="display:none">
-        <div class="gr-name" style="font-size:11px;opacity:.65;padding-left:26px">Meta LakiDey</div>
-        <div class="gr-bar"><div class="gr-fill" id="ld-meta-bar" style="background:rgba(59,158,232,.2)"></div></div>
-        <div class="gr-val" style="font-size:12px;opacity:.65" id="ld-meta-val">—</div>
+        <div style="display:flex;gap:10px;align-items:flex-end">
+          <div style="display:flex;flex-direction:column;align-items:flex-end">
+            <div id="ld-avance-lbl" style="display:none;font-size:9px;opacity:.55;text-transform:uppercase;letter-spacing:.4px;margin-bottom:1px">Avance</div>
+            <div class="gr-val" id="ld-val">S/ 0</div>
+          </div>
+          <div id="ld-meta-col" style="display:none;flex-direction:column;align-items:flex-end;border-left:1px solid var(--border);padding-left:10px">
+            <div style="font-size:9px;opacity:.55;text-transform:uppercase;letter-spacing:.4px;margin-bottom:1px">Meta</div>
+            <div class="gr-val" id="ld-meta-val" style="opacity:.7">—</div>
+          </div>
+        </div>
       </div>
       <div class="game-row">
         <div class="gr-name"><img src="../sources/logos-games/rapiraspa.png" class="gr-logo" alt="">Rapiraspas</div>
@@ -2161,17 +2169,29 @@
     setBar(document.getElementById('e3-bar'),      e3Mes      / maxGame * 100, '#7C3AED');
     setBar(document.getElementById('turbito-bar'), turbitoMes / maxGame * 100, '#0891B2');
     setBar(document.getElementById('otros-bar'),   otrosMes   / maxGame * 100, '#6B7280');
-    // Meta PP / LakiDey comparativa
+    // Meta PP / LakiDey comparativa — dos columnas Avance | Meta
+    const ppAvLbl  = document.getElementById('pp-avance-lbl');
+    const ppMetaCol= document.getElementById('pp-meta-col');
     if (metaPP > 0) {
-      document.getElementById('pp-meta-row').style.display = '';
-      document.getElementById('pp-meta-val').textContent   = fmtS(metaPP) + ' meta';
-      setBar(document.getElementById('pp-meta-bar'), metaPP / maxGame * 100, 'rgba(124,58,237,.25)');
-    } else { document.getElementById('pp-meta-row').style.display = 'none'; }
+      ppAvLbl.style.display   = '';
+      ppMetaCol.style.display = 'flex';
+      document.getElementById('pp-meta-val').textContent = fmtS(metaPP);
+      setBar(document.getElementById('pp-bar'), ppMes / metaPP * 100, 'var(--accent)');
+    } else {
+      ppAvLbl.style.display   = 'none';
+      ppMetaCol.style.display = 'none';
+    }
+    const ldAvLbl  = document.getElementById('ld-avance-lbl');
+    const ldMetaCol= document.getElementById('ld-meta-col');
     if (metaLD > 0) {
-      document.getElementById('ld-meta-row').style.display = '';
-      document.getElementById('ld-meta-val').textContent   = fmtS(metaLD) + ' meta';
-      setBar(document.getElementById('ld-meta-bar'), metaLD / maxGame * 100, 'rgba(59,158,232,.25)');
-    } else { document.getElementById('ld-meta-row').style.display = 'none'; }
+      ldAvLbl.style.display   = '';
+      ldMetaCol.style.display = 'flex';
+      document.getElementById('ld-meta-val').textContent = fmtS(metaLD);
+      setBar(document.getElementById('ld-bar'), ldMes / metaLD * 100, '#3B9EE8');
+    } else {
+      ldAvLbl.style.display   = 'none';
+      ldMetaCol.style.display = 'none';
+    }
 
     const DAY_NAMES      = ['Jue','Vie','Sáb','Dom','Lun','Mar','Mié'];
     const DAY_NAMES_LONG = ['Jueves','Viernes','Sábado','Domingo','Lunes','Martes','Miércoles'];
