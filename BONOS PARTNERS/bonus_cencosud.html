@@ -681,12 +681,13 @@
       text-align: right;
       flex-shrink: 0;
     }
-    .gr-val-wrap, .gr-meta-wrap {
+    .gr-val-wrap, .gr-meta-wrap, .gr-pct-wrap {
       display: flex;
       flex-direction: column;
       align-items: flex-end;
       flex-shrink: 0;
     }
+    .gr-pct { font-size: 12px; font-weight: 700; font-variant-numeric: tabular-nums; min-width: 36px; text-align: right; }
     .gr-col-lbl {
       font-size: 9px;
       font-weight: 600;
@@ -1181,12 +1182,16 @@
           <div class="gr-lbl-bar gr-lbl-proj" id="pp-lbl-proj">Proy.</div>
         </div>
         <div class="gr-val-wrap">
-          <span class="gr-col-lbl">Falta</span>
+          <span class="gr-col-lbl">Avance</span>
           <div class="gr-val" id="pp-val">S/ 0</div>
         </div>
         <div class="gr-meta-wrap">
           <span class="gr-col-lbl">Meta</span>
           <div class="gr-meta" id="pp-meta">—</div>
+        </div>
+        <div class="gr-pct-wrap">
+          <span class="gr-col-lbl">%</span>
+          <div class="gr-pct" id="pp-pct">—</div>
         </div>
       </div>
       <div class="game-row">
@@ -1206,6 +1211,9 @@
         <div class="gr-meta-wrap">
           <div class="gr-meta" id="ld-meta">—</div>
         </div>
+        <div class="gr-pct-wrap">
+          <div class="gr-pct" id="ld-pct">—</div>
+        </div>
       </div>
       <div class="game-row">
         <div class="gr-name"><img src="../sources/logos-games/rapiraspa.png" class="gr-logo" alt="">Rapiraspas</div>
@@ -1224,6 +1232,9 @@
         <div class="gr-meta-wrap">
           <div class="gr-meta" id="sc-meta">—</div>
         </div>
+        <div class="gr-pct-wrap">
+          <div class="gr-pct" id="sc-pct">—</div>
+        </div>
       </div>
       <div class="game-row">
         <div class="gr-name"><img src="../sources/logos-games/pozopower.png" class="gr-logo" alt="">Go</div>
@@ -1241,6 +1252,9 @@
         </div>
         <div class="gr-meta-wrap">
           <div class="gr-meta" id="go-meta">—</div>
+        </div>
+        <div class="gr-pct-wrap">
+          <div class="gr-pct" id="go-pct">—</div>
         </div>
       </div>
     </div>
@@ -1697,26 +1711,31 @@
     const goProy  = hoyDia > 0 && goMes > 0 ? Math.round(goMes / hoyDia * diasCalMes) : 0;
     const maxGame = Math.max(ppMes, ldMes, scMes, goMes, ppProy, ldProy, scProy, goProy, metaPP||0, metaLD||0, metaSC||0, metaPPGO||0, 1);
 
-    function setFalta(id, actual, meta) {
-      const el = document.getElementById(id);
-      if (meta > 0) {
-        const falta = meta - actual;
-        el.textContent = falta > 0 ? '−' + fmtS(falta) : '+' + fmtS(-falta);
-        el.style.color = falta > 0 ? 'var(--red)' : 'var(--green)';
-      } else {
-        el.textContent = fmtS(actual);
-        el.style.color = '';
-      }
-    }
-    setFalta('pp-val', ppMes, metaPP);
-    setFalta('ld-val', ldMes, metaLD);
-    setFalta('sc-val', scMes, metaSC);
-    setFalta('go-val', goMes, metaPPGO);
+    document.getElementById('pp-val').textContent = fmtS(ppMes);
+    document.getElementById('ld-val').textContent = fmtS(ldMes);
+    document.getElementById('sc-val').textContent = fmtS(scMes);
+    document.getElementById('go-val').textContent = fmtS(goMes);
 
     document.getElementById('pp-meta').textContent = metaPP   > 0 ? fmtS(metaPP)   : '—';
     document.getElementById('ld-meta').textContent = metaLD   > 0 ? fmtS(metaLD)   : '—';
     document.getElementById('sc-meta').textContent = metaSC   > 0 ? fmtS(metaSC)   : '—';
     document.getElementById('go-meta').textContent = metaPPGO > 0 ? fmtS(metaPPGO) : '—';
+
+    function setPct(id, actual, meta) {
+      const el = document.getElementById(id);
+      if (meta > 0) {
+        const p = Math.round(actual / meta * 100);
+        el.textContent = p + '%';
+        el.style.color = p >= 100 ? 'var(--green)' : p >= 70 ? 'var(--accent)' : p >= 50 ? '#F59E0B' : 'var(--red)';
+      } else {
+        el.textContent = '—';
+        el.style.color = '';
+      }
+    }
+    setPct('pp-pct', ppMes, metaPP);
+    setPct('ld-pct', ldMes, metaLD);
+    setPct('sc-pct', scMes, metaSC);
+    setPct('go-pct', goMes, metaPPGO);
 
     setBar(document.getElementById('pp-bar'), ppMes / maxGame * 100, 'var(--accent)');
     setBar(document.getElementById('ld-bar'), ldMes / maxGame * 100, '#3B9EE8');

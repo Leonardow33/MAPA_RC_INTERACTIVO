@@ -2048,8 +2048,8 @@
     navCl.style.display = clLines.length ? '' : 'none';
 
     const supParts = [];
-    if (store.gz         && store.gz         !== 'SIN INFO') supParts.push('JC: '     + store.gz);
-    if (store.jz         && store.jz         !== 'SIN INFO') supParts.push('SUP: '    + store.jz);
+    if (store.gz         && store.gz         !== 'SIN INFO') supParts.push('GR: '     + store.gz);
+    if (store.jz         && store.jz         !== 'SIN INFO') supParts.push('JZ: '    + store.jz);
     if (store.rc         && store.rc         !== 'SIN INFO') supParts.push('RC: '     + store.rc);
     if (store.supervisor && store.supervisor !== 'SIN INFO') supParts.push('SUP RC: ' + store.supervisor);
     const supEl = document.getElementById('nav-sup');
