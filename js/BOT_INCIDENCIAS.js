@@ -7,8 +7,10 @@
 // Si es un proyecto independiente, pon aquí el ID del Spreadsheet.
 const SPREADSHEET_ID = '1mOgYRtxpWauT2Ej9wdf8B2S6LKYezSVw1JrtYMCt8UM';
 
-const CATALOGO_SHEET   = 'CATALOGO';   // ← cambia aquí si renombraste esta hoja
 const INCIDENTES_SHEET = 'incidentes en curso'; // ← cambia aquí si quieres otro nombre de salida
+
+// URL de puntos.json en GitHub Pages — única fuente de verdad de tiendas
+const PUNTOS_JSON_URL = 'https://leonardow33.github.io/MAPA_RC_INTERACTIVO/data/puntos.json';
 
 // Partners que van directo a búsqueda de tienda (sin pasar por GZ/JZ).
 // Agregar aquí el nombre exacto tal como aparece en la columna TIPO del Sheets.
@@ -79,10 +81,43 @@ function _ss() {
     : SpreadsheetApp.getActiveSpreadsheet();
 }
 
+// Cache en memoria — una sola petición HTTP por ejecución del script
+var _catalogoMemo = null;
+
 function _catalogo() {
-  const sh = _ss().getSheetByName(CATALOGO_SHEET);
-  if (!sh) throw new Error('Hoja "CATALOGO" no encontrada. Verifica el nombre.');
-  return sh.getDataRange().getValues().slice(1); // sin encabezado
+  if (_catalogoMemo) return _catalogoMemo;
+
+  var resp = UrlFetchApp.fetch(PUNTOS_JSON_URL, { muteHttpExceptions: true });
+  if (resp.getResponseCode() !== 200) {
+    throw new Error('No se pudo cargar puntos.json — HTTP ' + resp.getResponseCode());
+  }
+
+  var stores = JSON.parse(resp.getContentText());
+
+  _catalogoMemo = stores
+    .filter(function(s) { return !s.estado || s.estado === 'ACTIVO'; })
+    .map(function(s) {
+      var row = new Array(27).fill('');
+      row[C.ORG_CODE]    = s.ID          || '';
+      row[C.TIENDA]      = s.nombre      || '';
+      row[C.DISTRITO]    = s.distrito    || '';
+      row[C.DIRECCION]   = s.direccion   || '';
+      row[C.CLUSTER]     = s.cluster     || '';
+      row[C.GZ]          = s.gz          || '';
+      row[C.JZ]          = s.jz          || '';
+      row[C.CAPACITADOR] = s.capacitador || '';
+      row[C.SUPERVISOR]  = s.supervisor  || '';
+      row[C.RESPONSABLE] = s.responsable || '';
+      row[C.ESTATUS]     = s.estado      || '';
+      row[C.USERNAME]    = s.username    || '';
+      row[C.TIPO]        = s.tipo        || '';
+      row[C.LAT]         = s.lat         || '';
+      row[C.LON]         = s.lng         || '';
+      row[C.FRECUENCIA]  = s.frecuencia  || '';
+      return row;
+    });
+
+  return _catalogoMemo;
 }
 
 function _unique(rows, col) {
