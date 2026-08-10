@@ -12,10 +12,6 @@ const INCIDENTES_SHEET = 'incidentes en curso'; // ← cambia aquí si quieres o
 // URL de puntos.json en GitHub Pages — única fuente de verdad de tiendas
 const PUNTOS_JSON_URL = 'https://leonardow33.github.io/MAPA_RC_INTERACTIVO/data/puntos.json';
 
-// Partners que van directo a búsqueda de tienda (sin pasar por GZ/JZ).
-// Agregar aquí el nombre exacto tal como aparece en la columna TIPO del Sheets.
-const PARTNERS_SIN_GZ = ['CENCOSUD', 'TAMBO'];
-
 // Nombre de la carpeta en Google Drive donde se guardan las fotos de evidencia.
 // Se crea automáticamente si no existe.
 const EVIDENCIAS_FOLDER_NAME = 'LOTOBOLA_EVIDENCIAS';
@@ -126,102 +122,25 @@ function _unique(rows, col) {
 
 // ---- API pública (llamada desde Index.html) ----
 
-// Todos los partners únicos (columna TIPO = Z)
-function getPartnerList() {
-  return _unique(_catalogo(), C.TIPO);
-}
-
 // Normaliza el valor de una celda para comparaciones seguras
 function _norm(v) { return String(v == null ? '' : v).trim(); }
 
-// GZ filtrados por partner — corrige el cruce entre partners.
-// Retorna [] para partners declarados en PARTNERS_SIN_GZ.
-function getGZByPartner(partner) {
-  const p = _norm(partner).toUpperCase();
-  if (!p) return [];
-  if (PARTNERS_SIN_GZ.some(x => x.trim().toUpperCase() === p)) return [];
-  const rows = _catalogo().filter(r => _norm(r[C.TIPO]).toUpperCase() === p);
-  return _unique(rows, C.GZ);
-}
-
-// JZ filtrados por GZ Y partner
-function getJZByGZPartner(gz, partner) {
-  const p = _norm(partner).toUpperCase();
-  const g = _norm(gz).toUpperCase();
-  const rows = _catalogo().filter(r =>
-    _norm(r[C.GZ]).toUpperCase()   === g &&
-    _norm(r[C.TIPO]).toUpperCase() === p
-  );
-  return _unique(rows, C.JZ);
-}
-
-// Tiendas filtradas por GZ + JZ + partner + casaApuestas (columna P)
-function getTiendasByGZ(gz, jz, partner, casaApuestas) {
-  const g  = _norm(gz).toUpperCase();
-  const j  = _norm(jz).toUpperCase();
-  const p  = _norm(partner).toUpperCase();
-  const ca = _norm(casaApuestas).toUpperCase();
-  return _catalogo()
-    .filter(r =>
-      _norm(r[C.GZ]).toUpperCase()          === g &&
-      (!j  || _norm(r[C.JZ]).toUpperCase()          === j)  &&
-      (!p  || _norm(r[C.TIPO]).toUpperCase()         === p)  &&
-      (!ca || _norm(r[C.RESPONSABLE]).toUpperCase()  === ca)
-    )
-    .map(_mapTienda)
-    .sort((a, b) => a.nombre.localeCompare(b.nombre));
-}
-
-// Todas las tiendas de un partner, opcionalmente filtradas por casa de apuestas
-function getAllTiendasByPartner(partner, casaApuestas) {
-  const p  = _norm(partner).toUpperCase();
-  const ca = _norm(casaApuestas).toUpperCase();
-  if (!p) return [];
-  return _catalogo()
-    .filter(r =>
-      _norm(r[C.TIPO]).toUpperCase() === p &&
-      (!ca || _norm(r[C.RESPONSABLE]).toUpperCase() === ca)
-    )
-    .map(_mapTienda)
-    .sort((a, b) => a.nombre.localeCompare(b.nombre));
-}
-
-// Supervisores únicos para un partner (usado cuando no hay estructura GZ/JZ, ej. CENCOSUD)
-function getSupervisoresByPartner(partner) {
+// Búsqueda directa por nombre o código de tienda (mín. 2 caracteres, máx. 50 resultados)
+// partner opcional — si se pasa, filtra solo ese tipo
+function buscarTiendas(query, partner) {
+  var q = _norm(query).toLowerCase();
+  if (q.length < 2) return [];
   var p = _norm(partner).toUpperCase();
-  if (!p) return [];
-  return _unique(
-    _catalogo().filter(function(r) {
-      return _norm(r[C.TIPO]).toUpperCase() === p && _norm(r[C.SUPERVISOR]) !== '';
-    }),
-    C.SUPERVISOR
-  );
-}
-
-// Tiendas filtradas por supervisor (para partners sin estructura GZ/JZ)
-function getTiendasBySupervisor(partner, supervisor, casaApuestas) {
-  var p  = _norm(partner).toUpperCase();
-  var sv = _norm(supervisor).toUpperCase();
-  var ca = _norm(casaApuestas).toUpperCase();
-  if (!p || !sv) return [];
   return _catalogo()
     .filter(function(r) {
-      return _norm(r[C.TIPO]).toUpperCase()       === p  &&
-             _norm(r[C.SUPERVISOR]).toUpperCase() === sv &&
-             (!ca || _norm(r[C.RESPONSABLE]).toUpperCase() === ca);
+      var matchPartner = !p || _norm(r[C.TIPO]).toUpperCase() === p;
+      var matchQuery   = _norm(r[C.TIENDA]).toLowerCase().indexOf(q) > -1 ||
+                         String(r[C.ORG_CODE]).indexOf(q) > -1;
+      return matchPartner && matchQuery;
     })
     .map(_mapTienda)
-    .sort(function(a, b) { return a.nombre.localeCompare(b.nombre); });
-}
-
-// Nombres de casas de apuestas (columna P = RESPONSABLE) para el partner dado
-function getCasasApuestas(partner) {
-  const p = _norm(partner).toUpperCase();
-  const rows = _catalogo().filter(r =>
-    _norm(r[C.TIPO]).toUpperCase() === p &&
-    _norm(r[C.RESPONSABLE]) !== ''
-  );
-  return _unique(rows, C.RESPONSABLE);
+    .sort(function(a, b) { return a.nombre.localeCompare(b.nombre); })
+    .slice(0, 50);
 }
 
 function _mapTienda(r) {
