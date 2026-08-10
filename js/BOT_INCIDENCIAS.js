@@ -55,6 +55,23 @@ const C = {
 // ▼ ÚNICO CAMBIO: inyecta window.GAS_PARAMS cuando llega org_code en la URL ▼
 function doGet(e) {
   var params = (e && e.parameter) ? e.parameter : {};
+
+  // ── API de datos (GET) — usada desde incidencias.html ───────────────
+  if (params.action === 'consultar') {
+    var ticket = consultarTicket(String(params.ticket || ''));
+    return ContentService
+      .createTextOutput(JSON.stringify(ticket || { error: 'Ticket no encontrado' }))
+      .setMimeType(ContentService.MimeType.JSON);
+  }
+
+  if (params.action === 'historial') {
+    var hist = getHistorialTienda(String(params.orgCode || ''));
+    return ContentService
+      .createTextOutput(JSON.stringify(hist))
+      .setMimeType(ContentService.MimeType.JSON);
+  }
+
+  // ── Bot conversacional (HTML) ────────────────────────────────────────
   var html = HtmlService.createHtmlOutputFromFile('Index');
 
   if (params.org_code) {
@@ -621,6 +638,33 @@ function consultarTicket(ticketId) {
     }
   }
   return null;
+}
+
+// Historial de incidencias de una tienda por orgCode — usado desde incidencias.html
+function getHistorialTienda(orgCode) {
+  var sh = _ss().getSheetByName(INCIDENTES_SHEET);
+  if (!sh || !orgCode) return [];
+  var rows = sh.getDataRange().getValues();
+  var oc = String(orgCode).trim().toUpperCase();
+  var result = [];
+  for (var i = 1; i < rows.length; i++) {
+    if (String(rows[i][9]).trim().toUpperCase() === oc) {
+      var r = rows[i];
+      result.push({
+        id:          String(r[0]),
+        fecha:       String(r[1]),
+        hora:        String(r[2]),
+        nombre:      String(r[3]),
+        tipo:        String(r[18]),
+        afecta:      String(r[16]),
+        juego:       String(r[17]),
+        prioridad:   String(r[21]),
+        estado:      String(r[22]),
+        descripcion: String(r[20])
+      });
+    }
+  }
+  return result.reverse(); // más reciente primero
 }
 
 // ── RECORDATORIOS AUTOMÁTICOS ────────────────────────────────────────────────
