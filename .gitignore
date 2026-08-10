@@ -1,0 +1,9 @@
+# Google Apps Script — no va al repo (contiene secretos y corre en GAS, no en GitHub Pages)
+js/BOT_INCIDENCIAS.js
+
+# Otros archivos locales
+pbi_session.b64.txt
+scripts/__pycache__/
+sources/
+sugerencias_rc*.csv
+sugerencias_sin_dia_cap.csv

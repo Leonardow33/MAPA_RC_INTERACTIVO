@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+<title>Reporte de Incidencia · Campo</title>
+<style>
+:root {
+  --bg:       #0F172A;
+  --surface:  #1E293B;
+  --surface2: #263347;
+  --border:   #334155;
+  --accent:   #F59E0B;
+  --red:      #EF4444;
+  --green:    #22C55E;
+  --text:     #F1F5F9;
+  --dim:      #94A3B8;
+  --r:        14px;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{font-size:16px;-webkit-tap-highlight-color:transparent}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;padding-bottom:96px}
+
+/* header */
+.ph{background:var(--surface);border-bottom:1px solid var(--border);padding:14px 18px 12px;position:sticky;top:0;z-index:100}
+.ph-badge{display:inline-block;background:var(--accent);color:#000;font-size:9px;font-weight:800;padding:2px 9px;border-radius:20px;letter-spacing:.6px;margin-bottom:5px}
+.ph-title{font-size:17px;font-weight:700}
+.ph-sub{font-size:11px;color:var(--dim);margin-top:2px}
+
+/* body */
+.fb{max-width:560px;margin:0 auto;padding:14px 14px 0;display:flex;flex-direction:column;gap:10px}
+
+/* cards */
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:16px}
+.cl{font-size:10px;font-weight:700;letter-spacing:.8px;color:var(--accent);text-transform:uppercase;margin-bottom:13px}
+
+/* fields */
+.f{margin-bottom:11px}.f:last-child{margin-bottom:0}
+.f label{display:block;font-size:12px;color:var(--dim);margin-bottom:5px;font-weight:600}
+.f label .req{color:var(--accent)}
+input[type=text],input[type=tel],select,textarea{
+  width:100%;background:var(--surface2);border:1.5px solid var(--border);border-radius:10px;
+  color:var(--text);font-family:inherit;font-size:15px;padding:10px 13px;outline:none;
+  transition:border-color .15s;-webkit-appearance:none
+}
+input:focus,select:focus,textarea:focus{border-color:var(--accent)}
+textarea{resize:vertical;min-height:88px}
+select{
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24'%3E%3Cpath fill='%2394A3B8' d='M7 10l5 5 5-5z'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;background-position:right 12px center;padding-right:36px
+}
+
+/* store search */
+.sw{position:relative}
+.si{padding-right:40px}
+.si-ico{position:absolute;right:13px;top:50%;transform:translateY(-50%);color:var(--dim);pointer-events:none;font-size:16px}
+.sd{position:absolute;top:calc(100% + 4px);left:0;right:0;background:var(--surface2);border:1.5px solid var(--accent);border-radius:10px;max-height:270px;overflow-y:auto;z-index:200;display:none}
+.sd.open{display:block}
+.sd-item{padding:10px 13px;cursor:pointer;border-bottom:1px solid var(--border);transition:background .1s}
+.sd-item:last-child{border-bottom:none}
+.sd-item:hover,.sd-item:active{background:rgba(245,158,11,.14)}
+.sdi-name{font-size:14px;font-weight:600}
+.sdi-meta{font-size:11px;color:var(--dim);margin-top:2px}
+.sd-empty{padding:16px 13px;color:var(--dim);font-size:13px;text-align:center}
+.sd-loading{padding:16px 13px;color:var(--dim);font-size:13px;text-align:center}
+
+/* tienda chip */
+.tc{background:rgba(245,158,11,.09);border:1.5px solid var(--accent);border-radius:10px;padding:11px 13px;display:none}
+.tc.vis{display:block}
+.tc-name{font-size:15px;font-weight:700}
+.tc-meta{font-size:12px;color:var(--dim);margin-top:3px;line-height:1.5}
+.tc-change{font-size:11px;color:var(--accent);margin-top:7px;cursor:pointer;font-weight:600}
+
+/* prioridad */
+.pg{display:flex;flex-direction:column;gap:8px}
+.po{display:flex;align-items:center;gap:11px;padding:11px 13px;background:var(--surface2);border:1.5px solid var(--border);border-radius:10px;cursor:pointer;transition:border-color .15s,background .15s;user-select:none}
+.po.sel{border-color:var(--accent);background:rgba(245,158,11,.08)}
+.po input{display:none}
+.pd{width:12px;height:12px;border-radius:50%;flex-shrink:0}
+.pd.alta{background:var(--red)}
+.pd.media{background:var(--accent)}
+.pd.baja{background:var(--green)}
+.pt{font-size:14px}
+
+/* toggle */
+.trow{display:flex;align-items:center;justify-content:space-between;padding:4px 0}
+.tlab{font-size:14px;font-weight:600}
+.tog{width:44px;height:24px;background:var(--border);border-radius:12px;position:relative;cursor:pointer;transition:background .2s;flex-shrink:0}
+.tog.on{background:var(--green)}
+.tog::after{content:'';position:absolute;top:3px;left:3px;width:18px;height:18px;background:#fff;border-radius:50%;transition:transform .2s}
+.tog.on::after{transform:translateX(20px)}
+
+/* fotos */
+.fg{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:4px}
+.fs{aspect-ratio:1;background:var(--surface2);border:1.5px dashed var(--border);border-radius:10px;display:flex;align-items:center;justify-content:center;cursor:pointer;overflow:hidden;position:relative;transition:border-color .15s}
+.fs:hover{border-color:var(--accent)}
+.fs img{width:100%;height:100%;object-fit:cover;display:none}
+.fs .fa{color:var(--dim);font-size:24px;line-height:1;pointer-events:none}
+.fs .frm{position:absolute;top:3px;right:3px;background:rgba(0,0,0,.75);color:#fff;border:none;border-radius:50%;width:20px;height:20px;font-size:13px;line-height:1;cursor:pointer;display:none;align-items:center;justify-content:center;z-index:2}
+.fs.fil .frm{display:flex}
+.fs.fil .fa{display:none}
+
+/* submit bar */
+.sbar{position:fixed;bottom:0;left:0;right:0;padding:12px 14px;background:var(--surface);border-top:1px solid var(--border);z-index:100}
+.bsub{width:100%;max-width:560px;margin:0 auto;display:block;background:var(--accent);color:#000;border:none;border-radius:12px;font-size:16px;font-weight:800;padding:14px;cursor:pointer;transition:opacity .15s;letter-spacing:.2px}
+.bsub:disabled{opacity:.45;cursor:default}
+
+/* success */
+.ov{position:fixed;inset:0;background:var(--bg);display:none;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:32px;z-index:500}
+.ov.vis{display:flex}
+.ov-ico{font-size:60px;margin-bottom:16px}
+.ov-title{font-size:22px;font-weight:800;margin-bottom:8px}
+.ov-sub{font-size:14px;color:var(--dim);margin-bottom:20px;line-height:1.6;max-width:320px}
+.ov-ref{font-family:monospace;font-size:12px;background:var(--surface);padding:6px 16px;border-radius:8px;color:var(--accent);margin-bottom:28px;word-break:break-all}
+.bnuevo{background:var(--surface);border:1.5px solid var(--border);color:var(--text);border-radius:12px;font-size:15px;font-weight:700;padding:12px 36px;cursor:pointer}
+</style>
+</head>
+<body>
+
+<div class="ph">
+  <div class="ph-badge">CAMPO · ENCARGADO</div>
+  <div class="ph-title">Reporte de Incidencia</div>
+  <div class="ph-sub">Plataforma de campo · LOTOBOLA</div>
+</div>
+
+<div class="fb">
+
+  <!-- Quién reporta -->
+  <div class="card">
+    <div class="cl">Quién reporta</div>
+    <div class="f">
+      <label>Nombre completo <span class="req">*</span></label>
+      <input type="text" id="f-nombre" placeholder="Tu nombre completo" autocomplete="name">
+    </div>
+    <div class="f">
+      <label>Celular</label>
+      <input type="tel" id="f-celular" placeholder="9XXXXXXXX" inputmode="tel">
+    </div>
+  </div>
+
+  <!-- Tienda -->
+  <div class="card">
+    <div class="cl">Tienda</div>
+    <div class="f" id="f-buscar-wrap">
+      <label>Buscar tienda <span class="req">*</span></label>
+      <div class="sw">
+        <input type="text" class="si" id="f-buscar" placeholder="Nombre o código…" autocomplete="off">
+        <span class="si-ico">🔍</span>
+        <div class="sd" id="sd"></div>
+      </div>
+    </div>
+    <div class="tc" id="tc">
+      <div class="tc-name" id="tc-name"></div>
+      <div class="tc-meta" id="tc-meta"></div>
+      <div class="tc-change" onclick="clearTienda()">✕ Cambiar tienda</div>
+    </div>
+    <input type="hidden" id="h-orgcode">
+    <input type="hidden" id="h-partner">
+    <input type="hidden" id="h-gz">
+    <input type="hidden" id="h-jz">
+    <input type="hidden" id="h-sup">
+    <input type="hidden" id="h-cap">
+    <input type="hidden" id="h-distrito">
+  </div>
+
+  <!-- El problema -->
+  <div class="card">
+    <div class="cl">El problema</div>
+    <div class="f">
+      <label>Tipo de incidente <span class="req">*</span></label>
+      <select id="f-tipo">
+        <option value="">Seleccionar…</option>
+        <option>La app no abre</option>
+        <option>La app se cierra sola</option>
+        <option>Error al registrar una venta</option>
+        <option>Problema con la impresora</option>
+        <option>POS no conecta / sin señal</option>
+        <option>Juego no carga</option>
+        <option>Terminales bloqueadas</option>
+        <option>Otro</option>
+      </select>
+    </div>
+    <div class="f">
+      <label>¿Qué afecta? <span class="req">*</span></label>
+      <select id="f-afecta">
+        <option value="">Seleccionar…</option>
+        <option>Solo Loterías</option>
+        <option>Solo Raspaditas</option>
+        <option>Ambas</option>
+        <option>POS completo</option>
+        <option>Todo el sistema</option>
+      </select>
+    </div>
+    <div class="f">
+      <label>Juego específico</label>
+      <select id="f-juego">
+        <option value="">General (sin juego específico)</option>
+        <option>PozoPower</option>
+        <option>LakiDey</option>
+        <option>PozoPowerGo</option>
+        <option>Elige 3</option>
+        <option>Turbito</option>
+        <option>Raspadita SC</option>
+        <option>Raspadita E3</option>
+      </select>
+    </div>
+    <div class="f">
+      <label>POS ID</label>
+      <input type="text" id="f-posid" placeholder="Se completa al seleccionar tienda">
+    </div>
+    <div class="f">
+      <label>Versión de la app</label>
+      <input type="text" id="f-appver" placeholder="Ej: 3.2.1" inputmode="decimal">
+    </div>
+    <div class="f">
+      <label>¿Cuándo empezó? <span class="req">*</span></label>
+      <select id="f-inicio">
+        <option value="">Seleccionar…</option>
+        <option>Ahora mismo</option>
+        <option>Hoy en la mañana</option>
+        <option>Ayer</option>
+        <option>Hace 2–3 días</option>
+        <option>Hace más de una semana</option>
+      </select>
+    </div>
+    <div class="f">
+      <label>Prioridad <span class="req">*</span></label>
+      <div class="pg">
+        <div class="po" onclick="setPrio(this,'Alta 🔴 — No puedo trabajar')">
+          <span class="pd alta"></span><span class="pt">Alta — No puedo trabajar</span>
+        </div>
+        <div class="po" onclick="setPrio(this,'Media 🟡 — Puedo trabajar con dificultad')">
+          <span class="pd media"></span><span class="pt">Media — Puedo trabajar con dificultad</span>
+        </div>
+        <div class="po" onclick="setPrio(this,'Baja 🟢 — Observación / consulta')">
+          <span class="pd baja"></span><span class="pt">Baja — Observación</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Descripción -->
+  <div class="card">
+    <div class="cl">Descripción</div>
+    <div class="f">
+      <label>¿Qué está pasando? <span class="req">*</span></label>
+      <textarea id="f-desc" placeholder="Describe el problema con detalle…" rows="4"></textarea>
+    </div>
+    <div class="f">
+      <label>Observaciones adicionales</label>
+      <textarea id="f-obs" placeholder="Contexto, pasos realizados, etc." rows="3"></textarea>
+    </div>
+  </div>
+
+  <!-- Resolución -->
+  <div class="card">
+    <div class="trow">
+      <span class="tlab">¿Se resolvió en campo?</span>
+      <div class="tog" id="tog-res" onclick="toggleRes()"></div>
+    </div>
+    <div id="res-campo" style="display:none;margin-top:12px">
+      <div class="f">
+        <label>¿Cómo se resolvió?</label>
+        <textarea id="f-res" placeholder="Describe la solución aplicada…" rows="3"></textarea>
+      </div>
+    </div>
+  </div>
+
+  <!-- Fotos -->
+  <div class="card">
+    <div class="cl">Fotos de evidencia <span style="font-weight:400;opacity:.6">(opcional · máx. 4)</span></div>
+    <div class="fg">
+      <div class="fs" id="slot-0" onclick="triggerFoto(0)">
+        <span class="fa">+</span>
+        <img id="prev-0">
+        <button class="frm" onclick="rmFoto(event,0)">×</button>
+      </div>
+      <div class="fs" id="slot-1" onclick="triggerFoto(1)">
+        <span class="fa">+</span>
+        <img id="prev-1">
+        <button class="frm" onclick="rmFoto(event,1)">×</button>
+      </div>
+      <div class="fs" id="slot-2" onclick="triggerFoto(2)">
+        <span class="fa">+</span>
+        <img id="prev-2">
+        <button class="frm" onclick="rmFoto(event,2)">×</button>
+      </div>
+      <div class="fs" id="slot-3" onclick="triggerFoto(3)">
+        <span class="fa">+</span>
+        <img id="prev-3">
+        <button class="frm" onclick="rmFoto(event,3)">×</button>
+      </div>
+    </div>
+    <input type="file" id="file-inp" accept="image/*" capture="environment" style="display:none" onchange="onFoto(event)">
+  </div>
+
+</div><!-- /fb -->
+
+<div class="sbar">
+  <button class="bsub" id="btn-sub" onclick="submitForm()">Enviar reporte</button>
+</div>
+
+<!-- Success overlay -->
+<div class="ov" id="ov">
+  <div class="ov-ico">✅</div>
+  <div class="ov-title">Reporte enviado</div>
+  <div class="ov-sub">El equipo fue notificado en Slack.<br>El incidente quedó registrado en la hoja.</div>
+  <div class="ov-ref" id="ov-ref"></div>
+  <button class="bnuevo" onclick="resetForm()">Nuevo reporte</button>
+</div>
+
+<script>
+// ── Configuración ─────────────────────────────────────────────────────────────
+// Pegar aquí la URL del web app de Google Apps Script (Implementaciones → Web App → URL)
+const GAS_URL = 'REEMPLAZAR_CON_URL_DEL_WEB_APP_GAS';
+
+// ── Estado ────────────────────────────────────────────────────────────────────
+let stores     = [];
+let selStore   = null;
+let prioValue  = '';
+let resOn      = false;
+let fotos      = [null, null, null, null];
+let slotActivo = 0;
+
+// ── Carga tiendas ─────────────────────────────────────────────────────────────
+(async () => {
+  try {
+    const r = await fetch('data/puntos.json');
+    const d = await r.json();
+    stores = d.filter(s => !s.estado || s.estado === 'ACTIVO');
+  } catch(e) {
+    console.error('puntos.json no cargó:', e);
+  }
+})();
+
+// ── Búsqueda de tienda ────────────────────────────────────────────────────────
+const inp = document.getElementById('f-buscar');
+const drp = document.getElementById('sd');
+
+inp.addEventListener('input', () => {
+  const q = inp.value.trim().toLowerCase();
+  if (q.length < 2) { drp.classList.remove('open'); return; }
+  if (!stores.length) {
+    drp.innerHTML = '<div class="sd-loading">Cargando tiendas…</div>';
+    drp.classList.add('open');
+    return;
+  }
+  const hits = stores
+    .filter(s => s.nombre.toLowerCase().includes(q) || String(s.ID).includes(q))
+    .slice(0, 60);
+  if (!hits.length) {
+    drp.innerHTML = '<div class="sd-empty">Sin resultados</div>';
+  } else {
+    drp.innerHTML = hits.map(s =>
+      `<div class="sd-item" onclick="selectStore('${s.ID}')">
+        <div class="sdi-name">${s.nombre}</div>
+        <div class="sdi-meta">#${s.ID} · ${s.distrito||''} · ${s.tipo||''}</div>
+      </div>`
+    ).join('');
+  }
+  drp.classList.add('open');
+});
+
+inp.addEventListener('focus', () => {
+  if (inp.value.trim().length >= 2) drp.classList.add('open');
+});
+
+document.addEventListener('click', e => {
+  if (!inp.contains(e.target) && !drp.contains(e.target))
+    drp.classList.remove('open');
+});
+
+function selectStore(id) {
+  const s = stores.find(x => String(x.ID) === String(id));
+  if (!s) return;
+  selStore = s;
+  drp.classList.remove('open');
+  inp.style.display = 'none';
+
+  document.getElementById('h-orgcode').value = s.ID       || '';
+  document.getElementById('h-partner').value = s.tipo     || '';
+  document.getElementById('h-gz').value      = s.gz       || '';
+  document.getElementById('h-jz').value      = s.jz       || '';
+  document.getElementById('h-sup').value     = s.supervisor  || '';
+  document.getElementById('h-cap').value     = s.capacitador || '';
+  document.getElementById('h-distrito').value= s.distrito  || '';
+  document.getElementById('f-posid').value   = s.username  || '';
+
+  const parts = ['#' + s.ID];
+  if (s.distrito)    parts.push(s.distrito);
+  if (s.tipo)        parts.push(s.tipo);
+  if (s.gz)          parts.push('GR: ' + s.gz);
+  if (s.jz)          parts.push('JZ: ' + s.jz);
+  if (s.supervisor)  parts.push('SUP: ' + s.supervisor);
+
+  document.getElementById('tc-name').textContent = s.nombre;
+  document.getElementById('tc-meta').textContent = parts.join(' · ');
+  document.getElementById('tc').classList.add('vis');
+}
+
+function clearTienda() {
+  selStore = null;
+  inp.style.display = '';
+  inp.value = '';
+  ['h-orgcode','h-partner','h-gz','h-jz','h-sup','h-cap','h-distrito']
+    .forEach(id => document.getElementById(id).value = '');
+  document.getElementById('f-posid').value = '';
+  document.getElementById('tc').classList.remove('vis');
+}
+
+// ── Prioridad ─────────────────────────────────────────────────────────────────
+function setPrio(el, val) {
+  document.querySelectorAll('.po').forEach(o => o.classList.remove('sel'));
+  el.classList.add('sel');
+  prioValue = val;
+}
+
+// ── Toggle resolución ─────────────────────────────────────────────────────────
+function toggleRes() {
+  resOn = !resOn;
+  document.getElementById('tog-res').classList.toggle('on', resOn);
+  document.getElementById('res-campo').style.display = resOn ? '' : 'none';
+}
+
+// ── Fotos ─────────────────────────────────────────────────────────────────────
+function triggerFoto(slot) {
+  if (document.getElementById('slot-'+slot).classList.contains('fil')) return;
+  slotActivo = slot;
+  document.getElementById('file-inp').click();
+}
+
+function onFoto(e) {
+  const file = e.target.files[0];
+  if (!file) return;
+  fotos[slotActivo] = file;
+  const img = document.getElementById('prev-'+slotActivo);
+  img.src = URL.createObjectURL(file);
+  img.style.display = '';
+  document.getElementById('slot-'+slotActivo).classList.add('fil');
+  e.target.value = '';
+}
+
+function rmFoto(e, slot) {
+  e.stopPropagation();
+  fotos[slot] = null;
+  const img = document.getElementById('prev-'+slot);
+  img.src = '';
+  img.style.display = 'none';
+  document.getElementById('slot-'+slot).classList.remove('fil');
+}
+
+function fileToB64(file) {
+  return new Promise((res, rej) => {
+    const r = new FileReader();
+    r.onload = () => res({
+      base64:   r.result.split(',')[1],
+      mimeType: file.type,
+      ext:      file.name.split('.').pop() || 'jpg'
+    });
+    r.onerror = rej;
+    r.readAsDataURL(file);
+  });
+}
+
+// ── Validación ────────────────────────────────────────────────────────────────
+function validate() {
+  if (!document.getElementById('f-nombre').value.trim())
+    return 'Ingresa tu nombre';
+  if (!selStore)
+    return 'Selecciona una tienda';
+  if (!document.getElementById('f-tipo').value)
+    return 'Selecciona el tipo de incidente';
+  if (!document.getElementById('f-afecta').value)
+    return 'Indica qué afecta el problema';
+  if (!document.getElementById('f-inicio').value)
+    return '¿Cuándo empezó el problema?';
+  if (!prioValue)
+    return 'Selecciona la prioridad';
+  if (!document.getElementById('f-desc').value.trim())
+    return 'Escribe una descripción del problema';
+  return null;
+}
+
+// ── Submit ────────────────────────────────────────────────────────────────────
+async function submitForm() {
+  const err = validate();
+  if (err) { alert(err); return; }
+
+  if (GAS_URL === 'REEMPLAZAR_CON_URL_DEL_WEB_APP_GAS') {
+    alert('⚠️ URL del GAS no configurada. Contacta al administrador.');
+    return;
+  }
+
+  const btn = document.getElementById('btn-sub');
+  btn.disabled = true;
+  btn.textContent = 'Enviando…';
+
+  try {
+    const evFiles = await Promise.all(fotos.filter(Boolean).map(fileToB64));
+
+    const datos = {
+      nombre:        document.getElementById('f-nombre').value.trim(),
+      celular:       document.getElementById('f-celular').value.trim(),
+      partner:       document.getElementById('h-partner').value,
+      casaApuestas:  '',
+      gz:            document.getElementById('h-gz').value,
+      jz:            document.getElementById('h-jz').value,
+      tienda: {
+        orgCode:     document.getElementById('h-orgcode').value,
+        nombre:      selStore.nombre,
+        distrito:    document.getElementById('h-distrito').value,
+        supervisor:  document.getElementById('h-sup').value,
+        capacitador: document.getElementById('h-cap').value,
+      },
+      posId:         document.getElementById('f-posid').value.trim(),
+      appVersion:    document.getElementById('f-appver').value.trim(),
+      afecta:        document.getElementById('f-afecta').value,
+      juego:         document.getElementById('f-juego').value,
+      tipoIncidente: document.getElementById('f-tipo').value,
+      inicio:        document.getElementById('f-inicio').value,
+      descripcion:   document.getElementById('f-desc').value.trim(),
+      prioridad:     prioValue,
+      observaciones: document.getElementById('f-obs').value.trim(),
+      resolucion:    resOn ? document.getElementById('f-res').value.trim() : '',
+      evFiles
+    };
+
+    await fetch(GAS_URL, {
+      method:  'POST',
+      mode:    'no-cors',
+      body:    JSON.stringify({ action: 'guardar', datos }),
+      headers: { 'Content-Type': 'text/plain' }
+    });
+
+    // Referencia visual (el ticket real lo genera GAS)
+    const n  = new Date();
+    const p  = x => String(x).padStart(2,'0');
+    const ref = 'EXT-' + n.getFullYear() + p(n.getMonth()+1) + p(n.getDate())
+              + '-' + p(n.getHours()) + p(n.getMinutes())
+              + ' · ' + selStore.nombre;
+    document.getElementById('ov-ref').textContent = ref;
+    document.getElementById('ov').classList.add('vis');
+
+  } catch(er) {
+    alert('Error al enviar. Verifica tu conexión e intenta de nuevo.');
+    console.error(er);
+  } finally {
+    btn.disabled = false;
+    btn.textContent = 'Enviar reporte';
+  }
+}
+
+// ── Reset ─────────────────────────────────────────────────────────────────────
+function resetForm() {
+  document.getElementById('ov').classList.remove('vis');
+  document.getElementById('f-nombre').value = '';
+  document.getElementById('f-celular').value = '';
+  document.getElementById('f-tipo').value = '';
+  document.getElementById('f-afecta').value = '';
+  document.getElementById('f-juego').value = '';
+  document.getElementById('f-posid').value = '';
+  document.getElementById('f-appver').value = '';
+  document.getElementById('f-inicio').value = '';
+  document.getElementById('f-desc').value = '';
+  document.getElementById('f-obs').value = '';
+  document.getElementById('f-res').value = '';
+  clearTienda();
+  prioValue = '';
+  resOn = false;
+  document.getElementById('tog-res').classList.remove('on');
+  document.getElementById('res-campo').style.display = 'none';
+  document.querySelectorAll('.po').forEach(o => o.classList.remove('sel'));
+  fotos = [null, null, null, null];
+  [0,1,2,3].forEach(i => {
+    fotos[i] = null;
+    const img = document.getElementById('prev-'+i);
+    img.src = '';
+    img.style.display = 'none';
+    document.getElementById('slot-'+i).classList.remove('fil');
+  });
+  window.scrollTo(0, 0);
+}
+</script>
+</body>
+</html>
