@@ -548,13 +548,13 @@ function testSlack() {
   notificarTeams(datos, 'TKT-TEST-0001', []);
 }
 
-// Encabezados actuales (v4) — 26 columnas
+// Encabezados actuales (v5) — 27 columnas
 const HEADERS_V2 = [
   'ID_TICKET','FECHA','HORA','REPORTADO_POR','CELULAR','PARTNER','CASA_APUESTAS','GZ','JZ',
   'ORG_CODE','TIENDA','DISTRITO','SUPERVISOR','CAPACITADOR',
   'POS_ID','APP_VERSION','AFECTA','JUEGO',
   'TIPO_INCIDENTE','INICIO_PROBLEMA','DESCRIPCION',
-  'PRIORIDAD','ESTADO','OBSERVACIONES','EVIDENCIAS','RECORDATORIOS'
+  'PRIORIDAD','ESTADO','OBSERVACIONES','EVIDENCIAS','RECORDATORIOS','MONTO_REEMBOLSO'
 ];
 
 function _crearHojaIncidentes(ss) {
@@ -602,11 +602,8 @@ function guardarIncidente(datos) {
     if (datos.resolucion) {
       obsValue = '[RESOLUCIÓN: ' + datos.resolucion + ']' + (obsValue ? ' | ' + obsValue : '');
     }
-    if (datos.reembolsoMonto || datos.reembolsoTickets) {
-      var remParts = [];
-      if (datos.reembolsoMonto)  remParts.push('S/' + datos.reembolsoMonto);
-      if (datos.reembolsoTickets) remParts.push('Tickets: ' + datos.reembolsoTickets);
-      obsValue = '[REEMBOLSO: ' + remParts.join(' | ') + ']' + (obsValue ? ' | ' + obsValue : '');
+    if (datos.reembolsoTickets) {
+      obsValue = '[REEMBOLSO · Tickets: ' + datos.reembolsoTickets + ']' + (obsValue ? ' | ' + obsValue : '');
     }
 
     sh.appendRow([
@@ -635,7 +632,8 @@ function guardarIncidente(datos) {
       datos.resolucion ? '✅ Atendido' : 'No atendido',
       obsValue,
       evUrls.join(' | '),
-      0  // RECORDATORIOS — contador de alertas enviadas
+      0,                              // RECORDATORIOS — contador de alertas enviadas
+      datos.reembolsoMonto || ''      // MONTO_REEMBOLSO
     ]);
   } finally {
     lock.releaseLock();
