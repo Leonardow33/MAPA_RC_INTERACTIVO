@@ -482,6 +482,19 @@ let slotActivo = 0;
   } catch(e) {
     console.error('puntos.json no cargó:', e);
   }
+  // Soporte de deep-link desde mapa_incidencias.html
+  const p = new URLSearchParams(location.search);
+  if (p.get('tab') === 'consultar') {
+    switchTab('consultar');
+    const oc = p.get('orgCode');
+    if (oc) {
+      const s = stores.find(x => String(x.ID) === oc);
+      if (s) cargarHistorial(oc, s.nombre);
+      else {
+        document.getElementById('q-buscar').value = oc;
+      }
+    }
+  }
 })();
 
 // ── Búsqueda de tienda ────────────────────────────────────────────────────────

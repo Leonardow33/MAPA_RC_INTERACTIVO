@@ -71,6 +71,13 @@ function doGet(e) {
       .setMimeType(ContentService.MimeType.JSON);
   }
 
+  if (params.action === 'resumen_mapa') {
+    var resumen = getResumenMapa();
+    return ContentService
+      .createTextOutput(JSON.stringify(resumen))
+      .setMimeType(ContentService.MimeType.JSON);
+  }
+
   // ── Bot conversacional (HTML) ────────────────────────────────────────
   var html = HtmlService.createHtmlOutputFromFile('Index');
 
@@ -638,6 +645,32 @@ function consultarTicket(ticketId) {
     }
   }
   return null;
+}
+
+// Resumen por tienda para el mapa de incidencias
+function getResumenMapa() {
+  var sh = _ss().getSheetByName(INCIDENTES_SHEET);
+  if (!sh) return [];
+  var rows = sh.getDataRange().getValues();
+  var mapa = {};
+  for (var i = 1; i < rows.length; i++) {
+    var r = rows[i];
+    var orgCode = String(r[9]).trim();
+    if (!orgCode) continue;
+    if (!mapa[orgCode]) {
+      mapa[orgCode] = { orgCode: orgCode, total: 0, pendientes: 0, alta: false, media: false, ultimaFecha: '' };
+    }
+    mapa[orgCode].total++;
+    mapa[orgCode].ultimaFecha = String(r[1]);
+    var esAtendido = String(r[22]).toLowerCase().indexOf('atendido') > -1;
+    if (!esAtendido) {
+      mapa[orgCode].pendientes++;
+      var prio = String(r[21]).toLowerCase();
+      if (prio.indexOf('alta') > -1) mapa[orgCode].alta = true;
+      else if (prio.indexOf('media') > -1) mapa[orgCode].media = true;
+    }
+  }
+  return Object.values(mapa);
 }
 
 // Historial de incidencias de una tienda por orgCode — usado desde incidencias.html

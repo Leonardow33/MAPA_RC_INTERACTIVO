@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Mapa de Incidencias · LOTOBOLA</title>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#0F172A;--surf:#1E293B;--surf2:#263347;--border:#334155;
+  --accent:#F59E0B;--red:#EF4444;--green:#22C55E;--amber:#F59E0B;
+  --text:#F1F5F9;--dim:#94A3B8;
+}
+html,body{height:100%;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;overflow:hidden;background:var(--bg);color:var(--text)}
+
+/* layout */
+#wrap{display:flex;flex-direction:column;height:100%}
+
+/* header */
+#hd{
+  background:var(--bg);border-bottom:1px solid var(--border);flex-shrink:0;
+  padding:max(12px,calc(10px + env(safe-area-inset-top))) 14px 10px;
+  position:relative;z-index:400;
+}
+.hd-top{display:flex;align-items:center;gap:8px;margin-bottom:8px}
+.hd-title{font-size:15px;font-weight:800;color:var(--text);flex:1;letter-spacing:-.2px}
+.hd-badge{font-size:10px;font-weight:800;background:var(--accent);color:#000;padding:3px 9px;border-radius:20px;letter-spacing:.4px}
+.hd-cnt{font-size:11px;color:var(--dim);white-space:nowrap}
+.filters{display:flex;gap:6px;margin-bottom:8px}
+.fbt{
+  flex:1;padding:7px 4px;border:1.5px solid var(--border);border-radius:10px;
+  background:transparent;color:var(--dim);font-size:11px;font-weight:700;letter-spacing:.3px;
+  cursor:pointer;text-align:center;transition:all .15s;touch-action:manipulation;font-family:inherit;
+}
+.fbt.on{border-color:var(--accent);color:var(--accent);background:rgba(245,158,11,.08)}
+
+/* search */
+.sw{position:relative}
+.si{
+  width:100%;background:var(--surf);border:1.5px solid var(--border);border-radius:12px;
+  color:var(--text);font-size:16px;padding:10px 40px 10px 14px;outline:none;
+  transition:border-color .15s;-webkit-appearance:none;font-family:inherit;
+}
+.si:focus{border-color:var(--accent);background:#1E2D42}
+.si::placeholder{color:var(--dim)}
+.si-ico{position:absolute;right:13px;top:50%;transform:translateY(-50%);pointer-events:none}
+.sd{
+  position:absolute;top:calc(100% + 6px);left:0;right:0;
+  background:var(--surf);border:1.5px solid var(--accent);border-radius:14px;
+  max-height:240px;overflow-y:auto;z-index:9999;display:none;
+  box-shadow:0 8px 32px rgba(0,0,0,.5);
+}
+.sd.open{display:block}
+.sd-item{padding:11px 14px;cursor:pointer;border-bottom:1px solid var(--border);touch-action:manipulation}
+.sd-item:last-child{border-bottom:none}
+.sd-item:active{background:rgba(245,158,11,.12)}
+.sd-name{font-size:13px;font-weight:600;display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.sd-meta{font-size:11px;color:var(--dim);margin-top:2px}
+
+/* map */
+#map-wrap{flex:1;position:relative;min-height:0}
+#map{width:100%;height:100%}
+
+/* legend */
+#leg{
+  position:absolute;right:10px;top:10px;z-index:300;
+  background:rgba(15,23,42,.92);border:1px solid var(--border);border-radius:10px;
+  padding:8px 11px;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
+}
+.li{display:flex;align-items:center;gap:7px;font-size:10px;color:var(--dim);margin-bottom:4px}
+.li:last-child{margin-bottom:0}
+.ld{width:10px;height:10px;border-radius:50%;flex-shrink:0}
+
+/* bottom sheet */
+#sheet{
+  position:fixed;bottom:0;left:0;right:0;z-index:500;
+  background:var(--bg);border-top:1px solid var(--border);border-radius:20px 20px 0 0;
+  padding:10px 16px max(16px,calc(12px + env(safe-area-inset-bottom)));
+  transform:translateY(100%);transition:transform .3s cubic-bezier(.22,.6,.36,1);
+  box-shadow:0 -8px 40px rgba(0,0,0,.4);
+}
+#sheet.open{transform:translateY(0)}
+.sh-hdl{width:36px;height:4px;background:var(--border);border-radius:2px;margin:0 auto 14px;cursor:pointer}
+.sh-nm{font-size:17px;font-weight:800;margin-bottom:3px}
+.sh-mt{font-size:12px;color:var(--dim);margin-bottom:12px}
+.sh-sts{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:12px}
+.sh-st{background:var(--surf);border:1px solid var(--border);border-radius:10px;padding:10px;text-align:center}
+.sh-sn{font-size:22px;font-weight:800;margin-bottom:1px}
+.sh-sl{font-size:10px;color:var(--dim);text-transform:uppercase;letter-spacing:.4px}
+.sh-nc{font-size:13px;color:var(--dim);margin-bottom:10px}
+.sh-uf{font-size:11px;color:var(--dim);margin-bottom:10px}
+.sh-bts{display:flex;gap:8px}
+.sh-bt{
+  flex:1;padding:12px;border-radius:12px;font-size:13px;font-weight:700;
+  cursor:pointer;text-align:center;border:none;touch-action:manipulation;
+  text-decoration:none;display:flex;align-items:center;justify-content:center;gap:5px;
+  transition:opacity .15s;font-family:inherit;
+}
+.sh-bt:active{opacity:.8}
+.sh-pri{background:var(--accent);color:#000}
+.sh-sec{background:var(--surf);border:1.5px solid var(--border) !important;color:var(--text)}
+
+/* loader */
+#loader{
+  position:fixed;inset:0;z-index:9000;background:rgba(15,23,42,.96);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;
+}
+.spi{width:36px;height:36px;border:3px solid var(--border);border-top-color:var(--accent);border-radius:50%;animation:sp .7s linear infinite}
+@keyframes sp{to{transform:rotate(360deg)}}
+.lo-t{font-size:14px;color:var(--dim)}
+
+/* toast */
+#toast{
+  position:fixed;bottom:90px;left:50%;transform:translateX(-50%) translateY(20px);
+  background:var(--surf);border:1px solid var(--border);color:var(--text);
+  padding:10px 18px;border-radius:12px;font-size:13px;font-weight:600;
+  opacity:0;transition:opacity .25s,transform .25s;z-index:999;white-space:nowrap;
+  pointer-events:none;
+}
+#toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+</style>
+</head>
+<body>
+
+<div id="loader">
+  <div class="spi"></div>
+  <div class="lo-t" id="lo-t">Cargando mapa...</div>
+</div>
+
+<div id="wrap">
+  <div id="hd">
+    <div class="hd-top">
+      <div class="hd-title">Mapa de Incidencias</div>
+      <div class="hd-badge">LOTOBOLA</div>
+      <div class="hd-cnt" id="hd-cnt"></div>
+    </div>
+    <div class="filters">
+      <button class="fbt on" data-f="todos"      onclick="setFilter('todos')">Todos</button>
+      <button class="fbt"    data-f="pendientes" onclick="setFilter('pendientes')">Pendientes</button>
+      <button class="fbt"    data-f="resueltos"  onclick="setFilter('resueltos')">Resueltos</button>
+    </div>
+    <div class="sw">
+      <input class="si" id="sinp" type="text" placeholder="Buscar cualquier tienda…" autocomplete="off">
+      <span class="si-ico">🔍</span>
+      <div class="sd" id="sdrp"></div>
+    </div>
+  </div>
+
+  <div id="map-wrap">
+    <div id="map"></div>
+    <div id="leg">
+      <div class="li"><span class="ld" style="background:#EF4444"></span>Alta pendiente</div>
+      <div class="li"><span class="ld" style="background:#F59E0B"></span>Media pendiente</div>
+      <div class="li"><span class="ld" style="background:#22C55E"></span>Todo resuelto</div>
+      <div class="li"><span class="ld" style="background:#3B82F6"></span>Encontrada</div>
+    </div>
+  </div>
+</div>
+
+<div id="sheet">
+  <div class="sh-hdl" onclick="closeSheet()"></div>
+  <div class="sh-nm" id="sh-nm"></div>
+  <div class="sh-mt" id="sh-mt"></div>
+  <div class="sh-sts" id="sh-sts"></div>
+  <div class="sh-nc" id="sh-nc"></div>
+  <div class="sh-uf" id="sh-uf"></div>
+  <div class="sh-bts" id="sh-bts"></div>
+</div>
+
+<div id="toast"></div>
+
+<script>
+const GAS_URL        = 'https://script.google.com/macros/s/AKfycbwwiK8eoC5nmrGhUKpRnIFqjpu5aSefb24O5TEYMNAOTpugmCFjdJAOJQLoNAMIFTk2hg/exec';
+const PUNTOS_URL     = 'https://leonardow33.github.io/MAPA_RC_INTERACTIVO/data/puntos.json';
+const INCIDENCIAS_URL = '../incidencias.html';
+
+let stores = {}, incMap = {}, layerGroup, activeFilter = 'todos', searchMkr = null;
+
+// ── Mapa ─────────────────────────────────────────────────────────────────────
+const map = L.map('map', { zoomControl: false, center: [-12.05, -77.04], zoom: 12 });
+L.control.zoom({ position: 'bottomright' }).addTo(map);
+L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+  attribution: '© OpenStreetMap © CARTO', maxZoom: 20, subdomains: 'abcd'
+}).addTo(map);
+layerGroup = L.layerGroup().addTo(map);
+
+// ── Carga de datos ────────────────────────────────────────────────────────────
+async function load() {
+  setLo('Cargando tiendas y datos...');
+  try {
+    const [sRaw, iRaw] = await Promise.all([
+      fetch(PUNTOS_URL).then(r => r.json()),
+      fetch(GAS_URL + '?action=resumen_mapa').then(r => r.json()).catch(() => [])
+    ]);
+
+    sRaw.filter(s => !s.estado || s.estado === 'ACTIVO').forEach(s => {
+      stores[String(s.ID)] = s;
+    });
+    (Array.isArray(iRaw) ? iRaw : []).forEach(i => {
+      incMap[String(i.orgCode)] = i;
+    });
+  } catch(e) {
+    setLo('Error al cargar datos. Revisa tu conexión.');
+    console.error(e);
+    return;
+  }
+
+  renderMarkers();
+  document.getElementById('loader').style.display = 'none';
+  updateCount();
+}
+
+// ── Marcadores ────────────────────────────────────────────────────────────────
+function mColor(inc) {
+  if (!inc) return '#3B82F6';
+  if (inc.pendientes === 0) return '#22C55E';
+  if (inc.alta)   return '#EF4444';
+  if (inc.media)  return '#F59E0B';
+  return '#94A3B8';
+}
+function mRadius(inc) {
+  if (!inc) return 8;
+  if (inc.alta)         return 12;
+  if (inc.media)        return 10;
+  if (inc.pendientes > 0) return 8;
+  return 7;
+}
+
+function renderMarkers() {
+  layerGroup.clearLayers();
+  Object.values(incMap).forEach(inc => {
+    const s = stores[inc.orgCode];
+    if (!s) return;
+    const lat = parseFloat(s.lat), lng = parseFloat(s.lng);
+    if (!lat || !lng || isNaN(lat) || isNaN(lng)) return;
+    if (activeFilter === 'pendientes' && inc.pendientes === 0) return;
+    if (activeFilter === 'resueltos'  && inc.pendientes  > 0) return;
+
+    const m = L.circleMarker([lat, lng], {
+      radius: mRadius(inc), fillColor: mColor(inc),
+      color: '#fff', weight: 1.5, opacity: .9, fillOpacity: .85
+    });
+    m.on('click', e => { L.DomEvent.stopPropagation(e); openSheet(inc.orgCode, s, inc); });
+    layerGroup.addLayer(m);
+  });
+  updateCount();
+}
+
+function updateCount() {
+  const vis   = layerGroup.getLayers().length;
+  const pend  = Object.values(incMap).filter(i => i.pendientes > 0).length;
+  const total = Object.keys(incMap).length;
+  document.getElementById('hd-cnt').textContent =
+    `${vis} tiendas · ${pend}/${total} pendientes`;
+}
+
+// ── Filtros ───────────────────────────────────────────────────────────────────
+function setFilter(f) {
+  activeFilter = f;
+  document.querySelectorAll('.fbt').forEach(b => b.classList.toggle('on', b.dataset.f === f));
+  renderMarkers();
+}
+
+// ── Panel inferior ────────────────────────────────────────────────────────────
+function openSheet(orgCode, s, inc) {
+  document.getElementById('sh-nm').textContent = s.nombre || orgCode;
+  const parts = ['#' + orgCode];
+  if (s.distrito) parts.push(s.distrito);
+  if (s.tipo)     parts.push(s.tipo);
+  document.getElementById('sh-mt').textContent = parts.join(' · ');
+
+  const shSts = document.getElementById('sh-sts');
+  const shNc  = document.getElementById('sh-nc');
+  const shUf  = document.getElementById('sh-uf');
+
+  if (inc) {
+    const at = inc.total - inc.pendientes;
+    const pc = inc.alta ? '#EF4444' : inc.media ? '#F59E0B' : inc.pendientes > 0 ? '#94A3B8' : '#22C55E';
+    shSts.style.display = 'grid';
+    shSts.innerHTML = `
+      <div class="sh-st">
+        <div class="sh-sn">${inc.total}</div>
+        <div class="sh-sl">Total</div>
+      </div>
+      <div class="sh-st">
+        <div class="sh-sn" style="color:${pc}">${inc.pendientes}</div>
+        <div class="sh-sl">Pendientes</div>
+      </div>
+      <div class="sh-st">
+        <div class="sh-sn" style="color:#22C55E">${at}</div>
+        <div class="sh-sl">Atendidos</div>
+      </div>`;
+    shNc.textContent = '';
+    shUf.textContent = inc.ultimaFecha ? 'Última: ' + inc.ultimaFecha : '';
+  } else {
+    shSts.style.display = 'none';
+    shNc.textContent = 'Sin incidencias registradas';
+    shUf.textContent = '';
+  }
+
+  const hasCoord = s.lat && s.lng && parseFloat(s.lat) !== 0 && !isNaN(parseFloat(s.lat));
+  const mapsUrl  = hasCoord
+    ? `https://www.google.com/maps?q=${s.lat},${s.lng}`
+    : `https://www.google.com/maps/search/${encodeURIComponent((s.nombre || orgCode) + ', Lima, Peru')}`;
+
+  const histUrl = `${INCIDENCIAS_URL}?tab=consultar&orgCode=${orgCode}`;
+
+  document.getElementById('sh-bts').innerHTML = `
+    ${inc ? `<a class="sh-bt sh-sec" href="${histUrl}" target="_blank">📋 Historial</a>` : ''}
+    <a class="sh-bt sh-pri" href="${mapsUrl}" target="_blank">📍 Google Maps</a>
+  `;
+
+  document.getElementById('sheet').classList.add('open');
+  if (hasCoord) {
+    map.panTo([parseFloat(s.lat), parseFloat(s.lng)], { animate: true });
+  }
+}
+
+function closeSheet() {
+  document.getElementById('sheet').classList.remove('open');
+}
+
+map.on('click', () => {
+  closeSheet();
+  if (searchMkr) { map.removeLayer(searchMkr); searchMkr = null; }
+});
+
+// ── Búsqueda ──────────────────────────────────────────────────────────────────
+const sinp = document.getElementById('sinp');
+const sdrp = document.getElementById('sdrp');
+
+sinp.addEventListener('input', () => {
+  const q = sinp.value.trim().toLowerCase();
+  if (q.length < 2) { sdrp.classList.remove('open'); return; }
+
+  const hits = Object.values(stores)
+    .filter(s => s.nombre.toLowerCase().includes(q) || String(s.ID).includes(q))
+    .slice(0, 40);
+
+  if (!hits.length) {
+    sdrp.innerHTML = '<div style="padding:14px;color:#94A3B8;font-size:13px;text-align:center">Sin resultados</div>';
+  } else {
+    sdrp.innerHTML = hits.map(s => {
+      const inc = incMap[String(s.ID)];
+      let badge = '';
+      if (inc && inc.pendientes > 0) {
+        const bc = inc.alta ? '#EF4444' : '#F59E0B';
+        badge = `<span style="color:${bc};font-size:10px;font-weight:800">${inc.pendientes} pend.</span>`;
+      } else if (inc) {
+        badge = `<span style="color:#22C55E;font-size:10px;font-weight:800">✓ resuelto</span>`;
+      }
+      return `<div class="sd-item" onclick="pick('${s.ID}')">
+        <div class="sd-name">${s.nombre} ${badge}</div>
+        <div class="sd-meta">#${s.ID} · ${s.distrito || ''} · ${s.tipo || ''}</div>
+      </div>`;
+    }).join('');
+  }
+  sdrp.classList.add('open');
+});
+
+document.addEventListener('click', e => {
+  if (!sinp.contains(e.target) && !sdrp.contains(e.target))
+    sdrp.classList.remove('open');
+});
+
+function pick(id) {
+  const s = stores[String(id)];
+  if (!s) return;
+  sdrp.classList.remove('open');
+  sinp.value = s.nombre;
+
+  const inc = incMap[String(id)];
+  const hasCoord = s.lat && s.lng && parseFloat(s.lat) !== 0 && !isNaN(parseFloat(s.lat));
+
+  if (hasCoord) {
+    map.flyTo([parseFloat(s.lat), parseFloat(s.lng)], 16, { duration: 1.2 });
+    if (!inc) {
+      if (searchMkr) map.removeLayer(searchMkr);
+      searchMkr = L.circleMarker([parseFloat(s.lat), parseFloat(s.lng)], {
+        radius: 12, fillColor: '#3B82F6',
+        color: '#fff', weight: 2, opacity: 1, fillOpacity: .9
+      }).addTo(map);
+      searchMkr.on('click', e => { L.DomEvent.stopPropagation(e); openSheet(id, s, null); });
+    }
+  } else {
+    showToast('Sin coordenadas — Google Maps usará nombre');
+  }
+
+  openSheet(String(id), s, inc || null);
+}
+
+// ── Toast ─────────────────────────────────────────────────────────────────────
+let toastTimer;
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => t.classList.remove('show'), 3000);
+}
+
+// ── Util ──────────────────────────────────────────────────────────────────────
+function setLo(t) { document.getElementById('lo-t').textContent = t; }
+
+load();
+</script>
+</body>
+</html>
