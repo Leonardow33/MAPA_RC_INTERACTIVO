@@ -326,6 +326,16 @@ select{
       <label>Especifica el subtema</label>
       <input type="text" id="f-subtipo-otro" placeholder="Describe el subtema…" autocomplete="off">
     </div>
+    <div id="f-glpi-wrap" style="display:none">
+      <div class="f">
+        <label>Código GLPI <span style="color:var(--dim);font-weight:400">(opcional)</span></label>
+        <input type="text" id="f-glpi-codigo" placeholder="Ej: 123456" inputmode="numeric" autocomplete="off">
+      </div>
+      <div class="f">
+        <label>¿Qué mensaje arroja en el GLPI?</label>
+        <textarea id="f-glpi-mensaje" placeholder="Describe el mensaje de error…" rows="2"></textarea>
+      </div>
+    </div>
     <div class="f">
       <label>¿Qué afecta? <span class="req">*</span></label>
       <select id="f-afecta">
@@ -413,7 +423,7 @@ select{
   </div>
 
   <!-- Reembolso -->
-  <div class="card">
+  <div class="card" id="card-reembolso" style="display:none">
     <div class="trow">
       <span class="tlab">💰 ¿Hay reembolso?</span>
       <div class="tog" id="tog-rem" onclick="toggleReembolso()"></div>
@@ -512,6 +522,14 @@ select{
 // ── Configuración ─────────────────────────────────────────────────────────────
 // Pegar aquí la URL del web app de Google Apps Script (Implementaciones → Web App → URL)
 const GAS_URL = 'https://script.google.com/macros/s/AKfycbwwiK8eoC5nmrGhUKpRnIFqjpu5aSefb24O5TEYMNAOTpugmCFjdJAOJQLoNAMIFTk2hg/exec';
+
+// ── Subtemas por tipo ─────────────────────────────────────────────────────────
+const POS_SUBTEMAS = ['CONGELADO', 'NO SALIO EL TICKET', 'ROTO', 'NO IMPRIME'];
+const SUBTEMAS_GENERICO = [
+  'La app no abre', 'La app se cierra sola', 'Error al registrar una venta',
+  'Sin internet / sin señal', 'La impresora no funciona',
+  'El sistema está lento o se congela', 'Problema con la actualización', 'Otro'
+];
 
 // ── Estado ────────────────────────────────────────────────────────────────────
 let stores     = [];
@@ -627,15 +645,44 @@ function setPrio(el, val) {
   prioValue = val;
 }
 
-// ── Temas Generales: mostrar subtipo ──────────────────────────────────────────
+// ── Tipo → subtemas, GLPI, reembolso ─────────────────────────────────────────
 function onTipoChange() {
   var tipo = document.getElementById('f-tipo').value;
+
+  // Otro → texto libre
   document.getElementById('f-tipo-otro-wrap').style.display = tipo === 'Otro' ? '' : 'none';
   if (tipo !== 'Otro') document.getElementById('f-tipo-otro').value = '';
-  document.getElementById('f-subtipo-wrap').style.display = tipo ? '' : 'none';
+
+  // Subtema: ocultar para GLPI, mostrar para el resto cuando hay tipo
+  var showSub = tipo && tipo !== 'GLPI' && tipo !== 'Otro';
+  document.getElementById('f-subtipo-wrap').style.display = showSub ? '' : 'none';
   document.getElementById('f-subtipo').value = '';
   document.getElementById('f-subtipo-otro-wrap').style.display = 'none';
   document.getElementById('f-subtipo-otro').value = '';
+  if (showSub) {
+    var opts = tipo === 'POS' ? POS_SUBTEMAS : SUBTEMAS_GENERICO;
+    document.getElementById('f-subtipo').innerHTML =
+      '<option value="">Seleccionar…</option>' +
+      opts.map(function(o) { return '<option>' + o + '</option>'; }).join('');
+  }
+
+  // GLPI → campos específicos
+  document.getElementById('f-glpi-wrap').style.display = tipo === 'GLPI' ? '' : 'none';
+  if (tipo !== 'GLPI') {
+    document.getElementById('f-glpi-codigo').value = '';
+    document.getElementById('f-glpi-mensaje').value = '';
+  }
+
+  // Reembolso solo visible para POS
+  var showRem = tipo === 'POS';
+  document.getElementById('card-reembolso').style.display = showRem ? '' : 'none';
+  if (!showRem && reembolsoOn) {
+    reembolsoOn = false;
+    document.getElementById('tog-rem').classList.remove('on');
+    document.getElementById('rem-campos').style.display = 'none';
+    document.getElementById('f-rem-monto').value = '';
+    document.getElementById('f-rem-tickets').value = '';
+  }
 }
 
 function onSubtipoChange() {
@@ -768,6 +815,17 @@ async function submitForm() {
       prioridad:     prioValue,
       observaciones: (function() {
         var obs = document.getElementById('f-obs').value.trim();
+        var tipo = document.getElementById('f-tipo').value;
+        // GLPI: concat código y mensaje
+        if (tipo === 'GLPI') {
+          var cod = document.getElementById('f-glpi-codigo').value.trim();
+          var msg = document.getElementById('f-glpi-mensaje').value.trim();
+          var gParts = [];
+          if (cod) gParts.push('#' + cod);
+          if (msg) gParts.push('Mensaje: ' + msg);
+          if (gParts.length) obs = '[GLPI: ' + gParts.join(' | ') + ']' + (obs ? ' | ' + obs : '');
+        }
+        // Subtema
         var sub = document.getElementById('f-subtipo').value;
         if (sub) {
           if (sub === 'Otro') {
@@ -948,6 +1006,10 @@ function resetForm() {
   document.getElementById('f-subtipo-wrap').style.display = 'none';
   document.getElementById('f-subtipo-otro').value = '';
   document.getElementById('f-subtipo-otro-wrap').style.display = 'none';
+  document.getElementById('f-glpi-codigo').value = '';
+  document.getElementById('f-glpi-mensaje').value = '';
+  document.getElementById('f-glpi-wrap').style.display = 'none';
+  document.getElementById('card-reembolso').style.display = 'none';
   document.getElementById('f-afecta').value = '';
   document.getElementById('f-juego').value = '';
   document.getElementById('f-posid').value = '';
