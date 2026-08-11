@@ -296,21 +296,6 @@ select{
       <label>Tipo de incidente <span class="req">*</span></label>
       <select id="f-tipo" onchange="onTipoChange()">
         <option value="">Seleccionar…</option>
-        <option>La app no abre</option>
-        <option>La app se cierra sola</option>
-        <option>Error al registrar una venta</option>
-        <option>Problema con la impresora</option>
-        <option>POS no conecta / sin señal</option>
-        <option>Juego no carga</option>
-        <option>Terminales bloqueadas</option>
-        <option>Temas Generales</option>
-        <option>Otro</option>
-      </select>
-    </div>
-    <div class="f" id="f-subtipo-wrap" style="display:none">
-      <label>Subtema <span class="req">*</span></label>
-      <select id="f-subtipo">
-        <option value="">Seleccionar…</option>
         <option>Pantalla</option>
         <option>POS</option>
         <option>GLPI</option>
@@ -318,6 +303,28 @@ select{
         <option>Tienda Aperturada</option>
         <option>Otro</option>
       </select>
+    </div>
+    <div class="f" id="f-tipo-otro-wrap" style="display:none">
+      <label>Especifica el tipo <span class="req">*</span></label>
+      <input type="text" id="f-tipo-otro" placeholder="Describe el tipo de incidente…" autocomplete="off">
+    </div>
+    <div class="f" id="f-subtipo-wrap" style="display:none">
+      <label>Subtema <span style="color:var(--dim);font-weight:400">(opcional)</span></label>
+      <select id="f-subtipo" onchange="onSubtipoChange()">
+        <option value="">Seleccionar…</option>
+        <option>La app no abre</option>
+        <option>La app se cierra sola</option>
+        <option>Error al registrar una venta</option>
+        <option>Sin internet / sin señal</option>
+        <option>La impresora no funciona</option>
+        <option>El sistema está lento o se congela</option>
+        <option>Problema con la actualización</option>
+        <option>Otro</option>
+      </select>
+    </div>
+    <div class="f" id="f-subtipo-otro-wrap" style="display:none">
+      <label>Especifica el subtema</label>
+      <input type="text" id="f-subtipo-otro" placeholder="Describe el subtema…" autocomplete="off">
     </div>
     <div class="f">
       <label>¿Qué afecta? <span class="req">*</span></label>
@@ -622,9 +629,19 @@ function setPrio(el, val) {
 
 // ── Temas Generales: mostrar subtipo ──────────────────────────────────────────
 function onTipoChange() {
-  var esTG = document.getElementById('f-tipo').value === 'Temas Generales';
-  document.getElementById('f-subtipo-wrap').style.display = esTG ? '' : 'none';
-  if (!esTG) document.getElementById('f-subtipo').value = '';
+  var tipo = document.getElementById('f-tipo').value;
+  document.getElementById('f-tipo-otro-wrap').style.display = tipo === 'Otro' ? '' : 'none';
+  if (tipo !== 'Otro') document.getElementById('f-tipo-otro').value = '';
+  document.getElementById('f-subtipo-wrap').style.display = tipo ? '' : 'none';
+  document.getElementById('f-subtipo').value = '';
+  document.getElementById('f-subtipo-otro-wrap').style.display = 'none';
+  document.getElementById('f-subtipo-otro').value = '';
+}
+
+function onSubtipoChange() {
+  var esOtro = document.getElementById('f-subtipo').value === 'Otro';
+  document.getElementById('f-subtipo-otro-wrap').style.display = esOtro ? '' : 'none';
+  if (!esOtro) document.getElementById('f-subtipo-otro').value = '';
 }
 
 // ── Toggle reembolso ──────────────────────────────────────────────────────────
@@ -690,8 +707,8 @@ function validate() {
     return 'Selecciona una tienda';
   if (!document.getElementById('f-tipo').value)
     return 'Selecciona el tipo de incidente';
-  if (document.getElementById('f-tipo').value === 'Temas Generales' && !document.getElementById('f-subtipo').value)
-    return 'Selecciona el subtema';
+  if (document.getElementById('f-tipo').value === 'Otro' && !document.getElementById('f-tipo-otro').value.trim())
+    return 'Especifica el tipo de incidente';
   if (!document.getElementById('f-afecta').value)
     return 'Indica qué afecta el problema';
   if (!document.getElementById('f-inicio').value)
@@ -740,13 +757,27 @@ async function submitForm() {
       juego:         document.getElementById('f-juego').value,
       tipoIncidente: (function() {
         var t = document.getElementById('f-tipo').value;
-        var s = document.getElementById('f-subtipo').value;
-        return (t === 'Temas Generales' && s) ? 'Temas Generales · ' + s : t;
+        if (t === 'Otro') {
+          var txt = document.getElementById('f-tipo-otro').value.trim();
+          return txt ? 'Otro: ' + txt : 'Otro';
+        }
+        return t;
       })(),
       inicio:        document.getElementById('f-inicio').value,
       descripcion:   document.getElementById('f-desc').value.trim(),
       prioridad:     prioValue,
-      observaciones: document.getElementById('f-obs').value.trim(),
+      observaciones: (function() {
+        var obs = document.getElementById('f-obs').value.trim();
+        var sub = document.getElementById('f-subtipo').value;
+        if (sub) {
+          if (sub === 'Otro') {
+            var subTxt = document.getElementById('f-subtipo-otro').value.trim();
+            sub = subTxt ? 'Otro: ' + subTxt : 'Otro';
+          }
+          obs = '[Subtema: ' + sub + ']' + (obs ? ' | ' + obs : '');
+        }
+        return obs;
+      })(),
       resolucion:    resOn ? document.getElementById('f-res').value.trim() : '',
       reembolsoMonto:   reembolsoOn ? document.getElementById('f-rem-monto').value.trim() : '',
       reembolsoTickets: reembolsoOn ? document.getElementById('f-rem-tickets').value.trim() : '',
@@ -911,8 +942,12 @@ function resetForm() {
   document.getElementById('f-nombre').value = '';
   document.getElementById('f-celular').value = '';
   document.getElementById('f-tipo').value = '';
+  document.getElementById('f-tipo-otro').value = '';
+  document.getElementById('f-tipo-otro-wrap').style.display = 'none';
   document.getElementById('f-subtipo').value = '';
   document.getElementById('f-subtipo-wrap').style.display = 'none';
+  document.getElementById('f-subtipo-otro').value = '';
+  document.getElementById('f-subtipo-otro-wrap').style.display = 'none';
   document.getElementById('f-afecta').value = '';
   document.getElementById('f-juego').value = '';
   document.getElementById('f-posid').value = '';
