@@ -167,6 +167,11 @@ function buscarTiendas(query, partner) {
     .slice(0, 50);
 }
 
+// Returns unique partner types from the catalog (called from Index.html)
+function getPartnerList() {
+  return _unique(_catalogo(), C.TIPO);
+}
+
 function _mapTienda(r) {
   return {
     orgCode:     String(r[C.ORG_CODE]),
@@ -254,6 +259,15 @@ function notificarSlack(datos, ticketId, evUrls) {
     blocks.push({
       type: 'section',
       text: { type: 'mrkdwn', text: '*Observaciones*\n' + datos.observaciones }
+    });
+  }
+  if (datos.reembolsoMonto || datos.reembolsoTickets) {
+    var remLines = ['💰 *Reembolso*'];
+    if (datos.reembolsoMonto)   remLines.push('Monto: S/' + datos.reembolsoMonto);
+    if (datos.reembolsoTickets) remLines.push('Tickets: ' + datos.reembolsoTickets);
+    blocks.push({
+      type: 'section',
+      text: { type: 'mrkdwn', text: remLines.join('\n') }
     });
   }
   if (evUrls && evUrls.length) {
@@ -495,6 +509,12 @@ function notificarTeams(datos, ticketId, evUrls) {
   if (datos.observaciones) {
     html += '<p><b>Observaciones:</b><br>' + datos.observaciones + '</p>';
   }
+  if (datos.reembolsoMonto || datos.reembolsoTickets) {
+    html += '<p><b>💰 Reembolso:</b><br>';
+    if (datos.reembolsoMonto)   html += 'Monto: S/' + datos.reembolsoMonto + '<br>';
+    if (datos.reembolsoTickets) html += 'Tickets: ' + datos.reembolsoTickets;
+    html += '</p>';
+  }
   if (evUrls && evUrls.length) {
     html += '<p><b>Fotos (' + evUrls.length + '):</b> '
       + evUrls.map(function(u, i) {
@@ -578,10 +598,15 @@ function guardarIncidente(datos) {
       ? 'TMB-' + Utilities.formatDate(now, tz, 'MMdd') + '-' + String(sh.getLastRow()).padStart(3, '0')
       : 'TKT-' + Utilities.formatDate(now, tz, 'yyyyMMdd') + '-' + String(sh.getLastRow()).padStart(4, '0');
 
-    // Si el problema fue resuelto antes de reportar, incluir la resolución en observaciones
     var obsValue = datos.observaciones || '';
     if (datos.resolucion) {
       obsValue = '[RESOLUCIÓN: ' + datos.resolucion + ']' + (obsValue ? ' | ' + obsValue : '');
+    }
+    if (datos.reembolsoMonto || datos.reembolsoTickets) {
+      var remParts = [];
+      if (datos.reembolsoMonto)  remParts.push('S/' + datos.reembolsoMonto);
+      if (datos.reembolsoTickets) remParts.push('Tickets: ' + datos.reembolsoTickets);
+      obsValue = '[REEMBOLSO: ' + remParts.join(' | ') + ']' + (obsValue ? ' | ' + obsValue : '');
     }
 
     sh.appendRow([

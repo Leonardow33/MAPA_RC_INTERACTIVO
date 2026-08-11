@@ -1,0 +1,1321 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<title>LOTOBOLA</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+
+body{
+  font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue',sans-serif;
+  background:#fce4ec;
+  height:100vh;
+  height:100dvh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  overflow:hidden;
+}
+
+#chat{
+  width:100%;
+  max-width:460px;
+  height:100vh;
+  height:100dvh;
+  max-height:820px;
+  display:flex;
+  flex-direction:column;
+  background:#fff;
+  border-radius:20px;
+  overflow:hidden;
+  box-shadow:0 12px 48px rgba(0,0,0,.2);
+}
+
+/* HEADER */
+.hdr{
+  background:linear-gradient(135deg,#ad1457 0%,#e91e8c 100%);
+  padding:14px 18px;
+  display:flex;
+  align-items:center;
+  gap:12px;
+  flex-shrink:0;
+}
+.hdr-icon{
+  width:42px;height:42px;
+  background:rgba(255,255,255,.18);
+  border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  font-size:22px;flex-shrink:0;
+}
+.hdr h1{font-size:15px;font-weight:700;color:#fff}
+.hdr p{font-size:12px;color:rgba(255,255,255,.72)}
+
+/* MESSAGES */
+#msgs{
+  flex:1;
+  overflow-y:auto;
+  padding:14px 14px 6px;
+  display:flex;
+  flex-direction:column;
+  gap:6px;
+}
+#msgs::-webkit-scrollbar{width:3px}
+#msgs::-webkit-scrollbar-thumb{background:#cbd5e1;border-radius:2px}
+
+/* BUBBLES */
+.msg{display:flex;align-items:flex-end;gap:8px;animation:su .25s ease}
+@keyframes su{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.msg.bot{flex-direction:row}
+.msg.user{flex-direction:row-reverse}
+
+.av{
+  width:28px;height:28px;
+  background:#e91e8c;
+  border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  font-size:14px;flex-shrink:0;margin-bottom:2px;
+}
+
+.bbl{
+  max-width:78%;
+  padding:9px 13px;
+  border-radius:16px;
+  font-size:14px;
+  line-height:1.55;
+  word-break:break-word;
+}
+.bot .bbl{background:#f1f5f9;color:#0f172a;border-bottom-left-radius:4px}
+.user .bbl{background:#e91e8c;color:#fff;border-bottom-right-radius:4px}
+
+/* TYPING */
+.typing{display:flex;align-items:flex-end;gap:8px;animation:su .2s ease}
+.dots{
+  background:#f1f5f9;
+  padding:10px 14px;
+  border-radius:16px;border-bottom-left-radius:4px;
+  display:flex;gap:4px;align-items:center;
+}
+.dots span{
+  width:7px;height:7px;
+  background:#94a3b8;border-radius:50%;display:inline-block;
+  animation:bn 1.2s infinite ease-in-out;
+}
+.dots span:nth-child(2){animation-delay:.15s}
+.dots span:nth-child(3){animation-delay:.3s}
+@keyframes bn{0%,60%,100%{transform:translateY(0)}30%{transform:translateY(-7px)}}
+
+/* QUICK REPLIES */
+#replies{
+  padding:4px 14px 6px;
+  display:flex;flex-direction:column;gap:6px;
+  flex-shrink:0;
+}
+.filt-inp{
+  width:100%;padding:8px 13px;
+  border:1.5px solid #f48fb1;border-radius:10px;
+  font-size:16px;outline:none;font-family:inherit;
+  transition:border-color .15s;
+}
+.filt-inp:focus{border-color:#e91e8c}
+
+/* Lista estilo iOS */
+.opt-list{
+  border:1.5px solid #f48fb1;
+  border-radius:12px;
+  overflow:hidden;
+  max-height:224px;
+  overflow-y:auto;
+  background:#fff;
+}
+.opt-list::-webkit-scrollbar{width:3px}
+.opt-list::-webkit-scrollbar-thumb{background:#f48fb1;border-radius:2px}
+.opt-item{
+  display:flex;align-items:center;gap:12px;
+  padding:12px 14px;
+  cursor:pointer;
+  border-bottom:1px solid #fce4ec;
+  background:#fff;
+  transition:background .1s;
+  user-select:none;
+}
+.opt-item:last-child{border-bottom:none}
+.opt-item:hover,.opt-item:active{background:#fdf2f8}
+.opt-radio{
+  width:20px;height:20px;
+  border:2px solid #e91e8c;
+  border-radius:50%;
+  flex-shrink:0;
+  position:relative;
+  transition:all .15s;
+}
+.opt-radio.sel{background:#e91e8c;border-color:#e91e8c}
+.opt-radio.sel::after{
+  content:'';
+  width:7px;height:7px;
+  background:#fff;border-radius:50%;
+  position:absolute;top:50%;left:50%;
+  transform:translate(-50%,-50%);
+}
+.opt-text{font-size:14px;color:#0f172a;flex:1;font-weight:500}
+.opt-item.dimmed{opacity:.35;pointer-events:none}
+
+/* SEARCH */
+#swrap{display:none;padding:6px 14px;flex-shrink:0}
+#sinp{
+  width:100%;padding:9px 13px;
+  border:1.5px solid #e2e8f0;border-radius:10px;
+  font-size:16px;outline:none;font-family:inherit;
+  transition:border-color .15s;
+}
+#sinp:focus{border-color:#e91e8c}
+#slist{
+  display:none;max-height:190px;overflow-y:auto;
+  border:1.5px solid #e2e8f0;border-radius:10px;margin-top:6px;
+}
+#slist::-webkit-scrollbar{width:3px}
+#slist::-webkit-scrollbar-thumb{background:#cbd5e1;border-radius:2px}
+.si{padding:9px 13px;cursor:pointer;border-bottom:1px solid #f1f5f9;transition:background .12s}
+.si:hover{background:#f8fafc}
+.si:last-child{border-bottom:none}
+.si .sn{font-size:13px;font-weight:600;color:#0f172a}
+.si .ss{font-size:11px;color:#64748b;margin-top:1px}
+
+/* INPUT */
+#ia{
+  padding:10px 12px;
+  border-top:1px solid #e8ecf0;
+  display:flex;gap:8px;align-items:flex-end;
+  flex-shrink:0;
+}
+#txt{
+  flex:1;padding:9px 13px;
+  border:1.5px solid #e2e8f0;border-radius:20px;
+  font-size:16px;outline:none;resize:none;
+  max-height:90px;font-family:inherit;
+  transition:border-color .15s;line-height:1.4;
+}
+#txt:focus{border-color:#e91e8c}
+#snd{
+  width:40px;height:40px;
+  background:#e91e8c;color:#fff;border:none;border-radius:50%;
+  cursor:pointer;display:flex;align-items:center;justify-content:center;
+  flex-shrink:0;transition:background .15s,transform .1s;
+}
+#snd:hover{background:#ad1457}
+#snd:active{transform:scale(.92)}
+#snd:disabled{background:#cbd5e1;cursor:default;transform:none}
+
+/* SUMMARY CARD */
+.card{
+  background:#f8fafc;border:1.5px solid #e2e8f0;
+  border-radius:12px;padding:12px 14px;
+  font-size:13px;width:100%;
+}
+.crow{display:flex;justify-content:space-between;align-items:flex-start;gap:8px;padding:3px 0}
+.cl{color:#64748b;font-size:12px;white-space:nowrap;padding-top:1px}
+.cv{color:#0f172a;font-weight:600;font-size:12px;text-align:right;max-width:64%;white-space:normal}
+.cdiv{border:none;border-top:1px solid #e2e8f0;margin:6px 0}
+
+/* TICKET */
+.tbox{text-align:center;padding:10px 0}
+.tico{font-size:40px}
+.tlbl{font-size:14px;font-weight:700;color:#0f172a;margin:6px 0 4px}
+.tid{
+  display:inline-block;font-size:18px;font-weight:800;color:#e91e8c;
+  background:#fce4ec;border:1.5px dashed #f48fb1;
+  padding:6px 16px;border-radius:8px;letter-spacing:1px;margin:4px 0;
+}
+.thint{font-size:11px;color:#94a3b8;margin-top:4px}
+
+/* EVIDENCE UPLOAD */
+#ev-wrap{display:none;padding:6px 14px 8px;flex-shrink:0}
+.ev-lbl{font-size:12px;color:#64748b;margin-bottom:6px;text-align:center}
+.ev-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-bottom:8px}
+.ev-thumb{aspect-ratio:1;border-radius:10px;overflow:hidden;position:relative;background:#f1f5f9}
+.ev-thumb img{width:100%;height:100%;object-fit:cover}
+.ev-rm{
+  position:absolute;top:3px;right:3px;
+  width:20px;height:20px;background:rgba(0,0,0,.55);color:#fff;
+  border-radius:50%;font-size:14px;font-weight:700;
+  display:flex;align-items:center;justify-content:center;
+  cursor:pointer;border:none;padding:0;line-height:1
+}
+.ev-add{
+  aspect-ratio:1;border-radius:10px;
+  border:2px dashed #f48fb1;
+  display:flex;align-items:center;justify-content:center;
+  cursor:pointer;background:#fff9fb;color:#e91e8c;font-size:26px;
+  transition:background .12s
+}
+.ev-add:hover,.ev-add:active{background:#fce4ec}
+.ev-btns{display:flex;gap:8px}
+.ev-skip{
+  flex:1;padding:10px;background:#f1f5f9;color:#64748b;
+  border:none;border-radius:10px;font-size:14px;font-weight:600;
+  cursor:pointer;font-family:inherit
+}
+.ev-ok{
+  flex:2;padding:10px;background:#e91e8c;color:#fff;
+  border:none;border-radius:10px;font-size:14px;font-weight:600;
+  cursor:pointer;font-family:inherit
+}
+
+@media(max-width:460px){
+  #chat{border-radius:0;max-height:100vh;max-height:100dvh}
+  body{align-items:stretch}
+  .bbl{max-width:86%}
+  #replies{max-height:130px}
+  .rbtn{font-size:14px;padding:8px 14px}
+  .hdr h1{font-size:16px}
+}
+</style>
+</head>
+<body>
+<div id="chat">
+  <div class="hdr">
+    <div class="hdr-icon">🎱</div>
+    <div>
+      <h1>LOTOBOLA</h1>
+      <p>Reporte de incidentes · Online</p>
+    </div>
+  </div>
+
+  <div id="msgs"></div>
+
+  <div id="swrap">
+    <input id="sinp" type="text" placeholder="Nombre, distrito o código de tienda..." autocomplete="off" autocorrect="off">
+    <div id="slist"></div>
+  </div>
+
+  <div id="ev-wrap">
+    <div class="ev-lbl" id="ev-count">Adjunta hasta 4 fotos del incidente</div>
+    <div class="ev-grid" id="ev-grid"></div>
+    <input type="file" id="ev-file" accept="image/*" multiple style="display:none" onchange="onFilesSelected(event)">
+    <div class="ev-btns">
+      <button class="ev-skip" onclick="submitEvidencia(false)">Sin fotos</button>
+      <button class="ev-ok" onclick="submitEvidencia(true)">Continuar →</button>
+    </div>
+  </div>
+
+  <div id="replies"></div>
+
+  <div id="ia">
+    <textarea id="txt" rows="1" placeholder="Escribe tu respuesta..."></textarea>
+    <button id="snd" disabled>
+      <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+           stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="22" y1="2" x2="11" y2="13"/>
+        <polygon points="22 2 15 22 11 13 2 9 22 2"/>
+      </svg>
+    </button>
+  </div>
+</div>
+
+<script>
+// ── CONSTANTES ──────────────────────────────────────────────
+const EJEMPLO_VERSION_URL = 'https://drive.google.com/thumbnail?id=1tgAC95fEy9c4JqQqtBPFsLFzGYhfYnON&sz=w800';
+
+const STEP = {
+  HOME:'home',
+  NOMBRE:'nombre', CELULAR:'celular', CELULAR_CONFIRM:'celular_confirm',
+  PARTNER:'partner', CASA_CHECK:'casa_check',
+  GZ:'gz', JZ:'jz', SUPERVISOR:'supervisor', TIENDA_SUPERVISOR:'tienda_supervisor', BUSCAR:'buscar', TIENDA:'tienda',
+  TIPO:'tipo',
+  TIPO_CAT:'tipo_cat', TIPO_SUB:'tipo_sub', TIPO_GEN:'tipo_gen', TIPS_TAMBO:'tips_tambo', RESOLUCION:'resolucion',
+  APP_VER:'app_ver', APP_VER_CONFIRM:'app_ver_confirm', AFECTA:'afecta',
+  JUEGO_CHECK:'juego_check', JUEGO:'juego', JUEGO_RASPE:'juego_raspe', INICIO:'inicio',
+  DESC:'desc', PRIORIDAD:'prioridad',
+  OBS:'obs',
+  REEMBOLSO_CHECK:'reembolso_check', REEMBOLSO_MONTO:'reembolso_monto', REEMBOLSO_TICKETS:'reembolso_tickets',
+  EVIDENCIA:'evidencia', CONFIRMAR:'confirmar', DONE:'done',
+  CONSULTAR:'consultar', CONSULTAR_RESULT:'consultar_result'
+};
+
+const PARTNERS_PRIORIDAD_ALTA = ['CENCOSUD', 'TAMBO'];
+const PARTNERS_BUSQUEDA_DIRECTA = ['TAMBO'];
+
+const TIPOS = [
+  'La app no abre',
+  'No puedo hacer ventas / cobros',
+  'El equipo no enciende o no responde',
+  'Sin internet / sin señal',
+  'La impresora no funciona',
+  'El sistema está lento o se congela',
+  'Problema con la actualización',
+  'Temas Generales',
+  'Otro problema técnico'
+];
+
+const TIPOS_GENERALES = ['Pantalla', 'POS', 'GLPI', 'Sistema', 'Tienda Aperturada', 'Otro'];
+
+const TIPOS_TAMBO = {
+  'POS': [
+    'POS no responde / congelado',
+    'POS no enciende / no imprime',
+    'Otro'
+  ],
+  'Cobro / Pago de Premio': [
+    'No imprimió boleto',
+    'Boleto reimpreso',
+    'No puedo pagar premio',
+    'Otro'
+  ],
+  'Monitor': [
+    'No enciende',
+    'Pantalla blanca',
+    'Otro'
+  ]
+};
+
+const SOLUCIONES_TAMBO = {
+  'POS · POS no responde / congelado': [
+    '🔄 Mantén presionado el botón de encendido 10 segundos para reiniciar',
+    '🔌 Verifica que el cable de poder esté bien conectado',
+    '📶 Comprueba que tenga señal de internet o WiFi activo'
+  ],
+  'POS · POS no enciende / no imprime': [
+    '🔌 Verifica los cables de poder y de la impresora',
+    '🖨️ Revisa que haya papel y la tapa de la impresora esté cerrada',
+    '🔄 Desenchufa y vuelve a enchufar el equipo desde el tomacorriente'
+  ],
+  'POS · Otro': [
+    '🔄 Reinicia el POS (botón de encendido 10 segundos)',
+    '📶 Verifica la conexión a internet'
+  ],
+  'Cobro / Pago de Premio · No imprimió boleto': [
+    '🖨️ Verifica que haya papel en la impresora',
+    '🔄 Intenta reimprimir desde "Últimas ventas" en el sistema',
+    '📋 El boleto puede estar en el historial aunque no haya impreso físicamente'
+  ],
+  'Cobro / Pago de Premio · Boleto reimpreso': [
+    '⚠️ Anula el boleto original antes de reimprimir para evitar doble cobro',
+    '📋 Guarda ambas copias para el registro'
+  ],
+  'Cobro / Pago de Premio · No puedo pagar premio': [
+    '💰 Premios altos requieren aprobación — revisa el monto límite de caja',
+    '🔄 Cierra sesión y vuelve a ingresar al sistema',
+    '📞 Si supera el límite, llama a soporte para autorización'
+  ],
+  'Cobro / Pago de Premio · Otro': [
+    '🔄 Reinicia el sistema y vuelve a intentar la operación'
+  ],
+  'Monitor · No enciende': [
+    '🔌 Revisa el cable de poder del monitor (parte trasera o lateral)',
+    '🔘 El botón de encendido está en la parte lateral o trasera del monitor',
+    '🔄 Reinicia el equipo completo'
+  ],
+  'Monitor · Pantalla blanca': [
+    '🔌 Reconecta el cable HDMI o VGA entre el monitor y el POS',
+    '🔄 Reinicia el equipo completo',
+    '📺 Verifica que el monitor esté en la entrada correcta'
+  ],
+  'Monitor · Otro': [
+    '🔌 Verifica todos los cables del monitor',
+    '🔄 Reinicia el equipo completo'
+  ]
+};
+
+// ── ESTADO ───────────────────────────────────────────────────
+let step = STEP.HOME;
+let data = {};
+let storeList = [];
+let srvTyping = null;
+var _searchDebounce = null;
+
+// ── SERVER WRAPPER ───────────────────────────────────────────
+function call(fn) {
+  const args = Array.prototype.slice.call(arguments, 1);
+  return new Promise(function(res, rej) {
+    var runner = google.script.run
+      .withSuccessHandler(res)
+      .withFailureHandler(rej);
+    runner[fn].apply(runner, args);
+  });
+}
+
+// ── DOM ──────────────────────────────────────────────────────
+function esc(s) {
+  return String(s || '')
+    .replace(/&/g,'&amp;').replace(/</g,'&lt;')
+    .replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+function scrollBot() {
+  var m = document.getElementById('msgs');
+  m.scrollTop = m.scrollHeight;
+}
+
+function addMsg(html, who) {
+  var m = document.getElementById('msgs');
+  var d = document.createElement('div');
+  d.className = 'msg ' + who;
+  if (who === 'bot') {
+    d.innerHTML = '<div class="av">🎱</div><div class="bbl">' + html + '</div>';
+  } else {
+    d.innerHTML = '<div class="bbl">' + esc(html) + '</div>';
+  }
+  m.appendChild(d);
+  scrollBot();
+}
+
+function addCard(html) {
+  var m = document.getElementById('msgs');
+  var d = document.createElement('div');
+  d.className = 'msg bot';
+  d.style.animation = 'su .25s ease';
+  d.innerHTML = '<div class="av">🎱</div><div style="max-width:90%">' + html + '</div>';
+  m.appendChild(d);
+  scrollBot();
+}
+
+function botMsg(html, ms) {
+  return new Promise(function(resolve) {
+    var m = document.getElementById('msgs');
+    var t = document.createElement('div');
+    t.className = 'typing';
+    t.innerHTML = '<div class="av">🎱</div><div class="dots"><span></span><span></span><span></span></div>';
+    m.appendChild(t);
+    scrollBot();
+    setTimeout(function() {
+      t.remove();
+      addMsg(html, 'bot');
+      resolve();
+    }, ms || 520);
+  });
+}
+
+function startSrvTyping() {
+  if (srvTyping) return;
+  var m = document.getElementById('msgs');
+  srvTyping = document.createElement('div');
+  srvTyping.className = 'typing';
+  srvTyping.innerHTML = '<div class="av">🎱</div><div class="dots"><span></span><span></span><span></span></div>';
+  m.appendChild(srvTyping);
+  scrollBot();
+}
+
+function stopSrvTyping() {
+  if (srvTyping) { srvTyping.remove(); srvTyping = null; }
+}
+
+// ── CONTROLES ────────────────────────────────────────────────
+function lockInput() {
+  document.getElementById('txt').disabled = true;
+  document.getElementById('snd').disabled = true;
+}
+
+function openInput(ph) {
+  var t = document.getElementById('txt');
+  t.disabled = false;
+  t.placeholder = ph || 'Escribe tu respuesta...';
+  t.value = '';
+  document.getElementById('snd').disabled = false;
+  t.focus();
+}
+
+function clearReplies() {
+  document.getElementById('replies').innerHTML = '';
+}
+
+function _makeOptItem(label, cb, list) {
+  var item = document.createElement('div');
+  item.className = 'opt-item';
+  item.innerHTML = '<div class="opt-radio"></div><span class="opt-text">' + esc(label) + '</span>';
+  item.onclick = function() {
+    item.querySelector('.opt-radio').classList.add('sel');
+    list.querySelectorAll('.opt-item').forEach(function(i) {
+      if (i !== item) i.classList.add('dimmed');
+    });
+    setTimeout(function() { clearReplies(); cb(label); }, 220);
+  };
+  return item;
+}
+
+var OPTS_DELAY = 400;
+
+function showReplies(opts, cb) {
+  clearReplies();
+  lockInput();
+  setTimeout(function() {
+    var r = document.getElementById('replies');
+    var list = document.createElement('div');
+    list.className = 'opt-list';
+    opts.forEach(function(o) { list.appendChild(_makeOptItem(o, cb, list)); });
+    r.appendChild(list);
+    scrollBot();
+  }, OPTS_DELAY);
+}
+
+var _replyCb = null;
+
+function showFilteredReplies(opts, cb, ph) {
+  clearReplies();
+  lockInput();
+  _replyCb = cb;
+  setTimeout(function() {
+    var r = document.getElementById('replies');
+
+    var inp = document.createElement('input');
+    inp.className = 'filt-inp';
+    inp.type = 'text';
+    inp.autocomplete = 'off';
+    inp.placeholder = ph || 'Escribe para filtrar...';
+
+    var list = document.createElement('div');
+    list.className = 'opt-list';
+
+    r.appendChild(inp);
+    r.appendChild(list);
+
+    function render(items) {
+      list.innerHTML = '';
+      if (!items.length) {
+        list.innerHTML = '<div class="opt-item"><span class="opt-text" style="color:#94a3b8">Sin resultados</span></div>';
+        return;
+      }
+      items.forEach(function(o) {
+        list.appendChild(_makeOptItem(o, function(v) {
+          if (_replyCb) { var f = _replyCb; _replyCb = null; f(v); }
+        }, list));
+      });
+    }
+
+    render(opts);
+    scrollBot();
+
+    inp.addEventListener('input', function() {
+      var q = inp.value.trim().toLowerCase();
+      render(q
+        ? opts.filter(function(o) { return o.toLowerCase().indexOf(q) > -1; })
+        : opts
+      );
+    });
+
+    setTimeout(function() { inp.focus(); }, 60);
+  }, OPTS_DELAY);
+}
+
+function hideSearch() {
+  document.getElementById('swrap').style.display = 'none';
+  document.getElementById('slist').style.display = 'none';
+  document.getElementById('sinp').value = '';
+  clearTimeout(_searchDebounce);
+}
+
+function showServerSearch(partner) {
+  lockInput();
+  setTimeout(function() {
+    var wrap = document.getElementById('swrap');
+    wrap.style.display = 'block';
+    var sl = document.getElementById('slist');
+    sl.style.display = 'block';
+    sl.innerHTML = '<div style="padding:12px;color:#94a3b8;text-align:center;font-size:13px">Escribe al menos 2 caracteres...</div>';
+    var inp = document.getElementById('sinp');
+    inp.value = '';
+    inp.placeholder = 'Nombre, código o distrito...';
+    inp.oninput = function() {
+      var q = inp.value.trim();
+      clearTimeout(_searchDebounce);
+      if (q.length < 2) {
+        sl.innerHTML = '<div style="padding:12px;color:#94a3b8;text-align:center;font-size:13px">Escribe al menos 2 caracteres...</div>';
+        return;
+      }
+      _searchDebounce = setTimeout(function() {
+        sl.innerHTML = '<div style="padding:12px;color:#94a3b8;text-align:center;font-size:13px">Buscando...</div>';
+        call('buscarTiendas', q, partner || '').then(function(results) {
+          storeList = results || [];
+          renderStores(storeList.slice(0, 25));
+        }).catch(function() {
+          sl.innerHTML = '<div style="padding:12px;color:#e91e8c;text-align:center;font-size:13px">Error al buscar. Intenta de nuevo.</div>';
+        });
+      }, 350);
+    };
+    scrollBot();
+    setTimeout(function() { inp.focus(); }, 60);
+  }, OPTS_DELAY);
+}
+
+function showSearch(list) {
+  storeList = list;
+  lockInput();
+  setTimeout(function() {
+    document.getElementById('swrap').style.display = 'block';
+    renderStores(list.slice(0, 12));
+    scrollBot();
+    var inp = document.getElementById('sinp');
+    inp.value = '';
+    inp.focus();
+    inp.oninput = function() {
+      var q = inp.value.trim().toLowerCase();
+      var filtered = q
+        ? storeList.filter(function(s) {
+            return s.nombre.toLowerCase().indexOf(q) > -1 ||
+                   (s.distrito && s.distrito.toLowerCase().indexOf(q) > -1) ||
+                   (s.orgCode && s.orgCode.toLowerCase().indexOf(q) > -1);
+          })
+        : storeList.slice(0, 12);
+      renderStores(filtered.slice(0, 25));
+    };
+  }, OPTS_DELAY);
+}
+
+function renderStores(list) {
+  var sl = document.getElementById('slist');
+  if (!list.length) {
+    sl.style.display = 'block';
+    sl.innerHTML = '<div style="padding:12px;color:#94a3b8;text-align:center;font-size:13px">Sin resultados</div>';
+    return;
+  }
+  sl.style.display = 'block';
+  sl.innerHTML = list.map(function(s) {
+    return '<div class="si" onclick="pickStore(\'' + esc(s.orgCode).replace(/'/g,'&#39;') + '\')">'
+      + '<div class="sn">' + esc(s.nombre)
+      + ' <span style="color:#94a3b8;font-weight:400;font-size:11px">#' + esc(s.orgCode) + '</span></div>'
+      + '<div class="ss">' + esc(s.distrito) + (s.direccion ? ' · ' + esc(s.direccion.substring(0,40)) : '') + '</div>'
+      + '</div>';
+  }).join('');
+}
+
+function pickStore(orgCode) {
+  var t = storeList.find(function(s) { return String(s.orgCode) === String(orgCode); });
+  if (!t) return;
+  hideSearch();
+  data.tienda = t;
+  data.posId  = t.posId || '';
+  if (!data.gz) data.gz = t.gz || '';
+  if (!data.jz) data.jz = t.jz || '';
+  addMsg(t.nombre + ' (#' + t.orgCode + ')', 'user');
+  step = STEP.TIPO;
+  nextStep();
+}
+
+// ── TEXT INPUT ───────────────────────────────────────────────
+function sendText() {
+  var val = document.getElementById('txt').value.trim();
+  if (!val) return;
+  document.getElementById('txt').value = '';
+  document.getElementById('txt').style.height = 'auto';
+  lockInput();
+  addMsg(val, 'user');
+
+  if (step === STEP.CONSULTAR) {
+    data.consultaId = val.toUpperCase().trim();
+    step = STEP.CONSULTAR_RESULT; nextStep();
+  } else if (step === STEP.NOMBRE) {
+    data.nombre = val; step = STEP.CELULAR; nextStep();
+  } else if (step === STEP.CELULAR) {
+    var cel = val.replace(/\s/g,'');
+    if (!/^9\d{8}$/.test(cel)) {
+      botMsg('⚠️ Ingresa un número de celular peruano válido (9 dígitos, empieza con 9). Ej: <strong>987654321</strong>');
+      openInput('Tu número de celular...');
+      return;
+    }
+    data.celular = cel; step = STEP.CELULAR_CONFIRM; nextStep();
+  } else if (step === STEP.APP_VER) {
+    data.appVersion = val; step = STEP.APP_VER_CONFIRM; nextStep();
+  } else if (step === STEP.INICIO) {
+    data.inicio = val; step = STEP.DESC; nextStep();
+  } else if (step === STEP.DESC) {
+    data.descripcion = val; step = STEP.PRIORIDAD; nextStep();
+  } else if (step === STEP.OBS) {
+    var lo = val.toLowerCase();
+    data.observaciones = (lo === 'no' || lo === '-' || lo === 'n/a') ? '' : val;
+    step = STEP.REEMBOLSO_CHECK; nextStep();
+  } else if (step === STEP.REEMBOLSO_MONTO) {
+    data.reembolsoMonto = val;
+    step = STEP.REEMBOLSO_TICKETS; nextStep();
+  } else if (step === STEP.REEMBOLSO_TICKETS) {
+    data.reembolsoTickets = val;
+    step = STEP.EVIDENCIA; nextStep();
+  } else if (step === STEP.RESOLUCION) {
+    data.resolucion = val;
+    data.descripcion = data.descripcion || '(Problema resuelto) ' + val;
+    data.inicio      = data.inicio || 'Resuelto antes de reportar';
+    data.afecta      = data.afecta || 'No aplica';
+    data.juego       = data.juego || '';
+    data.observaciones = '';
+    data.evFiles     = [];
+    data.appVersion  = data.appVersion || 'N/A';
+    data.prioridad   = data.prioridad  || 'Alta 🔴 — No puedo trabajar';
+    step = STEP.CONFIRMAR; nextStep();
+  }
+}
+
+// ── FLOW ─────────────────────────────────────────────────────
+async function nextStep() {
+  try {
+    switch (step) {
+
+      case STEP.HOME: {
+        await botMsg('¿Qué necesitas hacer?');
+        showReplies(['🚨 Reportar un problema nuevo', '🔍 Consultar estado de mi ticket'], function(v) {
+          addMsg(v, 'user');
+          if (v.startsWith('🚨')) { step = STEP.NOMBRE; nextStep(); }
+          else { step = STEP.CONSULTAR; nextStep(); }
+        });
+        break;
+      }
+
+      case STEP.CONSULTAR: {
+        await botMsg('Escribe el <strong>número de tu ticket</strong>:<br><small style="color:#94a3b8">Ej: TKT-20260619-0001</small>');
+        openInput('TKT-...');
+        break;
+      }
+
+      case STEP.CONSULTAR_RESULT: {
+        startSrvTyping();
+        var tkt = await call('consultarTicket', data.consultaId);
+        stopSrvTyping();
+        if (!tkt) {
+          await botMsg('❌ No encontré el ticket <strong>' + esc(data.consultaId) + '</strong>.<br>Verifica el número e intenta de nuevo.');
+          step = STEP.CONSULTAR; nextStep();
+        } else {
+          var esBg  = tkt.estado.includes('Atendido')  ? '#e8f5e9' :
+                      tkt.estado.includes('proceso')   ? '#fff8e1' :
+                      tkt.estado.includes('Derivado')  ? '#ede7f6' : '#fce4ec';
+          var esTxt = tkt.estado.includes('Atendido')  ? '#2e7d32' :
+                      tkt.estado.includes('proceso')   ? '#f57f17' :
+                      tkt.estado.includes('Derivado')  ? '#4527a0' : '#c62828';
+          var card = '<div class="card">'
+            + '<div style="margin-bottom:8px"><div style="font-size:11px;color:#888">Ticket</div>'
+            + '<div style="font-size:15px;font-weight:800;color:#e91e8c;font-family:monospace;letter-spacing:.5px">' + esc(tkt.id) + '</div></div>'
+            + '<div style="display:inline-flex;align-items:center;gap:6px;background:' + esBg + ';color:' + esTxt + ';padding:6px 14px;border-radius:50px;font-size:13px;font-weight:700;margin-bottom:10px">'
+            + esc(tkt.estado) + '</div>'
+            + '<hr class="cdiv">'
+            + row('Tienda', tkt.tienda)
+            + row('Partner', tkt.partner)
+            + row('Fecha', tkt.fecha + ' ' + tkt.hora)
+            + row('Problema', tkt.tipo)
+            + row('Prioridad', tkt.prioridad)
+            + '</div>';
+          addCard(card);
+          await botMsg('¿Necesitas algo más?');
+          showReplies(['🔍 Consultar otro ticket', '🚨 Reportar un problema'], function(v) {
+            addMsg(v, 'user');
+            if (v.startsWith('🔍')) { data = {}; step = STEP.CONSULTAR; nextStep(); }
+            else { data = {}; step = STEP.NOMBRE; nextStep(); }
+          });
+        }
+        break;
+      }
+
+      case STEP.NOMBRE: {
+        await botMsg('¿Cuál es tu <strong>nombre completo</strong>?');
+        openInput('Tu nombre completo...');
+        break;
+      }
+
+      case STEP.CELULAR: {
+        await botMsg('¿Cuál es tu <strong>número de celular</strong>? <small style="color:#94a3b8">(para contactarte si es necesario)</small>');
+        openInput('Ej: 987654321');
+        break;
+      }
+
+      case STEP.CELULAR_CONFIRM: {
+        await botMsg('Tu número es <strong style="font-size:16px;color:#e91e8c">' + esc(data.celular) + '</strong> — ¿es correcto?');
+        showReplies(['✅ Sí, es correcto', '✏️ No, corregir'], function(v) {
+          addMsg(v, 'user');
+          if (v.startsWith('✅')) {
+            // ▼ Si vino del mapa (tienda y partner ya cargados), saltar directo a TIPO ▼
+            step = (data.tienda && data.partner) ? STEP.TIPO : STEP.PARTNER;
+            nextStep();
+          } else {
+            step = STEP.CELULAR; nextStep();
+          }
+        });
+        break;
+      }
+
+      case STEP.PARTNER: {
+        await botMsg('¡Hola, <strong>' + esc(data.nombre) + '</strong>! 👋');
+        startSrvTyping();
+        var partners = await call('getPartnerList');
+        stopSrvTyping();
+        await botMsg('¿Para qué <strong>empresa</strong> trabajas?');
+        showFilteredReplies(partners, function(v) {
+          data.partner = v; addMsg(v,'user');
+          step = STEP.BUSCAR; nextStep();
+        }, 'Escribe el nombre del Partner...');
+        break;
+      }
+
+      case STEP.CASA_CHECK:
+      case STEP.GZ:
+      case STEP.JZ:
+      case STEP.SUPERVISOR:
+      case STEP.TIENDA_SUPERVISOR:
+      case STEP.TIENDA:
+        step = STEP.BUSCAR; nextStep(); break;
+
+      case STEP.BUSCAR: {
+        await botMsg('Busca tu tienda por <strong>nombre, distrito o código</strong>:');
+        showServerSearch(data.partner);
+        break;
+      }
+
+      case STEP.TIPO: {
+        if (data.partner && data.partner.toUpperCase() === 'TAMBO') {
+          step = STEP.TIPO_CAT; nextStep();
+          break;
+        }
+        await botMsg('¿Cuál es el <strong>problema</strong>?');
+        showReplies(TIPOS, function(v) {
+          data.tipoIncidente = v; addMsg(v,'user');
+          if (v === 'Temas Generales') { step = STEP.TIPO_GEN; nextStep(); }
+          else { step = STEP.APP_VER; nextStep(); }
+        });
+        break;
+      }
+
+      case STEP.TIPO_CAT: {
+        await botMsg('¿Cuál es el <strong>área del problema</strong>?');
+        showReplies(Object.keys(TIPOS_TAMBO), function(v) {
+          data._tipoCategoria = v; addMsg(v, 'user');
+          step = STEP.TIPO_SUB; nextStep();
+        });
+        break;
+      }
+
+      case STEP.TIPO_GEN: {
+        await botMsg('¿Cuál es el <strong>tema</strong>?');
+        showReplies(TIPOS_GENERALES, function(v) {
+          data.tipoIncidente = 'Temas Generales · ' + v;
+          addMsg(v, 'user');
+          data.afecta     = 'No aplica';
+          data.juego      = '';
+          data.appVersion = 'N/A';
+          step = STEP.INICIO; nextStep();
+        });
+        break;
+      }
+
+      case STEP.TIPO_SUB: {
+        await botMsg('¿Cuál es el <strong>problema específico</strong>?');
+        var subOpts = TIPOS_TAMBO[data._tipoCategoria] || [];
+        showReplies(subOpts, function(v) {
+          data.tipoIncidente = data._tipoCategoria + ' · ' + v;
+          addMsg(v, 'user');
+          step = STEP.TIPS_TAMBO; nextStep();
+        });
+        break;
+      }
+
+      case STEP.TIPS_TAMBO: {
+        var tips = SOLUCIONES_TAMBO[data.tipoIncidente] || [];
+        if (tips.length) {
+          var tipsHtml = '<div class="card" style="padding:10px">'
+            + '<div style="font-size:11px;color:#64748b;font-weight:600;margin-bottom:8px">💡 Soluciones típicas para este problema:</div>'
+            + tips.map(function(t) {
+                return '<div style="font-size:13px;padding:4px 0;border-bottom:1px solid #f1f5f9">' + t + '</div>';
+              }).join('')
+            + '</div>';
+          addCard(tipsHtml);
+        }
+        await botMsg('¿El problema <strong>ya se resolvió</strong> con alguna de estas soluciones?');
+        showReplies(['✅ Sí, ya se resolvió', '❌ No, el problema persiste'], function(v) {
+          addMsg(v, 'user');
+          if (v.startsWith('✅')) {
+            step = STEP.RESOLUCION; nextStep();
+          } else {
+            step = (data._tipoCategoria === 'POS') ? STEP.APP_VER : STEP.AFECTA;
+            nextStep();
+          }
+        });
+        break;
+      }
+
+      case STEP.RESOLUCION: {
+        await botMsg('¡Qué bien! ¿Cómo lo resolviste? <small style="color:#94a3b8">(para nuestros registros)</small>');
+        openInput('Describe brevemente la solución...');
+        break;
+      }
+
+      case STEP.APP_VER: {
+        await botMsg('¿Qué <strong>versión</strong> tiene la app?<br>'
+          + '<small style="color:#94a3b8">Está en Configuración → Acerca de la app</small><br>'
+          + '<button onclick="mostrarEjemploVersion()" style="margin-top:7px;background:#fce4ec;border:none;color:#e91e8c;font-size:12px;font-weight:600;cursor:pointer;padding:5px 12px;border-radius:8px;font-family:inherit">📷 Ver dónde encontrarla</button>');
+        openInput('Ej: 3.2.1 ...');
+        break;
+      }
+
+      case STEP.APP_VER_CONFIRM: {
+        await botMsg('La versión que indicaste es <strong style="font-size:16px;color:#e91e8c">' + esc(data.appVersion) + '</strong> — ¿es correcta?');
+        showReplies(['✅ Sí, es correcta', '✏️ No, corregir'], function(v) {
+          addMsg(v, 'user');
+          if (v.startsWith('✅')) { step = STEP.AFECTA; nextStep(); }
+          else { step = STEP.APP_VER; nextStep(); }
+        });
+        break;
+      }
+
+      case STEP.AFECTA: {
+        await botMsg('¿El problema es en <strong>Loterias, Raspa</strong> o en los dos?');
+        showReplies(['Solo Loterias','Solo Raspa','Loterias y Raspa','No aplica'], function(v) {
+          data.afecta = v; addMsg(v,'user');
+          if (v === 'No aplica') { data.juego = ''; step = STEP.INICIO; nextStep(); }
+          else { step = STEP.JUEGO_CHECK; nextStep(); }
+        });
+        break;
+      }
+
+      case STEP.JUEGO_CHECK: {
+        await botMsg('¿El problema es en un <strong>juego específico</strong>?');
+        showReplies(['Sí, es un juego específico','No, afecta a todo'], function(v) {
+          addMsg(v,'user');
+          if (v.startsWith('Sí')) {
+            if (data.afecta === 'Solo Raspa') { step = STEP.JUEGO_RASPE; nextStep(); }
+            else { step = STEP.JUEGO; nextStep(); }
+          } else {
+            data.juego = ''; step = STEP.INICIO; nextStep();
+          }
+        });
+        break;
+      }
+
+      case STEP.JUEGO: {
+        await botMsg('¿En qué <strong>juego</strong> tienes el problema?');
+        var juegoOpts = ['Lakidey','PozoPower','PozoPowerGo','Elige 3'];
+        if (data.afecta !== 'Solo Loterias') juegoOpts.push('Raspes');
+        showReplies(juegoOpts, function(v) {
+          addMsg(v, 'user');
+          if (v === 'Raspes') { step = STEP.JUEGO_RASPE; nextStep(); }
+          else { data.juego = v; step = STEP.INICIO; nextStep(); }
+        });
+        break;
+      }
+
+      case STEP.JUEGO_RASPE: {
+        await botMsg('¿Cuál es el <strong>raspe</strong>?');
+        showReplies(['Jack','Blin o Blin','7 Pecados','Gol de Oro','Raspa Wicho','Rojo y Negro','El Dorado'], function(v) {
+          data.juego = 'Raspes · ' + v;
+          addMsg(v, 'user');
+          step = STEP.INICIO; nextStep();
+        });
+        break;
+      }
+
+      case STEP.INICIO: {
+        if (data.partner && data.partner.toUpperCase() === 'TAMBO') {
+          await botMsg('¿Desde <strong>cuándo</strong> tienes el problema?');
+          showReplies(['Ahora mismo', 'Hace menos de 1 hora', 'Hoy en la mañana', 'Ayer', 'Esta semana'], function(v) {
+            data.inicio = v; addMsg(v, 'user'); step = STEP.DESC; nextStep();
+          });
+          break;
+        }
+        await botMsg('¿Desde <strong>cuándo</strong> tienes este problema? (fecha u hora aproximada)');
+        openInput('Ej: Hoy a las 10:00 am...');
+        break;
+      }
+
+      case STEP.DESC: {
+        await botMsg('Cuéntanos <strong>qué pasó</strong> con el mayor detalle posible:');
+        openInput('Escribe aquí lo que ocurrió...');
+        break;
+      }
+
+      case STEP.PRIORIDAD: {
+        if (PARTNERS_PRIORIDAD_ALTA.indexOf(data.partner && data.partner.toUpperCase()) > -1) {
+          data.prioridad = 'Alta 🔴 — No puedo trabajar';
+          await botMsg('La prioridad se establece como <strong style="color:#e53935">Alta 🔴</strong> para incidentes de <strong>' + esc(data.partner) + '</strong>.');
+          step = STEP.OBS; nextStep();
+          break;
+        }
+        await botMsg('¿Qué tan <strong>urgente</strong> es el problema?');
+        showReplies(['Alta 🔴 — No puedo trabajar','Media 🟡 — Funciona con fallas','Baja 🟢 — Problema menor'], function(v) {
+          data.prioridad = v; addMsg(v,'user'); step = STEP.OBS; nextStep();
+        });
+        break;
+      }
+
+      case STEP.OBS: {
+        await botMsg('¿Quieres <strong>agregar algo más</strong>? (si no tienes, escribe "no")');
+        openInput('Escribe aquí o "no"...');
+        break;
+      }
+
+      case STEP.REEMBOLSO_CHECK: {
+        await botMsg('💰 ¿Hay un <strong>reembolso</strong> que reportar?<br><small style="color:#94a3b8">Monto no cobrado, boleto perdido, etc.</small>');
+        showReplies(['Sí, hay reembolso', 'No, continuar'], function(v) {
+          addMsg(v, 'user');
+          if (v.startsWith('Sí')) { step = STEP.REEMBOLSO_MONTO; nextStep(); }
+          else { step = STEP.EVIDENCIA; nextStep(); }
+        });
+        break;
+      }
+
+      case STEP.REEMBOLSO_MONTO: {
+        await botMsg('¿Cuál es el <strong>monto a reembolsar</strong>?<br><small style="color:#94a3b8">Ej: 50.00</small>');
+        openInput('S/ ...');
+        break;
+      }
+
+      case STEP.REEMBOLSO_TICKETS: {
+        await botMsg('Describe los <strong>tickets del reembolso</strong>:<br><small style="color:#94a3b8">Ej: 2 Lakidey, 5 PozoPower — escribe libremente</small>');
+        openInput('Ej: 2 Lakidey, 5 PozoPower...');
+        break;
+      }
+
+      case STEP.EVIDENCIA: {
+        var evTxt = data.reembolsoMonto
+          ? '¿Puedes adjuntar <strong>fotos del incidente y/o boletas</strong> del reembolso? (máx. 4 · máx. 5 MB c/u)<br><small style="color:#94a3b8">💡 Para videos, sube a Drive y comparte el link en las observaciones.</small>'
+          : '¿Puedes adjuntar <strong>fotos</strong> del incidente? (máx. 4 fotos · máx. 5 MB c/u)<br><small style="color:#94a3b8">💡 Para videos, sube a Drive y comparte el link en las observaciones.</small>';
+        await botMsg(evTxt);
+        showEvidencia();
+        break;
+      }
+
+      case STEP.CONFIRMAR: {
+        var d = data;
+        var card = '<div class="card">'
+          + row('Reportado por', d.nombre)
+          + row('Celular', d.celular || '-')
+          + row('Partner', d.partner)
+          + (d.casaApuestas ? row('Casa de apuestas', d.casaApuestas) : '')
+          + (d.partner && d.partner.toUpperCase() !== 'TAMBO' ? row('Gerente Zonal', d.gz || '-') : '')
+          + (d.partner && d.partner.toUpperCase() !== 'TAMBO' ? row(d.supervisor ? 'Supervisor' : 'Jefe Zonal', d.jz || '-') : '')
+          + '<hr class="cdiv">'
+          + row('Tienda', d.tienda.nombre)
+          + row('Distrito', d.tienda.distrito || '-')
+          + '<hr class="cdiv">'
+          + row('Tipo', d.tipoIncidente)
+          + row('POS ID', d.posId || '-')
+          + row('Versión app', d.appVersion || '-')
+          + row('Afecta', d.afecta || '-')
+          + (d.juego ? row('Juego', d.juego) : '')
+          + row('Inicio', d.inicio || '-')
+          + '<hr class="cdiv">'
+          + row('Prioridad', d.prioridad)
+          + row('Descripción', d.descripcion)
+          + (d.observaciones ? row('Observaciones', d.observaciones) : '')
+          + (d.resolucion ? row('Resolución', d.resolucion) : '')
+          + (d.reembolsoMonto ? row('💰 Monto reembolso', 'S/ ' + d.reembolsoMonto) : '')
+          + (d.reembolsoTickets ? row('🎫 Tickets reembolso', d.reembolsoTickets) : '')
+          + (d.evFiles && d.evFiles.length ? row('Fotos adjuntas', d.evFiles.length + ' 📷') : '')
+          + '</div>';
+        await botMsg('Revisa el resumen antes de confirmar:');
+        addCard(card);
+        await botMsg('¿Todo está correcto?');
+        showReplies(['✅ Sí, enviar reporte','✏️ Corregir desde el inicio'], function(v) {
+          addMsg(v,'user');
+          if (v.startsWith('✅')) { submitCase(); }
+          else { data = {}; step = STEP.HOME; nextStep(); }
+        });
+        break;
+      }
+    }
+  } catch(err) {
+    stopSrvTyping();
+    var msg = err && err.message ? err.message : String(err);
+    botMsg('⚠️ <strong>Error del servidor:</strong> ' + esc(msg) + '<br><br>'
+      + '<a href="javascript:location.reload()" style="color:#e91e8c;font-weight:600">🔄 Recargar el chat</a>');
+    console.error(err);
+  }
+}
+
+function row(label, value) {
+  return '<div class="crow"><span class="cl">' + esc(label) + '</span>'
+       + '<span class="cv">' + esc(value) + '</span></div>';
+}
+
+async function submitCase() {
+  await botMsg('Guardando el reporte...', 300);
+  startSrvTyping();
+  try {
+    var id = await call('guardarIncidente', data);
+    stopSrvTyping();
+    var card = '<div class="tbox">'
+      + '<div class="tico">✅</div>'
+      + '<div class="tlbl">¡Incidente registrado!</div>'
+      + '<div class="tid">' + esc(id) + '</div>'
+      + '<div class="thint">Guarda este código como referencia</div>'
+      + '</div>';
+    addCard(card);
+    await botMsg('El equipo revisará el caso pronto. ¿Deseas reportar otro incidente?');
+    step = STEP.DONE;
+    showReplies(['🚨 Reportar otro problema', '🔍 Consultar estado de un ticket'], function(v) {
+      addMsg(v,'user');
+      if (v.startsWith('🚨')) { data = {}; step = STEP.NOMBRE; nextStep(); }
+      else { data = {}; step = STEP.CONSULTAR; nextStep(); }
+    });
+  } catch(err) {
+    stopSrvTyping();
+    botMsg('❌ Error al guardar. Intenta de nuevo o contacta soporte.');
+    showReplies(['🔄 Intentar de nuevo'], function() {
+      addMsg('Intentar de nuevo','user'); submitCase();
+    });
+    console.error(err);
+  }
+}
+
+async function restartChat() {
+  hideSearch(); clearReplies(); lockInput();
+  await botMsg('Empecemos de nuevo. ¿Cuál es tu <strong>nombre completo</strong>?');
+  openInput('Tu nombre completo...');
+}
+
+// ── EVIDENCE UPLOAD ──────────────────────────────────────────
+var evFiles = [];
+var MAX_PHOTOS = 4;
+var MAX_PHOTO_MB = 5;
+
+function showEvidencia() {
+  lockInput();
+  clearReplies();
+  evFiles = [];
+  setTimeout(function() {
+    document.getElementById('ev-wrap').style.display = 'block';
+    renderEvGrid();
+  }, OPTS_DELAY);
+}
+
+function hideEvidencia() {
+  document.getElementById('ev-wrap').style.display = 'none';
+  evFiles = [];
+}
+
+function renderEvGrid() {
+  var grid = document.getElementById('ev-grid');
+  grid.innerHTML = '';
+  evFiles.forEach(function(f, i) {
+    var thumb = document.createElement('div');
+    thumb.className = 'ev-thumb';
+    var img = document.createElement('img');
+    img.src = f.dataUrl;
+    var btn = document.createElement('button');
+    btn.className = 'ev-rm';
+    btn.innerHTML = '×';
+    btn.onclick = function() { removeEv(i); };
+    thumb.appendChild(img);
+    thumb.appendChild(btn);
+    grid.appendChild(thumb);
+  });
+  if (evFiles.length < MAX_PHOTOS) {
+    var add = document.createElement('div');
+    add.className = 'ev-add';
+    add.innerHTML = '📷';
+    add.onclick = function() { document.getElementById('ev-file').click(); };
+    grid.appendChild(add);
+  }
+  var lbl = document.getElementById('ev-count');
+  lbl.textContent = evFiles.length > 0
+    ? evFiles.length + '/' + MAX_PHOTOS + ' foto' + (evFiles.length !== 1 ? 's' : '') + ' seleccionada' + (evFiles.length !== 1 ? 's' : '')
+    : 'Adjunta hasta ' + MAX_PHOTOS + ' fotos del incidente';
+}
+
+function removeEv(idx) {
+  evFiles.splice(idx, 1);
+  renderEvGrid();
+}
+
+function onFilesSelected(e) {
+  var files = Array.from(e.target.files);
+  e.target.value = '';
+  var remaining = MAX_PHOTOS - evFiles.length;
+  files.slice(0, remaining).forEach(function(file) {
+    if (!file.type.startsWith('image/')) {
+      botMsg('⚠️ Solo se admiten imágenes. Para videos, sube a Drive y pega el link en las observaciones.');
+      return;
+    }
+    if (file.size > MAX_PHOTO_MB * 1024 * 1024) {
+      botMsg('⚠️ "' + file.name + '" supera ' + MAX_PHOTO_MB + ' MB. Intenta comprimir la imagen.');
+      return;
+    }
+    var reader = new FileReader();
+    reader.onload = function(ev) {
+      var dataUrl = ev.target.result;
+      evFiles.push({
+        base64: dataUrl.split(',')[1],
+        mimeType: file.type,
+        ext: (file.type.split('/')[1] || 'jpg').replace('jpeg','jpg'),
+        dataUrl: dataUrl
+      });
+      renderEvGrid();
+    };
+    reader.readAsDataURL(file);
+  });
+}
+
+function submitEvidencia(withPhotos) {
+  data.evFiles = (withPhotos && evFiles.length)
+    ? evFiles.map(function(f) { return { base64: f.base64, mimeType: f.mimeType, ext: f.ext }; })
+    : [];
+  hideEvidencia();
+  clearReplies();
+  var count = data.evFiles.length;
+  addMsg(count > 0
+    ? count + (count === 1 ? ' foto adjunta 📷' : ' fotos adjuntas 📷')
+    : 'Sin fotos adjuntas', 'user');
+  step = STEP.CONFIRMAR;
+  nextStep();
+}
+
+// ── HELPERS ──────────────────────────────────────────────────
+function mostrarEjemploVersion() {
+  if (!EJEMPLO_VERSION_URL) {
+    botMsg('ℹ️ Busca la versión en <strong>Configuración → Acerca de la app</strong> o en la parte inferior de la pantalla principal.');
+    return;
+  }
+  var html = '<div class="card" style="padding:10px">'
+    + '<div style="font-size:11px;color:#64748b;font-weight:600;margin-bottom:8px">📍 Aquí encuentras la versión de la app en el POS:</div>'
+    + '<img src="' + EJEMPLO_VERSION_URL + '" alt="Ejemplo versión" '
+    + 'style="width:100%;border-radius:8px;max-height:240px;object-fit:contain;background:#f1f5f9;display:block">'
+    + '</div>';
+  addCard(html);
+}
+
+// ── NUEVA FUNCIÓN: auto-cargar tienda cuando llega desde el mapa ─────────────
+async function initFromMapa() {
+  var gp = window.GAS_PARAMS;
+  var partner = (gp.partner || 'TAMBO').toUpperCase();
+  startSrvTyping();
+  try {
+    var allStores = await call('buscarTiendas', String(gp.org_code), '');
+    stopSrvTyping();
+    var tienda = allStores.find(function(s) {
+      return String(s.orgCode) === String(gp.org_code);
+    });
+    if (!tienda) { step = STEP.HOME; nextStep(); return; }
+    data.partner      = partner;
+    data.casaApuestas = '';
+    data.gz           = tienda.gz  || '';
+    data.jz           = tienda.jz  || '';
+    data.tienda       = tienda;
+    data.posId        = tienda.posId || '';
+    await botMsg('Estás reportando para <strong>' + esc(tienda.nombre)
+      + '</strong> <small style="color:#94a3b8">#' + esc(tienda.orgCode) + '</small> 📍');
+    step = STEP.NOMBRE;
+    nextStep();
+  } catch(err) {
+    stopSrvTyping();
+    step = STEP.HOME;
+    nextStep();
+  }
+}
+
+// ── INIT ─────────────────────────────────────────────────────
+document.addEventListener('DOMContentLoaded', function() {
+  var txt = document.getElementById('txt');
+  txt.addEventListener('input', function() {
+    txt.style.height = 'auto';
+    txt.style.height = Math.min(txt.scrollHeight, 90) + 'px';
+  });
+  txt.addEventListener('keydown', function(e) {
+    if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendText(); }
+  });
+  document.getElementById('snd').addEventListener('click', sendText);
+
+  setTimeout(async function() {
+    await botMsg('¡Hola! Soy <strong>LOTOBOLA</strong> 🎱', 350);
+    // ▼ Si viene del mapa con org_code, auto-cargar tienda ▼
+    if (window.GAS_PARAMS && window.GAS_PARAMS.org_code) {
+      await initFromMapa();
+    } else {
+      step = STEP.HOME;
+      nextStep();
+    }
+  }, 400);
+});
+</script>
+</body>
+</html>
