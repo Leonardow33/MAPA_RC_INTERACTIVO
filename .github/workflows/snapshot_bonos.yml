@@ -59,6 +59,17 @@ jobs:
 
           # Índice rápido de lotería por fecha para la ventana de la semana
           loteria_rows = loteria_data.get('ventas') or loteria_data.get('body') or []
+          lakidey_path = Path('data/ventas_lakidey.json')
+          if lakidey_path.exists():
+              try:
+                  lakidey_extra = json.loads(lakidey_path.read_text(encoding='utf-8'))
+                  lakidey_rows  = lakidey_extra.get('ventas') or lakidey_extra.get('body') or []
+                  if lakidey_rows:
+                      loteria_rows = [v for v in loteria_rows if v.get('tipo_juego') != 'LakiDey']
+                      loteria_rows.extend(lakidey_rows)
+                      print(f"ventas_lakidey.json: {len(lakidey_rows)} registros cargados")
+              except Exception as _e:
+                  print(f"AVISO: no se pudo cargar ventas_lakidey.json: {_e}")
 
           # ── Cargar historico para detectar semanas parciales ─────────
           hist_path = Path('data/historico_bonos.json')

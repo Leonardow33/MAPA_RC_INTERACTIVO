@@ -109,8 +109,17 @@ jobs:
               if vid not in ventas_map:
                   ventas_map[vid] = {'pp': 0, 'ld': 0, 'grand': 0}
               ventas_map[vid]['grand'] += v.get('total') or 0
-          # PozoPower y LakiDey desde ventas_loteria.json
+          # PozoPower y LakiDey
           loteria_rows = loteria_data.get('ventas') or loteria_data.get('body') or []
+          _lk_path = Path('data/ventas_lakidey.json')
+          if _lk_path.exists():
+              try:
+                  _lk = json.loads(_lk_path.read_text(encoding='utf-8'))
+                  _lk_rows = _lk.get('ventas') or _lk.get('body') or []
+                  if _lk_rows:
+                      loteria_rows = [v for v in loteria_rows if v.get('tipo_juego') != 'LakiDey']
+                      loteria_rows.extend(_lk_rows)
+              except Exception: pass
           for v in loteria_rows:
               try:
                   fecha = date.fromisoformat(v.get('fecha', '1900-01-01'))

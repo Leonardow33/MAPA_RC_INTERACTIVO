@@ -1725,11 +1725,13 @@
 
   async function init() {
     try {
-      const [puntosData, ventasData, raspesData, loteriaData] = await Promise.all([
+      const [puntosData, ventasData, raspesData, loteriaData, lakideyData, turbitoData] = await Promise.all([
         loadJSON('../data/puntos.json'),
         loadJSON('../data/' + (isMesPrev ? 'ventas_mes_prev' : 'ventas_mes') + '.json'),
         loadJSON('../data/' + (isMesPrev ? 'ventas_raspes_prev' : 'ventas_raspes') + '.json'),
         loadJSON('../data/' + (isMesPrev ? 'ventas_loteria_prev' : 'ventas_loteria') + '.json'),
+        loadJSON('../data/' + (isMesPrev ? 'ventas_lakidey_prev' : 'ventas_lakidey') + '.json').catch(() => ({ventas:[]})),
+        loadJSON('../data/' + (isMesPrev ? 'ventas_turbito_prev' : 'ventas_turbito') + '.json').catch(() => ({ventas:[]})),
       ]);
 
       allStores = (Array.isArray(puntosData) ? puntosData : []).filter(p =>
@@ -1741,6 +1743,10 @@
       allVentas  = todos.filter(v => (v.partner || '').toUpperCase() === PARTNER);
       allRaspes  = (raspesData.body  || raspesData.ventas  || []).filter(v => (v.partner || '').toUpperCase() === PARTNER);
       allLoteria = (loteriaData.body || loteriaData.ventas || []).filter(v => (v.partner || '').toUpperCase() === PARTNER);
+      const _ld = (lakideyData.ventas || lakideyData.body || []).filter(v => (v.partner || '').toUpperCase() === PARTNER);
+      const _tb = (turbitoData.ventas || turbitoData.body || []).filter(v => (v.partner || '').toUpperCase() === PARTNER);
+      if (_ld.length > 0) { allLoteria = allLoteria.filter(v => v.tipo_juego !== 'LakiDey'); allLoteria.push(..._ld); }
+      if (_tb.length > 0) { allLoteria = allLoteria.filter(v => v.tipo_juego !== 'Turbito'); allLoteria.push(..._tb); }
 
       // URL param shortcut (viene de progreso.html ya autenticado)
       const params  = new URLSearchParams(location.search);

@@ -208,6 +208,142 @@ jobs:
               sys.exit(1)
           PYEOF
 
+      - name: Descargar LakiDey y Turbito desde SharePoint
+        run: |
+          python3 - << 'PYEOF'
+          import sys, json, re, requests, shutil, os
+          from datetime import datetime, timezone
+          from playwright.sync_api import sync_playwright
+
+          ARCHIVOS_TEXTO = [
+              (
+                  "https://elotgroup2020-my.sharepoint.com/:t:/g/personal/doriant_elotgroup_com/IQDIrRWLuF50T5wkwsv-agARAap7krEApen64ueC8sMix3c?e=XbKcBR",
+                  "data/ventas_lakidey.json",
+                  "ventas_lakidey"
+              ),
+              (
+                  "https://elotgroup2020-my.sharepoint.com/:t:/g/personal/doriant_elotgroup_com/IQDfCquyrPYXTZyfgHaynqt0AfaeWoisHxBxc_y1-nVkjDs?e=uHmzNj",
+                  "data/ventas_turbito.json",
+                  "ventas_turbito"
+              ),
+          ]
+
+          SP_BASE = "https://elotgroup2020-my.sharepoint.com"
+
+          def token_from_url(url):
+              m = re.search(r'/personal/[^/]+/([A-Za-z0-9_\-]+)\?', url)
+              return m.group(1) if m else None
+
+          def parse_content(content):
+              try:
+                  data = json.loads(content.strip())
+              except json.JSONDecodeError:
+                  return None
+              if isinstance(data, list):
+                  return {"ventas": data}
+              if isinstance(data, dict):
+                  if "ventas" in data or "body" in data:
+                      return data
+                  for v in data.values():
+                      if isinstance(v, list):
+                          return {"ventas": v}
+              return None
+
+          def descargar(context, url, dest, label):
+              content = None
+              token = token_from_url(url)
+              if token:
+                  dl_url = f"{SP_BASE}/_layouts/15/download.aspx?share={token}"
+                  try:
+                      print(f"[{label}] Intento 1: requests directo...")
+                      r = requests.get(dl_url, headers={"User-Agent": "Mozilla/5.0"}, timeout=60, allow_redirects=True)
+                      t = r.text.strip()
+                      if r.status_code == 200 and (t.startswith('{') or t.startswith('[')):
+                          content = t
+                          print(f"  -> OK ({len(content)} chars)")
+                  except Exception as e:
+                      print(f"  -> error: {e}")
+              if not content:
+                  try:
+                      print(f"[{label}] Intento 2: interceptar text/plain...")
+                      captured = []
+                      def on_response(resp):
+                          ct = resp.headers.get('content-type', '')
+                          cd = resp.headers.get('content-disposition', '')
+                          if 'text/plain' in ct or 'attachment' in cd:
+                              try:
+                                  text = resp.body().decode('utf-8', errors='replace')
+                                  s = text.strip()
+                                  if s and '<html' not in s[:100].lower() and (s.startswith('{') or s.startswith('[')):
+                                      captured.append(text)
+                                      print(f"  -> capturado: {len(text)} chars")
+                              except Exception as e2:
+                                  print(f"  -> error resp: {e2}")
+                      page = context.new_page()
+                      page.on("response", on_response)
+                      try:
+                          page.goto(url, wait_until="networkidle", timeout=45000)
+                      except Exception as e:
+                          print(f"  -> navegacion: {e}")
+                      if captured:
+                          content = captured[-1]
+                      else:
+                          body_text = page.evaluate("() => document.body.innerText || ''")
+                          s = body_text.strip()
+                          if s and (s.startswith('{') or s.startswith('[')):
+                              content = s
+                              print(f"  -> DOM fallback: {len(content)} chars")
+                  except Exception as e:
+                      print(f"  -> Intento 2 fallo: {e}")
+              if not content:
+                  print(f"ERROR [{label}]: no se pudo descargar")
+                  return False
+              result = parse_content(content)
+              if result is None:
+                  print(f"ERROR [{label}]: JSON no reconocido")
+                  return False
+              registros = result.get("ventas") or result.get("body") or []
+              existing_arr = []
+              if os.path.exists(dest):
+                  try:
+                      with open(dest, encoding='utf-8') as ef:
+                          ed = json.load(ef)
+                      existing_arr = ed.get("ventas") or ed.get("body") or []
+                  except Exception:
+                      pass
+              if len(registros) == 0 and len(existing_arr) > 0:
+                  print(f"PROTECCIÓN [{label}]: 0 registros, archivo actual tiene {len(existing_arr)} — no se sobreescribe")
+                  return True
+              if existing_arr and registros:
+                  try:
+                      new_dates = [v.get("fecha","") for v in registros if v.get("fecha")]
+                      old_dates = [v.get("fecha","") for v in existing_arr if v.get("fecha")]
+                      new_month = max(new_dates)[:7] if new_dates else ""
+                      old_month = max(old_dates)[:7] if old_dates else ""
+                      if new_month and old_month and new_month != old_month:
+                          prev_dest = dest.replace(".json", "_prev.json")
+                          shutil.copy2(dest, prev_dest)
+                          print(f"  -> Mes cambió {old_month}→{new_month}, backup: {prev_dest}")
+                  except Exception as e:
+                      print(f"  -> No se pudo crear backup: {e}")
+              result["updated"] = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC")
+              with open(dest, "w", encoding="utf-8") as f:
+                  json.dump(result, f, ensure_ascii=False)
+              print(f"OK [{label}]: {len(registros)} registros -> {dest}")
+              return True
+
+          with sync_playwright() as p:
+              browser = p.chromium.launch(headless=True)
+              context = browser.new_context(accept_downloads=True)
+              errores = [label for url, dest, label in ARCHIVOS_TEXTO
+                         if not descargar(context, url, dest, label)]
+              browser.close()
+
+          if errores:
+              print(f"ERRORES en: {errores}")
+              sys.exit(1)
+          PYEOF
+
       - name: Snapshot fin de mes (si aplica)
         run: |
           python3 - << 'PYEOF'
@@ -278,8 +414,18 @@ jobs:
               if vid not in ventas_map:
                   ventas_map[vid] = {'pp': 0, 'ld': 0, 'grand': 0}
               ventas_map[vid]['grand'] += v.get('total') or 0
-          # PozoPower y LakiDey desde ventas_loteria.json
+          # PozoPower y LakiDey
           loteria_rows = loteria_data.get('ventas') or loteria_data.get('body') or []
+          import os as _os2
+          _lk_path = Path('data/ventas_lakidey.json')
+          if _lk_path.exists():
+              try:
+                  _lk = json.loads(_lk_path.read_text(encoding='utf-8'))
+                  _lk_rows = _lk.get('ventas') or _lk.get('body') or []
+                  if _lk_rows:
+                      loteria_rows = [v for v in loteria_rows if v.get('tipo_juego') != 'LakiDey']
+                      loteria_rows.extend(_lk_rows)
+              except Exception: pass
           for v in loteria_rows:
               try:
                   fecha = date.fromisoformat(v.get('fecha', '1900-01-01'))
@@ -391,8 +537,8 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add data/ventas_mes.json data/ventas_raspes.json data/ventas_loteria.json data/historico_bonos.json
-          git add data/ventas_mes_prev.json data/ventas_raspes_prev.json data/ventas_loteria_prev.json 2>/dev/null || true
+          git add data/ventas_mes.json data/ventas_raspes.json data/ventas_loteria.json data/ventas_lakidey.json data/ventas_turbito.json data/historico_bonos.json
+          git add data/ventas_mes_prev.json data/ventas_raspes_prev.json data/ventas_loteria_prev.json data/ventas_lakidey_prev.json data/ventas_turbito_prev.json 2>/dev/null || true
           git diff --cached --quiet || {
             git commit -m "chore: actualizar ventas_mes.json"
             for i in 1 2 3 4 5; do

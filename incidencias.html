@@ -144,6 +144,11 @@ select{
 .qb{max-width:560px;margin:0 auto;padding:14px 12px 80px;display:none;flex-direction:column;gap:10px}
 .qb.vis{display:flex}
 
+/* mapa tab */
+.mb{display:none;position:fixed;inset:0;z-index:50}
+.mb.vis{display:block}
+.mb iframe{width:100%;height:100%;border:none;display:block}
+
 /* search button */
 .sbtn{
   width:100%;background:var(--accent);color:#000;border:none;border-radius:12px;
@@ -240,6 +245,7 @@ select{
   <div class="tabs">
     <button class="tab active" id="tab-rep" onclick="switchTab('reportar')">Reportar</button>
     <button class="tab" id="tab-con" onclick="switchTab('consultar')">Consultar</button>
+    <button class="tab" id="tab-map" onclick="switchTab('mapa')">Mapa</button>
   </div>
 </div>
 
@@ -446,6 +452,10 @@ select{
   </div>
 
 </div><!-- /qb -->
+
+<div class="mb" id="mb">
+  <iframe id="map-iframe" src="" allow="geolocation" loading="lazy"></iframe>
+</div>
 
 <div class="sbar">
   <button class="bsub" id="btn-sub" onclick="submitForm()">Enviar reporte</button>
@@ -717,11 +727,24 @@ async function submitForm() {
 // ── Tabs ──────────────────────────────────────────────────────────────────────
 function switchTab(tab) {
   const isRep = tab === 'reportar';
+  const isCon = tab === 'consultar';
+  const isMap = tab === 'mapa';
   document.querySelector('.fb').style.display    = isRep ? '' : 'none';
   document.querySelector('.sbar').style.display  = isRep ? '' : 'none';
-  document.getElementById('qb').classList.toggle('vis', !isRep);
+  document.getElementById('qb').classList.toggle('vis', isCon);
+  document.getElementById('mb').classList.toggle('vis', isMap);
   document.getElementById('tab-rep').classList.toggle('active', isRep);
-  document.getElementById('tab-con').classList.toggle('active', !isRep);
+  document.getElementById('tab-con').classList.toggle('active', isCon);
+  document.getElementById('tab-map').classList.toggle('active', isMap);
+  if (isMap) {
+    const ifr = document.getElementById('map-iframe');
+    if (!ifr.getAttribute('data-loaded')) {
+      ifr.src = 'herramientas/mapa_incidencias.html';
+      ifr.setAttribute('data-loaded', '1');
+    }
+    document.getElementById('mb').style.paddingTop = document.querySelector('.ph').offsetHeight + 'px';
+  }
+  document.body.style.paddingBottom = isMap ? '0' : '';
 }
 
 // ── Ticket lookup ─────────────────────────────────────────────────────────────
