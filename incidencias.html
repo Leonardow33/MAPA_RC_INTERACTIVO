@@ -294,7 +294,7 @@ select{
     <div class="cl">El problema</div>
     <div class="f">
       <label>Tipo de incidente <span class="req">*</span></label>
-      <select id="f-tipo">
+      <select id="f-tipo" onchange="onTipoChange()">
         <option value="">Seleccionar…</option>
         <option>La app no abre</option>
         <option>La app se cierra sola</option>
@@ -303,6 +303,19 @@ select{
         <option>POS no conecta / sin señal</option>
         <option>Juego no carga</option>
         <option>Terminales bloqueadas</option>
+        <option>Temas Generales</option>
+        <option>Otro</option>
+      </select>
+    </div>
+    <div class="f" id="f-subtipo-wrap" style="display:none">
+      <label>Subtema <span class="req">*</span></label>
+      <select id="f-subtipo">
+        <option value="">Seleccionar…</option>
+        <option>Pantalla</option>
+        <option>POS</option>
+        <option>GLPI</option>
+        <option>Sistema</option>
+        <option>Tienda Aperturada</option>
         <option>Otro</option>
       </select>
     </div>
@@ -388,6 +401,24 @@ select{
       <div class="f">
         <label>¿Cómo se resolvió?</label>
         <textarea id="f-res" placeholder="Describe la solución aplicada…" rows="3"></textarea>
+      </div>
+    </div>
+  </div>
+
+  <!-- Reembolso -->
+  <div class="card">
+    <div class="trow">
+      <span class="tlab">💰 ¿Hay reembolso?</span>
+      <div class="tog" id="tog-rem" onclick="toggleReembolso()"></div>
+    </div>
+    <div id="rem-campos" style="display:none;margin-top:12px">
+      <div class="f">
+        <label>Monto (S/)</label>
+        <input type="text" id="f-rem-monto" placeholder="Ej: 50.00" inputmode="decimal">
+      </div>
+      <div class="f">
+        <label>Tickets del reembolso</label>
+        <textarea id="f-rem-tickets" placeholder="Ej: 2 Lakidey, 5 PozoPower" rows="2"></textarea>
       </div>
     </div>
   </div>
@@ -589,6 +620,21 @@ function setPrio(el, val) {
   prioValue = val;
 }
 
+// ── Temas Generales: mostrar subtipo ──────────────────────────────────────────
+function onTipoChange() {
+  var esTG = document.getElementById('f-tipo').value === 'Temas Generales';
+  document.getElementById('f-subtipo-wrap').style.display = esTG ? '' : 'none';
+  if (!esTG) document.getElementById('f-subtipo').value = '';
+}
+
+// ── Toggle reembolso ──────────────────────────────────────────────────────────
+var reembolsoOn = false;
+function toggleReembolso() {
+  reembolsoOn = !reembolsoOn;
+  document.getElementById('tog-rem').classList.toggle('on', reembolsoOn);
+  document.getElementById('rem-campos').style.display = reembolsoOn ? '' : 'none';
+}
+
 // ── Toggle resolución ─────────────────────────────────────────────────────────
 function toggleRes() {
   resOn = !resOn;
@@ -644,6 +690,8 @@ function validate() {
     return 'Selecciona una tienda';
   if (!document.getElementById('f-tipo').value)
     return 'Selecciona el tipo de incidente';
+  if (document.getElementById('f-tipo').value === 'Temas Generales' && !document.getElementById('f-subtipo').value)
+    return 'Selecciona el subtema';
   if (!document.getElementById('f-afecta').value)
     return 'Indica qué afecta el problema';
   if (!document.getElementById('f-inicio').value)
@@ -690,12 +738,18 @@ async function submitForm() {
       appVersion:    document.getElementById('f-appver').value.trim(),
       afecta:        document.getElementById('f-afecta').value,
       juego:         document.getElementById('f-juego').value,
-      tipoIncidente: document.getElementById('f-tipo').value,
+      tipoIncidente: (function() {
+        var t = document.getElementById('f-tipo').value;
+        var s = document.getElementById('f-subtipo').value;
+        return (t === 'Temas Generales' && s) ? 'Temas Generales · ' + s : t;
+      })(),
       inicio:        document.getElementById('f-inicio').value,
       descripcion:   document.getElementById('f-desc').value.trim(),
       prioridad:     prioValue,
       observaciones: document.getElementById('f-obs').value.trim(),
       resolucion:    resOn ? document.getElementById('f-res').value.trim() : '',
+      reembolsoMonto:   reembolsoOn ? document.getElementById('f-rem-monto').value.trim() : '',
+      reembolsoTickets: reembolsoOn ? document.getElementById('f-rem-tickets').value.trim() : '',
       evFiles
     };
 
@@ -857,6 +911,8 @@ function resetForm() {
   document.getElementById('f-nombre').value = '';
   document.getElementById('f-celular').value = '';
   document.getElementById('f-tipo').value = '';
+  document.getElementById('f-subtipo').value = '';
+  document.getElementById('f-subtipo-wrap').style.display = 'none';
   document.getElementById('f-afecta').value = '';
   document.getElementById('f-juego').value = '';
   document.getElementById('f-posid').value = '';
@@ -870,6 +926,11 @@ function resetForm() {
   resOn = false;
   document.getElementById('tog-res').classList.remove('on');
   document.getElementById('res-campo').style.display = 'none';
+  reembolsoOn = false;
+  document.getElementById('tog-rem').classList.remove('on');
+  document.getElementById('rem-campos').style.display = 'none';
+  document.getElementById('f-rem-monto').value = '';
+  document.getElementById('f-rem-tickets').value = '';
   document.querySelectorAll('.po').forEach(o => o.classList.remove('sel'));
   fotos = [null, null, null, null];
   [0,1,2,3].forEach(i => {
