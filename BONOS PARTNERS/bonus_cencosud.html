@@ -1021,6 +1021,28 @@
       border-radius: 20px; padding: 4px 11px;
       pointer-events: none; z-index: 999; white-space: nowrap;
     }
+    /* ── COMMISSION CARD ──────────────────────────────────── */
+    .comision-card { background:var(--surface);border:1px solid var(--border);border-radius:18px;padding:18px 16px;position:relative;overflow:hidden; }
+    .comision-header { display:flex;align-items:center;justify-content:space-between;margin-bottom:14px; }
+    .cluster-badge { font-size:11px;font-weight:700;background:rgba(245,158,11,.12);color:var(--accent);padding:3px 10px;border-radius:20px;letter-spacing:.3px; }
+    .role-btns { display:flex;gap:8px;margin-bottom:16px; }
+    .role-btn { flex:1;padding:9px;background:var(--surface2);border:1.5px solid var(--border);border-radius:10px;color:var(--muted);font-size:13px;font-weight:700;cursor:pointer;letter-spacing:.3px;transition:all .15s;font-family:inherit; }
+    .role-btn.active { background:rgba(245,158,11,.1);border-color:var(--accent);color:var(--accent); }
+    .comm-header-row { display:flex;align-items:center;gap:4px;padding:5px 0 8px;border-bottom:1px solid var(--border);font-size:10px;letter-spacing:.04em;text-transform:uppercase;color:var(--muted); }
+    .comm-row { display:flex;align-items:center;gap:4px;padding:8px 0;border-bottom:1px solid rgba(255,255,255,.04);font-size:12px; }
+    .comm-game { flex:2;font-weight:600; }
+    .comm-pct  { flex:1;text-align:center;font-weight:700; }
+    .comm-factor { flex:1;text-align:center;color:var(--muted);font-size:11px; }
+    .comm-base { flex:1;text-align:center;color:var(--muted);font-size:11px; }
+    .comm-est  { flex:1.2;text-align:right;font-weight:700; }
+    .comm-total-row { display:flex;align-items:center;justify-content:space-between;margin-top:12px;padding:10px 12px;background:rgba(245,158,11,.07);border:1px solid rgba(245,158,11,.2);border-radius:10px; }
+    .comm-total-val { font-size:18px;font-weight:800;color:var(--accent); }
+    .comm-max-row { display:flex;align-items:center;justify-content:space-between;margin-top:8px;padding:6px 12px;border-radius:8px;background:rgba(34,197,94,.05); }
+    .vista-toggle { padding:5px 12px;background:var(--surface2);border:1.5px solid var(--border);border-radius:8px;color:var(--muted);font-size:11px;font-weight:700;cursor:pointer;letter-spacing:.3px;transition:all .15s;white-space:nowrap;font-family:inherit; }
+    .vista-toggle:hover,.vista-toggle.active { border-color:var(--accent);color:var(--accent);background:rgba(245,158,11,.08); }
+    .ns-cluster { font-size:10px;color:var(--muted);font-weight:600;letter-spacing:.3px; }
+    .games-title-row { display:flex;align-items:center;justify-content:space-between;margin-bottom:14px; }
+    .games-title-row .card-title { margin-bottom:0; }
   </style>
 </head>
 <body>
@@ -1078,6 +1100,7 @@
     <div class="nav-store">
       <div class="ns-name" id="nav-nombre">—</div>
       <div class="ns-id" id="nav-id">—</div>
+      <div class="ns-cluster" id="nav-cluster"></div>
       <div class="ns-sup" id="nav-sup" style="display:none"></div>
     </div>
     <span class="nav-badge">AT</span>
@@ -1169,7 +1192,10 @@
     <div class="games-card">
       <img src="../sources/logos-games/suerte-3.png" aria-hidden="true"
            style="position:absolute;width:72px;bottom:-6px;right:-4px;transform:rotate(9deg);opacity:.2;pointer-events:none;">
-      <div class="card-title">Desglose por juego · este mes</div>
+      <div class="games-title-row">
+        <div class="card-title" id="games-card-title">Desglose por juego · este mes</div>
+        <button id="btn-vista-dia" class="vista-toggle" onclick="toggleVistaDia()">📅 Ver día</button>
+      </div>
       <div class="game-row">
         <div class="gr-name"><img src="../sources/logos-games/pozopower.png" class="gr-logo" alt="">PozoPower</div>
         <div class="gr-bar-wrap">
@@ -1216,7 +1242,7 @@
         </div>
       </div>
       <div class="game-row">
-        <div class="gr-name"><img src="../sources/logos-games/rapiraspa.png" class="gr-logo" alt="">Rapiraspas</div>
+        <div class="gr-name"><img src="../sources/logos-games/rapiraspa.png" class="gr-logo" alt="">SC/E3 + TURBITO</div>
         <div class="gr-bar-wrap">
           <div class="gr-bar">
             <div class="gr-proj-fill" id="sc-proj-fill"></div>
@@ -1257,6 +1283,27 @@
           <div class="gr-pct" id="go-pct">—</div>
         </div>
       </div>
+    </div>
+
+    <!-- Commission panel -->
+    <div class="comision-card" id="comision-card">
+      <div class="comision-header">
+        <div class="card-title" style="margin-bottom:0">💰 Comisión estimada</div>
+        <div class="cluster-badge" id="comm-cluster-badge">Cluster —</div>
+      </div>
+      <div class="role-btns">
+        <button class="role-btn active" data-role="FT"   onclick="setPromoterRole('FT')">FT</button>
+        <button class="role-btn"        data-role="FTT1" onclick="setPromoterRole('FTT1')">FT T1</button>
+        <button class="role-btn"        data-role="PT"   onclick="setPromoterRole('PT')">PT</button>
+      </div>
+      <div class="comm-header-row">
+        <div class="comm-game">Juego</div>
+        <div class="comm-pct">Proy.</div>
+        <div class="comm-factor">Factor</div>
+        <div class="comm-base">Base</div>
+        <div class="comm-est">Estimado</div>
+      </div>
+      <div id="comm-body"></div>
     </div>
 
     <!-- Motivational -->
@@ -1591,6 +1638,13 @@
     supEl.textContent = supParts.join(' · ');
     supEl.style.display = supParts.length ? '' : 'none';
 
+    const clusterEl = document.getElementById('nav-cluster');
+    if (clusterEl) {
+      const cn = clusterNum(store);
+      clusterEl.textContent = 'Cluster ' + cn;
+      clusterEl.style.display = '';
+    }
+
     const hoy      = isoToday();
     const now      = new Date();
     const mesIni   = new Date(now.getFullYear(), now.getMonth() - (isMesPrev ? 1 : 0), 1);
@@ -1603,6 +1657,7 @@
     // Aggregate ventas for this store
     const id       = String(store.ID);
     let totHoy = 0, totSem = 0, totMes = 0, ppMes = 0, ldMes = 0, scMes = 0, goMes = 0;
+    let ppHoy = 0, ldHoy = 0, scHoy = 0, goHoy = 0;
 
     allVentas.forEach(v => {
       if (String(v.org_code) !== id || !v.fecha || v.tipo_juego !== 'TOTAL') return;
@@ -1616,6 +1671,7 @@
       if (String(v.org_code) !== id || !v.fecha) return;
       const f = new Date(v.fecha + 'T12:00:00');
       if (f >= mesIni && f <= mesFin) scMes += (v.total || 0);
+      if (v.fecha === hoy) scHoy += (v.total || 0);
     });
     allLoteria.forEach(v => {
       if (String(v.org_code) !== id || !v.fecha) return;
@@ -1626,6 +1682,10 @@
       if (tj === 'LakiDey'     && f >= mesIni && f <= mesFin) ldMes += amt;
       if ((tj === 'PozoPowerGo' || tj === 'Go') && f >= mesIni && f <= mesFin) goMes += amt;
       if ((tj === 'Elige 3' || tj === 'Turbito') && f >= mesIni && f <= mesFin) scMes += amt;
+      if (tj === 'PozoPower'   && v.fecha === hoy) ppHoy += amt;
+      if (tj === 'LakiDey'     && v.fecha === hoy) ldHoy += amt;
+      if ((tj === 'PozoPowerGo' || tj === 'Go') && v.fecha === hoy) goHoy += amt;
+      if ((tj === 'Elige 3' || tj === 'Turbito') && v.fecha === hoy) scHoy += amt;
     });
 
     // ── METAS DESDE PUNTOS.JSON ───────────────────────────────────
@@ -1640,11 +1700,15 @@
     if (prontoBadge) prontoBadge.style.display = 'none';
     document.getElementById('no-meta-note').style.display = hasMeta ? 'none' : '';
 
-    // Metas por juego
-    const metaPP   = (store.meta_pp      || 0) * diasCalMes;
-    const metaPPGO = (store.meta_ppgo    || 0) * diasCalMes;
-    const metaLD   = (store.meta_lakidey || 0) * diasCalMes;
-    const metaSC   = ((parseFloat(store.meta_sc_e3) || 0) + (parseFloat(store.meta_turbito) || 0)) * diasCalMes;
+    // Metas por juego — 30 días planos
+    const metaDiariaPP   = parseFloat(store.meta_pp)      || 0;
+    const metaDiariaLD   = parseFloat(store.meta_lakidey) || 0;
+    const metaDiariaGO   = parseFloat(store.meta_ppgo)    || 0;
+    const metaDiariaSC   = (parseFloat(store.meta_sc_e3) || 0) + (parseFloat(store.meta_turbito) || 0);
+    const metaPP   = metaDiariaPP * 30;
+    const metaPPGO = metaDiariaGO * 30;
+    const metaLD   = metaDiariaLD * 30;
+    const metaSC   = metaDiariaSC * 30;
 
     // Proyectado: ritmo actual × días del mes
     const hoyDia     = now.getDate();
@@ -1710,52 +1774,35 @@
     document.getElementById('sem-pct').style.color  = semCol;
     setBar(document.getElementById('sem-bar'), pctSem || 0, semCol);
 
-    // Games
-    const ppProy  = hoyDia > 0 && ppMes > 0 ? Math.round(ppMes / hoyDia * diasCalMes) : 0;
-    const ldProy  = hoyDia > 0 && ldMes > 0 ? Math.round(ldMes / hoyDia * diasCalMes) : 0;
-    const scProy  = hoyDia > 0 && scMes > 0 ? Math.round(scMes / hoyDia * diasCalMes) : 0;
-    const goProy  = hoyDia > 0 && goMes > 0 ? Math.round(goMes / hoyDia * diasCalMes) : 0;
-    const maxGame = Math.max(ppMes, ldMes, scMes, goMes, ppProy, ldProy, scProy, goProy, metaPP||0, metaLD||0, metaSC||0, metaPPGO||0, 1);
+    // Games — guardar estado y delegar render
+    const ppProy     = hoyDia > 0 && ppMes > 0 ? Math.round(ppMes / hoyDia * 30) : 0;
+    const ldProy     = hoyDia > 0 && ldMes > 0 ? Math.round(ldMes / hoyDia * 30) : 0;
+    const scProy     = hoyDia > 0 && scMes > 0 ? Math.round(scMes / hoyDia * 30) : 0;
+    const goProy     = hoyDia > 0 && goMes > 0 ? Math.round(goMes / hoyDia * 30) : 0;
+    const ppPctProy  = metaPP   > 0 ? Math.round(ppProy  / metaPP   * 100) : 0;
+    const ldPctProy  = metaLD   > 0 ? Math.round(ldProy  / metaLD   * 100) : 0;
+    const scPctProy  = metaSC   > 0 ? Math.round(scProy  / metaSC   * 100) : 0;
+    const goPctProy  = metaPPGO > 0 ? Math.round(goProy  / metaPPGO * 100) : 0;
 
-    document.getElementById('pp-val').textContent = fmtS(ppMes);
-    document.getElementById('ld-val').textContent = fmtS(ldMes);
-    document.getElementById('sc-val').textContent = fmtS(scMes);
-    document.getElementById('go-val').textContent = fmtS(goMes);
+    _ds = {
+      ppMes, ldMes, scMes, goMes,
+      ppHoy, ldHoy, scHoy, goHoy,
+      ppProy, ldProy, scProy, goProy,
+      ppPctProy, ldPctProy, scPctProy, goPctProy,
+      metaPP, metaLD, metaSC, metaPPGO,
+      metaDiariaPP, metaDiariaLD, metaDiariaSC, metaDiariaGO,
+      clusterNum: clusterNum(store),
+      role: _ds.role || 'FT',
+    };
 
-    document.getElementById('pp-meta').textContent = metaPP   > 0 ? fmtS(metaPP)   : '—';
-    document.getElementById('ld-meta').textContent = metaLD   > 0 ? fmtS(metaLD)   : '—';
-    document.getElementById('sc-meta').textContent = metaSC   > 0 ? fmtS(metaSC)   : '—';
-    document.getElementById('go-meta').textContent = metaPPGO > 0 ? fmtS(metaPPGO) : '—';
+    vistaMode = 'mes';
+    const btn = document.getElementById('btn-vista-dia');
+    if (btn) { btn.textContent = '📅 Ver día'; btn.classList.remove('active'); }
+    const ttl = document.getElementById('games-card-title');
+    if (ttl) ttl.textContent = 'Desglose por juego · este mes';
 
-    function setPct(id, actual, meta) {
-      const el = document.getElementById(id);
-      if (meta > 0) {
-        const p = Math.round(actual / meta * 100);
-        el.textContent = p + '%';
-        el.style.color = p >= 100 ? 'var(--green)' : p >= 70 ? 'var(--accent)' : p >= 50 ? '#F59E0B' : 'var(--red)';
-      } else {
-        el.textContent = '—';
-        el.style.color = '';
-      }
-    }
-    setPct('pp-pct', ppMes, metaPP);
-    setPct('ld-pct', ldMes, metaLD);
-    setPct('sc-pct', scMes, metaSC);
-    setPct('go-pct', goMes, metaPPGO);
-
-    setBar(document.getElementById('pp-bar'), ppMes / maxGame * 100, 'var(--accent)');
-    setBar(document.getElementById('ld-bar'), ldMes / maxGame * 100, '#3B9EE8');
-    setBar(document.getElementById('sc-bar'), scMes / maxGame * 100, '#16A34A');
-    setBar(document.getElementById('go-bar'), goMes / maxGame * 100, '#D97706');
-
-    if (metaPP   > 0) setDot70(document.getElementById('pp-dot70'), document.getElementById('pp-lbl70'), metaPP   * 0.7 / maxGame * 100);
-    if (metaLD   > 0) setDot70(document.getElementById('ld-dot70'), document.getElementById('ld-lbl70'), metaLD   * 0.7 / maxGame * 100);
-    if (metaSC   > 0) setDot70(document.getElementById('sc-dot70'), document.getElementById('sc-lbl70'), metaSC   * 0.7 / maxGame * 100);
-    if (metaPPGO > 0) setDot70(document.getElementById('go-dot70'), document.getElementById('go-lbl70'), metaPPGO * 0.7 / maxGame * 100);
-    if (ppProy > 0) setProjFill(document.getElementById('pp-proj-fill'), document.getElementById('pp-lbl-proj'), ppProy / maxGame * 100);
-    if (ldProy > 0) setProjFill(document.getElementById('ld-proj-fill'), document.getElementById('ld-lbl-proj'), ldProy / maxGame * 100);
-    if (scProy > 0) setProjFill(document.getElementById('sc-proj-fill'), document.getElementById('sc-lbl-proj'), scProy / maxGame * 100);
-    if (goProy > 0) setProjFill(document.getElementById('go-proj-fill'), document.getElementById('go-lbl-proj'), goProy / maxGame * 100);
+    renderGamesMode();
+    renderComision();
 
     // Weekly chart (Lun→Dom, 7 days)
     const DAY_NAMES      = ['Lun','Mar','Mié','Jue','Vie','Sáb','Dom'];
@@ -1829,6 +1876,139 @@
     document.getElementById('motive-msg').style.color    = m.clr;
     document.getElementById('motive-detail').textContent = m.detail;
     mc.style.border = `1px solid ${m.clr}40`;
+  }
+
+  // ── Comisiones por cluster/rol ────────────────────────────────────────────
+  const COMISIONES = {
+    1: { FT:   { PP:210, PPGO:140, LD:175, SC:175 },
+         FTT1: { PP:150, PPGO:100, LD:125, SC:125 },
+         PT:   { PP:96,  PPGO:64,  LD:80,  SC:80  } },
+    2: { FT:   { PP:150, PPGO:100, LD:125, SC:125 },
+         FTT1: { PP:105, PPGO:70,  LD:88,  SC:88  },
+         PT:   { PP:66,  PPGO:44,  LD:55,  SC:55  } },
+    3: { FT:   { PP:105, PPGO:70,  LD:88,  SC:88  },
+         FTT1: { PP:75,  PPGO:50,  LD:63,  SC:63  },
+         PT:   { PP:48,  PPGO:32,  LD:40,  SC:40  } },
+    4: { FT:   { PP:75,  PPGO:50,  LD:63,  SC:63  },
+         FTT1: { PP:54,  PPGO:36,  LD:45,  SC:45  },
+         PT:   { PP:36,  PPGO:24,  LD:30,  SC:30  } },
+  };
+
+  function commFactor(pct) {
+    if (!pct || pct < 70) return 0;
+    return Math.min(Math.floor(pct / 10) * 10, 120) / 100;
+  }
+
+  function clusterNum(store) {
+    const raw = String(store.cluster || store.zona || '');
+    const m = raw.match(/[1-4]/);
+    return m ? parseInt(m[0]) : 1;
+  }
+
+  let _ds = {};
+  let vistaMode = 'mes';
+
+  function setPct2(id, actual, meta) {
+    const el = document.getElementById(id);
+    if (!el) return;
+    if (meta > 0) {
+      const p = Math.round(actual / meta * 100);
+      el.textContent = p + '%';
+      el.style.color = p >= 100 ? 'var(--green)' : p >= 70 ? 'var(--accent)' : p >= 50 ? '#F59E0B' : 'var(--red)';
+    } else { el.textContent = '—'; el.style.color = ''; }
+  }
+
+  function renderGamesMode() {
+    const d = _ds;
+    const isDia = vistaMode === 'dia';
+    const ppV = isDia ? d.ppHoy : d.ppMes,  ldV = isDia ? d.ldHoy : d.ldMes;
+    const scV = isDia ? d.scHoy : d.scMes,  goV = isDia ? d.goHoy : d.goMes;
+    const ppM = isDia ? d.metaDiariaPP : d.metaPP,  ldM = isDia ? d.metaDiariaLD : d.metaLD;
+    const scM = isDia ? d.metaDiariaSC : d.metaSC,  goM = isDia ? d.metaDiariaGO : d.metaPPGO;
+    document.getElementById('pp-val').textContent = fmtS(ppV);
+    document.getElementById('ld-val').textContent = fmtS(ldV);
+    document.getElementById('sc-val').textContent = fmtS(scV);
+    document.getElementById('go-val').textContent = fmtS(goV);
+    document.getElementById('pp-meta').textContent = ppM > 0 ? fmtS(ppM) : '—';
+    document.getElementById('ld-meta').textContent = ldM > 0 ? fmtS(ldM) : '—';
+    document.getElementById('sc-meta').textContent = scM > 0 ? fmtS(scM) : '—';
+    document.getElementById('go-meta').textContent = goM > 0 ? fmtS(goM) : '—';
+    setPct2('pp-pct', ppV, ppM); setPct2('ld-pct', ldV, ldM);
+    setPct2('sc-pct', scV, scM); setPct2('go-pct', goV, goM);
+    const maxG = Math.max(ppV, ldV, scV, goV, ppM||0, ldM||0, scM||0, goM||0,
+      isDia ? 0 : (d.ppProy||0), isDia ? 0 : (d.ldProy||0),
+      isDia ? 0 : (d.scProy||0), isDia ? 0 : (d.goProy||0), 1);
+    setBar(document.getElementById('pp-bar'), ppV / maxG * 100, 'var(--accent)');
+    setBar(document.getElementById('ld-bar'), ldV / maxG * 100, '#3B9EE8');
+    setBar(document.getElementById('sc-bar'), scV / maxG * 100, '#16A34A');
+    setBar(document.getElementById('go-bar'), goV / maxG * 100, '#D97706');
+    if (ppM > 0) setDot70(document.getElementById('pp-dot70'), document.getElementById('pp-lbl70'), ppM * 0.7 / maxG * 100);
+    if (ldM > 0) setDot70(document.getElementById('ld-dot70'), document.getElementById('ld-lbl70'), ldM * 0.7 / maxG * 100);
+    if (scM > 0) setDot70(document.getElementById('sc-dot70'), document.getElementById('sc-lbl70'), scM * 0.7 / maxG * 100);
+    if (goM > 0) setDot70(document.getElementById('go-dot70'), document.getElementById('go-lbl70'), goM * 0.7 / maxG * 100);
+    ['pp','ld','sc','go'].forEach(g => {
+      const pf = document.getElementById(g + '-proj-fill'), pl = document.getElementById(g + '-lbl-proj');
+      const pv = !isDia ? (d[g + 'Proy'] || 0) : 0;
+      if (pf) pf.style.width = pv > 0 ? (pv / maxG * 100) + '%' : '0';
+      if (pl) pl.style.opacity = pv > 0 && !isDia ? '0.85' : '0';
+      if (!isDia && pl && pv > 0) pl.style.left = (pv / maxG * 100) + '%';
+    });
+  }
+
+  function toggleVistaDia() {
+    vistaMode = vistaMode === 'mes' ? 'dia' : 'mes';
+    const btn = document.getElementById('btn-vista-dia');
+    const ttl = document.getElementById('games-card-title');
+    if (btn) { btn.textContent = vistaMode === 'dia' ? '📅 Ver mes' : '📅 Ver día'; btn.classList.toggle('active', vistaMode === 'dia'); }
+    if (ttl) ttl.textContent = vistaMode === 'dia' ? 'Desglose por juego · hoy' : 'Desglose por juego · este mes';
+    renderGamesMode();
+  }
+
+  function setPromoterRole(role) {
+    document.querySelectorAll('.role-btn').forEach(b => b.classList.toggle('active', b.dataset.role === role));
+    _ds.role = role;
+    renderComision();
+  }
+
+  function renderComision() {
+    const d = _ds;
+    if (!d.clusterNum) return;
+    const role = d.role || 'FT';
+    const base = (COMISIONES[d.clusterNum] || COMISIONES[1])[role] || COMISIONES[1].FT;
+    const badge = document.getElementById('comm-cluster-badge');
+    if (badge) badge.textContent = 'Cluster ' + d.clusterNum;
+    const games = [
+      { name:'PozoPower',       pct:d.ppPctProy,  base:base.PP   },
+      { name:'PP GO',           pct:d.goPctProy,  base:base.PPGO },
+      { name:'LakiDey',         pct:d.ldPctProy,  base:base.LD   },
+      { name:'SC/E3 + TURBITO', pct:d.scPctProy,  base:base.SC   },
+    ];
+    let total = 0;
+    const PC = { ok:'#22C55E', warn:'#F59E0B', err:'#EF4444', dim:'var(--muted)' };
+    const rows = games.map(g => {
+      const pct    = g.pct || 0;
+      const factor = commFactor(pct);
+      const est    = Math.round(g.base * factor);
+      total += est;
+      const pColor = pct >= 100 ? PC.ok : pct >= 70 ? PC.warn : pct > 0 ? PC.err : PC.dim;
+      return `<div class="comm-row">
+        <div class="comm-game">${g.name}</div>
+        <div class="comm-pct" style="color:${pColor}">${pct > 0 ? pct + '%' : '—'}</div>
+        <div class="comm-factor">${factor > 0 ? '×' + factor.toFixed(1) : '—'}</div>
+        <div class="comm-base">S/${g.base}</div>
+        <div class="comm-est" style="color:${factor > 0 ? '#fff' : PC.dim}">S/ ${est}</div>
+      </div>`;
+    }).join('');
+    const maxTotal = (base.PP + base.PPGO + base.LD + base.SC) * 1.2;
+    document.getElementById('comm-body').innerHTML = rows +
+      `<div class="comm-total-row">
+        <div style="font-size:12px;color:var(--muted)">Proyectado al ritmo actual</div>
+        <div class="comm-total-val">S/ ${Math.round(total).toLocaleString('es-PE')}</div>
+      </div>
+      <div class="comm-max-row">
+        <div style="font-size:11px;color:var(--muted)">Máximo posible (120%)</div>
+        <div style="font-size:12px;color:var(--green);font-weight:700">S/ ${Math.round(maxTotal).toLocaleString('es-PE')}</div>
+      </div>`;
   }
 
   // ── Banner mes anterior ────────────────────────────────────────────────────
