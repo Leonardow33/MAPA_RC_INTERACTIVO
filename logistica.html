@@ -414,18 +414,90 @@ td:last-child { border-right: none; }
 
 <script>
 // ── METABASE ───────────────────────────────────────
-// Para descarga directa sin login: activa "Compartir públicamente" en la
-// pregunta 1717 de Metabase y pega aquí el UUID generado (formato: xxxxxxxx-xxxx-...).
-// Si lo dejas vacío el botón abre la pregunta en una pestaña nueva.
 const MB_HOST        = 'https://elotgroup.metabaseapp.com';
 const MB_CARD_ID     = 1717;
-const MB_PUBLIC_UUID = '';   // ← pegar UUID aquí cuando esté habilitado
+const MB_PUBLIC_UUID = '';   // ← pegar UUID tras activar "Compartir públicamente"
 
+// ── PIVOT CONFIG ── ajustar con los nombres reales de columnas del CSV ──────
+// Cómo identificar esto: descarga sin pivot una vez (cambia MB_APPLY_PIVOT a false)
+// y abre el CSV para ver los encabezados exactos.
+const MB_APPLY_PIVOT = true;
+const MB_PIVOT = {
+  // Columnas que identifican la tienda (van como columnas fijas en la fila resultante)
+  storeKeys: ['org_code', 'tienda', 'distrito', 'zona'],
+  // Columna que contiene el nombre del juego (los valores de esta columna se vuelven encabezados)
+  gameCol:   'juego',
+  // Columna con el valor de stock/cantidad a pivotar
+  valueCol:  'stock',
+};
+
+// ── CSV PARSER ──────────────────────────────────────────────────────────────
+function parseCsv(text) {
+  const result = [];
+  const re = /("(?:[^"]|"")*"|[^,\r\n]*)(,|\r?\n|$)/g;
+  let row = [], headers = null, m;
+  while ((m = re.exec(text)) !== null) {
+    const cell = m[1].replace(/^"|"$/g, '').replace(/""/g, '"');
+    row.push(cell.trim());
+    if (m[2] !== ',') {
+      if (!headers) { headers = row; }
+      else if (row.some(c => c !== '')) {
+        const obj = {};
+        headers.forEach((h, i) => { obj[h] = row[i] !== undefined ? row[i] : ''; });
+        result.push(obj);
+      }
+      row = [];
+      if (m[2] === '') break;
+    }
+  }
+  return result;
+}
+
+// ── PIVOT: N filas por tienda → 1 fila con juegos como columnas ─────────────
+function pivotInventario(rows) {
+  const { storeKeys, gameCol, valueCol } = MB_PIVOT;
+  const storeMap   = new Map();
+  const gameNames  = [...new Set(rows.map(r => r[gameCol]).filter(Boolean))];
+
+  rows.forEach(r => {
+    const storeId = storeKeys.map(k => r[k] || '').join('|');
+    if (!storeMap.has(storeId)) {
+      const base = {};
+      storeKeys.forEach(k => { base[k] = r[k] || ''; });
+      gameNames.forEach(g => { base[g] = ''; });
+      storeMap.set(storeId, base);
+    }
+    const game = r[gameCol];
+    if (game) storeMap.get(storeId)[game] = r[valueCol] || '';
+  });
+
+  const headers  = [...storeKeys, ...gameNames];
+  const pivotRows = [...storeMap.values()];
+  const escape   = v => { const s = String(v ?? ''); return s.includes(',') || s.includes('"') ? `"${s.replace(/"/g, '""')}"` : s; };
+  const lines    = [
+    headers.join(','),
+    ...pivotRows.map(r => headers.map(h => escape(r[h])).join(',')),
+  ];
+  return lines.join('\n');
+}
+
+// ── UTILS ───────────────────────────────────────────────────────────────────
 function mbToast(msg, ms) {
   const el = document.getElementById('mb-toast');
   el.textContent = msg;
   el.classList.add('show');
   setTimeout(() => el.classList.remove('show'), ms || 3000);
+}
+
+function triggerDownload(content, filename) {
+  const blob = content instanceof Blob ? content : new Blob([content], { type: 'text/csv;charset=utf-8;' });
+  const a    = document.createElement('a');
+  a.href     = URL.createObjectURL(blob);
+  a.download = filename;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(a.href);
 }
 
 async function descargarInventario() {
@@ -437,17 +509,19 @@ async function descargarInventario() {
       const url = `${MB_HOST}/api/public/card/${MB_PUBLIC_UUID}/query/csv`;
       const res = await fetch(url);
       if (!res.ok) throw new Error('HTTP ' + res.status);
-      const blob = await res.blob();
-      const a = document.createElement('a');
-      a.href = URL.createObjectURL(blob);
-      a.download = 'inventario_general.csv';
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
-      URL.revokeObjectURL(a.href);
-      mbToast('✅ Inventario descargado');
+      const rawCsv = await res.text();
+
+      if (MB_APPLY_PIVOT) {
+        const rows    = parseCsv(rawCsv);
+        const pivoted = pivotInventario(rows);
+        triggerDownload(pivoted, 'inventario_pivotado.csv');
+        mbToast(`✅ Inventario descargado (${rows.length / 7 | 0} tiendas)`);
+      } else {
+        triggerDownload(new Blob([rawCsv], { type: 'text/csv' }), 'inventario_general.csv');
+        mbToast('✅ Inventario descargado (sin pivot)');
+      }
     } catch (e) {
-      mbToast('❌ Error al descargar — intenta desde Metabase');
+      mbToast('❌ Error — abriendo Metabase');
       window.open(`${MB_HOST}/question/${MB_CARD_ID}`, '_blank');
     } finally {
       btn.classList.remove('loading');
