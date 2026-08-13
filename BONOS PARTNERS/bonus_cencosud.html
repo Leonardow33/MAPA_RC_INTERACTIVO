@@ -1322,6 +1322,10 @@
       <div class="card-title">Evolución · semana en curso</div>
       <div class="week-chart" id="week-chart"></div>
       <div class="wc-tooltip" id="wc-tooltip" style="display:none"></div>
+      <div id="wc-legend" style="display:none;margin-top:8px;font-size:10px;color:#F59E0B;font-weight:700;letter-spacing:.3px;display:flex;align-items:center;gap:5px">
+        <span style="display:inline-block;width:10px;height:10px;border:1.5px dashed #F59E0B;border-radius:2px;flex-shrink:0"></span>
+        <span id="wc-legend-txt"></span>
+      </div>
     </div>
 
     <!-- Promo: video limpio (solo móvil) -->
@@ -1824,7 +1828,12 @@
       if (idx >= 0) dayTotals[idx] += v.total || 0;
     });
     const BAR_MAX_H = 52;
-    const maxDay    = Math.max(...dayTotals, 1);
+    const diasRestantesMes  = Math.max(0, diasCalMes - hoyDia);
+    const metaAlcanzada     = metaMes && totMes >= metaMes;
+    const necesarioPorDia   = metaMes && !metaAlcanzada && diasRestantesMes > 0
+      ? Math.max(0, Math.round((metaMes - totMes) / diasRestantesMes))
+      : 0;
+    const maxDay    = Math.max(...dayTotals, necesarioPorDia, 1);
     const chartEl   = document.getElementById('week-chart');
     const tooltipEl = document.getElementById('wc-tooltip');
     let selectedIdx = null;
@@ -1837,7 +1846,11 @@
         selectedIdx = i;
         const isFuture = weekKeys[i] > hoy;
         tooltipEl.style.display = 'flex';
-        tooltipEl.innerHTML = `<span class="wt-day">${DAY_NAMES_LONG[i]}</span><span class="wt-val">${isFuture ? '—' : fmtS(dayTotals[i])}</span>`;
+        const tipVal = isFuture
+          ? (metaAlcanzada ? '✓ Meta lograda' : necesarioPorDia > 0 ? 'Necesario: ' + fmtS(necesarioPorDia) : '—')
+          : fmtS(dayTotals[i]);
+        const tipColor = isFuture && !metaAlcanzada && necesarioPorDia > 0 ? '#F59E0B' : '';
+        tooltipEl.innerHTML = `<span class="wt-day">${DAY_NAMES_LONG[i]}</span><span class="wt-val" style="color:${tipColor}">${tipVal}</span>`;
       }
       chartEl.querySelectorAll('.wc-col').forEach((col, j) => {
         col.classList.toggle('wc-col--selected', j === selectedIdx);
@@ -1848,14 +1861,30 @@
       const isToday  = dk === hoy;
       const isFuture = dk > hoy;
       const cls = isToday ? 'wc-col--today' : isFuture ? 'wc-col--future' : 'wc-col--past';
-      const barH = isFuture ? 3 : Math.max(Math.round(dayTotals[i] / maxDay * BAR_MAX_H), 3);
-      const barColor = isToday ? 'var(--accent)' : isFuture ? 'var(--border)' : 'rgba(13,31,53,.14)';
-      const amt = !isFuture && dayTotals[i] > 0
-        ? Math.round(dayTotals[i]).toLocaleString('es-PE')
-        : '';
+
+      let barH, barColor, amt, amtStyle = '';
+      if (!isFuture) {
+        barH     = Math.max(Math.round(dayTotals[i] / maxDay * BAR_MAX_H), 3);
+        barColor = isToday ? 'var(--accent)' : 'rgba(13,31,53,.14)';
+        amt      = dayTotals[i] > 0 ? Math.round(dayTotals[i]).toLocaleString('es-PE') : '';
+      } else if (metaAlcanzada) {
+        barH     = 6;
+        barColor = 'var(--green)';
+        amt      = '';
+      } else if (necesarioPorDia > 0) {
+        barH     = Math.max(Math.round(necesarioPorDia / maxDay * BAR_MAX_H), 3);
+        barColor = 'rgba(245,158,11,.55)';
+        amt      = Math.round(necesarioPorDia).toLocaleString('es-PE');
+        amtStyle = 'color:#F59E0B';
+      } else {
+        barH     = 3;
+        barColor = 'var(--border)';
+        amt      = '';
+      }
+
       return `<div class="wc-col ${cls}" data-idx="${i}">
-        <div class="wc-amount">${amt}</div>
-        <div class="wc-bar" style="height:${barH}px;background:${barColor}"></div>
+        <div class="wc-amount" style="${amtStyle}">${amt}</div>
+        <div class="wc-bar" style="height:${barH}px;background:${barColor}${isFuture && necesarioPorDia > 0 ? ';border:1.5px dashed rgba(245,158,11,.7);box-sizing:border-box' : ''}"></div>
         <div class="wc-day">${DAY_NAMES[i]}</div>
       </div>`;
     }).join('');
@@ -1863,6 +1892,23 @@
     chartEl.querySelectorAll('.wc-col').forEach(col => {
       col.addEventListener('click', () => selectDay(+col.dataset.idx));
     });
+
+    const legendEl    = document.getElementById('wc-legend');
+    const legendTxtEl = document.getElementById('wc-legend-txt');
+    if (legendEl && legendTxtEl) {
+      if (metaAlcanzada) {
+        legendEl.style.display = 'flex';
+        legendEl.style.color   = 'var(--green)';
+        legendEl.querySelector('span').style.borderColor = 'var(--green)';
+        legendTxtEl.textContent = 'Meta mensual alcanzada';
+      } else if (necesarioPorDia > 0) {
+        legendEl.style.display = 'flex';
+        legendEl.style.color   = '#F59E0B';
+        legendTxtEl.textContent = fmtS(necesarioPorDia) + ' / día para llegar a meta (' + diasRestantesMes + ' días restantes)';
+      } else {
+        legendEl.style.display = 'none';
+      }
+    }
 
     // Motivation
     const m = motivation(pctMes);
