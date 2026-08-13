@@ -1942,7 +1942,7 @@
 
   function commFactor(pct) {
     if (!pct || pct < 70) return 0;
-    return Math.min(Math.floor(pct / 10) * 10, 120) / 100;
+    return Math.min(pct, 120) / 100;
   }
 
   function clusterNum(store) {
@@ -2040,7 +2040,7 @@
       return `<div class="comm-row">
         <div class="comm-game">${g.name}</div>
         <div class="comm-pct" style="color:${pColor}">${pct > 0 ? pct + '%' : '—'}</div>
-        <div class="comm-factor">${factor > 0 ? '×' + factor.toFixed(1) : '—'}</div>
+        <div class="comm-factor">${factor > 0 ? '×' + factor.toFixed(2) : '—'}</div>
         <div class="comm-base">S/${g.base}</div>
         <div class="comm-est" style="color:${factor > 0 ? 'var(--text)' : PC.dim};font-weight:${factor > 0 ? '800' : '500'}">S/ ${est}</div>
       </div>`;
