@@ -67,6 +67,8 @@ body {
 #btnInv   { background: #3B82F6; }
 #btnInv:hover   { background: #2563EB; }
 #btnInv.loading { opacity: .65; pointer-events: none; }
+#btnPivot { background: rgba(255,255,255,.14); border: 1.5px solid rgba(255,255,255,.3); }
+#btnPivot:hover { background: rgba(255,255,255,.24); }
 
 .mb-toast {
   position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%);
@@ -328,10 +330,12 @@ td:last-child { border-right: none; }
     </div>
     <div class="hdr-gap"></div>
     <div class="export-group">
-        <button class="btn-exp" id="btnInv"  onclick="descargarInventario()">📦 Inventario</button>
-        <button class="btn-exp" id="btnXlsx" onclick="exportarExcel()">⬇ Excel</button>
+        <button class="btn-exp" id="btnPivot" onclick="document.getElementById('csvFileInput').click()">⇄ Convertir Inventario</button>
+        <button class="btn-exp" id="btnInv"   onclick="descargarInventario()">📦 Inventario</button>
+        <button class="btn-exp" id="btnXlsx"  onclick="exportarExcel()">⬇ Excel</button>
     </div>
 </div>
+<input type="file" id="csvFileInput" accept=".xlsx,.xls" style="display:none" onchange="convertirInventario(this)">
 <div class="mb-toast" id="mb-toast"></div>
 
 <div id="kpis">
@@ -531,6 +535,85 @@ async function descargarInventario() {
     window.open(`${MB_HOST}/question/${MB_CARD_ID}`, '_blank');
     mbToast('↗ Abriendo Metabase — descarga desde ahí', 4000);
   }
+}
+
+// ── CONVERTIR INVENTARIO (pivot Excel Metabase → 1 fila por tienda) ─────────
+const INV_GAME_NAMES = ['7 Pecados','Blin o Blin','El Dorado','Gol De Oro','Jack','Raspa Wicho','Rojoy Negro'];
+const INV_METRICS    = [
+  { src:'total_sold',      lbl:'Vendido'   },
+  { src:'total_in_stock',  lbl:'Stock'     },
+  { src:'Total_enviado',   lbl:'Enviado'   },
+  { src:'total_txn_7d',    lbl:'Txn_7d'   },
+  { src:'avg_txn_7d',      lbl:'Avg_7d'   },
+  { src:'tickets_perdidos',lbl:'Perdidos'  },
+];
+
+function convertirInventario(input) {
+  const file = input.files[0];
+  input.value = '';
+  if (!file) return;
+
+  const btn = document.getElementById('btnPivot');
+  btn.textContent = '⏳ Convirtiendo…';
+  btn.style.pointerEvents = 'none';
+
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    try {
+      const wb   = XLSX.read(e.target.result, { type: 'array' });
+      const ws   = wb.Sheets[wb.SheetNames[0]];
+      const rows = XLSX.utils.sheet_to_json(ws, { defval: '' });
+
+      if (!rows.length) throw new Error('El archivo está vacío');
+
+      const storeMap = new Map();
+
+      rows.forEach(row => {
+        const key = String(row.org_code);
+        if (!storeMap.has(key)) {
+          storeMap.set(key, {
+            'Org ID':      row.org_id    || '',
+            'Org Code':    row.org_code  || '',
+            'Tienda':      row.shop_name || '',
+            'Dirección':   row.shop_address || '',
+            'Ciudad':      row.city      || '',
+            'Partner':     row.parent_org|| '',
+          });
+        }
+        const game = row.game_name;
+        if (game) {
+          const store = storeMap.get(key);
+          INV_METRICS.forEach(m => {
+            store[`${game} ${m.lbl}`] = row[m.src] !== '' ? Number(row[m.src]) || 0 : '';
+          });
+        }
+      });
+
+      const pivotRows = [...storeMap.values()];
+      const newWb     = XLSX.utils.book_new();
+      const newWs     = XLSX.utils.json_to_sheet(pivotRows);
+
+      // Ancho de columnas automático
+      const colWidths = Object.keys(pivotRows[0] || {}).map(k => ({ wch: Math.min(Math.max(k.length + 2, 10), 40) }));
+      newWs['!cols'] = colWidths;
+
+      XLSX.utils.book_append_sheet(newWb, newWs, 'Inventario');
+      XLSX.writeFile(newWb, 'inventario_pivotado.xlsx');
+
+      mbToast(`✅ ${pivotRows.length} tiendas · ${rows.length} filas originales convertidas`);
+    } catch (err) {
+      alert('Error al convertir:\n' + err.message);
+    } finally {
+      btn.textContent = '⇄ Convertir Inventario';
+      btn.style.pointerEvents = '';
+    }
+  };
+  reader.onerror = () => {
+    alert('No se pudo leer el archivo.');
+    btn.textContent = '⇄ Convertir Inventario';
+    btn.style.pointerEvents = '';
+  };
+  reader.readAsArrayBuffer(file);
 }
 
 // ── AUTH ──────────────────────────────────────────
