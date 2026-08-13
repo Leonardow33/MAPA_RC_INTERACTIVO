@@ -2042,7 +2042,7 @@
         <div class="comm-pct" style="color:${pColor}">${pct > 0 ? pct + '%' : '—'}</div>
         <div class="comm-factor">${factor > 0 ? '×' + factor.toFixed(1) : '—'}</div>
         <div class="comm-base">S/${g.base}</div>
-        <div class="comm-est" style="color:${factor > 0 ? '#fff' : PC.dim}">S/ ${est}</div>
+        <div class="comm-est" style="color:${factor > 0 ? 'var(--text)' : PC.dim};font-weight:${factor > 0 ? '800' : '500'}">S/ ${est}</div>
       </div>`;
     }).join('');
     const maxTotal = (base.PP + base.PPGO + base.LD + base.SC) * 1.2;
