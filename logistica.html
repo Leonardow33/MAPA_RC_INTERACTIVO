@@ -64,6 +64,19 @@ body {
 #btnCsv:hover   { background: rgba(255,255,255,.28); }
 #btnXlsx  { background: var(--rose-main); }
 #btnXlsx:hover  { background: #E91E8C; }
+#btnInv   { background: #3B82F6; }
+#btnInv:hover   { background: #2563EB; }
+#btnInv.loading { opacity: .65; pointer-events: none; }
+
+.mb-toast {
+  position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%);
+  background: #1E293B; color: #fff; border-radius: 10px;
+  padding: 10px 18px; font-size: 13px; font-weight: 600;
+  z-index: 999; opacity: 0; transition: opacity .25s;
+  display: flex; align-items: center; gap: 8px; pointer-events: none;
+  white-space: nowrap;
+}
+.mb-toast.show { opacity: 1; }
 
 /* ─── KPI CARDS ─────────────────────────────────── */
 #kpis {
@@ -315,9 +328,11 @@ td:last-child { border-right: none; }
     </div>
     <div class="hdr-gap"></div>
     <div class="export-group">
+        <button class="btn-exp" id="btnInv"  onclick="descargarInventario()">📦 Inventario</button>
         <button class="btn-exp" id="btnXlsx" onclick="exportarExcel()">⬇ Excel</button>
     </div>
 </div>
+<div class="mb-toast" id="mb-toast"></div>
 
 <div id="kpis">
     <div class="kpi">
@@ -398,6 +413,52 @@ td:last-child { border-right: none; }
 </div>
 
 <script>
+// ── METABASE ───────────────────────────────────────
+// Para descarga directa sin login: activa "Compartir públicamente" en la
+// pregunta 1717 de Metabase y pega aquí el UUID generado (formato: xxxxxxxx-xxxx-...).
+// Si lo dejas vacío el botón abre la pregunta en una pestaña nueva.
+const MB_HOST        = 'https://elotgroup.metabaseapp.com';
+const MB_CARD_ID     = 1717;
+const MB_PUBLIC_UUID = '';   // ← pegar UUID aquí cuando esté habilitado
+
+function mbToast(msg, ms) {
+  const el = document.getElementById('mb-toast');
+  el.textContent = msg;
+  el.classList.add('show');
+  setTimeout(() => el.classList.remove('show'), ms || 3000);
+}
+
+async function descargarInventario() {
+  const btn = document.getElementById('btnInv');
+  if (MB_PUBLIC_UUID) {
+    btn.classList.add('loading');
+    btn.textContent = '⏳ Descargando…';
+    try {
+      const url = `${MB_HOST}/api/public/card/${MB_PUBLIC_UUID}/query/csv`;
+      const res = await fetch(url);
+      if (!res.ok) throw new Error('HTTP ' + res.status);
+      const blob = await res.blob();
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = 'inventario_general.csv';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(a.href);
+      mbToast('✅ Inventario descargado');
+    } catch (e) {
+      mbToast('❌ Error al descargar — intenta desde Metabase');
+      window.open(`${MB_HOST}/question/${MB_CARD_ID}`, '_blank');
+    } finally {
+      btn.classList.remove('loading');
+      btn.textContent = '📦 Inventario';
+    }
+  } else {
+    window.open(`${MB_HOST}/question/${MB_CARD_ID}`, '_blank');
+    mbToast('↗ Abriendo Metabase — descarga desde ahí', 4000);
+  }
+}
+
 // ── AUTH ──────────────────────────────────────────
 const AUTH_KEY = 'lgl_auth';
 const AUTH_CODE = 'LogLoto26';
