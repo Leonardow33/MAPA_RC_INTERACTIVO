@@ -537,16 +537,11 @@ async function descargarInventario() {
   }
 }
 
-// ── CONVERTIR INVENTARIO (pivot Excel Metabase → 1 fila por tienda) ─────────
-const INV_GAME_NAMES = ['7 Pecados','Blin o Blin','El Dorado','Gol De Oro','Jack','Raspa Wicho','Rojoy Negro'];
-const INV_METRICS    = [
-  { src:'total_sold',      lbl:'Vendido'   },
-  { src:'total_in_stock',  lbl:'Stock'     },
-  { src:'Total_enviado',   lbl:'Enviado'   },
-  { src:'total_txn_7d',    lbl:'Txn_7d'   },
-  { src:'avg_txn_7d',      lbl:'Avg_7d'   },
-  { src:'tickets_perdidos',lbl:'Perdidos'  },
-];
+// ── CONVERTIR INVENTARIO (pivot Excel Metabase → 2 hojas) ───────────────────
+// INVENTARIO: 1 fila por tienda, solo stock por juego
+// RESUMEN:    stock total por partner_org y juego
+const INV_GAMES_INVENTARIO = ['Jack','Raspa Wicho','7 Pecados','Blin o Blin','Gol De Oro','Rojoy Negro','El Dorado'];
+const INV_GAMES_RESUMEN    = ['Raspa Wicho','7 Pecados','Blin o Blin','Gol De Oro','Rojoy Negro','El Dorado'];
 
 function convertirInventario(input) {
   const file = input.files[0];
@@ -566,41 +561,65 @@ function convertirInventario(input) {
 
       if (!rows.length) throw new Error('El archivo está vacío');
 
+      // ── Hoja INVENTARIO: 1 fila por tienda, stock de cada juego ───────────
       const storeMap = new Map();
-
       rows.forEach(row => {
         const key = String(row.org_code);
         if (!storeMap.has(key)) {
-          storeMap.set(key, {
-            'Org ID':      row.org_id    || '',
-            'Org Code':    row.org_code  || '',
-            'Tienda':      row.shop_name || '',
-            'Dirección':   row.shop_address || '',
-            'Ciudad':      row.city      || '',
-            'Partner':     row.parent_org|| '',
-          });
+          const entry = {
+            'org_code':     row.org_code    || '',
+            'shop_name':    row.shop_name   || '',
+            'parent_org':   row.parent_org  || '',
+            'shop_address': row.shop_address|| '',
+            'city':         row.city        || '',
+          };
+          INV_GAMES_INVENTARIO.forEach(g => { entry[g] = 0; });
+          storeMap.set(key, entry);
         }
         const game = row.game_name;
-        if (game) {
-          const store = storeMap.get(key);
-          INV_METRICS.forEach(m => {
-            store[`${game} ${m.lbl}`] = row[m.src] !== '' ? Number(row[m.src]) || 0 : '';
-          });
-        }
+        if (game && INV_GAMES_INVENTARIO.includes(game))
+          storeMap.get(key)[game] = Number(row.total_in_stock) || 0;
       });
+      const inventarioRows = [...storeMap.values()];
 
-      const pivotRows = [...storeMap.values()];
-      const newWb     = XLSX.utils.book_new();
-      const newWs     = XLSX.utils.json_to_sheet(pivotRows);
+      // ── Hoja RESUMEN: stock total por partner_org ─────────────────────────
+      const orgMap = new Map();
+      rows.forEach(row => {
+        const org  = row.parent_org || 'SIN PARTNER';
+        const game = row.game_name;
+        if (!INV_GAMES_RESUMEN.includes(game)) return;
+        if (!orgMap.has(org)) {
+          const entry = { 'Etiquetas de fila': org };
+          INV_GAMES_RESUMEN.forEach(g => { entry[`STOCK ${g}`] = 0; });
+          orgMap.set(org, entry);
+        }
+        orgMap.get(org)[`STOCK ${game}`] += Number(row.total_in_stock) || 0;
+      });
+      const sortedOrgs = [...orgMap.values()].sort((a,b) =>
+        a['Etiquetas de fila'].localeCompare(b['Etiquetas de fila'])
+      );
+      const totalRow = { 'Etiquetas de fila': 'Total general' };
+      INV_GAMES_RESUMEN.forEach(g => {
+        totalRow[`STOCK ${g}`] = sortedOrgs.reduce((s,r) => s + (r[`STOCK ${g}`] || 0), 0);
+      });
+      const resumenRows = [...sortedOrgs, totalRow];
 
-      // Ancho de columnas automático
-      const colWidths = Object.keys(pivotRows[0] || {}).map(k => ({ wch: Math.min(Math.max(k.length + 2, 10), 40) }));
-      newWs['!cols'] = colWidths;
+      // ── Generar Excel con 2 hojas ─────────────────────────────────────────
+      const newWb = XLSX.utils.book_new();
 
-      XLSX.utils.book_append_sheet(newWb, newWs, 'Inventario');
+      const wsRes = XLSX.utils.json_to_sheet(resumenRows);
+      wsRes['!cols'] = [{ wch:26 }, ...INV_GAMES_RESUMEN.map(() => ({ wch:18 }))];
+      XLSX.utils.book_append_sheet(newWb, wsRes, 'RESUMEN');
+
+      const wsInv = XLSX.utils.json_to_sheet(inventarioRows);
+      wsInv['!cols'] = [
+        { wch:12 },{ wch:32 },{ wch:18 },{ wch:52 },{ wch:16 },
+        ...INV_GAMES_INVENTARIO.map(() => ({ wch:14 })),
+      ];
+      XLSX.utils.book_append_sheet(newWb, wsInv, 'INVENTARIO');
+
       XLSX.writeFile(newWb, 'inventario_pivotado.xlsx');
-
-      mbToast(`✅ ${pivotRows.length} tiendas · ${rows.length} filas originales convertidas`);
+      mbToast(`✅ ${inventarioRows.length} tiendas · ${sortedOrgs.length} partners`);
     } catch (err) {
       alert('Error al convertir:\n' + err.message);
     } finally {
