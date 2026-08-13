@@ -1697,7 +1697,7 @@
     const diasCalSem = 7;
     const metaDiaria = parseFloat(store.meta_diaria) || 0;
     const hasMeta    = metaDiaria > 0;
-    const metaMes    = hasMeta ? metaDiaria * diasCalMes : null;
+    const metaMes    = hasMeta ? metaDiaria * 30 : null;
     const metaSem    = hasMeta ? metaDiaria * diasCalSem : null;
 
     const prontoBadge = document.getElementById('pronto-badge');
@@ -1716,7 +1716,7 @@
 
     // Proyectado: ritmo actual × días del mes
     const hoyDia     = now.getDate();
-    const proyectado = hoyDia > 0 && totMes > 0 ? Math.round(totMes / hoyDia * diasCalMes) : 0;
+    const proyectado = hoyDia > 0 && totMes > 0 ? Math.round(totMes / hoyDia * 30) : 0;
 
     const pctMes     = metaMes  ? Math.round(totMes  / metaMes  * 100) : null;
     const pctSem     = metaSem  ? Math.round(totSem  / metaSem  * 100) : null;
@@ -1828,7 +1828,7 @@
       if (idx >= 0) dayTotals[idx] += v.total || 0;
     });
     const BAR_MAX_H = 52;
-    const diasRestantesMes  = Math.max(0, diasCalMes - hoyDia);
+    const diasRestantesMes  = Math.max(0, 30 - hoyDia);
     const metaAlcanzada     = metaMes && totMes >= metaMes;
     const necesarioPorDia   = metaMes && !metaAlcanzada && diasRestantesMes > 0
       ? Math.max(0, Math.round((metaMes - totMes) / diasRestantesMes))
