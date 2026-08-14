@@ -732,9 +732,10 @@
 
   async function init() {
     try {
-      const [ventas, loteria, puntos, keys, historico] = await Promise.all([
+      const [ventas, loteria, lakideyData, puntos, keys, historico] = await Promise.all([
         loadJSON('data/ventas_mes.json'),
         loadJSON('data/ventas_loteria.json').catch(() => ({ ventas: [] })),
+        loadJSON('data/ventas_lakidey.json').catch(() => ({ ventas: [] })),
         loadJSON('data/puntos.json'),
         loadJSON('data/keys_bonos.json'),
         loadJSON('data/historico_bonos.json').catch(() => ({ semanas: [] })),
@@ -782,7 +783,10 @@
 
       // Guardar estado global para recalcular al cambiar semana
       window.TODAS_VENTAS  = ventas.body || ventas.ventas || [];
-      window.LOTERIA_VENTAS = loteria.ventas || loteria.body || [];
+      // Merge LakiDey desde archivo dedicado (ventas_loteria.json ya no lo incluye)
+      const _ldRows = lakideyData.ventas || lakideyData.body || [];
+      const _loteriaBase = (loteria.ventas || loteria.body || []).filter(v => v.tipo_juego !== 'LakiDey');
+      window.LOTERIA_VENTAS = [..._loteriaBase, ..._ldRows];
       window.KEYS          = KEYS;
       window.HISTORICO     = historico;
       window.HISTORICO_MAP = {};
@@ -1333,11 +1337,18 @@
     (window.TODAS_VENTAS || []).forEach(v => {
       const f = new Date(v.fecha + 'T12:00:00');
       if (f < juevesFecha || f > mie) return;
+      if (v.tipo_juego !== 'TOTAL') return;
       const id = String(v.org_code);
       if (!vmap[id]) vmap[id] = { pp: 0, ld: 0, grand: 0 };
-      if (v.tipo_juego === 'TOTAL')     vmap[id].grand += (v.total || 0);
-      if (v.tipo_juego === 'PozoPower') vmap[id].pp    += (v.total || 0);
-      if (v.tipo_juego === 'LakiDey')  vmap[id].ld    += (v.total || 0);
+      vmap[id].grand += (v.total || 0);
+    });
+    (window.LOTERIA_VENTAS || []).forEach(v => {
+      const f = new Date(v.fecha + 'T12:00:00');
+      if (f < juevesFecha || f > mie) return;
+      const id = String(v.org_code);
+      if (!vmap[id]) vmap[id] = { pp: 0, ld: 0, grand: 0 };
+      if (v.tipo_juego === 'PozoPower') vmap[id].pp += (v.total || 0);
+      if (v.tipo_juego === 'LakiDey')  vmap[id].ld += (v.total || 0);
     });
 
     const KEYS       = window.KEYS || {};
