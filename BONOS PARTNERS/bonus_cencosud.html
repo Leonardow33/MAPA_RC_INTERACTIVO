@@ -1697,8 +1697,8 @@
     const diasCalSem = 7;
     const metaDiaria = parseFloat(store.meta_diaria) || 0;
     const hasMeta    = metaDiaria > 0;
-    const metaMes    = hasMeta ? metaDiaria * 30 : null;
-    const metaSem    = hasMeta ? metaDiaria * diasCalSem : null;
+    const metaMes    = hasMeta ? Math.round(metaDiaria * 30) : null;
+    const metaSem    = hasMeta ? Math.round(metaDiaria * diasCalSem) : null;
 
     const prontoBadge = document.getElementById('pronto-badge');
     if (prontoBadge) prontoBadge.style.display = 'none';
@@ -1709,10 +1709,10 @@
     const metaDiariaLD   = parseFloat(store.meta_lakidey) || 0;
     const metaDiariaGO   = parseFloat(store.meta_ppgo)    || 0;
     const metaDiariaSC   = (parseFloat(store.meta_sc_e3) || 0) + (parseFloat(store.meta_turbito) || 0);
-    const metaPP   = metaDiariaPP * 30;
-    const metaPPGO = metaDiariaGO * 30;
-    const metaLD   = metaDiariaLD * 30;
-    const metaSC   = metaDiariaSC * 30;
+    const metaPP   = Math.round(metaDiariaPP * 30);
+    const metaPPGO = Math.round(metaDiariaGO * 30);
+    const metaLD   = Math.round(metaDiariaLD * 30);
+    const metaSC   = Math.round(metaDiariaSC * 30);
 
     // Proyectado: ritmo actual × días del mes
     const hoyDia     = now.getDate();

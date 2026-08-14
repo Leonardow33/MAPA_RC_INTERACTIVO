@@ -1333,7 +1333,7 @@
 
     let totalMeta = 0;
     stores.forEach(s => {
-      if (s.meta_diaria && s.meta_diaria > 0) totalMeta += s.meta_diaria * diasCalMes;
+      if (s.meta_diaria && s.meta_diaria > 0) totalMeta += Math.round(parseFloat(s.meta_diaria) * diasCalMes);
     });
 
     const pct        = totalMeta > 0 ? Math.round(totalVentas / totalMeta * 100) : null;
@@ -1517,7 +1517,7 @@
       return pB - pA;
     }).forEach(s => {
       const sold = vm[String(s.ID)] || 0;
-      const meta = s.meta_diaria ? s.meta_diaria * diasCalMes : null;
+      const meta = s.meta_diaria ? Math.round(parseFloat(s.meta_diaria) * diasCalMes) : null;
       const pct  = meta ? Math.round(sold / meta * 100) : null;
       const col  = pct !== null ? pctColor(pct) : 'var(--dim)';
       const row  = document.createElement('div');
@@ -1572,12 +1572,12 @@
     const container = document.createElement('div');
     container.style.cssText = 'display:flex;flex-direction:column;gap:8px;';
 
-    const supPct = ss => { let v=0,m=0; ss.forEach(s=>{v+=vm[String(s.ID)]||0;if(s.meta_diaria)m+=s.meta_diaria*diasCalMes;}); return m?v/m:-1; };
+    const supPct = ss => { let v=0,m=0; ss.forEach(s=>{v+=vm[String(s.ID)]||0;if(s.meta_diaria)m+=Math.round(parseFloat(s.meta_diaria)*diasCalMes);}); return m?v/m:-1; };
     Object.entries(supMap).sort(([,a],[,b]) => supPct(b)-supPct(a)).forEach(([gz, gzStores]) => {
       let totV = 0, totM = 0;
       gzStores.forEach(s => {
         totV += vm[String(s.ID)] || 0;
-        if (s.meta_diaria) totM += s.meta_diaria * diasCalMes;
+        if (s.meta_diaria) totM += Math.round(parseFloat(s.meta_diaria) * diasCalMes);
       });
       const pct  = totM ? Math.round(totV / totM * 100) : null;
       const col  = pct !== null ? pctColor(pct) : 'var(--dim)';
@@ -1855,8 +1855,8 @@
     const metaDiaria = hasMeta ? store.meta_diaria : null;
     const diasCalMes = 30;                      // siempre 30 para homogenizar todos los meses
     const diasCalSem = 7;                       // la semana siempre tiene 7 días
-    const metaSem    = hasMeta ? metaDiaria * diasCalSem : null;
-    const metaMes    = hasMeta ? metaDiaria * diasCalMes : null;
+    const metaSem    = hasMeta ? Math.round(metaDiaria * diasCalSem) : null;
+    const metaMes    = hasMeta ? Math.round(metaDiaria * diasCalMes) : null;
 
     const pctMes     = metaMes  ? Math.round(totMes  / metaMes  * 100) : null;
     const pctSem     = metaSem  ? Math.round(totSem  / metaSem  * 100) : null;

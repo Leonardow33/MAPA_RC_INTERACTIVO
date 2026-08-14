@@ -1387,8 +1387,8 @@
     const metaDiaria = hasMeta ? store.meta_diaria : null;
     const diasCalMes = 30;                      // siempre 30 para homogenizar todos los meses
     const diasCalSem = 7;                       // la semana siempre tiene 7 días
-    const metaSem    = hasMeta ? metaDiaria * diasCalSem : null;
-    const metaMes    = hasMeta ? metaDiaria * diasCalMes : null;
+    const metaSem    = hasMeta ? Math.round(metaDiaria * diasCalSem) : null;
+    const metaMes    = hasMeta ? Math.round(metaDiaria * diasCalMes) : null;
 
     const pctMes     = metaMes  ? Math.round(totMes  / metaMes  * 100) : null;
     const pctSem     = metaSem  ? Math.round(totSem  / metaSem  * 100) : null;
