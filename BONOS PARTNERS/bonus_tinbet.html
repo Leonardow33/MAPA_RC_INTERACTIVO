@@ -982,6 +982,8 @@
       border-radius: 20px; padding: 4px 11px;
       pointer-events: none; z-index: 999; white-space: nowrap;
     }
+    .vista-toggle { padding:5px 12px;background:var(--surf2);border:1.5px solid var(--border);border-radius:8px;color:var(--muted);font-size:11px;font-weight:700;cursor:pointer;letter-spacing:.3px;transition:all .15s;white-space:nowrap;font-family:inherit; }
+    .vista-toggle:hover,.vista-toggle.active { border-color:var(--accent);color:var(--accent);background:rgba(245,158,11,.08); }
   </style>
 </head>
 <body>
@@ -1134,7 +1136,10 @@
     <div class="games-card">
       <img src="../sources/logos-games/suerte-3.png" aria-hidden="true"
            style="position:absolute;width:72px;bottom:-6px;right:-4px;transform:rotate(9deg);opacity:.2;pointer-events:none;">
-      <div class="card-title">Desglose por juego · este mes</div>
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
+        <div class="card-title" id="games-card-title" style="margin-bottom:0">Desglose por juego · este mes</div>
+        <button id="btn-vista-dia" class="vista-toggle" onclick="toggleVistaDia()">📅 Ver día</button>
+      </div>
       <div class="game-row">
         <div class="gr-name"><img src="../sources/logos-games/pozopower.png" class="gr-logo" alt="">PozoPower</div>
         <div class="gr-bar"><div class="gr-fill" id="pp-bar" style="background:var(--accent)"></div></div>
@@ -1819,6 +1824,7 @@
     // Aggregate ventas for this store
     const id       = String(store.ID);
     let totHoy = 0, totSem = 0, totMes = 0, ppMes = 0, ldMes = 0, scMes = 0, goMes = 0, e3Mes = 0, turbitoMes = 0;
+    let ppHoy = 0, ldHoy = 0, scHoy = 0, goHoy = 0, e3Hoy = 0, turbitoHoy = 0;
 
     allVentas.forEach(v => {
       if (String(v.org_code) !== id || !v.fecha || v.tipo_juego !== 'TOTAL') return;
@@ -1832,6 +1838,7 @@
       if (String(v.org_code) !== id || !v.fecha) return;
       const f = new Date(v.fecha + 'T12:00:00');
       if (f >= mesIni && f <= mesFin) scMes += (v.total || 0);
+      if (v.fecha === hoy) scHoy += (v.total || 0);
     });
     allLoteria.forEach(v => {
       if (String(v.org_code) !== id || !v.fecha) return;
@@ -1843,6 +1850,11 @@
       if ((tj === 'PozoPowerGo' || tj === 'Go') && f >= mesIni && f <= mesFin) goMes      += amt;
       if (tj === 'Elige 3'     && f >= mesIni && f <= mesFin) e3Mes      += amt;
       if (tj === 'Turbito'     && f >= mesIni && f <= mesFin) turbitoMes += amt;
+      if (tj === 'PozoPower'   && v.fecha === hoy) ppHoy      += amt;
+      if (tj === 'LakiDey'     && v.fecha === hoy) ldHoy      += amt;
+      if ((tj === 'PozoPowerGo' || tj === 'Go') && v.fecha === hoy) goHoy      += amt;
+      if (tj === 'Elige 3'     && v.fecha === hoy) e3Hoy      += amt;
+      if (tj === 'Turbito'     && v.fecha === hoy) turbitoHoy += amt;
     });
 
     // Metas
@@ -1901,20 +1913,14 @@
     document.getElementById('sem-pct').style.color  = semCol;
     setBar(document.getElementById('sem-bar'), pctSem || 0, semCol);
 
-    // Games
-    const maxGame = Math.max(ppMes, ldMes, scMes, goMes, e3Mes, turbitoMes, 1);
-    document.getElementById('pp-val').textContent      = fmtS(ppMes);
-    document.getElementById('ld-val').textContent      = fmtS(ldMes);
-    document.getElementById('sc-val').textContent      = fmtS(scMes);
-    document.getElementById('go-val').textContent      = fmtS(goMes);
-    document.getElementById('e3-val').textContent      = fmtS(e3Mes);
-    document.getElementById('turbito-val').textContent = fmtS(turbitoMes);
-    setBar(document.getElementById('pp-bar'),      ppMes      / maxGame * 100, 'var(--accent)');
-    setBar(document.getElementById('ld-bar'),      ldMes      / maxGame * 100, '#3B9EE8');
-    setBar(document.getElementById('sc-bar'),      scMes      / maxGame * 100, '#16A34A');
-    setBar(document.getElementById('go-bar'),      goMes      / maxGame * 100, '#D97706');
-    setBar(document.getElementById('e3-bar'),      e3Mes      / maxGame * 100, '#7C3AED');
-    setBar(document.getElementById('turbito-bar'), turbitoMes / maxGame * 100, '#0891B2');
+    // Games — save state and render
+    _ds = { ppMes, ldMes, scMes, goMes, e3Mes, turbitoMes, ppHoy, ldHoy, scHoy, goHoy, e3Hoy, turbitoHoy };
+    vistaMode = 'mes';
+    const btnVD = document.getElementById('btn-vista-dia');
+    if (btnVD) { btnVD.textContent = '📅 Ver día'; btnVD.classList.remove('active'); }
+    const ttlVD = document.getElementById('games-card-title');
+    if (ttlVD) ttlVD.textContent = 'Desglose por juego · este mes';
+    renderGamesMode();
 
     // Weekly chart (Lun→Dom, 7 days)
     const DAY_NAMES      = ['Lun','Mar','Mié','Jue','Vie','Sáb','Dom'];
@@ -2010,6 +2016,46 @@
   })();
 
   init();
+
+  let vistaMode = 'mes';
+  let _ds = {};
+
+  function renderGamesMode() {
+    const isMes = vistaMode === 'mes';
+    const pp  = isMes ? _ds.ppMes      : _ds.ppHoy;
+    const ld  = isMes ? _ds.ldMes      : _ds.ldHoy;
+    const sc  = isMes ? _ds.scMes      : _ds.scHoy;
+    const go  = isMes ? _ds.goMes      : _ds.goHoy;
+    const e3  = isMes ? _ds.e3Mes      : _ds.e3Hoy;
+    const tb  = isMes ? _ds.turbitoMes : _ds.turbitoHoy;
+    const max = Math.max(pp, ld, sc, go, e3, tb, 1);
+    document.getElementById('pp-val').textContent      = fmtS(pp);
+    document.getElementById('ld-val').textContent      = fmtS(ld);
+    document.getElementById('sc-val').textContent      = fmtS(sc);
+    document.getElementById('go-val').textContent      = fmtS(go);
+    document.getElementById('e3-val').textContent      = fmtS(e3);
+    document.getElementById('turbito-val').textContent = fmtS(tb);
+    setBar(document.getElementById('pp-bar'),      pp / max * 100, 'var(--accent)');
+    setBar(document.getElementById('ld-bar'),      ld / max * 100, '#3B9EE8');
+    setBar(document.getElementById('sc-bar'),      sc / max * 100, '#16A34A');
+    setBar(document.getElementById('go-bar'),      go / max * 100, '#D97706');
+    setBar(document.getElementById('e3-bar'),      e3 / max * 100, '#7C3AED');
+    setBar(document.getElementById('turbito-bar'), tb / max * 100, '#0891B2');
+  }
+
+  function toggleVistaDia() {
+    vistaMode = vistaMode === 'mes' ? 'dia' : 'mes';
+    const btn = document.getElementById('btn-vista-dia');
+    const ttl = document.getElementById('games-card-title');
+    if (vistaMode === 'dia') {
+      if (btn) { btn.textContent = '📅 Ver mes'; btn.classList.add('active'); }
+      if (ttl) ttl.textContent = 'Desglose por juego · hoy';
+    } else {
+      if (btn) { btn.textContent = '📅 Ver día'; btn.classList.remove('active'); }
+      if (ttl) ttl.textContent = 'Desglose por juego · este mes';
+    }
+    renderGamesMode();
+  }
 </script>
 <div class="dev-badge">Desarrollado por Doriant C.</div>
 </body>
