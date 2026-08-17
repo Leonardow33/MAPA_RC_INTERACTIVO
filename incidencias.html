@@ -301,6 +301,7 @@ select{
         <option>GLPI</option>
         <option>Sistema</option>
         <option>Tienda Aperturada</option>
+        <option>Devolución</option>
         <option>Otro</option>
       </select>
     </div>
@@ -524,7 +525,7 @@ select{
 const GAS_URL = 'https://script.google.com/macros/s/AKfycbwwiK8eoC5nmrGhUKpRnIFqjpu5aSefb24O5TEYMNAOTpugmCFjdJAOJQLoNAMIFTk2hg/exec';
 
 // ── Subtemas por tipo ─────────────────────────────────────────────────────────
-const POS_SUBTEMAS = ['CONGELADO', 'NO SALIO EL TICKET', 'ROTO', 'NO IMPRIME'];
+const POS_SUBTEMAS = ['CONGELADO', 'NO SALIO EL TICKET', 'ROTO', 'NO IMPRIME', 'CAMBIO DE POS PENDIENTE'];
 const SUBTEMAS_GENERICO = [
   'La app no abre', 'La app se cierra sola', 'Error al registrar una venta',
   'Sin internet / sin señal', 'La impresora no funciona',
@@ -654,7 +655,7 @@ function onTipoChange() {
   if (tipo !== 'Otro') document.getElementById('f-tipo-otro').value = '';
 
   // Subtema: ocultar para GLPI, mostrar para el resto cuando hay tipo
-  var showSub = tipo && tipo !== 'GLPI' && tipo !== 'Otro';
+  var showSub = tipo && tipo !== 'GLPI' && tipo !== 'Otro' && tipo !== 'Devolución';
   document.getElementById('f-subtipo-wrap').style.display = showSub ? '' : 'none';
   document.getElementById('f-subtipo').value = '';
   document.getElementById('f-subtipo-otro-wrap').style.display = 'none';
@@ -673,8 +674,8 @@ function onTipoChange() {
     document.getElementById('f-glpi-mensaje').value = '';
   }
 
-  // Reembolso solo visible para POS
-  var showRem = tipo === 'POS';
+  // Reembolso visible para POS y Devolución
+  var showRem = tipo === 'POS' || tipo === 'Devolución';
   document.getElementById('card-reembolso').style.display = showRem ? '' : 'none';
   if (!showRem && reembolsoOn) {
     reembolsoOn = false;
