@@ -696,6 +696,7 @@ function renderMap(filterRC, filterDia, filterSup, filterPartner, filterZona, fi
         return (
             !(p.nombre || "").toUpperCase().includes("OFICINA ELOT") &&
             (p.estado || "").toUpperCase() === "ACTIVO" &&
+            tipo !== "CENCOS" &&
             (filterSup === "ALL" || p.supervisor === filterSup) &&
             (filterRC === "ALL" || p.rc === filterRC) &&
             (filterDia === "ALL" || (p.dias && p.dias.includes(filterDia))) &&
