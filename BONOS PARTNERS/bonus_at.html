@@ -984,6 +984,22 @@
     }
     .vista-toggle { padding:5px 12px;background:var(--surf2);border:1.5px solid var(--border);border-radius:8px;color:var(--muted);font-size:11px;font-weight:700;cursor:pointer;letter-spacing:.3px;transition:all .15s;white-space:nowrap;font-family:inherit; }
     .vista-toggle:hover,.vista-toggle.active { border-color:var(--accent);color:var(--accent);background:rgba(245,158,11,.08); }
+
+    /* ── STOCK RAPIRASPAS ──────────────────────────────────── */
+    .stock-card { background:var(--surf);border-radius:16px;padding:18px 16px 16px;position:relative;overflow:hidden; }
+    .stock-card-hdr { display:flex;align-items:center;justify-content:space-between;margin-bottom:14px; }
+    .stock-card-title { font-size:12px;font-weight:700;letter-spacing:.5px;color:var(--muted);text-transform:uppercase; }
+    .stock-card-ts { font-size:10px;color:var(--muted);font-weight:500; }
+    .stock-grid { display:grid;grid-template-columns:1fr 1fr;gap:8px 12px;margin-bottom:14px; }
+    .stock-item { display:flex;flex-direction:column;gap:4px; }
+    .stock-item.full { grid-column:1/-1;display:flex;flex-direction:row;align-items:center;gap:10px; }
+    .stock-item.full .stock-label { min-width:90px;margin-bottom:0; }
+    .stock-label { font-size:11px;font-weight:600;color:var(--muted);margin-bottom:2px; }
+    .stock-input { width:100%;background:var(--bg);border:1.5px solid var(--border);border-radius:8px;padding:8px 6px;font-size:16px;font-weight:700;color:var(--text);font-family:inherit;text-align:center;box-sizing:border-box;transition:border-color .15s; }
+    .stock-input:focus { outline:none;border-color:var(--accent); }
+    .stock-save-btn { width:100%;background:var(--accent);color:#fff;border:none;border-radius:10px;padding:12px;font-size:14px;font-weight:700;font-family:inherit;cursor:pointer;transition:opacity .15s;letter-spacing:.3px; }
+    .stock-save-btn:disabled { opacity:.5;cursor:not-allowed; }
+    .stock-feedback { text-align:center;font-size:12px;font-weight:600;margin-top:9px;min-height:16px; }
   </style>
 </head>
 <body>
@@ -1175,6 +1191,46 @@
         <div class="gr-bar"><div class="gr-fill" id="otros-bar" style="background:#6B7280"></div></div>
         <div class="gr-val" id="otros-val">S/ 0</div>
       </div>
+    </div>
+
+    <!-- Stock Rapiraspas -->
+    <div class="stock-card">
+      <div class="stock-card-hdr">
+        <div class="stock-card-title">📦 Stock Rapiraspas</div>
+        <div class="stock-card-ts" id="stock-ts">—</div>
+      </div>
+      <div class="stock-grid">
+        <div class="stock-item">
+          <div class="stock-label">Jack</div>
+          <input class="stock-input" id="sk-jack" type="number" min="0" value="0">
+        </div>
+        <div class="stock-item">
+          <div class="stock-label">Wicho</div>
+          <input class="stock-input" id="sk-wicho" type="number" min="0" value="0">
+        </div>
+        <div class="stock-item">
+          <div class="stock-label">BlinoBlin</div>
+          <input class="stock-input" id="sk-blinoblin" type="number" min="0" value="0">
+        </div>
+        <div class="stock-item">
+          <div class="stock-label">7 Pecados</div>
+          <input class="stock-input" id="sk-7pecados" type="number" min="0" value="0">
+        </div>
+        <div class="stock-item">
+          <div class="stock-label">GoldenOro</div>
+          <input class="stock-input" id="sk-goldeooro" type="number" min="0" value="0">
+        </div>
+        <div class="stock-item">
+          <div class="stock-label">Rojo y Negro</div>
+          <input class="stock-input" id="sk-rojoyNegro" type="number" min="0" value="0">
+        </div>
+        <div class="stock-item full">
+          <div class="stock-label">El Dorado</div>
+          <input class="stock-input" id="sk-eldorado" type="number" min="0" value="0" style="max-width:110px">
+        </div>
+      </div>
+      <button class="stock-save-btn" id="stock-save-btn" onclick="guardarStockRapi()">💾 Guardar stock</button>
+      <div class="stock-feedback" id="stock-feedback"></div>
     </div>
 
     <!-- Motivational -->
@@ -1999,6 +2055,8 @@
     document.getElementById('motive-msg').style.color    = m.clr;
     document.getElementById('motive-detail').textContent = m.detail;
     mc.style.border = `1px solid ${m.clr}40`;
+
+    loadStock(store.ID, store.nombre);
   }
 
   // ── Banner mes anterior ────────────────────────────────────────────────────
@@ -2021,6 +2079,74 @@
   })();
 
   init();
+
+  // ── Stock Rapiraspas ────────────────────────────────────────────────────────
+  const GAS_STOCK_URL = 'https://script.google.com/macros/s/AKfycbyUKWhWdbbSwOcr-ae3TDI1CW7b5HYlO88HMawG3oWz0eeQ7lzvR4SbTBrg2z3eKib4/exec';
+  let _stockStoreId = null, _stockStoreName = null;
+
+  const RAPI_KEYS = ['jack','wicho','blinoblin','7pecados','goldeooro','rojoyNegro','eldorado'];
+
+  async function loadStock(org_code, nombre) {
+    _stockStoreId   = String(org_code);
+    _stockStoreName = nombre;
+    RAPI_KEYS.forEach(k => { const el = document.getElementById('sk-' + k); if (el) el.value = 0; });
+    document.getElementById('stock-ts').textContent      = 'Cargando...';
+    document.getElementById('stock-feedback').textContent = '';
+    try {
+      const res  = await fetch(GAS_STOCK_URL + '?action=stock&org_code=' + encodeURIComponent(org_code));
+      const data = await res.json();
+      if (data.stock) {
+        const s = data.stock;
+        document.getElementById('sk-jack').value       = s.jack        || 0;
+        document.getElementById('sk-wicho').value      = s.wicho       || 0;
+        document.getElementById('sk-blinoblin').value  = s.blinoblin   || 0;
+        document.getElementById('sk-7pecados').value   = s['7pecados'] || 0;
+        document.getElementById('sk-goldeooro').value  = s.goldeooro   || 0;
+        document.getElementById('sk-rojoyNegro').value = s.rojoyNegro  || 0;
+        document.getElementById('sk-eldorado').value   = s.eldorado    || 0;
+        document.getElementById('stock-ts').textContent = 'Último: ' + s.fecha + ' ' + s.hora;
+      } else {
+        document.getElementById('stock-ts').textContent = 'Sin registro';
+      }
+    } catch(e) {
+      document.getElementById('stock-ts').textContent = 'Sin conexión';
+    }
+  }
+
+  async function guardarStockRapi() {
+    if (!_stockStoreId) return;
+    const btn = document.getElementById('stock-save-btn');
+    const fb  = document.getElementById('stock-feedback');
+    btn.disabled = true; btn.textContent = '⏳ Guardando...';
+    fb.textContent = ''; fb.style.color = 'var(--muted)';
+    const payload = {
+      action: 'guardar', org_code: _stockStoreId, tienda: _stockStoreName,
+      jack:       Number(document.getElementById('sk-jack').value)       || 0,
+      wicho:      Number(document.getElementById('sk-wicho').value)      || 0,
+      blinoblin:  Number(document.getElementById('sk-blinoblin').value)  || 0,
+      '7pecados': Number(document.getElementById('sk-7pecados').value)   || 0,
+      goldeooro:  Number(document.getElementById('sk-goldeooro').value)  || 0,
+      rojoyNegro: Number(document.getElementById('sk-rojoyNegro').value) || 0,
+      eldorado:   Number(document.getElementById('sk-eldorado').value)   || 0,
+    };
+    try {
+      const res  = await fetch(GAS_STOCK_URL, { method: 'POST', body: JSON.stringify(payload) });
+      const data = await res.json();
+      if (data.ok) {
+        fb.textContent = '✓ Guardado ' + data.fecha + ' ' + data.hora;
+        fb.style.color = 'var(--green)';
+        document.getElementById('stock-ts').textContent = 'Último: ' + data.fecha + ' ' + data.hora;
+      } else {
+        fb.textContent = 'Error: ' + (data.error || 'desconocido');
+        fb.style.color = 'var(--red)';
+      }
+    } catch(e) {
+      fb.textContent = 'Error de conexión';
+      fb.style.color = 'var(--red)';
+    } finally {
+      btn.disabled = false; btn.textContent = '💾 Guardar stock';
+    }
+  }
 
   let vistaMode = 'mes';
   let _ds = {};
