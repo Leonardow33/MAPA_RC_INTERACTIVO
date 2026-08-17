@@ -95,7 +95,7 @@ jobs:
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add sinventa.txt
           git diff --cached --quiet || {
-            git commit -m "chore: actualizar sinventa.txt"
+            git commit -m "chore: actualizar sinventa.txt [skip ci]"
             for i in 1 2 3 4 5; do
               git pull --rebase && git push && break
               echo "Intento $i fallido, reintentando en $((i*5))s..."

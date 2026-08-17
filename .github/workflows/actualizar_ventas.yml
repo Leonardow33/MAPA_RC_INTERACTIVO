@@ -540,7 +540,7 @@ jobs:
           git add data/ventas_mes.json data/ventas_raspes.json data/ventas_loteria.json data/ventas_lakidey.json data/ventas_turbito.json data/historico_bonos.json
           git add data/ventas_mes_prev.json data/ventas_raspes_prev.json data/ventas_loteria_prev.json data/ventas_lakidey_prev.json data/ventas_turbito_prev.json 2>/dev/null || true
           git diff --cached --quiet || {
-            git commit -m "chore: actualizar ventas_mes.json"
+            git commit -m "chore: actualizar ventas_mes.json [skip ci]"
             for i in 1 2 3 4 5; do
               git pull --rebase && git push && break
               echo "Intento $i fallido, reintentando en $((i*5))s..."

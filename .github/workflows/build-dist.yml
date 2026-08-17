@@ -10,7 +10,6 @@ on:
       - 'logistica.html'
       - 'puntos.json'
       - 'js/**'
-      - 'sinventa.txt'
       - 'data/puntos.json'
       - 'data/version.json'
       - 'data/partners.json'
@@ -21,10 +20,6 @@ on:
       - 'data/historico_bonos.json'
       - 'icons/**'
       - 'BONOS PARTNERS/*.html'
-  workflow_run:
-    workflows: ["Actualizar Ventas Mes"]
-    types: [completed]
-    branches: [main]
   workflow_dispatch:
 
 jobs:
