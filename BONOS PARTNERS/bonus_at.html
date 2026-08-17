@@ -1193,6 +1193,24 @@
       </div>
     </div>
 
+    <!-- Motivational -->
+    <div class="motive-card" id="motive-card">
+      <div class="mc-icon" id="motive-icon">⏳</div>
+      <div class="mc-body">
+        <div class="mc-msg" id="motive-msg">Cargando…</div>
+        <div class="mc-detail" id="motive-detail"></div>
+      </div>
+    </div>
+
+    <!-- Weekly evolution chart -->
+    <div class="week-card">
+      <img src="../sources/logos-games/suerte-4.png" aria-hidden="true"
+           style="position:absolute;width:62px;top:-4px;right:-2px;transform:rotate(14deg);opacity:.18;pointer-events:none;">
+      <div class="card-title">Evolución · semana en curso</div>
+      <div class="week-chart" id="week-chart"></div>
+      <div class="wc-tooltip" id="wc-tooltip" style="display:none"></div>
+    </div>
+
     <!-- Stock Rapiraspas -->
     <div class="stock-card">
       <div class="stock-card-hdr">
@@ -1231,24 +1249,6 @@
       </div>
       <button class="stock-save-btn" id="stock-save-btn" onclick="guardarStockRapi()">💾 Guardar stock</button>
       <div class="stock-feedback" id="stock-feedback"></div>
-    </div>
-
-    <!-- Motivational -->
-    <div class="motive-card" id="motive-card">
-      <div class="mc-icon" id="motive-icon">⏳</div>
-      <div class="mc-body">
-        <div class="mc-msg" id="motive-msg">Cargando…</div>
-        <div class="mc-detail" id="motive-detail"></div>
-      </div>
-    </div>
-
-    <!-- Weekly evolution chart -->
-    <div class="week-card">
-      <img src="../sources/logos-games/suerte-4.png" aria-hidden="true"
-           style="position:absolute;width:62px;top:-4px;right:-2px;transform:rotate(14deg);opacity:.18;pointer-events:none;">
-      <div class="card-title">Evolución · semana en curso</div>
-      <div class="week-chart" id="week-chart"></div>
-      <div class="wc-tooltip" id="wc-tooltip" style="display:none"></div>
     </div>
 
     <!-- Promo: video limpio (solo móvil) -->
@@ -2056,7 +2056,7 @@
     document.getElementById('motive-detail').textContent = m.detail;
     mc.style.border = `1px solid ${m.clr}40`;
 
-    loadStock(store.ID, store.nombre);
+    loadStock(store);
   }
 
   // ── Banner mes anterior ────────────────────────────────────────────────────
@@ -2082,18 +2082,17 @@
 
   // ── Stock Rapiraspas ────────────────────────────────────────────────────────
   const GAS_STOCK_URL = 'https://script.google.com/macros/s/AKfycbyUKWhWdbbSwOcr-ae3TDI1CW7b5HYlO88HMawG3oWz0eeQ7lzvR4SbTBrg2z3eKib4/exec';
-  let _stockStoreId = null, _stockStoreName = null;
+  let _stockStore = null;
 
-  const RAPI_KEYS = ['jack','wicho','blinoblin','7pecados','goldeooro','rojoyNegro','eldorado'];
-
-  async function loadStock(org_code, nombre) {
-    _stockStoreId   = String(org_code);
-    _stockStoreName = nombre;
-    RAPI_KEYS.forEach(k => { const el = document.getElementById('sk-' + k); if (el) el.value = 0; });
-    document.getElementById('stock-ts').textContent      = 'Cargando...';
+  async function loadStock(store) {
+    _stockStore = store;
+    ['jack','wicho','blinoblin','7pecados','goldeooro','rojoyNegro','eldorado'].forEach(k => {
+      const el = document.getElementById('sk-' + k); if (el) el.value = 0;
+    });
+    document.getElementById('stock-ts').textContent       = 'Cargando...';
     document.getElementById('stock-feedback').textContent = '';
     try {
-      const res  = await fetch(GAS_STOCK_URL + '?action=stock&org_code=' + encodeURIComponent(org_code));
+      const res  = await fetch(GAS_STOCK_URL + '?action=stock&org_code=' + encodeURIComponent(store.ID));
       const data = await res.json();
       if (data.stock) {
         const s = data.stock;
@@ -2106,7 +2105,7 @@
         document.getElementById('sk-eldorado').value   = s.eldorado    || 0;
         document.getElementById('stock-ts').textContent = 'Último: ' + s.fecha + ' ' + s.hora;
       } else {
-        document.getElementById('stock-ts').textContent = 'Sin registro';
+        document.getElementById('stock-ts').textContent = 'Sin registro hoy';
       }
     } catch(e) {
       document.getElementById('stock-ts').textContent = 'Sin conexión';
@@ -2114,13 +2113,19 @@
   }
 
   async function guardarStockRapi() {
-    if (!_stockStoreId) return;
+    if (!_stockStore) return;
     const btn = document.getElementById('stock-save-btn');
     const fb  = document.getElementById('stock-feedback');
     btn.disabled = true; btn.textContent = '⏳ Guardando...';
     fb.textContent = ''; fb.style.color = 'var(--muted)';
     const payload = {
-      action: 'guardar', org_code: _stockStoreId, tienda: _stockStoreName,
+      action:     'guardar',
+      org_code:   String(_stockStore.ID),
+      tienda:     _stockStore.nombre     || '',
+      partner:    PARTNER,
+      direccion:  _stockStore.direccion  || '',
+      distrito:   _stockStore.distrito   || '',
+      zonal_tipo: _stockStore.zonal_tipo || '',
       jack:       Number(document.getElementById('sk-jack').value)       || 0,
       wicho:      Number(document.getElementById('sk-wicho').value)      || 0,
       blinoblin:  Number(document.getElementById('sk-blinoblin').value)  || 0,
@@ -2133,7 +2138,7 @@
       const res  = await fetch(GAS_STOCK_URL, { method: 'POST', body: JSON.stringify(payload) });
       const data = await res.json();
       if (data.ok) {
-        fb.textContent = '✓ Guardado ' + data.fecha + ' ' + data.hora;
+        fb.textContent = (data.updated ? '✏️ Actualizado ' : '✓ Guardado ') + data.fecha + ' ' + data.hora;
         fb.style.color = 'var(--green)';
         document.getElementById('stock-ts').textContent = 'Último: ' + data.fecha + ' ' + data.hora;
       } else {
