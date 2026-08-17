@@ -1254,6 +1254,10 @@
           <div class="stock-label">El Dorado</div>
           <input class="stock-input" id="sk-eldorado" type="number" min="0" value="0" style="max-width:110px" disabled>
         </div>
+        <div class="stock-item full">
+          <div class="stock-label">🖨️ Contómetros</div>
+          <input class="stock-input" id="sk-contometros" type="number" min="0" value="0" style="max-width:110px" disabled>
+        </div>
       </div>
       <div class="stock-actions" id="stock-actions" style="display:none">
         <button class="stock-cancel-btn" onclick="cancelarStockEdit()">Cancelar</button>
@@ -2095,7 +2099,7 @@
   const GAS_STOCK_URL = 'https://script.google.com/macros/s/AKfycbyUKWhWdbbSwOcr-ae3TDI1CW7b5HYlO88HMawG3oWz0eeQ7lzvR4SbTBrg2z3eKib4/exec';
   let _stockStore = null;
 
-  const RAPI_IDS = ['jack','wicho','blinoblin','7pecados','goldeooro','rojoyNegro','eldorado'];
+  const RAPI_IDS = ['jack','wicho','blinoblin','7pecados','goldeooro','rojoyNegro','eldorado','contometros'];
 
   function stockSetEditing(on) {
     RAPI_IDS.forEach(k => { const el = document.getElementById('sk-' + k); if (el) el.disabled = !on; });
@@ -2129,9 +2133,10 @@
         document.getElementById('sk-wicho').value      = s.wicho       || 0;
         document.getElementById('sk-blinoblin').value  = s.blinoblin   || 0;
         document.getElementById('sk-7pecados').value   = s['7pecados'] || 0;
-        document.getElementById('sk-goldeooro').value  = s.goldeooro   || 0;
+        document.getElementById('sk-goldeooro').value   = s.goldeooro   || 0;
         document.getElementById('sk-rojoyNegro').value = s.rojoyNegro  || 0;
         document.getElementById('sk-eldorado').value   = s.eldorado    || 0;
+        document.getElementById('sk-contometros').value = s.contometros || 0;
         document.getElementById('stock-ts').textContent = fmtStockTs(s.fecha, s.hora);
       } else {
         document.getElementById('stock-ts').textContent = 'Sin registro';
@@ -2164,8 +2169,9 @@
       blinoblin:  Number(document.getElementById('sk-blinoblin').value)  || 0,
       '7pecados': Number(document.getElementById('sk-7pecados').value)   || 0,
       goldeooro:  Number(document.getElementById('sk-goldeooro').value)  || 0,
-      rojoyNegro: Number(document.getElementById('sk-rojoyNegro').value) || 0,
-      eldorado:   Number(document.getElementById('sk-eldorado').value)   || 0,
+      rojoyNegro:  Number(document.getElementById('sk-rojoyNegro').value)  || 0,
+      eldorado:    Number(document.getElementById('sk-eldorado').value)    || 0,
+      contometros: Number(document.getElementById('sk-contometros').value) || 0,
     };
     try {
       const res  = await fetch(GAS_STOCK_URL, { method: 'POST', body: JSON.stringify(payload) });

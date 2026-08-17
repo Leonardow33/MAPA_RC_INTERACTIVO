@@ -869,6 +869,27 @@
       border-radius: 20px; padding: 4px 11px;
       pointer-events: none; z-index: 999; white-space: nowrap;
     }
+
+    /* ── STOCK RAPIRASPAS ──────────────────────────────────── */
+    .stock-card { background:var(--surf);border-radius:16px;padding:18px 16px 16px;position:relative;overflow:hidden; }
+    .stock-card-hdr { display:flex;align-items:center;justify-content:space-between;margin-bottom:14px; }
+    .stock-card-title { font-size:12px;font-weight:700;letter-spacing:.5px;color:var(--muted);text-transform:uppercase; }
+    .stock-card-ts { font-size:10px;color:var(--muted);font-weight:500; }
+    .stock-grid { display:grid;grid-template-columns:1fr 1fr;gap:8px 12px;margin-bottom:14px; }
+    .stock-item { display:flex;flex-direction:column;gap:4px; }
+    .stock-item.full { grid-column:1/-1;display:flex;flex-direction:row;align-items:center;gap:10px; }
+    .stock-item.full .stock-label { min-width:90px;margin-bottom:0; }
+    .stock-label { font-size:11px;font-weight:600;color:var(--muted);margin-bottom:2px; }
+    .stock-input { width:100%;background:var(--bg);border:1.5px solid var(--border);border-radius:8px;padding:8px 6px;font-size:16px;font-weight:700;color:var(--text);font-family:inherit;text-align:center;box-sizing:border-box;transition:border-color .15s,color .15s; }
+    .stock-input:focus { outline:none;border-color:var(--accent); }
+    .stock-input:disabled { color:var(--muted);border-color:transparent;background:transparent;cursor:default; }
+    .stock-edit-btn { padding:5px 11px;background:transparent;border:1.5px solid var(--border);border-radius:8px;color:var(--muted);font-size:11px;font-weight:700;cursor:pointer;font-family:inherit;transition:all .15s;white-space:nowrap; }
+    .stock-edit-btn:hover { border-color:var(--accent);color:var(--accent); }
+    .stock-actions { display:flex;gap:8px;margin-top:12px; }
+    .stock-save-btn { flex:1;background:var(--accent);color:#fff;border:none;border-radius:10px;padding:12px;font-size:14px;font-weight:700;font-family:inherit;cursor:pointer;transition:opacity .15s;letter-spacing:.3px; }
+    .stock-save-btn:disabled { opacity:.5;cursor:not-allowed; }
+    .stock-cancel-btn { padding:12px 16px;background:transparent;border:1.5px solid var(--border);border-radius:10px;color:var(--muted);font-size:13px;font-weight:600;font-family:inherit;cursor:pointer; }
+    .stock-feedback { text-align:center;font-size:12px;font-weight:600;margin-top:9px;min-height:16px; }
   </style>
 </head>
 <body>
@@ -1040,6 +1061,56 @@
       <div class="card-title">Evolución · semana en curso</div>
       <div class="week-chart" id="week-chart"></div>
       <div class="wc-tooltip" id="wc-tooltip" style="display:none"></div>
+    </div>
+
+    <!-- Stock Rapiraspas -->
+    <div class="stock-card">
+      <div class="stock-card-hdr">
+        <div class="stock-card-title">📦 Stock Rapiraspas</div>
+        <div style="display:flex;align-items:center;gap:8px">
+          <div class="stock-card-ts" id="stock-ts">—</div>
+          <button class="stock-edit-btn" id="stock-edit-btn" onclick="editarStock()">✏️ Editar</button>
+        </div>
+      </div>
+      <div class="stock-grid">
+        <div class="stock-item">
+          <div class="stock-label">Jack</div>
+          <input class="stock-input" id="sk-jack" type="number" min="0" value="0" disabled>
+        </div>
+        <div class="stock-item">
+          <div class="stock-label">Wicho</div>
+          <input class="stock-input" id="sk-wicho" type="number" min="0" value="0" disabled>
+        </div>
+        <div class="stock-item">
+          <div class="stock-label">BlinoBlin</div>
+          <input class="stock-input" id="sk-blinoblin" type="number" min="0" value="0" disabled>
+        </div>
+        <div class="stock-item">
+          <div class="stock-label">7 Pecados</div>
+          <input class="stock-input" id="sk-7pecados" type="number" min="0" value="0" disabled>
+        </div>
+        <div class="stock-item">
+          <div class="stock-label">GoldenOro</div>
+          <input class="stock-input" id="sk-goldeooro" type="number" min="0" value="0" disabled>
+        </div>
+        <div class="stock-item">
+          <div class="stock-label">Rojo y Negro</div>
+          <input class="stock-input" id="sk-rojoyNegro" type="number" min="0" value="0" disabled>
+        </div>
+        <div class="stock-item full">
+          <div class="stock-label">El Dorado</div>
+          <input class="stock-input" id="sk-eldorado" type="number" min="0" value="0" style="max-width:110px" disabled>
+        </div>
+        <div class="stock-item full">
+          <div class="stock-label">🖨️ Contómetros</div>
+          <input class="stock-input" id="sk-contometros" type="number" min="0" value="0" style="max-width:110px" disabled>
+        </div>
+      </div>
+      <div class="stock-actions" id="stock-actions" style="display:none">
+        <button class="stock-cancel-btn" onclick="cancelarStockEdit()">Cancelar</button>
+        <button class="stock-save-btn" id="stock-save-btn" onclick="guardarStockRapi()">💾 Guardar</button>
+      </div>
+      <div class="stock-feedback" id="stock-feedback"></div>
     </div>
 
     <!-- Promo: video limpio (solo móvil) -->
@@ -1525,6 +1596,7 @@
     document.getElementById('motive-msg').style.color    = m.clr;
     document.getElementById('motive-detail').textContent = m.detail;
     mc.style.border = `1px solid ${m.clr}40`;
+    loadStock(store);
   }
 
   // ── Banner mes anterior ────────────────────────────────────────────────────
@@ -1547,6 +1619,105 @@
   })();
 
   init();
+
+  // ── Stock Rapiraspas ────────────────────────────────────────────────────────
+  const GAS_STOCK_URL = 'https://script.google.com/macros/s/AKfycbyUKWhWdbbSwOcr-ae3TDI1CW7b5HYlO88HMawG3oWz0eeQ7lzvR4SbTBrg2z3eKib4/exec';
+  let _stockStore = null;
+
+  const RAPI_IDS = ['jack','wicho','blinoblin','7pecados','goldeooro','rojoyNegro','eldorado','contometros'];
+
+  function stockSetEditing(on) {
+    RAPI_IDS.forEach(k => { const el = document.getElementById('sk-' + k); if (el) el.disabled = !on; });
+    document.getElementById('stock-actions').style.display = on ? 'flex' : 'none';
+    document.getElementById('stock-edit-btn').style.display = on ? 'none' : '';
+    document.getElementById('stock-feedback').textContent = '';
+  }
+
+  function fmtStockTs(fecha, hora) {
+    let f = String(fecha || '');
+    let h = String(hora  || '');
+    if (f.includes('T')) f = f.split('T')[0];
+    if (h.includes('T')) h = h.split('T')[1].slice(0,5);
+    if (!f) return 'Sin registro';
+    const [y, mo, da] = f.split('-');
+    return `Último: ${da}/${mo}/${y} ${h}`;
+  }
+
+  async function loadStock(store) {
+    _stockStore = store;
+    RAPI_IDS.forEach(k => { const el = document.getElementById('sk-' + k); if (el) el.value = 0; });
+    stockSetEditing(false);
+    document.getElementById('stock-ts').textContent = 'Cargando...';
+    try {
+      const res  = await fetch(GAS_STOCK_URL + '?action=stock&org_code=' + encodeURIComponent(store.ID));
+      const data = await res.json();
+      if (data.stock) {
+        const s = data.stock;
+        document.getElementById('sk-jack').value        = s.jack        || 0;
+        document.getElementById('sk-wicho').value       = s.wicho       || 0;
+        document.getElementById('sk-blinoblin').value   = s.blinoblin   || 0;
+        document.getElementById('sk-7pecados').value    = s['7pecados'] || 0;
+        document.getElementById('sk-goldeooro').value   = s.goldeooro   || 0;
+        document.getElementById('sk-rojoyNegro').value  = s.rojoyNegro  || 0;
+        document.getElementById('sk-eldorado').value    = s.eldorado    || 0;
+        document.getElementById('sk-contometros').value = s.contometros || 0;
+        document.getElementById('stock-ts').textContent = fmtStockTs(s.fecha, s.hora);
+      } else {
+        document.getElementById('stock-ts').textContent = 'Sin registro';
+      }
+    } catch(e) {
+      document.getElementById('stock-ts').textContent = 'Sin conexión';
+    }
+  }
+
+  function editarStock() { stockSetEditing(true); }
+
+  function cancelarStockEdit() { stockSetEditing(false); }
+
+  async function guardarStockRapi() {
+    if (!_stockStore) return;
+    const btn = document.getElementById('stock-save-btn');
+    const fb  = document.getElementById('stock-feedback');
+    btn.disabled = true; btn.textContent = '⏳ Guardando...';
+    fb.style.color = 'var(--muted)';
+    const payload = {
+      action:      'guardar',
+      org_code:    String(_stockStore.ID),
+      tienda:      _stockStore.nombre     || '',
+      partner:     PARTNER,
+      direccion:   _stockStore.direccion  || '',
+      distrito:    _stockStore.distrito   || '',
+      zonal_tipo:  _stockStore.zonal_tipo || '',
+      jack:        Number(document.getElementById('sk-jack').value)        || 0,
+      wicho:       Number(document.getElementById('sk-wicho').value)       || 0,
+      blinoblin:   Number(document.getElementById('sk-blinoblin').value)   || 0,
+      '7pecados':  Number(document.getElementById('sk-7pecados').value)    || 0,
+      goldeooro:   Number(document.getElementById('sk-goldeooro').value)   || 0,
+      rojoyNegro:  Number(document.getElementById('sk-rojoyNegro').value)  || 0,
+      eldorado:    Number(document.getElementById('sk-eldorado').value)    || 0,
+      contometros: Number(document.getElementById('sk-contometros').value) || 0,
+    };
+    try {
+      const res  = await fetch(GAS_STOCK_URL, { method: 'POST', body: JSON.stringify(payload) });
+      const data = await res.json();
+      if (data.ok) {
+        const label = data.updated ? '✏️ Actualizado' : '✓ Guardado';
+        const ts    = fmtStockTs(data.fecha, data.hora);
+        fb.textContent = label + ' · ' + ts.replace('Último: ','');
+        fb.style.color = 'var(--green)';
+        document.getElementById('stock-ts').textContent = ts;
+        stockSetEditing(false);
+      } else {
+        fb.textContent = 'Error: ' + (data.error || 'desconocido');
+        fb.style.color = 'var(--red)';
+      }
+    } catch(e) {
+      fb.textContent = 'Error de conexión';
+      fb.style.color = 'var(--red)';
+    } finally {
+      btn.disabled = false; btn.textContent = '💾 Guardar';
+    }
+  }
 </script>
 <div class="dev-badge">Desarrollado por Doriant C.</div>
 </body>
