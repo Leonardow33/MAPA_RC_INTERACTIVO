@@ -2191,14 +2191,18 @@
 
     const otrosHoy = Math.max(0, totHoy - (ppHoy + ldHoy + scHoy + goHoy + e3Hoy + turbitoHoy));
     const otrosSem = Math.max(0, totSem - (ppSem + ldSem + scSem + goSem + e3Sem + turbitoSem));
-    const metaPP   = parseFloat(store.meta_pp) || 0;
     const metaLD   = parseFloat(store.meta_lakidey) || 0;
+
+    // TOP D: metas PP independientes (42 pp/día × S/5, 320 pp/sem × S/5)
+    const isTopD      = (store.cluster || '').toUpperCase() === 'TOP D';
+    const metaPP      = isTopD ? 1600 : (parseFloat(store.meta_pp) || 0); // soles/sem
+    const metaDiariaPP = isTopD ? 210  : metaPP / 7;                       // soles/día: 42pp o derivado
 
     _ds = {
       ppSem, ldSem, scSem, goSem, e3Sem, turbitoSem, otrosSem,
       ppHoy, ldHoy, scHoy, goHoy, e3Hoy, turbitoHoy, otrosHoy,
       metaPP, metaLD,
-      metaDiariaPP: metaPP / 7, metaDiariaLD: metaLD / 7,
+      metaDiariaPP, metaDiariaLD: metaLD / 7,
     };
     vistaMode = 'sem';
     renderGamesMode();
