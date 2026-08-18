@@ -2317,7 +2317,7 @@
     const metaLD = isDia ? (d.metaDiariaLD || 0) : (d.metaLD || 0);
     const maxG = Math.max(ppV, ldV, scV, goV, e3V, tbV, otV, metaPP, metaLD, 1);
 
-    document.getElementById('pp-val').textContent      = Math.round(ppV / 5) + ' tkt';
+    document.getElementById('pp-val').textContent      = Math.round(ppV / 5) + ' pp';
     document.getElementById('ld-val').textContent      = fmtS(ldV);
     document.getElementById('sc-val').textContent      = fmtS(scV);
     document.getElementById('go-val').textContent      = fmtS(goV);
@@ -2339,7 +2339,7 @@
     if (metaPP > 0) {
       ppAvLbl.style.display   = '';
       ppMetaCol.style.display = 'flex';
-      document.getElementById('pp-meta-val').textContent = Math.ceil(metaPP / 5) + ' tkt';
+      document.getElementById('pp-meta-val').textContent = Math.ceil(metaPP / 5) + ' pp';
       setBar(document.getElementById('pp-bar'), ppV / metaPP * 100, 'var(--accent)');
     } else {
       ppAvLbl.style.display   = 'none';
