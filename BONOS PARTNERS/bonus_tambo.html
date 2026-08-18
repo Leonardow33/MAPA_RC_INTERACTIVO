@@ -2198,7 +2198,7 @@
       ppSem, ldSem, scSem, goSem, e3Sem, turbitoSem, otrosSem,
       ppHoy, ldHoy, scHoy, goHoy, e3Hoy, turbitoHoy, otrosHoy,
       metaPP, metaLD,
-      metaDiariaPP: metaPP / 30, metaDiariaLD: metaLD / 30,
+      metaDiariaPP: metaPP / 7, metaDiariaLD: metaLD / 7,
     };
     vistaMode = 'sem';
     renderGamesMode();
@@ -2339,7 +2339,7 @@
     if (metaPP > 0) {
       ppAvLbl.style.display   = '';
       ppMetaCol.style.display = 'flex';
-      document.getElementById('pp-meta-val').textContent = Math.round(metaPP / 5) + ' tkt';
+      document.getElementById('pp-meta-val').textContent = Math.ceil(metaPP / 5) + ' tkt';
       setBar(document.getElementById('pp-bar'), ppV / metaPP * 100, 'var(--accent)');
     } else {
       ppAvLbl.style.display   = 'none';
