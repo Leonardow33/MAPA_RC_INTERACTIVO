@@ -1127,7 +1127,10 @@
       <img src="../sources/logos-games/suerte-3.png" aria-hidden="true"
            style="position:absolute;width:72px;bottom:-6px;right:-4px;transform:rotate(9deg);opacity:.2;pointer-events:none;">
       <div class="games-title-row">
-        <div class="card-title" id="games-card-title">Desglose por juego · esta semana</div>
+        <div>
+          <div class="card-title" id="games-card-title">Desglose por juego · esta semana</div>
+          <div id="games-bi-ts" style="font-size:10px;color:var(--muted);margin-top:2px;font-weight:500"></div>
+        </div>
         <button id="btn-vista-dia" class="vista-toggle" onclick="toggleVistaDia()">📅 Ver hoy</button>
       </div>
       <div class="game-row">
@@ -1985,6 +1988,14 @@
       allVentas  = todos.filter(v => (v.partner || '').toUpperCase() === PARTNER);
       allRaspes  = (raspesData.ventas  || raspesData.body  || []).filter(v => (v.partner || '').toUpperCase() === PARTNER);
       allLoteria = (loteriaData.ventas || loteriaData.body  || []).filter(v => (v.partner || '').toUpperCase() === PARTNER);
+      const biTsEl = document.getElementById('games-bi-ts');
+      if (biTsEl && loteriaData.updated) {
+        const m = String(loteriaData.updated).match(/(\d{4}-\d{2}-\d{2})\s+(\d{2}):(\d{2})/);
+        if (m) {
+          let h = parseInt(m[2]) - 5; if (h < 0) h += 24;
+          biTsEl.textContent = `🕐 Act. ${String(h).padStart(2,'0')}:${m[3]} Lima`;
+        }
+      }
       const _ld = (lakideyData.ventas || lakideyData.body || []).filter(v => (v.partner || '').toUpperCase() === PARTNER);
       const _tb = (turbitoData.ventas || turbitoData.body || []).filter(v => (v.partner || '').toUpperCase() === PARTNER);
       if (_ld.length > 0) { allLoteria = allLoteria.filter(v => v.tipo_juego !== 'LakiDey'); allLoteria.push(..._ld); }
@@ -2306,7 +2317,7 @@
     const metaLD = isDia ? (d.metaDiariaLD || 0) : (d.metaLD || 0);
     const maxG = Math.max(ppV, ldV, scV, goV, e3V, tbV, otV, metaPP, metaLD, 1);
 
-    document.getElementById('pp-val').textContent      = fmtS(ppV);
+    document.getElementById('pp-val').textContent      = Math.round(ppV / 5) + ' tkt';
     document.getElementById('ld-val').textContent      = fmtS(ldV);
     document.getElementById('sc-val').textContent      = fmtS(scV);
     document.getElementById('go-val').textContent      = fmtS(goV);
@@ -2328,7 +2339,7 @@
     if (metaPP > 0) {
       ppAvLbl.style.display   = '';
       ppMetaCol.style.display = 'flex';
-      document.getElementById('pp-meta-val').textContent = fmtS(metaPP);
+      document.getElementById('pp-meta-val').textContent = Math.round(metaPP / 5) + ' tkt';
       setBar(document.getElementById('pp-bar'), ppV / metaPP * 100, 'var(--accent)');
     } else {
       ppAvLbl.style.display   = 'none';
