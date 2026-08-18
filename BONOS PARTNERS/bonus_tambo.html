@@ -2141,7 +2141,8 @@
     const metaDiaria = hasMeta ? store.meta_diaria : null;
     const diasCalMes = 30;
     const diasCalSem = 7;
-    const metaSem    = hasMeta ? metaDiaria * diasCalSem : null;
+    const isTopD     = (store.cluster || '').toUpperCase() === 'TOP D';
+    const metaSem    = hasMeta ? (isTopD ? 320 : metaDiaria * diasCalSem) : null;
     const metaMes    = hasMeta ? metaDiaria * diasCalMes : null;
 
     const pctMes  = metaMes  ? Math.round(totMes  / metaMes  * 100) : null;
@@ -2193,10 +2194,8 @@
     const otrosSem = Math.max(0, totSem - (ppSem + ldSem + scSem + goSem + e3Sem + turbitoSem));
     const metaLD   = parseFloat(store.meta_lakidey) || 0;
 
-    // TOP D: metas PP independientes (42 pp/día × S/5, 320 pp/sem × S/5)
-    const isTopD      = (store.cluster || '').toUpperCase() === 'TOP D';
-    const metaPP      = isTopD ? 1600 : (parseFloat(store.meta_pp) || 0); // soles/sem
-    const metaDiariaPP = isTopD ? 210  : metaPP / 7;                       // soles/día: 42pp o derivado
+    const metaPP       = parseFloat(store.meta_pp) || 0;
+    const metaDiariaPP = metaPP / 7;
 
     _ds = {
       ppSem, ldSem, scSem, goSem, e3Sem, turbitoSem, otrosSem,
