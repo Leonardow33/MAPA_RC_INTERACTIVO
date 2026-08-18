@@ -973,6 +973,11 @@
       border-radius: 20px; padding: 4px 11px;
       pointer-events: none; z-index: 999; white-space: nowrap;
     }
+    .games-title-row { display:flex;align-items:center;justify-content:space-between;margin-bottom:14px; }
+    .games-title-row .card-title { margin-bottom:0; }
+    .vista-toggle { padding:5px 12px;background:transparent;border:1.5px solid var(--border);border-radius:8px;color:var(--muted);font-size:11px;font-weight:700;cursor:pointer;font-family:inherit;transition:all .15s;white-space:nowrap; }
+    .vista-toggle:hover { border-color:var(--accent);color:var(--accent); }
+    .vista-toggle.active { background:var(--accent);color:#fff;border-color:var(--accent); }
   </style>
 </head>
 <body>
@@ -1121,7 +1126,10 @@
     <div class="games-card">
       <img src="../sources/logos-games/suerte-3.png" aria-hidden="true"
            style="position:absolute;width:72px;bottom:-6px;right:-4px;transform:rotate(9deg);opacity:.2;pointer-events:none;">
-      <div class="card-title">Desglose por juego · esta semana</div>
+      <div class="games-title-row">
+        <div class="card-title" id="games-card-title">Desglose por juego · esta semana</div>
+        <button id="btn-vista-dia" class="vista-toggle" onclick="toggleVistaDia()">📅 Ver hoy</button>
+      </div>
       <div class="game-row">
         <div class="gr-name"><img src="../sources/logos-games/pozopower.png" class="gr-logo" alt="">PozoPower</div>
         <div class="gr-bar"><div class="gr-fill" id="pp-bar" style="background:var(--accent)"></div></div>
@@ -2075,6 +2083,7 @@
     const id = String(store.ID);
     let totHoy = 0, totSem = 0, totMes = 0, ppMes = 0, ldMes = 0, scMes = 0, goMes = 0, e3Mes = 0, turbitoMes = 0;
     let ppSem = 0, ldSem = 0, scSem = 0, goSem = 0, e3Sem = 0, turbitoSem = 0;
+    let ppHoy = 0, ldHoy = 0, scHoy = 0, goHoy = 0, e3Hoy = 0, turbitoHoy = 0;
 
     allVentas.forEach(v => {
       if (String(v.org_code) !== id || !v.fecha || v.tipo_juego !== 'TOTAL') return;
@@ -2094,6 +2103,7 @@
       const f = new Date(v.fecha + 'T12:00:00');
       if (f >= mesIni && f <= mesFin) scMes += (v.total || 0);
       if (f >= semJue && f <= semMie) scSem += (v.total || 0);
+      if (v.fecha === hoy)            scHoy += (v.total || 0);
     });
     allLoteria.forEach(v => {
       if (String(v.org_code) !== id || !v.fecha) return;
@@ -2110,6 +2120,11 @@
       if ((tj === 'PozoPowerGo' || tj === 'Go') && f >= semJue && f <= semMie) goSem += amt;
       if (tj === 'Elige 3'     && f >= semJue && f <= semMie) e3Sem      += amt;
       if (tj === 'Turbito'     && f >= semJue && f <= semMie) turbitoSem += amt;
+      if (tj === 'PozoPower'   && v.fecha === hoy) ppHoy      += amt;
+      if (tj === 'LakiDey'     && v.fecha === hoy) ldHoy      += amt;
+      if ((tj === 'PozoPowerGo' || tj === 'Go') && v.fecha === hoy) goHoy += amt;
+      if (tj === 'Elige 3'     && v.fecha === hoy) e3Hoy      += amt;
+      if (tj === 'Turbito'     && v.fecha === hoy) turbitoHoy += amt;
     });
 
     const metaDiaria = hasMeta ? store.meta_diaria : null;
@@ -2163,48 +2178,19 @@
     document.getElementById('sem-pct').style.color  = semCol;
     setBar(document.getElementById('sem-bar'), pctSem || 0, semCol);
 
+    const otrosHoy = Math.max(0, totHoy - (ppHoy + ldHoy + scHoy + goHoy + e3Hoy + turbitoHoy));
     const otrosSem = Math.max(0, totSem - (ppSem + ldSem + scSem + goSem + e3Sem + turbitoSem));
     const metaPP   = parseFloat(store.meta_pp) || 0;
     const metaLD   = parseFloat(store.meta_lakidey) || 0;
-    const maxGame  = Math.max(ppSem, ldSem, scSem, goSem, e3Sem, turbitoSem, otrosSem, metaPP, metaLD, 1);
-    document.getElementById('pp-val').textContent      = fmtS(ppSem);
-    document.getElementById('ld-val').textContent      = fmtS(ldSem);
-    document.getElementById('sc-val').textContent      = fmtS(scSem);
-    document.getElementById('go-val').textContent      = fmtS(goSem);
-    document.getElementById('e3-val').textContent      = fmtS(e3Sem);
-    document.getElementById('turbito-val').textContent = fmtS(turbitoSem);
-    document.getElementById('otros-val').textContent   = fmtS(otrosSem);
-    document.getElementById('otros-row').style.display = otrosSem > 0 ? '' : 'none';
-    setBar(document.getElementById('pp-bar'),      ppSem      / maxGame * 100, 'var(--accent)');
-    setBar(document.getElementById('ld-bar'),      ldSem      / maxGame * 100, '#3B9EE8');
-    setBar(document.getElementById('sc-bar'),      scSem      / maxGame * 100, '#16A34A');
-    setBar(document.getElementById('go-bar'),      goSem      / maxGame * 100, '#D97706');
-    setBar(document.getElementById('e3-bar'),      e3Sem      / maxGame * 100, '#7C3AED');
-    setBar(document.getElementById('turbito-bar'), turbitoSem / maxGame * 100, '#0891B2');
-    setBar(document.getElementById('otros-bar'),   otrosSem   / maxGame * 100, '#6B7280');
-    // Meta PP / LakiDey comparativa — dos columnas Avance | Meta
-    const ppAvLbl  = document.getElementById('pp-avance-lbl');
-    const ppMetaCol= document.getElementById('pp-meta-col');
-    if (metaPP > 0) {
-      ppAvLbl.style.display   = '';
-      ppMetaCol.style.display = 'flex';
-      document.getElementById('pp-meta-val').textContent = fmtS(metaPP);
-      setBar(document.getElementById('pp-bar'), ppSem / metaPP * 100, 'var(--accent)');
-    } else {
-      ppAvLbl.style.display   = 'none';
-      ppMetaCol.style.display = 'none';
-    }
-    const ldAvLbl  = document.getElementById('ld-avance-lbl');
-    const ldMetaCol= document.getElementById('ld-meta-col');
-    if (metaLD > 0) {
-      ldAvLbl.style.display   = '';
-      ldMetaCol.style.display = 'flex';
-      document.getElementById('ld-meta-val').textContent = fmtS(metaLD);
-      setBar(document.getElementById('ld-bar'), ldSem / metaLD * 100, '#3B9EE8');
-    } else {
-      ldAvLbl.style.display   = 'none';
-      ldMetaCol.style.display = 'none';
-    }
+
+    _ds = {
+      ppSem, ldSem, scSem, goSem, e3Sem, turbitoSem, otrosSem,
+      ppHoy, ldHoy, scHoy, goHoy, e3Hoy, turbitoHoy, otrosHoy,
+      metaPP, metaLD,
+      metaDiariaPP: metaPP / 30, metaDiariaLD: metaLD / 30,
+    };
+    vistaMode = 'sem';
+    renderGamesMode();
 
     const DAY_NAMES      = ['Jue','Vie','Sáb','Dom','Lun','Mar','Mié'];
     const DAY_NAMES_LONG = ['Jueves','Viernes','Sábado','Domingo','Lunes','Martes','Miércoles'];
@@ -2301,6 +2287,76 @@
   })();
 
   init();
+
+  // ── Toggle desglose por juego: semana ↔ hoy ────────────────────────────────
+  let _ds = {};
+  let vistaMode = 'sem';
+
+  function renderGamesMode() {
+    const isDia = vistaMode === 'dia';
+    const d = _ds;
+    const ppV  = isDia ? d.ppHoy  : d.ppSem;
+    const ldV  = isDia ? d.ldHoy  : d.ldSem;
+    const scV  = isDia ? d.scHoy  : d.scSem;
+    const goV  = isDia ? d.goHoy  : d.goSem;
+    const e3V  = isDia ? d.e3Hoy  : d.e3Sem;
+    const tbV  = isDia ? d.turbitoHoy  : d.turbitoSem;
+    const otV  = isDia ? d.otrosHoy    : d.otrosSem;
+    const metaPP = isDia ? (d.metaDiariaPP || 0) : (d.metaPP || 0);
+    const metaLD = isDia ? (d.metaDiariaLD || 0) : (d.metaLD || 0);
+    const maxG = Math.max(ppV, ldV, scV, goV, e3V, tbV, otV, metaPP, metaLD, 1);
+
+    document.getElementById('pp-val').textContent      = fmtS(ppV);
+    document.getElementById('ld-val').textContent      = fmtS(ldV);
+    document.getElementById('sc-val').textContent      = fmtS(scV);
+    document.getElementById('go-val').textContent      = fmtS(goV);
+    document.getElementById('e3-val').textContent      = fmtS(e3V);
+    document.getElementById('turbito-val').textContent = fmtS(tbV);
+    document.getElementById('otros-val').textContent   = fmtS(otV);
+    document.getElementById('otros-row').style.display = otV > 0 ? '' : 'none';
+
+    setBar(document.getElementById('pp-bar'),      ppV / maxG * 100, 'var(--accent)');
+    setBar(document.getElementById('ld-bar'),      ldV / maxG * 100, '#3B9EE8');
+    setBar(document.getElementById('sc-bar'),      scV / maxG * 100, '#16A34A');
+    setBar(document.getElementById('go-bar'),      goV / maxG * 100, '#D97706');
+    setBar(document.getElementById('e3-bar'),      e3V / maxG * 100, '#7C3AED');
+    setBar(document.getElementById('turbito-bar'), tbV / maxG * 100, '#0891B2');
+    setBar(document.getElementById('otros-bar'),   otV / maxG * 100, '#6B7280');
+
+    const ppAvLbl   = document.getElementById('pp-avance-lbl');
+    const ppMetaCol = document.getElementById('pp-meta-col');
+    if (metaPP > 0) {
+      ppAvLbl.style.display   = '';
+      ppMetaCol.style.display = 'flex';
+      document.getElementById('pp-meta-val').textContent = fmtS(metaPP);
+      setBar(document.getElementById('pp-bar'), ppV / metaPP * 100, 'var(--accent)');
+    } else {
+      ppAvLbl.style.display   = 'none';
+      ppMetaCol.style.display = 'none';
+    }
+    const ldAvLbl   = document.getElementById('ld-avance-lbl');
+    const ldMetaCol = document.getElementById('ld-meta-col');
+    if (metaLD > 0) {
+      ldAvLbl.style.display   = '';
+      ldMetaCol.style.display = 'flex';
+      document.getElementById('ld-meta-val').textContent = fmtS(metaLD);
+      setBar(document.getElementById('ld-bar'), ldV / metaLD * 100, '#3B9EE8');
+    } else {
+      ldAvLbl.style.display   = 'none';
+      ldMetaCol.style.display = 'none';
+    }
+
+    document.getElementById('games-card-title').textContent =
+      isDia ? 'Desglose por juego · hoy' : 'Desglose por juego · esta semana';
+    const btn = document.getElementById('btn-vista-dia');
+    btn.textContent = isDia ? '📅 Ver semana' : '📅 Ver hoy';
+    btn.classList.toggle('active', isDia);
+  }
+
+  function toggleVistaDia() {
+    vistaMode = vistaMode === 'sem' ? 'dia' : 'sem';
+    renderGamesMode();
+  }
 </script>
 <div class="dev-badge">Desarrollado por Doriant C.</div>
 </body>
