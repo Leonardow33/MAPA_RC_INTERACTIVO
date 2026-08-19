@@ -1416,6 +1416,20 @@
     const barW       = Math.min(pct || 0, 100);
     const m          = motivation(pct);
 
+    // Sin venta hoy (solo para RC)
+    let sinVentaCount = 0;
+    if (role === 'rc') {
+      const hoyStr = isoDate();
+      const conVentaIds = new Set(
+        allVentas.filter(v => v.fecha === hoyStr && v.tipo_juego === 'TOTAL' && (v.total || 0) > 0)
+                 .map(v => String(v.org_code))
+      );
+      _rcAllStores      = stores;
+      _rcSinVentaStores = stores.filter(s => !conVentaIds.has(String(s.ID)));
+      _rcSinVentaActive = false;
+      sinVentaCount     = _rcSinVentaStores.length;
+    }
+
     summaryEl.style.display = '';
     summaryEl.innerHTML = `
       <div class="gz-sum-card">
@@ -1448,6 +1462,7 @@
           </div>
         </div>
         <button class="gz-det-btn" id="${role}-det-btn" onclick="toggleRoleDetail('${role}')">${role === 'gz' ? 'Ver Jefes Zonales y tiendas ▾' : role === 'supervisor' ? 'Ver RCs y tiendas ▾' : 'Ver detalle por tienda ▾'}</button>
+        ${role === 'rc' ? `<button class="gz-det-btn" id="rc-sinventa-btn" onclick="filterRCSinVenta()" style="margin-top:6px;background:rgba(240,68,68,.06);border-color:rgba(240,68,68,.3);color:#F04444">🔴 Sin venta hoy · ${sinVentaCount} tienda${sinVentaCount !== 1 ? 's' : ''}</button>` : ''}
       </div>`;
   }
 
@@ -2301,6 +2316,27 @@
   })();
 
   init();
+
+  // ── Filtro RC: sin venta hoy ───────────────────────────────────────────────
+  let _rcAllStores      = [];
+  let _rcSinVentaStores = [];
+  let _rcSinVentaActive = false;
+
+  function filterRCSinVenta() {
+    _rcSinVentaActive = !_rcSinVentaActive;
+    const filtered = _rcSinVentaActive ? _rcSinVentaStores : _rcAllStores;
+    renderSimpleDetail('rc', filtered);
+    document.getElementById('rc-stores-wrap').style.display = '';
+    const detBtn = document.getElementById('rc-det-btn');
+    if (detBtn) detBtn.textContent = 'Ocultar ▲';
+    const svBtn = document.getElementById('rc-sinventa-btn');
+    if (svBtn) {
+      svBtn.textContent = _rcSinVentaActive
+        ? `🔴 Mostrando sin venta (${_rcSinVentaStores.length}) · Ver todas`
+        : `🔴 Sin venta hoy · ${_rcSinVentaStores.length} tienda${_rcSinVentaStores.length !== 1 ? 's' : ''}`;
+      svBtn.style.background = _rcSinVentaActive ? 'rgba(240,68,68,.18)' : 'rgba(240,68,68,.06)';
+    }
+  }
 
   // ── Toggle desglose por juego: semana ↔ hoy ────────────────────────────────
   let _ds = {};
