@@ -29,7 +29,7 @@ function checkAuth() {
 
 // Lógica principal
 const SHEET_URL    = "https://script.google.com/macros/s/AKfycby2f2uW9E2_CUBr9OiKVT4Sp-ubP2sRIXlWig-GPuKTGyDxi-zx724ZGtkOFaWW0jnqjw/exec";
-let modoVista = (window._authModo === 'cap') ? 'cap' : 'rc';
+let modoVista = (window._authModo === 'cap') ? 'cap' : (window._authModo === 'sup') ? 'sup' : 'rc';
 const SIN_VENTA_URL = "https://raw.githubusercontent.com/Leonardow33/MAPA_RC_INTERACTIVO/main/sinventa.txt";
 
 const COLORES = [
@@ -111,9 +111,9 @@ let selectedRCFilter = null;
 
 function matchRCFilter(p) {
     if (!selectedRCFilter) return true;
-    return modoVista === 'cap'
-        ? p.capacitador === selectedRCFilter
-        : p.rc === selectedRCFilter;
+    if (modoVista === 'cap') return p.capacitador === selectedRCFilter;
+    if (modoVista === 'sup') return p.supervisor  === selectedRCFilter;
+    return p.rc === selectedRCFilter;
 }
 let semanaKeyCache = '';
 let selectedSemanaMonday = null;
@@ -394,12 +394,12 @@ function buildDayFilter(monday) {
     // Siempre default al placeholder
     sel.selectedIndex = 0;
     selectedDate = '';
-    document.getElementById('panelHeader').textContent = modoVista === 'cap' ? 'Capacitadores activos hoy' : 'RCs activos hoy';
+    document.getElementById('panelHeader').textContent = modoVista === 'cap' ? 'Capacitadores activos hoy' : modoVista === 'sup' ? 'Supervisores activos hoy' : 'RCs activos hoy';
 
     sel.onchange = function() {
         selectedDate = this.value;
-        const defaultLbl = modoVista === 'cap' ? 'Capacitadores activos hoy' : 'RCs activos hoy';
-        const prefijo    = modoVista === 'cap' ? 'Capacitadores' : 'RCs';
+        const defaultLbl = modoVista === 'cap' ? 'Capacitadores activos hoy' : modoVista === 'sup' ? 'Supervisores activos hoy' : 'RCs activos hoy';
+        const prefijo    = modoVista === 'cap' ? 'Capacitadores' : modoVista === 'sup' ? 'Supervisores' : 'RCs';
         document.getElementById('panelHeader').textContent = !this.value ? defaultLbl : `${prefijo} visitando · ${this.options[this.selectedIndex].textContent}`;
         document.getElementById('rcList').innerHTML = '<div style="padding:16px;color:#aaa;font-size:12px;text-align:center">⏳ Cargando...</div>';
         updateSinVentaBtn();
@@ -584,7 +584,7 @@ async function cargarDatosSemanales() {
     setLoadingState(true);
 
     const today = new Date(); today.setHours(0,0,0,0);
-    const accion = modoVista === 'cap' ? 'getVisitasMapa2' : 'getVisitas';
+    const accion = modoVista === 'cap' ? 'getVisitasMapa2' : modoVista === 'sup' ? 'getVisitasSup' : 'getVisitas';
     const fetchTasks = [];
     for (let i = 0; i < 6; i++) {
         const d = new Date(monday);
@@ -733,7 +733,7 @@ let _modoSolicitado = null;
 function setModoVista(modo) {
     if (modo === modoVista) return;
     _modoSolicitado = modo;
-    const nombre = modo === 'cap' ? 'Capacitadores' : 'RCs';
+    const nombre = modo === 'cap' ? 'Capacitadores' : modo === 'sup' ? 'Supervisores' : 'RCs';
     document.getElementById('switchTitle').textContent = `Cambiar a ${nombre}`;
     document.getElementById('switchDesc').textContent = `Ingresa la contraseña de ${nombre} para continuar`;
     document.getElementById('switchInput').value = '';
@@ -744,7 +744,7 @@ function setModoVista(modo) {
 
 function confirmarSwitch() {
     const val  = document.getElementById('switchInput').value;
-    const pass = _modoSolicitado === 'cap' ? 'Geodor2026-2' : 'Geodor2026-1';
+    const pass = _modoSolicitado === 'cap' ? 'Geodor2026-2' : _modoSolicitado === 'sup' ? 'Geodor2026-3' : 'Geodor2026-1';
     if (val === pass) {
         localStorage.setItem('rc_auth', _modoSolicitado);
         document.getElementById('switchOverlay').style.display = 'none';
@@ -760,16 +760,18 @@ function cancelarSwitch() {
     document.getElementById('switchOverlay').style.display = 'none';
     _modoSolicitado = null;
     document.getElementById('btnModoRC').classList.toggle('activo', modoVista === 'rc');
+    document.getElementById('btnModoSup').classList.toggle('activo', modoVista === 'sup');
     document.getElementById('btnModoCap').classList.toggle('activo', modoVista === 'cap');
 }
 
 function _aplicarModoVista(modo) {
     modoVista = modo;
     document.getElementById('btnModoRC').classList.toggle('activo', modo === 'rc');
+    document.getElementById('btnModoSup').classList.toggle('activo', modo === 'sup');
     document.getElementById('btnModoCap').classList.toggle('activo', modo === 'cap');
     const btnRuta = document.getElementById('btnRutaHoy');
-    btnRuta.style.display = modo === 'cap' ? 'none' : '';
-    if (modo === 'cap' && rutaHoyActive) {
+    btnRuta.style.display = (modo === 'cap' || modo === 'sup') ? 'none' : '';
+    if ((modo === 'cap' || modo === 'sup') && rutaHoyActive) {
         rutaHoyActive = false;
         btnRuta.classList.remove('activo');
         rutaHoyLayer.clearLayers();
@@ -779,7 +781,7 @@ function _aplicarModoVista(modo) {
     document.getElementById('fechaFilter').selectedIndex = 0;
     document.getElementById('supFilter').value = 'ALL';
     semanaKeyCache = null;
-    document.getElementById('panelHeader').textContent = modo === 'cap' ? 'Capacitadores activos hoy' : 'RCs activos hoy';
+    document.getElementById('panelHeader').textContent = modo === 'cap' ? 'Capacitadores activos hoy' : modo === 'sup' ? 'Supervisores activos hoy' : 'RCs activos hoy';
     document.getElementById('rcList').innerHTML = '<div style="padding:16px;color:#aaa;font-size:12px;text-align:center">⏳ Cargando...</div>';
     cargarDatos();
     cargarDatosSemanales();
@@ -787,7 +789,7 @@ function _aplicarModoVista(modo) {
 
 async function cargarDatos() {
     try {
-        const accion = modoVista === 'cap' ? 'getVisitasMapa2' : 'getVisitas';
+        const accion = modoVista === 'cap' ? 'getVisitasMapa2' : modoVista === 'sup' ? 'getVisitasSup' : 'getVisitas';
         const url = SHEET_URL + `?action=${accion}` + (selectedDate ? `&fecha=${selectedDate}` : '');
         const res = await fetch(url);
         const data = await res.json();
@@ -907,7 +909,7 @@ function _getActivosConFiltros() {
         (sup === 'ALL' || p.supervisor === sup)
     );
     if (selectedRCFilter) {
-        const campo = modoVista === 'cap' ? 'capacitador' : 'rc';
+        const campo = modoVista === 'cap' ? 'capacitador' : modoVista === 'sup' ? 'supervisor' : 'rc';
         const antes = activos.length;
         activos = activos.filter(p => (p[campo] || '').trim().toUpperCase() === selectedRCFilter.trim().toUpperCase());
         console.log(`Filtro RC: "${selectedRCFilter}" campo=${campo} antes=${antes} después=${activos.length}`);
@@ -997,8 +999,9 @@ buildSemanaFilter();
 buildDayFilter(selectedSemanaMonday);
 updateSinVentaBtn();
 document.getElementById('btnModoRC').classList.toggle('activo', modoVista === 'rc');
+document.getElementById('btnModoSup').classList.toggle('activo', modoVista === 'sup');
 document.getElementById('btnModoCap').classList.toggle('activo', modoVista === 'cap');
-document.getElementById('btnRutaHoy').style.display = modoVista === 'cap' ? 'none' : '';
+document.getElementById('btnRutaHoy').style.display = (modoVista === 'cap' || modoVista === 'sup') ? 'none' : '';
 fetch((_BASE_DATA + 'puntos.json?v=') + new Date().getTime(), {cache: 'no-store'})
     .then(r => r.json())
     .then(data => { puntosData = normalizePuntos(data); cargarDatos(); cargarDatosSemanales(); })
@@ -1127,19 +1130,34 @@ function renderDashboard() {
         .filter(([,v]) => v.total > 0)
         .sort((a,b) => (b[1].visitados/b[1].total) - (a[1].visitados/a[1].total));
 
-    // ── Cobertura por tipo de tienda (semanal) ────────────────────────────
+    // ── Cobertura por tipo de tienda (semanal) — respeta filtros sup/RC ──
     const byTipo = {};
+    const rcNamesForTipo = supFiltro !== 'ALL' ? new Set(rcs.map(r => r.rc)) : null;
     puntosActivos.forEach(p => {
-        const t = (p.tipo || 'Sin tipo').trim();
+        const t     = (p.tipo || 'Sin tipo').trim();
+        const pRc   = (p.rc || '').trim();
+        const normId = normalizeID(p.ID);
+        if (dashRCFilter && pRc !== dashRCFilter) return;
+        if (rcNamesForTipo && !rcNamesForTipo.has(pRc)) return;
         if (!byTipo[t]) byTipo[t] = { total: 0, visit: 0 };
         byTipo[t].total++;
-        if ((visitCountsSemana[normalizeID(p.ID)] || 0) > 0) byTipo[t].visit++;
+        let visited = false;
+        if (dashRCFilter) {
+            visited = (visitsByRC[dashRCFilter] || new Set()).has(normId);
+        } else if (rcNamesForTipo) {
+            for (const r of rcs) {
+                if ((visitsByRC[r.rc] || new Set()).has(normId)) { visited = true; break; }
+            }
+        } else {
+            visited = (visitCountsSemana[normId] || 0) > 0;
+        }
+        if (visited) byTipo[t].visit++;
     });
     const tipoStats = Object.entries(byTipo)
         .filter(([,v]) => v.total > 0)
         .sort((a,b) => b[1].total - a[1].total);
 
-    const modoLabel   = modoVista === 'cap' ? 'Capacitadores' : 'RCs';
+    const modoLabel   = modoVista === 'cap' ? 'Capacitadores' : modoVista === 'sup' ? 'Supervisores' : 'RCs';
     const fechaLabel  = selectedDate ? selectedDate : 'Hoy';
 
     container.innerHTML = `<div class="dash-inner">

@@ -263,6 +263,58 @@ function doGet(e) {
       .setMimeType(ContentService.MimeType.JSON);
   }
 
+  // ── LECTURA: Visitas_Supervisores ────────────────────────────────────────
+  if (p.action === "getVisitasSup") {
+    const sheet = ss.getSheetByName(NOMBRE_HOJA_SUP);
+    if (!sheet || sheet.getLastRow() < 2) {
+      return ContentService.createTextOutput(JSON.stringify([]))
+        .setMimeType(ContentService.MimeType.JSON);
+    }
+    const hoy      = p.fecha || Utilities.formatDate(new Date(), "America/Lima", "yyyy-MM-dd");
+    const numRows  = sheet.getLastRow() - 1;
+    const rawRows  = sheet.getRange(2, 1, numRows, 19).getValues();
+    const dispRows = sheet.getRange(2, 1, numRows, 19).getDisplayValues();
+
+    const supData = {};
+    rawRows.forEach((r, i) => {
+      const fecha = r[0] ? Utilities.formatDate(new Date(r[0]), "America/Lima", "yyyy-MM-dd") : "";
+      if (fecha !== hoy) return;
+      const nombre = r[6] || r[5] || "Sin Supervisor";  // col G = Nombre
+      if (!supData[nombre]) supData[nombre] = {
+        rc: nombre, supervisor: r[5] || "",               // col F = Rol
+        visitas: [], primeraVisita: null,
+        horaActual: null, ultimaTienda: null, totalTiendas: 0
+      };
+      supData[nombre].visitas.push({
+        hora:         dispRows[i][1],
+        tipo:         r[2],
+        tienda:       r[3],
+        id:           r[4],
+        zona:         r[7],
+        cluster:      r[8],
+        latT:         r[11],
+        lngT:         r[12],
+        latRC:        r[13],
+        lngRC:        r[14],
+        dist:         r[15] || 0,
+        tiempoTienda: dispRows[i][17],
+        numVisita:    r[18]
+      });
+      if (r[13] && r[14] && parseFloat(r[13]) !== 0) {
+        supData[nombre].horaActual   = dispRows[i][1];
+        supData[nombre].ultimaTienda = r[3];
+      }
+    });
+    Object.values(supData).forEach(sup => {
+      if (sup.visitas.length > 0) {
+        sup.primeraVisita = sup.visitas[0].hora;
+        sup.totalTiendas  = new Set(sup.visitas.map(v => v.id)).size;
+      }
+    });
+    return ContentService.createTextOutput(JSON.stringify(Object.values(supData)))
+      .setMimeType(ContentService.MimeType.JSON);
+  }
+
   // ── REGISTRO DE VISITA ───────────────────────────────────────────────────
   const hoja = p.hoja || "Visitas";
   let sheet = ss.getSheetByName(hoja);
