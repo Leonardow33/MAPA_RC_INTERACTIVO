@@ -1127,6 +1127,18 @@ function renderDashboard() {
         .filter(([,v]) => v.total > 0)
         .sort((a,b) => (b[1].visitados/b[1].total) - (a[1].visitados/a[1].total));
 
+    // ── Cobertura por tipo de tienda (semanal) ────────────────────────────
+    const byTipo = {};
+    puntosActivos.forEach(p => {
+        const t = (p.tipo || 'Sin tipo').trim();
+        if (!byTipo[t]) byTipo[t] = { total: 0, visit: 0 };
+        byTipo[t].total++;
+        if ((visitCountsSemana[normalizeID(p.ID)] || 0) > 0) byTipo[t].visit++;
+    });
+    const tipoStats = Object.entries(byTipo)
+        .filter(([,v]) => v.total > 0)
+        .sort((a,b) => b[1].total - a[1].total);
+
     const modoLabel   = modoVista === 'cap' ? 'Capacitadores' : 'RCs';
     const fechaLabel  = selectedDate ? selectedDate : 'Hoy';
 
@@ -1315,22 +1327,43 @@ function renderDashboard() {
                     </table></div>`}
             </div>
 
-            <div class="dash-card">
-                <div class="dash-card-title">Marcaciones por hora</div>
-                <div class="dash-hora-wrap">
-                    ${HORAS.map(h => {
-                        const cnt  = porHora[h]||0;
-                        const barH = Math.max(Math.round(cnt/maxH*60), cnt>0?4:2);
-                        const cls  = h===picoH && cnt>0 ? 'peak' : cnt > maxH*0.5 ? 'hi' : '';
-                        return `<div class="dash-hora-col">
-                            <div class="dash-hora-bar ${cls}" style="height:${barH}px" title="${cnt}"></div>
-                            <div class="dash-hora-lbl">${h}</div>
-                        </div>`;
-                    }).join('')}
+            <div style="display:flex;flex-direction:column;gap:12px">
+                <div class="dash-card">
+                    <div class="dash-card-title">Marcaciones por hora</div>
+                    <div class="dash-hora-wrap">
+                        ${HORAS.map(h => {
+                            const cnt  = porHora[h]||0;
+                            const barH = Math.max(Math.round(cnt/maxH*60), cnt>0?4:2);
+                            const cls  = h===picoH && cnt>0 ? 'peak' : cnt > maxH*0.5 ? 'hi' : '';
+                            return `<div class="dash-hora-col">
+                                <div class="dash-hora-bar ${cls}" style="height:${barH}px" title="${cnt}"></div>
+                                <div class="dash-hora-lbl">${h}</div>
+                            </div>`;
+                        }).join('')}
+                    </div>
+                    ${allVisitas.length > 0 ? `<div style="margin-top:10px;font-size:10px;color:#475569;text-align:right">
+                        Pico: ${picoH}:00 &nbsp;·&nbsp; ${porHora[picoH]||0} marcaciones
+                    </div>` : '<div style="color:#475569;font-size:11px;text-align:center;padding:12px 0">Sin marcaciones</div>'}
                 </div>
-                ${allVisitas.length > 0 ? `<div style="margin-top:10px;font-size:10px;color:#475569;text-align:right">
-                    Pico: ${picoH}:00 &nbsp;·&nbsp; ${porHora[picoH]||0} marcaciones
-                </div>` : '<div style="color:#475569;font-size:11px;text-align:center;padding:12px 0">Sin marcaciones</div>'}
+                <div class="dash-card">
+                    <div class="dash-card-title">Cobertura por tipo · semanal</div>
+                    ${tipoStats.length === 0
+                        ? '<div style="color:#475569;font-size:12px;text-align:center;padding:16px 0">Sin datos</div>'
+                        : `<div style="display:flex;flex-direction:column;gap:9px;margin-top:4px">
+                            ${tipoStats.map(([tipo, d]) => {
+                                const pct   = d.total > 0 ? Math.round(d.visit/d.total*100) : 0;
+                                const color = colorPct(pct);
+                                return `<div>
+                                    <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:1px">
+                                        <div style="font-size:11px;font-weight:600;color:#CBD5E1">${tipo}</div>
+                                        <div style="font-size:10px;color:${color};font-weight:700">${pct}%</div>
+                                    </div>
+                                    <div style="font-size:10px;color:#475569;margin-bottom:3px">${d.visit}/${d.total} tiendas</div>
+                                    <div class="dash-zona-bg"><div class="dash-zona-fill" style="width:${pct}%;background:${color}"></div></div>
+                                </div>`;
+                            }).join('')}
+                        </div>`}
+                </div>
             </div>
         </div>
 
