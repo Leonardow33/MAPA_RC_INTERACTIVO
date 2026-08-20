@@ -386,6 +386,9 @@ body { font-family: 'Inter', 'Segoe UI', sans-serif; background: #0F172A; height
 .dash-zona-bg   { height: 5px; background: #243447; border-radius: 3px; overflow: hidden; }
 .dash-zona-fill { height: 100%; border-radius: 3px; transition: width .5s; }
 
+@keyframes dashSpin { to { transform: rotate(360deg); } }
+.dash-spin { width: 32px; height: 32px; border: 3px solid #1E293B; border-top-color: #6366F1; border-radius: 50%; animation: dashSpin .8s linear infinite; }
+
 @media (max-width: 768px) {
     .dash-kpi-row { grid-template-columns: 1fr 1fr; }
     .dash-grid    { grid-template-columns: 1fr; }

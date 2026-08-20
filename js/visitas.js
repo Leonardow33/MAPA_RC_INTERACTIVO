@@ -403,6 +403,7 @@ function buildDayFilter(monday) {
         document.getElementById('panelHeader').textContent = !this.value ? defaultLbl : `${prefijo} visitando · ${this.options[this.selectedIndex].textContent}`;
         document.getElementById('rcList').innerHTML = '<div style="padding:16px;color:#aaa;font-size:12px;text-align:center">⏳ Cargando...</div>';
         updateSinVentaBtn();
+        showDashLoading();
         cargarDatos();
     };
 }
@@ -986,6 +987,7 @@ function buildSemanaFilter() {
         selectedSemanaMonday = new Date(this.value + 'T00:00:00');
         buildDayFilter(selectedSemanaMonday);
         updateSinVentaBtn();
+        showDashLoading();
         cargarDatos();
         cargarDatosSemanales();
     });
@@ -1009,6 +1011,13 @@ let dashRCFilter = null;
 function onDashRCChange() {
     dashRCFilter = document.getElementById('dashRCSelect')?.value || null;
     renderDashboard();
+}
+
+function showDashLoading() {
+    if (activeTab !== 'dash') return;
+    const c = document.getElementById('dashboardView');
+    if (!c) return;
+    c.innerHTML = '<div style="flex:1;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:14px;color:#475569"><div class="dash-spin"></div><div style="font-size:13px;font-weight:600">Cargando datos...</div></div>';
 }
 
 function switchTab(tab) {
@@ -1253,6 +1262,33 @@ function renderDashboard() {
             </div>`;
         })()}
 
+        ${(function() {
+            const rcCumpl = rcs.map(r => {
+                const asign  = puntosActivos.filter(p => (p.rc||'').trim() === r.rc.trim());
+                const visSet = visitsByRC[r.rc] || new Set();
+                const visit  = asign.filter(p => visSet.has(normalizeID(p.ID))).length;
+                const pct    = asign.length > 0 ? Math.round(visit / asign.length * 100) : 0;
+                return { rc: r.rc, sup: r.supervisor||'-', asign: asign.length, visit, pct };
+            }).filter(r => r.asign > 0).sort((a,b) => b.pct - a.pct || b.visit - a.visit);
+            if (!rcCumpl.length) return '';
+            return `<div class="dash-card" style="margin-bottom:12px">
+                <div class="dash-card-title">Cumplimiento de ruta semanal · por RC</div>
+                <div class="dash-zona-grid" style="grid-template-columns:repeat(auto-fill,minmax(220px,1fr))">
+                    ${rcCumpl.map(r => {
+                        const color = colorPct(r.pct);
+                        return `<div>
+                            <div style="display:flex;justify-content:space-between;align-items:baseline">
+                                <div class="dash-zona-name" style="font-size:12px">${r.rc}</div>
+                                <div style="font-size:10px;color:${color};font-weight:700">${r.pct}%</div>
+                            </div>
+                            <div class="dash-zona-stat" style="color:#475569">${r.visit}/${r.asign} tiendas asignadas</div>
+                            <div class="dash-zona-bg"><div class="dash-zona-fill" style="width:${r.pct}%;background:${color}"></div></div>
+                        </div>`;
+                    }).join('')}
+                </div>
+            </div>`;
+        })()}
+
         <div class="dash-grid">
             <div class="dash-card">
                 <div class="dash-card-title">Ranking de ${modoLabel.toLowerCase()}</div>
@@ -1349,15 +1385,6 @@ function renderDashboard() {
 
             const maxStores = Math.max(...dayStats.map(d => d.stores), 1);
 
-            // ── Cumplimiento de ruta por RC ────────────────────────────────
-            const rcCumpl = rcs.map(r => {
-                const asign  = puntosActivos.filter(p => (p.rc||'').trim() === r.rc.trim());
-                const visSet = visitsByRC[r.rc] || new Set();
-                const visit  = asign.filter(p => visSet.has(normalizeID(p.ID))).length;
-                const pct    = asign.length > 0 ? Math.round(visit / asign.length * 100) : 0;
-                return { rc: r.rc, sup: r.supervisor||'-', asign: asign.length, visit, pct };
-            }).filter(r => r.asign > 0).sort((a,b) => b.pct - a.pct || b.visit - a.visit);
-
             return `
             <div class="dash-grid" style="margin-bottom:12px">
                 <!-- Por día de semana: visual -->
@@ -1398,26 +1425,6 @@ function renderDashboard() {
                             </tr>`).join('')}</tbody>
                         </table></div>`}
                 </div>
-            </div>
-
-            <!-- Cumplimiento de ruta por RC -->
-            <div class="dash-card" style="margin-bottom:16px">
-                <div class="dash-card-title">Cumplimiento de ruta semanal · por RC</div>
-                ${rcCumpl.length === 0
-                    ? '<div style="color:#475569;font-size:12px;text-align:center;padding:24px 0">Sin asignaciones en base</div>'
-                    : `<div class="dash-zona-grid" style="grid-template-columns:repeat(auto-fill,minmax(220px,1fr))">
-                        ${rcCumpl.map(r => {
-                            const color = colorPct(r.pct);
-                            return `<div>
-                                <div style="display:flex;justify-content:space-between;align-items:baseline">
-                                    <div class="dash-zona-name" style="font-size:12px">${r.rc}</div>
-                                    <div style="font-size:10px;color:${color};font-weight:700">${r.pct}%</div>
-                                </div>
-                                <div class="dash-zona-stat" style="color:#475569">${r.visit}/${r.asign} tiendas asignadas</div>
-                                <div class="dash-zona-bg"><div class="dash-zona-fill" style="width:${r.pct}%;background:${color}"></div></div>
-                            </div>`;
-                        }).join('')}
-                    </div>`}
             </div>`;
         })()}
     </div>`;
