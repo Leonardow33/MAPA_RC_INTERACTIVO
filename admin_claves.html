@@ -132,6 +132,43 @@
     .tc-chip.copied { background: rgba(13,168,112,.08); border-color: #0DA870; color: #0DA870; }
     .tc-note { font-size: 10px; color: #C0A0B0; }
 
+    /* ── MODAL LINKS MAPAS ───────────────────────────────── */
+    .modal-overlay {
+      display: none; position: fixed; inset: 0;
+      background: rgba(45,16,32,.45); backdrop-filter: blur(4px);
+      z-index: 900; align-items: center; justify-content: center; padding: 20px;
+    }
+    .modal-overlay.open { display: flex; }
+    .modal-box {
+      background: #FFF0F4; border: 1.5px solid #E8C8D4;
+      border-radius: 20px; width: 100%; max-width: 560px;
+      max-height: 90vh; overflow-y: auto;
+      box-shadow: 0 16px 48px rgba(45,16,32,.22);
+      padding: 24px 24px 20px;
+    }
+    .modal-header {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: 18px;
+    }
+    .modal-title { font-size: 16px; font-weight: 800; }
+    .modal-close {
+      background: none; border: 1.5px solid #E8C8D4; color: #A07090;
+      font-size: 14px; font-weight: 700; border-radius: 10px;
+      padding: 4px 12px; cursor: pointer; font-family: inherit;
+      transition: background .15s;
+    }
+    .modal-close:hover { background: #FFE4EE; border-color: #C090A8; color: #2D1020; }
+    .link-row {
+      background: #FFFFFF; border: 1.5px solid #E8C8D4; border-radius: 14px;
+      padding: 12px 14px; display: flex; align-items: center; gap: 10px;
+      margin-bottom: 8px; box-shadow: 0 1px 3px rgba(180,80,120,.06);
+    }
+    .link-bar { width: 4px; border-radius: 4px; flex-shrink: 0; align-self: stretch; min-height: 32px; }
+    .link-info { flex: 1; min-width: 0; }
+    .link-name { font-size: 13px; font-weight: 800; }
+    .link-url { font-size: 10px; color: #B090A0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-top: 2px; }
+    .link-actions { display: flex; gap: 6px; flex-shrink: 0; }
+
     .footer { font-size: 11px; color: #C0A0B0; text-align: center; max-width: 300px; margin-top: 24px; }
     .dev-badge {
       position: fixed; bottom: 12px; right: 14px;
@@ -151,6 +188,7 @@
   <div class="filter-row">
     <span class="filter-label">Mostrando: casas de apuestas</span>
     <button class="filter-btn" id="filter-btn">+ Ver todos</button>
+    <button class="filter-btn" id="links-btn" onclick="toggleLinksModal()">🗺 Ver links mapas</button>
   </div>
 
   <div class="main-grid" id="main-grid"></div>
@@ -172,6 +210,10 @@
           <div style="display:flex;gap:6px;align-items:center">
             <span style="font-size:10px;color:#C0A0B0;white-space:nowrap">RC</span>
             <span class="tc-chip" onclick="copyStatic(this,'Geodor2026-1')">Geodor2026-1</span>
+          </div>
+          <div style="display:flex;gap:6px;align-items:center">
+            <span style="font-size:10px;color:#C0A0B0;white-space:nowrap">Supervisor</span>
+            <span class="tc-chip" onclick="copyStatic(this,'Geodor2026-3')">Geodor2026-3</span>
           </div>
           <div style="display:flex;gap:6px;align-items:center">
             <span style="font-size:10px;color:#C0A0B0;white-space:nowrap">Capacitador</span>
@@ -241,8 +283,20 @@
     Comparte la clave de cada partner solo con sus cajeras.
   </div>
 
+<!-- Modal: links de mapas -->
+<div class="modal-overlay" id="linksModal" onclick="if(event.target===this)toggleLinksModal()">
+  <div class="modal-box">
+    <div class="modal-header">
+      <div class="modal-title">🗺 Links de mapas y herramientas</div>
+      <button class="modal-close" onclick="toggleLinksModal()">✕ Cerrar</button>
+    </div>
+    <div id="linksModalBody"></div>
+  </div>
+</div>
+
 <script>
   const BASE = 'https://leonardow33.github.io/MAPA_RC_INTERACTIVO/BONOS%20PARTNERS/';
+  const BASE_ROOT = 'https://leonardow33.github.io/MAPA_RC_INTERACTIVO/';
 
   const PARTNERS = [
     { label: 'Apuesta Total', color: '#E53535', seed: 'GEODOR_AT_2025',   file: 'bonus_at.html',        key: 'APUESTA TOTAL' },
@@ -390,6 +444,53 @@
       el.classList.add('copied');
       setTimeout(() => { el.textContent = orig; el.classList.remove('copied'); }, 2000);
     });
+  }
+
+  // ── Links mapas ───────────────────────────────────────────────
+  const MAPAS = [
+    { name: 'Visitas · Seguimiento RC',       file: 'visitas.html',    color: '#7C3AED', desc: 'RCs, Supervisores y Capacitadores' },
+    { name: 'Sup & Cap · Marcaciones',         file: 'SUPYCAP.html',    color: '#E53535', desc: 'App de marcación de visitas'       },
+    { name: 'Mapa · Puntos de venta',          file: 'mapa.html',       color: '#D97706', desc: 'Mapa interactivo con PIN reunión'  },
+    { name: 'Logística',                       file: 'logistica.html',  color: '#0891B2', desc: 'Panel de logística coordinadores'  },
+    { name: 'Progreso · Partners',             file: 'progreso.html',   color: '#E53535', desc: 'Portal unificado de bonos'         },
+    { name: 'Activación',                      file: 'activacion.html', color: '#16A34A', desc: 'Gestión de activaciones'           },
+    { name: 'Incidencias',                     file: 'incidencias.html',color: '#64748B', desc: 'Registro de incidencias'           },
+    { name: 'Zonas',                           file: 'zonas.html',      color: '#0891B2', desc: 'Vista de zonas y clusters'         },
+  ];
+
+  function renderLinksModal() {
+    const body = document.getElementById('linksModalBody');
+    body.innerHTML = MAPAS.map((m, i) => {
+      const url = BASE_ROOT + m.file;
+      return `<div class="link-row">
+        <div class="link-bar" style="background:${m.color}"></div>
+        <div class="link-info">
+          <div class="link-name" style="color:${m.color}">${m.name}</div>
+          <div class="link-url" title="${url}">${url}</div>
+        </div>
+        <div class="link-actions">
+          <button class="pc-copy" id="lc${i}" onclick="copyLink(${i})">Copiar</button>
+          <a class="pc-open" href="${url}" target="_blank">Abrir ↗</a>
+        </div>
+      </div>`;
+    }).join('');
+  }
+
+  function copyLink(idx) {
+    const url = BASE_ROOT + MAPAS[idx].file;
+    navigator.clipboard.writeText(url).then(() => {
+      const btn = document.getElementById('lc' + idx);
+      btn.textContent = '¡Copiado!';
+      btn.classList.add('copied');
+      setTimeout(() => { btn.textContent = 'Copiar'; btn.classList.remove('copied'); }, 2000);
+    });
+  }
+
+  function toggleLinksModal() {
+    const modal = document.getElementById('linksModal');
+    const isOpen = modal.classList.toggle('open');
+    if (isOpen) renderLinksModal();
+    document.getElementById('links-btn').classList.toggle('active', isOpen);
   }
 
   // Render inicial
