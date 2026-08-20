@@ -1233,7 +1233,10 @@
     <div class="week-card">
       <img src="../sources/logos-games/suerte-4.png" aria-hidden="true"
            style="position:absolute;width:62px;top:-4px;right:-2px;transform:rotate(14deg);opacity:.18;pointer-events:none;">
-      <div class="card-title">Evolución · semana en curso</div>
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">
+        <div class="card-title" id="week-card-title" style="margin-bottom:0">Evolución · semana en curso</div>
+        <button class="vista-toggle" id="btn-sem-ant" onclick="toggleSemAnt()" style="font-size:10px;padding:4px 10px">← Sem. anterior</button>
+      </div>
       <div class="week-chart" id="week-chart"></div>
       <div class="wc-tooltip" id="wc-tooltip" style="display:none"></div>
     </div>
@@ -2016,16 +2019,12 @@
       if (_ld.length > 0) { allLoteria = allLoteria.filter(v => v.tipo_juego !== 'LakiDey'); allLoteria.push(..._ld); }
       if (_tb.length > 0) { allLoteria = allLoteria.filter(v => v.tipo_juego !== 'Turbito'); allLoteria.push(..._tb); }
 
-      // Si la semana Jue-Mié actual arranca en el mes anterior, cargamos ventas_mes_prev para el cálculo semanal
+      // Siempre cargar ventas_mes_prev para poder ver semana anterior (y semana cruzada)
       if (!isMesPrev) {
-        const _semJue = juevesDe(new Date());
-        const _now = new Date();
-        if (_semJue.getMonth() !== _now.getMonth() || _semJue.getFullYear() !== _now.getFullYear()) {
-          try {
-            const prevD = await loadJSON('../data/ventas_mes_prev.json');
-            allVentasPrev = (prevD.body || prevD.ventas || []).filter(v => (v.partner || '').toUpperCase() === PARTNER);
-          } catch(_) { allVentasPrev = []; }
-        } else { allVentasPrev = []; }
+        try {
+          const prevD = await loadJSON('../data/ventas_mes_prev.json');
+          allVentasPrev = (prevD.body || prevD.ventas || []).filter(v => (v.partner || '').toUpperCase() === PARTNER);
+        } catch(_) { allVentasPrev = []; }
       }
       console.log('[TAMBO] allStores:', allStores.length, 'allVentas:', allVentas.length, 'allRaspes:', allRaspes.length, 'allLoteria:', allLoteria.length);
 
@@ -2221,69 +2220,12 @@
     vistaMode = 'sem';
     renderGamesMode();
 
-    const DAY_NAMES      = ['Jue','Vie','Sáb','Dom','Lun','Mar','Mié'];
-    const DAY_NAMES_LONG = ['Jueves','Viernes','Sábado','Domingo','Lunes','Martes','Miércoles'];
-    const weekKeys = [];
-    for (let i = 0; i < 7; i++) {
-      const d = new Date(semJue);
-      d.setDate(semJue.getDate() + i);
-      weekKeys.push(
-        d.getFullYear() + '-' +
-        String(d.getMonth()+1).padStart(2,'0') + '-' +
-        String(d.getDate()).padStart(2,'0')
-      );
-    }
-    const dayTotals = new Array(7).fill(0);
-    allVentas.forEach(v => {
-      if (String(v.org_code) !== id || !v.fecha || v.tipo_juego !== 'TOTAL') return;
-      const idx = weekKeys.indexOf(v.fecha);
-      if (idx >= 0) dayTotals[idx] += v.total || 0;
-    });
-    allVentasPrev.forEach(v => {
-      if (String(v.org_code) !== id || !v.fecha || v.tipo_juego !== 'TOTAL') return;
-      const idx = weekKeys.indexOf(v.fecha);
-      if (idx >= 0) dayTotals[idx] += v.total || 0;
-    });
-    const BAR_MAX_H = 52;
-    const maxDay    = Math.max(...dayTotals, 1);
-    const chartEl   = document.getElementById('week-chart');
-    const tooltipEl = document.getElementById('wc-tooltip');
-    let selectedIdx = null;
-
-    function selectDay(i) {
-      if (selectedIdx === i) {
-        selectedIdx = null;
-        tooltipEl.style.display = 'none';
-      } else {
-        selectedIdx = i;
-        const isFuture = weekKeys[i] > hoy;
-        tooltipEl.style.display = 'flex';
-        tooltipEl.innerHTML = `<span class="wt-day">${DAY_NAMES_LONG[i]}</span><span class="wt-val">${isFuture ? '—' : fmtS(dayTotals[i])}</span>`;
-      }
-      chartEl.querySelectorAll('.wc-col').forEach((col, j) => {
-        col.classList.toggle('wc-col--selected', j === selectedIdx);
-      });
-    }
-
-    chartEl.innerHTML = weekKeys.map((dk, i) => {
-      const isToday  = dk === hoy;
-      const isFuture = dk > hoy;
-      const cls = isToday ? 'wc-col--today' : isFuture ? 'wc-col--future' : 'wc-col--past';
-      const barH = isFuture ? 3 : Math.max(Math.round(dayTotals[i] / maxDay * BAR_MAX_H), 3);
-      const barColor = isToday ? 'var(--accent)' : isFuture ? 'var(--border)' : 'rgba(10,35,24,.14)';
-      const amt = !isFuture && dayTotals[i] > 0
-        ? Math.round(dayTotals[i]).toLocaleString('es-PE')
-        : '';
-      return `<div class="wc-col ${cls}" data-idx="${i}">
-        <div class="wc-amount">${amt}</div>
-        <div class="wc-bar" style="height:${barH}px;background:${barColor}"></div>
-        <div class="wc-day">${DAY_NAMES[i]}</div>
-      </div>`;
-    }).join('');
-
-    chartEl.querySelectorAll('.wc-col').forEach(col => {
-      col.addEventListener('click', () => selectDay(+col.dataset.idx));
-    });
+    _dashStore   = store;
+    _semAntMode  = false;
+    const btn = document.getElementById('btn-sem-ant');
+    if (btn) { btn.textContent = '← Sem. anterior'; btn.classList.remove('active'); }
+    document.getElementById('week-card-title').textContent = 'Evolución · semana en curso';
+    renderWeekSection(semJue, id, false);
 
     const m = motivation(pctMes);
     const mc = document.getElementById('motive-card');
@@ -2316,6 +2258,80 @@
   })();
 
   init();
+
+  // ── Semana anterior ────────────────────────────────────────────────────────
+  let _dashStore  = null;
+  let _semAntMode = false;
+
+  function renderWeekSection(semJueBase, id, esAnterior) {
+    const hoy        = isoDate();
+    const DAY_NAMES  = ['Jue','Vie','Sáb','Dom','Lun','Mar','Mié'];
+    const DAY_NAMES_LONG = ['Jueves','Viernes','Sábado','Domingo','Lunes','Martes','Miércoles'];
+    const weekKeys   = [];
+    for (let i = 0; i < 7; i++) {
+      const d = new Date(semJueBase);
+      d.setDate(semJueBase.getDate() + i);
+      weekKeys.push(d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0'));
+    }
+    const dayTotals = new Array(7).fill(0);
+    allVentas.forEach(v => {
+      if (String(v.org_code) !== id || !v.fecha || v.tipo_juego !== 'TOTAL') return;
+      const idx = weekKeys.indexOf(v.fecha);
+      if (idx >= 0) dayTotals[idx] += v.total || 0;
+    });
+    allVentasPrev.forEach(v => {
+      if (String(v.org_code) !== id || !v.fecha || v.tipo_juego !== 'TOTAL') return;
+      const idx = weekKeys.indexOf(v.fecha);
+      if (idx >= 0) dayTotals[idx] += v.total || 0;
+    });
+    const BAR_MAX_H = 52;
+    const maxDay    = Math.max(...dayTotals, 1);
+    const chartEl   = document.getElementById('week-chart');
+    const tooltipEl = document.getElementById('wc-tooltip');
+    let selectedIdx = null;
+    tooltipEl.style.display = 'none';
+
+    function selectDay(i) {
+      if (selectedIdx === i) { selectedIdx = null; tooltipEl.style.display = 'none'; }
+      else {
+        selectedIdx = i;
+        const isFuture = !esAnterior && weekKeys[i] > hoy;
+        tooltipEl.style.display = 'flex';
+        tooltipEl.innerHTML = `<span class="wt-day">${DAY_NAMES_LONG[i]}</span><span class="wt-val">${isFuture ? '—' : fmtS(dayTotals[i])}</span>`;
+      }
+      chartEl.querySelectorAll('.wc-col').forEach((col, j) => col.classList.toggle('wc-col--selected', j === selectedIdx));
+    }
+
+    chartEl.innerHTML = weekKeys.map((dk, i) => {
+      const isToday  = !esAnterior && dk === hoy;
+      const isFuture = !esAnterior && dk > hoy;
+      const cls      = isToday ? 'wc-col--today' : isFuture ? 'wc-col--future' : 'wc-col--past';
+      const barH     = isFuture ? 3 : Math.max(Math.round(dayTotals[i] / maxDay * BAR_MAX_H), 3);
+      const barColor = isToday ? 'var(--accent)' : isFuture ? 'var(--border)' : 'rgba(10,35,24,.14)';
+      const amt      = !isFuture && dayTotals[i] > 0 ? Math.round(dayTotals[i]).toLocaleString('es-PE') : '';
+      return `<div class="wc-col ${cls}" data-idx="${i}">
+        <div class="wc-amount">${amt}</div>
+        <div class="wc-bar" style="height:${barH}px;background:${barColor}"></div>
+        <div class="wc-day">${DAY_NAMES[i]}</div>
+      </div>`;
+    }).join('');
+    chartEl.querySelectorAll('.wc-col').forEach(col => col.addEventListener('click', () => selectDay(+col.dataset.idx)));
+  }
+
+  function toggleSemAnt() {
+    if (!_dashStore) return;
+    _semAntMode = !_semAntMode;
+    const semJueActual = juevesDe(new Date());
+    const semJue = _semAntMode
+      ? new Date(semJueActual.getTime() - 7 * 24 * 60 * 60 * 1000)
+      : semJueActual;
+    renderWeekSection(semJue, String(_dashStore.ID), _semAntMode);
+    const btn = document.getElementById('btn-sem-ant');
+    btn.textContent = _semAntMode ? '→ Sem. actual' : '← Sem. anterior';
+    btn.classList.toggle('active', _semAntMode);
+    document.getElementById('week-card-title').textContent =
+      _semAntMode ? 'Evolución · semana anterior' : 'Evolución · semana en curso';
+  }
 
   // ── Filtro RC: sin venta hoy ───────────────────────────────────────────────
   let _rcAllStores      = [];
