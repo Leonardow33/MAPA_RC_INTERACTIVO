@@ -10,6 +10,7 @@ const COL_TIEMPO    = 18;  // R: TIEMPO EN TIENDA (calculada)
 const COL_VISITA    = 19;  // S: NUMERO DE VISITA (calculada)
 const NOMBRE_HOJA       = "Visitas";
 const NOMBRE_HOJA_MAPA2 = "Visitas_Mapa2";
+const NOMBRE_HOJA_SUP   = "Visitas_Supervisores";
 const SPREADSHEET_ID    = "1OMLQto7r0O2prWGrCdX7VGAadJxSPdAjVWNyz7AI4ek";
 // ──────────────────────────────────────────────────────────────────────────
 
@@ -121,6 +122,8 @@ function onEdit(e) {
     procesarFila(getHoja(), row);
   } else if (sheetName === NOMBRE_HOJA_MAPA2) {
     procesarFila(getHojaPorNombre(NOMBRE_HOJA_MAPA2), row);
+  } else if (sheetName === NOMBRE_HOJA_SUP) {
+    procesarFila(getHojaPorNombre(NOMBRE_HOJA_SUP), row);
   }
 }
 
@@ -133,9 +136,13 @@ function procesarPendientesMapa2() {
   procesarPendientesEnHoja(NOMBRE_HOJA_MAPA2);
 }
 
+function procesarPendientesSup() {
+  procesarPendientesEnHoja(NOMBRE_HOJA_SUP);
+}
+
 // ── Ejecuta UNA sola vez para instalar los triggers de 5 minutos ──────────
 function instalarTrigger() {
-  const funciones = ['procesarPendientes', 'procesarPendientesMapa2'];
+  const funciones = ['procesarPendientes', 'procesarPendientesMapa2', 'procesarPendientesSup'];
 
   ScriptApp.getProjectTriggers()
     .filter(t => funciones.includes(t.getHandlerFunction()))

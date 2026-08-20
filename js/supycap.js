@@ -267,8 +267,9 @@ function guardarEstadoLocal(id, tipo, hora) {
 function enviarAlSheet(p, tipo, distM) {
     const rolActivo    = document.getElementById("rolFilter").value;
     const nombreActivo = document.getElementById("nombreFilter").value;
+    const hojaDestino  = rolActivo === "supervisor" ? "Visitas_Supervisores" : "Visitas_Mapa2";
     const params = new URLSearchParams({
-        hoja: SHEET_HOJA, tipo,
+        hoja: hojaDestino, tipo,
         tienda: p.nombre, id: p.ID,
         rol:    rolActivo,
         nombre: nombreActivo !== "ALL" ? nombreActivo : "",
@@ -770,7 +771,7 @@ fetchSinVenta();
 
 // ── GOOGLE SHEET ──────────────────────────────────────────────────────────
 const SHEET_URL  = "https://script.google.com/macros/s/AKfycby2f2uW9E2_CUBr9OiKVT4Sp-ubP2sRIXlWig-GPuKTGyDxi-zx724ZGtkOFaWW0jnqjw/exec";
-const SHEET_HOJA = "Visitas_Mapa2";
+// La hoja destino se determina dinámicamente en enviarAlSheet según el rol activo
 // ─────────────────────────────────────────────────────────────────────────
 
 const ORS_PROFILE = { driving: 'driving-car', foot: 'foot-walking' };
