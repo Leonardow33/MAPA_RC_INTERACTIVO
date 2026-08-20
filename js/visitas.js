@@ -882,8 +882,8 @@ function togglePanel() {
     btn.textContent = abierto ? '✕ Cerrar' : '👤 Ver RCs';
 }
 
-document.getElementById('supFilter').addEventListener('change', () => renderRC(todosRCs));
-document.getElementById('zonalTipoFilter').addEventListener('change', () => { scheduleFullRender(); if (sinVentaActive) renderSinVentaLayer(); });
+document.getElementById('supFilter').addEventListener('change', () => { renderRC(todosRCs); if (activeTab === 'dash') renderDashboard(); });
+document.getElementById('zonalTipoFilter').addEventListener('change', () => { scheduleFullRender(); if (sinVentaActive) renderSinVentaLayer(); if (activeTab === 'dash') renderDashboard(); });
 
 function _getActivosConFiltros() {
     const zf  = getZonalFiltro();
@@ -999,6 +999,13 @@ function switchTab(tab) {
     const dash    = document.getElementById('dashboardView');
     document.getElementById('btnTabMapa').classList.toggle('tab-activo', tab === 'mapa');
     document.getElementById('btnTabDash').classList.toggle('tab-activo', tab === 'dash');
+    // botones exclusivos del mapa: ocultar en dashboard
+    ['btnTodosPuntos','btnSinVenta'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.style.display = tab === 'mapa' ? '' : 'none';
+    });
+    const btnRuta = document.getElementById('btnRutaHoy');
+    if (btnRuta) btnRuta.style.display = tab === 'dash' ? 'none' : (modoVista === 'cap' ? 'none' : '');
     if (tab === 'mapa') {
         content.style.display = 'flex';
         dash.style.display    = 'none';
@@ -1029,16 +1036,26 @@ function renderDashboard() {
         return pct >= 60 ? '#10B981' : pct >= 30 ? '#F59E0B' : '#EF4444';
     }
 
-    const rcs        = todosRCs;
+    // ── Filtros activos ────────────────────────────────────────────────────
+    const supFiltro = document.getElementById('supFilter')?.value || 'ALL';
+    const zonFiltro = document.getElementById('zonalTipoFilter')?.value || 'ALL';
+
+    const rcs        = todosRCs.filter(r => supFiltro === 'ALL' || r.supervisor === supFiltro);
     const allVisitas = rcs.flatMap(r => (r.visitas || []).map(v => ({ ...v, _rc: r.rc, _sup: r.supervisor })));
     const salidas    = allVisitas.filter(v => String(v.tipo).toUpperCase() === 'SALIDA');
+
+    // puntos filtrados por zona
+    const puntosActivos = puntosData.filter(p =>
+        (p.estado||'').toUpperCase() !== 'CERRADO' &&
+        (zonFiltro === 'ALL' || (p.zonal_tipo||'').toUpperCase() === zonFiltro)
+    );
 
     // ── KPIs ──────────────────────────────────────────────────────────────
     const kpiRCs    = rcs.filter(r => (r.totalTiendas || 0) > 0).length;
     const kpiTiend  = new Set(allVisitas.filter(v => v.id).map(v => String(v.id))).size;
     const tiempos   = salidas.map(v => parseTiempoSeg(v.tiempoTienda)).filter(Boolean);
     const avgSeg    = tiempos.length ? Math.round(tiempos.reduce((a,b)=>a+b,0)/tiempos.length) : 0;
-    const totalActivos = puntosData.filter(p => (p.estado||'').toUpperCase() !== 'CERRADO').length;
+    const totalActivos = puntosActivos.length;
 
     // ── Distribución horaria ──────────────────────────────────────────────
     const porHora = {};
@@ -1063,7 +1080,7 @@ function renderDashboard() {
 
     // ── Cobertura por zona (semanal) ──────────────────────────────────────
     const byZona = {};
-    puntosData.filter(p => (p.estado||'').toUpperCase() !== 'CERRADO').forEach(p => {
+    puntosActivos.forEach(p => {
         const z = (p.zona||'Sin zona').trim();
         if (!byZona[z]) byZona[z] = { total:0, visitados:0 };
         byZona[z].total++;
