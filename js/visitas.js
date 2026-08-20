@@ -1009,11 +1009,17 @@ fetch((_BASE_DATA + 'puntos.json?v=') + new Date().getTime(), {cache: 'no-store'
     .catch(e => console.error('Error cargando puntos.json:', e));
 
 // ── TAB: MAPA / DASHBOARD ─────────────────────────────────────────────────
-let activeTab    = 'mapa';
-let dashRCFilter = null;
+let activeTab        = 'mapa';
+let dashRCFilter     = null;
+let dashRankingMode  = 'semanal';
 
 function onDashRCChange() {
     dashRCFilter = document.getElementById('dashRCSelect')?.value || null;
+    renderDashboard();
+}
+
+function toggleDashRanking() {
+    dashRankingMode = dashRankingMode === 'semanal' ? 'diario' : 'semanal';
     renderDashboard();
 }
 
@@ -1107,8 +1113,8 @@ function renderDashboard() {
     const maxH   = Math.max(...HORAS.map(h => porHora[h]||0), 1);
     const picoH  = HORAS.reduce((a,h) => (porHora[h]||0) >= (porHora[a]||0) ? h : a, 7);
 
-    // ── RC Ranking ────────────────────────────────────────────────────────
-    const rcRanking = rcs.map(r => {
+    // ── RC Ranking diario (hoy) ───────────────────────────────────────────
+    const rcRankingDiario = rcs.map(r => {
         const vis    = r.visitas || [];
         const sal    = vis.filter(v => String(v.tipo).toUpperCase() === 'SALIDA');
         const times  = sal.map(v => parseTiempoSeg(v.tiempoTienda)).filter(Boolean);
@@ -1118,6 +1124,20 @@ function renderDashboard() {
         return { rc: r.rc, sup: r.supervisor||'-', tiendas: r.totalTiendas||0,
                  primera: r.primeraVisita||'-', tProm, dProm };
     }).sort((a,b) => b.tiendas - a.tiendas);
+
+    // ── RC Ranking semanal ────────────────────────────────────────────────
+    const rcSupMap = {};
+    todosRCs.forEach(r => { rcSupMap[r.rc] = r.supervisor || '-'; });
+    const rcSemBase = dashRCFilter
+        ? [dashRCFilter]
+        : rcsParaSel.map(r => r.rc);
+    const rcRankingSemanal = rcSemBase.map(rcName => {
+        const tiendas = (visitsByRC[rcName] || new Set()).size;
+        const dias    = weekDates.filter(d => (visitsByDateRC[d]?.[rcName]?.size || 0) > 0).length;
+        return { rc: rcName, sup: rcSupMap[rcName] || '-', tiendas, dias };
+    }).filter(r => r.tiendas > 0 || r.dias > 0).sort((a,b) => b.tiendas - a.tiendas || b.dias - a.dias);
+
+    const rcRanking = dashRankingMode === 'semanal' ? rcRankingSemanal : rcRankingDiario;
 
     // ── Cobertura por zona (semanal) ──────────────────────────────────────
     const byZona = {};
@@ -1327,26 +1347,35 @@ function renderDashboard() {
 
         <div class="dash-grid">
             <div class="dash-card">
-                <div class="dash-card-title">Ranking de ${modoLabel.toLowerCase()}</div>
+                <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">
+                    <div class="dash-card-title" style="margin-bottom:0">
+                        Ranking de visitas · ${dashRankingMode === 'semanal' ? 'semanal' : 'hoy'}
+                    </div>
+                    <button onclick="toggleDashRanking()" style="font-size:10px;font-weight:700;cursor:pointer;background:#1E293B;border:1px solid #334155;color:#94A3B8;border-radius:8px;padding:4px 12px;font-family:inherit;transition:all .15s;white-space:nowrap" onmouseover="this.style.borderColor='#6366F1';this.style.color='#6366F1'" onmouseout="this.style.borderColor='#334155';this.style.color='#94A3B8'">
+                        ${dashRankingMode === 'semanal' ? 'Diario' : 'Semanal'}
+                    </button>
+                </div>
                 ${rcRanking.length === 0
                     ? '<div style="color:#475569;font-size:12px;text-align:center;padding:24px 0">Sin registros</div>'
                     : `<div style="overflow-x:auto"><table class="dash-table">
                         <thead><tr>
                             <th class="td-num">#</th>
                             <th>Nombre</th>
-                            <th>Tiendas</th>
-                            <th>Prom./tienda</th>
-                            <th>Dist.</th>
+                            <th>${dashRankingMode === 'semanal' ? 'Tiendas sem.' : 'Tiendas hoy'}</th>
+                            ${dashRankingMode === 'semanal'
+                                ? '<th>Días activos</th>'
+                                : '<th>Prom./tienda</th><th>Dist.</th>'}
                         </tr></thead>
                         <tbody>${rcRanking.map((r,i) => `<tr>
                             <td class="td-num">${i+1}</td>
                             <td>
                                 <div class="td-name">${r.rc}</div>
-                                <div class="td-sup">${r.sup} &nbsp;·&nbsp; ⏰ ${r.primera}</div>
+                                <div class="td-sup">${r.sup}${dashRankingMode === 'diario' ? ` &nbsp;·&nbsp; ⏰ ${r.primera}` : ''}</div>
                             </td>
                             <td><span class="td-badge">${r.tiendas}</span></td>
-                            <td>${fmtMin(r.tProm)}</td>
-                            <td>${r.dProm > 0 ? r.dProm+'m' : '—'}</td>
+                            ${dashRankingMode === 'semanal'
+                                ? `<td><span style="font-size:11px;color:#64748B">${r.dias}d</span></td>`
+                                : `<td>${fmtMin(r.tProm)}</td><td>${r.dProm > 0 ? r.dProm+'m' : '—'}</td>`}
                         </tr>`).join('')}</tbody>
                     </table></div>`}
             </div>
