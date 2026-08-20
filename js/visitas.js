@@ -1156,6 +1156,103 @@ function renderDashboard() {
             </div>
         </div>
 
+        ${(function() {
+            // ── Gráfica de líneas: Visitadas vs Meta por día ──────────────
+            const rcNamesChart = new Set(
+                todosRCs.filter(r => supFiltro === 'ALL' || r.supervisor === supFiltro).map(r => r.rc)
+            );
+            const DAY_S = ['Lun','Mar','Mié','Jue','Vie','Sáb'];
+
+            const lineData = weekDates.map(fecha => {
+                const d       = new Date(fecha + 'T12:00:00');
+                const dayNorm = normDia(DIAS_SEMANA[d.getDay()]);
+                const dowIdx  = (d.getDay() + 6) % 7;
+
+                // META: tiendas asignadas para ese día con filtros activos
+                const meta = puntosActivos.filter(p => {
+                    if (dashRCFilter && (p.rc||'').trim() !== dashRCFilter) return false;
+                    if (supFiltro !== 'ALL' && !rcNamesChart.has(p.rc||'')) return false;
+                    return (p.dias||[]).some(dia => normDia(dia) === dayNorm);
+                }).length;
+
+                // REAL: tiendas efectivamente visitadas ese día
+                let real = 0;
+                if (dashRCFilter) {
+                    real = ((visitsByDateRC[fecha]||{})[dashRCFilter]||new Set()).size;
+                } else if (supFiltro !== 'ALL') {
+                    const st = new Set();
+                    Object.entries(visitsByDateRC[fecha]||{}).forEach(([rc,ids]) => {
+                        if (rcNamesChart.has(rc)) ids.forEach(id => st.add(id));
+                    });
+                    real = st.size;
+                } else {
+                    real = (visitsByDate[fecha]||new Set()).size;
+                }
+
+                return { fecha, dia: DAY_S[dowIdx]||'', label: `${DAY_S[dowIdx]} ${d.getDate()}/${d.getMonth()+1}`, meta, real };
+            });
+
+            if (lineData.length === 0) return '';
+
+            // SVG
+            const W=580, H=150, ML=38, MR=16, MT=18, MB=38;
+            const CW=W-ML-MR, CH=H-MT-MB;
+            const n = lineData.length;
+            const maxY = Math.max(...lineData.flatMap(d=>[d.meta,d.real]), 1);
+            const xP = i => ML + (n>1 ? i/(n-1) : 0.5)*CW;
+            const yP = v => MT + CH*(1 - v/maxY);
+
+            const gridVals = [0,.25,.5,.75,1].map(f => Math.round(maxY*f));
+            const gridH = gridVals.map(v =>
+                `<line x1="${ML}" y1="${yP(v).toFixed(1)}" x2="${ML+CW}" y2="${yP(v).toFixed(1)}" stroke="#1B2A42" stroke-width="1"/>
+                 <text x="${ML-5}" y="${(yP(v)+3).toFixed(1)}" text-anchor="end" fill="#334155" font-size="9">${v}</text>`
+            ).join('');
+
+            const metaPts = lineData.map((d,i)=>`${xP(i).toFixed(1)},${yP(d.meta).toFixed(1)}`).join(' ');
+            const realPts = lineData.map((d,i)=>`${xP(i).toFixed(1)},${yP(d.real).toFixed(1)}`).join(' ');
+            const areaFill= `${xP(0).toFixed(1)},${(MT+CH).toFixed(1)} ${realPts} ${xP(n-1).toFixed(1)},${(MT+CH).toFixed(1)}`;
+
+            const metaDots = lineData.map((d,i) => {
+                const cx=xP(i).toFixed(1), cy=yP(d.meta).toFixed(1);
+                return `<circle cx="${cx}" cy="${cy}" r="3.5" fill="#10B981" stroke="#0B1120" stroke-width="1.5"/>
+                        <text x="${cx}" y="${(yP(d.meta)-7).toFixed(1)}" text-anchor="middle" fill="#10B981" font-size="9" font-weight="700">${d.meta}</text>`;
+            }).join('');
+
+            const realDots = lineData.map((d,i) => {
+                const cx=xP(i).toFixed(1);
+                const labelY = d.real <= d.meta ? (yP(d.real)+14).toFixed(1) : (yP(d.real)-7).toFixed(1);
+                return `<circle cx="${cx}" cy="${yP(d.real).toFixed(1)}" r="3.5" fill="#6366F1" stroke="#0B1120" stroke-width="1.5"/>
+                        <text x="${cx}" y="${labelY}" text-anchor="middle" fill="#818CF8" font-size="9" font-weight="700">${d.real}</text>`;
+            }).join('');
+
+            const xLabels = lineData.map((d,i)=>
+                `<text x="${xP(i).toFixed(1)}" y="${H-5}" text-anchor="middle" fill="#475569" font-size="10">${d.label}</text>`
+            ).join('');
+
+            const pctHoy = lineData.length > 0 && lineData[lineData.length-1].meta > 0
+                ? Math.round(lineData[lineData.length-1].real / lineData[lineData.length-1].meta * 100) : null;
+
+            return `<div class="dash-card" style="margin-bottom:12px">
+                <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">
+                    <div class="dash-card-title" style="margin-bottom:0">Evolución de visitas · tiendas visitadas vs asignadas</div>
+                    <div style="display:flex;gap:14px;font-size:10px;font-weight:700">
+                        <span style="color:#10B981">── Asignadas</span>
+                        <span style="color:#6366F1">── Visitadas</span>
+                        ${pctHoy !== null ? `<span style="color:${colorPct(pctHoy)};padding:2px 8px;background:rgba(99,102,241,.1);border-radius:8px">${pctHoy}% último día</span>` : ''}
+                    </div>
+                </div>
+                <svg viewBox="0 0 ${W} ${H}" width="100%" style="display:block;overflow:visible">
+                    ${gridH}
+                    <line x1="${ML}" y1="${MT}" x2="${ML}" y2="${MT+CH}" stroke="#334155" stroke-width="1"/>
+                    <line x1="${ML}" y1="${MT+CH}" x2="${ML+CW}" y2="${MT+CH}" stroke="#334155" stroke-width="1"/>
+                    <polygon points="${areaFill}" fill="#6366F1" opacity="0.06"/>
+                    <polyline points="${metaPts}" fill="none" stroke="#10B981" stroke-width="1.5" stroke-dasharray="5,3" opacity="0.7"/>
+                    <polyline points="${realPts}" fill="none" stroke="#6366F1" stroke-width="2.5"/>
+                    ${metaDots}${realDots}${xLabels}
+                </svg>
+            </div>`;
+        })()}
+
         <div class="dash-grid">
             <div class="dash-card">
                 <div class="dash-card-title">Ranking de ${modoLabel.toLowerCase()}</div>
