@@ -45,6 +45,9 @@
     <h1>📍 Seguimiento de Visitas del RC</h1>
     <button id="btnModoRC" class="activo" onclick="setModoVista('rc')">👤 RCs</button>
     <button id="btnModoCap" onclick="setModoVista('cap')">🎓 Capacitadores</button>
+    <div class="tab-sep"></div>
+    <button id="btnTabMapa" class="tab-btn tab-activo" onclick="switchTab('mapa')">🗺️ Mapa</button>
+    <button id="btnTabDash" class="tab-btn" onclick="switchTab('dash')">📊 Dashboard</button>
     <select id="fechaFilter"></select>
     <select id="supFilter"><option value="ALL">Todos los supervisores</option></select>
     <select id="semanaFilter"></select>
@@ -83,6 +86,8 @@
     <button id="panelToggle" onclick="togglePanel()">&#128100; Ver RCs</button>
     <div id="map"></div>
 </div>
+
+<div id="dashboardView"></div>
 
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script src="js/visitas.js"></script>

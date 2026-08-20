@@ -611,6 +611,7 @@ async function cargarDatosSemanales() {
     });
 
     scheduleFullRender();
+    if (activeTab === 'dash') renderDashboard();
 }
 
 function toggleTodosPuntos() {
@@ -795,6 +796,7 @@ async function cargarDatos() {
         renderSinVisitar();
         const hora = new Date().toTimeString().slice(0,5);
         document.getElementById('lastUpdate').textContent = `Actualizado: ${hora}`;
+        if (activeTab === 'dash') renderDashboard();
     } catch(e) {
         console.warn('Error cargando visitas:', e);
         document.getElementById('noData').textContent = 'Error al cargar datos';
@@ -987,6 +989,186 @@ fetch((_BASE_DATA + 'puntos.json?v=') + new Date().getTime(), {cache: 'no-store'
     .then(r => r.json())
     .then(data => { puntosData = normalizePuntos(data); cargarDatos(); cargarDatosSemanales(); })
     .catch(e => console.error('Error cargando puntos.json:', e));
+
+// ── TAB: MAPA / DASHBOARD ─────────────────────────────────────────────────
+let activeTab = 'mapa';
+
+function switchTab(tab) {
+    activeTab = tab;
+    const content = document.getElementById('content');
+    const dash    = document.getElementById('dashboardView');
+    document.getElementById('btnTabMapa').classList.toggle('tab-activo', tab === 'mapa');
+    document.getElementById('btnTabDash').classList.toggle('tab-activo', tab === 'dash');
+    if (tab === 'mapa') {
+        content.style.display = 'flex';
+        dash.style.display    = 'none';
+    } else {
+        content.style.display = 'none';
+        dash.style.display    = 'flex';
+        renderDashboard();
+    }
+}
+
+function renderDashboard() {
+    const container = document.getElementById('dashboardView');
+    if (!container) return;
+
+    function parseTiempoSeg(t) {
+        if (!t || t === '-') return null;
+        const p = String(t).split(':').map(Number);
+        if (p.length < 2 || isNaN(p[0])) return null;
+        const v = p[0] * 3600 + p[1] * 60 + (p[2] || 0);
+        return v > 0 ? v : null;
+    }
+    function fmtMin(secs) {
+        if (!secs) return '-';
+        const m = Math.floor(secs / 60), s = secs % 60;
+        return m > 0 ? `${m}m ${s < 10 ? '0' : ''}${s}s` : `${s}s`;
+    }
+    function colorPct(pct) {
+        return pct >= 60 ? '#10B981' : pct >= 30 ? '#F59E0B' : '#EF4444';
+    }
+
+    const rcs        = todosRCs;
+    const allVisitas = rcs.flatMap(r => (r.visitas || []).map(v => ({ ...v, _rc: r.rc, _sup: r.supervisor })));
+    const salidas    = allVisitas.filter(v => String(v.tipo).toUpperCase() === 'SALIDA');
+
+    // ── KPIs ──────────────────────────────────────────────────────────────
+    const kpiRCs    = rcs.filter(r => (r.totalTiendas || 0) > 0).length;
+    const kpiTiend  = new Set(allVisitas.filter(v => v.id).map(v => String(v.id))).size;
+    const tiempos   = salidas.map(v => parseTiempoSeg(v.tiempoTienda)).filter(Boolean);
+    const avgSeg    = tiempos.length ? Math.round(tiempos.reduce((a,b)=>a+b,0)/tiempos.length) : 0;
+    const totalActivos = puntosData.filter(p => (p.estado||'').toUpperCase() !== 'CERRADO').length;
+
+    // ── Distribución horaria ──────────────────────────────────────────────
+    const porHora = {};
+    allVisitas.forEach(v => {
+        const h = parseInt((v.hora||'').split(':')[0]);
+        if (!isNaN(h) && h >= 7 && h <= 20) porHora[h] = (porHora[h]||0) + 1;
+    });
+    const HORAS  = Array.from({length: 14}, (_,i) => i+7);
+    const maxH   = Math.max(...HORAS.map(h => porHora[h]||0), 1);
+    const picoH  = HORAS.reduce((a,h) => (porHora[h]||0) >= (porHora[a]||0) ? h : a, 7);
+
+    // ── RC Ranking ────────────────────────────────────────────────────────
+    const rcRanking = rcs.map(r => {
+        const vis  = r.visitas || [];
+        const sal  = vis.filter(v => String(v.tipo).toUpperCase() === 'SALIDA');
+        const tTotal = sal.reduce((a,v) => a + (parseTiempoSeg(v.tiempoTienda)||0), 0);
+        const dists  = vis.map(v => parseFloat(v.dist)||0).filter(d => d > 0);
+        const dProm  = dists.length ? Math.round(dists.reduce((a,b)=>a+b,0)/dists.length) : 0;
+        return { rc: r.rc, sup: r.supervisor||'-', tiendas: r.totalTiendas||0,
+                 primera: r.primeraVisita||'-', tTotal, dProm };
+    }).sort((a,b) => b.tiendas - a.tiendas);
+
+    // ── Cobertura por zona (semanal) ──────────────────────────────────────
+    const byZona = {};
+    puntosData.filter(p => (p.estado||'').toUpperCase() !== 'CERRADO').forEach(p => {
+        const z = (p.zona||'Sin zona').trim();
+        if (!byZona[z]) byZona[z] = { total:0, visitados:0 };
+        byZona[z].total++;
+        if ((visitCountsSemana[normalizeID(p.ID)]||0) > 0) byZona[z].visitados++;
+    });
+    const zonas = Object.entries(byZona)
+        .filter(([,v]) => v.total > 0)
+        .sort((a,b) => (b[1].visitados/b[1].total) - (a[1].visitados/a[1].total));
+
+    const modoLabel   = modoVista === 'cap' ? 'Capacitadores' : 'RCs';
+    const fechaLabel  = selectedDate ? selectedDate : 'Hoy';
+
+    container.innerHTML = `<div class="dash-inner">
+        <div class="dash-header">
+            <div>
+                <div class="dash-header-title">Dashboard de Visitas</div>
+                <div class="dash-header-sub">${fechaLabel} &nbsp;·&nbsp; ${modoLabel}</div>
+            </div>
+        </div>
+
+        <div class="dash-kpi-row">
+            <div class="dash-kpi">
+                <div class="dash-kpi-label">${modoLabel} activos</div>
+                <div class="dash-kpi-value">${kpiRCs}</div>
+                <div class="dash-kpi-sub">de ${rcs.length} en total</div>
+            </div>
+            <div class="dash-kpi">
+                <div class="dash-kpi-label">Tiendas visitadas</div>
+                <div class="dash-kpi-value">${kpiTiend}</div>
+                <div class="dash-kpi-sub">${totalActivos} activas en base</div>
+            </div>
+            <div class="dash-kpi">
+                <div class="dash-kpi-label">Marcaciones</div>
+                <div class="dash-kpi-value">${allVisitas.length}</div>
+                <div class="dash-kpi-sub">${salidas.length} salidas registradas</div>
+            </div>
+            <div class="dash-kpi">
+                <div class="dash-kpi-label">Tiempo promedio</div>
+                <div class="dash-kpi-value" style="font-size:20px;padding-top:3px">${fmtMin(avgSeg)}</div>
+                <div class="dash-kpi-sub">por tienda · ${tiempos.length} visitas</div>
+            </div>
+        </div>
+
+        <div class="dash-grid">
+            <div class="dash-card">
+                <div class="dash-card-title">Ranking de ${modoLabel.toLowerCase()}</div>
+                ${rcRanking.length === 0
+                    ? '<div style="color:#475569;font-size:12px;text-align:center;padding:24px 0">Sin registros</div>'
+                    : `<div style="overflow-x:auto"><table class="dash-table">
+                        <thead><tr>
+                            <th class="td-num">#</th>
+                            <th>Nombre</th>
+                            <th>Tiendas</th>
+                            <th>Tiempo</th>
+                            <th>Dist.</th>
+                        </tr></thead>
+                        <tbody>${rcRanking.map((r,i) => `<tr>
+                            <td class="td-num">${i+1}</td>
+                            <td>
+                                <div class="td-name">${r.rc}</div>
+                                <div class="td-sup">${r.sup} &nbsp;·&nbsp; ⏰ ${r.primera}</div>
+                            </td>
+                            <td><span class="td-badge">${r.tiendas}</span></td>
+                            <td>${fmtMin(r.tTotal)}</td>
+                            <td>${r.dProm > 0 ? r.dProm+'m' : '—'}</td>
+                        </tr>`).join('')}</tbody>
+                    </table></div>`}
+            </div>
+
+            <div class="dash-card">
+                <div class="dash-card-title">Marcaciones por hora</div>
+                <div class="dash-hora-wrap">
+                    ${HORAS.map(h => {
+                        const cnt  = porHora[h]||0;
+                        const barH = Math.max(Math.round(cnt/maxH*60), cnt>0?4:2);
+                        const cls  = h===picoH && cnt>0 ? 'peak' : cnt > maxH*0.5 ? 'hi' : '';
+                        return `<div class="dash-hora-col">
+                            <div class="dash-hora-bar ${cls}" style="height:${barH}px" title="${cnt}"></div>
+                            <div class="dash-hora-lbl">${h}</div>
+                        </div>`;
+                    }).join('')}
+                </div>
+                ${allVisitas.length > 0 ? `<div style="margin-top:10px;font-size:10px;color:#475569;text-align:right">
+                    Pico: ${picoH}:00 &nbsp;·&nbsp; ${porHora[picoH]||0} marcaciones
+                </div>` : '<div style="color:#475569;font-size:11px;text-align:center;padding:12px 0">Sin marcaciones</div>'}
+            </div>
+        </div>
+
+        <div class="dash-card" style="margin-bottom:16px">
+            <div class="dash-card-title">Cobertura semanal por zona</div>
+            ${zonas.length === 0
+                ? '<div style="color:#475569;font-size:12px;text-align:center;padding:24px 0">Sin datos de puntos</div>'
+                : `<div class="dash-zona-grid">${zonas.map(([zona,d]) => {
+                    const pct   = d.total>0 ? Math.round(d.visitados/d.total*100) : 0;
+                    const color = colorPct(pct);
+                    return `<div>
+                        <div class="dash-zona-name">${zona}</div>
+                        <div class="dash-zona-stat" style="color:${color}">${d.visitados}/${d.total} &nbsp;·&nbsp; ${pct}%</div>
+                        <div class="dash-zona-bg"><div class="dash-zona-fill" style="width:${pct}%;background:${color}"></div></div>
+                    </div>`;
+                }).join('')}</div>`}
+        </div>
+    </div>`;
+}
+// ──────────────────────────────────────────────────────────────────────────
 
 // ── AUTO-REFRESH cuando cambia version.json ────────────────────────────────
 (function() {
