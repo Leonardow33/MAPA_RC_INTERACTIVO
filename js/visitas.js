@@ -104,6 +104,9 @@ let visitedIDs = new Set();
 let visitCountsSemana = {};
 let visitsByRC = {};
 let visitsByRCToday = {};
+let visitsByDate   = {};  // { fecha: Set<id> }
+let visitsByDateRC = {};  // { fecha: { rcName: Set<id> } }
+let weekDates      = [];  // ['YYYY-MM-DD', ...] en orden lun-sáb
 let selectedRCFilter = null;
 
 function matchRCFilter(p) {
@@ -580,31 +583,40 @@ async function cargarDatosSemanales() {
     setLoadingState(true);
 
     const today = new Date(); today.setHours(0,0,0,0);
-    const fetches = [];
+    const accion = modoVista === 'cap' ? 'getVisitasMapa2' : 'getVisitas';
+    const fetchTasks = [];
     for (let i = 0; i < 6; i++) {
         const d = new Date(monday);
         d.setDate(monday.getDate() + i);
         if (d > today) continue;
         const fecha = formatFecha(d);
-        fetches.push(
-            fetch(SHEET_URL + `?action=${modoVista === 'cap' ? 'getVisitasMapa2' : 'getVisitas'}&fecha=${fecha}`)
-                .then(r => r.json()).catch(() => [])
-        );
+        fetchTasks.push({ fecha,
+            prom: fetch(SHEET_URL + `?action=${accion}&fecha=${fecha}`).then(r => r.json()).catch(() => [])
+        });
     }
 
-    const results = await Promise.all(fetches);
+    const results = await Promise.all(fetchTasks.map(t => t.prom));
     visitCountsSemana = {};
-    visitsByRC = {};
-    results.forEach(dayData => {
+    visitsByRC        = {};
+    visitsByDate      = {};
+    visitsByDateRC    = {};
+    weekDates         = fetchTasks.map(t => t.fecha);
+
+    fetchTasks.forEach(({ fecha }, idx) => {
+        const dayData = results[idx];
         if (!Array.isArray(dayData)) return;
+        visitsByDate[fecha]   = new Set();
+        visitsByDateRC[fecha] = {};
         dayData.forEach(rcEntry => {
             const rcName = rcEntry.rc || '';
             if (rcName && !visitsByRC[rcName]) visitsByRC[rcName] = new Set();
+            if (rcName && !visitsByDateRC[fecha][rcName]) visitsByDateRC[fecha][rcName] = new Set();
             (rcEntry.visitas || []).forEach(v => {
                 if (v.id) {
                     const id = normalizeID(v.id);
                     visitCountsSemana[id] = (visitCountsSemana[id] || 0) + 1;
-                    if (rcName) visitsByRC[rcName].add(id);
+                    if (rcName) { visitsByRC[rcName].add(id); visitsByDateRC[fecha][rcName].add(id); }
+                    visitsByDate[fecha].add(id);
                 }
             });
         });
@@ -1169,7 +1181,7 @@ function renderDashboard() {
             </div>
         </div>
 
-        <div class="dash-card" style="margin-bottom:16px">
+        <div class="dash-card" style="margin-bottom:12px">
             <div class="dash-card-title">Cobertura semanal por zona</div>
             ${zonas.length === 0
                 ? '<div style="color:#475569;font-size:12px;text-align:center;padding:24px 0">Sin datos de puntos</div>'
@@ -1183,6 +1195,108 @@ function renderDashboard() {
                     </div>`;
                 }).join('')}</div>`}
         </div>
+
+        ${(function() {
+            // ── Evolución semanal ──────────────────────────────────────────
+            const DAY_NAMES  = ['Lun','Mar','Mié','Jue','Vie','Sáb'];
+            const DAY_LONG   = ['Lunes','Martes','Miércoles','Jueves','Viernes','Sábado'];
+            const rcNamesSet = new Set(rcs.map(r => r.rc));
+
+            const dayStats = weekDates.map(fecha => {
+                const rcMap  = visitsByDateRC[fecha] || {};
+                const stores = new Set();
+                const rcAct  = new Set();
+                Object.entries(rcMap).forEach(([rcName, ids]) => {
+                    if (supFiltro === 'ALL' || rcNamesSet.has(rcName)) {
+                        ids.forEach(id => stores.add(id));
+                        if (ids.size > 0) rcAct.add(rcName);
+                    }
+                });
+                const d      = new Date(fecha + 'T12:00:00');
+                const dowIdx = ((d.getDay() + 6) % 7);
+                return {
+                    fecha,
+                    dia:     DAY_NAMES[dowIdx]  || '',
+                    diaLong: DAY_LONG[dowIdx]   || '',
+                    label:   `${d.getDate()}/${d.getMonth()+1}`,
+                    stores:  stores.size,
+                    rcs:     rcAct.size
+                };
+            });
+
+            const maxStores = Math.max(...dayStats.map(d => d.stores), 1);
+
+            // ── Cumplimiento de ruta por RC ────────────────────────────────
+            const rcCumpl = rcs.map(r => {
+                const asign  = puntosActivos.filter(p => (p.rc||'').trim() === r.rc.trim());
+                const visSet = visitsByRC[r.rc] || new Set();
+                const visit  = asign.filter(p => visSet.has(normalizeID(p.ID))).length;
+                const pct    = asign.length > 0 ? Math.round(visit / asign.length * 100) : 0;
+                return { rc: r.rc, sup: r.supervisor||'-', asign: asign.length, visit, pct };
+            }).filter(r => r.asign > 0).sort((a,b) => b.pct - a.pct || b.visit - a.visit);
+
+            return `
+            <div class="dash-grid" style="margin-bottom:12px">
+                <!-- Por día de semana: visual -->
+                <div class="dash-card">
+                    <div class="dash-card-title">Evolución · por día de semana</div>
+                    ${dayStats.length === 0
+                        ? '<div style="color:#475569;font-size:12px;text-align:center;padding:24px 0">Sin datos semanales</div>'
+                        : `<div style="display:flex;align-items:flex-end;gap:6px;height:80px;margin-bottom:8px">
+                            ${dayStats.map(d => {
+                                const barH = Math.max(Math.round(d.stores / maxStores * 68), d.stores > 0 ? 6 : 2);
+                                const color = d.stores === 0 ? '#243447'
+                                    : d.stores === Math.max(...dayStats.map(x=>x.stores)) ? '#6366F1' : '#334155';
+                                return `<div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:3px">
+                                    <div style="font-size:9px;color:#64748B;font-weight:700">${d.stores||''}</div>
+                                    <div style="width:100%;border-radius:3px 3px 0 0;background:${color};height:${barH}px;transition:height .3s"></div>
+                                    <div style="font-size:10px;color:#475569;font-weight:600">${d.dia}</div>
+                                </div>`;
+                            }).join('')}
+                        </div>
+                        <div style="font-size:10px;color:#334155;border-top:1px solid #1B2A42;padding-top:8px;display:flex;gap:8px;flex-wrap:wrap">
+                            ${dayStats.map(d => `<span style="color:#475569">${d.diaLong}: <b style="color:#94A3B8">${d.rcs} RC${d.rcs!==1?'s':''}</b></span>`).join(' · ')}
+                        </div>`}
+                </div>
+                <!-- Por fecha: tabla -->
+                <div class="dash-card">
+                    <div class="dash-card-title">Detalle · por fecha</div>
+                    ${dayStats.length === 0
+                        ? '<div style="color:#475569;font-size:12px;text-align:center;padding:24px 0">Sin datos</div>'
+                        : `<div style="overflow-x:auto"><table class="dash-table">
+                            <thead><tr>
+                                <th>Día</th><th>Fecha</th><th>Tiendas</th><th>RCs</th>
+                            </tr></thead>
+                            <tbody>${dayStats.map(d => `<tr>
+                                <td style="font-weight:700;color:#CBD5E1">${d.dia}</td>
+                                <td style="color:#64748B">${d.label}</td>
+                                <td><span style="font-weight:700;color:#${d.stores>0?'F1F5F9':'475569'}">${d.stores}</span></td>
+                                <td style="color:#64748B">${d.rcs}</td>
+                            </tr>`).join('')}</tbody>
+                        </table></div>`}
+                </div>
+            </div>
+
+            <!-- Cumplimiento de ruta por RC -->
+            <div class="dash-card" style="margin-bottom:16px">
+                <div class="dash-card-title">Cumplimiento de ruta semanal · por RC</div>
+                ${rcCumpl.length === 0
+                    ? '<div style="color:#475569;font-size:12px;text-align:center;padding:24px 0">Sin asignaciones en base</div>'
+                    : `<div class="dash-zona-grid" style="grid-template-columns:repeat(auto-fill,minmax(220px,1fr))">
+                        ${rcCumpl.map(r => {
+                            const color = colorPct(r.pct);
+                            return `<div>
+                                <div style="display:flex;justify-content:space-between;align-items:baseline">
+                                    <div class="dash-zona-name" style="font-size:12px">${r.rc}</div>
+                                    <div style="font-size:10px;color:${color};font-weight:700">${r.pct}%</div>
+                                </div>
+                                <div class="dash-zona-stat" style="color:#475569">${r.visit}/${r.asign} tiendas asignadas</div>
+                                <div class="dash-zona-bg"><div class="dash-zona-fill" style="width:${r.pct}%;background:${color}"></div></div>
+                            </div>`;
+                        }).join('')}
+                    </div>`}
+            </div>`;
+        })()}
     </div>`;
 }
 // ──────────────────────────────────────────────────────────────────────────
