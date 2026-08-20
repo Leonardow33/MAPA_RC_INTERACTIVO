@@ -783,6 +783,7 @@ function _aplicarModoVista(modo) {
     semanaKeyCache = null;
     document.getElementById('panelHeader').textContent = modo === 'cap' ? 'Capacitadores activos hoy' : modo === 'sup' ? 'Supervisores activos hoy' : 'RCs activos hoy';
     document.getElementById('rcList').innerHTML = '<div style="padding:16px;color:#aaa;font-size:12px;text-align:center">⏳ Cargando...</div>';
+    showDashLoading();
     cargarDatos();
     cargarDatosSemanales();
 }
@@ -1137,7 +1138,7 @@ function renderDashboard() {
         const t     = (p.tipo || 'Sin tipo').trim();
         const pRc   = (p.rc || '').trim();
         const normId = normalizeID(p.ID);
-        if (dashRCFilter && pRc !== dashRCFilter) return;
+        if (dashRCFilter && modoVista !== 'sup' && pRc !== dashRCFilter) return;
         if (rcNamesForTipo && !rcNamesForTipo.has(pRc)) return;
         if (!byTipo[t]) byTipo[t] = { total: 0, visit: 0 };
         byTipo[t].total++;
@@ -1207,8 +1208,8 @@ function renderDashboard() {
                 const dayNorm = normDia(DIAS_SEMANA[d.getDay()]);
                 const dowIdx  = (d.getDay() + 6) % 7;
 
-                // META: tiendas asignadas para ese día con filtros activos
-                const meta = puntosActivos.filter(p => {
+                // META: tiendas asignadas para ese día (no aplica en modo supervisores)
+                const meta = modoVista === 'sup' ? 0 : puntosActivos.filter(p => {
                     if (dashRCFilter && (p.rc||'').trim() !== dashRCFilter) return false;
                     if (supFiltro !== 'ALL' && !rcNamesChart.has(p.rc||'')) return false;
                     return (p.dias||[]).some(dia => normDia(dia) === dayNorm);
@@ -1237,7 +1238,8 @@ function renderDashboard() {
             const W=580, H=150, ML=38, MR=16, MT=18, MB=38;
             const CW=W-ML-MR, CH=H-MT-MB;
             const n = lineData.length;
-            const maxY = Math.max(...lineData.flatMap(d=>[d.meta,d.real]), 1);
+            const showMeta = modoVista !== 'sup';
+            const maxY = Math.max(...lineData.flatMap(d => showMeta ? [d.meta,d.real] : [d.real]), 1);
             const xP = i => ML + (n>1 ? i/(n-1) : 0.5)*CW;
             const yP = v => MT + CH*(1 - v/maxY);
 
@@ -1251,15 +1253,15 @@ function renderDashboard() {
             const realPts = lineData.map((d,i)=>`${xP(i).toFixed(1)},${yP(d.real).toFixed(1)}`).join(' ');
             const areaFill= `${xP(0).toFixed(1)},${(MT+CH).toFixed(1)} ${realPts} ${xP(n-1).toFixed(1)},${(MT+CH).toFixed(1)}`;
 
-            const metaDots = lineData.map((d,i) => {
+            const metaDots = showMeta ? lineData.map((d,i) => {
                 const cx=xP(i).toFixed(1), cy=yP(d.meta).toFixed(1);
                 return `<circle cx="${cx}" cy="${cy}" r="3.5" fill="#10B981" stroke="#0B1120" stroke-width="1.5"/>
                         <text x="${cx}" y="${(yP(d.meta)-7).toFixed(1)}" text-anchor="middle" fill="#10B981" font-size="9" font-weight="700">${d.meta}</text>`;
-            }).join('');
+            }).join('') : '';
 
             const realDots = lineData.map((d,i) => {
                 const cx=xP(i).toFixed(1);
-                const labelY = d.real <= d.meta ? (yP(d.real)+14).toFixed(1) : (yP(d.real)-7).toFixed(1);
+                const labelY = (showMeta && d.real <= d.meta) ? (yP(d.real)+14).toFixed(1) : (yP(d.real)-7).toFixed(1);
                 return `<circle cx="${cx}" cy="${yP(d.real).toFixed(1)}" r="3.5" fill="#6366F1" stroke="#0B1120" stroke-width="1.5"/>
                         <text x="${cx}" y="${labelY}" text-anchor="middle" fill="#818CF8" font-size="9" font-weight="700">${d.real}</text>`;
             }).join('');
@@ -1268,14 +1270,18 @@ function renderDashboard() {
                 `<text x="${xP(i).toFixed(1)}" y="${H-5}" text-anchor="middle" fill="#475569" font-size="10">${d.label}</text>`
             ).join('');
 
-            const pctHoy = lineData.length > 0 && lineData[lineData.length-1].meta > 0
+            const pctHoy = showMeta && lineData.length > 0 && lineData[lineData.length-1].meta > 0
                 ? Math.round(lineData[lineData.length-1].real / lineData[lineData.length-1].meta * 100) : null;
+
+            const chartTitle = modoVista === 'sup'
+                ? 'Evolución de marcaciones · tiendas visitadas por supervisores'
+                : 'Evolución de visitas · tiendas visitadas vs asignadas';
 
             return `<div class="dash-card" style="margin-bottom:12px">
                 <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">
-                    <div class="dash-card-title" style="margin-bottom:0">Evolución de visitas · tiendas visitadas vs asignadas</div>
+                    <div class="dash-card-title" style="margin-bottom:0">${chartTitle}</div>
                     <div style="display:flex;gap:14px;font-size:10px;font-weight:700">
-                        <span style="color:#10B981">── Asignadas</span>
+                        ${showMeta ? `<span style="color:#10B981">── Asignadas</span>` : ''}
                         <span style="color:#6366F1">── Visitadas</span>
                         ${pctHoy !== null ? `<span style="color:${colorPct(pctHoy)};padding:2px 8px;background:rgba(99,102,241,.1);border-radius:8px">${pctHoy}% último día</span>` : ''}
                     </div>
@@ -1285,7 +1291,7 @@ function renderDashboard() {
                     <line x1="${ML}" y1="${MT}" x2="${ML}" y2="${MT+CH}" stroke="#334155" stroke-width="1"/>
                     <line x1="${ML}" y1="${MT+CH}" x2="${ML+CW}" y2="${MT+CH}" stroke="#334155" stroke-width="1"/>
                     <polygon points="${areaFill}" fill="#6366F1" opacity="0.06"/>
-                    <polyline points="${metaPts}" fill="none" stroke="#10B981" stroke-width="1.5" stroke-dasharray="5,3" opacity="0.7"/>
+                    ${showMeta ? `<polyline points="${metaPts}" fill="none" stroke="#10B981" stroke-width="1.5" stroke-dasharray="5,3" opacity="0.7"/>` : ''}
                     <polyline points="${realPts}" fill="none" stroke="#6366F1" stroke-width="2.5"/>
                     ${metaDots}${realDots}${xLabels}
                 </svg>
