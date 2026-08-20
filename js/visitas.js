@@ -1003,7 +1003,13 @@ fetch((_BASE_DATA + 'puntos.json?v=') + new Date().getTime(), {cache: 'no-store'
     .catch(e => console.error('Error cargando puntos.json:', e));
 
 // ── TAB: MAPA / DASHBOARD ─────────────────────────────────────────────────
-let activeTab = 'mapa';
+let activeTab    = 'mapa';
+let dashRCFilter = null;
+
+function onDashRCChange() {
+    dashRCFilter = document.getElementById('dashRCSelect')?.value || null;
+    renderDashboard();
+}
 
 function switchTab(tab) {
     activeTab = tab;
@@ -1052,7 +1058,16 @@ function renderDashboard() {
     const supFiltro = document.getElementById('supFilter')?.value || 'ALL';
     const zonFiltro = document.getElementById('zonalTipoFilter')?.value || 'ALL';
 
-    const rcs        = todosRCs.filter(r => supFiltro === 'ALL' || r.supervisor === supFiltro);
+    // RCs para el selector (filtrados por supervisor, sin filtro de RC aún)
+    const rcsParaSel = todosRCs
+        .filter(r => supFiltro === 'ALL' || r.supervisor === supFiltro)
+        .sort((a,b) => a.rc.localeCompare(b.rc));
+
+    // Si el RC seleccionado ya no está en la lista visible, limpiar
+    if (dashRCFilter && !rcsParaSel.some(r => r.rc === dashRCFilter)) dashRCFilter = null;
+
+    let rcs = rcsParaSel;
+    if (dashRCFilter) rcs = rcs.filter(r => r.rc === dashRCFilter);
     const allVisitas = rcs.flatMap(r => (r.visitas || []).map(v => ({ ...v, _rc: r.rc, _sup: r.supervisor })));
     const salidas    = allVisitas.filter(v => String(v.tipo).toUpperCase() === 'SALIDA');
 
@@ -1081,13 +1096,14 @@ function renderDashboard() {
 
     // ── RC Ranking ────────────────────────────────────────────────────────
     const rcRanking = rcs.map(r => {
-        const vis  = r.visitas || [];
-        const sal  = vis.filter(v => String(v.tipo).toUpperCase() === 'SALIDA');
-        const tTotal = sal.reduce((a,v) => a + (parseTiempoSeg(v.tiempoTienda)||0), 0);
+        const vis    = r.visitas || [];
+        const sal    = vis.filter(v => String(v.tipo).toUpperCase() === 'SALIDA');
+        const times  = sal.map(v => parseTiempoSeg(v.tiempoTienda)).filter(Boolean);
+        const tProm  = times.length ? Math.round(times.reduce((a,b)=>a+b,0) / times.length) : 0;
         const dists  = vis.map(v => parseFloat(v.dist)||0).filter(d => d > 0);
         const dProm  = dists.length ? Math.round(dists.reduce((a,b)=>a+b,0)/dists.length) : 0;
         return { rc: r.rc, sup: r.supervisor||'-', tiendas: r.totalTiendas||0,
-                 primera: r.primeraVisita||'-', tTotal, dProm };
+                 primera: r.primeraVisita||'-', tProm, dProm };
     }).sort((a,b) => b.tiendas - a.tiendas);
 
     // ── Cobertura por zona (semanal) ──────────────────────────────────────
@@ -1109,8 +1125,12 @@ function renderDashboard() {
         <div class="dash-header">
             <div>
                 <div class="dash-header-title">Dashboard de Visitas</div>
-                <div class="dash-header-sub">${fechaLabel} &nbsp;·&nbsp; ${modoLabel}</div>
+                <div class="dash-header-sub">${fechaLabel} &nbsp;·&nbsp; ${modoLabel}${dashRCFilter ? ' &nbsp;·&nbsp; ' + dashRCFilter : ''}</div>
             </div>
+            <select id="dashRCSelect" onchange="onDashRCChange()" style="padding:6px 10px;border-radius:8px;border:1px solid #334155;background:#1E293B;color:#CBD5E1;font-size:12px;font-weight:600;cursor:pointer;font-family:inherit;outline:none;max-width:220px">
+                <option value="">Todos los RCs</option>
+                ${rcsParaSel.map(r => `<option value="${r.rc}"${dashRCFilter===r.rc?' selected':''}>${r.rc}</option>`).join('')}
+            </select>
         </div>
 
         <div class="dash-kpi-row">
@@ -1146,7 +1166,7 @@ function renderDashboard() {
                             <th class="td-num">#</th>
                             <th>Nombre</th>
                             <th>Tiendas</th>
-                            <th>Tiempo</th>
+                            <th>Prom./tienda</th>
                             <th>Dist.</th>
                         </tr></thead>
                         <tbody>${rcRanking.map((r,i) => `<tr>
@@ -1156,7 +1176,7 @@ function renderDashboard() {
                                 <div class="td-sup">${r.sup} &nbsp;·&nbsp; ⏰ ${r.primera}</div>
                             </td>
                             <td><span class="td-badge">${r.tiendas}</span></td>
-                            <td>${fmtMin(r.tTotal)}</td>
+                            <td>${fmtMin(r.tProm)}</td>
                             <td>${r.dProm > 0 ? r.dProm+'m' : '—'}</td>
                         </tr>`).join('')}</tbody>
                     </table></div>`}
@@ -1206,12 +1226,18 @@ function renderDashboard() {
                 const rcMap  = visitsByDateRC[fecha] || {};
                 const stores = new Set();
                 const rcAct  = new Set();
-                Object.entries(rcMap).forEach(([rcName, ids]) => {
-                    if (supFiltro === 'ALL' || rcNamesSet.has(rcName)) {
-                        ids.forEach(id => stores.add(id));
-                        if (ids.size > 0) rcAct.add(rcName);
-                    }
-                });
+                if (dashRCFilter) {
+                    const ids = rcMap[dashRCFilter] || new Set();
+                    ids.forEach(id => stores.add(id));
+                    if (ids.size > 0) rcAct.add(dashRCFilter);
+                } else {
+                    Object.entries(rcMap).forEach(([rcName, ids]) => {
+                        if (supFiltro === 'ALL' || rcNamesSet.has(rcName)) {
+                            ids.forEach(id => stores.add(id));
+                            if (ids.size > 0) rcAct.add(rcName);
+                        }
+                    });
+                }
                 const d      = new Date(fecha + 'T12:00:00');
                 const dowIdx = ((d.getDay() + 6) % 7);
                 return {
