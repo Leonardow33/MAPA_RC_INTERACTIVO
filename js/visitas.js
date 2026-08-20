@@ -1334,21 +1334,6 @@ function renderDashboard() {
             </div>
         </div>
 
-        <div class="dash-card" style="margin-bottom:12px">
-            <div class="dash-card-title">Cobertura semanal por zona</div>
-            ${zonas.length === 0
-                ? '<div style="color:#475569;font-size:12px;text-align:center;padding:24px 0">Sin datos de puntos</div>'
-                : `<div class="dash-zona-grid">${zonas.map(([zona,d]) => {
-                    const pct   = d.total>0 ? Math.round(d.visitados/d.total*100) : 0;
-                    const color = colorPct(pct);
-                    return `<div>
-                        <div class="dash-zona-name">${zona}</div>
-                        <div class="dash-zona-stat" style="color:${color}">${d.visitados}/${d.total} &nbsp;·&nbsp; ${pct}%</div>
-                        <div class="dash-zona-bg"><div class="dash-zona-fill" style="width:${pct}%;background:${color}"></div></div>
-                    </div>`;
-                }).join('')}</div>`}
-        </div>
-
         ${(function() {
             // ── Evolución semanal ──────────────────────────────────────────
             const DAY_NAMES  = ['Lun','Mar','Mié','Jue','Vie','Sáb'];
@@ -1427,6 +1412,21 @@ function renderDashboard() {
                 </div>
             </div>`;
         })()}
+
+        <div class="dash-card" style="margin-bottom:12px">
+            <div class="dash-card-title">Cobertura semanal por zona</div>
+            ${zonas.length === 0
+                ? '<div style="color:#475569;font-size:12px;text-align:center;padding:24px 0">Sin datos de puntos</div>'
+                : `<div class="dash-zona-grid">${zonas.map(([zona,d]) => {
+                    const pct   = d.total>0 ? Math.round(d.visitados/d.total*100) : 0;
+                    const color = colorPct(pct);
+                    return `<div>
+                        <div class="dash-zona-name">${zona}</div>
+                        <div class="dash-zona-stat" style="color:${color}">${d.visitados}/${d.total} &nbsp;·&nbsp; ${pct}%</div>
+                        <div class="dash-zona-bg"><div class="dash-zona-fill" style="width:${pct}%;background:${color}"></div></div>
+                    </div>`;
+                }).join('')}</div>`}
+        </div>
     </div>`;
 }
 // ──────────────────────────────────────────────────────────────────────────
