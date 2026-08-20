@@ -43,9 +43,11 @@
 
 <div id="header">
     <h1>📍 Seguimiento de Visitas del RC</h1>
-    <button id="btnModoRC" class="activo" onclick="setModoVista('rc')">👤 RCs</button>
-    <button id="btnModoSup" onclick="setModoVista('sup')">👔 Supervisores</button>
-    <button id="btnModoCap" onclick="setModoVista('cap')">🎓 Capacitadores</button>
+    <div id="modoGroup">
+        <button id="btnModoRC" class="activo" onclick="setModoVista('rc')">👤 RCs</button>
+        <button id="btnModoSup" onclick="setModoVista('sup')">👔 <span class="modo-long">Supervisores</span><span class="modo-short">Sup</span></button>
+        <button id="btnModoCap" onclick="setModoVista('cap')">🎓 <span class="modo-long">Capacitadores</span><span class="modo-short">Cap</span></button>
+    </div>
     <div class="tab-sep"></div>
     <button id="btnTabMapa" class="tab-btn tab-activo" onclick="switchTab('mapa')">🗺️ Mapa</button>
     <button id="btnTabDash" class="tab-btn" onclick="switchTab('dash')">📊 Dashboard</button>

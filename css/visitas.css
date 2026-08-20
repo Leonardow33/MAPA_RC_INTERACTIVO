@@ -37,13 +37,16 @@ body { font-family: 'Inter', 'Segoe UI', sans-serif; background: #0F172A; height
 #btnRutaHoy.activo    { background: #1565C0; border-color: #1565C0; color: white; }
 #btnSinVenta:disabled, #btnRutaHoy:disabled { opacity: 0.35; cursor: not-allowed; }
 
-#btnModoRC, #btnModoCap {
+#modoGroup { display: flex; align-items: center; gap: 4px; flex-shrink: 0; }
+.modo-short { display: none; }
+#btnModoRC, #btnModoSup, #btnModoCap {
     padding: 5px 14px; border-radius: 20px; border: 1px solid #334155;
     background: #243447; color: #94A3B8;
     font-size: 12px; font-weight: 600; cursor: pointer;
     transition: all 0.2s; font-family: 'Inter', sans-serif; white-space: nowrap;
 }
 #btnModoRC.activo  { background: #1E88E5; border-color: #1E88E5; color: white; }
+#btnModoSup.activo { background: #F59E0B; border-color: #F59E0B; color: #0F172A; }
 #btnModoCap.activo { background: #8E24AA; border-color: #8E24AA; color: white; }
 
 #content { display: flex; flex: 1; overflow: hidden; }
@@ -161,23 +164,52 @@ body { font-family: 'Inter', 'Segoe UI', sans-serif; background: #0F172A; height
         gap: 5px;
         align-items: center;
     }
-    /* Fila 1: título + botones de modo */
+    /* Fila 1: título solo */
     #header h1 {
-        flex: 1 1 0;
-        font-size: 12px;
+        flex: 1 1 100%;
+        font-size: 13px;
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
         min-width: 0;
     }
-    #btnModoRC, #btnModoCap {
-        flex: 0 0 auto;
-        padding: 6px 12px;
-        font-size: 11px;
-        border-radius: 10px;
-        min-height: 32px;
+    .modo-long { display: none; }
+    .modo-short { display: inline; }
+    /* Fila 2: segmented control de modo */
+    #modoGroup {
+        flex: 1 1 100%;
+        background: #162032;
+        border: 1px solid #334155;
+        border-radius: 12px;
+        padding: 3px;
+        gap: 2px;
     }
-    /* Fila 2: fecha + semana | Fila 3: supervisor + zonal */
+    #modoGroup #btnModoRC,
+    #modoGroup #btnModoSup,
+    #modoGroup #btnModoCap {
+        flex: 1;
+        padding: 9px 4px;
+        border: none;
+        border-radius: 9px;
+        background: transparent;
+        font-size: 11px;
+        min-height: 38px;
+        text-align: center;
+    }
+    #modoGroup #btnModoRC.activo  { background: #1E88E5; color: white; }
+    #modoGroup #btnModoSup.activo { background: #F59E0B; color: #0F172A; }
+    #modoGroup #btnModoCap.activo { background: #8E24AA; color: white; }
+    /* Fila 3: tabs Mapa y Dashboard */
+    .tab-sep { display: none; }
+    #btnTabMapa, #btnTabDash {
+        flex: 1 1 calc(50% - 4px);
+        min-height: 44px;
+        font-size: 14px;
+        font-weight: 700;
+        border-radius: 12px;
+        padding: 10px 12px;
+    }
+    /* Fila 4: fecha + supervisor | Fila 5: semana + zonal */
     #fechaFilter, #semanaFilter,
     #supFilter, #zonalTipoFilter {
         flex: 1 1 calc(50% - 3px);
@@ -185,7 +217,7 @@ body { font-family: 'Inter', 'Segoe UI', sans-serif; background: #0F172A; height
         font-size: 12px;
         padding: 5px 8px;
     }
-    /* Fila 4: botones de acción */
+    /* Fila 6: botones de acción */
     #btnTodosPuntos, #btnRutaHoy, #btnSinVenta {
         flex: 1 1 auto;
         padding: 7px 8px;
