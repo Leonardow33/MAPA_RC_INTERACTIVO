@@ -421,6 +421,24 @@ body { font-family: 'Inter', 'Segoe UI', sans-serif; background: #0F172A; height
 @keyframes dashSpin { to { transform: rotate(360deg); } }
 .dash-spin { width: 32px; height: 32px; border: 3px solid #1E293B; border-top-color: #6366F1; border-radius: 50%; animation: dashSpin .8s linear infinite; }
 
+/* Excepcionales tag */
+.exc-tag { display: inline-block; border-radius: 6px; padding: 2px 7px; font-size: 10px; font-weight: 700; color: #fff; white-space: nowrap; flex-shrink: 0; }
+
+/* Modal excepcionales */
+.exc-modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,.65); z-index: 9000; display: flex; align-items: center; justify-content: center; }
+.exc-modal-box { background: #1E293B; border: 1px solid #334155; border-radius: 16px; padding: 24px; width: min(480px, 94vw); max-height: 85vh; overflow-y: auto; }
+.exc-modal-box h3 { font-size: 14px; font-weight: 700; color: #F1F5F9; margin-bottom: 16px; }
+.exc-modal-box label { display: block; font-size: 11px; font-weight: 600; color: #64748B; margin-bottom: 4px; text-transform: uppercase; letter-spacing: .7px; }
+.exc-modal-box select, .exc-modal-box input[type="date"], .exc-modal-box input[type="text"], .exc-modal-box textarea {
+    width: 100%; padding: 8px 12px; border-radius: 8px; border: 1px solid #334155;
+    background: #0F172A; color: #CBD5E1; font-size: 13px; font-family: inherit;
+    outline: none; margin-bottom: 12px; resize: none;
+}
+.exc-modal-box textarea { height: 64px; }
+.exc-modal-row { display: flex; gap: 8px; justify-content: flex-end; margin-top: 8px; }
+.exc-btn-save   { background: #6366F1; border: none; color: #fff; border-radius: 8px; padding: 10px 20px; font-size: 13px; font-weight: 700; cursor: pointer; font-family: inherit; }
+.exc-btn-cancel { background: transparent; border: 1px solid #334155; color: #64748B; border-radius: 8px; padding: 10px 20px; font-size: 13px; font-weight: 600; cursor: pointer; font-family: inherit; }
+
 @media (max-width: 768px) {
     .dash-kpi-row { grid-template-columns: 1fr 1fr; }
     .dash-grid    { grid-template-columns: 1fr; }

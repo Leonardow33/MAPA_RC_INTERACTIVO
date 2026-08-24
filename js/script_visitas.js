@@ -315,6 +315,39 @@ function doGet(e) {
       .setMimeType(ContentService.MimeType.JSON);
   }
 
+  // ── LECTURA: Excepcionales ──────────────────────────────────────────────
+  if (p.action === "getExcepcionales") {
+    const sheet = ss.getSheetByName("Excepcionales");
+    if (!sheet || sheet.getLastRow() < 2) {
+      return ContentService.createTextOutput(JSON.stringify([]))
+        .setMimeType(ContentService.MimeType.JSON);
+    }
+    const numRows = sheet.getLastRow() - 1;
+    const rows    = sheet.getRange(2, 1, numRows, 5).getValues();
+    const data    = rows.filter(r => r[0]).map(r => ({
+      fecha:  r[0] ? Utilities.formatDate(new Date(r[0]), "America/Lima", "yyyy-MM-dd") : "",
+      tipo:   r[1] || "",
+      nombre: r[2] || "",
+      obs:    r[3] || "",
+      por:    r[4] || ""
+    }));
+    return ContentService.createTextOutput(JSON.stringify(data))
+      .setMimeType(ContentService.MimeType.JSON);
+  }
+
+  // ── ESCRITURA: Excepcionales ─────────────────────────────────────────────
+  if (p.action === "addExcepcion") {
+    let sheet = ss.getSheetByName("Excepcionales");
+    if (!sheet) {
+      sheet = ss.insertSheet("Excepcionales");
+      sheet.appendRow(["Fecha","Tipo","Nombre","Observacion","Registrado por"]);
+    }
+    const ahora = new Date();
+    const fecha = p.fecha || Utilities.formatDate(ahora, "America/Lima", "yyyy-MM-dd");
+    sheet.appendRow([new Date(fecha + "T12:00:00"), p.tipo||"", p.nombre||"", p.obs||"", p.por||""]);
+    return ContentService.createTextOutput("ok");
+  }
+
   // ── REGISTRO DE VISITA ───────────────────────────────────────────────────
   const hoja = p.hoja || "Visitas";
   let sheet = ss.getSheetByName(hoja);

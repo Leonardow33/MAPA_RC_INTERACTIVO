@@ -108,6 +108,15 @@ let visitsByDate   = {};  // { fecha: Set<id> }
 let visitsByDateRC = {};  // { fecha: { rcName: Set<id> } }
 let weekDates      = [];  // ['YYYY-MM-DD', ...] en orden lun-sáb
 let selectedRCFilter = null;
+let tiemposByTienda  = {};  // { normId: { total, count, name, tipo, rcs: {rcName:{total,count}} } }
+let excepcionales    = [];  // [ { fecha, tipo, nombre, obs, por } ]
+function _parseSeg(t) {
+    if (!t || t === '-') return null;
+    const p = String(t).split(':').map(Number);
+    if (p.length < 2 || isNaN(p[0])) return null;
+    const v = p[0] * 3600 + p[1] * 60 + (p[2] || 0);
+    return v > 0 ? v : null;
+}
 
 function matchRCFilter(p) {
     if (!selectedRCFilter) return true;
@@ -601,6 +610,7 @@ async function cargarDatosSemanales() {
     visitsByRC        = {};
     visitsByDate      = {};
     visitsByDateRC    = {};
+    tiemposByTienda   = {};
     weekDates         = fetchTasks.map(t => t.fecha);
 
     fetchTasks.forEach(({ fecha }, idx) => {
@@ -618,6 +628,20 @@ async function cargarDatosSemanales() {
                     visitCountsSemana[id] = (visitCountsSemana[id] || 0) + 1;
                     if (rcName) { visitsByRC[rcName].add(id); visitsByDateRC[fecha][rcName].add(id); }
                     visitsByDate[fecha].add(id);
+                    const tSeg = _parseSeg(v.tiempoTienda);
+                    if (tSeg && String(v.tipo||'').toUpperCase() === 'SALIDA') {
+                        if (!tiemposByTienda[id]) {
+                            const pi = puntosData.find(pp => normalizeID(pp.ID) === id);
+                            tiemposByTienda[id] = { total:0, count:0, name:pi?.nombre||id, tipo:pi?.tipo||'', rcs:{} };
+                        }
+                        tiemposByTienda[id].total += tSeg;
+                        tiemposByTienda[id].count++;
+                        if (rcName) {
+                            if (!tiemposByTienda[id].rcs[rcName]) tiemposByTienda[id].rcs[rcName] = { total:0, count:0 };
+                            tiemposByTienda[id].rcs[rcName].total += tSeg;
+                            tiemposByTienda[id].rcs[rcName].count++;
+                        }
+                    }
                 }
             });
         });
@@ -625,6 +649,7 @@ async function cargarDatosSemanales() {
 
     scheduleFullRender();
     if (activeTab === 'dash') renderDashboard();
+    cargarExcepcionales();
 }
 
 function toggleTodosPuntos() {
@@ -635,6 +660,53 @@ function toggleTodosPuntos() {
 
 function normalizeID(val) {
     return String(val).trim().replace(/\.0$/, '');
+}
+
+async function cargarExcepcionales() {
+    try {
+        const r = await fetch(SHEET_URL + '?action=getExcepcionales');
+        excepcionales = await r.json();
+    } catch (_) { excepcionales = []; }
+    if (activeTab === 'dash') renderDashboard();
+}
+
+function abrirExcepModal() {
+    const modal = document.getElementById('excepModal');
+    if (!modal) return;
+    const sel = modal.querySelector('#excNombreSelect');
+    if (sel) {
+        const nombres = todosRCs.map(r => r.rc).sort((a,b) => a.localeCompare(b));
+        sel.innerHTML = '<option value="">Seleccionar…</option>' + nombres.map(n => `<option value="${n}">${n}</option>`).join('');
+    }
+    const hoy = new Date().toISOString().slice(0,10);
+    const fi = modal.querySelector('#excFecha');
+    if (fi && !fi.value) fi.value = hoy;
+    modal.style.display = 'flex';
+}
+
+function cerrarExcepModal() {
+    const modal = document.getElementById('excepModal');
+    if (modal) modal.style.display = 'none';
+}
+
+async function enviarExcepcion() {
+    const tipo   = document.getElementById('excTipo')?.value   || '';
+    const nombre = document.getElementById('excNombreSelect')?.value || '';
+    const obs    = document.getElementById('excObs')?.value    || '';
+    const fecha  = document.getElementById('excFecha')?.value  || '';
+    const por    = document.getElementById('excPor')?.value    || '';
+    if (!tipo || !nombre || !fecha) { alert('Tipo, nombre y fecha son obligatorios'); return; }
+    const btn = document.getElementById('excBtnGuardar');
+    if (btn) { btn.disabled = true; btn.textContent = 'Guardando…'; }
+    try {
+        await fetch(`${SHEET_URL}?action=addExcepcion&tipo=${encodeURIComponent(tipo)}&nombre=${encodeURIComponent(nombre)}&obs=${encodeURIComponent(obs)}&fecha=${encodeURIComponent(fecha)}&por=${encodeURIComponent(por)}`);
+        cerrarExcepModal();
+        await cargarExcepcionales();
+    } catch (_) {
+        alert('Error al guardar. Intente de nuevo.');
+    } finally {
+        if (btn) { btn.disabled = false; btn.textContent = 'Guardar'; }
+    }
 }
 
 function renderSinVisitar() {
@@ -1139,13 +1211,22 @@ function renderDashboard() {
 
     const rcRanking = dashRankingMode === 'semanal' ? rcRankingSemanal : rcRankingDiario;
 
-    // ── Cobertura por zona (semanal) ──────────────────────────────────────
+    // ── Cobertura por zona (semanal) — respeta filtros RC/supervisor ─────
+    const rcNamesForZona = supFiltro !== 'ALL' ? new Set(rcs.map(r => r.rc)) : null;
     const byZona = {};
     puntosActivos.forEach(p => {
+        const pRc    = (p.rc||'').trim();
+        const normId = normalizeID(p.ID);
+        if (dashRCFilter && modoVista !== 'sup' && pRc !== dashRCFilter) return;
+        if (rcNamesForZona && !rcNamesForZona.has(pRc)) return;
         const z = (p.zona||'Sin zona').trim();
         if (!byZona[z]) byZona[z] = { total:0, visitados:0 };
         byZona[z].total++;
-        if ((visitCountsSemana[normalizeID(p.ID)]||0) > 0) byZona[z].visitados++;
+        let vis = false;
+        if (dashRCFilter) vis = (visitsByRC[dashRCFilter]||new Set()).has(normId);
+        else if (rcNamesForZona) { for (const r of rcs) { if ((visitsByRC[r.rc]||new Set()).has(normId)) { vis=true; break; } } }
+        else vis = (visitCountsSemana[normId]||0) > 0;
+        if (vis) byZona[z].visitados++;
     });
     const zonas = Object.entries(byZona)
         .filter(([,v]) => v.total > 0)
@@ -1181,6 +1262,54 @@ function renderDashboard() {
     const modoLabel   = modoVista === 'cap' ? 'Capacitadores' : modoVista === 'sup' ? 'Supervisores' : 'RCs';
     const fechaLabel  = selectedDate ? selectedDate : 'Hoy';
 
+    // ── Tiendas no visitadas esta semana ──────────────────────────────────
+    const noVisitadas = puntosActivos.filter(p => {
+        const pRc    = (p.rc||'').trim();
+        const normId = normalizeID(p.ID);
+        if (dashRCFilter && modoVista !== 'sup' && pRc !== dashRCFilter) return false;
+        if (rcNamesForZona && !rcNamesForZona.has(pRc)) return false;
+        if (dashRCFilter) return !(visitsByRC[dashRCFilter]||new Set()).has(normId);
+        if (rcNamesForZona) { for (const r of rcs) { if ((visitsByRC[r.rc]||new Set()).has(normId)) return false; } return true; }
+        return (visitCountsSemana[normId]||0) === 0;
+    }).sort((a,b) => (a.nombre||'').localeCompare(b.nombre||''));
+
+    // ── Tiempos por tienda (semanal) ──────────────────────────────────────
+    const tiemposFiltrados = Object.entries(tiemposByTienda).map(([id, d]) => {
+        let total = d.total, count = d.count;
+        if (dashRCFilter) {
+            const rc = d.rcs[dashRCFilter]; if (!rc) return null;
+            total = rc.total; count = rc.count;
+        } else if (rcNamesForZona) {
+            total = 0; count = 0;
+            Object.entries(d.rcs).forEach(([r,v]) => { if (rcNamesForZona.has(r)) { total += v.total; count += v.count; } });
+            if (count === 0) return null;
+        }
+        if (count === 0) return null;
+        return { id, name: d.name||id, avg: Math.round(total/count), count };
+    }).filter(Boolean).sort((a,b) => b.count - a.count).slice(0, 25);
+
+    // ── Zonas periféricas (Vacantes) ──────────────────────────────────────
+    const vacantePuntos = puntosData.filter(p =>
+        (p.rc||'').toLowerCase().includes('vacante') &&
+        (p.estado||'').toUpperCase() !== 'CERRADO' &&
+        (zonFiltro === 'ALL' || (p.zonal_tipo||'').toUpperCase() === zonFiltro)
+    );
+    const byZonaVac = {};
+    vacantePuntos.forEach(p => {
+        const z = (p.zona||'Sin zona').trim(), id = normalizeID(p.ID);
+        if (!byZonaVac[z]) byZonaVac[z] = { total:0, visitados:0 };
+        byZonaVac[z].total++;
+        if ((visitCountsSemana[id]||0) > 0) byZonaVac[z].visitados++;
+    });
+    const vacZonas = Object.entries(byZonaVac).filter(([,v])=>v.total>0)
+        .sort((a,b) => (a[1].visitados/a[1].total) - (b[1].visitados/b[1].total));
+
+    // ── Excepcionales de la semana ────────────────────────────────────────
+    const excFiltrados = excepcionales.filter(e =>
+        (!dashRCFilter || e.nombre === dashRCFilter) &&
+        (weekDates.length === 0 || (e.fecha >= weekDates[0] && e.fecha <= weekDates[weekDates.length-1]))
+    );
+
     container.innerHTML = `<div class="dash-inner">
         <div class="dash-header">
             <div>
@@ -1214,6 +1343,30 @@ function renderDashboard() {
                 <div class="dash-kpi-value" style="font-size:20px;padding-top:3px">${fmtMin(avgSeg)}</div>
                 <div class="dash-kpi-sub">por tienda · ${tiempos.length} visitas</div>
             </div>
+        </div>
+
+        <div class="dash-card" style="margin-bottom:12px">
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">
+                <div class="dash-card-title" style="margin-bottom:0">⚠️ Casos excepcionales · semana</div>
+                <button onclick="abrirExcepModal()" style="background:#6366F1;border:none;color:#fff;border-radius:8px;padding:5px 12px;font-size:11px;font-weight:700;cursor:pointer;font-family:inherit">+ Agregar</button>
+            </div>
+            ${excFiltrados.length === 0
+                ? '<div style="color:#475569;font-size:11px;text-align:center;padding:6px 0">Sin registros esta semana</div>'
+                : excFiltrados.map(e => {
+                    const ECOLOR = {'Descanso médico':'#DC2626','Permiso':'#D97706','Tardanza justificada':'#7C3AED','Feriado':'#0284C7'};
+                    const c = ECOLOR[e.tipo] || '#475569';
+                    return `<div style="display:flex;align-items:center;gap:8px;padding:7px 0;border-bottom:1px solid #1B2A42">
+                        <span class="exc-tag" style="background:${c}">${e.tipo}</span>
+                        <div style="flex:1;min-width:0">
+                            <div style="font-size:12px;font-weight:700;color:#E2E8F0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${e.nombre}</div>
+                            <div style="font-size:10px;color:#64748B">${e.obs||'—'}</div>
+                        </div>
+                        <div style="text-align:right;flex-shrink:0">
+                            <div style="font-size:10px;color:#475569">${e.fecha}</div>
+                            <div style="font-size:9px;color:#334155">${e.por||''}</div>
+                        </div>
+                    </div>`;
+                }).join('')}
         </div>
 
         ${(function() {
@@ -1508,6 +1661,55 @@ function renderDashboard() {
                     const color = colorPct(pct);
                     return `<div>
                         <div class="dash-zona-name">${zona}</div>
+                        <div class="dash-zona-stat" style="color:${color}">${d.visitados}/${d.total} &nbsp;·&nbsp; ${pct}%</div>
+                        <div class="dash-zona-bg"><div class="dash-zona-fill" style="width:${pct}%;background:${color}"></div></div>
+                    </div>`;
+                }).join('')}</div>`}
+        </div>
+
+        <div class="dash-grid" style="margin-bottom:12px">
+            <div class="dash-card" style="overflow:hidden">
+                <div class="dash-card-title">Tiendas no visitadas · semana${dashRCFilter ? ' · ' + dashRCFilter : ''}</div>
+                <div style="font-size:10px;color:#475569;margin-bottom:8px">${noVisitadas.length} tienda${noVisitadas.length!==1?'s':''} sin visita esta semana</div>
+                ${noVisitadas.length === 0
+                    ? '<div style="color:#10B981;font-size:12px;text-align:center;padding:16px 0">¡Todas las tiendas visitadas!</div>'
+                    : `<div style="overflow-x:auto"><table class="dash-table">
+                        <thead><tr><th>Tienda</th><th>Zona</th><th>Tipo</th><th>RC</th></tr></thead>
+                        <tbody>${noVisitadas.slice(0,25).map(p => `<tr>
+                            <td class="td-name" style="max-width:130px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${p.nombre||p.ID}</td>
+                            <td style="font-size:10px;color:#64748B">${p.zona||'—'}</td>
+                            <td style="font-size:10px;color:#94A3B8">${p.tipo||'—'}</td>
+                            <td style="font-size:10px;color:#64748B">${p.rc||'—'}</td>
+                        </tr>`).join('')}
+                        ${noVisitadas.length > 25 ? `<tr><td colspan="4" style="text-align:center;color:#475569;font-size:10px;padding:8px 0">… y ${noVisitadas.length - 25} más</td></tr>` : ''}
+                        </tbody></table></div>`}
+            </div>
+            <div class="dash-card">
+                <div class="dash-card-title">Tiempo en tienda · semanal</div>
+                ${tiemposFiltrados.length === 0
+                    ? '<div style="color:#475569;font-size:12px;text-align:center;padding:16px 0">Sin datos de tiempo esta semana</div>'
+                    : `<div style="overflow-x:auto"><table class="dash-table">
+                        <thead><tr><th>#</th><th>Tienda</th><th>Vis.</th><th>Prom.</th></tr></thead>
+                        <tbody>${tiemposFiltrados.map((t,i) => `<tr>
+                            <td class="td-num">${i+1}</td>
+                            <td class="td-name" style="max-width:130px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${t.name}</td>
+                            <td><span class="td-badge">${t.count}</span></td>
+                            <td style="font-size:12px;color:#10B981;font-weight:700">${fmtMin(t.avg)}</td>
+                        </tr>`).join('')}</tbody>
+                    </table></div>`}
+            </div>
+        </div>
+
+        <div class="dash-card" style="margin-bottom:12px">
+            <div class="dash-card-title">Zonas periféricas · tiendas vacantes · cobertura semanal</div>
+            <div style="font-size:10px;color:#475569;margin-bottom:10px">${vacantePuntos.length} tiendas sin RC asignado</div>
+            ${vacZonas.length === 0
+                ? '<div style="color:#475569;font-size:12px;text-align:center;padding:16px 0">Sin zonas vacantes</div>'
+                : `<div class="dash-zona-grid">${vacZonas.map(([zona,d]) => {
+                    const pct   = d.total > 0 ? Math.round(d.visitados/d.total*100) : 0;
+                    const color = colorPct(pct);
+                    return `<div>
+                        <div class="dash-zona-name">${zona} <span style="font-size:9px;color:#64748B;font-weight:400">(vacante)</span></div>
                         <div class="dash-zona-stat" style="color:${color}">${d.visitados}/${d.total} &nbsp;·&nbsp; ${pct}%</div>
                         <div class="dash-zona-bg"><div class="dash-zona-fill" style="width:${pct}%;background:${color}"></div></div>
                     </div>`;

@@ -92,6 +92,33 @@
 
 <div id="dashboardView"></div>
 
+<div id="excepModal" class="exc-modal-overlay" style="display:none" onclick="if(event.target===this)cerrarExcepModal()">
+    <div class="exc-modal-box">
+        <h3>⚠️ Agregar caso excepcional</h3>
+        <label>Tipo</label>
+        <select id="excTipo">
+            <option value="">Seleccionar tipo…</option>
+            <option>Descanso médico</option>
+            <option>Permiso</option>
+            <option>Tardanza justificada</option>
+            <option>Feriado</option>
+            <option>Otro</option>
+        </select>
+        <label>RC / Supervisor</label>
+        <select id="excNombreSelect"></select>
+        <label>Fecha</label>
+        <input id="excFecha" type="date"/>
+        <label>Observación</label>
+        <textarea id="excObs" placeholder="Detalles del caso…"></textarea>
+        <label>Registrado por</label>
+        <input id="excPor" type="text" placeholder="Tu nombre o cargo"/>
+        <div class="exc-modal-row">
+            <button class="exc-btn-cancel" onclick="cerrarExcepModal()">Cancelar</button>
+            <button class="exc-btn-save" id="excBtnGuardar" onclick="enviarExcepcion()">Guardar</button>
+        </div>
+    </div>
+</div>
+
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script src="js/visitas.js"></script>
 
