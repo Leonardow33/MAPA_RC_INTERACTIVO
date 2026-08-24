@@ -109,6 +109,7 @@ let visitsByDateRC = {};  // { fecha: { rcName: Set<id> } }
 let weekDates      = [];  // ['YYYY-MM-DD', ...] en orden lun-sáb
 let selectedRCFilter = null;
 let tiemposByTienda  = {};  // { normId: { total, count, name, tipo, rcs: {rcName:{total,count}} } }
+let horasSemana      = {};  // { fecha: { rcName: { h7:n, h8:n, ... } } }
 let excepcionales    = [];  // [ { fecha, tipo, nombre, obs, por } ]
 function _parseSeg(t) {
     if (!t || t === '-') return null;
@@ -611,6 +612,7 @@ async function cargarDatosSemanales() {
     visitsByDate      = {};
     visitsByDateRC    = {};
     tiemposByTienda   = {};
+    horasSemana       = {};
     weekDates         = fetchTasks.map(t => t.fecha);
 
     fetchTasks.forEach(({ fecha }, idx) => {
@@ -618,16 +620,23 @@ async function cargarDatosSemanales() {
         if (!Array.isArray(dayData)) return;
         visitsByDate[fecha]   = new Set();
         visitsByDateRC[fecha] = {};
+        horasSemana[fecha]    = {};
         dayData.forEach(rcEntry => {
             const rcName = rcEntry.rc || '';
             if (rcName && !visitsByRC[rcName]) visitsByRC[rcName] = new Set();
             if (rcName && !visitsByDateRC[fecha][rcName]) visitsByDateRC[fecha][rcName] = new Set();
+            if (rcName && !horasSemana[fecha][rcName]) horasSemana[fecha][rcName] = {};
             (rcEntry.visitas || []).forEach(v => {
                 if (v.id) {
                     const id = normalizeID(v.id);
                     visitCountsSemana[id] = (visitCountsSemana[id] || 0) + 1;
                     if (rcName) { visitsByRC[rcName].add(id); visitsByDateRC[fecha][rcName].add(id); }
                     visitsByDate[fecha].add(id);
+                    const hNum = parseInt((v.hora||'').split(':')[0]);
+                    if (!isNaN(hNum) && hNum >= 7 && hNum <= 20 && rcName) {
+                        if (!horasSemana[fecha][rcName]) horasSemana[fecha][rcName] = {};
+                        horasSemana[fecha][rcName][hNum] = (horasSemana[fecha][rcName][hNum] || 0) + 1;
+                    }
                     const tSeg = _parseSeg(v.tiempoTienda);
                     if (tSeg && String(v.tipo||'').toUpperCase() === 'SALIDA') {
                         if (!tiemposByTienda[id]) {
@@ -1175,11 +1184,18 @@ function renderDashboard() {
     const avgSeg    = tiempos.length ? Math.round(tiempos.reduce((a,b)=>a+b,0)/tiempos.length) : 0;
     const totalActivos = puntosActivos.length;
 
-    // ── Distribución horaria ──────────────────────────────────────────────
+    // ── Distribución horaria (semanal, responde a filtros) ────────────────
     const porHora = {};
-    allVisitas.forEach(v => {
-        const h = parseInt((v.hora||'').split(':')[0]);
-        if (!isNaN(h) && h >= 7 && h <= 20) porHora[h] = (porHora[h]||0) + 1;
+    const rcNamesHora = supFiltro !== 'ALL' ? new Set(rcs.map(r => r.rc)) : null;
+    weekDates.forEach(fecha => {
+        const diaMap = horasSemana[fecha] || {};
+        Object.entries(diaMap).forEach(([rcName, hMap]) => {
+            if (dashRCFilter && rcName !== dashRCFilter) return;
+            if (rcNamesHora && !rcNamesHora.has(rcName)) return;
+            Object.entries(hMap).forEach(([h, cnt]) => {
+                porHora[+h] = (porHora[+h] || 0) + cnt;
+            });
+        });
     });
     const HORAS  = Array.from({length: 14}, (_,i) => i+7);
     const maxH   = Math.max(...HORAS.map(h => porHora[h]||0), 1);
@@ -1206,7 +1222,13 @@ function renderDashboard() {
     const rcRankingSemanal = rcSemBase.map(rcName => {
         const tiendas = (visitsByRC[rcName] || new Set()).size;
         const dias    = weekDates.filter(d => (visitsByDateRC[d]?.[rcName]?.size || 0) > 0).length;
-        return { rc: rcName, sup: rcSupMap[rcName] || '-', tiendas, dias };
+        const prom    = dias > 0 ? +(tiendas / dias).toFixed(1) : 0;
+        let tTotal = 0, tCount = 0;
+        Object.values(tiemposByTienda).forEach(d => {
+            const rc = d.rcs[rcName]; if (rc) { tTotal += rc.total; tCount += rc.count; }
+        });
+        const tProm = tCount > 0 ? Math.round(tTotal / tCount) : 0;
+        return { rc: rcName, sup: rcSupMap[rcName] || '-', tiendas, dias, prom, tProm };
     }).filter(r => r.tiendas > 0 || r.dias > 0).sort((a,b) => b.tiendas - a.tiendas || b.dias - a.dias);
 
     const rcRanking = dashRankingMode === 'semanal' ? rcRankingSemanal : rcRankingDiario;
@@ -1516,7 +1538,7 @@ function renderDashboard() {
                             <th>Nombre</th>
                             <th>${dashRankingMode === 'semanal' ? 'Tiendas sem.' : 'Tiendas hoy'}</th>
                             ${dashRankingMode === 'semanal'
-                                ? '<th>Días activos</th>'
+                                ? '<th>Días</th><th>Prom/día</th><th>T.prom</th>'
                                 : '<th>Prom./tienda</th><th>Dist.</th>'}
                         </tr></thead>
                         <tbody>${rcRanking.map((r,i) => `<tr>
@@ -1527,7 +1549,9 @@ function renderDashboard() {
                             </td>
                             <td><span class="td-badge">${r.tiendas}</span></td>
                             ${dashRankingMode === 'semanal'
-                                ? `<td><span style="font-size:11px;color:#64748B">${r.dias}d</span></td>`
+                                ? `<td style="color:#64748B;font-size:11px">${r.dias}d</td>
+                                   <td style="color:#818CF8;font-size:12px;font-weight:700">${r.prom}</td>
+                                   <td style="color:${r.tProm?'#10B981':'#334155'};font-size:11px;font-weight:700">${r.tProm ? fmtMin(r.tProm) : '—'}</td>`
                                 : `<td>${fmtMin(r.tProm)}</td><td>${r.dProm > 0 ? r.dProm+'m' : '—'}</td>`}
                         </tr>`).join('')}</tbody>
                     </table></div>`}
@@ -1579,6 +1603,16 @@ function renderDashboard() {
             const DAY_LONG   = ['Lunes','Martes','Miércoles','Jueves','Viernes','Sábado'];
             const rcNamesSet = new Set(rcs.map(r => r.rc));
 
+            // Pool de tiendas para calcular "no visitadas por día"
+            let dayPool = 0;
+            if (dashRCFilter && modoVista !== 'sup') {
+                dayPool = puntosActivos.filter(p => (p.rc||'').trim() === dashRCFilter).length;
+            } else if (supFiltro !== 'ALL') {
+                dayPool = puntosActivos.filter(p => rcNamesSet.has((p.rc||'').trim())).length;
+            } else {
+                dayPool = puntosActivos.length;
+            }
+
             const dayStats = weekDates.map(fecha => {
                 const rcMap  = visitsByDateRC[fecha] || {};
                 const stores = new Set();
@@ -1603,6 +1637,7 @@ function renderDashboard() {
                     diaLong: DAY_LONG[dowIdx]   || '',
                     label:   `${d.getDate()}/${d.getMonth()+1}`,
                     stores:  stores.size,
+                    noVisit: Math.max(0, dayPool - stores.size),
                     rcs:     rcAct.size
                 };
             });
@@ -1639,12 +1674,13 @@ function renderDashboard() {
                         ? '<div style="color:#475569;font-size:12px;text-align:center;padding:24px 0">Sin datos</div>'
                         : `<div style="overflow-x:auto"><table class="dash-table">
                             <thead><tr>
-                                <th>Día</th><th>Fecha</th><th>Tiendas</th><th>RCs</th>
+                                <th>Día</th><th>Fecha</th><th>Visitadas</th><th>Sin visita</th><th>RCs</th>
                             </tr></thead>
                             <tbody>${dayStats.map(d => `<tr>
                                 <td style="font-weight:700;color:#CBD5E1">${d.dia}</td>
                                 <td style="color:#64748B">${d.label}</td>
-                                <td><span style="font-weight:700;color:#${d.stores>0?'F1F5F9':'475569'}">${d.stores}</span></td>
+                                <td><span style="font-weight:700;color:#${d.stores>0?'10B981':'475569'}">${d.stores}</span></td>
+                                <td><span style="font-size:11px;color:#${d.noVisit>0?'EF4444':'334155'}">${d.noVisit}</span></td>
                                 <td style="color:#64748B">${d.rcs}</td>
                             </tr>`).join('')}</tbody>
                         </table></div>`}
