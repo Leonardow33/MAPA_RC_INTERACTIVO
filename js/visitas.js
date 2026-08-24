@@ -110,6 +110,7 @@ let weekDates      = [];  // ['YYYY-MM-DD', ...] en orden lun-sáb
 let selectedRCFilter = null;
 let tiemposByTienda  = {};  // { normId: { total, count, name, tipo, rcs: {rcName:{total,count}} } }
 let horasSemana      = {};  // { fecha: { rcName: { h7:n, h8:n, ... } } }
+let lastVisitByID    = {};  // { normId: 'YYYY-MM-DD' } — NUNCA se resetea, acumula entre semanas
 let excepcionales    = [];  // [ { fecha, tipo, nombre, obs, por } ]
 function _parseSeg(t) {
     if (!t || t === '-') return null;
@@ -632,6 +633,7 @@ async function cargarDatosSemanales() {
                     visitCountsSemana[id] = (visitCountsSemana[id] || 0) + 1;
                     if (rcName) { visitsByRC[rcName].add(id); visitsByDateRC[fecha][rcName].add(id); }
                     visitsByDate[fecha].add(id);
+                    if (!lastVisitByID[id] || lastVisitByID[id] < fecha) lastVisitByID[id] = fecha;
                     const hNum = parseInt((v.hora||'').split(':')[0]);
                     if (!isNaN(hNum) && hNum >= 7 && hNum <= 20 && rcName) {
                         if (!horasSemana[fecha][rcName]) horasSemana[fecha][rcName] = {};
@@ -1332,6 +1334,8 @@ function renderDashboard() {
         (weekDates.length === 0 || (e.fecha >= weekDates[0] && e.fecha <= weekDates[weekDates.length-1]))
     );
 
+    const hoy = new Date().toISOString().slice(0, 10);
+
     container.innerHTML = `<div class="dash-inner">
         <div class="dash-header">
             <div>
@@ -1603,16 +1607,6 @@ function renderDashboard() {
             const DAY_LONG   = ['Lunes','Martes','Miércoles','Jueves','Viernes','Sábado'];
             const rcNamesSet = new Set(rcs.map(r => r.rc));
 
-            // Pool de tiendas para calcular "no visitadas por día"
-            let dayPool = 0;
-            if (dashRCFilter && modoVista !== 'sup') {
-                dayPool = puntosActivos.filter(p => (p.rc||'').trim() === dashRCFilter).length;
-            } else if (supFiltro !== 'ALL') {
-                dayPool = puntosActivos.filter(p => rcNamesSet.has((p.rc||'').trim())).length;
-            } else {
-                dayPool = puntosActivos.length;
-            }
-
             const dayStats = weekDates.map(fecha => {
                 const rcMap  = visitsByDateRC[fecha] || {};
                 const stores = new Set();
@@ -1631,13 +1625,25 @@ function renderDashboard() {
                 }
                 const d      = new Date(fecha + 'T12:00:00');
                 const dowIdx = ((d.getDay() + 6) % 7);
+                // Sin visita = tiendas asignadas para ese día de semana según p.dias − visitadas ese día
+                let noVisit  = 0;
+                if (modoVista !== 'sup' && modoVista !== 'cap') {
+                    const dayNorm       = normDia(DIAS_SEMANA[d.getDay()]);
+                    const assignedToday = puntosActivos.filter(p => {
+                        const pRc = (p.rc||'').trim();
+                        if (dashRCFilter && pRc !== dashRCFilter) return false;
+                        if (supFiltro !== 'ALL' && !rcNamesSet.has(pRc)) return false;
+                        return (p.dias||[]).some(dia => normDia(dia) === dayNorm);
+                    }).length;
+                    noVisit = Math.max(0, assignedToday - stores.size);
+                }
                 return {
                     fecha,
                     dia:     DAY_NAMES[dowIdx]  || '',
                     diaLong: DAY_LONG[dowIdx]   || '',
                     label:   `${d.getDate()}/${d.getMonth()+1}`,
                     stores:  stores.size,
-                    noVisit: Math.max(0, dayPool - stores.size),
+                    noVisit,
                     rcs:     rcAct.size
                 };
             });
@@ -1710,14 +1716,21 @@ function renderDashboard() {
                 ${noVisitadas.length === 0
                     ? '<div style="color:#10B981;font-size:12px;text-align:center;padding:16px 0">¡Todas las tiendas visitadas!</div>'
                     : `<div style="overflow-x:auto"><table class="dash-table">
-                        <thead><tr><th>Tienda</th><th>Zona</th><th>Tipo</th><th>RC</th></tr></thead>
-                        <tbody>${noVisitadas.slice(0,25).map(p => `<tr>
-                            <td class="td-name" style="max-width:130px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${p.nombre||p.ID}</td>
+                        <thead><tr><th>Tienda</th><th>Zona</th><th>Tipo</th><th>Últ. visita</th><th>Días</th></tr></thead>
+                        <tbody>${noVisitadas.slice(0,25).map(p => {
+                            const nid   = normalizeID(p.ID);
+                            const lastV = lastVisitByID[nid];
+                            const dias  = lastV ? Math.round((new Date(hoy) - new Date(lastV + 'T12:00:00')) / 86400000) : null;
+                            const dColor = dias === null ? '#334155' : dias <= 7 ? '#F59E0B' : dias <= 14 ? '#EF4444' : '#DC2626';
+                            return `<tr>
+                            <td class="td-name" style="max-width:120px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${p.nombre||p.ID}</td>
                             <td style="font-size:10px;color:#64748B">${p.zona||'—'}</td>
                             <td style="font-size:10px;color:#94A3B8">${p.tipo||'—'}</td>
-                            <td style="font-size:10px;color:#64748B">${p.rc||'—'}</td>
-                        </tr>`).join('')}
-                        ${noVisitadas.length > 25 ? `<tr><td colspan="4" style="text-align:center;color:#475569;font-size:10px;padding:8px 0">… y ${noVisitadas.length - 25} más</td></tr>` : ''}
+                            <td style="font-size:10px;color:#475569">${lastV ? lastV.slice(5).replace('-','/') : '—'}</td>
+                            <td style="font-size:11px;font-weight:700;color:${dColor}">${dias !== null ? dias+'d' : '—'}</td>
+                        </tr>`;
+                        }).join('')}
+                        ${noVisitadas.length > 25 ? `<tr><td colspan="5" style="text-align:center;color:#475569;font-size:10px;padding:8px 0">… y ${noVisitadas.length - 25} más</td></tr>` : ''}
                         </tbody></table></div>`}
             </div>
             <div class="dash-card">
