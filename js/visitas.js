@@ -616,6 +616,7 @@ async function cargarDatosSemanales() {
     horasSemana       = {};
     weekDates         = fetchTasks.map(t => t.fecha);
 
+    const puntosMap = new Map(puntosData.map(p => [normalizeID(p.ID), p]));
     fetchTasks.forEach(({ fecha }, idx) => {
         const dayData = results[idx];
         if (!Array.isArray(dayData)) return;
@@ -642,7 +643,7 @@ async function cargarDatosSemanales() {
                     const tSeg = _parseSeg(v.tiempoTienda);
                     if (tSeg && String(v.tipo||'').toUpperCase() === 'SALIDA') {
                         if (!tiemposByTienda[id]) {
-                            const pi = puntosData.find(pp => normalizeID(pp.ID) === id);
+                            const pi = puntosMap.get(id);
                             tiemposByTienda[id] = { total:0, count:0, name:pi?.nombre||id, tipo:pi?.tipo||'', rcs:{} };
                         }
                         tiemposByTienda[id].total += tSeg;
@@ -1186,9 +1187,20 @@ function renderDashboard() {
     const avgSeg    = tiempos.length ? Math.round(tiempos.reduce((a,b)=>a+b,0)/tiempos.length) : 0;
     const totalActivos = puntosActivos.length;
 
+    // ── Mapa supervisor→RCs: combina datos de hoy + historial semanal ────
+    const rcSupMap = {};
+    todosRCs.forEach(r => { rcSupMap[r.rc] = r.supervisor || '-'; });
+    const rcNamesForSup = (() => {
+        if (supFiltro === 'ALL') return null;
+        const fromToday  = new Set(rcsParaSel.map(r => r.rc));
+        const fromWeekly = new Set(Object.keys(visitsByRC).filter(rc => rcSupMap[rc] === supFiltro));
+        const combined   = new Set([...fromToday, ...fromWeekly]);
+        return combined.size > 0 ? combined : null;
+    })();
+
     // ── Distribución horaria (semanal, responde a filtros) ────────────────
     const porHora = {};
-    const rcNamesHora = supFiltro !== 'ALL' ? new Set(rcs.map(r => r.rc)) : null;
+    const rcNamesHora = rcNamesForSup;
     weekDates.forEach(fecha => {
         const diaMap = horasSemana[fecha] || {};
         Object.entries(diaMap).forEach(([rcName, hMap]) => {
@@ -1216,8 +1228,6 @@ function renderDashboard() {
     }).sort((a,b) => b.tiendas - a.tiendas);
 
     // ── RC Ranking semanal ────────────────────────────────────────────────
-    const rcSupMap = {};
-    todosRCs.forEach(r => { rcSupMap[r.rc] = r.supervisor || '-'; });
     const rcSemBase = dashRCFilter
         ? [dashRCFilter]
         : rcsParaSel.map(r => r.rc);
@@ -1236,7 +1246,7 @@ function renderDashboard() {
     const rcRanking = dashRankingMode === 'semanal' ? rcRankingSemanal : rcRankingDiario;
 
     // ── Cobertura por zona (semanal) — respeta filtros RC/supervisor ─────
-    const rcNamesForZona = supFiltro !== 'ALL' ? new Set(rcs.map(r => r.rc)) : null;
+    const rcNamesForZona = rcNamesForSup;
     const byZona = {};
     puntosActivos.forEach(p => {
         const pRc    = (p.rc||'').trim();
@@ -1258,7 +1268,7 @@ function renderDashboard() {
 
     // ── Cobertura por tipo de tienda (semanal) — respeta filtros sup/RC ──
     const byTipo = {};
-    const rcNamesForTipo = supFiltro !== 'ALL' ? new Set(rcs.map(r => r.rc)) : null;
+    const rcNamesForTipo = rcNamesForSup;
     puntosActivos.forEach(p => {
         const t     = (p.tipo || 'Sin tipo').trim();
         const pRc   = (p.rc || '').trim();
@@ -1397,9 +1407,7 @@ function renderDashboard() {
 
         ${(function() {
             // ── Gráfica de líneas: Visitadas vs Meta por día ──────────────
-            const rcNamesChart = new Set(
-                todosRCs.filter(r => supFiltro === 'ALL' || r.supervisor === supFiltro).map(r => r.rc)
-            );
+            const rcNamesChart = rcNamesForSup;
             const DAY_S = ['Lun','Mar','Mié','Jue','Vie','Sáb'];
 
             const lineData = weekDates.map(fecha => {
@@ -1410,7 +1418,7 @@ function renderDashboard() {
                 // META: tiendas asignadas para ese día (no aplica en modo supervisores)
                 const meta = modoVista === 'sup' ? 0 : puntosActivos.filter(p => {
                     if (dashRCFilter && (p.rc||'').trim() !== dashRCFilter) return false;
-                    if (supFiltro !== 'ALL' && !rcNamesChart.has(p.rc||'')) return false;
+                    if (rcNamesChart && !rcNamesChart.has(p.rc||'')) return false;
                     return (p.dias||[]).some(dia => normDia(dia) === dayNorm);
                 }).length;
 
@@ -1605,7 +1613,7 @@ function renderDashboard() {
             // ── Evolución semanal ──────────────────────────────────────────
             const DAY_NAMES  = ['Lun','Mar','Mié','Jue','Vie','Sáb'];
             const DAY_LONG   = ['Lunes','Martes','Miércoles','Jueves','Viernes','Sábado'];
-            const rcNamesSet = new Set(rcs.map(r => r.rc));
+            const rcNamesSet = rcNamesForSup;
 
             const dayStats = weekDates.map(fecha => {
                 const rcMap  = visitsByDateRC[fecha] || {};
@@ -1617,7 +1625,7 @@ function renderDashboard() {
                     if (ids.size > 0) rcAct.add(dashRCFilter);
                 } else {
                     Object.entries(rcMap).forEach(([rcName, ids]) => {
-                        if (supFiltro === 'ALL' || rcNamesSet.has(rcName)) {
+                        if (!rcNamesSet || rcNamesSet.has(rcName)) {
                             ids.forEach(id => stores.add(id));
                             if (ids.size > 0) rcAct.add(rcName);
                         }
@@ -1632,7 +1640,7 @@ function renderDashboard() {
                     const assignedToday = puntosActivos.filter(p => {
                         const pRc = (p.rc||'').trim();
                         if (dashRCFilter && pRc !== dashRCFilter) return false;
-                        if (supFiltro !== 'ALL' && !rcNamesSet.has(pRc)) return false;
+                        if (rcNamesSet && !rcNamesSet.has(pRc)) return false;
                         return (p.dias||[]).some(dia => normDia(dia) === dayNorm);
                     }).length;
                     noVisit = Math.max(0, assignedToday - stores.size);
