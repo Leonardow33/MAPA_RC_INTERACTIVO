@@ -911,7 +911,7 @@ async function buscarTicket() {
 function chipEstado(estado) {
   if (!estado) return '<span class="chip chip-pend">Sin estado</span>';
   const s = estado.toLowerCase();
-  if (s.includes('atendido')) return `<span class="chip chip-ok">${estado}</span>`;
+  if (s.includes('atendido') && !s.startsWith('no')) return `<span class="chip chip-ok">${estado}</span>`;
   if (s.includes('proceso'))  return `<span class="chip chip-proc">${estado}</span>`;
   if (s.includes('derivado')) return `<span class="chip chip-der">${estado}</span>`;
   return `<span class="chip chip-pend">${estado}</span>`;
@@ -968,7 +968,7 @@ async function cargarHistorial(orgCode, nombre) {
       return;
     }
     const total    = tickets.length;
-    const atend    = tickets.filter(t => t.estado.toLowerCase().includes('atendido')).length;
+    const atend    = tickets.filter(t => { const s = (t.estado||'').toLowerCase().trim(); return s.includes('atendido') && !s.startsWith('no'); }).length;
     const pendiente = total - atend;
     res.innerHTML = `
       <div class="rcounts">
