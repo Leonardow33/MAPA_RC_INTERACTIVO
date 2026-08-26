@@ -315,6 +315,72 @@ function doGet(e) {
       .setMimeType(ContentService.MimeType.JSON);
   }
 
+  // ── LECTURA BATCH: toda la semana en una sola llamada ───────────────────
+  // Helper para procesar una hoja entera y agrupar por fechas de la semana
+  function _batchSemana(sheet, lunesStr, buildEntry) {
+    const out = {};
+    if (!sheet || sheet.getLastRow() < 2) return out;
+    const numRows  = sheet.getLastRow() - 1;
+    const rawRows  = sheet.getRange(2, 1, numRows, 19).getValues();
+    const dispRows = sheet.getRange(2, 1, numRows, 19).getDisplayValues();
+    const lunes    = new Date(lunesStr + 'T12:00:00');
+    const fechasSet = new Set();
+    for (let k = 0; k < 6; k++) {
+      const d = new Date(lunes); d.setDate(lunes.getDate() + k);
+      fechasSet.add(Utilities.formatDate(d, "America/Lima", "yyyy-MM-dd"));
+    }
+    const byFecha = {};
+    rawRows.forEach((r, i) => {
+      const fecha = r[0] ? Utilities.formatDate(new Date(r[0]), "America/Lima", "yyyy-MM-dd") : "";
+      if (!fechasSet.has(fecha)) return;
+      if (!byFecha[fecha]) byFecha[fecha] = {};
+      buildEntry(byFecha[fecha], r, dispRows[i]);
+    });
+    Object.entries(byFecha).forEach(([fecha, map]) => {
+      Object.values(map).forEach(rc => {
+        if (rc.visitas.length > 0) {
+          rc.primeraVisita = rc.visitas[0].hora;
+          rc.totalTiendas  = new Set(rc.visitas.map(v => v.id)).size;
+        }
+      });
+      out[fecha] = Object.values(map);
+    });
+    return out;
+  }
+
+  if (p.action === "getVisitasSemana") {
+    const sheet = ss.getSheetByName("Visitas");
+    const result = _batchSemana(sheet, p.fecha, (map, r, d) => {
+      const rc = r[5] || "Sin RC";
+      if (!map[rc]) map[rc] = { rc, supervisor: r[6]||"", visitas:[], primeraVisita:null, horaActual:null, ultimaTienda:null, totalTiendas:0 };
+      map[rc].visitas.push({ hora:d[1], tipo:r[2], tienda:r[3], id:r[4], zona:r[7], cluster:r[8], latT:r[11], lngT:r[12], latRC:r[13], lngRC:r[14], dist:r[15]||0, tiempoTienda:d[17], numVisita:r[18] });
+      if (r[13] && r[14] && parseFloat(r[13]) !== 0) { map[rc].horaActual = d[1]; map[rc].ultimaTienda = r[3]; }
+    });
+    return ContentService.createTextOutput(JSON.stringify(result)).setMimeType(ContentService.MimeType.JSON);
+  }
+
+  if (p.action === "getVisitasMapa2Semana") {
+    const sheet = ss.getSheetByName("Visitas_Mapa2");
+    const result = _batchSemana(sheet, p.fecha, (map, r, d) => {
+      const nombre = r[6] || r[5] || "Sin Capacitador";
+      if (!map[nombre]) map[nombre] = { rc:nombre, supervisor:r[5]||"", visitas:[], primeraVisita:null, horaActual:null, ultimaTienda:null, totalTiendas:0 };
+      map[nombre].visitas.push({ hora:d[1], tipo:r[2], tienda:r[3], id:r[4], zona:r[7], cluster:r[8], latT:r[11], lngT:r[12], latRC:r[13], lngRC:r[14], dist:r[15]||0, tiempoTienda:d[17], numVisita:r[18] });
+      if (r[13] && r[14] && parseFloat(r[13]) !== 0) { map[nombre].horaActual = d[1]; map[nombre].ultimaTienda = r[3]; }
+    });
+    return ContentService.createTextOutput(JSON.stringify(result)).setMimeType(ContentService.MimeType.JSON);
+  }
+
+  if (p.action === "getVisitasSupSemana") {
+    const sheet = ss.getSheetByName(NOMBRE_HOJA_SUP);
+    const result = _batchSemana(sheet, p.fecha, (map, r, d) => {
+      const nombre = r[6] || r[5] || "Sin Supervisor";
+      if (!map[nombre]) map[nombre] = { rc:nombre, supervisor:r[5]||"", visitas:[], primeraVisita:null, horaActual:null, ultimaTienda:null, totalTiendas:0 };
+      map[nombre].visitas.push({ hora:d[1], tipo:r[2], tienda:r[3], id:r[4], zona:r[7], cluster:r[8], latT:r[11], lngT:r[12], latRC:r[13], lngRC:r[14], dist:r[15]||0, tiempoTienda:d[17], numVisita:r[18] });
+      if (r[13] && r[14] && parseFloat(r[13]) !== 0) { map[nombre].horaActual = d[1]; map[nombre].ultimaTienda = r[3]; }
+    });
+    return ContentService.createTextOutput(JSON.stringify(result)).setMimeType(ContentService.MimeType.JSON);
+  }
+
   // ── LECTURA: Excepcionales ──────────────────────────────────────────────
   if (p.action === "getExcepcionales") {
     const sheet = ss.getSheetByName("Excepcionales");

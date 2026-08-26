@@ -585,6 +585,45 @@ function setLoadingState(loading) {
     }
 }
 
+function _procesarDiaSemanal(fecha, dayData, puntosMap) {
+    if (!Array.isArray(dayData)) return;
+    visitsByDate[fecha]   = new Set();
+    visitsByDateRC[fecha] = {};
+    horasSemana[fecha]    = {};
+    dayData.forEach(rcEntry => {
+        const rcName = rcEntry.rc || '';
+        if (rcName && !visitsByRC[rcName]) visitsByRC[rcName] = new Set();
+        if (rcName && !visitsByDateRC[fecha][rcName]) visitsByDateRC[fecha][rcName] = new Set();
+        if (rcName && !horasSemana[fecha][rcName]) horasSemana[fecha][rcName] = {};
+        (rcEntry.visitas || []).forEach(v => {
+            if (!v.id) return;
+            const id = normalizeID(v.id);
+            visitCountsSemana[id] = (visitCountsSemana[id] || 0) + 1;
+            if (rcName) { visitsByRC[rcName].add(id); visitsByDateRC[fecha][rcName].add(id); }
+            visitsByDate[fecha].add(id);
+            if (!lastVisitByID[id] || lastVisitByID[id] < fecha) lastVisitByID[id] = fecha;
+            const hNum = parseInt((v.hora||'').split(':')[0]);
+            if (!isNaN(hNum) && hNum >= 7 && hNum <= 20 && rcName) {
+                horasSemana[fecha][rcName][hNum] = (horasSemana[fecha][rcName][hNum] || 0) + 1;
+            }
+            const tSeg = _parseSeg(v.tiempoTienda);
+            if (tSeg && String(v.tipo||'').toUpperCase() === 'SALIDA') {
+                if (!tiemposByTienda[id]) {
+                    const pi = puntosMap.get(id);
+                    tiemposByTienda[id] = { total:0, count:0, name:pi?.nombre||id, tipo:pi?.tipo||'', rcs:{} };
+                }
+                tiemposByTienda[id].total += tSeg;
+                tiemposByTienda[id].count++;
+                if (rcName) {
+                    if (!tiemposByTienda[id].rcs[rcName]) tiemposByTienda[id].rcs[rcName] = { total:0, count:0 };
+                    tiemposByTienda[id].rcs[rcName].total += tSeg;
+                    tiemposByTienda[id].rcs[rcName].count++;
+                }
+            }
+        });
+    });
+}
+
 async function cargarDatosSemanales() {
     if (!selectedSemanaMonday) return;
     const monday = selectedSemanaMonday;
@@ -595,69 +634,62 @@ async function cargarDatosSemanales() {
     setLoadingState(true);
 
     const today = new Date(); today.setHours(0,0,0,0);
-    const accion = modoVista === 'cap' ? 'getVisitasMapa2' : modoVista === 'sup' ? 'getVisitasSup' : 'getVisitas';
-    const fetchTasks = [];
+    const saturday = new Date(monday); saturday.setDate(monday.getDate() + 5);
+    const isCurrentWeek = today >= monday && today <= saturday;
+    const ttlMs = (isCurrentWeek ? 10 : 24 * 60) * 60000;
+
+    // Fechas pasadas de la semana
+    const fetchDates = [];
     for (let i = 0; i < 6; i++) {
         const d = new Date(monday);
         d.setDate(monday.getDate() + i);
-        if (d > today) continue;
-        const fecha = formatFecha(d);
-        fetchTasks.push({ fecha,
-            prom: fetch(SHEET_URL + `?action=${accion}&fecha=${fecha}`).then(r => r.json()).catch(() => [])
-        });
+        if (d > today) break;
+        fetchDates.push(formatFecha(d));
     }
 
-    const results = await Promise.all(fetchTasks.map(t => t.prom));
-    visitCountsSemana = {};
-    visitsByRC        = {};
-    visitsByDate      = {};
-    visitsByDateRC    = {};
-    tiemposByTienda   = {};
-    horasSemana       = {};
-    weekDates         = fetchTasks.map(t => t.fecha);
+    if (fetchDates.length === 0) {
+        visitCountsSemana = {}; visitsByRC = {}; visitsByDate = {};
+        visitsByDateRC = {}; tiemposByTienda = {}; horasSemana = {};
+        weekDates = [];
+        scheduleFullRender();
+        if (activeTab === 'dash') renderDashboard();
+        return;
+    }
+
+    const accionBatch = modoVista === 'cap' ? 'getVisitasMapa2Semana'
+                      : modoVista === 'sup' ? 'getVisitasSupSemana' : 'getVisitasSemana';
+
+    // ── localStorage cache ──────────────────────────────────────────────────
+    const cacheKey = `mapasrc_${modoVista}_${semanaKey}`;
+    let resultMap = null;
+    try {
+        const c = JSON.parse(localStorage.getItem(cacheKey) || 'null');
+        if (c && (Date.now() - c.ts) < ttlMs &&
+            fetchDates.every(f => Object.prototype.hasOwnProperty.call(c.data, f))) {
+            resultMap = c.data;
+        }
+    } catch(e) {}
+
+    if (!resultMap) {
+        // ── Llamada batch: una sola request para toda la semana ───────────
+        try {
+            const res = await fetch(SHEET_URL + `?action=${accionBatch}&fecha=${semanaKey}`);
+            const json = await res.json();
+            resultMap = (json && typeof json === 'object' && !Array.isArray(json)) ? json : {};
+        } catch(e) {
+            resultMap = {};
+        }
+        // Guardar en cache
+        try { localStorage.setItem(cacheKey, JSON.stringify({ ts: Date.now(), data: resultMap })); } catch(e) {}
+    }
+
+    // ── Procesar resultados ─────────────────────────────────────────────────
+    visitCountsSemana = {}; visitsByRC = {}; visitsByDate = {};
+    visitsByDateRC = {}; tiemposByTienda = {}; horasSemana = {};
+    weekDates = fetchDates;
 
     const puntosMap = new Map(puntosData.map(p => [normalizeID(p.ID), p]));
-    fetchTasks.forEach(({ fecha }, idx) => {
-        const dayData = results[idx];
-        if (!Array.isArray(dayData)) return;
-        visitsByDate[fecha]   = new Set();
-        visitsByDateRC[fecha] = {};
-        horasSemana[fecha]    = {};
-        dayData.forEach(rcEntry => {
-            const rcName = rcEntry.rc || '';
-            if (rcName && !visitsByRC[rcName]) visitsByRC[rcName] = new Set();
-            if (rcName && !visitsByDateRC[fecha][rcName]) visitsByDateRC[fecha][rcName] = new Set();
-            if (rcName && !horasSemana[fecha][rcName]) horasSemana[fecha][rcName] = {};
-            (rcEntry.visitas || []).forEach(v => {
-                if (v.id) {
-                    const id = normalizeID(v.id);
-                    visitCountsSemana[id] = (visitCountsSemana[id] || 0) + 1;
-                    if (rcName) { visitsByRC[rcName].add(id); visitsByDateRC[fecha][rcName].add(id); }
-                    visitsByDate[fecha].add(id);
-                    if (!lastVisitByID[id] || lastVisitByID[id] < fecha) lastVisitByID[id] = fecha;
-                    const hNum = parseInt((v.hora||'').split(':')[0]);
-                    if (!isNaN(hNum) && hNum >= 7 && hNum <= 20 && rcName) {
-                        if (!horasSemana[fecha][rcName]) horasSemana[fecha][rcName] = {};
-                        horasSemana[fecha][rcName][hNum] = (horasSemana[fecha][rcName][hNum] || 0) + 1;
-                    }
-                    const tSeg = _parseSeg(v.tiempoTienda);
-                    if (tSeg && String(v.tipo||'').toUpperCase() === 'SALIDA') {
-                        if (!tiemposByTienda[id]) {
-                            const pi = puntosMap.get(id);
-                            tiemposByTienda[id] = { total:0, count:0, name:pi?.nombre||id, tipo:pi?.tipo||'', rcs:{} };
-                        }
-                        tiemposByTienda[id].total += tSeg;
-                        tiemposByTienda[id].count++;
-                        if (rcName) {
-                            if (!tiemposByTienda[id].rcs[rcName]) tiemposByTienda[id].rcs[rcName] = { total:0, count:0 };
-                            tiemposByTienda[id].rcs[rcName].total += tSeg;
-                            tiemposByTienda[id].rcs[rcName].count++;
-                        }
-                    }
-                }
-            });
-        });
-    });
+    fetchDates.forEach(fecha => _procesarDiaSemanal(fecha, resultMap[fecha], puntosMap));
 
     scheduleFullRender();
     if (activeTab === 'dash') renderDashboard();
@@ -1069,14 +1101,13 @@ function buildSemanaFilter() {
     sel.selectedIndex = sel.options.length - 1;
     selectedSemanaMonday = new Date(sel.value + 'T00:00:00');
 
+    const _cargaSemana = debounce(() => { cargarDatos(); cargarDatosSemanales(); }, 250);
     sel.addEventListener('change', function() {
         semanaKeyCache = '';
         selectedSemanaMonday = new Date(this.value + 'T00:00:00');
         buildDayFilter(selectedSemanaMonday);
         updateSinVentaBtn();
-        showDashLoading();
-        cargarDatos();
-        cargarDatosSemanales();
+        _cargaSemana();
     });
 }
 
