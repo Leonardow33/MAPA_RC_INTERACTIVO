@@ -421,6 +421,11 @@ body { font-family: 'Inter', 'Segoe UI', sans-serif; background: #0F172A; height
 @keyframes dashSpin { to { transform: rotate(360deg); } }
 .dash-spin { width: 32px; height: 32px; border: 3px solid #1E293B; border-top-color: #6366F1; border-radius: 50%; animation: dashSpin .8s linear infinite; }
 
+/* Barra de carga superior */
+#topLoadBar { position: fixed; top: 0; left: 0; right: 0; height: 3px; z-index: 9999; overflow: hidden; background: #0F172A; }
+#topLoadBar::after { content: ''; display: block; height: 100%; width: 45%; background: linear-gradient(90deg, transparent, #6366F1, #818CF8, transparent); animation: topBarSlide 1.3s ease-in-out infinite; }
+@keyframes topBarSlide { 0% { margin-left: -50%; } 100% { margin-left: 110%; } }
+
 /* Excepcionales tag */
 .exc-tag { display: inline-block; border-radius: 6px; padding: 2px 7px; font-size: 10px; font-weight: 700; color: #fff; white-space: nowrap; flex-shrink: 0; }
 

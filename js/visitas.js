@@ -576,6 +576,27 @@ function renderCobertura() {
     });
 }
 
+let _loadJobs = 0;
+function _loadStart() {
+    if (++_loadJobs === 1) {
+        const bar = document.getElementById('topLoadBar');
+        if (bar) bar.style.display = '';
+        const lu = document.getElementById('lastUpdate');
+        if (lu) lu.textContent = 'Actualizando…';
+        const sel = document.getElementById('semanaFilter');
+        if (sel) sel.style.opacity = '0.6';
+    }
+}
+function _loadEnd() {
+    if (--_loadJobs <= 0) {
+        _loadJobs = 0;
+        const bar = document.getElementById('topLoadBar');
+        if (bar) bar.style.display = 'none';
+        const sel = document.getElementById('semanaFilter');
+        if (sel) sel.style.opacity = '';
+    }
+}
+
 function setLoadingState(loading) {
     const btn = document.getElementById('btnTodosPuntos');
     if (loading) {
@@ -631,6 +652,7 @@ async function cargarDatosSemanales() {
     if (semanaKey === semanaKeyCache) return;
     semanaKeyCache = semanaKey;
 
+    _loadStart();
     setLoadingState(true);
 
     const today = new Date(); today.setHours(0,0,0,0);
@@ -653,6 +675,7 @@ async function cargarDatosSemanales() {
         weekDates = [];
         scheduleFullRender();
         if (activeTab === 'dash') renderDashboard();
+        _loadEnd();
         return;
     }
 
@@ -694,6 +717,7 @@ async function cargarDatosSemanales() {
     scheduleFullRender();
     if (activeTab === 'dash') renderDashboard();
     cargarExcepcionales();
+    _loadEnd();
 }
 
 function toggleTodosPuntos() {
@@ -905,6 +929,7 @@ function _aplicarModoVista(modo) {
 }
 
 async function cargarDatos() {
+    _loadStart();
     try {
         const accion = modoVista === 'cap' ? 'getVisitasMapa2' : modoVista === 'sup' ? 'getVisitasSup' : 'getVisitas';
         const url = SHEET_URL + `?action=${accion}` + (selectedDate ? `&fecha=${selectedDate}` : '');
@@ -932,6 +957,8 @@ async function cargarDatos() {
     } catch(e) {
         console.warn('Error cargando visitas:', e);
         document.getElementById('noData').textContent = 'Error al cargar datos';
+    } finally {
+        _loadEnd();
     }
 }
 
