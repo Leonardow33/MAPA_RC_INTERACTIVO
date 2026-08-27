@@ -473,6 +473,63 @@
       margin-right: 8px;
     }
     @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* ── DÍAS POR RC ────────────────────────────────── */
+    #page-dias { max-width: 1100px; }
+    .dias-toolbar {
+      display: flex; gap: 8px; align-items: center; flex-wrap: wrap; margin-bottom: 16px;
+    }
+    .dias-toolbar select {
+      flex: 1; min-width: 200px; padding: 10px 36px 10px 14px;
+      border: 1.5px solid var(--border); border-radius: 10px;
+      background: var(--surf2); color: var(--text); font-size: 14px;
+      font-family: inherit; outline: none; appearance: none; -webkit-appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' fill='none'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23888' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+      background-repeat: no-repeat; background-position: right 12px center;
+      transition: border-color .2s;
+    }
+    .dias-toolbar select:focus { border-color: var(--accent); }
+    .dias-act-btn {
+      padding: 10px 18px; border: none; border-radius: 10px;
+      font-weight: 700; font-family: inherit; cursor: pointer; white-space: nowrap; transition: opacity .15s;
+    }
+    .dias-act-btn:hover { opacity: .88; }
+    .dias-act-btn:disabled { opacity: .45; cursor: default; }
+    .dias-load-btn { background: var(--accent); color: #fff; }
+    .dias-save-btn { background: var(--green); color: #fff; }
+    .dias-count { font-size: 12px; color: var(--muted); white-space: nowrap; margin-left: 4px; }
+
+    .dias-table-wrap {
+      overflow-x: auto; border-radius: 12px; border: 1px solid var(--border);
+      box-shadow: 0 1px 4px rgba(13,31,60,.06);
+    }
+    .dias-table { border-collapse: collapse; width: 100%; min-width: 680px; }
+    .dias-table thead tr { background: var(--text); }
+    .dias-table th {
+      color: #fff; padding: 9px 10px; font-size: 10px;
+      font-weight: 700; text-transform: uppercase; letter-spacing: .07em;
+      white-space: nowrap; text-align: left;
+    }
+    .dias-table td { padding: 5px 8px; border-bottom: 1px solid var(--border); background: var(--surf); }
+    .dias-table tbody tr:last-child td { border-bottom: none; }
+    .dias-table tbody tr:hover td { background: var(--surf2); }
+    .dias-table tbody tr.changed td { background: rgba(21,101,192,.06); }
+    .dias-table .td-code { font-size: 11px; font-weight: 700; color: var(--muted); white-space: nowrap; }
+    .dias-table .td-nombre { font-size: 13px; font-weight: 600; min-width: 150px; }
+    .dias-table .td-frec {
+      font-size: 11px; font-weight: 700; color: var(--accent);
+      white-space: nowrap; min-width: 88px; font-variant-numeric: tabular-nums;
+    }
+    .dias-table td select {
+      min-width: 78px; width: 100%; padding: 5px 22px 5px 7px;
+      border: 1.5px solid var(--border); border-radius: 7px;
+      background: var(--surf2); color: var(--text); font-size: 12px;
+      font-family: inherit; outline: none; appearance: none; -webkit-appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' fill='none'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%23888' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+      background-repeat: no-repeat; background-position: right 6px center;
+      cursor: pointer; transition: border-color .15s;
+    }
+    .dias-table td select:focus { border-color: var(--accent); }
   </style>
 </head>
 <body>
@@ -502,6 +559,7 @@
 
   <div class="tabs">
     <button class="tab-btn active" data-tab="search">Buscar tienda</button>
+    <button class="tab-btn" data-tab="dias">Días por RC</button>
     <button class="tab-btn admin-tab" data-tab="rcs" style="display:none">Gestionar RCs</button>
     <button class="tab-btn" data-tab="coord">Coordinadores</button>
   </div>
@@ -619,6 +677,24 @@
         <option value="RC_TRANSVERSAL">RC_TRANSVERSAL</option>
       </select>
       <button class="add-btn" id="add-rc-btn">Agregar RC</button>
+    </div>
+  </div>
+
+  <!-- DÍAS POR RC PAGE -->
+  <div class="page" id="page-dias">
+    <div class="dias-toolbar">
+      <select id="dias-rc-sel">
+        <option value="">— Seleccionar RC —</option>
+      </select>
+      <button class="dias-act-btn dias-load-btn" id="dias-load-btn">Cargar tiendas</button>
+      <button class="dias-act-btn dias-save-btn" id="dias-save-btn" disabled>Guardar cambios</button>
+      <span class="dias-count" id="dias-count"></span>
+    </div>
+    <div id="dias-status"></div>
+    <div id="dias-table-container"></div>
+    <div class="bulk-progress" id="dias-prog" style="display:none">
+      <div class="bulk-bar-bg"><div class="bulk-bar" id="dias-bar"></div></div>
+      <div class="bulk-result" id="dias-res"></div>
     </div>
   </div>
 
@@ -970,6 +1046,7 @@ async function loadRCs() {
       codSup:     S.rcsColCodSup ? (i[S.rcsColCodSup] || '') : '',
     }));
   S.supervisors = [...new Set(S.rcs.map(r => r.supervisor).filter(Boolean))].sort();
+  buildDiasRCSelect();
 
   // Populate RC select
   const selRC = document.getElementById('sel-rc');
@@ -1471,6 +1548,9 @@ document.getElementById('search-btn').addEventListener('click', searchStore);
 document.getElementById('save-btn').addEventListener('click', saveStore);
 document.getElementById('add-rc-btn').addEventListener('click', addRC);
 document.getElementById('dl-historial-btn').addEventListener('click', downloadHistorial);
+document.getElementById('dias-load-btn').addEventListener('click', loadDiasPorRC);
+document.getElementById('dias-save-btn').addEventListener('click', saveDiasGrupal);
+document.getElementById('dias-rc-sel').addEventListener('keydown', e => { if (e.key === 'Enter') loadDiasPorRC(); });
 document.getElementById('inp-gz').addEventListener('input', () => {
   updateJZDatalist(document.getElementById('inp-gz').value.trim());
 });
@@ -1621,6 +1701,171 @@ document.getElementById('bulk-cl-btn').addEventListener('click', () => {
     document.getElementById('bulk-cl-new').value,
     'bulk-cl-bar','bulk-cl-res','bulk-cl-prog','bulk-cl-btn');
 });
+
+// ── EDICIÓN GRUPAL DE DÍAS POR RC ──────────────────
+const DIA_ABREV = {
+  'SIN ASIGNAR': '—', 'LUNES': 'LUN', 'MARTES': 'MAR', 'MIÉRCOLES': 'MIÉ',
+  'JUEVES': 'JUE', 'VIERNES': 'VIE', 'SÁBADO': 'SÁB', 'DOMINGO': 'DOM'
+};
+let diasItems = [];
+
+function buildDiasRCSelect() {
+  const sel = document.getElementById('dias-rc-sel');
+  if (!sel) return;
+  sel.innerHTML = '<option value="">— Seleccionar RC —</option>';
+  S.rcs.forEach(rc => {
+    const opt = document.createElement('option');
+    opt.value = rc.code;
+    opt.textContent = rc.name.toUpperCase() + (rc.code ? ` (${rc.code})` : '');
+    sel.appendChild(opt);
+  });
+}
+
+function calcFrecuenciaGrupal(days) {
+  return days.filter(d => d && d !== 'SIN ASIGNAR').join('-') || '—';
+}
+
+async function loadDiasPorRC() {
+  const rcCode = document.getElementById('dias-rc-sel').value;
+  if (!rcCode) { toast('Selecciona un RC primero', 'err'); return; }
+  const loadBtn = document.getElementById('dias-load-btn');
+  const saveBtn = document.getElementById('dias-save-btn');
+  loadBtn.disabled = true;
+  saveBtn.disabled = true;
+  document.getElementById('dias-count').textContent = '';
+  document.getElementById('dias-status').innerHTML = '<div class="status-msg"><span class="spinner"></span>Cargando tiendas del RC...</div>';
+  document.getElementById('dias-table-container').innerHTML = '';
+  document.getElementById('dias-prog').style.display = 'none';
+
+  try {
+    const colsSelect = ['ID', 'Title', S.colNombre, ...S.colDias, S.colFrecuencia]
+      .filter(Boolean).join(',');
+    const enc = encodeURIComponent(rcCode.replace(/'/g, "''"));
+    const data = await spGet(
+      `/web/lists/getbytitle('${BASE_LIST_NAME}')/items` +
+      `?$filter=${S.colRC} eq '${enc}'&$select=${colsSelect}&$top=2000&$orderby=Title`
+    );
+    diasItems = data.value.map(item => {
+      const days = S.colDias.map(col => {
+        const raw = col ? (item[col] || '').toUpperCase().trim() : '';
+        return DAYS_OPTIONS.includes(raw) ? raw : 'SIN ASIGNAR';
+      });
+      const frec = calcFrecuenciaGrupal(days);
+      return { id: item.ID, code: item.Title || '', nombre: S.colNombre ? (item[S.colNombre] || '') : '', days: [...days], frecuencia: frec, original: { days: [...days] } };
+    });
+
+    if (!diasItems.length) {
+      document.getElementById('dias-status').innerHTML = '<div class="status-msg">Sin tiendas asignadas a este RC.</div>';
+    } else {
+      document.getElementById('dias-status').innerHTML = '';
+      document.getElementById('dias-count').textContent = `${diasItems.length} tienda(s)`;
+      renderDiasTable();
+      saveBtn.disabled = false;
+    }
+  } catch(e) {
+    document.getElementById('dias-status').innerHTML = `<div class="status-msg" style="color:var(--red)">Error: ${e.message}</div>`;
+  }
+  loadBtn.disabled = false;
+}
+
+function renderDiasTable() {
+  const dayHeaders = ['Día 1','Día 2','Día 3','Día 4','Día 5','Día 6'];
+  const container = document.getElementById('dias-table-container');
+  container.innerHTML = `
+    <div class="dias-table-wrap">
+      <table class="dias-table">
+        <thead><tr>
+          <th>Código</th><th>Nombre</th>
+          ${dayHeaders.map(h => `<th>${h}</th>`).join('')}
+          <th>Frecuencia</th>
+        </tr></thead>
+        <tbody id="dias-tbody"></tbody>
+      </table>
+    </div>`;
+  const tbody = document.getElementById('dias-tbody');
+  diasItems.forEach((item, idx) => {
+    const tr = document.createElement('tr');
+    tr.dataset.idx = idx;
+    const dayTds = item.days.map((day, di) => {
+      const opts = DAYS_OPTIONS.map(d =>
+        `<option value="${d}"${d === day ? ' selected' : ''}>${DIA_ABREV[d] || d}</option>`
+      ).join('');
+      return `<td><select onchange="onDiasChange(${idx},${di},this.value)">${opts}</select></td>`;
+    }).join('');
+    tr.innerHTML = `
+      <td class="td-code">${item.code}</td>
+      <td class="td-nombre">${item.nombre}</td>
+      ${dayTds}
+      <td class="td-frec" id="dias-frec-${idx}">${item.frecuencia}</td>`;
+    tbody.appendChild(tr);
+  });
+}
+
+function onDiasChange(idx, dayIdx, val) {
+  diasItems[idx].days[dayIdx] = val;
+  diasItems[idx].frecuencia = calcFrecuenciaGrupal(diasItems[idx].days);
+  const frecEl = document.getElementById(`dias-frec-${idx}`);
+  if (frecEl) frecEl.textContent = diasItems[idx].frecuencia;
+  const tbody = document.getElementById('dias-tbody');
+  if (tbody) {
+    const tr = tbody.querySelector(`tr[data-idx="${idx}"]`);
+    if (tr) tr.classList.toggle('changed', JSON.stringify(diasItems[idx].days) !== JSON.stringify(diasItems[idx].original.days));
+  }
+  const changed = diasItems.filter((_,i) => JSON.stringify(diasItems[i].days) !== JSON.stringify(diasItems[i].original.days)).length;
+  document.getElementById('dias-count').textContent = changed
+    ? `${diasItems.length} tienda(s) · ${changed} con cambios`
+    : `${diasItems.length} tienda(s)`;
+}
+
+async function saveDiasGrupal() {
+  const toSave = diasItems.filter(item => JSON.stringify(item.days) !== JSON.stringify(item.original.days));
+  if (!toSave.length) { toast('Sin cambios pendientes', 'err'); return; }
+
+  const saveBtn = document.getElementById('dias-save-btn');
+  const prog    = document.getElementById('dias-prog');
+  const bar     = document.getElementById('dias-bar');
+  const res     = document.getElementById('dias-res');
+  saveBtn.disabled = true;
+  prog.style.display = 'block';
+  bar.style.width = '0%';
+  res.textContent = `Guardando 0 / ${toSave.length}...`;
+  res.style.color = 'var(--text)';
+
+  let done = 0, errors = 0;
+  for (const item of toSave) {
+    try {
+      const fields = {};
+      S.colDias.forEach((col, i) => { if (col) fields[col] = item.days[i]; });
+      if (S.colFrecuencia) fields[S.colFrecuencia] = item.days.filter(d => d && d !== 'SIN ASIGNAR').join('-');
+      await spOp(`/web/lists/getbytitle('${BASE_LIST_NAME}')/items(${item.id})`, fields, 'MERGE');
+      item.original = { days: [...item.days] };
+      const globalIdx = diasItems.indexOf(item);
+      const tbody = document.getElementById('dias-tbody');
+      if (tbody) {
+        const tr = tbody.querySelector(`tr[data-idx="${globalIdx}"]`);
+        if (tr) tr.classList.remove('changed');
+      }
+    } catch(e) {
+      errors++;
+      console.warn('[EditorPDV] Error días:', item.code, e.message);
+    }
+    done++;
+    bar.style.width = Math.round(done / toSave.length * 100) + '%';
+    res.textContent = `Guardando ${done} / ${toSave.length}...`;
+  }
+
+  if (errors) {
+    res.textContent = `✓ ${done - errors} guardados · ${errors} con error`;
+    res.style.color = 'var(--amber)';
+    toast(`${errors} error(es) al guardar`, 'err');
+  } else {
+    res.textContent = `✓ ${done} tiendas actualizadas`;
+    res.style.color = '#2e7d32';
+    toast(`${done} tiendas actualizadas ✓`, 'ok');
+  }
+  document.getElementById('dias-count').textContent = `${diasItems.length} tienda(s)`;
+  saveBtn.disabled = false;
+}
 
 // ── AUTO LOGIN ─────────────────────────────────────
 (async () => {
