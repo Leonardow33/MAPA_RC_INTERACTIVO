@@ -1922,7 +1922,7 @@
   };
 
   let allStores = [], allVentas = [], allRaspes = [], allLoteria = [], sortedStores = [];
-  let allVentasPrev = [];
+  let allVentasPrev = [], allLoteriaPrev = [], allRaspesPrev = [];
   let selectorReady = false;
 
   function loadJSON(u) {
@@ -2019,12 +2019,25 @@
       if (_ld.length > 0) { allLoteria = allLoteria.filter(v => v.tipo_juego !== 'LakiDey'); allLoteria.push(..._ld); }
       if (_tb.length > 0) { allLoteria = allLoteria.filter(v => v.tipo_juego !== 'Turbito'); allLoteria.push(..._tb); }
 
-      // Siempre cargar ventas_mes_prev para poder ver semana anterior (y semana cruzada)
+      // Siempre cargar _prev para semana cruzada entre meses (total + desglose por juego)
       if (!isMesPrev) {
         try {
           const prevD = await loadJSON('../data/ventas_mes_prev.json');
           allVentasPrev = (prevD.body || prevD.ventas || []).filter(v => (v.partner || '').toUpperCase() === PARTNER);
         } catch(_) { allVentasPrev = []; }
+        try {
+          const [lotP, lkP, tbP, rsP] = await Promise.allSettled([
+            loadJSON('../data/ventas_loteria_prev.json'),
+            loadJSON('../data/ventas_lakidey_prev.json'),
+            loadJSON('../data/ventas_turbito_prev.json'),
+            loadJSON('../data/ventas_raspes_prev.json'),
+          ]);
+          const lotRows = lotP.status === 'fulfilled' ? (lotP.value.ventas || lotP.value.body || []).filter(v => (v.partner || '').toUpperCase() === PARTNER) : [];
+          const lkRows  = lkP.status  === 'fulfilled' ? (lkP.value.ventas  || lkP.value.body  || []).filter(v => (v.partner || '').toUpperCase() === PARTNER) : [];
+          const tbRows  = tbP.status  === 'fulfilled' ? (tbP.value.ventas  || tbP.value.body  || []).filter(v => (v.partner || '').toUpperCase() === PARTNER) : [];
+          allLoteriaPrev = [...lotRows.filter(v => v.tipo_juego !== 'LakiDey' && v.tipo_juego !== 'Turbito'), ...lkRows, ...tbRows];
+          allRaspesPrev  = rsP.status === 'fulfilled' ? (rsP.value.ventas || rsP.value.body || []).filter(v => (v.partner || '').toUpperCase() === PARTNER) : [];
+        } catch(_) {}
       }
       console.log('[TAMBO] allStores:', allStores.length, 'allVentas:', allVentas.length, 'allRaspes:', allRaspes.length, 'allLoteria:', allLoteria.length);
 
@@ -2130,6 +2143,11 @@
       if (f >= semJue && f <= semMie) scSem += (v.total || 0);
       if (v.fecha === hoy)            scHoy += (v.total || 0);
     });
+    allRaspesPrev.forEach(v => {
+      if (String(v.org_code) !== id || !v.fecha) return;
+      const f = new Date(v.fecha + 'T12:00:00');
+      if (f >= semJue && f <= semMie) scSem += (v.total || 0);
+    });
     allLoteria.forEach(v => {
       if (String(v.org_code) !== id || !v.fecha) return;
       const f   = new Date(v.fecha + 'T12:00:00');
@@ -2150,6 +2168,18 @@
       if ((tj === 'PozoPowerGo' || tj === 'Go') && v.fecha === hoy) goHoy += amt;
       if (tj === 'Elige 3'     && v.fecha === hoy) e3Hoy      += amt;
       if (tj === 'Turbito'     && v.fecha === hoy) turbitoHoy += amt;
+    });
+    // Días del mes anterior en semana cruzada (desglose por juego)
+    allLoteriaPrev.forEach(v => {
+      if (String(v.org_code) !== id || !v.fecha) return;
+      const f   = new Date(v.fecha + 'T12:00:00');
+      const amt = v.total || 0;
+      const tj  = v.tipo_juego || '';
+      if (tj === 'PozoPower'                    && f >= semJue && f <= semMie) ppSem      += amt;
+      if (tj === 'LakiDey'                      && f >= semJue && f <= semMie) ldSem      += amt;
+      if ((tj === 'PozoPowerGo' || tj === 'Go') && f >= semJue && f <= semMie) goSem      += amt;
+      if (tj === 'Elige 3'                      && f >= semJue && f <= semMie) e3Sem      += amt;
+      if (tj === 'Turbito'                      && f >= semJue && f <= semMie) turbitoSem += amt;
     });
 
     const metaDiaria = hasMeta ? store.meta_diaria : null;
