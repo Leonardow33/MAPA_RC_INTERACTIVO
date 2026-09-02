@@ -1756,13 +1756,13 @@
     var val = document.getElementById('dev-pwd-input').value;
     if (val === '1234567') {
       document.getElementById('dev-overlay').classList.remove('open');
-      var rows = devGetRows();
+      var res = devGetRows();
+      var rows = res.rows;
       var tiendas = new Set(rows.map(function(r){ return r.org_code; })).size;
-      var fechas = rows.map(function(r){ return r.fecha; }).filter(Boolean).sort();
       document.getElementById('dev-stats').innerHTML =
+        '<div class="dev-stat">Semana: <strong>' + res.desde + ' → ' + res.hasta + '</strong></div>' +
         '<div class="dev-stat">Registros: <strong>' + rows.length.toLocaleString('es') + '</strong></div>' +
-        '<div class="dev-stat">Tiendas: <strong>' + tiendas + '</strong></div>' +
-        '<div class="dev-stat">Fechas: <strong>' + (fechas[0]||'—') + ' → ' + (fechas[fechas.length-1]||'—') + '</strong></div>' +
+        '<div class="dev-stat">Tiendas con venta: <strong>' + tiendas + '</strong></div>' +
         '<div class="dev-stat">Partner: <strong>' + PARTNER + '</strong></div>';
       document.getElementById('dev-panel').classList.add('open');
     } else {
@@ -1774,26 +1774,40 @@
   function devGetRows() {
     var nameMap = {};
     allStores.forEach(function(s){ nameMap[String(s.ID||'')] = s.nombre||''; });
-    var out = [];
+    var now = new Date();
+    var dow = now.getDay();
+    var daysSinceJue = (dow - 4 + 7) % 7;
+    var jue = new Date(now); jue.setDate(now.getDate() - daysSinceJue);
+    var mie = new Date(jue); mie.setDate(jue.getDate() + 6);
+    var desde = jue.toISOString().slice(0,10);
+    var hasta = mie.toISOString().slice(0,10);
+    var seen = {};
     function push(arr, src) {
       arr.forEach(function(v){
-        out.push({ org_code: String(v.org_code??''), nombre: nameMap[String(v.org_code??'')] || '', fecha: v.fecha||'', tipo_juego: v.tipo_juego||'TOTAL', total: v.total??0, fuente: src });
+        var fecha = v.fecha || '';
+        if (fecha < desde || fecha > hasta) return;
+        var key = String(v.org_code??'') + '|' + fecha + '|' + (v.tipo_juego||'TOTAL');
+        var total = v.total ?? 0;
+        if (!seen[key] || total > seen[key].total) {
+          seen[key] = { org_code: String(v.org_code??''), nombre: nameMap[String(v.org_code??'')] || '', fecha: fecha, tipo_juego: v.tipo_juego||'TOTAL', total: total, fuente: src };
+        }
       });
     }
     push(allVentas,  'ventas_mes');
     push(allRaspes,  'ventas_raspes');
     push(allLoteria, 'ventas_loteria');
-    return out;
+    return { rows: Object.values(seen).sort(function(a,b){ return a.org_code.localeCompare(b.org_code)||a.fecha.localeCompare(b.fecha)||a.tipo_juego.localeCompare(b.tipo_juego); }), desde: desde, hasta: hasta };
   }
   function devDownload() {
-    var rows = devGetRows();
+    var res = devGetRows();
+    var rows = res.rows;
     var csv = 'org_code,nombre,fecha,tipo_juego,total,fuente\n' + rows.map(function(r){
       return [r.org_code, '"'+r.nombre.replace(/"/g,'""')+'"', r.fecha, r.tipo_juego, r.total, r.fuente].join(',');
     }).join('\n');
     var blob = new Blob(['﻿'+csv], {type:'text/csv;charset=utf-8'});
     var a = document.createElement('a');
     a.href = URL.createObjectURL(blob);
-    a.download = PARTNER.toLowerCase().replace(/\s+/g,'_') + '_data_' + new Date().toISOString().slice(0,10) + '.csv';
+    a.download = PARTNER.toLowerCase().replace(/\s+/g,'_') + '_semana_' + res.desde + '_' + res.hasta + '.csv';
     a.click();
     URL.revokeObjectURL(a.href);
   }
