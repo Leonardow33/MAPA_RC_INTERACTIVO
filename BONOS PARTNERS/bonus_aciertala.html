@@ -867,8 +867,29 @@
       color: rgba(13,31,53,.45); background: rgba(13,31,53,.05);
       border: 1px solid rgba(13,31,53,.12);
       border-radius: 20px; padding: 4px 11px;
-      pointer-events: none; z-index: 999; white-space: nowrap;
+      cursor: pointer; z-index: 999; white-space: nowrap; user-select: none;
     }
+    /* ── MODO PROGRAMADOR ─────────────────────────────────────── */
+    #dev-overlay { display:none; position:fixed; inset:0; z-index:10010; background:rgba(0,0,0,.55); backdrop-filter:blur(4px); align-items:center; justify-content:center; }
+    #dev-overlay.open { display:flex; }
+    #dev-modal { background:var(--surf); border:1px solid var(--border); border-radius:18px; padding:28px 24px 24px; width:min(340px,90vw); box-shadow:0 24px 60px rgba(0,0,0,.25); display:flex; flex-direction:column; gap:14px; }
+    #dev-modal h3 { font-size:15px; font-weight:700; color:var(--text); }
+    #dev-modal p { font-size:13px; color:var(--muted); }
+    #dev-pwd-input { width:100%; padding:10px 14px; border:1.5px solid var(--border); border-radius:10px; font-size:18px; font-family:monospace; letter-spacing:.3em; background:var(--surf2,#f4f8ff); color:var(--text); outline:none; }
+    #dev-pwd-input:focus { border-color:var(--accent); }
+    #dev-pwd-err { font-size:12px; color:var(--red,#DC2626); min-height:16px; }
+    .dev-btn-row { display:flex; gap:10px; }
+    .dev-btn { flex:1; padding:10px; border:none; border-radius:10px; font-size:13px; font-weight:600; cursor:pointer; font-family:inherit; }
+    .dev-btn-cancel { background:var(--surf2,#f4f8ff); color:var(--muted); }
+    .dev-btn-ok { background:var(--accent); color:#fff; }
+    #dev-panel { display:none; position:fixed; inset:0; z-index:10010; background:rgba(0,0,0,.55); backdrop-filter:blur(4px); align-items:flex-end; justify-content:center; }
+    #dev-panel.open { display:flex; }
+    #dev-panel-inner { background:var(--surf); border-radius:20px 20px 0 0; width:min(480px,100vw); padding:24px 20px 36px; box-shadow:0 -8px 40px rgba(0,0,0,.2); display:flex; flex-direction:column; gap:12px; max-height:70vh; overflow-y:auto; }
+    #dev-panel-inner h3 { font-size:11px; font-weight:700; color:var(--accent); letter-spacing:.1em; text-transform:uppercase; }
+    .dev-stat { font-size:12px; color:var(--muted); line-height:1.8; }
+    .dev-stat strong { color:var(--text); }
+    .dev-dl-btn { padding:12px; background:var(--accent); color:#fff; border:none; border-radius:12px; font-size:14px; font-weight:700; cursor:pointer; width:100%; font-family:inherit; }
+    .dev-close-btn { padding:10px; background:var(--surf2,#f4f8ff); color:var(--muted); border:none; border-radius:12px; font-size:13px; font-weight:600; cursor:pointer; width:100%; font-family:inherit; }
 
     /* ── STOCK RAPIRASPAS ──────────────────────────────────── */
     .stock-card { background:var(--surf);border-radius:16px;padding:18px 16px 16px;position:relative;overflow:hidden; }
@@ -1718,7 +1739,86 @@
       btn.disabled = false; btn.textContent = '💾 Guardar';
     }
   }
+
+  // ── MODO PROGRAMADOR ──────────────────────────────────────────────
+  function devOpen() {
+    document.getElementById('dev-overlay').classList.add('open');
+    var inp = document.getElementById('dev-pwd-input');
+    inp.value = '';
+    document.getElementById('dev-pwd-err').textContent = '';
+    setTimeout(function(){ inp.focus(); }, 80);
+  }
+  function devClose() {
+    document.getElementById('dev-overlay').classList.remove('open');
+    document.getElementById('dev-panel').classList.remove('open');
+  }
+  function devAuth() {
+    var val = document.getElementById('dev-pwd-input').value;
+    if (val === '1234567') {
+      document.getElementById('dev-overlay').classList.remove('open');
+      var rows = devGetRows();
+      var tiendas = new Set(rows.map(function(r){ return r.org_code; })).size;
+      var fechas = rows.map(function(r){ return r.fecha; }).filter(Boolean).sort();
+      document.getElementById('dev-stats').innerHTML =
+        '<div class="dev-stat">Registros: <strong>' + rows.length.toLocaleString('es') + '</strong></div>' +
+        '<div class="dev-stat">Tiendas: <strong>' + tiendas + '</strong></div>' +
+        '<div class="dev-stat">Fechas: <strong>' + (fechas[0]||'—') + ' → ' + (fechas[fechas.length-1]||'—') + '</strong></div>' +
+        '<div class="dev-stat">Partner: <strong>' + PARTNER + '</strong></div>';
+      document.getElementById('dev-panel').classList.add('open');
+    } else {
+      document.getElementById('dev-pwd-err').textContent = 'Código incorrecto.';
+      document.getElementById('dev-pwd-input').value = '';
+      document.getElementById('dev-pwd-input').focus();
+    }
+  }
+  function devGetRows() {
+    var nameMap = {};
+    allStores.forEach(function(s){ nameMap[String(s.ID||'')] = s.nombre||''; });
+    var out = [];
+    function push(arr, src) {
+      arr.forEach(function(v){
+        out.push({ org_code: String(v.org_code??''), nombre: nameMap[String(v.org_code??'')] || '', fecha: v.fecha||'', tipo_juego: v.tipo_juego||'TOTAL', total: v.total??0, fuente: src });
+      });
+    }
+    push(allVentas,  'ventas_mes');
+    push(allRaspes,  'ventas_raspes');
+    push(allLoteria, 'ventas_loteria');
+    return out;
+  }
+  function devDownload() {
+    var rows = devGetRows();
+    var csv = 'org_code,nombre,fecha,tipo_juego,total,fuente\n' + rows.map(function(r){
+      return [r.org_code, '"'+r.nombre.replace(/"/g,'""')+'"', r.fecha, r.tipo_juego, r.total, r.fuente].join(',');
+    }).join('\n');
+    var blob = new Blob(['﻿'+csv], {type:'text/csv;charset=utf-8'});
+    var a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = PARTNER.toLowerCase().replace(/\s+/g,'_') + '_data_' + new Date().toISOString().slice(0,10) + '.csv';
+    a.click();
+    URL.revokeObjectURL(a.href);
+  }
 </script>
-<div class="dev-badge">Desarrollado por Doriant C.</div>
+<div class="dev-badge" onclick="devOpen()" title="Modo programador">Desarrollado por Doriant C.</div>
+<!-- Modo Programador -->
+<div id="dev-overlay" onclick="if(event.target===this)devClose()">
+  <div id="dev-modal">
+    <h3>🔧 Modo Programador</h3>
+    <p>Ingresa el código de acceso.</p>
+    <input id="dev-pwd-input" type="password" placeholder="·······" maxlength="20" autocomplete="off" onkeydown="if(event.key==='Enter')devAuth()">
+    <div id="dev-pwd-err"></div>
+    <div class="dev-btn-row">
+      <button class="dev-btn dev-btn-cancel" onclick="devClose()">Cancelar</button>
+      <button class="dev-btn dev-btn-ok" onclick="devAuth()">Acceder</button>
+    </div>
+  </div>
+</div>
+<div id="dev-panel" onclick="if(event.target===this)devClose()">
+  <div id="dev-panel-inner">
+    <h3>🔧 Modo Programador</h3>
+    <div id="dev-stats"></div>
+    <button class="dev-dl-btn" onclick="devDownload()">⬇ Descargar datos por tienda / juego (CSV)</button>
+    <button class="dev-close-btn" onclick="devClose()">Cerrar</button>
+  </div>
+</div>
 </body>
 </html>

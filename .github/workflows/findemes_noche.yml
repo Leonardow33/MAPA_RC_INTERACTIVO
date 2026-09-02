@@ -1,0 +1,354 @@
+name: Descarga Fin de Mes (23:30 Lima)
+
+# Corre todos los dias a las 23:30 Peru (UTC-5) = 04:30 UTC del dia siguiente.
+# SOLO actua el ultimo dia del mes — el resto termina en segundos sin hacer nada.
+#
+# Proposito: garantizar que ventas_loteria, ventas_raspes, ventas_lakidey y
+# ventas_turbito tengan datos del dia casi completo ANTES de que el backup _prev
+# se active automaticamente al cambiar el mes (~00:25 Lima del dia 1).
+#
+# Flujo del ultimo dia del mes:
+#   08:00 AM Lima → actualizar_ventas (cron-job.org, cada 25 min)
+#   ...                               (cron-job.org cada 25 min toda la tarde)
+#   11:30 PM Lima → ESTE workflow     (garantia nativa GitHub si cron-job.org falla)
+#   ~00:25 AM Lima dia 1 → actualizar_ventas detecta cambio de mes y crea _prev
+
+on:
+  schedule:
+    - cron: '30 4 * * *'   # 23:30 Lima (UTC-5 → 04:30 UTC del dia siguiente)
+  workflow_dispatch:
+
+jobs:
+  findemes-noche:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    env:
+      FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: 'true'
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Verificar si es el ultimo dia del mes (hora Lima)
+        id: check_dia
+        run: |
+          python3 - << 'PYEOF'
+          import sys
+          from datetime import datetime, timedelta, timezone
+          PERU_TZ = timezone(timedelta(hours=-5))
+          today    = datetime.now(PERU_TZ).date()
+          tomorrow = today + timedelta(days=1)
+          if tomorrow.month == today.month:
+              print(f"No es ultimo dia del mes ({today} hora Peru). Nada que hacer.")
+              sys.exit(0)
+          print(f"Ultimo dia del mes confirmado: {today} (hora Peru). Iniciando descarga.")
+          PYEOF
+          echo "es_findemes=$?" >> $GITHUB_OUTPUT
+
+      - name: Cachear Chromium de Playwright
+        if: steps.check_dia.outcome == 'success'
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/ms-playwright
+          key: playwright-chromium-${{ runner.os }}-v1
+
+      - name: Instalar Playwright + Chromium
+        if: steps.check_dia.outcome == 'success'
+        run: |
+          pip install playwright
+          playwright install chromium --with-deps
+
+      - name: Descargar ventas desde SharePoint (actualizacion nocturna)
+        if: steps.check_dia.outcome == 'success'
+        run: |
+          python3 - << 'PYEOF'
+          import sys, json, re, requests
+          from datetime import datetime, timezone
+          from playwright.sync_api import sync_playwright
+
+          ARCHIVOS = [
+              (
+                  "https://elotgroup2020-my.sharepoint.com/:u:/g/personal/doriant_elotgroup_com/IQAs2o56QU-NQqo8-z-nzAS5AaqMALXi2vfNSXWZ7Rwafp0?e=24QJ8Y",
+                  "data/ventas_mes.json",
+                  "ventas_mes"
+              ),
+              (
+                  "https://elotgroup2020-my.sharepoint.com/:u:/g/personal/doriant_elotgroup_com/IQDrWHQfvqvsSad5J525bYpMAYok4YkS46s_1qx3LuivWWc?e=L9TQZO",
+                  "data/ventas_raspes.json",
+                  "ventas_raspes"
+              ),
+              (
+                  "https://elotgroup2020-my.sharepoint.com/:u:/g/personal/doriant_elotgroup_com/IQCpFbui95x1S5JXjev_tlsPATMjiDRm0DtiFAF9rfvVMh0?e=j1tIww",
+                  "data/ventas_loteria.json",
+                  "ventas_loteria"
+              ),
+          ]
+
+          SP_BASE = "https://elotgroup2020-my.sharepoint.com"
+
+          def token_from_url(url):
+              m = re.search(r'/personal/[^/]+/([A-Za-z0-9_\-]+)\?', url)
+              return m.group(1) if m else None
+
+          def es_valido(data):
+              return isinstance(data.get("body"), list) or isinstance(data.get("ventas"), list)
+
+          def descargar(context, url, dest, label):
+              content = None
+              token = token_from_url(url)
+              if token:
+                  dl_url = f"{SP_BASE}/_layouts/15/download.aspx?share={token}"
+                  try:
+                      print(f"[{label}] Intento 1: requests directo...")
+                      r = requests.get(dl_url, headers={"User-Agent": "Mozilla/5.0"}, timeout=60, allow_redirects=True)
+                      t = r.text.strip()
+                      if r.status_code == 200 and t.startswith("{"):
+                          parsed = json.loads(t)
+                          if es_valido(parsed):
+                              content = r.text
+                              print(f"  -> OK")
+                  except Exception as e:
+                      print(f"  -> error: {e}")
+
+              if not content:
+                  try:
+                      print(f"[{label}] Intento 2: expect_download...")
+                      page = context.new_page()
+                      with page.expect_download(timeout=45000) as dl_info:
+                          try:
+                              page.goto(url + "&download=1", wait_until="commit", timeout=30000)
+                          except Exception:
+                              pass
+                      path = dl_info.value.path()
+                      with open(path, encoding="utf-8") as f:
+                          content = f.read()
+                      print(f"  -> {len(content)} chars")
+                  except Exception as e:
+                      print(f"  -> fallo: {e}")
+
+              if not content or not content.strip().lstrip('\ufeff').startswith(("{", "[")):
+                  print(f"[{label}] Intento 3: interceptar respuestas...")
+                  captured = []
+                  def on_response(resp):
+                      try:
+                          text = resp.body().decode("utf-8", errors="replace")
+                          stripped = text.strip()
+                          if not stripped.startswith("{"): return
+                          parsed = json.loads(stripped)
+                          if es_valido(parsed):
+                              captured.append(text)
+                      except Exception: pass
+                  page2 = context.new_page()
+                  page2.on("response", on_response)
+                  try:
+                      page2.goto(url, wait_until="networkidle", timeout=45000)
+                  except Exception as e:
+                      print(f"  -> navegacion: {e}")
+                  if captured:
+                      content = captured[-1]
+
+              stripped_c = content.strip().lstrip('\ufeff') if content else ''
+              if not stripped_c or not stripped_c.startswith(("{", "[")):
+                  print(f"ERROR [{label}]: no se obtuvo JSON valido")
+                  return False
+              try:
+                  data = json.loads(stripped_c)
+              except json.JSONDecodeError as e:
+                  print(f"ERROR [{label}]: JSON invalido: {e}")
+                  return False
+
+              if isinstance(data, list):
+                  data = {"ventas": data}
+
+              registros = data.get("ventas") or data.get("body") or []
+              existing_arr = []
+              try:
+                  import os as _os
+                  if _os.path.exists(dest):
+                      with open(dest, encoding="utf-8") as ef:
+                          existing_d = json.load(ef)
+                      existing_arr = existing_d.get("ventas") or existing_d.get("body") or []
+              except Exception:
+                  pass
+
+              if len(registros) == 0:
+                  if len(existing_arr) > 0:
+                      print(f"PROTECCION [{label}]: 0 registros, archivo actual tiene {len(existing_arr)} — no se sobreescribe")
+                      return True
+              elif len(existing_arr) > 0:
+                  import shutil as _sh
+                  try:
+                      new_dates = [v.get("fecha","") for v in registros if v.get("fecha")]
+                      old_dates = [v.get("fecha","") for v in existing_arr if v.get("fecha")]
+                      new_month = max(new_dates)[:7] if new_dates else ""
+                      old_month = max(old_dates)[:7] if old_dates else ""
+                      if new_month and old_month and new_month != old_month:
+                          prev_dest = dest.replace(".json", "_prev.json")
+                          _sh.copy2(dest, prev_dest)
+                          print(f"  -> Mes cambio {old_month}→{new_month}, backup: {prev_dest}")
+                  except Exception as _e:
+                      print(f"  -> No se pudo crear backup: {_e}")
+
+              data["updated"] = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC")
+              with open(dest, "w", encoding="utf-8") as f:
+                  json.dump(data, f, ensure_ascii=False)
+              print(f"OK [{label}]: {len(registros)} registros -> {dest}")
+              return True
+
+          with sync_playwright() as p:
+              browser = p.chromium.launch(headless=True)
+              context = browser.new_context(accept_downloads=True)
+              errores = [label for url, dest, label in ARCHIVOS
+                         if not descargar(context, url, dest, label)]
+              browser.close()
+
+          if errores:
+              print(f"ERRORES en: {errores}")
+              sys.exit(1)
+          PYEOF
+
+      - name: Descargar LakiDey y Turbito (actualizacion nocturna)
+        if: steps.check_dia.outcome == 'success'
+        run: |
+          python3 - << 'PYEOF'
+          import sys, json, re, requests, shutil, os
+          from datetime import datetime, timezone
+          from playwright.sync_api import sync_playwright
+
+          ARCHIVOS_TEXTO = [
+              (
+                  "https://elotgroup2020-my.sharepoint.com/:t:/g/personal/doriant_elotgroup_com/IQDIrRWLuF50T5wkwsv-agARAap7krEApen64ueC8sMix3c?e=XbKcBR",
+                  "data/ventas_lakidey.json",
+                  "ventas_lakidey"
+              ),
+              (
+                  "https://elotgroup2020-my.sharepoint.com/:t:/g/personal/doriant_elotgroup_com/IQDfCquyrPYXTZyfgHaynqt0AfaeWoisHxBxc_y1-nVkjDs?e=uHmzNj",
+                  "data/ventas_turbito.json",
+                  "ventas_turbito"
+              ),
+          ]
+
+          SP_BASE = "https://elotgroup2020-my.sharepoint.com"
+
+          def token_from_url(url):
+              m = re.search(r'/personal/[^/]+/([A-Za-z0-9_\-]+)\?', url)
+              return m.group(1) if m else None
+
+          def parse_content(content):
+              try:
+                  data = json.loads(content.strip())
+              except json.JSONDecodeError:
+                  return None
+              if isinstance(data, list):
+                  return {"ventas": data}
+              if isinstance(data, dict):
+                  if "ventas" in data or "body" in data:
+                      return data
+                  for v in data.values():
+                      if isinstance(v, list):
+                          return {"ventas": v}
+              return None
+
+          def descargar(context, url, dest, label):
+              content = None
+              token = token_from_url(url)
+              if token:
+                  dl_url = f"{SP_BASE}/_layouts/15/download.aspx?share={token}"
+                  try:
+                      r = requests.get(dl_url, headers={"User-Agent": "Mozilla/5.0"}, timeout=60, allow_redirects=True)
+                      t = r.text.strip()
+                      if r.status_code == 200 and (t.startswith('{') or t.startswith('[')):
+                          content = t
+                          print(f"[{label}] OK directo ({len(content)} chars)")
+                  except Exception as e:
+                      print(f"[{label}] error directo: {e}")
+              if not content:
+                  try:
+                      captured = []
+                      def on_response(resp):
+                          ct = resp.headers.get('content-type', '')
+                          cd = resp.headers.get('content-disposition', '')
+                          if 'text/plain' in ct or 'attachment' in cd:
+                              try:
+                                  text = resp.body().decode('utf-8', errors='replace')
+                                  s = text.strip()
+                                  if s and '<html' not in s[:100].lower() and (s.startswith('{') or s.startswith('[')):
+                                      captured.append(text)
+                              except Exception: pass
+                      page = context.new_page()
+                      page.on("response", on_response)
+                      try:
+                          page.goto(url, wait_until="networkidle", timeout=45000)
+                      except Exception: pass
+                      if captured:
+                          content = captured[-1]
+                      else:
+                          body_text = page.evaluate("() => document.body.innerText || ''")
+                          s = body_text.strip()
+                          if s and (s.startswith('{') or s.startswith('[')):
+                              content = s
+                  except Exception as e:
+                      print(f"[{label}] Playwright fallo: {e}")
+              if not content:
+                  print(f"ERROR [{label}]: no se pudo descargar")
+                  return False
+              result = parse_content(content)
+              if result is None:
+                  print(f"ERROR [{label}]: JSON no reconocido")
+                  return False
+              registros = result.get("ventas") or result.get("body") or []
+              existing_arr = []
+              if os.path.exists(dest):
+                  try:
+                      with open(dest, encoding='utf-8') as ef:
+                          ed = json.load(ef)
+                      existing_arr = ed.get("ventas") or ed.get("body") or []
+                  except Exception: pass
+              if len(registros) == 0 and len(existing_arr) > 0:
+                  print(f"PROTECCION [{label}]: 0 registros — no se sobreescribe")
+                  return True
+              if existing_arr and registros:
+                  try:
+                      new_dates = [v.get("fecha","") for v in registros if v.get("fecha")]
+                      old_dates = [v.get("fecha","") for v in existing_arr if v.get("fecha")]
+                      new_month = max(new_dates)[:7] if new_dates else ""
+                      old_month = max(old_dates)[:7] if old_dates else ""
+                      if new_month and old_month and new_month != old_month:
+                          prev_dest = dest.replace(".json", "_prev.json")
+                          shutil.copy2(dest, prev_dest)
+                          print(f"  -> Mes cambio {old_month}→{new_month}, backup: {prev_dest}")
+                  except Exception as e:
+                      print(f"  -> No se pudo crear backup: {e}")
+              result["updated"] = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC")
+              with open(dest, "w", encoding="utf-8") as f:
+                  json.dump(result, f, ensure_ascii=False)
+              print(f"OK [{label}]: {len(registros)} registros -> {dest}")
+              return True
+
+          with sync_playwright() as p:
+              browser = p.chromium.launch(headless=True)
+              context = browser.new_context(accept_downloads=True)
+              errores = [label for url, dest, label in ARCHIVOS_TEXTO
+                         if not descargar(context, url, dest, label)]
+              browser.close()
+
+          if errores:
+              print(f"ERRORES en: {errores}")
+              sys.exit(1)
+          PYEOF
+
+      - name: Commit actualizacion nocturna fin de mes
+        if: steps.check_dia.outcome == 'success'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add data/ventas_mes.json data/ventas_raspes.json data/ventas_loteria.json data/ventas_lakidey.json data/ventas_turbito.json
+          git add data/ventas_mes_prev.json data/ventas_raspes_prev.json data/ventas_loteria_prev.json data/ventas_lakidey_prev.json data/ventas_turbito_prev.json 2>/dev/null || true
+          git diff --cached --quiet && echo "Sin cambios." || {
+            git commit -m "chore: descarga nocturna fin de mes $(date -u '+%Y-%m-%d') [skip ci]"
+            for i in 1 2 3 4 5; do
+              git pull --rebase && git push && break
+              echo "Intento $i fallido, reintentando en $((i*5))s..."
+              sleep $((i * 5))
+            done
+          }
