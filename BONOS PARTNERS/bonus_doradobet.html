@@ -1760,7 +1760,7 @@
       var rows = res.rows;
       var tiendas = new Set(rows.map(function(r){ return r.org_code; })).size;
       document.getElementById('dev-stats').innerHTML =
-        '<div class="dev-stat">Semana: <strong>' + res.desde + ' → ' + res.hasta + '</strong></div>' +
+        '<div class="dev-stat">Período: <strong>' + res.desde + ' → ' + res.hasta + '</strong></div>' +
         '<div class="dev-stat">Registros: <strong>' + rows.length.toLocaleString('es') + '</strong></div>' +
         '<div class="dev-stat">Tiendas con venta: <strong>' + tiendas + '</strong></div>' +
         '<div class="dev-stat">Partner: <strong>' + PARTNER + '</strong></div>';
@@ -1775,12 +1775,13 @@
     var nameMap = {};
     allStores.forEach(function(s){ nameMap[String(s.ID||'')] = s.nombre||''; });
     var now = new Date();
-    var dow = now.getDay();
-    var daysSinceJue = (dow - 4 + 7) % 7;
-    var jue = new Date(now); jue.setDate(now.getDate() - daysSinceJue);
-    var mie = new Date(jue); mie.setDate(jue.getDate() + 6);
-    var desde = jue.toISOString().slice(0,10);
-    var hasta = mie.toISOString().slice(0,10);
+    var mesN = isMesPrev ? now.getMonth() - 1 : now.getMonth();
+    var yearN = now.getFullYear();
+    if (mesN < 0) { mesN = 11; yearN--; }
+    var ini = new Date(yearN, mesN, 1);
+    var fin = new Date(yearN, mesN + 1, 0);
+    var desde = ini.toISOString().slice(0,10);
+    var hasta = fin.toISOString().slice(0,10);
     var seen = {};
     function push(arr, src) {
       arr.forEach(function(v){
@@ -1807,7 +1808,7 @@
     var blob = new Blob(['﻿'+csv], {type:'text/csv;charset=utf-8'});
     var a = document.createElement('a');
     a.href = URL.createObjectURL(blob);
-    a.download = PARTNER.toLowerCase().replace(/\s+/g,'_') + '_semana_' + res.desde + '_' + res.hasta + '.csv';
+    a.download = PARTNER.toLowerCase().replace(/\s+/g,'_') + '_mes_' + res.desde.slice(0,7) + '.csv';
     a.click();
     URL.revokeObjectURL(a.href);
   }
