@@ -1263,24 +1263,45 @@
         </div>
       </div>
       <div class="game-row">
-        <div class="gr-name"><img src="../sources/logos-games/rapiraspa.png" class="gr-logo" alt="">SC/E3 + TURBITO</div>
+        <div class="gr-name"><img src="../sources/logos-games/elige3.png" class="gr-logo" alt="">SC/E3</div>
         <div class="gr-bar-wrap">
           <div class="gr-bar">
-            <div class="gr-proj-fill" id="sc-proj-fill"></div>
-            <div class="gr-fill" id="sc-bar" style="background:#16A34A"></div>
+            <div class="gr-proj-fill" id="e3-proj-fill"></div>
+            <div class="gr-fill" id="e3-bar" style="background:#16A34A"></div>
           </div>
-          <div class="gr-line-70"  id="sc-dot70"></div>
-          <div class="gr-lbl-bar gr-lbl-70"   id="sc-lbl70">70%</div>
-          <div class="gr-lbl-bar gr-lbl-proj" id="sc-lbl-proj">Proy.</div>
+          <div class="gr-line-70"  id="e3-dot70"></div>
+          <div class="gr-lbl-bar gr-lbl-70"   id="e3-lbl70">70%</div>
+          <div class="gr-lbl-bar gr-lbl-proj" id="e3-lbl-proj">Proy.</div>
         </div>
         <div class="gr-val-wrap">
-          <div class="gr-val" id="sc-val">S/ 0</div>
+          <div class="gr-val" id="e3-val">S/ 0</div>
         </div>
         <div class="gr-meta-wrap">
-          <div class="gr-meta" id="sc-meta">—</div>
+          <div class="gr-meta" id="e3-meta">—</div>
         </div>
         <div class="gr-pct-wrap">
-          <div class="gr-pct" id="sc-pct">—</div>
+          <div class="gr-pct" id="e3-pct">—</div>
+        </div>
+      </div>
+      <div class="game-row">
+        <div class="gr-name"><img src="../sources/logos-games/Turbito.png" class="gr-logo" alt="">Turbito</div>
+        <div class="gr-bar-wrap">
+          <div class="gr-bar">
+            <div class="gr-proj-fill" id="tb-proj-fill"></div>
+            <div class="gr-fill" id="tb-bar" style="background:#7C3AED"></div>
+          </div>
+          <div class="gr-line-70"  id="tb-dot70"></div>
+          <div class="gr-lbl-bar gr-lbl-70"   id="tb-lbl70">70%</div>
+          <div class="gr-lbl-bar gr-lbl-proj" id="tb-lbl-proj">Proy.</div>
+        </div>
+        <div class="gr-val-wrap">
+          <div class="gr-val" id="tb-val">S/ 0</div>
+        </div>
+        <div class="gr-meta-wrap">
+          <div class="gr-meta" id="tb-meta">—</div>
+        </div>
+        <div class="gr-pct-wrap">
+          <div class="gr-pct" id="tb-pct">—</div>
         </div>
       </div>
       <div class="game-row">
@@ -1681,8 +1702,8 @@
 
     // Aggregate ventas for this store
     const id       = String(store.ID);
-    let totHoy = 0, totSem = 0, totMes = 0, ppMes = 0, ldMes = 0, scMes = 0, goMes = 0;
-    let ppHoy = 0, ldHoy = 0, scHoy = 0, goHoy = 0;
+    let totHoy = 0, totSem = 0, totMes = 0, ppMes = 0, ldMes = 0, e3Mes = 0, tbMes = 0, goMes = 0;
+    let ppHoy = 0, ldHoy = 0, e3Hoy = 0, tbHoy = 0, goHoy = 0;
 
     allVentas.forEach(v => {
       if (String(v.org_code) !== id || !v.fecha || v.tipo_juego !== 'TOTAL') return;
@@ -1695,22 +1716,24 @@
     allRaspes.forEach(v => {
       if (String(v.org_code) !== id || !v.fecha) return;
       const f = new Date(v.fecha + 'T12:00:00');
-      if (f >= mesIni && f <= mesFin) scMes += (v.total || 0);
-      if (v.fecha === hoy) scHoy += (v.total || 0);
+      if (f >= mesIni && f <= mesFin) e3Mes += (v.total || 0);
+      if (v.fecha === hoy) e3Hoy += (v.total || 0);
     });
     allLoteria.forEach(v => {
       if (String(v.org_code) !== id || !v.fecha) return;
       const f   = new Date(v.fecha + 'T12:00:00');
       const amt = v.total || 0;
       const tj  = v.tipo_juego || '';
-      if (tj === 'PozoPower'   && f >= mesIni && f <= mesFin) ppMes += amt;
-      if (tj === 'LakiDey'     && f >= mesIni && f <= mesFin) ldMes += amt;
-      if ((tj === 'PozoPowerGo' || tj === 'Go') && f >= mesIni && f <= mesFin) goMes += amt;
-      if ((tj === 'Elige 3' || tj === 'Turbito') && f >= mesIni && f <= mesFin) scMes += amt;
-      if (tj === 'PozoPower'   && v.fecha === hoy) ppHoy += amt;
-      if (tj === 'LakiDey'     && v.fecha === hoy) ldHoy += amt;
-      if ((tj === 'PozoPowerGo' || tj === 'Go') && v.fecha === hoy) goHoy += amt;
-      if ((tj === 'Elige 3' || tj === 'Turbito') && v.fecha === hoy) scHoy += amt;
+      if (tj === 'PozoPower'                       && f >= mesIni && f <= mesFin) ppMes += amt;
+      if (tj === 'LakiDey'                         && f >= mesIni && f <= mesFin) ldMes += amt;
+      if ((tj === 'PozoPowerGo' || tj === 'Go')    && f >= mesIni && f <= mesFin) goMes += amt;
+      if (tj === 'Elige 3'                         && f >= mesIni && f <= mesFin) e3Mes += amt;
+      if (tj === 'Turbito'                         && f >= mesIni && f <= mesFin) tbMes += amt;
+      if (tj === 'PozoPower'                       && v.fecha === hoy) ppHoy += amt;
+      if (tj === 'LakiDey'                         && v.fecha === hoy) ldHoy += amt;
+      if ((tj === 'PozoPowerGo' || tj === 'Go')    && v.fecha === hoy) goHoy += amt;
+      if (tj === 'Elige 3'                         && v.fecha === hoy) e3Hoy += amt;
+      if (tj === 'Turbito'                         && v.fecha === hoy) tbHoy += amt;
     });
 
     // ── METAS DESDE PUNTOS.JSON ───────────────────────────────────
@@ -1726,14 +1749,16 @@
     document.getElementById('no-meta-note').style.display = hasMeta ? 'none' : '';
 
     // Metas por juego — 30 días planos
-    const metaDiariaPP   = parseFloat(store.meta_pp)      || 0;
-    const metaDiariaLD   = parseFloat(store.meta_lakidey) || 0;
-    const metaDiariaGO   = parseFloat(store.meta_ppgo)    || 0;
-    const metaDiariaSC   = (parseFloat(store.meta_sc_e3) || 0) + (parseFloat(store.meta_turbito) || 0);
+    const metaDiariaPP = parseFloat(store.meta_pp)       || 0;
+    const metaDiariaLD = parseFloat(store.meta_lakidey)  || 0;
+    const metaDiariaGO = parseFloat(store.meta_ppgo)     || 0;
+    const metaDiariaE3 = parseFloat(store.meta_sc_e3)    || 0;
+    const metaDiariaTB = parseFloat(store.meta_turbito)  || 0;
     const metaPP   = Math.round(metaDiariaPP * 30);
     const metaPPGO = Math.round(metaDiariaGO * 30);
     const metaLD   = Math.round(metaDiariaLD * 30);
-    const metaSC   = Math.round(metaDiariaSC * 30);
+    const metaE3   = Math.round(metaDiariaE3 * 30);
+    const metaTB   = Math.round(metaDiariaTB * 30);
 
     // Proyectado: ritmo actual × días del mes
     const hoyDia     = now.getDate();
@@ -1800,22 +1825,24 @@
     setBar(document.getElementById('sem-bar'), pctSem || 0, semCol);
 
     // Games — guardar estado y delegar render
-    const ppProy     = hoyDia > 0 && ppMes > 0 ? Math.round(ppMes / hoyDia * 30) : 0;
-    const ldProy     = hoyDia > 0 && ldMes > 0 ? Math.round(ldMes / hoyDia * 30) : 0;
-    const scProy     = hoyDia > 0 && scMes > 0 ? Math.round(scMes / hoyDia * 30) : 0;
-    const goProy     = hoyDia > 0 && goMes > 0 ? Math.round(goMes / hoyDia * 30) : 0;
-    const ppPctProy  = metaPP   > 0 ? Math.round(ppProy  / metaPP   * 100) : 0;
-    const ldPctProy  = metaLD   > 0 ? Math.round(ldProy  / metaLD   * 100) : 0;
-    const scPctProy  = metaSC   > 0 ? Math.round(scProy  / metaSC   * 100) : 0;
-    const goPctProy  = metaPPGO > 0 ? Math.round(goProy  / metaPPGO * 100) : 0;
+    const ppProy    = hoyDia > 0 && ppMes > 0 ? Math.round(ppMes / hoyDia * 30) : 0;
+    const ldProy    = hoyDia > 0 && ldMes > 0 ? Math.round(ldMes / hoyDia * 30) : 0;
+    const e3Proy    = hoyDia > 0 && e3Mes > 0 ? Math.round(e3Mes / hoyDia * 30) : 0;
+    const tbProy    = hoyDia > 0 && tbMes > 0 ? Math.round(tbMes / hoyDia * 30) : 0;
+    const goProy    = hoyDia > 0 && goMes > 0 ? Math.round(goMes / hoyDia * 30) : 0;
+    const ppPctProy = metaPP   > 0 ? Math.round(ppProy / metaPP   * 100) : 0;
+    const ldPctProy = metaLD   > 0 ? Math.round(ldProy / metaLD   * 100) : 0;
+    const e3PctProy = metaE3   > 0 ? Math.round(e3Proy / metaE3   * 100) : 0;
+    const tbPctProy = metaTB   > 0 ? Math.round(tbProy / metaTB   * 100) : 0;
+    const goPctProy = metaPPGO > 0 ? Math.round(goProy / metaPPGO * 100) : 0;
 
     _ds = {
-      ppMes, ldMes, scMes, goMes,
-      ppHoy, ldHoy, scHoy, goHoy,
-      ppProy, ldProy, scProy, goProy,
-      ppPctProy, ldPctProy, scPctProy, goPctProy,
-      metaPP, metaLD, metaSC, metaPPGO,
-      metaDiariaPP, metaDiariaLD, metaDiariaSC, metaDiariaGO,
+      ppMes, ldMes, e3Mes, tbMes, goMes,
+      ppHoy, ldHoy, e3Hoy, tbHoy, goHoy,
+      ppProy, ldProy, e3Proy, tbProy, goProy,
+      ppPctProy, ldPctProy, e3PctProy, tbPctProy, goPctProy,
+      metaPP, metaLD, metaE3, metaTB, metaPPGO,
+      metaDiariaPP, metaDiariaLD, metaDiariaE3, metaDiariaTB, metaDiariaGO,
       clusterNum: clusterNum(store),
       role: _ds.role || 'FT',
     };
@@ -1945,20 +1972,13 @@
     mc.style.border = `1px solid ${m.clr}40`;
   }
 
-  // ── Comisiones por cluster/rol ────────────────────────────────────────────
-  const COMISIONES = {
-    1: { FT:   { PP:210, PPGO:140, LD:210, SC:140 },
-         FTT1: { PP:150, PPGO:100, LD:150, SC:100 },
-         PT:   { PP:96,  PPGO:64,  LD:96,  SC:64  } },
-    2: { FT:   { PP:150, PPGO:100, LD:150, SC:100 },
-         FTT1: { PP:105, PPGO:70,  LD:105, SC:70  },
-         PT:   { PP:66,  PPGO:44,  LD:66,  SC:44  } },
-    3: { FT:   { PP:105, PPGO:70,  LD:105, SC:70  },
-         FTT1: { PP:75,  PPGO:50,  LD:75,  SC:50  },
-         PT:   { PP:48,  PPGO:32,  LD:48,  SC:32  } },
-    4: { FT:   { PP:75,  PPGO:50,  LD:75,  SC:50  },
-         FTT1: { PP:54,  PPGO:36,  LD:54,  SC:36  },
-         PT:   { PP:36,  PPGO:24,  LD:36,  SC:24  } },
+  // ── Comisiones por cluster/rol — monto total al 100% ─────────────────────
+  // Distribución: PP=30%, PPGO=20%, LD=15%, E3=20%, Turbito=15%
+  const CLUSTER_TOTALS = {
+    1: { FT: 800, FTT1: 580, PT: 380 },
+    2: { FT: 700, FTT1: 500, PT: 320 },
+    3: { FT: 500, FTT1: 350, PT: 220 },
+    4: { FT: 350, FTT1: 250, PT: 160 },
   };
 
   function commFactor(pct) {
@@ -1988,32 +2008,43 @@
   function renderGamesMode() {
     const d = _ds;
     const isDia = vistaMode === 'dia';
-    const ppV = isDia ? d.ppHoy : d.ppMes,  ldV = isDia ? d.ldHoy : d.ldMes;
-    const scV = isDia ? d.scHoy : d.scMes,  goV = isDia ? d.goHoy : d.goMes;
-    const ppM = isDia ? d.metaDiariaPP : d.metaPP,  ldM = isDia ? d.metaDiariaLD : d.metaLD;
-    const scM = isDia ? d.metaDiariaSC : d.metaSC,  goM = isDia ? d.metaDiariaGO : d.metaPPGO;
+    const ppV = isDia ? d.ppHoy : d.ppMes;
+    const ldV = isDia ? d.ldHoy : d.ldMes;
+    const e3V = isDia ? d.e3Hoy : d.e3Mes;
+    const tbV = isDia ? d.tbHoy : d.tbMes;
+    const goV = isDia ? d.goHoy : d.goMes;
+    const ppM = isDia ? d.metaDiariaPP : d.metaPP;
+    const ldM = isDia ? d.metaDiariaLD : d.metaLD;
+    const e3M = isDia ? d.metaDiariaE3 : d.metaE3;
+    const tbM = isDia ? d.metaDiariaTB : d.metaTB;
+    const goM = isDia ? d.metaDiariaGO : d.metaPPGO;
     document.getElementById('pp-val').textContent = fmtS(ppV);
     document.getElementById('ld-val').textContent = fmtS(ldV);
-    document.getElementById('sc-val').textContent = fmtS(scV);
+    document.getElementById('e3-val').textContent = fmtS(e3V);
+    document.getElementById('tb-val').textContent = fmtS(tbV);
     document.getElementById('go-val').textContent = fmtS(goV);
     document.getElementById('pp-meta').textContent = ppM > 0 ? fmtS(ppM) : '—';
     document.getElementById('ld-meta').textContent = ldM > 0 ? fmtS(ldM) : '—';
-    document.getElementById('sc-meta').textContent = scM > 0 ? fmtS(scM) : '—';
+    document.getElementById('e3-meta').textContent = e3M > 0 ? fmtS(e3M) : '—';
+    document.getElementById('tb-meta').textContent = tbM > 0 ? fmtS(tbM) : '—';
     document.getElementById('go-meta').textContent = goM > 0 ? fmtS(goM) : '—';
     setPct2('pp-pct', ppV, ppM); setPct2('ld-pct', ldV, ldM);
-    setPct2('sc-pct', scV, scM); setPct2('go-pct', goV, goM);
-    const maxG = Math.max(ppV, ldV, scV, goV, ppM||0, ldM||0, scM||0, goM||0,
+    setPct2('e3-pct', e3V, e3M); setPct2('tb-pct', tbV, tbM);
+    setPct2('go-pct', goV, goM);
+    const maxG = Math.max(ppV, ldV, e3V, tbV, goV, ppM||0, ldM||0, e3M||0, tbM||0, goM||0,
       isDia ? 0 : (d.ppProy||0), isDia ? 0 : (d.ldProy||0),
-      isDia ? 0 : (d.scProy||0), isDia ? 0 : (d.goProy||0), 1);
+      isDia ? 0 : (d.e3Proy||0), isDia ? 0 : (d.tbProy||0), isDia ? 0 : (d.goProy||0), 1);
     setBar(document.getElementById('pp-bar'), ppV / maxG * 100, 'var(--accent)');
     setBar(document.getElementById('ld-bar'), ldV / maxG * 100, '#3B9EE8');
-    setBar(document.getElementById('sc-bar'), scV / maxG * 100, '#16A34A');
+    setBar(document.getElementById('e3-bar'), e3V / maxG * 100, '#16A34A');
+    setBar(document.getElementById('tb-bar'), tbV / maxG * 100, '#7C3AED');
     setBar(document.getElementById('go-bar'), goV / maxG * 100, '#D97706');
     if (ppM > 0) setDot70(document.getElementById('pp-dot70'), document.getElementById('pp-lbl70'), ppM * 0.7 / maxG * 100);
     if (ldM > 0) setDot70(document.getElementById('ld-dot70'), document.getElementById('ld-lbl70'), ldM * 0.7 / maxG * 100);
-    if (scM > 0) setDot70(document.getElementById('sc-dot70'), document.getElementById('sc-lbl70'), scM * 0.7 / maxG * 100);
+    if (e3M > 0) setDot70(document.getElementById('e3-dot70'), document.getElementById('e3-lbl70'), e3M * 0.7 / maxG * 100);
+    if (tbM > 0) setDot70(document.getElementById('tb-dot70'), document.getElementById('tb-lbl70'), tbM * 0.7 / maxG * 100);
     if (goM > 0) setDot70(document.getElementById('go-dot70'), document.getElementById('go-lbl70'), goM * 0.7 / maxG * 100);
-    ['pp','ld','sc','go'].forEach(g => {
+    ['pp','ld','e3','tb','go'].forEach(g => {
       const pf = document.getElementById(g + '-proj-fill'), pl = document.getElementById(g + '-lbl-proj');
       const pv = !isDia ? (d[g + 'Proy'] || 0) : 0;
       if (pf) pf.style.width = pv > 0 ? (pv / maxG * 100) + '%' : '0';
@@ -2040,23 +2071,24 @@
   function renderComision() {
     const d = _ds;
     if (!d.clusterNum) return;
-    const role = d.role || 'FT';
-    const base = (COMISIONES[d.clusterNum] || COMISIONES[1])[role] || COMISIONES[1].FT;
+    const role     = d.role || 'FT';
+    const total100 = (CLUSTER_TOTALS[d.clusterNum] || CLUSTER_TOTALS[1])[role] || CLUSTER_TOTALS[1].FT;
     const badge = document.getElementById('comm-cluster-badge');
     if (badge) badge.textContent = 'Cluster ' + d.clusterNum;
     const games = [
-      { name:'PozoPower',       pct:d.ppPctProy,  base:base.PP   },
-      { name:'PP GO',           pct:d.goPctProy,  base:base.PPGO },
-      { name:'LakiDey',         pct:d.ldPctProy,  base:base.LD   },
-      { name:'SC/E3 + TURBITO', pct:d.scPctProy,  base:base.SC   },
+      { name:'PozoPower', pct:d.ppPctProy, base:Math.round(total100 * 0.30) },
+      { name:'PP GO',     pct:d.goPctProy, base:Math.round(total100 * 0.20) },
+      { name:'LakiDey',   pct:d.ldPctProy, base:Math.round(total100 * 0.15) },
+      { name:'SC/E3',     pct:d.e3PctProy, base:Math.round(total100 * 0.20) },
+      { name:'Turbito',   pct:d.tbPctProy, base:Math.round(total100 * 0.15) },
     ];
-    let total = 0;
+    let totalEst = 0;
     const PC = { ok:'#22C55E', warn:'#F59E0B', err:'#EF4444', dim:'var(--muted)' };
     const rows = games.map(g => {
       const pct    = g.pct || 0;
       const factor = commFactor(pct);
       const est    = Math.round(g.base * factor);
-      total += est;
+      totalEst += est;
       const pColor = pct >= 100 ? PC.ok : pct >= 70 ? PC.warn : pct > 0 ? PC.err : PC.dim;
       return `<div class="comm-row">
         <div class="comm-game">${g.name}</div>
@@ -2066,11 +2098,11 @@
         <div class="comm-est" style="color:${factor > 0 ? 'var(--text)' : PC.dim};font-weight:${factor > 0 ? '800' : '500'}">S/ ${est}</div>
       </div>`;
     }).join('');
-    const maxTotal = (base.PP + base.PPGO + base.LD + base.SC) * 1.2;
+    const maxTotal = total100 * 1.2;
     document.getElementById('comm-body').innerHTML = rows +
       `<div class="comm-total-row">
         <div style="font-size:12px;color:var(--muted)">Proyectado al ritmo actual</div>
-        <div class="comm-total-val">S/ ${Math.round(total).toLocaleString('es-PE')}</div>
+        <div class="comm-total-val">S/ ${Math.round(totalEst).toLocaleString('es-PE')}</div>
       </div>
       <div class="comm-max-row">
         <div style="font-size:11px;color:var(--muted)">Máximo posible (120%)</div>
