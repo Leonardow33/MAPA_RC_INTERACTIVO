@@ -56,6 +56,8 @@ jobs:
         if: steps.check_dia.outcome == 'success'
         run: |
           sudo rm -f /etc/apt/sources.list.d/google-chrome*.list
+          sudo sed -i '/dl\.google\.com/d' /etc/apt/sources.list
+          sudo rm -rf /var/lib/apt/lists/*
           sudo apt-get update -qq
           pip install playwright
           playwright install chromium --with-deps
