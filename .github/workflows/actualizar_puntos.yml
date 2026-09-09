@@ -24,6 +24,8 @@ jobs:
 
       - name: Instalar dependencias
         run: |
+          sudo rm -f /etc/apt/sources.list.d/google-chrome*.list
+          sudo apt-get update -qq
           pip install playwright pandas openpyxl
           playwright install chromium --with-deps
 

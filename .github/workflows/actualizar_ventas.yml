@@ -22,6 +22,8 @@ jobs:
 
       - name: Instalar Playwright + Chromium
         run: |
+          sudo rm -f /etc/apt/sources.list.d/google-chrome*.list
+          sudo apt-get update -qq
           pip install playwright
           playwright install chromium --with-deps
 
