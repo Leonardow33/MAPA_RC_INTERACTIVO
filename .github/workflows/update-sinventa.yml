@@ -23,8 +23,8 @@ jobs:
 
       - name: Instalar Playwright + Chromium
         run: |
-          sudo rm -f /etc/apt/sources.list.d/google-chrome*.list
-          sudo sed -i '/dl\.google\.com/d' /etc/apt/sources.list
+          sudo find /etc/apt/sources.list.d/ \( -name "*google*" -o -name "*chrome*" \) -delete 2>/dev/null || true
+          sudo sed -i '/dl\.google\.com/d' /etc/apt/sources.list 2>/dev/null || true
           sudo rm -rf /var/lib/apt/lists/*
           sudo apt-get update -qq
           pip install playwright
