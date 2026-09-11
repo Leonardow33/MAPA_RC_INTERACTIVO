@@ -1687,7 +1687,8 @@
     const clusterEl = document.getElementById('nav-cluster');
     if (clusterEl) {
       const cn = clusterNum(store);
-      clusterEl.textContent = 'Cluster ' + cn;
+      const CLUSTER_LABEL = { 1:'PREMIUM', 2:'1', 3:'2', 4:'3' };
+      clusterEl.textContent = 'Cluster ' + (CLUSTER_LABEL[cn] || cn);
       clusterEl.style.display = '';
     }
 
@@ -2074,7 +2075,8 @@
     const role     = d.role || 'FT';
     const total100 = (CLUSTER_TOTALS[d.clusterNum] || CLUSTER_TOTALS[1])[role] || CLUSTER_TOTALS[1].FT;
     const badge = document.getElementById('comm-cluster-badge');
-    if (badge) badge.textContent = 'Cluster ' + d.clusterNum;
+    const CLUSTER_LABEL = { 1:'PREMIUM', 2:'1', 3:'2', 4:'3' };
+    if (badge) badge.textContent = 'Cluster ' + (CLUSTER_LABEL[d.clusterNum] || d.clusterNum);
     const games = [
       { name:'PozoPower', pct:d.ppPctProy, base:Math.round(total100 * 0.30) },
       { name:'PP GO',     pct:d.goPctProy, base:Math.round(total100 * 0.20) },
