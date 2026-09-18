@@ -1440,18 +1440,25 @@
     const barW       = Math.min(pct || 0, 100);
     const m          = motivation(pct);
 
-    // Sin venta hoy (solo para RC)
+    // Sin venta hoy (RC y GZ)
     let sinVentaCount = 0;
-    if (role === 'rc') {
+    if (role === 'rc' || role === 'gz') {
       const hoyStr = isoDate();
       const conVentaIds = new Set(
         allVentas.filter(v => v.fecha === hoyStr && v.tipo_juego === 'TOTAL' && (v.total || 0) > 0)
                  .map(v => String(v.org_code))
       );
-      _rcAllStores      = stores;
-      _rcSinVentaStores = stores.filter(s => !conVentaIds.has(String(s.ID)));
-      _rcSinVentaActive = false;
-      sinVentaCount     = _rcSinVentaStores.length;
+      if (role === 'rc') {
+        _rcAllStores      = stores;
+        _rcSinVentaStores = stores.filter(s => !conVentaIds.has(String(s.ID)));
+        _rcSinVentaActive = false;
+        sinVentaCount     = _rcSinVentaStores.length;
+      } else {
+        _gzAllStores      = stores;
+        _gzSinVentaStores = stores.filter(s => !conVentaIds.has(String(s.ID)));
+        _gzSinVentaActive = false;
+        sinVentaCount     = _gzSinVentaStores.length;
+      }
     }
 
     summaryEl.style.display = '';
@@ -1487,6 +1494,7 @@
         </div>
         <button class="gz-det-btn" id="${role}-det-btn" onclick="toggleRoleDetail('${role}')">${role === 'gz' ? 'Ver Jefes Zonales y tiendas ▾' : role === 'supervisor' ? 'Ver RCs y tiendas ▾' : 'Ver detalle por tienda ▾'}</button>
         ${role === 'rc' ? `<button class="gz-det-btn" id="rc-sinventa-btn" onclick="filterRCSinVenta()" style="margin-top:6px;background:rgba(240,68,68,.06);border-color:rgba(240,68,68,.3);color:#F04444">🔴 Sin venta hoy · ${sinVentaCount} tienda${sinVentaCount !== 1 ? 's' : ''}</button>` : ''}
+        ${role === 'gz' ? `<button class="gz-det-btn" id="gz-sinventa-btn" onclick="filterGZSinVenta()" style="margin-top:6px;background:rgba(240,68,68,.06);border-color:rgba(240,68,68,.3);color:#F04444">🔴 Sin venta hoy · ${sinVentaCount} tienda${sinVentaCount !== 1 ? 's' : ''}</button>` : ''}
       </div>`;
   }
 
@@ -2402,6 +2410,30 @@
         ? `🔴 Mostrando sin venta (${_rcSinVentaStores.length}) · Ver todas`
         : `🔴 Sin venta hoy · ${_rcSinVentaStores.length} tienda${_rcSinVentaStores.length !== 1 ? 's' : ''}`;
       svBtn.style.background = _rcSinVentaActive ? 'rgba(240,68,68,.18)' : 'rgba(240,68,68,.06)';
+    }
+  }
+
+  // ── Filtro GZ: sin venta hoy ───────────────────────────────────────────────
+  let _gzAllStores      = [];
+  let _gzSinVentaStores = [];
+  let _gzSinVentaActive = false;
+
+  function filterGZSinVenta() {
+    _gzSinVentaActive = !_gzSinVentaActive;
+    if (_gzSinVentaActive) {
+      renderGzDetail(_gzSinVentaStores);
+    } else {
+      renderGzDetailGrouped(_gzAllStores);
+    }
+    document.getElementById('gz-stores-wrap').style.display = '';
+    const detBtn = document.getElementById('gz-det-btn');
+    if (detBtn) detBtn.textContent = 'Ocultar ▲';
+    const svBtn = document.getElementById('gz-sinventa-btn');
+    if (svBtn) {
+      svBtn.textContent = _gzSinVentaActive
+        ? `🔴 Mostrando sin venta (${_gzSinVentaStores.length}) · Ver todas`
+        : `🔴 Sin venta hoy · ${_gzSinVentaStores.length} tienda${_gzSinVentaStores.length !== 1 ? 's' : ''}`;
+      svBtn.style.background = _gzSinVentaActive ? 'rgba(240,68,68,.18)' : 'rgba(240,68,68,.06)';
     }
   }
 
