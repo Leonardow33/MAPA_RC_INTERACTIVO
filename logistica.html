@@ -406,7 +406,8 @@ td:last-child { border-right: none; }
                     <th data-key="estado"       onclick="ordenar(this)">Estado</th>
                     <th data-key="rc"           onclick="ordenar(this)">RC</th>
                     <th data-key="supervisor"   onclick="ordenar(this)">Supervisor</th>
-                    <th data-key="gz"           onclick="ordenar(this)">GZ</th>
+                    <th data-key="jz"           onclick="ordenar(this)">Supervisor Comercial</th>
+                    <th data-key="gz"           onclick="ordenar(this)">Jefe Comercial</th>
                     <th>Mapa</th>
                 </tr>
             </thead>
@@ -769,6 +770,7 @@ function render(resetSortUI = true) {
         <td>${(p.estado||'').toUpperCase()!=='CERRADO'?'<span class="badge ba">'+(p.estado||'ACTIVO')+'</span>':'<span class="badge bi">CERRADO</span>'}</td>
         <td>${x(p.rc||'-')}</td>
         <td>${x(p.supervisor||'-')}</td>
+        <td>${x(p.jz||'-')}</td>
         <td>${x(p.gz||'-')}</td>
         <td>${(p.lat&&p.lng)?`<a class="gps" href="https://maps.google.com/?q=${p.lat},${p.lng}" target="_blank" rel="noopener">📍 Ver</a>`:'-'}</td>
     </tr>`).join('');
@@ -783,8 +785,8 @@ function resetFiltros() {
     filtrar();
 }
 function exportarCSV() {
-    const cols  = ['ID','nombre','direccion','responsable','tipo','distrito','zona','zonal_tipo','estado','rc','supervisor','gz','lat','lng'];
-    const heads = ['Código','Nombre','Dirección','Partner','Tipo','Distrito','Zona','Zonal','Estado','RC','Supervisor','GZ','Latitud','Longitud'];
+    const cols  = ['ID','nombre','direccion','responsable','tipo','distrito','zona','zonal_tipo','estado','rc','supervisor','jz','gz','lat','lng'];
+    const heads = ['Código','Nombre','Dirección','Partner','Tipo','Distrito','Zona','Zonal','Estado','RC','Supervisor','Supervisor Comercial','Jefe Comercial','Latitud','Longitud'];
     const rows  = [heads, ...filt.map(p => cols.map(k => {
         const v = p[k] == null ? '' : String(p[k]);
         return v.search(/[,"\n]/) >= 0 ? `"${v.replace(/"/g,'""')}"` : v;
@@ -797,8 +799,8 @@ function exportarCSV() {
 }
 
 function exportarExcel() {
-    const cols  = ['ID','nombre','direccion','responsable','tipo','distrito','zona','zonal_tipo','estado','rc','supervisor','gz','lat','lng'];
-    const heads = ['Código','Nombre','Dirección','Partner','Tipo','Distrito','Zona','Zonal','Estado','RC','Supervisor','GZ','Latitud','Longitud'];
+    const cols  = ['ID','nombre','direccion','responsable','tipo','distrito','zona','zonal_tipo','estado','rc','supervisor','jz','gz','lat','lng'];
+    const heads = ['Código','Nombre','Dirección','Partner','Tipo','Distrito','Zona','Zonal','Estado','RC','Supervisor','Supervisor Comercial','Jefe Comercial','Latitud','Longitud'];
     const rows  = filt.map(p => cols.map(k => p[k] == null ? '' : p[k]));
 
     const wb = XLSX.utils.book_new();
