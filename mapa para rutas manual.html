@@ -374,7 +374,7 @@
             style="display:none;background:#c4897a;border:none;color:white;border-radius:6px;padding:4px 8px;font-size:12px;cursor:pointer;">&#x2715;</button>
         <div id="map-dist-sugg" style="display:none;position:absolute;top:100%;left:0;min-width:180px;background:white;border:1.5px solid #c4897a;border-radius:0 0 8px 8px;max-height:200px;overflow-y:auto;z-index:999;"></div>
     </div>
-    <button id="btnTop100Rutas" onclick="toggleTop100Rutas()" title="Top 100 Tambo julio">🏆 Top 100</button>
+    <button id="btnTop100Rutas" onclick="toggleTop100Rutas()" title="Top 300 Tambo">🏆 Top 300</button>
     <span id="map-total"></span>
 </div>
 
@@ -595,7 +595,7 @@ function renderDisplayPoints() {
     filtered.forEach(p => {
         const t100 = top100Map[String(p.ID)] || null;
         const top100Line = t100
-            ? "<div style='background:linear-gradient(135deg,#7a5800,#c9930a);color:#FFE680;font-weight:900;font-size:11px;padding:5px 10px;border-radius:4px;margin-bottom:6px;'>🏆 Rank #" + t100.rank + " · META S/ " + Math.round(t100.meta) + " diarios</div>"
+            ? "<div style='background:linear-gradient(135deg,#7a5800,#c9930a);color:#FFE680;font-weight:900;font-size:11px;padding:5px 10px;border-radius:4px;margin-bottom:6px;'>🏆 Top 300 · Rank #" + t100.rank + " · " + (t100.cohort||"") + "</div>"
             : "";
         const popup =
             top100Line +

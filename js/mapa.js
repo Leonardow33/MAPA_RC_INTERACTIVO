@@ -178,7 +178,7 @@ function makePinIcon(responsable, estado, dias, relocated = false, top100Info = 
 
     const pulseRing = top100Info ? `<div class="t100-ring"></div>` : '';
     const rankColor = top100Info
-        ? (top100Info.rank <= 10 ? '#FFD700' : top100Info.rank <= 50 ? '#C0C0C0' : '#CD7F32')
+        ? (top100Info.rank <= 10 ? '#FFD700' : top100Info.rank <= 100 ? '#C0C0C0' : '#CD7F32')
         : null;
     const rankBadge = top100Info
         ? `<div style="position:absolute;top:-7px;left:-7px;min-width:17px;height:17px;border-radius:9px;
@@ -479,8 +479,8 @@ function buildPopupContent(p) {
         ? `<div style="background:linear-gradient(135deg,#7a5800,#c9930a);padding:8px 12px;display:flex;align-items:center;gap:9px;border-radius:4px 4px 0 0">
              <span style="font-size:18px;line-height:1;flex-shrink:0">🏆</span>
              <div>
-               <div style="font-size:10px;font-weight:800;color:rgba(255,240,180,0.85);text-transform:uppercase;letter-spacing:0.5px">Top 100 Tambo · Rank #${p._top100.rank}</div>
-               <div style="font-size:12px;font-weight:900;color:#FFE680;margin-top:1px;letter-spacing:0.2px">META S/ ${Math.round(p._top100.meta)} diarios</div>
+               <div style="font-size:10px;font-weight:800;color:rgba(255,240,180,0.85);text-transform:uppercase;letter-spacing:0.5px">Top 300 Tambo · Rank #${p._top100.rank}</div>
+               <div style="font-size:12px;font-weight:900;color:#FFE680;margin-top:1px;letter-spacing:0.2px">${p._top100.cohort}</div>
              </div>
            </div>`
         : '';
