@@ -27,6 +27,12 @@ fetch(_BASE_DATA + 'top100_tambo.json?v=' + Date.now(), { cache: 'no-store' })
 function toggleTop100() {
     top100Active = !top100Active;
     document.getElementById('btnTop100').classList.toggle('activo', top100Active);
+    if (!top100Active && top300SinAgrup) {
+        top300SinAgrup = false;
+        const btn = document.getElementById('btnTop300Agrup');
+        if (btn) { btn.style.background = 'transparent'; btn.style.color = '#FFD700'; }
+        if (!sinAgrupacion) { markersLayerPlano.remove(); markersLayer.addTo(map); }
+    }
     updateFilters();
 }
 
@@ -72,6 +78,7 @@ let accuracyCircle = null;
 let routeLayer = null;
 let routeMarkersLayer = L.layerGroup().addTo(map);
 let sinAgrupacion = false;
+let top300SinAgrup = false;
 let markersLayer = L.markerClusterGroup({ chunkedLoading: true, maxClusterRadius: 45, removeOutsideVisibleBounds: false }).addTo(map);
 let markersLayerPlano = L.layerGroup();
 
@@ -80,7 +87,19 @@ function toggleSinAgrupacion() {
     const btn = document.getElementById('btnSinAgrup');
     btn.style.background = sinAgrupacion ? '#1565C0' : 'transparent';
     btn.style.color = sinAgrupacion ? 'white' : '#42A5F5';
-    if (sinAgrupacion) { markersLayer.remove(); markersLayerPlano.addTo(map); }
+    const useFlat = sinAgrupacion || top300SinAgrup;
+    if (useFlat) { markersLayer.remove(); markersLayerPlano.addTo(map); }
+    else { markersLayerPlano.remove(); markersLayer.addTo(map); }
+    updateFilters();
+}
+
+function toggleTop300Agrup() {
+    top300SinAgrup = !top300SinAgrup;
+    const btn = document.getElementById('btnTop300Agrup');
+    btn.style.background = top300SinAgrup ? '#c9930a' : 'transparent';
+    btn.style.color = top300SinAgrup ? '#fff' : '#FFD700';
+    const useFlat = sinAgrupacion || top300SinAgrup;
+    if (useFlat) { markersLayer.remove(); markersLayerPlano.addTo(map); }
     else { markersLayerPlano.remove(); markersLayer.addTo(map); }
     updateFilters();
 }
@@ -663,7 +682,7 @@ function reportarUbicacionMal(p, btn, msgEl, marker) {
 
 function renderMap(filterRC, filterDia, filterSup, filterPartner, filterZona, filterTipo) {
 
-    // Mostrar botón solo cuando hay RC seleccionado
+    // Mostrar botón sin agrupación cuando hay RC seleccionado
     const btnSA = document.getElementById('btnSinAgrup');
     if (filterRC && filterRC !== 'ALL') {
         btnSA.style.display = '';
@@ -672,11 +691,26 @@ function renderMap(filterRC, filterDia, filterSup, filterPartner, filterZona, fi
         if (sinAgrupacion) {
             sinAgrupacion = false;
             btnSA.style.background = 'transparent'; btnSA.style.color = '#42A5F5';
-            markersLayerPlano.remove(); markersLayer.addTo(map);
+            if (!top300SinAgrup) { markersLayerPlano.remove(); markersLayer.addTo(map); }
         }
     }
 
-    const activeLayer = sinAgrupacion ? markersLayerPlano : markersLayer;
+    // Mostrar botón sin agrupación Top 300 cuando está activo
+    const btnT3A = document.getElementById('btnTop300Agrup');
+    if (btnT3A) {
+        if (top100Active) {
+            btnT3A.style.display = '';
+        } else {
+            btnT3A.style.display = 'none';
+            if (top300SinAgrup) {
+                top300SinAgrup = false;
+                btnT3A.style.background = 'transparent'; btnT3A.style.color = '#FFD700';
+                if (!sinAgrupacion) { markersLayerPlano.remove(); markersLayer.addTo(map); }
+            }
+        }
+    }
+
+    const activeLayer = (sinAgrupacion || top300SinAgrup) ? markersLayerPlano : markersLayer;
     activeLayer.clearLayers();
 
     const _supsCA = new Set(allData
