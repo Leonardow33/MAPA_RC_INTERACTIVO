@@ -240,6 +240,66 @@
     .sc-arrow { color: var(--accent); font-size: 18px; flex-shrink: 0; line-height: 1; }
     .sc-count { font-size: 12px; color: var(--muted); text-align: center; margin-top: 10px; }
 
+    /* ── SUPERVISOR & KAM VIEWS ────────────────────────────── */
+    #role-panel-sup, #role-panel-kam { width: 100%; max-width: 480px; }
+    .sup-summary-card {
+      background: var(--surf); border: 1.5px solid var(--border); border-radius: 16px;
+      padding: 16px 18px; margin-bottom: 14px;
+    }
+    .sup-summary-title { font-size: 12px; font-weight: 700; text-transform: uppercase;
+      letter-spacing: .5px; color: var(--muted); margin-bottom: 10px; }
+    .sup-summary-row { display: flex; justify-content: space-between; align-items: center;
+      gap: 10px; margin-bottom: 8px; flex-wrap: wrap; }
+    .sup-stat { text-align: center; }
+    .sup-stat-val { font-size: 20px; font-weight: 800; color: var(--text); }
+    .sup-stat-lbl { font-size: 10px; color: var(--muted); margin-top: 1px; }
+    .sup-prog-bar { height: 8px; border-radius: 4px; background: var(--border);
+      overflow: hidden; margin: 8px 0 4px; }
+    .sup-prog-fill { height: 100%; border-radius: 4px; transition: width .4s; }
+    .sup-chips { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 6px; }
+    .sup-chip { font-size: 11px; font-weight: 600; padding: 3px 10px; border-radius: 20px; }
+    .sup-chip-ok  { background: rgba(21,101,192,.1); color: var(--accent); }
+    .sup-chip-low { background: rgba(240,68,68,.1);  color: var(--red); }
+    .sup-store-list { display: flex; flex-direction: column; gap: 6px;
+      max-height: 48vh; overflow-y: auto; }
+    .sup-store-row { background: var(--surf); border: 1.5px solid var(--border);
+      border-radius: 10px; padding: 10px 14px; }
+    .sup-store-row-top { display: flex; justify-content: space-between; align-items: center;
+      gap: 8px; cursor: pointer; }
+    .sup-store-name { font-size: 13px; font-weight: 600; flex: 1; }
+    .sup-store-pct  { font-size: 14px; font-weight: 800; flex-shrink: 0; }
+    .sup-mini-bar   { height: 5px; border-radius: 3px; background: var(--border);
+      overflow: hidden; margin-top: 5px; }
+    .sup-mini-fill  { height: 100%; border-radius: 3px; }
+    .sup-store-sub  { font-size: 10px; color: var(--muted); margin-top: 2px; }
+    /* KAM */
+    .kam-header { margin-bottom: 14px; }
+    .kam-chips  { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 12px; }
+    .kam-chip   { font-size: 12px; font-weight: 700; padding: 5px 14px; border-radius: 20px; }
+    .kam-chip-ok  { background: rgba(21,101,192,.12); color: var(--accent); }
+    .kam-chip-low { background: rgba(240,68,68,.12);  color: var(--red); }
+    .kam-chip-all { background: var(--surf2); color: var(--muted); border: 1px solid var(--border); }
+    .kam-dl-btn { width: 100%; padding: 11px; border-radius: 12px; border: 1.5px solid var(--accent);
+      background: transparent; color: var(--accent); font-size: 13px; font-weight: 700;
+      font-family: inherit; cursor: pointer; margin-bottom: 14px; transition: all .2s; }
+    .kam-dl-btn:hover { background: var(--accent); color: #fff; }
+    .kam-sup-filter { width: 100%; margin-bottom: 10px; }
+    .kam-table-wrap { overflow-x: auto; max-height: 52vh; overflow-y: auto; }
+    .kam-table { width: 100%; border-collapse: collapse; font-size: 12px; }
+    .kam-table th { background: var(--surf2); color: var(--muted); font-weight: 700;
+      font-size: 10px; text-transform: uppercase; letter-spacing: .4px;
+      padding: 7px 10px; text-align: left; position: sticky; top: 0; z-index: 1;
+      border-bottom: 1.5px solid var(--border); cursor: pointer; user-select: none; }
+    .kam-table th:hover { color: var(--text); }
+    .kam-table td { padding: 7px 10px; border-bottom: 1px solid var(--border);
+      vertical-align: middle; white-space: nowrap; }
+    .kam-table tr:last-child td { border-bottom: none; }
+    .kam-table tr:hover td { background: var(--surf2); }
+    .kam-pct { font-weight: 700; }
+    .kam-pct-ok  { color: var(--accent); }
+    .kam-pct-mid { color: #F59E0B; }
+    .kam-pct-low { color: var(--red); }
+
     /* ── DASHBOARD ──────────────────────────────────────────── */
     #dashboard { display: none; min-height: 100vh; }
 
@@ -1095,6 +1155,13 @@
   <h1 class="ss-heading">¿Cuál es tu tienda?</h1>
   <p class="ss-sub">Busca tu tienda para ver tu progreso</p>
 
+  <!-- Tabs de rol -->
+  <div class="role-tabs">
+    <button class="role-tab active" id="tab-tienda" onclick="setRole('tienda')">🏪 Tienda</button>
+    <button class="role-tab" id="tab-sup" onclick="setRole('sup')">👔 Supervisores</button>
+    <button class="role-tab" id="tab-kam" onclick="setRole('kam')">📊 KAM</button>
+  </div>
+
   <!-- Panel: Tienda -->
   <div id="role-panel-tienda">
     <div class="search-wrap">
@@ -1110,6 +1177,45 @@
     </div>
     <div class="store-card-list" id="tienda-store-list" style="margin-top:12px"></div>
     <p class="sc-count" id="tienda-count"></p>
+  </div>
+
+  <!-- Panel: Supervisores -->
+  <div id="role-panel-sup" style="display:none">
+    <select class="role-select" id="sup-select">
+      <option value="">— Selecciona un supervisor —</option>
+    </select>
+    <div id="sup-summary" style="display:none">
+      <div class="sup-summary-card" id="sup-summary-card"></div>
+      <div class="sup-store-list" id="sup-store-list"></div>
+    </div>
+  </div>
+
+  <!-- Panel: KAM -->
+  <div id="role-panel-kam" style="display:none">
+    <div class="kam-header">
+      <div class="kam-chips" id="kam-chips"></div>
+      <select class="role-select kam-sup-filter" id="kam-sup-filter">
+        <option value="">Todos los supervisores</option>
+      </select>
+      <button class="kam-dl-btn" onclick="downloadKAM()">⬇ Descargar cuadro de ventas (CSV)</button>
+    </div>
+    <div class="kam-table-wrap">
+      <table class="kam-table" id="kam-table">
+        <thead><tr>
+          <th onclick="kamSort('id')">Código</th>
+          <th onclick="kamSort('nombre')">Tienda</th>
+          <th onclick="kamSort('cn')">Cluster</th>
+          <th onclick="kamSort('gz')">Supervisor</th>
+          <th onclick="kamSort('totMes')">Ventas Mes</th>
+          <th onclick="kamSort('metaMes')">Meta Mes</th>
+          <th onclick="kamSort('pctMes')">% Avance</th>
+          <th onclick="kamSort('commFT')">Com. FT</th>
+          <th onclick="kamSort('commFTT1')">Com. FTT1</th>
+          <th onclick="kamSort('commPT')">Com. PT</th>
+        </tr></thead>
+        <tbody id="kam-tbody"></tbody>
+      </table>
+    </div>
   </div>
 
 </div>
@@ -1440,6 +1546,7 @@
     if (!selectorReady) {
       selectorReady = true;
       setupSearch();
+      setupSupView();
     }
     document.getElementById('search-input').focus();
   }
@@ -2164,6 +2271,200 @@
       document.getElementById('dev-pwd-input').focus();
     }
   }
+  // ── TABS ─────────────────────────────────────────────────────────────────
+  function setRole(role) {
+    ['tienda','sup','kam'].forEach(r => {
+      const tab = document.getElementById('tab-' + r);
+      const panel = document.getElementById('role-panel-' + r);
+      if (tab)   tab.classList.toggle('active', r === role);
+      if (panel) panel.style.display = r === role ? '' : 'none';
+    });
+    if (role === 'tienda') document.getElementById('search-input').focus();
+    if (role === 'kam')    renderKamView();
+  }
+
+  // ── HELPER: calcular datos de una tienda ─────────────────────────────────
+  function calcStoreData(store) {
+    const now    = new Date();
+    const hoy    = now.toISOString().slice(0,10);
+    const mesIni = new Date(now.getFullYear(), now.getMonth(), 1);
+    const mesFin = new Date(now.getFullYear(), now.getMonth()+1, 0, 23, 59, 59, 999);
+    const id     = String(store.ID);
+    let totMes = 0;
+    allVentas.forEach(v => {
+      if (String(v.org_code) !== id || !v.fecha || v.tipo_juego !== 'TOTAL') return;
+      const f = new Date(v.fecha + 'T12:00:00');
+      if (f >= mesIni && f <= mesFin) totMes += (v.total || 0);
+    });
+    const metaDiaria = parseFloat(store.meta_diaria) || 0;
+    const metaMes    = metaDiaria > 0 ? Math.round(metaDiaria * 30) : 0;
+    const hoyDia     = now.getDate();
+    const proyectado = hoyDia > 0 && totMes > 0 ? Math.round(totMes / hoyDia * 30) : 0;
+    const pctMes     = metaMes > 0 ? Math.round(totMes  / metaMes * 100) : null;
+    const pctProy    = metaMes > 0 ? Math.round(proyectado / metaMes * 100) : null;
+    const cn         = clusterNum(store);
+    const totales    = CLUSTER_TOTALS[cn] || CLUSTER_TOTALS[1];
+    const commFT     = Math.round(totales.FT   * commFactor(pctProy));
+    const commFTT1   = Math.round(totales.FTT1 * commFactor(pctProy));
+    const commPT     = Math.round(totales.PT   * commFactor(pctProy));
+    return { totMes, metaMes, pctMes, pctProy, cn, commFT, commFTT1, commPT, hasMeta: metaDiaria > 0 };
+  }
+
+  // ── VISTA SUPERVISORES ───────────────────────────────────────────────────
+  let _supViewReady = false;
+  function setupSupView() {
+    if (_supViewReady) return;
+    _supViewReady = true;
+    const gzSet = new Set();
+    allStores.forEach(p => { if (p.gz && p.gz !== 'SIN INFO') gzSet.add(p.gz); });
+    const sel = document.getElementById('sup-select');
+    [...gzSet].sort().forEach(gz => {
+      const o = document.createElement('option'); o.value = gz; o.textContent = gz;
+      sel.appendChild(o);
+    });
+    sel.addEventListener('change', () => renderSupView(sel.value));
+  }
+
+  function renderSupView(gz) {
+    const summary = document.getElementById('sup-summary');
+    if (!gz) { summary.style.display = 'none'; return; }
+    const stores = allStores.filter(p => p.gz === gz);
+    const data   = stores.map(s => ({ store: s, ...calcStoreData(s) }));
+    const totalV = data.reduce((a, d) => a + d.totMes, 0);
+    const totalM = data.reduce((a, d) => a + d.metaMes, 0);
+    const pctGlobal = totalM > 0 ? Math.round(totalV / totalM * 100) : null;
+    const okCount   = data.filter(d => d.pctMes !== null && d.pctMes >= 70).length;
+    const lowCount  = stores.length - okCount;
+    const col       = pctGlobal !== null ? pctColor(pctGlobal) : 'var(--muted)';
+    const CLAB      = {1:'PREMIUM',2:'1',3:'2',4:'3'};
+
+    document.getElementById('sup-summary-card').innerHTML = `
+      <div class="sup-summary-title">📋 ${gz}</div>
+      <div class="sup-summary-row">
+        <div class="sup-stat"><div class="sup-stat-val">${stores.length}</div><div class="sup-stat-lbl">Tiendas</div></div>
+        <div class="sup-stat"><div class="sup-stat-val" style="color:${col}">${pctGlobal !== null ? pctGlobal+'%' : '—'}</div><div class="sup-stat-lbl">Avance global</div></div>
+        <div class="sup-stat"><div class="sup-stat-val">${fmtS(totalV)}</div><div class="sup-stat-lbl">Ventas mes</div></div>
+        <div class="sup-stat"><div class="sup-stat-val">${fmtS(totalM)}</div><div class="sup-stat-lbl">Meta mes</div></div>
+      </div>
+      <div class="sup-prog-bar"><div class="sup-prog-fill" style="width:${Math.min(pctGlobal||0,100)}%;background:${col}"></div></div>
+      <div class="sup-chips">
+        <span class="sup-chip sup-chip-ok">✅ ${okCount} tienda${okCount!==1?'s':''} ≥ 70%</span>
+        <span class="sup-chip sup-chip-low">❌ ${lowCount} tienda${lowCount!==1?'s':''} &lt; 70%</span>
+      </div>`;
+
+    const sorted = [...data].sort((a,b) => (b.pctMes||0) - (a.pctMes||0));
+    document.getElementById('sup-store-list').innerHTML = sorted.map(d => {
+      const p = d.pctMes;
+      const col2 = p !== null ? pctColor(p) : 'var(--muted)';
+      const w = Math.min(p||0, 100);
+      const clLabel = 'Cluster ' + (CLAB[d.cn] || d.cn);
+      return `<div class="sup-store-row">
+        <div class="sup-store-row-top" onclick="renderDashboard(this.closest('.sup-store-row').__store)">
+          <div class="sup-store-name">${d.store.nombre}</div>
+          <div class="sup-store-pct" style="color:${col2}">${p !== null ? p+'%' : '—'}</div>
+        </div>
+        <div class="sup-store-sub">${d.store.ID} · ${clLabel} · ${fmtS(d.totMes)} / ${d.metaMes>0?fmtS(d.metaMes):'sin meta'}</div>
+        <div class="sup-mini-bar"><div class="sup-mini-fill" style="width:${w}%;background:${col2}"></div></div>
+      </div>`;
+    }).join('');
+    // Attach store refs for click
+    document.querySelectorAll('#sup-store-list .sup-store-row').forEach((el, i) => {
+      el.__store = sorted[i].store;
+    });
+    summary.style.display = '';
+  }
+
+  // ── VISTA KAM ────────────────────────────────────────────────────────────
+  let _kamData = [];
+  let _kamSort = { key: 'pctMes', dir: -1 };
+  let _kamSupFilter = '';
+
+  function renderKamView() {
+    const CLAB = {1:'PREMIUM',2:'1',3:'2',4:'3'};
+    // Build data once per session, then re-render on filter/sort
+    if (!_kamData.length) {
+      _kamData = allStores.map(s => {
+        const d = calcStoreData(s);
+        return { id: String(s.ID), nombre: s.nombre, cn: d.cn,
+                 gz: s.gz || '—', ...d };
+      });
+      // Populate KAM supervisor filter
+      const kamSupSel = document.getElementById('kam-sup-filter');
+      const gzSet = new Set(_kamData.map(d => d.gz).filter(g => g && g !== 'SIN INFO'));
+      [...gzSet].sort().forEach(gz => {
+        const o = document.createElement('option'); o.value = gz; o.textContent = gz;
+        kamSupSel.appendChild(o);
+      });
+      kamSupSel.addEventListener('change', () => { _kamSupFilter = kamSupSel.value; renderKamTable(); });
+    }
+    // Summary chips
+    const okCount  = _kamData.filter(d => d.pctMes !== null && d.pctMes >= 70).length;
+    const lowCount = _kamData.length - okCount;
+    document.getElementById('kam-chips').innerHTML =
+      `<span class="kam-chip kam-chip-all">📦 ${_kamData.length} tiendas</span>` +
+      `<span class="kam-chip kam-chip-ok">✅ ${okCount} llegaron a meta (≥70%)</span>` +
+      `<span class="kam-chip kam-chip-low">❌ ${lowCount} debajo de meta</span>`;
+    renderKamTable();
+  }
+
+  function renderKamTable() {
+    const CLAB = {1:'PREMIUM',2:'1',3:'2',4:'3'};
+    let rows = _kamData.filter(d => !_kamSupFilter || d.gz === _kamSupFilter);
+    rows = [...rows].sort((a,b) => {
+      const av = a[_kamSort.key] ?? -1, bv = b[_kamSort.key] ?? -1;
+      return typeof av === 'string' ? av.localeCompare(bv)*_kamSort.dir : (av-bv)*_kamSort.dir;
+    });
+    document.getElementById('kam-tbody').innerHTML = rows.map(d => {
+      const p = d.pctMes;
+      const cls = p === null ? '' : p >= 70 ? 'kam-pct-ok' : p >= 50 ? 'kam-pct-mid' : 'kam-pct-low';
+      return `<tr>
+        <td>${d.id}</td>
+        <td style="max-width:160px;white-space:normal;font-weight:600">${d.nombre}</td>
+        <td>${'Cluster '+(CLAB[d.cn]||d.cn)}</td>
+        <td style="max-width:120px;white-space:normal">${d.gz}</td>
+        <td style="font-variant-numeric:tabular-nums">${fmtS(d.totMes)}</td>
+        <td style="font-variant-numeric:tabular-nums">${d.metaMes>0?fmtS(d.metaMes):'—'}</td>
+        <td class="kam-pct ${cls}">${p!==null?p+'%':'—'}</td>
+        <td style="font-variant-numeric:tabular-nums">${d.commFT>0?fmtS(d.commFT):'—'}</td>
+        <td style="font-variant-numeric:tabular-nums">${d.commFTT1>0?fmtS(d.commFTT1):'—'}</td>
+        <td style="font-variant-numeric:tabular-nums">${d.commPT>0?fmtS(d.commPT):'—'}</td>
+      </tr>`;
+    }).join('');
+  }
+
+  function kamSort(key) {
+    if (_kamSort.key === key) _kamSort.dir *= -1;
+    else { _kamSort.key = key; _kamSort.dir = -1; }
+    renderKamTable();
+  }
+
+  function downloadKAM() {
+    const CLAB = {1:'PREMIUM',2:'1',3:'2',4:'3'};
+    const now   = new Date();
+    const mes   = now.toISOString().slice(0,7);
+    const rows  = _kamData.filter(d => !_kamSupFilter || d.gz === _kamSupFilter);
+    const headers = ['Código','Nombre','Cluster','Supervisor','Ventas Mes','Meta Mes','% Avance','Com FT','Com FTT1','Com PT'];
+    const lines   = rows.map(d => [
+      d.id,
+      '"' + d.nombre.replace(/"/g,'""') + '"',
+      'Cluster ' + (CLAB[d.cn]||d.cn),
+      '"' + (d.gz||'').replace(/"/g,'""') + '"',
+      d.totMes,
+      d.metaMes || '',
+      d.pctMes !== null ? d.pctMes + '%' : '',
+      d.commFT  || '',
+      d.commFTT1 || '',
+      d.commPT  || ''
+    ].join(','));
+    const csv  = '﻿' + headers.join(',') + '\n' + lines.join('\n');
+    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8' });
+    const a    = document.createElement('a');
+    a.href     = URL.createObjectURL(blob);
+    a.download = 'cencosud_kam_' + mes + '.csv';
+    a.click();
+    URL.revokeObjectURL(a.href);
+  }
+
   function devGetRows() {
     var nameMap = {};
     allStores.forEach(function(s){ nameMap[String(s.ID||'')] = s.nombre||''; });
