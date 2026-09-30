@@ -2315,11 +2315,11 @@
   function setupSupView() {
     if (_supViewReady) return;
     _supViewReady = true;
-    const gzSet = new Set();
-    allStores.forEach(p => { if (p.gz && p.gz !== 'SIN INFO') gzSet.add(p.gz); });
+    const supSet = new Set();
+    allStores.forEach(p => { if (p.supervisor && p.supervisor !== 'SIN INFO') supSet.add(p.supervisor); });
     const sel = document.getElementById('sup-select');
-    [...gzSet].sort().forEach(gz => {
-      const o = document.createElement('option'); o.value = gz; o.textContent = gz;
+    [...supSet].sort().forEach(sup => {
+      const o = document.createElement('option'); o.value = sup; o.textContent = sup;
       sel.appendChild(o);
     });
     sel.addEventListener('change', () => renderSupView(sel.value));
@@ -2328,7 +2328,7 @@
   function renderSupView(gz) {
     const summary = document.getElementById('sup-summary');
     if (!gz) { summary.style.display = 'none'; return; }
-    const stores = allStores.filter(p => p.gz === gz);
+    const stores = allStores.filter(p => p.supervisor === gz);
     const data   = stores.map(s => ({ store: s, ...calcStoreData(s) }));
     const totalV = data.reduce((a, d) => a + d.totMes, 0);
     const totalM = data.reduce((a, d) => a + d.metaMes, 0);
@@ -2386,11 +2386,11 @@
       _kamData = allStores.map(s => {
         const d = calcStoreData(s);
         return { id: String(s.ID), nombre: s.nombre, cn: d.cn,
-                 gz: s.gz || '—', ...d };
+                 gz: s.supervisor || '—', ...d };
       });
       // Populate KAM supervisor filter
       const kamSupSel = document.getElementById('kam-sup-filter');
-      const gzSet = new Set(_kamData.map(d => d.gz).filter(g => g && g !== 'SIN INFO'));
+      const gzSet = new Set(_kamData.map(d => d.gz).filter(g => g && g !== 'SIN INFO' && g !== '—'));
       [...gzSet].sort().forEach(gz => {
         const o = document.createElement('option'); o.value = gz; o.textContent = gz;
         kamSupSel.appendChild(o);
