@@ -455,93 +455,6 @@ function seleccionarDia(dia) {
     }
 }
 
-// ── POLÍGONO MANUAL ────────────────────────────────────────────────────────
-const ZONAS_URL = 'https://raw.githubusercontent.com/Leonardow33/MAPA_RC_INTERACTIVO/main/data/zonas-manuales.json';
-const zonasManuales = new L.FeatureGroup().addTo(map);
-let drawHandler = null;
-let dibujando = false;
-let colorDibujo = '#22c55e';
-let zonasData = []; // [{coords, color, label}]
-
-function agregarPoligonoVisual(z) {
-    const poly = L.polygon(z.coords, {
-        color: z.color || '#22c55e', weight: 2.5,
-        fillColor: z.color || '#22c55e', fillOpacity: 0.1
-    });
-    if (z.label) poly.bindTooltip(z.label, { permanent: true, direction: 'center', className: 'zona-label' });
-    poly.on('click', () => {
-        if (confirm(`¿Eliminar zona "${z.label || 'sin nombre'}"?`)) {
-            zonasManuales.removeLayer(poly);
-            zonasData = zonasData.filter(x => x !== z);
-            guardarZonasLocal();
-        }
-    });
-    zonasManuales.addLayer(poly);
-    return poly;
-}
-
-function guardarZonasLocal() {
-    localStorage.setItem('zonas_manuales_v2', JSON.stringify(zonasData));
-}
-
-function exportarZonas() {
-    const json = JSON.stringify(zonasData, null, 2);
-    const blob = new Blob([json], { type: 'application/json' });
-    const url  = URL.createObjectURL(blob);
-    const a    = document.createElement('a');
-    a.href = url; a.download = 'zonas-manuales.json'; a.click();
-    URL.revokeObjectURL(url);
-    alert('Guardado como zonas-manuales.json\nCópialo a la carpeta data/ y sube a GitHub para que aparezca en la web.');
-}
-
-// Cargar zonas: primero desde GitHub, luego completa con localStorage
-fetch(ZONAS_URL + '?v=' + Date.now())
-    .then(r => r.ok ? r.json() : [])
-    .catch(() => [])
-    .then(remote => {
-        const local = JSON.parse(localStorage.getItem('zonas_manuales_v2') || '[]');
-        // Unir: local tiene prioridad (puede tener más nuevas)
-        zonasData = local.length >= remote.length ? local : remote;
-        zonasData.forEach(z => agregarPoligonoVisual(z));
-    });
-
-function toggleDibujo() {
-    const btn = document.getElementById('btnDibujar');
-    if (dibujando) {
-        if (drawHandler) { drawHandler.disable(); drawHandler = null; }
-        dibujando = false;
-        btn.classList.remove('activo');
-        btn.textContent = '✏ Dibujar zona';
-        return;
-    }
-
-    // Pedir color y nombre antes de dibujar
-    const picker = document.getElementById('colorZona');
-    colorDibujo = picker ? picker.value : '#22c55e';
-
-    dibujando = true;
-    btn.classList.add('activo');
-    btn.textContent = '⏹ Cancelar';
-
-    drawHandler = new L.Draw.Polygon(map, {
-        shapeOptions: { color: colorDibujo, weight: 2.5, fillColor: colorDibujo, fillOpacity: 0.1 },
-        showArea: false, allowIntersection: false,
-    });
-    drawHandler.enable();
-
-    map.once(L.Draw.Event.CREATED, function(e) {
-        const coords = e.layer.getLatLngs()[0].map(ll => [ll.lat, ll.lng]);
-        const label  = prompt('Nombre para esta zona (opcional):') || '';
-        const z      = { coords, color: colorDibujo, label };
-        zonasData.push(z);
-        agregarPoligonoVisual(z);
-        guardarZonasLocal();
-        dibujando = false; drawHandler = null;
-        btn.classList.remove('activo');
-        btn.textContent = '✏ Dibujar zona';
-    });
-}
-// ──────────────────────────────────────────────────────────────────────────
 
 function onBuscar(q) {
     const box = document.getElementById('buscarSugerencias');
@@ -763,6 +676,78 @@ function descargarSugerenciasRC() {
         URL.revokeObjectURL(url);
 
         btn.textContent = '⬇ Sin asignar'; btn.disabled = false;
+    }, 50);
+}
+
+function descargarPuntosExcel() {
+    if (!allData.length) { alert('Cargando datos, intenta en un momento.'); return; }
+    const btn = document.getElementById('btnExportarZonas');
+    btn.textContent = '⏳ Exportando...'; btn.disabled = true;
+
+    setTimeout(() => {
+        const f = getFiltros();
+        let pts = allData.filter(p => matchFiltros(p, f));
+
+        // Si Top300 está activo, restringir a esas tiendas
+        if (top100Active) pts = pts.filter(p => top100Map[String(p.ID)]);
+
+        if (!pts.length) {
+            alert('No hay puntos visibles con los filtros actuales.');
+            btn.textContent = '⬇ Puntos (.xlsx)'; btn.disabled = false;
+            return;
+        }
+
+        // Pool de referencia para RC sugerido: todos los puntos con RC válido del dataset completo
+        const conRC = allData.filter(p => p.rc && p.rc !== 'SIN RC' && p.lat && p.lng);
+
+        function rcSugerido(p) {
+            if (p.rc && p.rc !== 'SIN RC') return '';
+            let mejor = null, minDist = Infinity;
+            const tipoP = (p.tipo || '').toUpperCase();
+            const pool  = conRC.filter(r => (r.tipo||'').toUpperCase() === tipoP);
+            const base  = pool.length ? pool : conRC;
+            base.forEach(r => {
+                const d = haversineKm(p.lat, p.lng, r.lat, r.lng);
+                if (d < minDist) { minDist = d; mejor = r; }
+            });
+            return mejor ? mejor.rc : '';
+        }
+
+        const cols = ['ID','Nombre','Tipo','Estado','RC','RC Sugerido','Supervisor','Responsable','Distrito','Zona','Lat','Lng','Días'];
+        const esc  = v => String(v ?? '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+        const numC = new Set([10, 11]); // Lat, Lng
+
+        const hdrXml  = cols.map(h => `<Cell ss:StyleID="H"><Data ss:Type="String">${esc(h)}</Data></Cell>`).join('');
+        const rowsXml = pts.map(p => {
+            const dias = (p.dias || []).filter(d => d !== 'SIN RUTA').join(' - ');
+            const row  = [
+                p.ID, p.nombre || '', p.tipo || '', p.estado || '',
+                p.rc || '', rcSugerido(p), p.supervisor || '', p.responsable || '',
+                p.distrito || '', p.zonal_tipo || '',
+                p.lat, p.lng, dias
+            ];
+            return '<Row>' + row.map((v, i) =>
+                `<Cell><Data ss:Type="${numC.has(i) ? 'Number' : 'String'}">${esc(v)}</Data></Cell>`
+            ).join('') + '</Row>';
+        }).join('');
+
+        const xml = `<?xml version="1.0"?><?mso-application progid="Excel.Sheet"?>` +
+            `<Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet" xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet">` +
+            `<Styles><Style ss:ID="H"><Font ss:Bold="1"/><Interior ss:Color="#D9E1F2" ss:Pattern="Solid"/></Style></Styles>` +
+            `<Worksheet ss:Name="Puntos"><Table><Row>${hdrXml}</Row>${rowsXml}</Table></Worksheet></Workbook>`;
+
+        const rcSufijo  = f.rc  !== 'ALL' ? `_${f.rc}`  : '';
+        const supSufijo = f.sup !== 'ALL' ? `_${f.sup}` : '';
+        const tipoSuf   = f.tipo !== 'ALL' ? `_${f.tipo.replace(/\s+/g,'_')}` : '';
+        const t300Suf   = top100Active ? '_Top300' : '';
+        const blob = new Blob([xml], { type: 'application/vnd.ms-excel' });
+        const url  = URL.createObjectURL(blob);
+        const a    = document.createElement('a');
+        a.href = url;
+        a.download = `Puntos_Zonas${t300Suf}${tipoSuf}${supSufijo}${rcSufijo}.xls`;
+        a.click();
+        URL.revokeObjectURL(url);
+        btn.textContent = '⬇ Puntos (.xlsx)'; btn.disabled = false;
     }, 50);
 }
 
