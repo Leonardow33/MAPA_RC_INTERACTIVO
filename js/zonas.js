@@ -36,6 +36,54 @@ function cambiarMapa(name) {
 const distritoLayer = L.layerGroup().addTo(map);
 const markerLayer   = L.layerGroup().addTo(map);
 
+// ── TOP 300 ───────────────────────────────────────────────────────────────
+let top100Map      = {};
+let top100Active   = false;
+let top300SinAgrup = false;
+const top300Cluster = L.markerClusterGroup({ chunkedLoading: true, maxClusterRadius: 45, removeOutsideVisibleBounds: false });
+const top300Plano   = L.layerGroup();
+
+fetch(_BASE_DATA + 'top100_tambo.json?v=' + Date.now(), { cache: 'no-store' })
+    .then(r => r.json())
+    .then(d => { top100Map = d; })
+    .catch(() => {});
+
+function toggleTop100Zonas() {
+    top100Active = !top100Active;
+    document.getElementById('btnTop300Zonas').classList.toggle('activo', top100Active);
+    if (!top100Active) {
+        top300Cluster.remove();
+        top300Plano.remove();
+        if (top300SinAgrup) {
+            top300SinAgrup = false;
+            const b = document.getElementById('btnTop300AgrupZonas');
+            b.style.background = 'transparent'; b.style.color = '#FFD700';
+        }
+        document.getElementById('btnTop300AgrupZonas').style.display = 'none';
+    }
+    render();
+}
+
+function toggleTop300AgrupZonas() {
+    top300SinAgrup = !top300SinAgrup;
+    const btn = document.getElementById('btnTop300AgrupZonas');
+    btn.style.background = top300SinAgrup ? '#c9930a' : 'transparent';
+    btn.style.color      = top300SinAgrup ? '#fff' : '#FFD700';
+    render();
+}
+
+function makeTop300Pin(rankColor, rank) {
+    const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="18" height="28" viewBox="0 0 18 28">
+        <path d="M9 0C4 0 0 4 0 9C0 16 9 28 9 28S18 16 18 9C18 4 14 0 9 0Z"
+              fill="${rankColor}" stroke="rgba(0,0,0,0.4)" stroke-width="1"/>
+        <circle cx="9" cy="10" r="4" fill="rgba(0,0,0,0.25)"/>
+        <text x="9" y="14" text-anchor="middle" font-family="sans-serif"
+              font-size="6" font-weight="900" fill="white">${rank <= 99 ? rank : '·'}</text>
+    </svg>`;
+    return L.divIcon({ className: '', html: svg, iconSize: [18, 28], iconAnchor: [9, 28], popupAnchor: [0, -28] });
+}
+// ─────────────────────────────────────────────────────────────────────────
+
 let allData      = [];
 
 function normalizePuntos(data) {
@@ -281,23 +329,51 @@ function render() {
     }
 
     // Puntos encima
-    visible.forEach(p => {
-        let color, dimmed;
-        if (viewMode === 'dia') {
-            color  = getDiaColor(p);
-            dimmed = diaSelected && !( (p.dias||[]).includes(diaSelected) || (p.dias||[]).includes(diaSelected.replace('É','E').replace('Á','A')) );
-        } else {
-            color  = getColor(p.rc);
-            dimmed = rcSelected && p.rc !== rcSelected;
-        }
-        const inactivo = (p.estado||'').toUpperCase() === 'INACTIVO';
-        const pinColor = inactivo ? '#78909C' : color;
-        const marker = L.marker([p.lat, p.lng], { icon: makePinIcon(pinColor, dimmed) });
-        marker.bindPopup(buildPopup(p), { maxWidth: 240 });
-        markerLayer.addLayer(marker);
-    });
+    top300Cluster.clearLayers();
+    top300Plano.clearLayers();
 
-    document.getElementById('contador').textContent = `${visible.length} puntos`;
+    if (top100Active) {
+        // Modo Top 300: solo mostrar las 300 tiendas del ranking
+        top300Cluster.remove();
+        top300Plano.remove();
+        const t300 = visible.filter(p => !!top100Map[String(p.ID)]);
+        const activeTop300 = top300SinAgrup ? top300Plano : top300Cluster;
+        t300.forEach(p => {
+            const t100 = top100Map[String(p.ID)];
+            const rankColor = t100.rank <= 10 ? '#FFD700' : t100.rank <= 100 ? '#C0C0C0' : '#CD7F32';
+            const popup = `<div>
+                <div style="background:linear-gradient(135deg,#7a5800,#c9930a);color:#FFE680;
+                     font-weight:900;font-size:11px;padding:5px 10px;border-radius:4px;margin-bottom:6px">
+                  🏆 Top 300 · Rank #${t100.rank} · ${t100.cohort||''}</div>` +
+                buildPopup(p) + '</div>';
+            const marker = L.marker([p.lat, p.lng], { icon: makeTop300Pin(rankColor, t100.rank) });
+            marker.bindPopup(popup, { maxWidth: 260 });
+            activeTop300.addLayer(marker);
+        });
+        activeTop300.addTo(map);
+        document.getElementById('btnTop300AgrupZonas').style.display = '';
+        document.getElementById('contador').textContent = `${t300.length} de ${visible.length} puntos (Top 300)`;
+    } else {
+        top300Cluster.remove();
+        top300Plano.remove();
+        document.getElementById('btnTop300AgrupZonas').style.display = 'none';
+        visible.forEach(p => {
+            let color, dimmed;
+            if (viewMode === 'dia') {
+                color  = getDiaColor(p);
+                dimmed = diaSelected && !( (p.dias||[]).includes(diaSelected) || (p.dias||[]).includes(diaSelected.replace('É','E').replace('Á','A')) );
+            } else {
+                color  = getColor(p.rc);
+                dimmed = rcSelected && p.rc !== rcSelected;
+            }
+            const inactivo = (p.estado||'').toUpperCase() === 'INACTIVO';
+            const pinColor = inactivo ? '#78909C' : color;
+            const marker = L.marker([p.lat, p.lng], { icon: makePinIcon(pinColor, dimmed) });
+            marker.bindPopup(buildPopup(p), { maxWidth: 240 });
+            markerLayer.addLayer(marker);
+        });
+        document.getElementById('contador').textContent = `${visible.length} puntos`;
+    }
 
     if (viewMode === 'dia') {
         const byDia = {};

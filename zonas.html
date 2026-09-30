@@ -7,6 +7,8 @@
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
 <link rel="stylesheet" href="https://unpkg.com/leaflet-draw@1.0.4/dist/leaflet.draw.css"/>
+<link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.css"/>
+<link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.Default.css"/>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/zonas.css">
 </head>
@@ -67,6 +69,8 @@
     <button id="btnReset" onclick="resetFiltros()">↺ Limpiar</button>
     <button id="btnMalUbicados" onclick="descargarMalUbicados()" title="Detecta y descarga tiendas cuya coordenada no coincide con su distrito asignado" style="display:none">⚠ Mal ubicados</button>
     <button id="btnSugerencias" onclick="descargarSugerenciasRC()" title="Descarga PDV sin RC con recomendación de RC por cercanía (respeta filtros activos)">⬇ Sin asignar</button>
+    <button id="btnTop300Zonas" onclick="toggleTop100Zonas()" title="Top 300 Tambo">🏆 Top 300</button>
+    <button id="btnTop300AgrupZonas" onclick="toggleTop300AgrupZonas()" title="Mostrar sin agrupación" style="display:none">⊙ Sin agrupación</button>
     <span id="contador">— puntos</span>
 </div>
 
@@ -106,6 +110,7 @@
 
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script src="https://unpkg.com/leaflet-draw@1.0.4/dist/leaflet.draw.js"></script>
+<script src="https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@turf/turf@6/turf.min.js"></script>
 <script src="js/zonas.js?v=20260710"></script>
 
