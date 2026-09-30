@@ -1197,7 +1197,7 @@
       <select class="role-select kam-sup-filter" id="kam-sup-filter">
         <option value="">Todos los supervisores</option>
       </select>
-      <button class="kam-dl-btn" onclick="downloadKAM()">⬇ Descargar cuadro de ventas (CSV)</button>
+      <button class="kam-dl-btn" onclick="downloadKAM()">⬇ Descargar cuadro de ventas (.xlsx)</button>
     </div>
     <div class="kam-table-wrap">
       <table class="kam-table" id="kam-table">
@@ -1551,13 +1551,7 @@
     document.getElementById('search-input').focus();
   }
 
-  function setRole(role) {
-    ['tienda','jz','gz'].forEach(r => {
-      document.getElementById('tab-' + r).classList.toggle('active', r === role);
-      document.getElementById('role-panel-' + r).style.display = r === role ? '' : 'none';
-    });
-    if (role === 'tienda') document.getElementById('search-input').focus();
-  }
+  // setRole movida más abajo (con auth)
 
   function setupRoleSelects() {
     const gzSet = new Set(), jzSet = new Set();
@@ -2271,16 +2265,58 @@
       document.getElementById('dev-pwd-input').focus();
     }
   }
-  // ── TABS ─────────────────────────────────────────────────────────────────
+  // ── AUTH POR ROL ─────────────────────────────────────────────────────────
+  const ROLE_PASS  = { sup: 'SUPCENCO1', kam: 'KAMCENCO1' };
+  const ROLE_LABEL = { sup: 'Supervisores', kam: 'KAM' };
+  const ROLE_ICON  = { sup: '👔', kam: '📊' };
+  let _roleUnlocked = { sup: false, kam: false };
+  let _pendingRole  = null;
+
   function setRole(role) {
+    if ((role === 'sup' || role === 'kam') && !_roleUnlocked[role]) {
+      _pendingRole = role;
+      const overlay = document.getElementById('role-auth-overlay');
+      document.getElementById('role-auth-icon').textContent  = ROLE_ICON[role];
+      document.getElementById('role-auth-title').textContent = ROLE_LABEL[role] + ' — Acceso restringido';
+      document.getElementById('role-auth-desc').textContent  = 'Esta sección es solo para supervisores y KAM. Ingresa tu contraseña para continuar.';
+      document.getElementById('role-auth-input').value       = '';
+      document.getElementById('role-auth-err').textContent   = '';
+      overlay.style.display = 'flex';
+      setTimeout(() => document.getElementById('role-auth-input').focus(), 50);
+      return;
+    }
+    _applyRole(role);
+  }
+
+  function _applyRole(role) {
     ['tienda','sup','kam'].forEach(r => {
-      const tab = document.getElementById('tab-' + r);
+      const tab   = document.getElementById('tab-' + r);
       const panel = document.getElementById('role-panel-' + r);
       if (tab)   tab.classList.toggle('active', r === role);
       if (panel) panel.style.display = r === role ? '' : 'none';
     });
     if (role === 'tienda') document.getElementById('search-input').focus();
     if (role === 'kam')    renderKamView();
+  }
+
+  function confirmRoleAuth() {
+    const val = document.getElementById('role-auth-input').value.trim();
+    if (val === ROLE_PASS[_pendingRole]) {
+      _roleUnlocked[_pendingRole] = true;
+      document.getElementById('role-auth-overlay').style.display = 'none';
+      _applyRole(_pendingRole);
+      _pendingRole = null;
+    } else {
+      const err = document.getElementById('role-auth-err');
+      err.textContent = 'Contraseña incorrecta. Inténtalo de nuevo.';
+      document.getElementById('role-auth-input').value = '';
+      document.getElementById('role-auth-input').focus();
+    }
+  }
+
+  function cancelRoleAuth() {
+    document.getElementById('role-auth-overlay').style.display = 'none';
+    _pendingRole = null;
   }
 
   // ── HELPER: calcular datos de una tienda ─────────────────────────────────
@@ -2440,29 +2476,60 @@
 
   function downloadKAM() {
     const CLAB = {1:'PREMIUM',2:'1',3:'2',4:'3'};
-    const now   = new Date();
-    const mes   = now.toISOString().slice(0,7);
-    const rows  = _kamData.filter(d => !_kamSupFilter || d.gz === _kamSupFilter);
-    const headers = ['Código','Nombre','Cluster','Supervisor','Ventas Mes','Meta Mes','% Avance','Com FT','Com FTT1','Com PT'];
-    const lines   = rows.map(d => [
+    const now  = new Date();
+    const mes  = now.toISOString().slice(0,7);
+    const rows = _kamData.filter(d => !_kamSupFilter || d.gz === _kamSupFilter)
+                         .sort((a,b) => (b.pctMes||0) - (a.pctMes||0));
+
+    const aoa  = [['Código','Nombre','Cluster','Supervisor','Ventas Mes (S/)','Meta Mes (S/)','% Avance','Com. FT (S/)','Com. FTT1 (S/)','Com. PT (S/)']];
+    rows.forEach(d => aoa.push([
       d.id,
-      '"' + d.nombre.replace(/"/g,'""') + '"',
+      d.nombre,
       'Cluster ' + (CLAB[d.cn]||d.cn),
-      '"' + (d.gz||'').replace(/"/g,'""') + '"',
+      d.gz || '',
       d.totMes,
       d.metaMes || '',
-      d.pctMes !== null ? d.pctMes + '%' : '',
-      d.commFT  || '',
+      d.pctMes !== null ? d.pctMes / 100 : '',
+      d.commFT   || '',
       d.commFTT1 || '',
-      d.commPT  || ''
-    ].join(','));
-    const csv  = '﻿' + headers.join(',') + '\n' + lines.join('\n');
-    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8' });
-    const a    = document.createElement('a');
-    a.href     = URL.createObjectURL(blob);
-    a.download = 'cencosud_kam_' + mes + '.csv';
-    a.click();
-    URL.revokeObjectURL(a.href);
+      d.commPT   || ''
+    ]));
+
+    const ws = XLSX.utils.aoa_to_sheet(aoa);
+
+    // Formato porcentaje en columna G (índice 6)
+    const pctFmt = '0%';
+    const moneyFmt = '#,##0';
+    rows.forEach((_, i) => {
+      const r = i + 2;
+      ['E','F','H','I','J'].forEach(col => {
+        const cell = ws[col + r];
+        if (cell) cell.z = moneyFmt;
+      });
+      const pctCell = ws['G' + r];
+      if (pctCell) pctCell.z = pctFmt;
+    });
+
+    // Ancho de columnas
+    ws['!cols'] = [
+      {wch:10},{wch:32},{wch:14},{wch:24},
+      {wch:16},{wch:16},{wch:11},
+      {wch:14},{wch:14},{wch:14}
+    ];
+
+    // Fila de totales
+    const totRow = rows.length + 2;
+    const totalV = rows.reduce((a,d)=>a+d.totMes,0);
+    const totalM = rows.reduce((a,d)=>a+(d.metaMes||0),0);
+    const pctGlob = totalM > 0 ? totalV/totalM : '';
+    XLSX.utils.sheet_add_aoa(ws, [['','TOTAL','','',totalV,totalM,pctGlob,'','','']], { origin: 'A' + totRow });
+    const totPctCell = ws['G' + totRow];
+    if (totPctCell && pctGlob !== '') totPctCell.z = pctFmt;
+    ['E','F'].forEach(col => { const c = ws[col+totRow]; if (c) c.z = moneyFmt; });
+
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, 'KAM Cencosud');
+    XLSX.writeFile(wb, 'cencosud_kam_' + mes + '.xlsx');
   }
 
   function devGetRows() {
@@ -2529,5 +2596,33 @@
     <button class="dev-close-btn" onclick="devClose()">Cerrar</button>
   </div>
 </div>
+
+<!-- Modal de autenticación por rol -->
+<div id="role-auth-overlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.55);z-index:9999;display:none;align-items:center;justify-content:center">
+  <div style="background:var(--surf);border:1.5px solid var(--border);border-radius:20px;padding:28px 28px 22px;width:320px;max-width:90vw;box-shadow:0 20px 60px rgba(0,0,0,0.25)">
+    <div style="font-size:20px;margin-bottom:4px" id="role-auth-icon">🔒</div>
+    <div style="font-size:16px;font-weight:800;color:var(--text);margin-bottom:4px" id="role-auth-title">Acceso restringido</div>
+    <div style="font-size:13px;color:var(--muted);margin-bottom:18px" id="role-auth-desc">Ingresa la contraseña para continuar</div>
+    <input id="role-auth-input" type="password" placeholder="Contraseña"
+      style="width:100%;padding:12px 16px;border:1.5px solid var(--border);border-radius:12px;
+             font-size:15px;font-family:inherit;background:var(--surf2);color:var(--text);outline:none;
+             letter-spacing:2px;margin-bottom:8px"
+      onkeydown="if(event.key==='Enter')confirmRoleAuth()"
+      oninput="document.getElementById('role-auth-err').textContent=''"/>
+    <div id="role-auth-err" style="font-size:12px;color:var(--red);min-height:16px;margin-bottom:12px"></div>
+    <div style="display:flex;gap:10px">
+      <button onclick="cancelRoleAuth()"
+        style="flex:1;padding:11px;border-radius:12px;border:1.5px solid var(--border);
+               background:transparent;color:var(--muted);font-size:14px;font-weight:600;
+               font-family:inherit;cursor:pointer">Cancelar</button>
+      <button onclick="confirmRoleAuth()"
+        style="flex:1;padding:11px;border-radius:12px;border:none;
+               background:var(--accent);color:#fff;font-size:14px;font-weight:700;
+               font-family:inherit;cursor:pointer">Continuar →</button>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
 </body>
 </html>
