@@ -2146,7 +2146,7 @@
     const hasMeta = store.meta_diaria != null && store.meta_diaria > 0;
     document.getElementById('no-meta-note').style.display = hasMeta ? 'none' : '';
 
-    const hoy      = isoToday();
+    const hoy      = isoDate();
     const now      = new Date();
     const mesIni   = new Date(now.getFullYear(), now.getMonth() - (isMesPrev ? 1 : 0), 1);
     const mesFin   = new Date(now.getFullYear(), now.getMonth() - (isMesPrev ? 1 : 0) + 1, 0, 23, 59, 59);
