@@ -552,6 +552,42 @@ jobs:
             done
           }
 
+      - name: Actualizar ventas en rama dist (GitHub Pages)
+        run: |
+          # Verificar si hubo cambios en los JSONs de ventas
+          if git diff HEAD~1 --name-only 2>/dev/null | grep -q "data/ventas"; then
+            git config user.name "github-actions[bot]"
+            git config user.email "github-actions[bot]@users.noreply.github.com"
+
+            # Guardar los JSONs actualizados en temp
+            mkdir -p /tmp/ventas_update
+            for f in data/ventas_mes.json data/ventas_raspes.json data/ventas_loteria.json \
+                      data/ventas_lakidey.json data/ventas_turbito.json \
+                      data/ventas_mes_prev.json data/ventas_raspes_prev.json \
+                      data/ventas_loteria_prev.json data/ventas_lakidey_prev.json \
+                      data/ventas_turbito_prev.json; do
+              [ -f "$f" ] && cp "$f" "/tmp/ventas_update/$(basename $f)"
+            done
+
+            # Cambiar a rama dist y actualizar solo los JSONs de ventas
+            git fetch origin dist
+            git checkout dist
+            for f in /tmp/ventas_update/*.json; do
+              cp "$f" "data/$(basename $f)" 2>/dev/null || true
+            done
+
+            git add data/ventas_*.json
+            git diff --cached --quiet || {
+              git commit -m "chore: sync ventas a dist [skip ci]"
+              git push origin dist
+            }
+
+            # Volver a main
+            git checkout main
+          else
+            echo "Sin cambios en ventas — dist no necesita update"
+          fi
+
       - name: Purgar caché jsDelivr ventas
         if: always()
         run: |
