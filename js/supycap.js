@@ -197,6 +197,15 @@ function repoblarNombre(rol) {
     sel.value = [...sel.options].some(o => o.value === prev) ? prev : "ALL";
 }
 
+function repoblarDistrito(base) {
+    const sel  = document.getElementById("distritoFilter");
+    const prev = sel.value;
+    sel.innerHTML = '<option value="ALL">Todos</option>';
+    [...new Set(base.map(p => p.distrito).filter(Boolean))].sort()
+        .forEach(d => { const o = document.createElement("option"); o.value = d; o.text = d; sel.appendChild(o); });
+    sel.value = [...sel.options].some(o => o.value === prev) ? prev : "ALL";
+}
+
 function repoblarPartner(nombre, rol) {
     const sel = document.getElementById("partnerFilter");
     const prev = sel.value;
@@ -437,7 +446,7 @@ function attachPopupOpen(marker, p) {
     });
 }
 
-function renderMap(filterNombre, filterDia, filterRol, filterPartner, filterZona) {
+function renderMap(filterNombre, filterDia, filterRol, filterPartner, filterZona, filterDistrito) {
     markersLayer.clearLayers();
     let filtered = allData.filter(p =>
         !(p.nombre || "").toUpperCase().includes("OFICINA ELOT") &&
@@ -445,7 +454,8 @@ function renderMap(filterNombre, filterDia, filterRol, filterPartner, filterZona
         (filterRol !== "supervisor"   || filterNombre === "ALL" || p.supervisor  === filterNombre) &&
         (filterRol !== "capacitador"  || filterNombre === "ALL" || filterZona !== "su_zona" || p.capacitador === filterNombre) &&
         (filterDia === "ALL" || (p.dias && p.dias.includes(filterDia))) &&
-        (filterPartner === "ALL" || !filterPartner || p.responsable === filterPartner)
+        (filterPartner === "ALL" || !filterPartner || p.responsable === filterPartner) &&
+        (filterDistrito === "ALL" || !filterDistrito || p.distrito === filterDistrito)
     );
     currentFiltered = filtered;
 
@@ -469,7 +479,8 @@ function saveFilters() {
         rol:      document.getElementById("rolFilter").value,
         nombre:   document.getElementById("nombreFilter").value,
         zona:     document.getElementById("zonaFilter").value,
-        partner:  document.getElementById("partnerFilter").value
+        partner:  document.getElementById("partnerFilter").value,
+        distrito: document.getElementById("distritoFilter").value
     }));
 }
 
@@ -495,6 +506,18 @@ function restoreFilters() {
     if (saved.partner && [...partnerSel.options].some(o => o.value === saved.partner))
         partnerSel.value = saved.partner;
 
+    // Repoblar y restaurar distrito
+    const campo2 = rol === "capacitador" ? "capacitador" : "supervisor";
+    const baseD = allData.filter(p =>
+        !(p.nombre || "").toUpperCase().includes("OFICINA ELOT") &&
+        (p.estado || "").toUpperCase() !== "CERRADO" &&
+        (nombreSel.value === "ALL" || p[campo2] === nombreSel.value) &&
+        (partnerSel.value === "ALL" || p.responsable === partnerSel.value)
+    );
+    repoblarDistrito(baseD);
+    const distritoSel = document.getElementById("distritoFilter");
+    if (saved.distrito && [...distritoSel.options].some(o => o.value === saved.distrito))
+        distritoSel.value = saved.distrito;
 }
 
 // FILTROS
@@ -515,6 +538,7 @@ document.getElementById("nombreFilter").addEventListener("change", function() {
 });
 document.getElementById("partnerFilter").addEventListener("change", updateFilters);
 document.getElementById("zonaFilter").addEventListener("change", updateFilters);
+document.getElementById("distritoFilter").addEventListener("change", updateFilters);
 
 function debounce(fn, ms) {
     let t;
@@ -523,18 +547,30 @@ function debounce(fn, ms) {
 const _debouncedRenderMap = debounce(renderMap, 150);
 
 function updateFilters() {
-    const nombre  = document.getElementById("nombreFilter").value;
-    const rol     = document.getElementById("rolFilter").value;
-    const partner = document.getElementById("partnerFilter").value;
-    const zona    = document.getElementById("zonaFilter").value;
-    const btnRuta = document.getElementById("btnRuta");
+    const nombre   = document.getElementById("nombreFilter").value;
+    const rol      = document.getElementById("rolFilter").value;
+    const partner  = document.getElementById("partnerFilter").value;
+    const zona     = document.getElementById("zonaFilter").value;
+    const distrito = document.getElementById("distritoFilter").value;
+    const btnRuta  = document.getElementById("btnRuta");
     if (nombre !== "ALL") {
         btnRuta.classList.add("activo");
     } else {
         btnRuta.classList.remove("activo");
         limpiarRuta();
     }
-    _debouncedRenderMap(nombre, "ALL", rol, partner, zona);
+
+    // Repoblar distritos según nombre+rol+partner activos
+    const campo = rol === "capacitador" ? "capacitador" : "supervisor";
+    const base = allData.filter(p =>
+        !(p.nombre || "").toUpperCase().includes("OFICINA ELOT") &&
+        (p.estado || "").toUpperCase() !== "CERRADO" &&
+        (nombre === "ALL" || p[campo] === nombre) &&
+        (partner === "ALL" || !partner || p.responsable === partner)
+    );
+    repoblarDistrito(base);
+
+    _debouncedRenderMap(nombre, "ALL", rol, partner, zona, distrito);
     if (sinVentaActive) renderSinVentaLayer();
     updateChips();
     saveFilters();
@@ -573,6 +609,13 @@ function updateChips() {
     if (partner !== "ALL") {
         makeChip("Partner", partner, () => {
             document.getElementById("partnerFilter").value = "ALL";
+            updateFilters();
+        });
+    }
+    const distrito = document.getElementById("distritoFilter").value;
+    if (distrito !== "ALL") {
+        makeChip("Distrito", distrito, () => {
+            document.getElementById("distritoFilter").value = "ALL";
             updateFilters();
         });
     }
