@@ -351,7 +351,7 @@ jobs:
       - name: Snapshot fin de mes (si aplica)
         run: |
           python3 - << 'PYEOF'
-          import json, sys
+          import json, sys, math
           from datetime import date, datetime, timedelta, timezone
           from pathlib import Path
 
@@ -454,7 +454,7 @@ jobs:
               if cb not in TIER_ORDER:
                   continue
               v      = ventas_map.get(pid, {'pp': 0, 'ld': 0, 'grand': 0})
-              pp_uni = v['pp'] // 5
+              pp_uni = math.ceil(v['pp'] / 5 - 1e-9)
               total  = v['grand']
               floor_idx = TIER_ORDER.index(cb)
               bono_tier = None
