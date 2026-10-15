@@ -1974,6 +1974,15 @@
       String(d.getDate()).padStart(2,'0');
   }
 
+  // Monto diario PozoPower = 12·promos(3x12) + 5·sueltos; se toma el mínimo de promos que cuadra
+  function ppTickets(monto) {
+    const A = Math.round(monto);
+    if (A <= 0) return 0;
+    const promos = (3 * A) % 5;
+    if (12 * promos > A) return Math.ceil(A / 5);
+    return 3 * promos + (A - 12 * promos) / 5;
+  }
+
   function juevesDe(d) {
     const j = new Date(d);
     j.setHours(0,0,0,0);
@@ -2157,6 +2166,7 @@
     let totHoy = 0, totSem = 0, totMes = 0, ppMes = 0, ldMes = 0, scMes = 0, goMes = 0, e3Mes = 0, turbitoMes = 0;
     let ppSem = 0, ldSem = 0, scSem = 0, goSem = 0, e3Sem = 0, turbitoSem = 0;
     let ppHoy = 0, ldHoy = 0, scHoy = 0, goHoy = 0, e3Hoy = 0, turbitoHoy = 0;
+    let ppTktSem = 0, ppTktHoy = 0;
 
     allVentas.forEach(v => {
       if (String(v.org_code) !== id || !v.fecha || v.tipo_juego !== 'TOTAL') return;
@@ -2193,12 +2203,12 @@
       if ((tj === 'PozoPowerGo' || tj === 'Go') && f >= mesIni && f <= mesFin) goMes += amt;
       if (tj === 'Elige 3'     && f >= mesIni && f <= mesFin) e3Mes      += amt;
       if (tj === 'Turbito'     && f >= mesIni && f <= mesFin) turbitoMes += amt;
-      if (tj === 'PozoPower'   && f >= semJue && f <= semMie) ppSem      += amt;
+      if (tj === 'PozoPower'   && f >= semJue && f <= semMie) { ppSem += amt; ppTktSem += ppTickets(amt); }
       if (tj === 'LakiDey'     && f >= semJue && f <= semMie) ldSem      += amt;
       if ((tj === 'PozoPowerGo' || tj === 'Go') && f >= semJue && f <= semMie) goSem += amt;
       if (tj === 'Elige 3'     && f >= semJue && f <= semMie) e3Sem      += amt;
       if (tj === 'Turbito'     && f >= semJue && f <= semMie) turbitoSem += amt;
-      if (tj === 'PozoPower'   && v.fecha === hoy) ppHoy      += amt;
+      if (tj === 'PozoPower'   && v.fecha === hoy) { ppHoy += amt; ppTktHoy += ppTickets(amt); }
       if (tj === 'LakiDey'     && v.fecha === hoy) ldHoy      += amt;
       if ((tj === 'PozoPowerGo' || tj === 'Go') && v.fecha === hoy) goHoy += amt;
       if (tj === 'Elige 3'     && v.fecha === hoy) e3Hoy      += amt;
@@ -2210,7 +2220,7 @@
       const f   = new Date(v.fecha + 'T12:00:00');
       const amt = v.total || 0;
       const tj  = v.tipo_juego || '';
-      if (tj === 'PozoPower'                    && f >= semJue && f <= semMie) ppSem      += amt;
+      if (tj === 'PozoPower'                    && f >= semJue && f <= semMie) { ppSem += amt; ppTktSem += ppTickets(amt); }
       if (tj === 'LakiDey'                      && f >= semJue && f <= semMie) ldSem      += amt;
       if ((tj === 'PozoPowerGo' || tj === 'Go') && f >= semJue && f <= semMie) goSem      += amt;
       if (tj === 'Elige 3'                      && f >= semJue && f <= semMie) e3Sem      += amt;
@@ -2279,6 +2289,7 @@
     _ds = {
       ppSem, ldSem, scSem, goSem, e3Sem, turbitoSem, otrosSem,
       ppHoy, ldHoy, scHoy, goHoy, e3Hoy, turbitoHoy, otrosHoy,
+      ppTktSem, ppTktHoy,
       metaPP, metaLD,
       metaDiariaPP, metaDiariaLD: metaLD / 7,
     };
@@ -2482,7 +2493,7 @@
     const metaLD = isDia ? (d.metaDiariaLD || 0) : (d.metaLD || 0);
     const maxG = Math.max(ppV, ldV, scV, goV, e3V, tbV, otV, metaPP, metaLD, 1);
 
-    document.getElementById('pp-val').textContent      = Math.ceil(ppV / 5 - 1e-9) + ' pp';
+    document.getElementById('pp-val').textContent      = (isDia ? d.ppTktHoy : d.ppTktSem) + ' pp';
     document.getElementById('ld-val').textContent      = fmtS(ldV);
     document.getElementById('sc-val').textContent      = fmtS(scV);
     document.getElementById('go-val').textContent      = fmtS(goV);

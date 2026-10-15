@@ -418,6 +418,16 @@ jobs:
               if vid not in ventas_map:
                   ventas_map[vid] = {'pp': 0, 'ld': 0, 'grand': 0}
               ventas_map[vid]['grand'] += v.get('total') or 0
+          # Monto diario PozoPower = 12·promos(3x12) + 5·sueltos; se toma el mínimo de promos que cuadra
+          def pp_tickets(monto):
+              a = round(monto)
+              if a <= 0:
+                  return 0
+              promos = (3 * a) % 5
+              if 12 * promos > a:
+                  return math.ceil(a / 5)
+              return 3 * promos + (a - 12 * promos) // 5
+
           # PozoPower y LakiDey
           loteria_rows = loteria_data.get('ventas') or loteria_data.get('body') or []
           import os as _os2
@@ -442,7 +452,9 @@ jobs:
                   ventas_map[vid] = {'pp': 0, 'ld': 0, 'grand': 0}
               tj  = v.get('tipo_juego', '')
               amt = v.get('total') or 0
-              if tj == 'PozoPower': ventas_map[vid]['pp'] += amt
+              if tj == 'PozoPower':
+                  ventas_map[vid]['pp'] += amt
+                  ventas_map[vid]['pp_tkt'] = ventas_map[vid].get('pp_tkt', 0) + pp_tickets(amt)
               if tj == 'LakiDey':  ventas_map[vid]['ld'] += amt
 
           TIER_ORDER  = ['A', 'B', 'C', 'D']
@@ -454,7 +466,7 @@ jobs:
               if cb not in TIER_ORDER:
                   continue
               v      = ventas_map.get(pid, {'pp': 0, 'ld': 0, 'grand': 0})
-              pp_uni = math.ceil(v['pp'] / 5 - 1e-9)
+              pp_uni = v.get('pp_tkt', 0)
               total  = v['grand']
               floor_idx = TIER_ORDER.index(cb)
               bono_tier = None
