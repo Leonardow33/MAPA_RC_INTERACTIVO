@@ -2221,7 +2221,7 @@
     const diasCalMes = 30;
     const diasCalSem = 7;
     const isTopD     = (store.cluster || '').toUpperCase() === 'TOP D';
-    const metaSem    = hasMeta ? (isTopD ? 320 : metaDiaria * diasCalSem) : null;
+    const metaSem    = hasMeta ? Math.round(metaDiaria * diasCalSem / 10) * 10 : null;
     const metaMes    = hasMeta ? metaDiaria * diasCalMes : null;
 
     const pctMes  = metaMes  ? Math.round(totMes  / metaMes  * 100) : null;
