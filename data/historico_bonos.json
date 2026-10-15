@@ -9933,6 +9933,204 @@
           "bono_admi": 30
         }
       ]
+    },
+    {
+      "jueves": "2026-10-08",
+      "miercoles": "2026-10-14",
+      "semana": "8 Oct – 14 Oct 2026",
+      "bono_num": 2,
+      "completa": true,
+      "total_ganadores": 14,
+      "por_cluster": {
+        "D": 1,
+        "B": 3,
+        "C": 5,
+        "A": 5
+      },
+      "ganadores": [
+        {
+          "id": "442",
+          "nombre": "DIAGONAL",
+          "cluster": "A",
+          "bono_tier": "A",
+          "rc": "JENNY LAPA",
+          "supervisor": "ESTEFANIA IPENZA",
+          "total": 622.0,
+          "pp": 41.0,
+          "ld": 232.0,
+          "bono_tienda": 100,
+          "bono_admi": 70
+        },
+        {
+          "id": "399",
+          "nombre": "PASTORSEVILLA",
+          "cluster": "B",
+          "bono_tier": "A",
+          "rc": "PIERINA OSCO",
+          "supervisor": "ESTEFANIA IPENZA",
+          "total": 762.0,
+          "pp": 45.0,
+          "ld": 163.0,
+          "bono_tienda": 100,
+          "bono_admi": 70
+        },
+        {
+          "id": "308",
+          "nombre": "PROCERES-SURCO",
+          "cluster": "B",
+          "bono_tier": "A",
+          "rc": "KIARA OSCO",
+          "supervisor": "ESTEFANIA IPENZA",
+          "total": 752.0,
+          "pp": 56.0,
+          "ld": 171.0,
+          "bono_tienda": 100,
+          "bono_admi": 70
+        },
+        {
+          "id": "721",
+          "nombre": "1DEMAYO-VES",
+          "cluster": "D",
+          "bono_tier": "C",
+          "rc": "KIARA OSCO",
+          "supervisor": "ESTEFANIA IPENZA",
+          "total": 461.0,
+          "pp": 21.0,
+          "ld": 118.0,
+          "bono_tienda": 50,
+          "bono_admi": 40
+        },
+        {
+          "id": "469",
+          "nombre": "AREQUIPA-C19",
+          "cluster": "D",
+          "bono_tier": "A",
+          "rc": "FLOR CHAFLOQUE",
+          "supervisor": "ESTEFANIA IPENZA",
+          "total": 652.0,
+          "pp": 47.0,
+          "ld": 276.0,
+          "bono_tienda": 100,
+          "bono_admi": 70
+        },
+        {
+          "id": "749",
+          "nombre": "ESMERALDA-CARABAYLLO",
+          "cluster": "D",
+          "bono_tier": "C",
+          "rc": "ALEXANDER RABELO",
+          "supervisor": "JORGE SANCHEZ",
+          "total": 467.0,
+          "pp": 21.0,
+          "ld": 106.0,
+          "bono_tienda": 50,
+          "bono_admi": 40
+        },
+        {
+          "id": "389",
+          "nombre": "LIMA-C10",
+          "cluster": "D",
+          "bono_tier": "C",
+          "rc": "PIERINA OSCO",
+          "supervisor": "ESTEFANIA IPENZA",
+          "total": 533.0,
+          "pp": 22.0,
+          "ld": 117.0,
+          "bono_tienda": 50,
+          "bono_admi": 40
+        },
+        {
+          "id": "3647",
+          "nombre": "LOSLAURELES-C1-SURCO",
+          "cluster": "D",
+          "bono_tier": "A",
+          "rc": "MAYRA CHAFLOQUE",
+          "supervisor": "ESTEFANIA IPENZA",
+          "total": 1085.0,
+          "pp": 46.0,
+          "ld": 182.0,
+          "bono_tienda": 100,
+          "bono_admi": 70
+        },
+        {
+          "id": "3967",
+          "nombre": "MODELO-C7-VES",
+          "cluster": "D",
+          "bono_tier": "C",
+          "rc": "KIARA OSCO",
+          "supervisor": "ESTEFANIA IPENZA",
+          "total": 480.0,
+          "pp": 22.0,
+          "ld": 104.0,
+          "bono_tienda": 50,
+          "bono_admi": 40
+        },
+        {
+          "id": "226",
+          "nombre": "REVOLUCION-C14",
+          "cluster": "D",
+          "bono_tier": "B",
+          "rc": "PIERINA OSCO",
+          "supervisor": "ESTEFANIA IPENZA",
+          "total": 612.0,
+          "pp": 30.0,
+          "ld": 142.0,
+          "bono_tienda": 70,
+          "bono_admi": 50
+        },
+        {
+          "id": "280",
+          "nombre": "SEVILLA",
+          "cluster": "D",
+          "bono_tier": "C",
+          "rc": "KIARA OSCO",
+          "supervisor": "ESTEFANIA IPENZA",
+          "total": 527.0,
+          "pp": 22.0,
+          "ld": 103.0,
+          "bono_tienda": 50,
+          "bono_admi": 40
+        },
+        {
+          "id": "396",
+          "nombre": "SOLIDARIDAD",
+          "cluster": "D",
+          "bono_tier": "B",
+          "rc": "PIERINA OSCO",
+          "supervisor": "ESTEFANIA IPENZA",
+          "total": 551.0,
+          "pp": 32.0,
+          "ld": 134.0,
+          "bono_tienda": 70,
+          "bono_admi": 50
+        },
+        {
+          "id": "129",
+          "nombre": "TDA CANDAMO",
+          "cluster": "D",
+          "bono_tier": "D",
+          "rc": "FLOR CHAFLOQUE",
+          "supervisor": "ESTEFANIA IPENZA",
+          "total": 330.0,
+          "pp": 28.0,
+          "ld": 130.0,
+          "bono_tienda": 40,
+          "bono_admi": 30
+        },
+        {
+          "id": "153",
+          "nombre": "TRIGAL",
+          "cluster": "D",
+          "bono_tier": "B",
+          "rc": "MAYRA CHAFLOQUE",
+          "supervisor": "ESTEFANIA IPENZA",
+          "total": 608.0,
+          "pp": 54.0,
+          "ld": 168.0,
+          "bono_tienda": 70,
+          "bono_admi": 50
+        }
+      ]
     }
   ]
 }
