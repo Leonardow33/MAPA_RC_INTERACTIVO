@@ -595,6 +595,162 @@ function haversineKm(lat1, lng1, lat2, lng2) {
     return R * 2 * Math.asin(Math.sqrt(a));
 }
 
+// ── Plan de días sugeridos por RC (cercanía + carga por día) ──────────────
+// Miércoles y sábado hay impulso: su grupo recibe 60% de la carga de los otros
+const GRUPOS_PLAN = [
+    { dias: ['LUNES', 'JUEVES'],      peso: 2 },
+    { dias: ['MARTES', 'VIERNES'],    peso: 2 },
+    { dias: ['MIÉRCOLES', 'SÁBADO'],  peso: 1.2 },
+];
+const normDia   = d => String(d || '').trim().toUpperCase().normalize('NFD').replace(/[̀-ͯ]/g, '');
+const DIA_CANON = Object.fromEntries(DIAS_ORDEN.map(d => [normDia(d), d]));
+const diasActuales = p => [...new Set((p.dias || []).map(d => DIA_CANON[normDia(d)]).filter(Boolean))];
+
+function rcMasCercano(p, conRC) {
+    const tipoP = (p.tipo || '').toUpperCase();
+    const pool  = conRC.filter(r => (r.tipo || '').toUpperCase() === tipoP);
+    let mejor = null, minDist = Infinity;
+    (pool.length ? pool : conRC).forEach(r => {
+        const d = haversineKm(p.lat, p.lng, r.lat, r.lng);
+        if (d < minDist) { minDist = d; mejor = r; }
+    });
+    return mejor ? mejor.rc : '';
+}
+
+// Ruta cerrada por vecino más cercano + mejora 2-opt; devuelve índices en orden de visita
+function rutaCercania(pts) {
+    const n = pts.length;
+    if (n <= 3) return pts.map((_, i) => i);
+    const D = pts.map(a => pts.map(b => haversineKm(a.lat, a.lng, b.lat, b.lng)));
+    const usado = new Array(n).fill(false);
+    const t = [0]; usado[0] = true;
+    for (let k = 1; k < n; k++) {
+        const u = t[t.length - 1];
+        let b = -1, bd = Infinity;
+        for (let v = 0; v < n; v++) if (!usado[v] && D[u][v] < bd) { bd = D[u][v]; b = v; }
+        usado[b] = true; t.push(b);
+    }
+    let mejora = true, it = 0;
+    while (mejora && it++ < 50) {
+        mejora = false;
+        for (let i = 0; i < n - 1; i++) {
+            for (let j = i + 2; j < n; j++) {
+                const a = t[i], b = t[i + 1], c = t[j], d = t[(j + 1) % n];
+                if (a === d) continue;
+                if (D[a][c] + D[b][d] < D[a][b] + D[c][d] - 1e-9) {
+                    for (let x = i + 1, y = j; x < y; x++, y--) { const tmp = t[x]; t[x] = t[y]; t[y] = tmp; }
+                    mejora = true;
+                }
+            }
+        }
+    }
+    return t;
+}
+
+// Corta la ruta en 3 tramos contiguos (uno por grupo de días) proporcionales al peso del grupo.
+// Puntos de 2 visitas toman el par completo; los de 1 visita se reparten en mitades contiguas.
+function repartirRuta(orden, mov, perm, totalVisitas) {
+    const pesoTot = GRUPOS_PLAN.reduce((s, g) => s + g.peso, 0);
+    const cortes = []; let acc = 0;
+    perm.forEach(gi => { acc += GRUPOS_PLAN[gi].peso; cortes.push(totalVisitas * acc / pesoTot); });
+    const segs = [[], [], []];
+    let cum = 0, s = 0;
+    orden.forEach(i => {
+        const f = mov[i].frec;
+        while (s < 2 && cum + f / 2 > cortes[s]) s++;
+        segs[s].push(i); cum += f;
+    });
+
+    const asign = new Array(mov.length);
+    let score = 0;
+    segs.forEach((seg, k) => {
+        const g = GRUPOS_PLAN[perm[k]];
+        const sueltos = seg.filter(i => mov[i].frec === 1);
+        const mitad = Math.ceil(sueltos.length / 2);
+        let mejor = null;
+        for (const [d1, d2] of [[g.dias[0], g.dias[1]], [g.dias[1], g.dias[0]]]) {
+            let sc = 0; const dia = {};
+            sueltos.forEach((i, j) => { dia[i] = j < mitad ? d1 : d2; if (mov[i].act.includes(dia[i])) sc++; });
+            if (!mejor || sc > mejor.sc) mejor = { sc, dia };
+        }
+        score += mejor.sc;
+        const contador = {};
+        seg.forEach(i => {
+            const dias = mov[i].frec === 2 ? g.dias.slice() : [mejor.dia[i]];
+            if (mov[i].frec === 2) score += dias.filter(d => mov[i].act.includes(d)).length;
+            const orden = dias.map(d => (contador[d] = (contador[d] || 0) + 1));
+            asign[i] = { dias, orden };
+        });
+    });
+    return { score, asign };
+}
+
+function planificarRC(rc, pts, plan) {
+    const mov = [];
+    pts.forEach(p => {
+        const act = diasActuales(p);
+        if (act.length >= 3) plan.set(String(p.ID), { rc, dias: act, orden: [], fijo: true });
+        else mov.push({ p, act, frec: act.length === 2 ? 2 : 1 });
+    });
+    const n = mov.length;
+    if (!n) return;
+    const ruta  = rutaCercania(mov.map(m => m.p));
+    const total = mov.reduce((s, m) => s + m.frec, 0);
+    const perms = [[0,1,2],[0,2,1],[1,0,2],[1,2,0],[2,0,1],[2,1,0]];
+    const paso  = Math.max(1, Math.floor(n / 24));
+    let mejor = null;
+    // Se prueban varios puntos de corte y órdenes de grupos; gana el que más respeta los días actuales
+    for (let r = 0; r < n; r += paso) {
+        const orden = ruta.slice(r).concat(ruta.slice(0, r));
+        for (const perm of perms) {
+            const sol = repartirRuta(orden, mov, perm, total);
+            if (!mejor || sol.score > mejor.score) mejor = sol;
+        }
+    }
+    mejor.asign.forEach((a, i) => plan.set(String(mov[i].p.ID), { rc, ...a }));
+}
+
+let _planDias = null;
+function getPlanDias() {
+    if (_planDias) return _planDias;
+    const plan  = new Map();
+    const conRC = allData.filter(p => p.rc && p.rc !== 'SIN RC' && p.lat && p.lng);
+    const rcDe  = p => (p.rc && p.rc !== 'SIN RC') ? p.rc : rcMasCercano(p, conRC);
+
+    const porRC = {};
+    allData.forEach(p => {
+        if ((p.estado || '').toUpperCase() !== 'ACTIVO' || !p.lat || !p.lng) return;
+        const rc = rcDe(p);
+        if (rc) (porRC[rc] = porRC[rc] || []).push(p);
+    });
+    Object.entries(porRC).forEach(([rc, pts]) => planificarRC(rc, pts, plan));
+
+    // Puntos no activos: sin carga, toman el día del punto activo más cercano de su RC
+    allData.forEach(p => {
+        if (plan.has(String(p.ID)) || !p.lat || !p.lng) return;
+        const rc = rcDe(p), pool = porRC[rc];
+        if (!pool) return;
+        let ref = null, md = Infinity;
+        pool.forEach(r => { const d = haversineKm(p.lat, p.lng, r.lat, r.lng); if (d < md) { md = d; ref = r; } });
+        const a = ref && plan.get(String(ref.ID));
+        if (a) plan.set(String(p.ID), { rc, dias: [a.dias[0]], orden: [], ref: true });
+    });
+    return (_planDias = plan);
+}
+
+function diaSugeridoCols(p) {
+    const a = getPlanDias().get(String(p.ID));
+    if (!a) return ['', '', ''];
+    const dias  = a.dias.join(' - ');
+    const orden = a.orden.length ? a.orden.join(' / ') : '';
+    const act   = diasActuales(p);
+    const cambio = a.fijo ? 'Fijo (3+ visitas)'
+                 : a.ref  ? 'Ref. punto activo cercano'
+                 : !act.length ? 'Nuevo (sin día)'
+                 : (act.length === a.dias.length && a.dias.every(d => act.includes(d))) ? 'No' : 'Sí';
+    return [dias, orden, cambio];
+}
+
 function descargarSugerenciasRC() {
     if (!allData.length) { alert('Cargando datos, intenta en un momento.'); return; }
     const btn = document.getElementById('btnSugerencias');
@@ -617,7 +773,8 @@ function descargarSugerenciasRC() {
         }
 
         const cols = ['ID','Nombre','Tipo','Distrito','Zona','RC Sugerido','Código RC','Supervisor',
-                      'Capacitador','Días Visita (ref)','Tienda Referencia','Distancia km','Lat','Lng'];
+                      'Capacitador','Días Visita (ref)','Tienda Referencia','Distancia km','Lat','Lng',
+                      'Día Sugerido','Orden Sugerido','Cambia Día'];
         const data = [];
 
         sinRC.forEach(p => {
@@ -636,7 +793,8 @@ function descargarSugerenciasRC() {
             data.push([
                 p.ID, p.nombre, p.tipo || '', p.distrito || '', p.zonal_tipo || '',
                 mejor.rc, mejor.rc_codigo || '', mejor.supervisor || '', mejor.capacitador || '',
-                dias, mejor.nombre, parseFloat(minDist.toFixed(2)), p.lat, p.lng
+                dias, mejor.nombre, parseFloat(minDist.toFixed(2)), p.lat, p.lng,
+                ...diaSugeridoCols(p)
             ]);
         });
 
@@ -679,6 +837,29 @@ function descargarSugerenciasRC() {
     }, 50);
 }
 
+// Hoja resumen: visitas por día y RC (actual vs sugerido), solo puntos activos
+function resumenDiasXml(pts, esc) {
+    const plan = getPlanDias(), filas = {};
+    pts.forEach(p => {
+        if ((p.estado || '').toUpperCase() !== 'ACTIVO') return;
+        const a = plan.get(String(p.ID));
+        const rc = (a && a.rc) || p.rc || 'SIN RC';
+        const f = filas[rc] = filas[rc] || { act: {}, sug: {} };
+        diasActuales(p).forEach(d => f.act[d] = (f.act[d] || 0) + 1);
+        if (a) a.dias.forEach(d => f.sug[d] = (f.sug[d] || 0) + 1);
+    });
+    const cel = (v, t) => `<Cell><Data ss:Type="${t}">${esc(v)}</Data></Cell>`;
+    const hdr = ['RC', ...DIAS_ORDEN.map(d => d + ' actual'), ...DIAS_ORDEN.map(d => d + ' sugerido')]
+        .map(h => `<Cell ss:StyleID="H"><Data ss:Type="String">${esc(h)}</Data></Cell>`).join('');
+    const rows = Object.keys(filas).sort().map(rc => {
+        const f = filas[rc];
+        return '<Row>' + cel(rc, 'String') +
+            DIAS_ORDEN.map(d => cel(f.act[d] || 0, 'Number')).join('') +
+            DIAS_ORDEN.map(d => cel(f.sug[d] || 0, 'Number')).join('') + '</Row>';
+    }).join('');
+    return `<Worksheet ss:Name="Resumen Días"><Table><Row>${hdr}</Row>${rows}</Table></Worksheet>`;
+}
+
 function descargarPuntosExcel() {
     if (!allData.length) { alert('Cargando datos, intenta en un momento.'); return; }
     const btn = document.getElementById('btnExportarZonas');
@@ -713,7 +894,8 @@ function descargarPuntosExcel() {
             return mejor ? mejor.rc : '';
         }
 
-        const cols = ['ID','Nombre','Tipo','Estado','RC','RC Sugerido','Supervisor','Responsable','Distrito','Zona','Lat','Lng','Días'];
+        const cols = ['ID','Nombre','Tipo','Estado','RC','RC Sugerido','Supervisor','Responsable','Distrito','Zona','Lat','Lng','Días',
+                      'Día Sugerido','Orden Sugerido','Cambia Día'];
         const esc  = v => String(v ?? '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
         const numC = new Set([10, 11]); // Lat, Lng
 
@@ -724,7 +906,8 @@ function descargarPuntosExcel() {
                 p.ID, p.nombre || '', p.tipo || '', p.estado || '',
                 p.rc || '', rcSugerido(p), p.supervisor || '', p.responsable || '',
                 p.distrito || '', p.zonal_tipo || '',
-                p.lat, p.lng, dias
+                p.lat, p.lng, dias,
+                ...diaSugeridoCols(p)
             ];
             return '<Row>' + row.map((v, i) =>
                 `<Cell><Data ss:Type="${numC.has(i) ? 'Number' : 'String'}">${esc(v)}</Data></Cell>`
@@ -734,7 +917,8 @@ function descargarPuntosExcel() {
         const xml = `<?xml version="1.0"?><?mso-application progid="Excel.Sheet"?>` +
             `<Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet" xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet">` +
             `<Styles><Style ss:ID="H"><Font ss:Bold="1"/><Interior ss:Color="#D9E1F2" ss:Pattern="Solid"/></Style></Styles>` +
-            `<Worksheet ss:Name="Puntos"><Table><Row>${hdrXml}</Row>${rowsXml}</Table></Worksheet></Workbook>`;
+            `<Worksheet ss:Name="Puntos"><Table><Row>${hdrXml}</Row>${rowsXml}</Table></Worksheet>` +
+            resumenDiasXml(pts, esc) + `</Workbook>`;
 
         const rcSufijo  = f.rc  !== 'ALL' ? `_${f.rc}`  : '';
         const supSufijo = f.sup !== 'ALL' ? `_${f.sup}` : '';
