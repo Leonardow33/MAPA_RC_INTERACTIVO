@@ -757,22 +757,23 @@ function getPlanDias() {
     return plan;
 }
 
-const COLS_DIA_SUGERIDO = [...DIAS_ORDEN.map(d => d + ' (orden)'), 'Visitas/sem sugeridas', 'Cambia Día'];
+const COLS_DIA_SUGERIDO = [...DIAS_ORDEN.map((_, i) => 'DIA ' + (i + 1)), 'Días Sugeridos',
+                           'Orden Sugerido', 'Visitas/sem sugeridas', 'Cambia Día'];
 
-// Una columna por día: número de orden de visita ese día (X si no tiene orden)
+// DIA 1..6: días de visita en orden de semana; los que no tiene quedan "SIN ASIGNAR"
 function diaSugeridoCols(p) {
     const a = getPlanDias().get(String(p.ID));
     if (!a) return COLS_DIA_SUGERIDO.map(() => '');
-    const porDia = DIAS_ORDEN.map(d => {
-        const i = a.dias.indexOf(d);
-        return i < 0 ? '' : (a.orden[i] || 'X');
-    });
+    const idx   = a.dias.map((d, i) => i).sort((x, y) => DIAS_ORDEN.indexOf(a.dias[x]) - DIAS_ORDEN.indexOf(a.dias[y]));
+    const dias  = idx.map(i => a.dias[i]);
+    const orden = a.orden.length ? idx.map(i => a.orden[i]).join(' / ') : '';
+    const slots = DIAS_ORDEN.map((_, i) => dias[i] || 'SIN ASIGNAR');
     const act   = diasActuales(p);
     const cambio = a.fijo ? 'Fijo (3+ visitas)'
                  : a.ref  ? 'Ref. punto activo cercano'
                  : !act.length ? 'Nuevo (sin día)'
                  : (act.length === a.dias.length && a.dias.every(d => act.includes(d))) ? 'No' : 'Sí';
-    return [...porDia, a.ref ? 0 : a.dias.length, cambio];
+    return [...slots, dias.join(' - '), orden, a.ref ? 0 : a.dias.length, cambio];
 }
 
 function descargarSugerenciasRC() {
