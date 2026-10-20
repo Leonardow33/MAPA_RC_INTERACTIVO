@@ -357,11 +357,6 @@ fetch((_BASE_DATA + 'puntos.json?v=') + new Date().getTime(), { cache: 'no-store
                 o.value = v; o.text = t;
                 diaSelect.appendChild(o);
             });
-            sortDias([...diaSet]).forEach(dia => {
-                let option = document.createElement("option");
-                option.value = dia; option.text = dia;
-                diaSelect.appendChild(option);
-            });
 
             let zonaSelect = document.getElementById("zonaFilter");
             [...zonaSet].sort().forEach(zona => {
@@ -499,6 +494,70 @@ function textoProximaVisita(p) {
         return `${DIAS[d.getDay()]} ${d.getDate()}/${d.getMonth() + 1}${o ? ' #' + o : ''}`;
     }).join(' · ');
     return cfg ? `${txt} <small style="color:#888">(ciclo ${cfg.T} sem)</small>` : txt;
+}
+
+// Excel con las rutas planificadas del RC para las próximas semanas, en orden de visita
+const SEMANAS_RUTA_EXCEL = 4;
+async function descargarRutasRC() {
+    const rc = document.getElementById("rcFilter").value;
+    if (rc === "ALL") { alert("Selecciona un RC"); return; }
+    const btn = document.getElementById("btnRutasExcel");
+    btn.disabled = true; btn.textContent = "⏳ Generando...";
+    try {
+        await _planListo;
+        const hoy = PLAN.hoyLima(), fin = PLAN.sumarDias(hoy, SEMANAS_RUTA_EXCEL * 7 - 1);
+        await PLAN.asegurarRango(hoy, fin);
+        const DIAS = ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'];
+        const esc = v => String(v ?? '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+        const cel = (v, num) => `<Cell><Data ss:Type="${num && v !== '' ? 'Number' : 'String'}">${esc(v)}</Data></Cell>`;
+        const activos = allData.filter(p => (p.estado || "").toUpperCase() === "ACTIVO");
+        const filas = [], resumen = [];
+        for (let f = hoy; f <= fin; f = PLAN.sumarDias(f, 1)) {
+            const tipo = PLAN.tipoDia(f);
+            if (tipo === 'DOMINGO') continue;
+            const d = new Date(f + 'T12:00:00');
+            const dia = DIAS[d.getDay()], fecha = `${String(d.getDate()).padStart(2, '0')}/${String(d.getMonth() + 1).padStart(2, '0')}/${d.getFullYear()}`;
+            const semana = Math.floor(PLAN.diasEntre(PLAN.lunesDe(hoy), f) / 7) + 1;
+            if (tipo === 'FERIADO') {
+                filas.push([fecha, dia, semana, 'Feriado: ' + PLAN.feriadoNombre(f), '', '', 'Sin ruta', '', '', '', '', '', '', '']);
+                resumen.push([fecha, dia, 'Feriado', 0]);
+                continue;
+            }
+            const cfg = PLAN.infoRC(rc, f);
+            const ruta = cfg ? `Ciclo ${cfg.T} sem` : 'SharePoint';
+            const tiendas = activos
+                .filter(p => PLAN.rcDeTienda(p, f) === rc && PLAN.tocaVisita(p, f))
+                .map(p => ({ p, o: PLAN.ordenVisita(p, f) }))
+                .sort((a, b) => (a.o ?? 999) - (b.o ?? 999) || (a.p.distrito || '').localeCompare(b.p.distrito || '') || (a.p.nombre || '').localeCompare(b.p.nombre || ''));
+            tiendas.forEach(({ p }, k) => filas.push([
+                fecha, dia, semana, tipo === 'IMPULSO' ? 'Impulso' : 'Ruta', k + 1, p.ID, p.nombre || '', p.responsable || '',
+                p.distrito || '', p.direccion || '', p.zona || '', top100Map[String(p.ID)] ? 'Sí' : '', ruta,
+                `https://www.google.com/maps/dir/?api=1&destination=${p.lat},${p.lng}`
+            ]));
+            resumen.push([fecha, dia, tipo === 'IMPULSO' ? 'Impulso' : 'Ruta', tiendas.length]);
+        }
+        const cols = ['Fecha', 'Día', 'Semana', 'Tipo de día', 'N° visita', 'Código', 'Tienda', 'Partner', 'Distrito', 'Dirección', 'Zona', 'Top 300', 'Ruta', 'Cómo llegar'];
+        const numRutas = new Set([2, 4]);
+        const hdr = c => '<Row>' + c.map(h => `<Cell ss:StyleID="H"><Data ss:Type="String">${esc(h)}</Data></Cell>`).join('') + '</Row>';
+        const nota = `<Row><Cell><Data ss:Type="String">Rutas de ${rc} · ${hoy} a ${fin} · las fechas futuras pueden ajustarse si se agregan o cierran tiendas</Data></Cell></Row>`;
+        const xml = `<?xml version="1.0"?><?mso-application progid="Excel.Sheet"?>` +
+            `<Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet" xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet">` +
+            `<Styles><Style ss:ID="H"><Font ss:Bold="1"/><Interior ss:Color="#D9E1F2" ss:Pattern="Solid"/></Style></Styles>` +
+            `<Worksheet ss:Name="Rutas"><Table>${nota}${hdr(cols)}` +
+            filas.map(r => '<Row>' + r.map((v, i) => cel(v, numRutas.has(i))).join('') + '</Row>').join('') +
+            `</Table></Worksheet>` +
+            `<Worksheet ss:Name="Resumen"><Table>${hdr(['Fecha', 'Día', 'Tipo de día', 'Visitas planificadas'])}` +
+            resumen.map(r => '<Row>' + r.map((v, i) => cel(v, i === 3)).join('') + '</Row>').join('') +
+            `</Table></Worksheet></Workbook>`;
+        const a = document.createElement('a');
+        a.href = URL.createObjectURL(new Blob([xml], { type: 'application/vnd.ms-excel' }));
+        a.download = `Rutas_${rc.replace(/\s+/g, '_')}_${hoy}.xls`;
+        a.click();
+        URL.revokeObjectURL(a.href);
+    } catch (e) {
+        alert('No se pudo generar el Excel: ' + e.message);
+    }
+    btn.disabled = false; btn.textContent = "⬇ Mis rutas";
 }
 
 function buildPopupContent(p) {
@@ -948,6 +1007,7 @@ function updateFilters() {
     let partner = document.getElementById("partnerFilter").value;
     let zona = document.getElementById("zonaFilter").value;
     let btnRuta = document.getElementById("btnRuta");
+    document.getElementById("btnRutasExcel").style.display = rc !== "ALL" ? "" : "none";
     if (rc !== "ALL") {
         btnRuta.classList.add("activo");
     } else {
