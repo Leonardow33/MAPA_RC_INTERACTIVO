@@ -467,9 +467,31 @@ function registrarMovimiento(p, tipo, marker) {
 
 // ── Plan de rutas por fechas (js/planificador.js) ─────────────────────────
 const _planListo = PLAN.cargar(_BASE_DATA).then(() => {
-    const v = document.getElementById("diaFilter")?.value;
-    if ((v === 'HOY' || v === 'MANANA') && typeof updateFilters === 'function') updateFilters();
+    const sel = document.getElementById("diaFilter");
+    if (!sel) return;
+    delete sel.dataset.rc;
+    if (typeof updateFilters === 'function' && (sel.value !== 'ALL' || document.getElementById("rcFilter").value !== 'ALL')) updateFilters();
 });
+// RC con ruta de SharePoint (provincia o Lima dentro del tope): además de Hoy/Mañana, filtra por día de la semana
+function actualizarOpcionesDia(rc) {
+    const sel = document.getElementById("diaFilter");
+    const conDias = rc !== "ALL" && !PLAN.rcReplanificado(rc);
+    const clave = conDias ? rc : '';
+    if (sel.dataset.rc === clave) return;
+    sel.dataset.rc = clave;
+    const prev = sel.value;
+    [...sel.options].forEach(o => { if (!['ALL', 'HOY', 'MANANA'].includes(o.value)) o.remove(); });
+    if (conDias) {
+        const dias = new Set();
+        allData.forEach(p => { if (p.rc === rc && Array.isArray(p.dias)) p.dias.forEach(d => dias.add(d)); });
+        sortDias([...dias]).forEach(d => {
+            const o = document.createElement("option");
+            o.value = d; o.text = d;
+            sel.appendChild(o);
+        });
+    }
+    sel.value = [...sel.options].some(o => o.value === prev) ? prev : "ALL";
+}
 function fechaFiltroDia(v) {
     const hoy = PLAN.hoyLima();
     if (v === 'HOY') return hoy;
@@ -887,6 +909,7 @@ function restoreFilters() {
     const rcSel = document.getElementById("rcFilter");
     if (saved.rc && [...rcSel.options].some(o => o.value === saved.rc))
         rcSel.value = saved.rc;
+    actualizarOpcionesDia(rcSel.value);
 
     const diaSel = document.getElementById("diaFilter");
     if (saved.dia && [...diaSel.options].some(o => o.value === saved.dia))
@@ -1003,6 +1026,7 @@ if (localStorage.getItem('geodor_tipo')) {
 
 function updateFilters() {
     let rc = document.getElementById("rcFilter").value;
+    actualizarOpcionesDia(rc);
     let sup = document.getElementById("supFilter").value;
     let partner = document.getElementById("partnerFilter").value;
     let zona = document.getElementById("zonaFilter").value;
