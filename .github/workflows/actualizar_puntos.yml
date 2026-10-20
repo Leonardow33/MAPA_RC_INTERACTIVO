@@ -6,7 +6,7 @@ on:
   workflow_dispatch:
     inputs:
       vigente_desde:
-        description: 'Lunes desde el que rige el plan de rutas (vacío = próximo lunes)'
+        description: 'Fecha futura desde la que rige el plan de rutas (vacío = próximo lunes)'
         required: false
         default: ''
 

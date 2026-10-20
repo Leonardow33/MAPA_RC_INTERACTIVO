@@ -553,7 +553,7 @@ function planificar(o) {
             return;
         }
         const { mov, res, estado } = planificarRC(rc, lista, top300, cfgPrev, previo && previo.tiendas);
-        plan.rcs[rc] = { ancla: cfgPrev ? cfgPrev.ancla : o.vigente_desde, T: res.T, N: res.N, M: res.M, estado };
+        plan.rcs[rc] = { ancla: cfgPrev ? cfgPrev.ancla : lunesDe(o.vigente_desde), T: res.T, N: res.N, M: res.M, estado };
         mov.forEach((m, i) => { plan.tiendas[m.id] = { rc, ...res.tiendas[i] }; });
         plan.resumen[rc] = {
             modo: 'REPLAN', tiendas: lista.length, top, T: res.T, estado, visitas: res.visitas,

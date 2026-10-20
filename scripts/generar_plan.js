@@ -1,5 +1,5 @@
 // Genera la versión semanal del plan de rutas por fechas (data/planes/plan_<lunes>.json)
-// Uso: node scripts/generar_plan.js   (VIGENTE_DESDE=YYYY-MM-DD opcional, debe ser lunes)
+// Uso: node scripts/generar_plan.js   (VIGENTE_DESDE=YYYY-MM-DD opcional: fecha futura, p.ej. inicio de un piloto)
 const fs = require('fs');
 const path = require('path');
 const PLAN = require('../js/planificador.js');
@@ -12,10 +12,12 @@ const leer = (f, def) => {
 };
 
 const hoy = PLAN.hoyLima();
+// Por defecto rige desde el próximo lunes; una fecha manual debe ser futura para no alterar un día en curso.
+// El ancla del ciclo siempre es el lunes de esa semana, así las versiones siguientes continúan igual.
 let vigente = (process.env.VIGENTE_DESDE || '').trim();
 if (!vigente) vigente = PLAN.sumarDias(PLAN.lunesDe(hoy), 7);
-if (PLAN.lunesDe(vigente) !== vigente) { console.error(`vigente_desde ${vigente} no es lunes`); process.exit(1); }
-if (vigente < hoy) { console.error(`vigente_desde ${vigente} ya pasó`); process.exit(1); }
+if (!/^\d{4}-\d{2}-\d{2}$/.test(vigente)) { console.error(`vigente_desde inválido: ${vigente}`); process.exit(1); }
+if (vigente <= hoy) { console.error(`vigente_desde ${vigente} debe ser posterior a hoy (${hoy})`); process.exit(1); }
 
 fs.mkdirSync(DIR, { recursive: true });
 let indice = leer('planes/index.json', []);

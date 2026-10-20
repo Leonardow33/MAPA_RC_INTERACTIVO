@@ -1,7 +1,12 @@
 [
  {
+  "vigente_desde": "2026-10-20",
+  "archivo": "plan_2026-10-20.json",
+  "generado": "2026-10-20T03:58:35.581Z"
+ },
+ {
   "vigente_desde": "2026-10-26",
   "archivo": "plan_2026-10-26.json",
-  "generado": "2026-10-19T23:48:30.833Z"
+  "generado": "2026-10-20T03:58:36.976Z"
  }
 ]
