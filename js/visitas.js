@@ -129,6 +129,31 @@ function matchRCFilter(p) {
 let semanaKeyCache = '';
 let selectedSemanaMonday = null;
 
+// ── Plan de rutas por fechas (js/planificador.js) ─────────────────────────
+let _diasPlanCache = new Map(), _diasPlanKey = '';
+function semanaISO() {
+    const m = selectedSemanaMonday ? formatFecha(selectedSemanaMonday) : PLAN.lunesDe(PLAN.hoyLima());
+    return [0, 1, 2, 3, 4, 5].map(k => PLAN.sumarDias(m, k));
+}
+// Días (normalizados) con visita planificada en la semana seleccionada: SharePoint o ciclo por fechas
+function diasPlan(p) {
+    const sem = semanaISO();
+    if (sem[0] !== _diasPlanKey) { _diasPlanCache = new Map(); _diasPlanKey = sem[0]; }
+    const id = String(p.ID);
+    let r = _diasPlanCache.get(id);
+    if (!r) {
+        r = sem.filter(s => PLAN.tocaVisita(p, s)).map(s => normDia(DIAS_SEMANA[new Date(s + 'T12:00:00').getDay()]));
+        _diasPlanCache.set(id, r);
+    }
+    return r;
+}
+const tocaHoy = p => PLAN.tocaVisita(p, PLAN.hoyLima());
+function invalidarPlan() { _diasPlanKey = ''; }
+const _planListo = PLAN.cargar(_BASE_DATA).then(() => {
+    invalidarPlan();
+    if (puntosData.length) { scheduleFullRender(); if (activeTab === 'dash') renderDashboard(); }
+});
+
 renderTodosLosPuntos();
 
 function getColor(rc) {
@@ -445,7 +470,7 @@ function renderTodosLosPuntos() {
     if (selectedRCFilter) activos = activos.filter(p => matchRCFilter(p));
     // Filtrar por día si hay uno seleccionado en el panel
     if (selectedDiaFilter) {
-        activos = activos.filter(p => (p.dias || []).some(d => normDia(d) === selectedDiaFilter));
+        activos = activos.filter(p => diasPlan(p).includes(selectedDiaFilter));
     }
     let visitados = 0;
     const visitedSet = selectedRCFilter ? (visitsByRC[selectedRCFilter] || new Set()) : null;
@@ -479,6 +504,8 @@ const DIA_COLORES_VIS = {
     'SÁBADO':    '#FDD835', 'SABADO': '#FDD835',
 };
 const DIAS_ORDEN_VIS = ['LUNES','MARTES','MIÉRCOLES','JUEVES','VIERNES','SÁBADO'];
+const DIA_LABEL_VIS  = Object.fromEntries(DIAS_ORDEN_VIS.map(d => [normDia(d), d]));
+DIA_LABEL_VIS['SIN RUTA'] = 'SIN RUTA ESTA SEMANA';
 
 function renderCobertura() {
     const list = document.getElementById('coberturaList');
@@ -491,10 +518,7 @@ function renderCobertura() {
     );
     if (selectedRCFilter) activos = activos.filter(p => matchRCFilter(p));
 
-    const todayNorm = normDia(DIAS_SEMANA[new Date().getDay()]);
-    if (rutaHoyActive && selectedRCFilter) {
-        activos = activos.filter(p => Array.isArray(p.dias) && p.dias.some(d => normDia(d) === todayNorm));
-    }
+    if (rutaHoyActive && selectedRCFilter) activos = activos.filter(tocaHoy);
 
     const visitedSet = rutaHoyActive && selectedRCFilter
         ? (visitsByRCToday[selectedRCFilter] || new Set())
@@ -505,11 +529,10 @@ function renderCobertura() {
     // Agrupar por DÍA de visita
     const byDia = {};
     activos.forEach(p => {
-        const dias = (p.dias || []).filter(d => d !== 'SIN RUTA');
+        const dias = diasPlan(p).slice();
         if (!dias.length) dias.push('SIN RUTA');
-        dias.forEach(d => {
-            const dn = normDia(d);
-            if (!byDia[dn]) byDia[dn] = { label: d.toUpperCase(), total: 0, visitados: 0 };
+        dias.forEach(dn => {
+            if (!byDia[dn]) byDia[dn] = { label: DIA_LABEL_VIS[dn] || dn, total: 0, visitados: 0 };
             byDia[dn].total++;
             const id = normalizeID(p.ID);
             const visitado = visitedSet ? visitedSet.has(id) : (visitCountsSemana[id] || 0) > 0;
@@ -565,7 +588,7 @@ function renderCobertura() {
             renderCobertura();
             // Zoom a los puntos del día seleccionado
             if (selectedDiaFilter && selectedRCFilter) {
-                const pts = activos.filter(p => (p.dias||[]).some(d => normDia(d) === selectedDiaFilter));
+                const pts = activos.filter(p => diasPlan(p).includes(selectedDiaFilter));
                 if (pts.length) {
                     const bounds = L.latLngBounds(pts.map(p => [p.lat, p.lng]));
                     map.fitBounds(bounds, { padding: [40,40], maxZoom: 14 });
@@ -706,6 +729,10 @@ async function cargarDatosSemanales() {
         try { localStorage.setItem(cacheKey, JSON.stringify({ ts: Date.now(), data: resultMap })); } catch(e) {}
     }
 
+    await _planListo;
+    await PLAN.asegurarRango(semanaKey, PLAN.sumarDias(semanaKey, 5));
+    invalidarPlan();
+
     // ── Procesar resultados ─────────────────────────────────────────────────
     visitCountsSemana = {}; visitsByRC = {}; visitsByDate = {};
     visitsByDateRC = {}; tiemposByTienda = {}; horasSemana = {};
@@ -782,7 +809,6 @@ function renderSinVisitar() {
     if (!selectedDiaFilter) return;
 
     const zf = getZonalFiltro();
-    const todayNorm = normDia(DIAS_SEMANA[new Date().getDay()]);
     const fueVisitado = rutaHoyActive && selectedRCFilter
         ? (id) => (visitsByRCToday[selectedRCFilter] || new Set()).has(id)
         : selectedRCFilter
@@ -795,9 +821,9 @@ function renderSinVisitar() {
         (p.estado || '').toUpperCase() !== 'CERRADO' &&
         !fueVisitado(normalizeID(p.ID)) &&
         (selectedRCFilter ? matchRCFilter(p) : true) &&
-        (p.dias || []).some(d => normDia(d) === selectedDiaFilter) &&
+        diasPlan(p).includes(selectedDiaFilter) &&
         (zf !== 'ALL' ? (p.zonal_tipo || '').toUpperCase() === zf : true) &&
-        (!rutaHoyActive || (Array.isArray(p.dias) && p.dias.some(d => normDia(d) === todayNorm)))
+        (!rutaHoyActive || tocaHoy(p))
     );
 
     const bounds = [];
@@ -821,14 +847,13 @@ function renderRutaHoy() {
     btn.disabled = false;
     if (!rutaHoyActive) return;
 
-    const todayAbbr = normDia(DIAS_SEMANA[new Date().getDay()]);
     const visitados  = visitsByRCToday[selectedRCFilter] || new Set();
     const zf         = getZonalFiltro();
 
     const rutaHoy = puntosData.filter(p =>
         (p.estado || '').toUpperCase() !== 'CERRADO' &&
         matchRCFilter(p) &&
-        Array.isArray(p.dias) && p.dias.some(d => normDia(d) === todayAbbr) &&
+        tocaHoy(p) &&
         (zf !== 'ALL' ? (p.zonal_tipo || '').toUpperCase() === zf : true)
     );
 
@@ -852,11 +877,16 @@ function renderRutaHoy() {
             className: '', iconSize: [size,size], iconAnchor: [size/2,size/2], popupAnchor: [0,-size/2]
         });
         L.marker([p.lat, p.lng], { icon }).addTo(rutaHoyLayer)
-          .bindPopup(`<b style="color:${color}">${label}</b><br>${p.nombre}<br><small>ID: ${p.ID} · ${p.responsable || '-'} · RC: ${p.rc}</small>`);
+          .bindPopup(`<b style="color:${color}">${label}</b><br>${p.nombre}<br><small>ID: ${p.ID} · ${p.responsable || '-'} · RC: ${p.rc}${ordenHoyTxt(p)}</small>`);
     });
 
     btn.textContent = `📅 Ruta Hoy (${visitadasHoy}/${rutaHoy.length})`;
     if (bounds.length > 0) map.fitBounds(bounds, { padding: [40, 40], maxZoom: 14 });
+}
+
+function ordenHoyTxt(p) {
+    const o = PLAN.ordenVisita(p, PLAN.hoyLima());
+    return o ? ` · Visita #${o}` : '';
 }
 
 function toggleRutaHoy() {
@@ -1311,6 +1341,7 @@ function renderDashboard() {
         const normId = normalizeID(p.ID);
         if (dashRCFilter && modoVista !== 'sup' && pRc !== dashRCFilter) return;
         if (rcNamesForZona && !rcNamesForZona.has(pRc)) return;
+        if (modoVista === 'rc' && !diasPlan(p).length) return;
         const z = (p.zona||'Sin zona').trim();
         if (!byZona[z]) byZona[z] = { total:0, visitados:0 };
         byZona[z].total++;
@@ -1333,6 +1364,7 @@ function renderDashboard() {
         const normId = normalizeID(p.ID);
         if (dashRCFilter && modoVista !== 'sup' && pRc !== dashRCFilter) return;
         if (rcNamesForTipo && !rcNamesForTipo.has(pRc)) return;
+        if (modoVista === 'rc' && !diasPlan(p).length) return;
         if (!byTipo[t]) byTipo[t] = { total: 0, visit: 0 };
         byTipo[t].total++;
         let visited = false;
@@ -1360,6 +1392,7 @@ function renderDashboard() {
         const normId = normalizeID(p.ID);
         if (dashRCFilter && modoVista !== 'sup' && pRc !== dashRCFilter) return false;
         if (rcNamesForZona && !rcNamesForZona.has(pRc)) return false;
+        if (modoVista === 'rc' && !diasPlan(p).length) return false;
         if (dashRCFilter) return !(visitsByRC[dashRCFilter]||new Set()).has(normId);
         if (rcNamesForZona) { for (const r of rcs) { if ((visitsByRC[r.rc]||new Set()).has(normId)) return false; } return true; }
         return (visitCountsSemana[normId]||0) === 0;
@@ -1477,7 +1510,7 @@ function renderDashboard() {
                 const meta = modoVista === 'sup' ? 0 : puntosActivos.filter(p => {
                     if (dashRCFilter && (p.rc||'').trim() !== dashRCFilter) return false;
                     if (rcNamesChart && !rcNamesChart.has(p.rc||'')) return false;
-                    return (p.dias||[]).some(dia => normDia(dia) === dayNorm);
+                    return PLAN.tocaVisita(p, fecha);
                 }).length;
 
                 // REAL: tiendas efectivamente visitadas ese día
@@ -1564,26 +1597,31 @@ function renderDashboard() {
         })()}
 
         ${(function() {
-            const rcCumpl = rcs.map(r => {
-                const asign  = puntosActivos.filter(p => (p.rc||'').trim() === r.rc.trim());
-                const visSet = visitsByRC[r.rc] || new Set();
-                const visit  = asign.filter(p => visSet.has(normalizeID(p.ID))).length;
-                const pct    = asign.length > 0 ? Math.round(visit / asign.length * 100) : 0;
-                return { rc: r.rc, sup: r.supervisor||'-', asign: asign.length, visit, pct };
-            }).filter(r => r.asign > 0).sort((a,b) => b.pct - a.pct || b.visit - a.visit);
+            if (modoVista !== 'rc') return '';
+            const sem = semanaISO();
+            const res = PLAN.cumplimiento({
+                puntos: puntosActivos, desde: sem[0], hasta: sem[5],
+                fueVisitada: (id, f) => (visitsByDate[f] || new Set()).has(normalizeID(id)),
+                excepciones: excepcionesISO(),
+            });
+            const rcsSup = supFiltro === 'ALL' ? null
+                : new Set(puntosActivos.filter(p => p.supervisor === supFiltro).map(p => p.rc));
+            const rcCumpl = Object.values(res.porRC)
+                .filter(r => r.efectivas > 0 && (!dashRCFilter || r.rc === dashRCFilter) && (!rcsSup || rcsSup.has(r.rc)))
+                .sort((a,b) => (b.pct || 0) - (a.pct || 0) || b.cumplidas - a.cumplidas);
             if (!rcCumpl.length) return '';
             return `<div class="dash-card" style="margin-bottom:12px">
-                <div class="dash-card-title">Cumplimiento de ruta semanal · por RC</div>
+                <div class="dash-card-title">Cumplimiento de ruta semanal · visitas planificadas por RC</div>
                 <div class="dash-zona-grid" style="grid-template-columns:repeat(auto-fill,minmax(220px,1fr))">
                     ${rcCumpl.map(r => {
-                        const color = colorPct(r.pct);
+                        const color = colorPct(r.pct || 0);
                         return `<div>
                             <div style="display:flex;justify-content:space-between;align-items:baseline">
                                 <div class="dash-zona-name" style="font-size:12px">${r.rc}</div>
                                 <div style="font-size:10px;color:${color};font-weight:700">${r.pct}%</div>
                             </div>
-                            <div class="dash-zona-stat" style="color:#475569">${r.visit}/${r.asign} tiendas asignadas</div>
-                            <div class="dash-zona-bg"><div class="dash-zona-fill" style="width:${r.pct}%;background:${color}"></div></div>
+                            <div class="dash-zona-stat" style="color:#475569">${r.cumplidas}/${r.efectivas} visitas planificadas · ${r.modo}</div>
+                            <div class="dash-zona-bg"><div class="dash-zona-fill" style="width:${r.pct || 0}%;background:${color}"></div></div>
                         </div>`;
                     }).join('')}
                 </div>
@@ -1691,7 +1729,7 @@ function renderDashboard() {
                 }
                 const d      = new Date(fecha + 'T12:00:00');
                 const dowIdx = ((d.getDay() + 6) % 7);
-                // Sin visita = tiendas asignadas para ese día de semana según p.dias − visitadas ese día
+                // Sin visita = tiendas planificadas esa fecha (SharePoint o ciclo) − visitadas ese día
                 let noVisit  = 0;
                 if (modoVista !== 'sup' && modoVista !== 'cap') {
                     const dayNorm       = normDia(DIAS_SEMANA[d.getDay()]);
@@ -1699,7 +1737,7 @@ function renderDashboard() {
                         const pRc = (p.rc||'').trim();
                         if (dashRCFilter && pRc !== dashRCFilter) return false;
                         if (rcNamesSet && !rcNamesSet.has(pRc)) return false;
-                        return (p.dias||[]).some(dia => normDia(dia) === dayNorm);
+                        return PLAN.tocaVisita(p, fecha);
                     }).length;
                     noVisit = Math.max(0, assignedToday - stores.size);
                 }
@@ -1777,7 +1815,7 @@ function renderDashboard() {
 
         <div class="dash-grid" style="margin-bottom:12px">
             <div class="dash-card" style="overflow:hidden">
-                <div class="dash-card-title">Tiendas no visitadas · semana${dashRCFilter ? ' · ' + dashRCFilter : ''}</div>
+                <div class="dash-card-title">${modoVista === 'rc' ? 'Tiendas planificadas sin visita' : 'Tiendas no visitadas'} · semana${dashRCFilter ? ' · ' + dashRCFilter : ''}</div>
                 <div style="font-size:10px;color:#475569;margin-bottom:8px">${noVisitadas.length} tienda${noVisitadas.length!==1?'s':''} sin visita esta semana</div>
                 ${noVisitadas.length === 0
                     ? '<div style="color:#10B981;font-size:12px;text-align:center;padding:16px 0">¡Todas las tiendas visitadas!</div>'
@@ -1815,6 +1853,8 @@ function renderDashboard() {
             </div>
         </div>
 
+        ${htmlComision()}
+
         <div class="dash-card" style="margin-bottom:12px">
             <div class="dash-card-title">Zonas periféricas · tiendas vacantes · cobertura semanal</div>
             <div style="font-size:10px;color:#475569;margin-bottom:10px">${vacantePuntos.length} tiendas sin RC asignado</div>
@@ -1834,6 +1874,161 @@ function renderDashboard() {
 }
 // ──────────────────────────────────────────────────────────────────────────
 
+// ── CUMPLIMIENTO PARA COMISIÓN (visitas planificadas por fecha) ────────────
+const _comision = { desde: '', hasta: '', res: null, cargando: false, error: '' };
+
+function excepcionesISO() {
+    return excepcionales.map(e => ({ ...e, fecha: String(e.fecha || '').slice(0, 10) }));
+}
+
+// Visitas por fecha de un rango, reutilizando el mismo caché semanal del dashboard
+async function cargarVisitasRango(desde, hasta) {
+    const porFecha = {};
+    const lunesHoy = PLAN.lunesDe(PLAN.hoyLima());
+    for (let lunes = PLAN.lunesDe(desde); lunes <= hasta; lunes = PLAN.sumarDias(lunes, 7)) {
+        const cacheKey = `mapasrc_rc_${lunes}`;
+        const ttl = (lunes === lunesHoy ? 10 : 24 * 60) * 60000;
+        let data = null;
+        try {
+            const c = JSON.parse(localStorage.getItem(cacheKey) || 'null');
+            if (c && (Date.now() - c.ts) < ttl) data = c.data;
+        } catch (e) {}
+        if (!data) {
+            try {
+                const r = await fetch(SHEET_URL + `?action=getVisitasSemana&fecha=${lunes}`);
+                const j = await r.json();
+                data = (j && typeof j === 'object' && !Array.isArray(j)) ? j : {};
+                try { localStorage.setItem(cacheKey, JSON.stringify({ ts: Date.now(), data })); } catch (e) {}
+            } catch (e) { data = {}; }
+        }
+        Object.entries(data).forEach(([fecha, dia]) => {
+            const set = porFecha[fecha] || (porFecha[fecha] = new Set());
+            (Array.isArray(dia) ? dia : []).forEach(rc =>
+                (rc.visitas || []).forEach(v => { if (v.id) set.add(normalizeID(v.id)); }));
+        });
+    }
+    return porFecha;
+}
+
+async function calcularComision() {
+    const d = document.getElementById('comDesde')?.value;
+    const h = document.getElementById('comHasta')?.value;
+    if (!d || !h || d > h) { alert('Rango de fechas inválido'); return; }
+    Object.assign(_comision, { desde: d, hasta: h, cargando: true, error: '' });
+    renderDashboard();
+    try {
+        await _planListo;
+        await PLAN.asegurarRango(d, h);
+        const visitas = await cargarVisitasRango(d, h);
+        const zf = getZonalFiltro();
+        _comision.res = PLAN.cumplimiento({
+            puntos: puntosData.filter(p => zf === 'ALL' || (p.zonal_tipo || '').toUpperCase() === zf),
+            desde: d, hasta: h,
+            fueVisitada: (id, f) => (visitas[f] || new Set()).has(normalizeID(id)),
+            excepciones: excepcionesISO(),
+        });
+    } catch (e) {
+        _comision.error = 'No se pudo calcular: ' + e.message;
+    }
+    _comision.cargando = false;
+    renderDashboard();
+}
+
+function filasComision() {
+    const res = _comision.res;
+    if (!res) return [];
+    const supFiltro = document.getElementById('supFilter')?.value || 'ALL';
+    const rcsSup = supFiltro === 'ALL' ? null
+        : new Set(puntosData.filter(p => p.supervisor === supFiltro).map(p => p.rc));
+    return Object.values(res.porRC)
+        .filter(r => (!dashRCFilter || r.rc === dashRCFilter) && (!rcsSup || rcsSup.has(r.rc)))
+        .sort((a, b) => a.rc.localeCompare(b.rc));
+}
+
+function totalComision(filas) {
+    const t = { rc: 'TOTAL', modo: '', planificadas: 0, feriado: 0, excepcion: 0, efectivas: 0, cumplidas: 0, maxFuerte: 0, maxImpulso: 0 };
+    filas.forEach(r => {
+        ['planificadas', 'feriado', 'excepcion', 'efectivas', 'cumplidas'].forEach(k => { t[k] += r[k]; });
+        t.maxFuerte = Math.max(t.maxFuerte, r.maxFuerte);
+        t.maxImpulso = Math.max(t.maxImpulso, r.maxImpulso);
+    });
+    t.pct = t.efectivas ? Math.round(t.cumplidas / t.efectivas * 100) : null;
+    return t;
+}
+
+function htmlComision() {
+    if (modoVista !== 'rc') return '';
+    const hoy = PLAN.hoyLima();
+    const desde = _comision.desde || hoy.slice(0, 8) + '01';
+    const hasta = _comision.hasta || hoy;
+    const res = _comision.res;
+    const filas = filasComision();
+    const color = p => p === null ? '#475569' : p >= 90 ? '#10B981' : p >= 70 ? '#F59E0B' : '#EF4444';
+    const anio = hoy.slice(0, 4);
+    const sinFeriados = !PLAN.feriados().some(f => String(f.fecha || f).startsWith(anio));
+    const feriadosRango = res ? PLAN.feriados().filter(f => f.fecha >= res.desde && f.fecha <= res.hasta) : [];
+    const inp = 'padding:5px 8px;border-radius:8px;border:1px solid #334155;background:#1E293B;color:#CBD5E1;font-size:12px;font-family:inherit';
+    const btn = 'border:none;border-radius:8px;padding:6px 12px;font-size:11px;font-weight:700;cursor:pointer;font-family:inherit';
+    const fila = (r, esTotal) => `<tr${esTotal ? ' style="border-top:2px solid #334155"' : ''}>
+        <td class="td-name" style="${esTotal ? 'font-weight:800' : ''}">${r.rc}</td>
+        <td style="font-size:10px;color:#94A3B8">${r.modo || ''}</td>
+        <td>${r.planificadas}</td><td style="color:#0284C7">${r.feriado}</td><td style="color:#D97706">${r.excepcion}</td>
+        <td>${r.efectivas}</td><td style="font-weight:700;color:#10B981">${r.cumplidas}</td>
+        <td style="font-weight:800;color:${color(r.pct)}">${r.pct === null ? '—' : r.pct + '%'}</td>
+        <td style="color:${r.maxFuerte > PLAN.TOPE.fuerte.max ? '#EF4444' : '#64748B'}">${r.maxFuerte}</td>
+        <td style="color:${r.maxImpulso > PLAN.TOPE.impulso.max ? '#EF4444' : '#64748B'}">${r.maxImpulso}</td>
+    </tr>`;
+    return `<div class="dash-card" style="margin-bottom:12px">
+        <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-bottom:8px">
+            <div class="dash-card-title" style="margin-bottom:0">Cumplimiento para comisión · visitas planificadas</div>
+            <div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap">
+                <input type="date" id="comDesde" value="${desde}" style="${inp}">
+                <input type="date" id="comHasta" value="${hasta}" style="${inp}">
+                <button onclick="calcularComision()" style="${btn};background:#6366F1;color:#fff" ${_comision.cargando ? 'disabled' : ''}>${_comision.cargando ? '⏳ Calculando…' : 'Calcular'}</button>
+                <button onclick="descargarComisionExcel()" style="${btn};background:#10B981;color:#fff" ${res ? '' : 'disabled'}>⬇ Excel</button>
+            </div>
+        </div>
+        <div style="font-size:10px;color:#64748B;margin-bottom:8px">
+            Una visita planificada se cumple si la tienda se visitó cualquier día (lun–sáb) de esa semana. Feriados y excepciones del RC no penalizan.
+            Tope por día: L-M-J-V ${PLAN.TOPE.fuerte.obj} (máx ${PLAN.TOPE.fuerte.max}) · Mi-S ${PLAN.TOPE.impulso.obj} (máx ${PLAN.TOPE.impulso.max}).
+        </div>
+        ${sinFeriados ? `<div style="font-size:11px;color:#F59E0B;margin-bottom:6px">⚠ data/feriados.json no tiene feriados de ${anio}</div>` : ''}
+        ${_comision.error ? `<div style="font-size:11px;color:#EF4444;margin-bottom:6px">${_comision.error}</div>` : ''}
+        ${!res ? '<div style="color:#475569;font-size:11px;text-align:center;padding:8px 0">Elige el rango y presiona Calcular</div>' : `
+        <div style="font-size:10px;color:#475569;margin-bottom:6px">${res.desde} → ${res.hasta}${feriadosRango.length ? ' · Feriados: ' + feriadosRango.map(f => f.fecha.slice(5) + ' ' + f.nombre).join(', ') : ''}</div>
+        ${res.noReconocidas.length ? `<div style="font-size:11px;color:#F59E0B;margin-bottom:6px">⚠ ${res.noReconocidas.length} excepción(es) con tipo no reconocido, no se excluyen: ${res.noReconocidas.slice(0, 5).map(e => `${e.nombre} ${String(e.fecha).slice(0, 10)} (${e.tipo})`).join(' · ')}</div>` : ''}
+        <div style="overflow-x:auto"><table class="dash-table">
+            <thead><tr><th>RC</th><th>Ruta</th><th>Planif.</th><th>Feriado</th><th>Excep.</th><th>Efectivas</th><th>Cumplidas</th><th>%</th><th>Máx L-M-J-V</th><th>Máx Mi-S</th></tr></thead>
+            <tbody>${filas.map(r => fila(r)).join('')}${filas.length > 1 ? fila(totalComision(filas), true) : ''}</tbody>
+        </table></div>`}
+    </div>`;
+}
+
+function descargarComisionExcel() {
+    const res = _comision.res;
+    if (!res) return;
+    const filas = filasComision();
+    const esc = v => String(v ?? '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    const cols = ['RC', 'Ruta', 'Planificadas', 'Feriado', 'Excepción', 'Efectivas', 'Cumplidas', '% Cumplimiento', 'Máx/día L-M-J-V', 'Máx/día Mi-S'];
+    const fila = r => [r.rc, r.modo || '', r.planificadas, r.feriado, r.excepcion, r.efectivas, r.cumplidas, r.pct ?? '', r.maxFuerte, r.maxImpulso];
+    const celda = (v, i) => `<Cell><Data ss:Type="${i >= 2 && v !== '' ? 'Number' : 'String'}">${esc(v)}</Data></Cell>`;
+    const hdr = cols.map(h => `<Cell ss:StyleID="H"><Data ss:Type="String">${esc(h)}</Data></Cell>`).join('');
+    const rows = filas.concat(filas.length > 1 ? [totalComision(filas)] : [])
+        .map(r => '<Row>' + fila(r).map(celda).join('') + '</Row>').join('');
+    const info = `<Row><Cell><Data ss:Type="String">Rango ${res.desde} a ${res.hasta} · cumplida = tienda visitada algún día (lun–sáb) de la semana planificada · feriados y excepciones no penalizan</Data></Cell></Row>`;
+    const xml = `<?xml version="1.0"?><?mso-application progid="Excel.Sheet"?>` +
+        `<Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet" xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet">` +
+        `<Styles><Style ss:ID="H"><Font ss:Bold="1"/><Interior ss:Color="#D9E1F2" ss:Pattern="Solid"/></Style></Styles>` +
+        `<Worksheet ss:Name="Cumplimiento"><Table>${info}<Row>${hdr}</Row>${rows}</Table></Worksheet></Workbook>`;
+    const blob = new Blob([xml], { type: 'application/vnd.ms-excel' });
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = `Cumplimiento_Comision_${res.desde}_${res.hasta}${dashRCFilter ? '_' + dashRCFilter : ''}.xls`;
+    a.click();
+    URL.revokeObjectURL(a.href);
+}
+// ──────────────────────────────────────────────────────────────────────────
+
 // ── AUTO-REFRESH cuando cambia version.json ────────────────────────────────
 (function() {
     const VERSION_URL = (_BASE_DATA + 'version.json');
@@ -1849,6 +2044,7 @@ function renderDashboard() {
                         .then(r => r.json())
                         .then(data => {
                             puntosData = normalizePuntos(data);
+                            invalidarPlan();
                             scheduleFullRender();
                             console.log('Datos actualizados automaticamente:', d.v);
                         }).catch(() => {});

@@ -4,6 +4,11 @@ on:
   schedule:
     - cron: '0 13 * * 1'   # Lunes 8:00 AM Peru (UTC-5)
   workflow_dispatch:
+    inputs:
+      vigente_desde:
+        description: 'Lunes desde el que rige el plan de rutas (vacío = próximo lunes)'
+        required: false
+        default: ''
 
 jobs:
   update:
@@ -207,13 +212,18 @@ jobs:
           print(f"OK: {len(data)} puntos activos | {len(partners)} partners | v{ts}")
           PYEOF
 
+      - name: Generar plan de rutas por fechas
+        env:
+          VIGENTE_DESDE: ${{ github.event.inputs.vigente_desde }}
+        run: node scripts/generar_plan.js
+
       - name: Commit si hubo cambios
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add data/puntos.json data/version.json data/partners.json
+          git add data/puntos.json data/version.json data/partners.json data/planes
           git diff --cached --quiet || {
-            git commit -m "chore: actualizar puntos desde SharePoint"
+            git commit -m "chore: actualizar puntos y plan de rutas desde SharePoint"
             for i in 1 2 3 4 5; do
               git pull --rebase && git push && break
               echo "Intento $i fallido, reintentando en $((i*5))s..."

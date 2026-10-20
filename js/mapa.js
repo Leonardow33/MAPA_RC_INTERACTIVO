@@ -352,6 +352,11 @@ fetch((_BASE_DATA + 'puntos.json?v=') + new Date().getTime(), { cache: 'no-store
             });
 
             let diaSelect = document.getElementById("diaFilter");
+            [['HOY', '📅 Hoy'], ['MANANA', '📅 Mañana']].forEach(([v, t]) => {
+                const o = document.createElement("option");
+                o.value = v; o.text = t;
+                diaSelect.appendChild(o);
+            });
             sortDias([...diaSet]).forEach(dia => {
                 let option = document.createElement("option");
                 option.value = dia; option.text = dia;
@@ -465,6 +470,37 @@ function registrarMovimiento(p, tipo, marker) {
         });
 }
 
+// ── Plan de rutas por fechas (js/planificador.js) ─────────────────────────
+const _planListo = PLAN.cargar(_BASE_DATA).then(() => {
+    const v = document.getElementById("diaFilter")?.value;
+    if ((v === 'HOY' || v === 'MANANA') && typeof updateFilters === 'function') updateFilters();
+});
+function fechaFiltroDia(v) {
+    const hoy = PLAN.hoyLima();
+    if (v === 'HOY') return hoy;
+    if (v !== 'MANANA') return null;
+    const m = PLAN.sumarDias(hoy, 1);
+    return PLAN.tipoDia(m) === 'DOMINGO' ? PLAN.sumarDias(m, 1) : m;
+}
+// HOY/MAÑANA usan el plan por fechas; los días de la semana siguen comparando con p.dias
+function coincideDia(p, v) {
+    const f = fechaFiltroDia(v);
+    return f ? PLAN.tocaVisita(p, f) : !!(p.dias && p.dias.includes(v));
+}
+function textoProximaVisita(p) {
+    if (!p.rc) return '-';
+    const DIAS = ['dom', 'lun', 'mar', 'mié', 'jue', 'vie', 'sáb'];
+    const prox = PLAN.proximasVisitas(p, PLAN.hoyLima(), 2, 28);
+    if (!prox.length) return '-';
+    const cfg = PLAN.infoRC(PLAN.rcDeTienda(p));
+    const txt = prox.map(f => {
+        const d = new Date(f + 'T12:00:00');
+        const o = PLAN.ordenVisita(p, f);
+        return `${DIAS[d.getDay()]} ${d.getDate()}/${d.getMonth() + 1}${o ? ' #' + o : ''}`;
+    }).join(' · ');
+    return cfg ? `${txt} <small style="color:#888">(ciclo ${cfg.T} sem)</small>` : txt;
+}
+
 function buildPopupContent(p) {
     const safeId = String(p.ID).replace(/[^a-zA-Z0-9_-]/g, "_");
     const isElot = (p.nombre || "").toUpperCase().includes("OFICINA ELOT");
@@ -523,6 +559,7 @@ function buildPopupContent(p) {
       <div class="popup-body">
         <div class="popup-row"><span class="popup-lbl">ORG_CODE</span><span class="popup-val">${p.ID}</span></div>
         <div class="popup-row"><span class="popup-lbl">RC</span><span class="popup-val">${p.rc || "-"}</span></div>
+        <div class="popup-row"><span class="popup-lbl">Próx. visita</span><span class="popup-val">${textoProximaVisita(p)}</span></div>
         <div class="popup-row"><span class="popup-lbl">Usuario</span><span class="popup-val">${p.username || "-"}</span></div>
         <div class="popup-row"><span class="popup-lbl">Supervisor</span><span class="popup-val">${p.supervisor || "-"}</span></div>
         <div class="popup-row"><span class="popup-lbl">Cluster</span><span class="popup-val">${p.cluster || "-"}</span></div>
@@ -733,7 +770,7 @@ function renderMap(filterRC, filterDia, filterSup, filterPartner, filterZona, fi
             tipo !== "CENCOS" &&
             (filterSup === "ALL" || p.supervisor === filterSup) &&
             (filterRC === "ALL" || p.rc === filterRC) &&
-            (filterDia === "ALL" || (p.dias && p.dias.includes(filterDia))) &&
+            (filterDia === "ALL" || coincideDia(p, filterDia)) &&
             (filterPartner === "ALL" || p.responsable === filterPartner) &&
             (filterZona === "ALL" || p.zona === filterZona) &&
             (activeCluster === null || (p.cluster || "").toUpperCase() === activeCluster) &&

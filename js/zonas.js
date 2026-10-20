@@ -595,185 +595,61 @@ function haversineKm(lat1, lng1, lat2, lng2) {
     return R * 2 * Math.asin(Math.sqrt(a));
 }
 
-// ── Plan de días sugeridos por RC (cercanía + carga por día) ──────────────
-// Miércoles y sábado hay impulso: su grupo recibe 60% de la carga de los otros
-const GRUPOS_PLAN = [
-    { dias: ['LUNES', 'JUEVES'],      peso: 2 },
-    { dias: ['MARTES', 'VIERNES'],    peso: 2 },
-    { dias: ['MIÉRCOLES', 'SÁBADO'],  peso: 1.2 },
-];
-// Lima: objetivo de visitas por día por RC (máximo tolerado 25 / 15)
-const TOPE_DIA_FUERTE  = 20;
-const TOPE_DIA_IMPULSO = 12;
-const TOPE_SEMANA_LIMA = 4 * TOPE_DIA_FUERTE + 2 * TOPE_DIA_IMPULSO;
-const MAX_DIA_FUERTE   = 25;
-const MAX_DIA_IMPULSO  = 15;
+// ── Plan de rutas por fechas (js/planificador.js) ─────────────────────────
+// Muestra el plan publicado para el próximo lunes; si aún no existe, lo calcula igual que el workflow
 const esTop300 = p => !!top100Map[String(p.ID)];
-const normDia   = d => String(d || '').trim().toUpperCase().normalize('NFD').replace(/[̀-ͯ]/g, '');
-const DIA_CANON = Object.fromEntries(DIAS_ORDEN.map(d => [normDia(d), d]));
-const diasActuales = p => [...new Set((p.dias || []).map(d => DIA_CANON[normDia(d)]).filter(Boolean))];
-
-function rcMasCercano(p, conRC) {
-    const tipoP = (p.tipo || '').toUpperCase();
-    const pool  = conRC.filter(r => (r.tipo || '').toUpperCase() === tipoP);
-    let mejor = null, minDist = Infinity;
-    (pool.length ? pool : conRC).forEach(r => {
-        const d = haversineKm(p.lat, p.lng, r.lat, r.lng);
-        if (d < minDist) { minDist = d; mejor = r; }
-    });
-    return mejor ? mejor.rc : '';
-}
-
-// Ruta cerrada por vecino más cercano + mejora 2-opt; devuelve índices en orden de visita
-function rutaCercania(pts) {
-    const n = pts.length;
-    if (n <= 3) return pts.map((_, i) => i);
-    const D = pts.map(a => pts.map(b => haversineKm(a.lat, a.lng, b.lat, b.lng)));
-    const usado = new Array(n).fill(false);
-    const t = [0]; usado[0] = true;
-    for (let k = 1; k < n; k++) {
-        const u = t[t.length - 1];
-        let b = -1, bd = Infinity;
-        for (let v = 0; v < n; v++) if (!usado[v] && D[u][v] < bd) { bd = D[u][v]; b = v; }
-        usado[b] = true; t.push(b);
-    }
-    let mejora = true, it = 0;
-    while (mejora && it++ < 50) {
-        mejora = false;
-        for (let i = 0; i < n - 1; i++) {
-            for (let j = i + 2; j < n; j++) {
-                const a = t[i], b = t[i + 1], c = t[j], d = t[(j + 1) % n];
-                if (a === d) continue;
-                if (D[a][c] + D[b][d] < D[a][b] + D[c][d] - 1e-9) {
-                    for (let x = i + 1, y = j; x < y; x++, y--) { const tmp = t[x]; t[x] = t[y]; t[y] = tmp; }
-                    mejora = true;
-                }
-            }
-        }
-    }
-    return t;
-}
-
-// Corta la ruta en 3 tramos contiguos (uno por grupo de días) proporcionales al peso del grupo.
-// Puntos de 2 visitas toman el par completo; los de 1 visita se reparten en mitades contiguas.
-function repartirRuta(orden, mov, perm, totalVisitas) {
-    const pesoTot = GRUPOS_PLAN.reduce((s, g) => s + g.peso, 0);
-    const cortes = []; let acc = 0;
-    perm.forEach(gi => { acc += GRUPOS_PLAN[gi].peso; cortes.push(totalVisitas * acc / pesoTot); });
-    const segs = [[], [], []];
-    let cum = 0, s = 0;
-    orden.forEach(i => {
-        const f = mov[i].frec;
-        while (s < 2 && cum + f / 2 > cortes[s]) s++;
-        segs[s].push(i); cum += f;
-    });
-
-    const asign = new Array(mov.length);
-    let score = 0;
-    segs.forEach((seg, k) => {
-        const g = GRUPOS_PLAN[perm[k]];
-        const sueltos = seg.filter(i => mov[i].frec === 1);
-        const mitad = Math.ceil(sueltos.length / 2);
-        let mejor = null;
-        for (const [d1, d2] of [[g.dias[0], g.dias[1]], [g.dias[1], g.dias[0]]]) {
-            let sc = 0; const dia = {};
-            sueltos.forEach((i, j) => { dia[i] = j < mitad ? d1 : d2; if (mov[i].act.includes(dia[i])) sc++; });
-            if (!mejor || sc > mejor.sc) mejor = { sc, dia };
-        }
-        score += mejor.sc;
-        const contador = {};
-        seg.forEach(i => {
-            const dias = mov[i].frec === 2 ? g.dias.slice() : [mejor.dia[i]];
-            if (mov[i].frec === 2) score += dias.filter(d => mov[i].act.includes(d)).length;
-            const orden = dias.map(d => (contador[d] = (contador[d] || 0) + 1));
-            asign[i] = { dias, orden };
-        });
-    });
-    return { score, asign };
-}
-
-function planificarRC(rc, pts, plan) {
-    const mov = [];
-    const esLima = pts.filter(p => (p.zonal_tipo || '').toUpperCase() === 'LIMA').length * 2 >= pts.length;
-    if (esLima) {
-        // Top 300: 2 visitas; resto: 1. Si sobra capacidad, recuperan su 2da visita (Tambo primero)
-        pts.forEach(p => mov.push({ p, act: diasActuales(p), frec: esTop300(p) ? 2 : 1 }));
-        let total = mov.reduce((s, m) => s + m.frec, 0);
-        mov.filter(m => m.frec === 1 && m.act.length >= 2)
-           .sort((a, b) => ((b.p.tipo || '').toUpperCase() === 'TAMBO') - ((a.p.tipo || '').toUpperCase() === 'TAMBO'))
-           .forEach(m => { if (total < TOPE_SEMANA_LIMA) { m.frec = 2; total++; } });
-    } else {
-        pts.forEach(p => {
-            const act = diasActuales(p);
-            if (act.length >= 3) plan.set(String(p.ID), { rc, dias: act, orden: [], fijo: true });
-            else mov.push({ p, act, frec: act.length === 2 ? 2 : 1 });
+let _planZonas = null, _planCargado = false;
+PLAN.cargar(_BASE_DATA).then(() => { _planCargado = true; _planZonas = null; });
+function getPlanZonas() {
+    if (_planZonas) return _planZonas;
+    const vigente = PLAN.sumarDias(PLAN.lunesDe(PLAN.hoyLima()), 7);
+    const versiones = PLAN.versiones();
+    const pub = versiones.find(v => v.vigente_desde === vigente);
+    let plan;
+    if (pub) plan = pub.plan;
+    else {
+        const previas = versiones.filter(v => v.vigente_desde < vigente);
+        plan = PLAN.planificar({
+            puntos: allData, top300: top100Map, vigente_desde: vigente,
+            previo: previas.length ? previas[previas.length - 1].plan : null,
         });
     }
-    const n = mov.length;
-    if (!n) return;
-    const ruta  = rutaCercania(mov.map(m => m.p));
-    const total = mov.reduce((s, m) => s + m.frec, 0);
-    const perms = [[0,1,2],[0,2,1],[1,0,2],[1,2,0],[2,0,1],[2,1,0]];
-    const paso  = Math.max(1, Math.floor(n / 24));
-    let mejor = null;
-    // Se prueban varios puntos de corte y órdenes de grupos; gana el que más respeta los días actuales
-    for (let r = 0; r < n; r += paso) {
-        const orden = ruta.slice(r).concat(ruta.slice(0, r));
-        for (const perm of perms) {
-            const sol = repartirRuta(orden, mov, perm, total);
-            if (!mejor || sol.score > mejor.score) mejor = sol;
-        }
-    }
-    mejor.asign.forEach((a, i) => plan.set(String(mov[i].p.ID), { rc, ...a }));
-}
-
-let _planDias = null;
-function getPlanDias() {
-    if (_planDias) return _planDias;
-    if (!Object.keys(top100Map).length) console.warn('Plan de días sin Top 300 cargado');
-    const plan  = new Map();
-    const conRC = allData.filter(p => p.rc && p.rc !== 'SIN RC' && p.lat && p.lng);
-    const rcDe  = p => (p.rc && p.rc !== 'SIN RC') ? p.rc : rcMasCercano(p, conRC);
-
-    const porRC = {};
-    allData.forEach(p => {
-        if ((p.estado || '').toUpperCase() !== 'ACTIVO' || !p.lat || !p.lng) return;
-        const rc = rcDe(p);
-        if (rc) (porRC[rc] = porRC[rc] || []).push(p);
-    });
-    Object.entries(porRC).forEach(([rc, pts]) => planificarRC(rc, pts, plan));
-
-    // Puntos no activos: sin carga, toman el día del punto activo más cercano de su RC
-    allData.forEach(p => {
-        if (plan.has(String(p.ID)) || !p.lat || !p.lng) return;
-        const rc = rcDe(p), pool = porRC[rc];
-        if (!pool) return;
-        let ref = null, md = Infinity;
-        pool.forEach(r => { const d = haversineKm(p.lat, p.lng, r.lat, r.lng); if (d < md) { md = d; ref = r; } });
-        const a = ref && plan.get(String(ref.ID));
-        if (a) plan.set(String(p.ID), { rc, dias: [a.dias[0]], orden: [], ref: true });
-    });
-    if (Object.keys(top100Map).length) _planDias = plan;
+    if (_planCargado && (pub || Object.keys(top100Map).length)) _planZonas = plan;
     return plan;
 }
 
-const COLS_DIA_SUGERIDO = [...DIAS_ORDEN.map((_, i) => 'DIA ' + (i + 1)), 'Días Sugeridos',
-                           'Orden Sugerido', 'Visitas/sem sugeridas', 'Cambia Día'];
+const COLS_DIA_SUGERIDO = ['Ruta', 'Ciclo (sem)', ...DIAS_ORDEN.map((_, i) => 'DIA ' + (i + 1)), 'Días Sugeridos',
+                           'Próximas visitas', 'Orden Sugerido', 'Visitas/ciclo', 'Cambia Día'];
 
-// DIA 1..6: días de visita en orden de semana; los que no tiene quedan "SIN ASIGNAR"
+function proximasPlan(plan, p) {
+    const DIAS = ['dom', 'lun', 'mar', 'mié', 'jue', 'vie', 'sáb'], out = [];
+    for (let k = 0; k < 14; k++) {
+        const f = PLAN.sumarDias(plan.vigente_desde, k);
+        if (PLAN.tipoDia(f) === 'FERIADO' || !PLAN.programadaEn(plan, p, f)) continue;
+        const d = new Date(f + 'T12:00:00');
+        out.push(`${DIAS[d.getDay()]} ${d.getDate()}/${d.getMonth() + 1}`);
+    }
+    return out.join(', ');
+}
+
+// DIA 1..6: SharePoint (días de la semana) o slots del ciclo por fechas; los que no tiene, "SIN ASIGNAR"
 function diaSugeridoCols(p) {
-    const a = getPlanDias().get(String(p.ID));
-    if (!a) return COLS_DIA_SUGERIDO.map(() => '');
-    const idx   = a.dias.map((d, i) => i).sort((x, y) => DIAS_ORDEN.indexOf(a.dias[x]) - DIAS_ORDEN.indexOf(a.dias[y]));
-    const dias  = idx.map(i => a.dias[i]);
-    const orden = a.orden.length ? idx.map(i => a.orden[i]).join(' / ') : '';
-    const slots = DIAS_ORDEN.map((_, i) => dias[i] || 'SIN ASIGNAR');
-    const act   = diasActuales(p);
-    const cambio = a.fijo ? 'Fijo (3+ visitas)'
-                 : a.ref  ? 'Ref. punto activo cercano'
+    const plan = getPlanZonas();
+    const a = PLAN.asignacion(plan, p), cfg = a && plan.rcs[a.rc];
+    const act = PLAN.diasActuales(p).sort((x, y) => DIAS_ORDEN.indexOf(x) - DIAS_ORDEN.indexOf(y));
+    if (!cfg) {
+        if (!p.rc || p.rc === 'SIN RC') return COLS_DIA_SUGERIDO.map(() => '');
+        if (plan.rcs[p.rc]) return ['Ciclo (sin plan)', '', ...DIAS_ORDEN.map(() => 'SIN ASIGNAR'), '', '', '', 0, 'Sin plan: inactiva o sin coordenadas'];
+        return ['SharePoint', 1, ...DIAS_ORDEN.map((_, i) => act[i] || 'SIN ASIGNAR'), act.join(' - '),
+                proximasPlan(plan, p), '', act.length, act.length ? 'No' : 'Sin día en SharePoint'];
+    }
+    const visitas = [...a.f.map((s, k) => ({ t: 'f', s, o: (a.of || [])[k] })), ...a.i.map((s, k) => ({ t: 'i', s, o: (a.oi || [])[k] }))];
+    const etiquetas = visitas.map(v => PLAN.etiquetaSlot(cfg, v.t, v.s));
+    const cambia = cfg.T !== 1 ? 'Sí (ciclo por fechas)'
                  : !act.length ? 'Nuevo (sin día)'
-                 : (act.length === a.dias.length && a.dias.every(d => act.includes(d))) ? 'No' : 'Sí';
-    return [...slots, dias.join(' - '), orden, a.ref ? 0 : a.dias.length, cambio];
+                 : (act.length === etiquetas.length && etiquetas.every(d => act.includes(d))) ? 'No' : 'Sí';
+    return [`Ciclo ${cfg.T} sem`, cfg.T, ...DIAS_ORDEN.map((_, i) => etiquetas[i] || 'SIN ASIGNAR'), etiquetas.join(' - '),
+            proximasPlan(plan, p), visitas.map(v => v.o).join(' / '), etiquetas.length, cambia];
 }
 
 function descargarSugerenciasRC() {
@@ -862,39 +738,36 @@ function descargarSugerenciasRC() {
     }, 50);
 }
 
-// Hoja resumen: visitas por día y RC (actual vs sugerido), solo puntos activos
+// Hoja resumen por RC: ruta (SharePoint o ciclo), estado del tope y cargas por día
 function resumenDiasXml(pts, esc) {
-    const plan = getPlanDias(), filas = {};
-    pts.forEach(p => {
-        if ((p.estado || '').toUpperCase() !== 'ACTIVO') return;
-        const a = plan.get(String(p.ID));
-        const rc = (a && a.rc) || p.rc || 'SIN RC';
-        const f = filas[rc] = filas[rc] || { act: {}, sug: {}, top: 0, pts: 0 };
-        f.pts++;
-        if (esTop300(p)) f.top++;
-        diasActuales(p).forEach(d => f.act[d] = (f.act[d] || 0) + 1);
-        if (a) a.dias.forEach(d => f.sug[d] = (f.sug[d] || 0) + 1);
-    });
-    const FUERTES = ['LUNES', 'MARTES', 'JUEVES', 'VIERNES'], IMPULSO = ['MIÉRCOLES', 'SÁBADO'];
+    const plan = getPlanZonas();
+    const rcs = [...new Set(pts.filter(p => (p.estado || '').toUpperCase() === 'ACTIVO' && p.rc && p.rc !== 'SIN RC').map(p => p.rc))].sort();
+    const ESTADO = { OBJETIVO: 'OK (objetivo)', SOBRE_OBJETIVO: 'Sobre objetivo (≤ máx)', REQUIERE_REASIGNACION: 'Requiere reasignación' };
     const cel = (v, t) => `<Cell><Data ss:Type="${t}">${esc(v)}</Data></Cell>`;
-    const hdr = ['RC', 'Puntos activos', 'Top 300',
-                 ...DIAS_ORDEN.map(d => d + ' actual'), ...DIAS_ORDEN.map(d => d + ' sugerido'),
-                 'Visitas/sem sugeridas', 'Máx. L-M-J-V', 'Máx. Mi-S', 'Estado tope']
+    const hdr = ['RC', 'Ruta', 'Estado tope', 'Tiendas', 'Top 300', 'Visitas/ciclo', 'Máx L-M-J-V', 'Máx Mi-S',
+                 'Máx L-M-J-V SharePoint', 'Máx Mi-S SharePoint', ...DIAS_ORDEN.map(d => d + ' SharePoint')]
         .map(h => `<Cell ss:StyleID="H"><Data ss:Type="String">${esc(h)}</Data></Cell>`).join('');
-    const rows = Object.keys(filas).sort().map(rc => {
-        const f = filas[rc];
-        const maxF = Math.max(...FUERTES.map(d => f.sug[d] || 0));
-        const maxI = Math.max(...IMPULSO.map(d => f.sug[d] || 0));
-        const estado = (maxF <= TOPE_DIA_FUERTE && maxI <= TOPE_DIA_IMPULSO) ? 'OK'
-                     : (maxF <= MAX_DIA_FUERTE && maxI <= MAX_DIA_IMPULSO)   ? 'Sobre objetivo (≤25)'
-                     : 'Sobre tope: requiere apoyo';
-        return '<Row>' + cel(rc, 'String') + cel(f.pts, 'Number') + cel(f.top, 'Number') +
-            DIAS_ORDEN.map(d => cel(f.act[d] || 0, 'Number')).join('') +
-            DIAS_ORDEN.map(d => cel(f.sug[d] || 0, 'Number')).join('') +
-            cel(DIAS_ORDEN.reduce((s, d) => s + (f.sug[d] || 0), 0), 'Number') +
-            cel(maxF, 'Number') + cel(maxI, 'Number') + cel(estado, 'String') + '</Row>';
+    const rows = rcs.map(rc => {
+        let r = plan.resumen[rc];
+        if (!r) {
+            const lista = pts.filter(p => p.rc === rc && (p.estado || '').toUpperCase() === 'ACTIVO');
+            const c = {};
+            DIAS_ORDEN.forEach(d => { c[d] = 0; });
+            lista.forEach(p => PLAN.diasActuales(p).forEach(d => { c[d]++; }));
+            const maxF = Math.max(c['LUNES'], c['MARTES'], c['JUEVES'], c['VIERNES']), maxI = Math.max(c['MIÉRCOLES'], c['SÁBADO']);
+            r = { modo: 'PROVINCIA', tiendas: lista.length, top: lista.filter(esTop300).length, maxF, maxI, cargaSP: c };
+        }
+        const ruta = r.modo === 'REPLAN' ? `Ciclo ${r.T} sem` : r.modo === 'PROVINCIA' ? 'SharePoint (Provincia)' : 'SharePoint';
+        const estado = r.modo === 'REPLAN' ? (ESTADO[r.estado] || r.estado) : r.modo === 'PROVINCIA' ? '—' : 'OK (dentro del tope)';
+        const spF = r.modo === 'REPLAN' ? r.maxF_sp : r.maxF, spI = r.modo === 'REPLAN' ? r.maxI_sp : r.maxI;
+        const visitas = r.modo === 'REPLAN' ? r.visitas : DIAS_ORDEN.reduce((s, d) => s + ((r.cargaSP || {})[d] || 0), 0);
+        return '<Row>' + cel(rc, 'String') + cel(ruta, 'String') + cel(estado, 'String') +
+            cel(r.tiendas, 'Number') + cel(r.top, 'Number') + cel(visitas, 'Number') +
+            cel(r.maxF, 'Number') + cel(r.maxI, 'Number') + cel(spF, 'Number') + cel(spI, 'Number') +
+            DIAS_ORDEN.map(d => cel((r.cargaSP || {})[d] || 0, 'Number')).join('') + '</Row>';
     }).join('');
-    return `<Worksheet ss:Name="Resumen Días"><Table><Row>${hdr}</Row>${rows}</Table></Worksheet>`;
+    const nota = `<Row><Cell><Data ss:Type="String">Plan vigente desde ${plan.vigente_desde} · tope L-M-J-V ${PLAN.TOPE.fuerte.obj} (máx ${PLAN.TOPE.fuerte.max}) · Mi-S ${PLAN.TOPE.impulso.obj} (máx ${PLAN.TOPE.impulso.max})</Data></Cell></Row>`;
+    return `<Worksheet ss:Name="Resumen Días"><Table>${nota}<Row>${hdr}</Row>${rows}</Table></Worksheet>`;
 }
 
 function descargarPuntosExcel() {
