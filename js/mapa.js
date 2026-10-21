@@ -408,6 +408,7 @@ function enviarAlSheet(p, tipo, distM) {
         hoja: "Visitas", tipo,
         tienda: p.nombre, id: p.ID,
         rc: p.rc || "", supervisor: p.supervisor || "",
+        partner: p.responsable || "",
         zona: p.zona || "", cluster: p.cluster || "",
         gz: p.gz || "", jz: p.jz || "",
         latT: p.lat, lngT: p.lng,

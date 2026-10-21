@@ -438,11 +438,13 @@ function doGet(e) {
   if (hoja === "Visitas") {
     sheet.appendRow([fecha, hora, p.tipo||"", p.tienda||"", p.id||"",
       p.rc||"", p.supervisor||"", p.zona||"", p.cluster||"",
-      p.gz||"", p.jz||"", p.latT||"", p.lngT||"", p.latRC||"", p.lngRC||"", p.dist||""]);
+      p.gz||"", p.jz||"", p.latT||"", p.lngT||"", p.latRC||"", p.lngRC||"", p.dist||"",
+      "", "", "", p.partner||""]);   // Q-S las calcula el trigger; T = partner enviado por el mapa
   } else {
     sheet.appendRow([fecha, hora, p.tipo||"", p.tienda||"", p.id||"",
       p.rol||"", p.nombre||"", p.zona||"", p.cluster||"",
-      p.gz||"", p.jz||"", p.latT||"", p.lngT||"", p.latRC||"", p.lngRC||"", p.dist||""]);
+      p.gz||"", p.jz||"", p.latT||"", p.lngT||"", p.latRC||"", p.lngRC||"", p.dist||"",
+      "", "", "", p.partner||""]);
   }
 
   return ContentService.createTextOutput("ok");

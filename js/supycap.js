@@ -286,7 +286,8 @@ function enviarAlSheet(p, tipo, distM) {
         gz: p.gz || "", jz: p.jz || "",
         latT: p.lat, lngT: p.lng,
         latRC: userLat, lngRC: userLng,
-        dist: Math.round(distM)
+        dist: Math.round(distM),
+        partner: p.responsable || ""
     });
     return fetch(SHEET_URL + "?" + params.toString(), { mode: 'no-cors' });
 }
