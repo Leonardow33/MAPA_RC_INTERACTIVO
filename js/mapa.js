@@ -1199,8 +1199,8 @@ initGeolocation();
 const ORS_KEY = 'eyJvcmciOiI1YjNjZTM1OTc4NTExMTAwMDFjZjYyNDgiLCJpZCI6IjZmZTFlYjBiMDM1YjQxMDRhOWJkNGFiNjM0MTg4ZmZhIiwiaCI6Im11cm11cjY0In0=';
 
 // ── GOOGLE SHEET (reemplaza con tu URL de Apps Script desplegado) ──────────
-const SHEET_URL = "https://script.google.com/macros/s/AKfycby2f2uW9E2_CUBr9OiKVT4Sp-ubP2sRIXlWig-GPuKTGyDxi-zx724ZGtkOFaWW0jnqjw/exec";
-const ALERTA_GEO_URL = "https://script.google.com/macros/s/AKfycbzzWuOyZZM7rWCSXkLSEJj8HxZouINnwWnQpgcYIR5wx-j2m4kfQmosijVD11fdULto/exec";
+const SHEET_URL = "https://script.google.com/macros/s/AKfycbzzWuOyZZM7rWCSXkLSEJj8HxZouINnwWnQpgcYIR5wx-j2m4kfQmosijVD11fdULto/exec";
+const ALERTA_GEO_URL = SHEET_URL;   // un solo web app (MARCADORC): visitas, lecturas y alertas de GPS
 const SIN_VENTA_URL = "https://raw.githubusercontent.com/Leonardow33/MAPA_RC_INTERACTIVO/main/sinventa.txt";
 const REUNION_PIN = "0810"; // ← cambia este código cada mes
 // ── MATERIAL POP — Web App URL (pega tu URL después de desplegar el script) ──

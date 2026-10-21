@@ -814,7 +814,7 @@ fetchSinVenta();
 // ─────────────────────────────────────────────────────────────────────────
 
 // ── GOOGLE SHEET ──────────────────────────────────────────────────────────
-const SHEET_URL  = "https://script.google.com/macros/s/AKfycby2f2uW9E2_CUBr9OiKVT4Sp-ubP2sRIXlWig-GPuKTGyDxi-zx724ZGtkOFaWW0jnqjw/exec";
+const SHEET_URL  = "https://script.google.com/macros/s/AKfycbzzWuOyZZM7rWCSXkLSEJj8HxZouINnwWnQpgcYIR5wx-j2m4kfQmosijVD11fdULto/exec";
 // La hoja destino se determina dinámicamente en enviarAlSheet según el rol activo
 // ─────────────────────────────────────────────────────────────────────────
 
