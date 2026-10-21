@@ -1,0 +1,41 @@
+name: Plan de rutas (cambios en puntos)
+
+# Cada vez que cambian los puntos (Power Automate) o el Top 300: si hay altas, bajas o cambios
+# de RC/Top 300, publica una versión del plan que rige desde mañana sin mover tiendas ya asignadas.
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'data/puntos.json'
+      - 'data/top100_tambo.json'
+  workflow_dispatch:
+
+concurrency:
+  group: plan-rutas
+  cancel-in-progress: false
+
+jobs:
+  plan:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Actualizar plan desde mañana
+        env:
+          MODO: diario
+        run: node scripts/generar_plan.js
+
+      - name: Commit si hubo cambios
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add data/planes
+          git diff --cached --quiet && { echo "Plan sin cambios"; exit 0; }
+          git commit -m "chore: actualizar plan de rutas por cambios en puntos [skip ci]"
+          for i in 1 2 3 4 5; do
+            git pull --rebase && git push && break
+            echo "Intento $i fallido, reintentando en $((i*5))s..."
+            sleep $((i * 5))
+          done

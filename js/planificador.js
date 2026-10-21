@@ -293,6 +293,19 @@ function rutaCercania(pts) {
     return t;
 }
 
+// Recorrido abierto: la ruta cerrada se corta en su tramo más largo
+function ordenAbierto(pts) {
+    const t = rutaCercania(pts);
+    if (t.length < 3) return t;
+    let corte = 0, max = -1;
+    for (let k = 0; k < t.length; k++) {
+        const a = pts[t[k]], b = pts[t[(k + 1) % t.length]];
+        const d = haversineKm(a.lat, a.lng, b.lat, b.lng);
+        if (d > max) { max = d; corte = k; }
+    }
+    return t.slice(corte + 1).concat(t.slice(0, corte + 1));
+}
+
 // Grupos del ciclo: pares fuertes (s, s+N/2) para Top 300; impulso en pares o slots simples
 function gruposDeCiclo(T) {
     const N = Math.round(4 * T), M = Math.round(2 * T), grupos = [];
@@ -418,17 +431,15 @@ function repararTopes(st, capF, capI) {
     return false;
 }
 
-function cerrarEstado(st, T) {
-    if (!repararTopes(st, TOPE.fuerte.obj, TOPE.impulso.obj)) repararTopes(st, TOPE.fuerte.max, TOPE.impulso.max);
-    const pos = {};
-    st.orden.forEach((i, k) => { pos[i] = k; });
+function cerrarEstado(st, T, reparar = true) {
+    if (reparar && !repararTopes(st, TOPE.fuerte.obj, TOPE.impulso.obj)) repararTopes(st, TOPE.fuerte.max, TOPE.impulso.max);
+    // Orden de visita de cada día: ruta propia por cercanía (no depende de cómo se cortó la ruta del RC)
     const ordenSlot = {};
     ['f', 'i'].forEach(t => {
         const n = t === 'f' ? st.N : st.M;
         for (let s = 0; s < n; s++) {
-            st.mov.map((m, i) => i).filter(i => st.asig[i][t].includes(s))
-                .sort((a, b) => pos[a] - pos[b])
-                .forEach((i, k) => { ordenSlot[`${i}|${t}|${s}`] = k + 1; });
+            const miembros = st.mov.map((m, i) => i).filter(i => st.asig[i][t].includes(s));
+            ordenAbierto(miembros.map(i => st.mov[i].p)).forEach((k, pos) => { ordenSlot[`${miembros[k]}|${t}|${s}`] = pos + 1; });
         }
     });
     const tiendas = st.mov.map((m, i) => {
@@ -461,8 +472,9 @@ function asignarCiclo(mov, ruta, T) {
     return cerrarEstado(mejor, T);
 }
 
-// Mantiene la asignación previa e inserta solo tiendas nuevas o que cambiaron de frecuencia
-function asignarIncremental(mov, ruta, cfgPrev, tiendasPrev, rc) {
+// Mantiene la asignación previa e inserta solo tiendas nuevas o que cambiaron de frecuencia.
+// reparar=false (modo diario): ninguna tienda ya asignada cambia de fecha
+function asignarIncremental(mov, ruta, cfgPrev, tiendasPrev, rc, reparar = true) {
     const T = cfgPrev.T, { N, M } = gruposDeCiclo(T);
     const st = nuevoEstado(mov, N, M);
     st.orden = ruta;
@@ -494,7 +506,9 @@ function asignarIncremental(mov, ruta, cfgPrev, tiendasPrev, rc) {
             ponerAsig(st, i, best.t === 'f' ? { f: [best.s], i: [] } : { f: [], i: [best.s] });
         }
     });
-    return cerrarEstado(st, T);
+    const res = cerrarEstado(st, T, reparar);
+    res.nuevas = nuevos.length;
+    return res;
 }
 
 const dentroDe = (r, nivel) => r.maxF <= TOPE.fuerte[nivel] && r.maxI <= TOPE.impulso[nivel];
@@ -516,6 +530,14 @@ function planificarRC(rc, pts, top300, cfgPrev, tiendasPrev) {
     return { mov, res: res[res.length - 1], estado: 'REQUIERE_REASIGNACION' };
 }
 
+// Modo diario: solo altas, bajas y cambios de frecuencia; si se pasa el tope queda como alerta para el lunes
+function actualizarRC(rc, pts, top300, cfgPrev, tiendasPrev) {
+    const mov = pts.map(p => ({ p, id: String(p.ID), act: diasActuales(p), frec: top300[String(p.ID)] ? 2 : 1 }));
+    const res = asignarIncremental(mov, rutaCercania(mov.map(m => m.p)), cfgPrev, tiendasPrev || {}, rc, false);
+    const estado = dentroDe(res, 'obj') ? 'OBJETIVO' : dentroDe(res, 'max') ? 'SOBRE_OBJETIVO' : 'REQUIERE_REASIGNACION';
+    return { mov, res, estado };
+}
+
 function cargaSharePoint(pts) {
     const c = {};
     DIAS_ORDEN.forEach(d => { c[d] = 0; });
@@ -527,9 +549,11 @@ function cargaSharePoint(pts) {
     };
 }
 
-// Plan de una semana: RC de Lima que pasan el tope (o ya replanificados) pasan a ciclo por fechas
+// Plan por fechas: RC de Lima que pasan el tope (o ya replanificados) pasan a ciclo.
+// modo 'semanal' (lunes, para la semana siguiente): puede rearmar rutas completas.
+// modo 'diario' (desde mañana): solo altas/bajas sin mover tiendas; los excesos quedan como alerta.
 function planificar(o) {
-    const top300 = o.top300 || {}, previo = o.previo || null;
+    const top300 = o.top300 || {}, previo = o.previo || null, diario = o.modo === 'diario';
     const pts = (o.puntos || []).map(p => ({ ...p, lat: +p.lat, lng: +p.lng }));
     const porRC = {};
     pts.forEach(p => {
@@ -546,19 +570,39 @@ function planificar(o) {
         const lista = porRC[rc];
         const sp = cargaSharePoint(lista);
         const top = lista.filter(p => top300[String(p.ID)]).length;
-        const cfgPrev = previo && previo.rcs[rc];
+        let cfgPrev = previo && previo.rcs[rc], tiendasPrev = previo && previo.tiendas, heredaDe = null;
+        // Si recibe la cartera completa de un RC replanificado que ya no existe (vacante cubierta), hereda su plan
+        if (previo && !cfgPrev) {
+            const cuenta = {};
+            lista.forEach(p => { const pa = previo.tiendas[String(p.ID)]; if (pa && previo.rcs[pa.rc]) cuenta[pa.rc] = (cuenta[pa.rc] || 0) + 1; });
+            const [origen, n] = Object.entries(cuenta).sort((a, b) => b[1] - a[1])[0] || [];
+            if (origen && n * 2 >= lista.length && !porRC[origen]) {
+                heredaDe = origen;
+                cfgPrev = previo.rcs[origen];
+                tiendasPrev = {};
+                lista.forEach(p => {
+                    const pa = previo.tiendas[String(p.ID)];
+                    if (pa && pa.rc === origen) tiendasPrev[String(p.ID)] = { ...pa, rc };
+                });
+            }
+        }
         const excede = sp.maxF > TOPE.fuerte.max || sp.maxI > TOPE.impulso.max;
-        if (!cfgPrev && !excede) {
+        if (!cfgPrev && (!excede || diario)) {
             plan.resumen[rc] = { modo: 'SHAREPOINT', tiendas: lista.length, top, maxF: sp.maxF, maxI: sp.maxI, cargaSP: sp.porDia };
+            if (excede) plan.resumen[rc].alerta = 'Excede el tope en SharePoint: se replanifica el lunes para la semana siguiente';
             return;
         }
-        const { mov, res, estado } = planificarRC(rc, lista, top300, cfgPrev, previo && previo.tiendas);
+        const { mov, res, estado } = diario
+            ? actualizarRC(rc, lista, top300, cfgPrev, tiendasPrev)
+            : planificarRC(rc, lista, top300, cfgPrev, tiendasPrev);
         plan.rcs[rc] = { ancla: cfgPrev ? cfgPrev.ancla : lunesDe(o.vigente_desde), T: res.T, N: res.N, M: res.M, estado };
         mov.forEach((m, i) => { plan.tiendas[m.id] = { rc, ...res.tiendas[i] }; });
         plan.resumen[rc] = {
             modo: 'REPLAN', tiendas: lista.length, top, T: res.T, estado, visitas: res.visitas,
             maxF: res.maxF, maxI: res.maxI, maxF_sp: sp.maxF, maxI_sp: sp.maxI, cargaSP: sp.porDia,
         };
+        if (heredaDe) plan.resumen[rc].heredaDe = heredaDe;
+        if (diario && estado !== 'OBJETIVO') plan.resumen[rc].alerta = 'Pasa el objetivo por tiendas nuevas: se rearma el lunes para la semana siguiente';
     });
     return plan;
 }

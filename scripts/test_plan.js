@@ -100,6 +100,34 @@ console.log('6. Cumplimiento: casos fijos');
     PLAN.setFeriados(leer('feriados.json'));
 })();
 
+console.log('8. Modo diario: altas y bajas sin mover tiendas');
+(function () {
+    const base = plan, rcEj = Object.keys(base.rcs)[0];
+    const deRC = puntos.filter(p => base.tiendas[String(p.ID)] && base.tiendas[String(p.ID)].rc === rcEj);
+    const cerrada = deRC[0], modelo = deRC[1];
+    const nueva = { ...modelo, ID: 'NUEVA-1', nombre: 'TIENDA NUEVA', lat: modelo.lat + 0.001, lng: modelo.lng + 0.001, dias: [] };
+    const pts2 = puntos.map(p => p === cerrada ? { ...p, estado: 'CERRADO' } : p).concat([nueva]);
+    const manana = PLAN.sumarDias(INICIO, 2);
+    const d = PLAN.planificar({ puntos: pts2, top300, previo: base, vigente_desde: manana, modo: 'diario' });
+    check(d.tiendas['NUEVA-1'] && d.tiendas['NUEVA-1'].rc === rcEj, 'la tienda nueva no entró al plan');
+    check(!d.tiendas[String(cerrada.ID)], 'la tienda cerrada sigue en el plan');
+    let movidas = 0;
+    Object.entries(base.tiendas).forEach(([id, a]) => {
+        if (id === String(cerrada.ID)) return;
+        const b = d.tiendas[id];
+        if (!b || JSON.stringify([a.f, a.i]) !== JSON.stringify([b.f, b.i])) movidas++;
+    });
+    check(movidas === 0, `${movidas} tiendas cambiaron de fecha en modo diario`);
+    check(Object.entries(base.rcs).every(([rc, c]) => d.rcs[rc] && d.rcs[rc].T === c.T && d.rcs[rc].ancla === c.ancla), 'modo diario cambió un ciclo');
+    const cubierta = puntos.map(p => p.rc === rcEj ? { ...p, rc: 'RC QUE CUBRE VACANTE' } : p);
+    const h = PLAN.planificar({ puntos: cubierta, top300, previo: base, vigente_desde: manana, modo: 'diario' });
+    check(h.rcs['RC QUE CUBRE VACANTE'] && h.rcs['RC QUE CUBRE VACANTE'].ancla === base.rcs[rcEj].ancla, 'el RC que cubre la vacante no heredó el ciclo');
+    check(deRC.every(p => { const a = base.tiendas[String(p.ID)], b = h.tiendas[String(p.ID)];
+        return b && b.rc === 'RC QUE CUBRE VACANTE' && JSON.stringify([a.f, a.i]) === JSON.stringify([b.f, b.i]); }), 'al heredar cambiaron fechas');
+    const sin = PLAN.planificar({ puntos, top300, previo: base, vigente_desde: manana, modo: 'diario' });
+    check(JSON.stringify([sin.rcs, sin.tiendas]) === JSON.stringify([base.rcs, base.tiendas]), 'sin cambios no reproduce el mismo plan');
+})();
+
 console.log('7. Zona horaria');
 const firma = fechas.slice(0, 28).map(s => puntos.slice(0, 300).map(p => PLAN.tocaVisita(p, s) ? 1 : 0).join('')).join('|');
 console.log('  firma ' + require('crypto').createHash('md5').update(firma).digest('hex') + ' (TZ=' + (process.env.TZ || 'local') + ')');

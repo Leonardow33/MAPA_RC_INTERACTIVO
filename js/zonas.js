@@ -758,7 +758,8 @@ function resumenDiasXml(pts, esc) {
             r = { modo: 'PROVINCIA', tiendas: lista.length, top: lista.filter(esTop300).length, maxF, maxI, cargaSP: c };
         }
         const ruta = r.modo === 'REPLAN' ? `Ciclo ${r.T} sem` : r.modo === 'PROVINCIA' ? 'SharePoint (Provincia)' : 'SharePoint';
-        const estado = r.modo === 'REPLAN' ? (ESTADO[r.estado] || r.estado) : r.modo === 'PROVINCIA' ? '—' : 'OK (dentro del tope)';
+        const estado = (r.modo === 'REPLAN' ? (ESTADO[r.estado] || r.estado) : r.modo === 'PROVINCIA' ? '—' : 'OK (dentro del tope)') +
+                       (r.alerta ? ' · ⚠ ' + r.alerta : '');
         const spF = r.modo === 'REPLAN' ? r.maxF_sp : r.maxF, spI = r.modo === 'REPLAN' ? r.maxI_sp : r.maxI;
         const visitas = r.modo === 'REPLAN' ? r.visitas : DIAS_ORDEN.reduce((s, d) => s + ((r.cargaSP || {})[d] || 0), 0);
         return '<Row>' + cel(rc, 'String') + cel(ruta, 'String') + cel(estado, 'String') +

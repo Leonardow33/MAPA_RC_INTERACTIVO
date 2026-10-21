@@ -10,6 +10,10 @@ on:
         required: false
         default: ''
 
+concurrency:
+  group: plan-rutas
+  cancel-in-progress: false
+
 jobs:
   update:
     runs-on: ubuntu-latest
@@ -215,7 +219,9 @@ jobs:
       - name: Generar plan de rutas por fechas
         env:
           VIGENTE_DESDE: ${{ github.event.inputs.vigente_desde }}
-        run: node scripts/generar_plan.js
+        run: |
+          MODO=diario node scripts/generar_plan.js
+          MODO=semanal node scripts/generar_plan.js
 
       - name: Commit si hubo cambios
         run: |
