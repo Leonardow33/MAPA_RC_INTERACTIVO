@@ -1628,6 +1628,8 @@ function renderDashboard() {
             </div>`;
         })()}
 
+        ${htmlVisitasDelDia(rcs, fechaLabel)}
+
         <div class="dash-grid">
             <div class="dash-card">
                 <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">
@@ -1870,6 +1872,67 @@ function renderDashboard() {
                     </div>`;
                 }).join('')}</div>`}
         </div>
+    </div>`;
+}
+// ──────────────────────────────────────────────────────────────────────────
+
+// ── TIENDAS VISITADAS DEL DÍA, EN ORDEN, CON TIEMPO EN TIENDA ─────────────
+// Empareja ENTRADA/SALIDA por tienda; si el trigger aún no calculó el tiempo, lo deriva de las horas
+function visitasDelDia(rcs) {
+    const filas = [];
+    rcs.forEach(r => {
+        const abiertas = {};
+        const lista = [];
+        (r.visitas || []).forEach(v => {
+            const id = normalizeID(v.id || '');
+            const tipo = String(v.tipo || '').toUpperCase();
+            if (tipo === 'ENTRADA') {
+                const f = { rc: r.rc, id, tienda: v.tienda || id, entrada: v.hora || '', salida: '', tiempo: null };
+                abiertas[id] = f; lista.push(f);
+            } else if (tipo === 'SALIDA') {
+                let f = abiertas[id];
+                const ultima = lista[lista.length - 1];
+                if (!f && ultima && ultima.id === id && ultima.salida) return;   // SALIDA repetida (doble toque)
+                if (!f) { f = { rc: r.rc, id, tienda: v.tienda || id, entrada: '', salida: '', tiempo: null }; lista.push(f); }
+                f.salida = v.hora || '';
+                f.tiempo = _parseSeg(v.tiempoTienda);
+                if (!f.tiempo && f.entrada && f.salida) {
+                    const d = _parseSeg(f.salida) - _parseSeg(f.entrada);
+                    if (d > 0) f.tiempo = d;
+                }
+                delete abiertas[id];
+            }
+        });
+        lista.forEach((f, k) => filas.push({ ...f, n: k + 1 }));
+    });
+    return filas;
+}
+
+function htmlVisitasDelDia(rcs, fechaLabel) {
+    const filas = visitasDelDia(rcs);
+    const fmt = s => { if (!s) return '—'; const m = Math.floor(s / 60), x = s % 60; return m >= 60 ? `${Math.floor(m / 60)}h ${m % 60}m` : `${m}m ${String(x).padStart(2, '0')}s`; };
+    const colorT = s => !s ? '#475569' : s < 5 * 60 ? '#F59E0B' : s > 45 * 60 ? '#EF4444' : '#10B981';
+    const conTiempo = filas.filter(f => f.tiempo);
+    const prom = conTiempo.length ? Math.round(conTiempo.reduce((a, f) => a + f.tiempo, 0) / conTiempo.length) : 0;
+    const varios = new Set(filas.map(f => f.rc)).size > 1;
+    return `<div class="dash-card" style="margin-bottom:12px">
+        <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-bottom:8px">
+            <div class="dash-card-title" style="margin-bottom:0">Tiendas visitadas · ${fechaLabel}</div>
+            <div style="font-size:11px;color:#94A3B8">${filas.length} visita${filas.length !== 1 ? 's' : ''} · promedio en tienda <b style="color:#10B981">${fmt(prom)}</b></div>
+        </div>
+        ${!filas.length ? '<div style="color:#475569;font-size:12px;text-align:center;padding:16px 0">Sin visitas registradas</div>' : `
+        <div style="overflow:auto;max-height:420px"><table class="dash-table">
+            <thead><tr>${varios ? '<th>RC</th>' : ''}<th class="td-num">#</th><th>Tienda</th><th>Entrada</th><th>Salida</th><th>Tiempo</th></tr></thead>
+            <tbody>${filas.map(f => `<tr>
+                ${varios ? `<td style="font-size:10px;color:#94A3B8;white-space:nowrap">${f.n === 1 ? f.rc : ''}</td>` : ''}
+                <td class="td-num">${f.n}</td>
+                <td class="td-name" style="max-width:200px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis" title="${f.tienda} · ${f.id}">${f.tienda}</td>
+                <td style="font-size:11px;color:#64748B">${f.entrada || '—'}</td>
+                <td style="font-size:11px;color:#64748B">${f.salida || (f.entrada ? '<span style="color:#F59E0B">en tienda</span>' : '—')}</td>
+                <td style="font-size:12px;font-weight:700;color:${colorT(f.tiempo)}">${fmt(f.tiempo)}</td>
+            </tr>`).join('')}</tbody>
+        </table></div>
+        <div style="font-size:10px;color:#475569;margin-top:6px">Verde: 5–45 min · ámbar: menos de 5 min · rojo: más de 45 min</div>`}
     </div>`;
 }
 // ──────────────────────────────────────────────────────────────────────────
