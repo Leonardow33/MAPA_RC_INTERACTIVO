@@ -5,6 +5,9 @@ on:
     branches: [main]
     paths:
       - 'visitas.html'
+      - 'admin_claves.html'
+      - 'zonas.html'
+      - 'SUPYCAP.html'
       - 'mapa.html'
       - 'bonus.html'
       - 'logistica.html'
