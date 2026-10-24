@@ -178,12 +178,67 @@
       border-radius: 20px; padding: 4px 11px;
       pointer-events: none; z-index: 999; white-space: nowrap;
     }
+
+    /* ── PESTAÑAS ────────────────────────────────────────── */
+    .tabs { display: flex; gap: 6px; margin-bottom: 22px; background: #FFFFFF; border: 1.5px solid #F0D0DC; border-radius: 14px; padding: 4px; }
+    .tab-btn { background: none; border: none; font-family: inherit; font-size: 13px; font-weight: 700; color: #A07090; padding: 8px 18px; border-radius: 10px; cursor: pointer; transition: background .15s, color .15s; }
+    .tab-btn:hover { color: #2D1020; background: #FFF0F4; }
+    .tab-btn.active { background: #2D1020; color: #FFFFFF; }
+    .tab-pane { width: 100%; display: flex; flex-direction: column; align-items: center; }
+    .tab-pane[hidden] { display: none; }
+
+    /* ── RESUMEN GERENCIAL ───────────────────────────────── */
+    .rg-wrap { width: 100%; max-width: 1100px; display: flex; flex-direction: column; gap: 14px; }
+    .rg-controls { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+    .rg-controls label { font-size: 11px; font-weight: 700; color: #B090A0; letter-spacing: .05em; display: flex; align-items: center; gap: 6px; }
+    .rg-controls select, .rg-controls input {
+      font-family: inherit; font-size: 13px; font-weight: 600; color: #2D1020; background: #FFFFFF;
+      border: 1.5px solid #E8C8D4; border-radius: 10px; padding: 6px 10px; outline: none;
+    }
+    .rg-controls select:focus, .rg-controls input:focus { border-color: #C090A8; }
+    .rg-upd { font-size: 11px; color: #C0A0B0; margin-left: auto; }
+    .rg-kpis { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 10px; }
+    .rg-kpi { background: #FFFFFF; border: 1.5px solid #F0D0DC; border-radius: 14px; padding: 14px 16px; box-shadow: 0 1px 4px rgba(180,80,120,.07); }
+    .rg-kpi-lbl { font-size: 10px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: #C090A8; }
+    .rg-kpi-val { font-size: 24px; font-weight: 900; font-variant-numeric: tabular-nums; margin-top: 4px; color: #2D1020; }
+    .rg-kpi-sub { font-size: 11px; color: #A08090; margin-top: 2px; font-variant-numeric: tabular-nums; }
+    .rg-subtabs { display: flex; gap: 6px; flex-wrap: wrap; }
+    .rg-card { background: #FFFFFF; border: 1.5px solid #F0D0DC; border-radius: 16px; padding: 16px 18px; box-shadow: 0 1px 4px rgba(180,80,120,.07); }
+    .rg-card-title { font-size: 11px; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; color: #A07090; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: baseline; gap: 10px; flex-wrap: wrap; }
+    .rg-card-title small { font-size: 11px; font-weight: 600; letter-spacing: 0; text-transform: none; color: #C0A0B0; }
+    .rg-grid2 { display: grid; grid-template-columns: 1.4fr 1fr; gap: 14px; }
+    @media (max-width: 820px) { .rg-grid2 { grid-template-columns: 1fr; } }
+    .rg-scroll { overflow-x: auto; }
+    .rg-table { width: 100%; border-collapse: collapse; font-size: 12.5px; font-variant-numeric: tabular-nums; }
+    .rg-table th { text-align: right; font-size: 10px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; color: #B090A0; padding: 6px 8px; border-bottom: 1.5px solid #F0D0DC; white-space: nowrap; position: sticky; top: 0; background: #FFFFFF; }
+    .rg-table th:first-child, .rg-table td:first-child { text-align: left; }
+    .rg-table td { text-align: right; padding: 7px 8px; border-bottom: 1px solid #FBEAF0; white-space: nowrap; }
+    .rg-table tr:hover td { background: #FFF7FA; }
+    .rg-table td.rg-name { font-weight: 700; color: #2D1020; max-width: 240px; overflow: hidden; text-overflow: ellipsis; }
+    .rg-table tr.rg-total td { font-weight: 800; border-top: 1.5px solid #F0D0DC; border-bottom: none; }
+    .rg-pct { display: inline-block; min-width: 46px; text-align: center; font-weight: 800; font-size: 11.5px; border-radius: 8px; padding: 2px 6px; }
+    .rg-ok   { color: #0B7A52; background: rgba(13,168,112,.12); }
+    .rg-mid  { color: #9A5B00; background: rgba(217,119,6,.13); }
+    .rg-bad  { color: #B4232A; background: rgba(229,53,53,.11); }
+    .rg-none { color: #A08090; background: #F7EEF2; }
+    .rg-bar { height: 6px; border-radius: 6px; background: #F7E6EE; overflow: hidden; min-width: 70px; }
+    .rg-bar > div { height: 100%; border-radius: 6px; background: #C2185B; }
+    .rg-muted { color: #B8A0AC; }
+    .rg-tbl-wrap { max-height: 560px; overflow: auto; }
+    .rg-empty { text-align: center; color: #C0A0B0; font-size: 13px; padding: 24px 0; }
   </style>
 </head>
 <body>
   <div class="eyebrow">LOTOBOLA · Administración</div>
   <h1 class="page-title">Panel de Partners</h1>
   <div class="date-label" id="date-label">—</div>
+
+  <div class="tabs">
+    <button class="tab-btn active" data-tab="accesos">Accesos y claves</button>
+    <button class="tab-btn" data-tab="resumen">📊 Resumen de ventas</button>
+  </div>
+
+  <div class="tab-pane" id="tab-accesos">
 
   <div class="filter-row">
     <span class="filter-label">Mostrando: casas de apuestas</span>
@@ -302,6 +357,28 @@
       </div>
     </div>
 
+  </div>
+
+  </div>
+
+  <div class="tab-pane" id="tab-resumen" hidden>
+    <div class="rg-wrap">
+      <div class="rg-controls">
+        <label>FECHA <select id="rg-fecha"></select></label>
+        <label>PARTNER <select id="rg-partner"><option value="ALL">Todos</option></select></label>
+        <button class="filter-btn" onclick="rgExcel()">⬇ Excel</button>
+        <span class="rg-upd" id="rg-upd">cargando ventas…</span>
+      </div>
+      <div class="rg-kpis" id="rg-kpis"></div>
+      <div class="rg-subtabs">
+        <button class="filter-btn active" data-sub="general">General · partners y juegos</button>
+        <button class="filter-btn" data-sub="rcs">RCs</button>
+        <button class="filter-btn" data-sub="tiendas">Tiendas vs meta</button>
+      </div>
+      <div id="rg-general"></div>
+      <div id="rg-rcs" hidden></div>
+      <div id="rg-tiendas" hidden></div>
+    </div>
   </div>
 
   <div class="footer">
@@ -541,6 +618,311 @@
       ventasUpdTime = 'sin datos';
       render();
     });
+</script>
+
+<script>
+  // ── Pestañas ──────────────────────────────────────────────────
+  document.querySelectorAll('.tab-btn').forEach(b => b.addEventListener('click', () => {
+    document.querySelectorAll('.tab-btn').forEach(x => x.classList.toggle('active', x === b));
+    document.getElementById('tab-accesos').hidden = b.dataset.tab !== 'accesos';
+    document.getElementById('tab-resumen').hidden = b.dataset.tab !== 'resumen';
+    if (b.dataset.tab === 'resumen' && !RG.cargado) rgCargar();
+  }));
+
+  // ── Resumen gerencial de ventas ───────────────────────────────
+  const RG = { cargado: false, sub: 'general', orden: 'venta', estado: 'ALL', q: '', rc: 'ALL' };
+  const JUEGOS = ['PozoPower', 'Go', 'Elige 3', 'LakiDey', 'Turbito', 'Raspes'];
+  const DIAS_C = ['dom', 'lun', 'mar', 'mié', 'jue', 'vie', 'sáb'];
+  const num = v => { const n = parseFloat(v); return isNaN(n) ? 0 : n; };
+  const esc = v => String(v ?? '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+  const pct = (a, b) => b > 0 ? Math.round(a / b * 100) : null;
+  const pctTag = p => `<span class="rg-pct ${p === null ? 'rg-none' : p >= 100 ? 'rg-ok' : p >= 70 ? 'rg-mid' : 'rg-bad'}">${p === null ? '—' : p + '%'}</span>`;
+  const fmtN = n => Math.round(n).toLocaleString('es-PE');
+  const sumarDias = (s, n) => { const d = new Date(s + 'T12:00:00'); d.setDate(d.getDate() + n); return d.toLocaleDateString('sv'); };
+
+  async function rgCargar() {
+    RG.cargado = true;
+    const get = f => fetch('data/' + f + '?v=' + Date.now(), { cache: 'no-store' }).then(r => r.ok ? r.json() : null).catch(() => null);
+    const [pts, vm, vmp, lot, lak, tur, ras] = await Promise.all(['puntos.json', 'ventas_mes.json', 'ventas_mes_prev.json',
+      'ventas_loteria.json', 'ventas_lakidey.json', 'ventas_turbito.json', 'ventas_raspes.json'].map(get));
+    const filas = d => d ? (d.body || d.ventas || []) : [];
+    RG.puntos = Array.isArray(pts) ? pts : [];
+    RG.mapa = Object.fromEntries(RG.puntos.map(p => [String(p.ID), p]));
+    RG.total = {}; RG.juego = {}; RG.partnerVenta = {}; RG.nombreVenta = {};
+    [...filas(vmp), ...filas(vm)].forEach(v => {
+      if (v.tipo_juego !== 'TOTAL' || !v.fecha) return;
+      const id = String(v.org_code), d = RG.total[v.fecha] || (RG.total[v.fecha] = {});
+      d[id] = (d[id] || 0) + num(v.total);
+      RG.partnerVenta[id] = (v.partner || '').toUpperCase();
+      RG.nombreVenta[id] = v.nombre || '';
+    });
+    const sumarJuego = (v, juego) => {
+      if (!v.fecha) return;
+      const id = String(v.org_code), d = RG.juego[v.fecha] || (RG.juego[v.fecha] = {});
+      const t = d[id] || (d[id] = {});
+      t[juego] = (t[juego] || 0) + num(v.total);
+    };
+    const lk = filas(lak), tb = filas(tur);
+    filas(lot).forEach(v => {
+      let j = v.tipo_juego || '';
+      if (j === 'PozoPowerGo') j = 'Go';
+      if ((j === 'LakiDey' && lk.length) || (j === 'Turbito' && tb.length)) return;
+      if (JUEGOS.includes(j)) sumarJuego(v, j);
+    });
+    lk.forEach(v => sumarJuego(v, 'LakiDey'));
+    tb.forEach(v => sumarJuego(v, 'Turbito'));
+    filas(ras).forEach(v => sumarJuego(v, 'Raspes'));
+    RG.updated = vm && vm.updated ? fmtUpd(vm.updated) : '';
+
+    const fechas = Object.keys(RG.total).sort().reverse();
+    const sel = document.getElementById('rg-fecha');
+    sel.innerHTML = fechas.map(f => {
+      const d = new Date(f + 'T12:00:00');
+      return `<option value="${f}">${DIAS_C[d.getDay()]} ${d.getDate()}/${d.getMonth() + 1}${f === today ? ' · hoy' : ''}</option>`;
+    }).join('');
+    sel.value = fechas.includes(today) ? today : (fechas[0] || '');
+    const porPartner = {};
+    RG.puntos.forEach(p => { if ((p.estado || '').toUpperCase() === 'ACTIVO') { const k = (p.responsable || '').toUpperCase(); if (k) porPartner[k] = (porPartner[k] || 0) + 1; } });
+    document.getElementById('rg-partner').innerHTML = '<option value="ALL">Todos</option>' +
+      Object.keys(porPartner).sort((a, b) => porPartner[b] - porPartner[a]).map(k => `<option value="${esc(k)}">${esc(k)}</option>`).join('');
+    document.getElementById('rg-upd').textContent = RG.updated ? `Ventas actualizadas ${RG.updated} (Lima)` : 'sin hora de actualización';
+    sel.onchange = rgRender;
+    document.getElementById('rg-partner').onchange = () => { RG.rc = 'ALL'; rgRender(); };
+    rgRender();
+  }
+
+  // Tiendas del día con venta, meta, juegos y acumulado del mes (filtradas por partner)
+  function rgDatos(fecha, partner) {
+    const ventas = RG.total[fecha] || {}, juegos = RG.juego[fecha] || {};
+    const prev = RG.total[sumarDias(fecha, -7)] || null;
+    const mesFechas = Object.keys(RG.total).filter(f => f.slice(0, 7) === fecha.slice(0, 7) && f <= fecha);
+    const ids = new Set(Object.keys(ventas));
+    RG.puntos.forEach(p => { if ((p.estado || '').toUpperCase() === 'ACTIVO') ids.add(String(p.ID)); });
+    const tiendas = [];
+    ids.forEach(id => {
+      const p = RG.mapa[id];
+      const part = ((p && p.responsable) || RG.partnerVenta[id] || 'SIN PARTNER').toUpperCase();
+      if (partner !== 'ALL' && part !== partner) return;
+      const activa = !!p && (p.estado || '').toUpperCase() === 'ACTIVO';
+      const venta = ventas[id] || 0;
+      if (!activa && !venta) return;
+      tiendas.push({
+        id, nombre: (p && p.nombre) || RG.nombreVenta[id] || id, partner: part,
+        rc: (p && p.rc) || 'SIN RC', supervisor: (p && p.supervisor) || '', activa,
+        meta: activa ? num(p.meta_diaria) : 0, venta, j: juegos[id] || {},
+        prev: prev ? (prev[id] || 0) : null,
+        mes: mesFechas.reduce((s, f) => s + (RG.total[f][id] || 0), 0),
+      });
+    });
+    return { tiendas, diasMes: Number(fecha.slice(8, 10)), hayPrev: !!prev };
+  }
+
+  function agrupar(tiendas, clave) {
+    const g = {};
+    tiendas.forEach(t => {
+      const k = t[clave];
+      const r = g[k] || (g[k] = { k, activas: 0, conVenta: 0, venta: 0, meta: 0, ventaConMeta: 0, mes: 0, j: {} });
+      if (t.activa) r.activas++;
+      if (t.activa && t.venta > 0) r.conVenta++;
+      r.venta += t.venta; r.meta += t.meta; r.mes += t.mes;
+      if (t.meta > 0) r.ventaConMeta += t.venta;
+      JUEGOS.forEach(j => { r.j[j] = (r.j[j] || 0) + (t.j[j] || 0); });
+    });
+    return Object.values(g);
+  }
+
+  function rgRender() {
+    const fecha = document.getElementById('rg-fecha').value;
+    const partner = document.getElementById('rg-partner').value;
+    if (!fecha) { document.getElementById('rg-kpis').innerHTML = '<div class="rg-empty">Sin datos de ventas</div>'; return; }
+    const { tiendas, diasMes, hayPrev } = rgDatos(fecha, partner);
+    RG.ult = { fecha, partner, tiendas, diasMes };
+    const activas = tiendas.filter(t => t.activa);
+    const venta = tiendas.reduce((s, t) => s + t.venta, 0);
+    const meta = activas.reduce((s, t) => s + t.meta, 0);
+    const ventaMeta = tiendas.filter(t => t.meta > 0).reduce((s, t) => s + t.venta, 0);
+    const conVenta = activas.filter(t => t.venta > 0).length;
+    const vendedoras = tiendas.filter(t => t.venta > 0).length;
+    const prevTot = hayPrev ? tiendas.reduce((s, t) => s + (t.prev || 0), 0) : null;
+    const mes = tiendas.reduce((s, t) => s + t.mes, 0);
+    const metaMes = meta * diasMes;
+    const varSem = prevTot ? Math.round((venta - prevTot) / prevTot * 100) : null;
+    const d = new Date(fecha + 'T12:00:00');
+
+    document.getElementById('rg-kpis').innerHTML = `
+      <div class="rg-kpi"><div class="rg-kpi-lbl">Venta del día</div><div class="rg-kpi-val">${fmtS(venta)}</div>
+        <div class="rg-kpi-sub">${varSem === null ? 'sin dato de la semana anterior' : `${varSem >= 0 ? '▲' : '▼'} ${Math.abs(varSem)}% vs ${DIAS_C[d.getDay()]} anterior (${fmtS(prevTot)})`}</div></div>
+      <div class="rg-kpi"><div class="rg-kpi-lbl">Cumplimiento meta día</div><div class="rg-kpi-val">${pctTag(pct(ventaMeta, meta))}</div>
+        <div class="rg-kpi-sub">${fmtS(ventaMeta)} de ${fmtS(meta)}</div></div>
+      <div class="rg-kpi"><div class="rg-kpi-lbl">Tiendas con venta</div><div class="rg-kpi-val">${fmtN(conVenta)} <span style="font-size:14px;color:#B090A0">/ ${fmtN(activas.length)}</span></div>
+        <div class="rg-kpi-sub">${pct(conVenta, activas.length) ?? 0}% activas · ${fmtN(activas.length - conVenta)} sin venta</div></div>
+      <div class="rg-kpi"><div class="rg-kpi-lbl">Venta promedio por tienda</div><div class="rg-kpi-val">${fmtS(vendedoras ? venta / vendedoras : 0)}</div>
+        <div class="rg-kpi-sub">entre tiendas con venta</div></div>
+      <div class="rg-kpi"><div class="rg-kpi-lbl">Acumulado del mes</div><div class="rg-kpi-val">${fmtS(mes)}</div>
+        <div class="rg-kpi-sub">${pctTag(pct(mes, metaMes))} de meta a la fecha (${fmtS(metaMes)}, ${diasMes} días)</div></div>`;
+
+    rgGeneral(tiendas, venta, partner);
+    rgRCs(tiendas, partner);
+    rgTiendas(tiendas);
+    rgMostrarSub();
+  }
+
+  function filaGrupo(r, nombre, extra) {
+    const p = pct(r.ventaConMeta, r.meta);
+    return `<tr>
+      <td class="rg-name" title="${esc(nombre)}">${esc(nombre)}</td>
+      ${extra || ''}
+      <td>${fmtN(r.activas)}</td>
+      <td>${fmtN(r.conVenta)} <span class="rg-muted">(${pct(r.conVenta, r.activas) ?? 0}%)</span></td>
+      <td><b>${fmtS(r.venta)}</b></td>
+      <td class="rg-muted">${fmtS(r.meta)}</td>
+      <td>${pctTag(p)}</td>
+      <td>${fmtS(r.mes)}</td>
+    </tr>`;
+  }
+
+  function totalGrupos(gs) {
+    const t = { activas: 0, conVenta: 0, venta: 0, meta: 0, ventaConMeta: 0, mes: 0, j: {} };
+    gs.forEach(r => { ['activas', 'conVenta', 'venta', 'meta', 'ventaConMeta', 'mes'].forEach(k => { t[k] += r[k]; }); JUEGOS.forEach(j => { t.j[j] = (t.j[j] || 0) + (r.j[j] || 0); }); });
+    return t;
+  }
+
+  function rgGeneral(tiendas, venta, partner) {
+    const gs = agrupar(tiendas, 'partner').sort((a, b) => b.venta - a.venta);
+    const tot = totalGrupos(gs);
+    const sumaJ = JUEGOS.reduce((s, j) => s + (tot.j[j] || 0), 0);
+    const filasJ = JUEGOS.map(j => ({ j, v: tot.j[j] || 0, n: tiendas.filter(t => (t.j[j] || 0) > 0).length }));
+    if (venta - sumaJ > 0.5) filasJ.push({ j: 'Otros', v: venta - sumaJ, n: null });
+    const maxJ = Math.max(1, ...filasJ.map(x => x.v));
+    document.getElementById('rg-general').innerHTML = `
+      <div class="rg-grid2">
+        <div class="rg-card">
+          <div class="rg-card-title">Ventas por partner <small>${partner === 'ALL' ? 'todos los partners' : esc(partner)}</small></div>
+          <div class="rg-scroll"><table class="rg-table">
+            <thead><tr><th>Partner</th><th>Tiendas</th><th>Con venta</th><th>Venta día</th><th>Meta día</th><th>% meta</th><th>Mes</th></tr></thead>
+            <tbody>${gs.map(r => filaGrupo(r, r.k)).join('')}
+              ${gs.length > 1 ? filaGrupo(tot, 'Total').replace('<tr>', '<tr class="rg-total">') : ''}</tbody>
+          </table></div>
+        </div>
+        <div class="rg-card">
+          <div class="rg-card-title">Ventas por juego <small>${fmtS(venta)} en total</small></div>
+          <table class="rg-table">
+            <thead><tr><th>Juego</th><th>Venta</th><th>% total</th><th>Tiendas</th><th></th></tr></thead>
+            <tbody>${filasJ.map(x => `<tr>
+              <td class="rg-name">${x.j}</td>
+              <td><b>${fmtS(x.v)}</b></td>
+              <td>${venta ? Math.round(x.v / venta * 100) : 0}%</td>
+              <td class="rg-muted">${x.n === null ? '—' : fmtN(x.n)}</td>
+              <td style="width:30%"><div class="rg-bar"><div style="width:${x.v / maxJ * 100}%"></div></div></td>
+            </tr>`).join('')}</tbody>
+          </table>
+          ${filasJ.some(x => x.j === 'Otros') ? '<div class="rg-kpi-sub" style="margin-top:8px">"Otros" es la diferencia entre la venta total y los juegos con detalle.</div>' : ''}
+        </div>
+      </div>`;
+  }
+
+  function rgRCs(tiendas, partner) {
+    const gs = agrupar(tiendas, 'rc').sort((a, b) => (pct(b.ventaConMeta, b.meta) ?? -1) - (pct(a.ventaConMeta, a.meta) ?? -1) || b.venta - a.venta);
+    const tot = totalGrupos(gs);
+    const supDe = {};
+    tiendas.forEach(t => { if (t.supervisor && !supDe[t.rc]) supDe[t.rc] = t.supervisor; });
+    const juegosCols = ['PozoPower', 'LakiDey', 'Raspes', 'Go'];
+    const fila = (r, nombre, cls) => filaGrupo(r, nombre, `<td class="rg-muted" style="text-align:left">${esc(cls ? '' : (supDe[r.k] || ''))}</td>`)
+      .replace('</tr>', juegosCols.map(j => `<td class="rg-muted">${fmtS(r.j[j] || 0)}</td>`).join('') + '</tr>');
+    document.getElementById('rg-rcs').innerHTML = `
+      <div class="rg-card">
+        <div class="rg-card-title">Avance por RC <small>${partner === 'ALL' ? 'todos los partners · elige TAMBO arriba para ver solo Tambo' : esc(partner)} · ordenado por % de meta</small></div>
+        <div class="rg-scroll rg-tbl-wrap"><table class="rg-table">
+          <thead><tr><th>RC</th><th style="text-align:left">Supervisor</th><th>Tiendas</th><th>Con venta</th><th>Venta día</th><th>Meta día</th><th>% meta</th><th>Mes</th>${juegosCols.map(j => `<th>${j}</th>`).join('')}</tr></thead>
+          <tbody>${gs.map(r => fila(r, r.k)).join('')}${gs.length > 1 ? fila(tot, 'Total', true).replace('<tr>', '<tr class="rg-total">') : ''}</tbody>
+        </table></div>
+      </div>`;
+  }
+
+  function rgTiendas(tiendas) {
+    const rcs = [...new Set(tiendas.map(t => t.rc))].sort();
+    if (RG.rc !== 'ALL' && !rcs.includes(RG.rc)) RG.rc = 'ALL';
+    const q = RG.q.trim().toUpperCase();
+    let lista = tiendas.filter(t => t.activa || t.venta > 0).filter(t => {
+      const p = pct(t.venta, t.meta);
+      if (RG.rc !== 'ALL' && t.rc !== RG.rc) return false;
+      if (q && !(`${t.id} ${t.nombre}`.toUpperCase().includes(q))) return false;
+      if (RG.estado === 'SIN' && t.venta > 0) return false;
+      if (RG.estado === 'BAJO' && !(t.venta > 0 && p !== null && p < 100)) return false;
+      if (RG.estado === 'CUMPLE' && !(p !== null && p >= 100)) return false;
+      return true;
+    });
+    const ord = { venta: (a, b) => b.venta - a.venta, pct: (a, b) => (pct(b.venta, b.meta) ?? -1) - (pct(a.venta, a.meta) ?? -1), pctAsc: (a, b) => (pct(a.venta, a.meta) ?? 999) - (pct(b.venta, b.meta) ?? 999), nombre: (a, b) => a.nombre.localeCompare(b.nombre) }[RG.orden];
+    lista.sort(ord);
+    const LIMITE = 400;
+    document.getElementById('rg-tiendas').innerHTML = `
+      <div class="rg-card">
+        <div class="rg-card-title">Ventas de cada tienda vs su meta del día <small>${fmtN(lista.length)} tiendas${lista.length > LIMITE ? ` · mostrando ${LIMITE}, usa los filtros o el Excel para ver todas` : ''}</small></div>
+        <div class="rg-controls" style="margin-bottom:10px">
+          <input id="rg-q" placeholder="Buscar tienda o código" value="${esc(RG.q)}" style="min-width:200px">
+          <label>RC <select id="rg-rc"><option value="ALL">Todos</option>${rcs.map(r => `<option value="${esc(r)}"${r === RG.rc ? ' selected' : ''}>${esc(r)}</option>`).join('')}</select></label>
+          <label>ESTADO <select id="rg-estado">
+            ${[['ALL', 'Todas'], ['SIN', 'Sin venta'], ['BAJO', 'Bajo la meta'], ['CUMPLE', 'Cumple la meta']].map(([v, t]) => `<option value="${v}"${v === RG.estado ? ' selected' : ''}>${t}</option>`).join('')}</select></label>
+          <label>ORDEN <select id="rg-orden">
+            ${[['venta', 'Mayor venta'], ['pct', 'Mayor % meta'], ['pctAsc', 'Menor % meta'], ['nombre', 'Nombre']].map(([v, t]) => `<option value="${v}"${v === RG.orden ? ' selected' : ''}>${t}</option>`).join('')}</select></label>
+        </div>
+        ${!lista.length ? '<div class="rg-empty">Ninguna tienda con esos filtros</div>' : `
+        <div class="rg-scroll rg-tbl-wrap"><table class="rg-table">
+          <thead><tr><th>Tienda</th><th>Código</th><th style="text-align:left">Partner</th><th style="text-align:left">RC</th><th>Venta día</th><th>Meta día</th><th>% meta</th><th>PozoPower</th><th>LakiDey</th><th>Raspes</th><th>Go</th><th>Elige 3</th><th>Mes</th></tr></thead>
+          <tbody>${lista.slice(0, LIMITE).map(t => `<tr>
+            <td class="rg-name" title="${esc(t.nombre)}">${esc(t.nombre)}</td>
+            <td class="rg-muted">${esc(t.id)}</td>
+            <td class="rg-muted" style="text-align:left">${esc(t.partner)}</td>
+            <td class="rg-muted" style="text-align:left">${esc(t.rc)}</td>
+            <td><b>${t.venta ? fmtS(t.venta) : '<span class="rg-bad rg-pct">sin venta</span>'}</b></td>
+            <td class="rg-muted">${fmtS(t.meta)}</td>
+            <td>${pctTag(pct(t.venta, t.meta))}</td>
+            ${['PozoPower', 'LakiDey', 'Raspes', 'Go', 'Elige 3'].map(j => `<td class="rg-muted">${t.j[j] ? fmtS(t.j[j]) : '—'}</td>`).join('')}
+            <td>${fmtS(t.mes)}</td>
+          </tr>`).join('')}</tbody>
+        </table></div>`}
+      </div>`;
+    const q2 = document.getElementById('rg-q');
+    q2.oninput = () => { RG.q = q2.value; clearTimeout(RG.tq); RG.tq = setTimeout(() => { rgTiendas(RG.ult.tiendas); const x = document.getElementById('rg-q'); x.focus(); x.setSelectionRange(x.value.length, x.value.length); }, 250); };
+    document.getElementById('rg-rc').onchange = e => { RG.rc = e.target.value; rgTiendas(RG.ult.tiendas); };
+    document.getElementById('rg-estado').onchange = e => { RG.estado = e.target.value; rgTiendas(RG.ult.tiendas); };
+    document.getElementById('rg-orden').onchange = e => { RG.orden = e.target.value; rgTiendas(RG.ult.tiendas); };
+  }
+
+  function rgMostrarSub() {
+    ['general', 'rcs', 'tiendas'].forEach(k => { document.getElementById('rg-' + k).hidden = RG.sub !== k; });
+    document.querySelectorAll('[data-sub]').forEach(b => b.classList.toggle('active', b.dataset.sub === RG.sub));
+  }
+  document.querySelectorAll('[data-sub]').forEach(b => b.addEventListener('click', () => { RG.sub = b.dataset.sub; rgMostrarSub(); }));
+
+  function rgExcel() {
+    if (!RG.ult) return;
+    const { fecha, partner, tiendas } = RG.ult;
+    const x = v => String(v ?? '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    const cel = v => `<Cell><Data ss:Type="${typeof v === 'number' ? 'Number' : 'String'}">${x(typeof v === 'number' ? Math.round(v * 100) / 100 : v)}</Data></Cell>`;
+    const hoja = (nombre, cols, filas) => `<Worksheet ss:Name="${nombre}"><Table><Row>${cols.map(c => `<Cell ss:StyleID="H"><Data ss:Type="String">${x(c)}</Data></Cell>`).join('')}</Row>` +
+      filas.map(f => '<Row>' + f.map(cel).join('') + '</Row>').join('') + '</Table></Worksheet>';
+    const grupo = r => [r.k, r.activas, r.conVenta, r.venta, r.meta, pct(r.ventaConMeta, r.meta) ?? '', r.mes];
+    const cols = ['Tiendas activas', 'Con venta', 'Venta día', 'Meta día', '% meta', 'Mes acumulado'];
+    const parts = agrupar(tiendas, 'partner').sort((a, b) => b.venta - a.venta);
+    const rcs = agrupar(tiendas, 'rc').sort((a, b) => b.venta - a.venta);
+    const venta = tiendas.reduce((s, t) => s + t.venta, 0);
+    const juegos = JUEGOS.map(j => { const v = tiendas.reduce((s, t) => s + (t.j[j] || 0), 0); return [j, v, venta ? Math.round(v / venta * 100) : 0, tiendas.filter(t => (t.j[j] || 0) > 0).length]; });
+    const xml = `<?xml version="1.0"?><?mso-application progid="Excel.Sheet"?>` +
+      `<Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet" xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet">` +
+      `<Styles><Style ss:ID="H"><Font ss:Bold="1"/><Interior ss:Color="#F8D7E3" ss:Pattern="Solid"/></Style></Styles>` +
+      hoja('Partners', ['Partner', ...cols], parts.map(grupo)) +
+      hoja('Juegos', ['Juego', 'Venta', '% del total', 'Tiendas que venden'], juegos) +
+      hoja('RCs', ['RC', ...cols, ...JUEGOS], rcs.map(r => [...grupo(r), ...JUEGOS.map(j => r.j[j] || 0)])) +
+      hoja('Tiendas', ['Código', 'Tienda', 'Partner', 'RC', 'Supervisor', 'Venta día', 'Meta día', '% meta', ...JUEGOS, 'Mes acumulado'],
+        tiendas.slice().sort((a, b) => b.venta - a.venta).map(t => [t.id, t.nombre, t.partner, t.rc, t.supervisor, t.venta, t.meta, pct(t.venta, t.meta) ?? '', ...JUEGOS.map(j => t.j[j] || 0), t.mes])) +
+      `</Workbook>`;
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(new Blob([xml], { type: 'application/vnd.ms-excel' }));
+    a.download = `Resumen_ventas_${fecha}${partner !== 'ALL' ? '_' + partner.replace(/\s+/g, '_') : ''}.xls`;
+    a.click();
+    URL.revokeObjectURL(a.href);
+  }
 </script>
 <div class="dev-badge">Desarrollado por Dorinat C.</div>
 </body>
