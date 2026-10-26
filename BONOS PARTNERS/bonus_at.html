@@ -1026,6 +1026,33 @@
     .stock-save-btn:disabled { opacity:.5;cursor:not-allowed; }
     .stock-cancel-btn { padding:12px 16px;background:transparent;border:1.5px solid var(--border);border-radius:10px;color:var(--muted);font-size:13px;font-weight:600;font-family:inherit;cursor:pointer; }
     .stock-feedback { text-align:center;font-size:12px;font-weight:600;margin-top:9px;min-height:16px; }
+
+    /* ── META SEMANAL + RANKING POR CLÚSTER ─────────────────── */
+    .week-chart { height: 88px; }
+    .wc-plot { position: relative; width: 100%; display: flex; align-items: flex-end; flex-shrink: 0; }
+    .wc-meta-line { position: absolute; left: -3px; right: -3px; border-top: 1.5px dashed var(--green); pointer-events: none; z-index: 1; }
+    .wc-meta-cap { font-size: 11px; color: var(--muted); margin-top: 10px; display: flex; align-items: center; gap: 6px; }
+    .wc-meta-cap::before { content: ''; width: 16px; border-top: 1.5px dashed var(--green); }
+    #role-panel-rank { width: 100%; max-width: 420px; }
+    .rank-sub { font-size: 11px; color: var(--muted); margin: -4px 0 10px; text-align: center; }
+    .rk-list { position: relative; display: flex; flex-direction: column; gap: 6px; max-height: 52vh; overflow-y: auto; }
+    .rank-card { background: var(--surf); border: 1px solid var(--border); border-radius: 16px; padding: 16px 14px 14px; }
+    .rank-card .rk-list { max-height: 280px; }
+    .rk-head { font-size: 13px; color: var(--muted); margin: -4px 0 12px; }
+    .rk-big { font-size: 26px; font-weight: 800; color: var(--accent); }
+    .rk-week { font-size: 11px; color: var(--dim); }
+    .rk-row { display: flex; align-items: center; gap: 10px; padding: 9px 12px; background: var(--surf); border: 1.5px solid var(--border); border-radius: 12px; cursor: pointer; transition: background .15s, border-color .15s; }
+    .rk-row:hover { background: var(--surf2); border-color: var(--accent); }
+    .rk-row--me { border-color: var(--accent); background: var(--surf2); box-shadow: 0 0 0 2px var(--glow); }
+    .rk-pos { width: 26px; text-align: center; font-size: 13px; font-weight: 800; color: var(--muted); flex-shrink: 0; font-variant-numeric: tabular-nums; }
+    .rk-info { flex: 1; min-width: 0; }
+    .rk-name { font-size: 12px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .rk-bar { height: 4px; background: var(--border); border-radius: 2px; margin-top: 5px; overflow: hidden; }
+    .rk-fill { height: 100%; border-radius: 2px; }
+    .rk-right { text-align: right; flex-shrink: 0; }
+    .rk-pct { font-size: 14px; font-weight: 800; font-variant-numeric: tabular-nums; }
+    .rk-amt { font-size: 10px; color: var(--muted); white-space: nowrap; font-variant-numeric: tabular-nums; }
+    .gz-sem { font-size: 12px; color: var(--muted); margin-bottom: 6px; }
   </style>
 </head>
 <body>
@@ -1061,6 +1088,14 @@
     <button class="role-tab active" id="tab-tienda" onclick="setRole('tienda')">🏪 Mi tienda</button>
     <button class="role-tab" id="tab-gz" onclick="setRole('gz')">Supervisor</button>
     <button class="role-tab" id="tab-jz" onclick="setRole('jz')">Jefe Comercial</button>
+    <button class="role-tab" id="tab-rank" onclick="setRole('rank')">🏆 Ranking</button>
+  </div>
+
+  <!-- Panel: Ranking → posición y avance semanal por clúster -->
+  <div id="role-panel-rank" style="display:none">
+    <select class="role-select" id="rank-select"></select>
+    <p class="rank-sub" id="rank-sub"></p>
+    <div class="rk-list" id="rank-list"></div>
   </div>
 
   <!-- Panel: Tienda → búsqueda por nombre/código + lista completa -->
@@ -1235,6 +1270,14 @@
       <div class="card-title">Evolución · semana en curso</div>
       <div class="week-chart" id="week-chart"></div>
       <div class="wc-tooltip" id="wc-tooltip" style="display:none"></div>
+      <div class="wc-meta-cap" id="wc-meta-cap" style="display:none"></div>
+    </div>
+
+    <!-- Ranking semanal por clúster -->
+    <div class="rank-card" id="rank-card" style="display:none">
+      <div class="card-title" id="rank-card-title">Ranking semanal</div>
+      <div class="rk-head" id="rank-card-pos"></div>
+      <div class="rk-list" id="rank-card-list"></div>
     </div>
 
     <!-- Stock Rapiraspas -->
@@ -1363,10 +1406,13 @@
   }
 
   function setRole(role) {
-    ['tienda','jz','gz'].forEach(r => {
-      document.getElementById('tab-' + r).classList.toggle('active', r === role);
+    ['tienda','jz','gz','rank'].forEach(r => {
+      const tab = document.getElementById('tab-' + r);
+      if (!tab) return;
+      tab.classList.toggle('active', r === role);
       document.getElementById('role-panel-' + r).style.display = r === role ? '' : 'none';
     });
+    if (role === 'rank') renderRankPanel();
     if (role === 'tienda') document.getElementById('search-input').focus();
   }
 
@@ -1439,6 +1485,11 @@
     const faltaColor = totalMeta && totalVentas < totalMeta ? 'var(--red)' : 'var(--green)';
     const barW       = Math.min(pct || 0, 100);
     const m          = motivation(pct);
+    const wm         = weeklyVentasMap();
+    let semV = 0, semM = 0;
+    stores.forEach(s => { semV += wm[String(s.ID)] || 0; semM += metaSemDe(s); });
+    const semPct     = semM ? Math.round(semV / semM * 100) : null;
+    const semCol     = semPct !== null ? pctColor(semPct) : 'var(--dim)';
 
     summaryEl.style.display = '';
     summaryEl.innerHTML = `
@@ -1464,6 +1515,8 @@
             <div class="gz-sum-lbl">Falta</div>
           </div>
         </div>
+        <div class="gz-sem">Esta semana: <b>${fmtS(semV)}</b> de ${semM ? fmtS(semM) : 'S/ —'} · <b style="color:${semCol}">${semPct !== null ? semPct + '%' : '—'}</b></div>
+        <div class="pbar-track" style="margin:0 0 14px"><div class="pbar-fill" style="width:${Math.min(semPct || 0, 100)}%;background:${semCol}"></div></div>
         <div style="border-radius:12px;padding:11px 13px;display:flex;gap:11px;align-items:flex-start;background:${m.bg};margin-bottom:12px;">
           <div style="font-size:20px;line-height:1;flex-shrink:0;margin-top:1px">${m.icon}</div>
           <div>
@@ -1539,8 +1592,9 @@
     const mesLabel   = meses[now.getMonth()] + ' ' + now.getFullYear();
     const ids        = new Set(stores.map(s => String(s.ID)));
     const vm         = monthlyVentasMap(ids);
+    const wm         = weeklyVentasMap();
     const esc        = v => String(v == null ? '' : v).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
-    const cols      = ['Jefe Comercial','Supervisor','ID Tienda','Tienda','Período','Días transcurridos','Ventas S/','Meta Mensual S/','Avance % (mes)','Falta para meta S/'];
+    const cols      = ['Jefe Comercial','Supervisor','ID Tienda','Tienda','Período','Días transcurridos','Ventas S/','Meta Mensual S/','Avance % (mes)','Falta para meta S/','Ventas semana S/','Meta semanal S/','Avance % (semana)'];
     const totalDias = 30;
 
     const filas = [...stores]
@@ -1555,7 +1609,9 @@
         const pct  = meta > 0 ? Math.round(sold / meta * 100) : '';
         const falt = meta > 0 ? Math.round(sold < meta ? sold - meta : 0) : '';
         return [jz, s.gz || '', s.ID || '', s.nombre || '', mesLabel, diasCalMes,
-                Math.round(sold), Math.round(meta), pct, falt];
+                Math.round(sold), Math.round(meta), pct, falt,
+                Math.round(wm[String(s.ID)] || 0), metaSemDe(s) || '',
+                metaSemDe(s) ? Math.round((wm[String(s.ID)] || 0) / metaSemDe(s) * 100) : ''];
       });
 
     let xml = '<?xml version="1.0" encoding="UTF-8"?><?mso-application progid="Excel.Sheet"?>' +
@@ -1608,6 +1664,7 @@
 
   function buildStoreRows(stores, vm, diasCalMes) {
     const frag = document.createDocumentFragment();
+    const wm   = weeklyVentasMap();
     [...stores].sort((a, b) => {
       const pA = a.meta_diaria ? (vm[String(a.ID)] || 0) / (a.meta_diaria * diasCalMes) : -1;
       const pB = b.meta_diaria ? (vm[String(b.ID)] || 0) / (b.meta_diaria * diasCalMes) : -1;
@@ -1617,6 +1674,8 @@
       const meta = s.meta_diaria ? Math.round(parseFloat(s.meta_diaria) * diasCalMes) : null;
       const pct  = meta ? Math.round(sold / meta * 100) : null;
       const col  = pct !== null ? pctColor(pct) : 'var(--dim)';
+      const semMeta = metaSemDe(s);
+      const semPct  = semMeta ? Math.round((wm[String(s.ID)] || 0) / semMeta * 100) : null;
       const row  = document.createElement('div');
       row.className = 'store-row';
       row.innerHTML = `
@@ -1627,6 +1686,7 @@
         <div class="sr-right">
           <div class="sr-val" style="color:${col}">${fmtS(sold)}</div>
           <div class="sr-pct" style="color:${col}">${pct !== null ? pct+'%' : '—'}</div>
+          <div class="sr-pct" style="font-size:10px;color:${semPct !== null ? pctColor(semPct) : 'var(--dim)'}">Sem ${semPct !== null ? semPct+'%' : '—'}</div>
         </div>`;
       row.addEventListener('click', () => renderDashboard(s));
       frag.appendChild(row);
@@ -1657,6 +1717,7 @@
     const diasCalMes = 30;
     const ids        = new Set(stores.map(s => String(s.ID)));
     const vm         = monthlyVentasMap(ids);
+    const wm         = weeklyVentasMap();
 
     const supMap = {};
     stores.forEach(s => {
@@ -1679,6 +1740,9 @@
       const pct  = totM ? Math.round(totV / totM * 100) : null;
       const col  = pct !== null ? pctColor(pct) : 'var(--dim)';
       const barW = Math.min(pct || 0, 100);
+      let semV = 0, semM = 0;
+      gzStores.forEach(s => { semV += wm[String(s.ID)] || 0; semM += metaSemDe(s); });
+      const semPct = semM ? Math.round(semV / semM * 100) : null;
 
       const card = document.createElement('div');
       card.className = 'sup-card';
@@ -1686,7 +1750,7 @@
         <div class="sup-header">
           <div style="flex:1;min-width:0">
             <div class="sup-name">${gz}</div>
-            <div class="sup-submeta">${gzStores.length} tienda${gzStores.length!==1?'s':''} · ${fmtS(totV)}</div>
+            <div class="sup-submeta">${gzStores.length} tienda${gzStores.length!==1?'s':''} · ${fmtS(totV)} · Sem ${semPct!==null?semPct+'%':'—'}</div>
             <div class="sup-bar-wrap"><div class="sup-bar-fill" style="width:${barW}%;background:${col}"></div></div>
           </div>
           <div class="sup-right">
@@ -1793,6 +1857,154 @@
     return cnt;
   }
 
+  // ── Meta semanal y ranking por clúster ────────────────────────────────────
+  // Meta semanal = meta_diaria × 7 (semana Lun→Dom). El clúster sale de cluster_bono
+  // y, si viene vacío o "SIN CLUSTER", de cluster.
+  const sinCluster = v => !v || !String(v).trim() || String(v).trim().toUpperCase() === 'SIN CLUSTER';
+  let _clusterMap = null, _semMap = null, _rankReady = false;
+
+  function metaSemDe(s) {
+    const md = parseFloat(s.meta_diaria);
+    return md > 0 ? Math.round(md * 7) : 0;
+  }
+
+  function clusterDe(s) {
+    if (!_clusterMap) {
+      const raw = {}, sizes = {};
+      allStores.forEach(p => {
+        const c = !sinCluster(p.cluster_bono) ? String(p.cluster_bono).trim()
+                : !sinCluster(p.cluster)      ? String(p.cluster).trim() : '';
+        raw[String(p.ID)] = c;
+        if (c) sizes[c] = (sizes[c] || 0) + 1;
+      });
+      // Sin clústeres, o todos de una sola tienda (p. ej. Doradobet) → un único ranking general
+      const nombres = Object.keys(sizes);
+      const unico   = !nombres.length || nombres.every(c => sizes[c] === 1);
+      _clusterMap = {};
+      Object.keys(raw).forEach(id => { _clusterMap[id] = unico ? 'GENERAL' : (raw[id] || 'SIN CLÚSTER'); });
+    }
+    return _clusterMap[String(s.ID)];
+  }
+
+  function rangoSemana() {
+    const ini = lunesDe(new Date());
+    const fin = new Date(ini); fin.setDate(ini.getDate() + 6); fin.setHours(23,59,59,999);
+    return { ini, fin };
+  }
+
+  function textoSemana() {
+    const { ini, fin } = rangoSemana();
+    const f = d => d.getDate() + '/' + (d.getMonth() + 1);
+    return 'semana ' + f(ini) + ' – ' + f(fin);
+  }
+
+  function weeklyVentasMap() {
+    if (_semMap) return _semMap;
+    const { ini, fin } = rangoSemana();
+    _semMap = {};
+    allVentas.forEach(v => {
+      if (!v.fecha || v.tipo_juego !== 'TOTAL') return;
+      const f = new Date(v.fecha + 'T12:00:00');
+      if (f < ini || f > fin) return;
+      const sid = String(v.org_code);
+      _semMap[sid] = (_semMap[sid] || 0) + (v.total || 0);
+    });
+    return _semMap;
+  }
+
+  function rankingDe(cluster) {
+    const wm = weeklyVentasMap();
+    return allStores
+      .filter(s => clusterDe(s) === cluster)
+      .map(s => {
+        const sold = wm[String(s.ID)] || 0;
+        const meta = metaSemDe(s);
+        return { s, sold, meta, pct: meta ? sold / meta * 100 : null };
+      })
+      .sort((a, b) => ((b.pct ?? -1) - (a.pct ?? -1)) || (b.sold - a.sold) || a.s.nombre.localeCompare(b.s.nombre));
+  }
+
+  function clustersOrdenados() {
+    const g = {};
+    allStores.forEach(s => {
+      const c = clusterDe(s);
+      if (!g[c]) g[c] = { n: 0, meta: 0 };
+      g[c].n++;
+      g[c].meta += parseFloat(s.meta_diaria) || 0;
+    });
+    return Object.keys(g).sort((a, b) =>
+      (a === 'SIN CLÚSTER') - (b === 'SIN CLÚSTER') ||
+      g[b].meta / g[b].n - g[a].meta / g[a].n ||
+      a.localeCompare(b)
+    ).map(c => ({ nombre: c, n: g[c].n }));
+  }
+
+  function nombreCluster(c) {
+    return c === 'GENERAL' ? 'todas las tiendas' : c === 'SIN CLÚSTER' ? 'sin clúster' : 'clúster ' + c;
+  }
+
+  function rankRowsHTML(rows, currentId) {
+    return rows.map((r, i) => {
+      const pct = r.pct !== null ? Math.round(r.pct) : null;
+      const col = pct !== null ? pctColor(pct) : 'var(--dim)';
+      const pos = i < 3 ? ['🥇','🥈','🥉'][i] : i + 1;
+      return `<div class="rk-row${String(r.s.ID) === currentId ? ' rk-row--me' : ''}" data-id="${r.s.ID}">
+        <div class="rk-pos">${pos}</div>
+        <div class="rk-info">
+          <div class="rk-name">${r.s.nombre}</div>
+          <div class="rk-bar"><div class="rk-fill" style="width:${Math.min(pct || 0, 100)}%;background:${col}"></div></div>
+        </div>
+        <div class="rk-right">
+          <div class="rk-pct" style="color:${col}">${pct !== null ? pct + '%' : '—'}</div>
+          <div class="rk-amt">${fmtS(r.sold)} / ${r.meta ? fmtS(r.meta) : 'S/ —'}</div>
+        </div>
+      </div>`;
+    }).join('');
+  }
+
+  function bindRankRows(el) {
+    el.querySelectorAll('.rk-row').forEach(row => row.addEventListener('click', () => {
+      const s = allStores.find(p => String(p.ID) === row.dataset.id);
+      if (s) { renderDashboard(s); window.scrollTo(0, 0); }
+    }));
+  }
+
+  function renderRankPanel() {
+    const sel = document.getElementById('rank-select');
+    if (!_rankReady) {
+      _rankReady = true;
+      const cs = clustersOrdenados();
+      sel.innerHTML = cs.map(c => {
+        const lbl = nombreCluster(c.nombre);
+        return `<option value="${c.nombre}">${lbl.charAt(0).toUpperCase() + lbl.slice(1)} · ${c.n} tienda${c.n !== 1 ? 's' : ''}</option>`;
+      }).join('');
+      sel.style.display = cs.length > 1 ? '' : 'none';
+      sel.addEventListener('change', renderRankPanel);
+    }
+    document.getElementById('rank-sub').textContent = 'Avance vs meta semanal · ' + textoSemana();
+    const list = document.getElementById('rank-list');
+    list.innerHTML = rankRowsHTML(rankingDe(sel.value), null);
+    bindRankRows(list);
+  }
+
+  function renderRankCard(store) {
+    const card = document.getElementById('rank-card');
+    if (isMesPrev) { card.style.display = 'none'; return; }
+    const id      = String(store.ID);
+    const cluster = clusterDe(store);
+    const rows    = rankingDe(cluster);
+    const pos     = rows.findIndex(r => String(r.s.ID) === id) + 1;
+    card.style.display = '';
+    document.getElementById('rank-card-title').textContent = 'Ranking semanal · ' + nombreCluster(cluster);
+    document.getElementById('rank-card-pos').innerHTML =
+      `<span class="rk-big">#${pos}</span> de ${rows.length} <span class="rk-week">· ${textoSemana()}</span>`;
+    const list = document.getElementById('rank-card-list');
+    list.innerHTML = rankRowsHTML(rows, id);
+    bindRankRows(list);
+    const me = list.querySelector('.rk-row--me');
+    if (me) list.scrollTop = me.offsetTop - list.clientHeight / 2 + me.clientHeight / 2;
+  }
+
   function pctColor(pct) {
     if (pct >= 100) return 'var(--green)';
     if (pct >= 80)  return 'var(--accent)';
@@ -1867,6 +2079,7 @@
   }
 
   function setupSearch() {
+    if (isMesPrev) { const t = document.getElementById('tab-rank'); if (t) t.style.display = 'none'; }
     sortedStores = [...allStores].sort((a, b) => a.nombre.localeCompare(b.nombre));
     renderStoreCards('tienda', sortedStores);
     const input = document.getElementById('search-input');
@@ -2005,7 +2218,9 @@
     const semCol = pctSem !== null ? pctColor(pctSem) : 'var(--dim)';
     document.getElementById('sem-val').textContent  = fmtS(totSem);
     document.getElementById('sem-val').style.color  = semCol;
-    document.getElementById('sem-meta').textContent = metaSem ? 'Meta: ' + fmtS(metaSem) : 'Sin meta asignada';
+    document.getElementById('sem-meta').textContent = metaSem
+      ? 'Meta: ' + fmtS(metaSem) + (totSem < metaSem ? ' · faltan ' + fmtS(metaSem - totSem) : ' · ✓ cumplida')
+      : 'Sin meta asignada';
     document.getElementById('sem-pct').textContent  = pctSem !== null ? fmtPct(pctSem) : '—';
     document.getElementById('sem-pct').style.color  = semCol;
     setBar(document.getElementById('sem-bar'), pctSem || 0, semCol);
@@ -2039,7 +2254,10 @@
       if (idx >= 0) dayTotals[idx] += v.total || 0;
     });
     const BAR_MAX_H = 52;
-    const maxDay    = Math.max(...dayTotals, 1);
+    const maxDay    = Math.max(...dayTotals, metaDiaria ? metaDiaria * 1.15 : 0, 1);
+    const metaLine  = metaDiaria
+      ? `<div class="wc-meta-line" style="bottom:${Math.round(metaDiaria / maxDay * BAR_MAX_H)}px"></div>`
+      : '';
     const chartEl   = document.getElementById('week-chart');
     const tooltipEl = document.getElementById('wc-tooltip');
     let selectedIdx = null;
@@ -2070,7 +2288,7 @@
         : '';
       return `<div class="wc-col ${cls}" data-idx="${i}">
         <div class="wc-amount">${amt}</div>
-        <div class="wc-bar" style="height:${barH}px;background:${barColor}"></div>
+        <div class="wc-plot" style="height:${BAR_MAX_H}px">${metaLine}<div class="wc-bar" style="height:${barH}px;background:${barColor}"></div></div>
         <div class="wc-day">${DAY_NAMES[i]}</div>
       </div>`;
     }).join('');
@@ -2078,6 +2296,16 @@
     chartEl.querySelectorAll('.wc-col').forEach(col => {
       col.addEventListener('click', () => selectDay(+col.dataset.idx));
     });
+
+    const capEl = document.getElementById('wc-meta-cap');
+    if (metaDiaria) {
+      const pasados   = weekKeys.filter(dk => dk <= hoy).length;
+      const cumplidos = weekKeys.filter((dk, i) => dk <= hoy && dayTotals[i] >= metaDiaria).length;
+      capEl.textContent = `Meta diaria ${fmtS(metaDiaria)} · cumplida ${cumplidos} de ${pasados} día${pasados !== 1 ? 's' : ''}`;
+      capEl.style.display = '';
+    } else {
+      capEl.style.display = 'none';
+    }
 
     // Motivation
     const m = motivation(pctMes);
@@ -2092,6 +2320,7 @@
     document.getElementById('motive-detail').textContent = m.detail;
     mc.style.border = `1px solid ${m.clr}40`;
 
+    renderRankCard(store);
     loadStock(store);
   }
 
