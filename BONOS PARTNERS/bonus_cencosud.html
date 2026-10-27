@@ -552,6 +552,44 @@
       letter-spacing: .08em;
     }
 
+    /* ── DESGLOSE POR POS (tiendas con 2 POS) ───────────────── */
+    .pos-split {
+      width: 100%;
+      margin-top: 10px;
+      padding: 10px 12px;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      position: relative;
+    }
+    .pos-split-title {
+      font-size: 10px;
+      color: var(--rose);
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      margin-bottom: 8px;
+    }
+    .pos-split-bar {
+      display: flex;
+      height: 6px;
+      border-radius: 3px;
+      overflow: hidden;
+      background: var(--border);
+      margin-bottom: 8px;
+    }
+    .pos-split-row {
+      display: grid;
+      grid-template-columns: auto 1fr auto auto;
+      gap: 8px;
+      align-items: center;
+      font-size: 12px;
+      padding: 2px 0;
+    }
+    .pos-split-dot { width: 9px; height: 9px; border-radius: 2px; }
+    .pos-split-name { color: var(--muted); }
+    .pos-split-name small { opacity: .7; }
+    .pos-split-val { font-weight: 800; font-variant-numeric: tabular-nums; }
+    .pos-split-pct { color: var(--muted); font-variant-numeric: tabular-nums; min-width: 34px; text-align: right; }
+
     /* ── PERIOD CARDS ───────────────────────────────────────── */
     .period-grid {
       display: grid;
@@ -1313,6 +1351,7 @@
           <div class="ra-lbl">Proyectado</div>
         </div>
       </div>
+      <div class="pos-split" id="pos-split" style="display:none"></div>
     </div>
 
     <!-- Games breakdown -->
@@ -1704,6 +1743,13 @@
     return { icon:'⚡', msg:'¡VAMOS POR MÁS!', detail:'Aprovecha la afluencia del mundial para llegar a tu meta.', bg:'rgba(240,68,68,.1)', clr:'var(--red)' };
   }
 
+  // Tiendas con 2do POS: org_code del POS_2 → ID de la tienda principal
+  const POS2_MAP = {
+    '4043':'16', '4044':'17', '4045':'32', '4046':'44', '4047':'40', '4048':'53', '4049':'42',
+    '4050':'50', '4051':'41', '4052':'67', '4053':'34', '4054':'99', '4055':'59', '4056':'43',
+  };
+  const POS2_DE = Object.fromEntries(Object.entries(POS2_MAP).map(([pos2, id]) => [id, pos2]));
+
   async function init() {
     try {
       const [puntosData, ventasData, raspesData, loteriaData, lakideyData, turbitoData] = await Promise.all([
@@ -1728,6 +1774,15 @@
       const _tb = (turbitoData.ventas || turbitoData.body || []).filter(v => (v.partner || '').toUpperCase() === PARTNER);
       if (_ld.length > 0) { allLoteria = allLoteria.filter(v => v.tipo_juego !== 'LakiDey'); allLoteria.push(..._ld); }
       if (_tb.length > 0) { allLoteria = allLoteria.filter(v => v.tipo_juego !== 'Turbito'); allLoteria.push(..._tb); }
+
+      // Ventas del 2do POS se asignan a la tienda principal (pos_code conserva el código original)
+      const remapPos2 = v => {
+        const principal = POS2_MAP[String(v.org_code)];
+        return principal ? { ...v, org_code: principal, pos_code: String(v.org_code) } : v;
+      };
+      allVentas  = allVentas.map(remapPos2);
+      allRaspes  = allRaspes.map(remapPos2);
+      allLoteria = allLoteria.map(remapPos2);
 
       // URL param shortcut (viene de progreso.html ya autenticado)
       const params  = new URLSearchParams(location.search);
@@ -1777,7 +1832,7 @@
 
     // Nav
     document.getElementById('nav-nombre').textContent = store.nombre;
-    document.getElementById('nav-id').textContent = 'Código ' + store.ID;
+    document.getElementById('nav-id').textContent = 'Código ' + store.ID + (POS2_DE[String(store.ID)] ? ' + ' + POS2_DE[String(store.ID)] + ' (2 POS)' : '');
     const supParts = [];
     if (store.jz && store.jz !== 'SIN INFO') supParts.push('JC: ' + store.jz);
     if (store.gz && store.gz !== 'SIN INFO') supParts.push('SUP: ' + store.gz);
@@ -1907,6 +1962,39 @@
     document.getElementById('ra-falta').style.color      = metaMes && totMes >= metaMes ? 'var(--green)' : metaMes ? 'var(--red)' : 'var(--muted)';
     document.getElementById('ra-proyectado').textContent = proyectado > 0 ? fmtS(proyectado) : '—';
     document.getElementById('ra-proyectado').style.color = proyectado > 0 ? proCol : 'var(--muted)';
+
+    // Desglose POS 1 / POS 2 (solo tiendas con 2do POS)
+    const posSplitEl = document.getElementById('pos-split');
+    const pos2Code   = POS2_DE[id];
+    if (pos2Code) {
+      const pos = { 1: { mes: 0, hoy: 0 }, 2: { mes: 0, hoy: 0 } };
+      allVentas.forEach(v => {
+        if (String(v.org_code) !== id || !v.fecha || v.tipo_juego !== 'TOTAL') return;
+        const f = new Date(v.fecha + 'T12:00:00');
+        const p = pos[v.pos_code ? 2 : 1];
+        if (f >= mesIni && f <= mesFin) p.mes += v.total || 0;
+        if (v.fecha === hoy) p.hoy += v.total || 0;
+      });
+      const sum  = pos[1].mes + pos[2].mes;
+      const pct  = n => sum > 0 ? Math.round(n / sum * 100) : 0;
+      const COLS = { 1: 'var(--accent)', 2: '#F59E0B' };
+      const row  = (n, code) => `<div class="pos-split-row">
+          <span class="pos-split-dot" style="background:${COLS[n]}"></span>
+          <span class="pos-split-name">POS ${n} <small>· ${code} · hoy ${fmtS(pos[n].hoy)}</small></span>
+          <span class="pos-split-val">${fmtS(pos[n].mes)}</span>
+          <span class="pos-split-pct">${sum > 0 ? pct(pos[n].mes) + '%' : '—'}</span>
+        </div>`;
+      posSplitEl.innerHTML = `
+        <div class="pos-split-title">🖥️ Venta por POS · mes</div>
+        <div class="pos-split-bar">
+          <div style="width:${pct(pos[1].mes)}%;background:${COLS[1]}"></div>
+          <div style="width:${pct(pos[2].mes)}%;background:${COLS[2]}"></div>
+        </div>
+        ${row(1, id)}${row(2, pos2Code)}`;
+      posSplitEl.style.display = '';
+    } else {
+      posSplitEl.style.display = 'none';
+    }
 
     // Today card
     const hoyCol = pctHoy !== null ? pctColor(pctHoy) : 'var(--dim)';
@@ -2548,10 +2636,12 @@
       arr.forEach(function(v){
         var fecha = v.fecha || '';
         if (fecha < desde || fecha > hasta) return;
-        var key = String(v.org_code??'') + '|' + fecha + '|' + (v.tipo_juego||'TOTAL');
+        // Export crudo por POS: el 2do POS conserva su propio org_code
+        var oc = String((v.pos_code || v.org_code) ?? '');
+        var key = oc + '|' + fecha + '|' + (v.tipo_juego||'TOTAL');
         var total = v.total ?? 0;
         if (!seen[key] || total > seen[key].total) {
-          seen[key] = { org_code: String(v.org_code??''), nombre: nameMap[String(v.org_code??'')] || '', fecha: fecha, tipo_juego: v.tipo_juego||'TOTAL', total: total, fuente: src };
+          seen[key] = { org_code: oc, nombre: (nameMap[String(v.org_code??'')] || '') + (v.pos_code ? ' POS_2' : ''), fecha: fecha, tipo_juego: v.tipo_juego||'TOTAL', total: total, fuente: src };
         }
       });
     }
