@@ -1657,6 +1657,7 @@
   };
 
   let allStores = [], allVentas = [], allRaspes = [], allLoteria = [], sortedStores = [];
+  let ventasSemana = [];   // allVentas + días del mes anterior (para semanas que cruzan de mes)
   let selectorReady = false;
 
   function loadJSON(u) {
@@ -1752,13 +1753,15 @@
 
   async function init() {
     try {
-      const [puntosData, ventasData, raspesData, loteriaData, lakideyData, turbitoData] = await Promise.all([
+      const [puntosData, ventasData, raspesData, loteriaData, lakideyData, turbitoData, ventasPrevData] = await Promise.all([
         loadJSON('../data/puntos.json'),
         loadJSON('../data/' + (isMesPrev ? 'ventas_mes_prev' : 'ventas_mes') + '.json'),
         loadJSON('../data/' + (isMesPrev ? 'ventas_raspes_prev' : 'ventas_raspes') + '.json'),
         loadJSON('../data/' + (isMesPrev ? 'ventas_loteria_prev' : 'ventas_loteria') + '.json'),
         loadJSON('../data/' + (isMesPrev ? 'ventas_lakidey_prev' : 'ventas_lakidey') + '.json').catch(() => ({ventas:[]})),
         loadJSON('../data/' + (isMesPrev ? 'ventas_turbito_prev' : 'ventas_turbito') + '.json').catch(() => ({ventas:[]})),
+        // Mes anterior: solo para semanas que cruzan de mes
+        isMesPrev ? Promise.resolve({ventas:[]}) : loadJSON('../data/ventas_mes_prev.json').catch(() => ({ventas:[]})),
       ]);
 
       allStores = (Array.isArray(puntosData) ? puntosData : []).filter(p =>
@@ -1783,6 +1786,12 @@
       allVentas  = allVentas.map(remapPos2);
       allRaspes  = allRaspes.map(remapPos2);
       allLoteria = allLoteria.map(remapPos2);
+      // Semana que cruza de mes: se suman los días del mes anterior que no estén ya en ventas_mes
+      const mesesActuales = new Set(allVentas.map(v => (v.fecha || '').slice(0, 7)));
+      const prevSemana = (ventasPrevData.body || ventasPrevData.ventas || []).filter(v =>
+        (v.partner || '').toUpperCase() === PARTNER && v.fecha && !mesesActuales.has(v.fecha.slice(0, 7))
+      ).map(remapPos2);
+      ventasSemana = allVentas.concat(prevSemana);
 
       // URL param shortcut (viene de progreso.html ya autenticado)
       const params  = new URLSearchParams(location.search);
@@ -1862,7 +1871,7 @@
     let totHoy = 0, totSem = 0, totMes = 0, ppMes = 0, ldMes = 0, e3Mes = 0, tbMes = 0, goMes = 0;
     let ppHoy = 0, ldHoy = 0, e3Hoy = 0, tbHoy = 0, goHoy = 0;
 
-    allVentas.forEach(v => {
+    ventasSemana.forEach(v => {
       if (String(v.org_code) !== id || !v.fecha || v.tipo_juego !== 'TOTAL') return;
       const f = new Date(v.fecha + 'T12:00:00');
       const amt = v.total || 0;
@@ -2060,7 +2069,7 @@
       );
     }
     const dayTotals = new Array(7).fill(0);
-    allVentas.forEach(v => {
+    ventasSemana.forEach(v => {
       if (String(v.org_code) !== id || !v.fecha || v.tipo_juego !== 'TOTAL') return;
       const idx = weekKeys.indexOf(v.fecha);
       if (idx >= 0) dayTotals[idx] += v.total || 0;
