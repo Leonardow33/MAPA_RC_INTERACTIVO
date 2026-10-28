@@ -1841,11 +1841,12 @@
     j.setDate(j.getDate() - ((wd - 4 + 7) % 7));
     return j;
   }
-  function lunesDe(d) {
+  // Semana de incentivo Apuesta Total: miércoles → martes
+  function miercolesDe(d) {
     const j = new Date(d);
     j.setHours(0,0,0,0);
     const wd = j.getDay();
-    j.setDate(j.getDate() - ((wd + 6) % 7)); // retrocede al lunes anterior
+    j.setDate(j.getDate() - ((wd - 3 + 7) % 7)); // retrocede al miércoles anterior
     return j;
   }
 
@@ -1858,7 +1859,7 @@
   }
 
   // ── Meta semanal y ranking por clúster ────────────────────────────────────
-  // Meta semanal = meta_diaria × 7 (semana Lun→Dom). El clúster sale de cluster_bono
+  // Meta semanal = meta_diaria × 7 (semana Mié→Mar). El clúster sale de cluster_bono
   // y, si viene vacío o "SIN CLUSTER", de cluster.
   const sinCluster = v => !v || !String(v).trim() || String(v).trim().toUpperCase() === 'SIN CLUSTER';
   let _clusterMap = null, _semMap = null, _rankReady = false;
@@ -1887,7 +1888,7 @@
   }
 
   function rangoSemana() {
-    const ini = lunesDe(new Date());
+    const ini = miercolesDe(new Date());
     const fin = new Date(ini); fin.setDate(ini.getDate() + 6); fin.setHours(23,59,59,999);
     return { ini, fin };
   }
@@ -2126,10 +2127,8 @@
     const now      = new Date();
     const mesIni   = new Date(now.getFullYear(), now.getMonth() - (isMesPrev ? 1 : 0), 1);
     const mesFin   = new Date(now.getFullYear(), now.getMonth() - (isMesPrev ? 1 : 0) + 1, 0, 23, 59, 59);
-    const semJue   = juevesDe(now);
-    const semLun   = lunesDe(now);
-    const semMie   = new Date(semJue); semMie.setDate(semJue.getDate()+6); semMie.setHours(23,59,59,999);
-    const semDom   = new Date(semLun); semDom.setDate(semLun.getDate()+6); semDom.setHours(23,59,59,999);
+    const semIni   = miercolesDe(now);
+    const semFin   = new Date(semIni); semFin.setDate(semIni.getDate()+6); semFin.setHours(23,59,59,999);
 
     // Aggregate ventas for this store
     const id       = String(store.ID);
@@ -2141,7 +2140,7 @@
       const f = new Date(v.fecha + 'T12:00:00');
       const amt = v.total || 0;
       if (v.fecha === hoy) totHoy += amt;
-      if (f >= semLun && f <= semDom) totSem += amt;
+      if (f >= semIni && f <= semFin) totSem += amt;
       if (f >= mesIni && f <= mesFin) totMes += amt;
     });
     allRaspes.forEach(v => {
@@ -2234,13 +2233,13 @@
     if (ttlVD) ttlVD.textContent = 'Desglose por juego · este mes';
     renderGamesMode();
 
-    // Weekly chart (Lun→Dom, 7 days)
-    const DAY_NAMES      = ['Lun','Mar','Mié','Jue','Vie','Sáb','Dom'];
-    const DAY_NAMES_LONG = ['Lunes','Martes','Miércoles','Jueves','Viernes','Sábado','Domingo'];
+    // Weekly chart (Mié→Mar, 7 days)
+    const DAY_NAMES      = ['Mié','Jue','Vie','Sáb','Dom','Lun','Mar'];
+    const DAY_NAMES_LONG = ['Miércoles','Jueves','Viernes','Sábado','Domingo','Lunes','Martes'];
     const weekKeys = [];
     for (let i = 0; i < 7; i++) {
-      const d = new Date(semLun);
-      d.setDate(semLun.getDate() + i);
+      const d = new Date(semIni);
+      d.setDate(semIni.getDate() + i);
       weekKeys.push(
         d.getFullYear() + '-' +
         String(d.getMonth()+1).padStart(2,'0') + '-' +
