@@ -34,12 +34,15 @@ Power BI → Power Automate (DAX diario → JSON en SharePoint)
 - `dist` se recrea con force push a partir de `main`: nunca edites `dist` directamente.
 - `purge-cdn.yml` purga jsDelivr cuando cambian `data/puntos.json`, `data/version.json`, `js/**` o `css/**`.
 - `data/version.json` (`{"v": timestamp, "n": contador}`) lo actualiza Power Automate junto con `puntos.json`.
+- **Los 5 DAX de Power Automate** (mes, raspes, lotería, LakiDey y Turbito) definen "hoy" como la fecha de Lima: `UTCNOW() - TIME(5,0,0)`. **No uses `TODAY()`**: va en UTC, y el último día del mes la consulta saldría vacía desde las 19:00 de Lima, así que se perderían las ventas de la noche. Los DAX no están en el repo; `scripts/fetch_ventas.py` todavía usa `TODAY()`, pero ningún workflow lo ejecuta.
+- **Cierre de mes**: `actualizar_ventas.yml` copia el archivo a `*_prev.json` solo cuando el mes descargado es **posterior** al guardado. Si una descarga trae un mes anterior, se ignora. Si trae 0 registros, tampoco sobrescribe el archivo. El mismo workflow sincroniza los JSON de ventas con `dist`.
 
 ### Workflows con horario (hora de Lima = UTC-5)
 | Workflow | Cuándo | Qué hace |
 |---|---|---|
-| `actualizar_ventas.yml` | `workflow_dispatch` lanzado por cron-job.org cada 25 min | Descarga los 3 JSON de ventas |
-| `findemes_noche.yml` / `safety_snapshot_findemes.yml` | 23:30 / 11:00 | Capturan el cierre de mes (Power BI se reinicia el día 1) |
+| `actualizar_ventas.yml` | `workflow_dispatch` lanzado por cron-job.org cada 25 min | Descarga los 5 JSON de ventas, crea los `_prev` al cambiar de mes y sincroniza `dist` |
+| `findemes_noche.yml` | cron-job.org a diario a las 23:30 | Descarga extra solo el último día del mes (input `forzar` para lanzarlo a mano). Su `schedule` de GitHub es solo un respaldo: suele llegar 4–8 h tarde, cuando ya es día 1 |
+| `safety_snapshot_findemes.yml` | 11:00 | Respaldo del snapshot de la semana Tambo el último día (Power BI se reinicia el día 1) |
 | `snapshot_bonos.yml` | jueves 9:00 | Agrega la semana Tambo cerrada a `historico_bonos.json` (input `semanas_atras`) |
 | `actualizar_puntos.yml` / `plan_rutas.yml` | lunes 8:00 / al cambiar puntos | Ejecutan `generar_plan.js` |
 | `update-sinventa.yml` | cada 15 min | Actualiza `sinventa.txt` |
@@ -54,8 +57,11 @@ Power BI → Power Automate (DAX diario → JSON en SharePoint)
 - **Nombre del juego Go**: es `"Go"` en ventas y `"PozoPowerGo"` en premios/DMS. Acepta ambos.
 - **Unidades**: PozoPower viene en soles y 1 ticket = S/5, así que usa `Math.floor(soles / 5)` antes de comparar con `keys_bonos.json`, que está en unidades. LakiDey: S/1 = 1 unidad.
 - **Semana Tambo**: de jueves a miércoles (`juevesDe(fecha)`). Las fechas se parsean como `new Date(fecha + 'T12:00:00')` para evitar desfases de zona horaria.
+- **Semana de incentivo de Apuesta Total**: de miércoles a martes (`miercolesDe` en `bonus_at.html`). Cuando la semana cruza de mes, la página también carga `ventas_mes_prev.json` (array `ventasSemana`) para no perder los días del mes anterior.
+- **Cencosud con 2 POS**: algunas tiendas tienen un 2do POS con otro `org_code` (4043–4056). `bonus_cencosud.html` lo reasigna al ID principal con `POS2_MAP` (el código original queda en `pos_code`) y muestra la venta separada por POS. Si se agrega un 2do POS, hay que sumarlo a `POS2_MAP`.
 - Los archivos `*_prev.json` contienen el mes anterior.
 - Algunos JSON traen BOM: los scripts de Node lo quitan con `.replace(/^﻿/, '')`.
+- Los JSON de datos son de una sola línea y pesan varios MB: para inspeccionarlos usa `node -e`, no `grep`. Para ver cómo cambiaron a lo largo del día, compara versiones con `git show <commit>:data/...`. El campo `updated` cambia en cada descarga aunque los datos no cambien.
 
 ## Páginas
 
