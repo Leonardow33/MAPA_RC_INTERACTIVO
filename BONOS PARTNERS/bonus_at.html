@@ -1818,6 +1818,7 @@
   };
 
   let allStores = [], allVentas = [], allRaspes = [], allLoteria = [], sortedStores = [];
+  let ventasSemana = [];   // allVentas + días del mes anterior (para semanas que cruzan de mes)
   let selectorReady = false;
 
   function loadJSON(u) {
@@ -1903,7 +1904,7 @@
     if (_semMap) return _semMap;
     const { ini, fin } = rangoSemana();
     _semMap = {};
-    allVentas.forEach(v => {
+    ventasSemana.forEach(v => {
       if (!v.fecha || v.tipo_juego !== 'TOTAL') return;
       const f = new Date(v.fecha + 'T12:00:00');
       if (f < ini || f > fin) return;
@@ -2040,13 +2041,15 @@
 
   async function init() {
     try {
-      const [puntosData, ventasData, raspesData, loteriaData, lakideyData, turbitoData] = await Promise.all([
+      const [puntosData, ventasData, raspesData, loteriaData, lakideyData, turbitoData, ventasPrevData] = await Promise.all([
         loadJSON('../data/puntos.json'),
         loadJSON('../data/' + (isMesPrev ? 'ventas_mes_prev' : 'ventas_mes') + '.json'),
         loadJSON('../data/' + (isMesPrev ? 'ventas_raspes_prev' : 'ventas_raspes') + '.json'),
         loadJSON('../data/' + (isMesPrev ? 'ventas_loteria_prev' : 'ventas_loteria') + '.json'),
         loadJSON('../data/' + (isMesPrev ? 'ventas_lakidey_prev' : 'ventas_lakidey') + '.json').catch(() => ({ventas:[]})),
         loadJSON('../data/' + (isMesPrev ? 'ventas_turbito_prev' : 'ventas_turbito') + '.json').catch(() => ({ventas:[]})),
+        // Mes anterior: solo para semanas que cruzan de mes
+        isMesPrev ? Promise.resolve({ventas:[]}) : loadJSON('../data/ventas_mes_prev.json').catch(() => ({ventas:[]})),
       ]);
 
       allStores = (Array.isArray(puntosData) ? puntosData : []).filter(p =>
@@ -2056,6 +2059,12 @@
 
       const todos = ventasData.body || ventasData.ventas || [];
       allVentas  = todos.filter(v => (v.partner || '').toUpperCase() === PARTNER);
+      // Semana que cruza de mes: se suman los días del mes anterior que no estén ya en ventas_mes
+      const mesesActuales = new Set(allVentas.map(v => (v.fecha || '').slice(0, 7)));
+      const prevSemana = (ventasPrevData.body || ventasPrevData.ventas || []).filter(v =>
+        (v.partner || '').toUpperCase() === PARTNER && v.fecha && !mesesActuales.has(v.fecha.slice(0, 7))
+      );
+      ventasSemana = allVentas.concat(prevSemana);
       allRaspes  = (raspesData.body  || raspesData.ventas  || []).filter(v => (v.partner || '').toUpperCase() === PARTNER);
       allLoteria = (loteriaData.body || loteriaData.ventas || []).filter(v => (v.partner || '').toUpperCase() === PARTNER);
       const _ld = (lakideyData.ventas || lakideyData.body || []).filter(v => (v.partner || '').toUpperCase() === PARTNER);
@@ -2135,7 +2144,7 @@
     let totHoy = 0, totSem = 0, totMes = 0, ppMes = 0, ldMes = 0, scMes = 0, goMes = 0, e3Mes = 0, turbitoMes = 0;
     let ppHoy = 0, ldHoy = 0, scHoy = 0, goHoy = 0, e3Hoy = 0, turbitoHoy = 0;
 
-    allVentas.forEach(v => {
+    ventasSemana.forEach(v => {
       if (String(v.org_code) !== id || !v.fecha || v.tipo_juego !== 'TOTAL') return;
       const f = new Date(v.fecha + 'T12:00:00');
       const amt = v.total || 0;
@@ -2247,7 +2256,7 @@
       );
     }
     const dayTotals = new Array(7).fill(0);
-    allVentas.forEach(v => {
+    ventasSemana.forEach(v => {
       if (String(v.org_code) !== id || !v.fecha || v.tipo_juego !== 'TOTAL') return;
       const idx = weekKeys.indexOf(v.fecha);
       if (idx >= 0) dayTotals[idx] += v.total || 0;
