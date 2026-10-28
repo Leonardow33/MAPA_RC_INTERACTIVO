@@ -10,13 +10,21 @@ name: Descarga Fin de Mes (23:30 Lima)
 # Flujo del ultimo dia del mes:
 #   08:00 AM Lima → actualizar_ventas (cron-job.org, cada 25 min)
 #   ...                               (cron-job.org cada 25 min toda la tarde)
-#   11:30 PM Lima → ESTE workflow     (garantia nativa GitHub si cron-job.org falla)
+#   11:30 PM Lima → ESTE workflow     (lanzado por cron-job.org via workflow_dispatch)
 #   ~00:25 AM Lima dia 1 → actualizar_ventas detecta cambio de mes y crea _prev
+#
+# El schedule de GitHub queda solo como respaldo: suele correr 4-8 h tarde
+# (ya es dia 1 en Lima), y en ese caso no hace nada.
 
 on:
   schedule:
     - cron: '30 4 * * *'   # 23:30 Lima (UTC-5 → 04:30 UTC del dia siguiente)
   workflow_dispatch:
+    inputs:
+      forzar:
+        description: 'Descargar aunque no sea el ultimo dia del mes'
+        type: boolean
+        default: false
 
 jobs:
   findemes-noche:
@@ -33,27 +41,29 @@ jobs:
         id: check_dia
         run: |
           python3 - << 'PYEOF'
-          import sys
+          import os
           from datetime import datetime, timedelta, timezone
           PERU_TZ = timezone(timedelta(hours=-5))
           today    = datetime.now(PERU_TZ).date()
           tomorrow = today + timedelta(days=1)
-          if tomorrow.month == today.month:
+          es_findemes = tomorrow.month != today.month
+          if es_findemes:
+              print(f"Ultimo dia del mes confirmado: {today} (hora Peru). Iniciando descarga.")
+          else:
               print(f"No es ultimo dia del mes ({today} hora Peru). Nada que hacer.")
-              sys.exit(0)
-          print(f"Ultimo dia del mes confirmado: {today} (hora Peru). Iniciando descarga.")
+          with open(os.environ["GITHUB_OUTPUT"], "a") as f:
+              f.write(f"es_findemes={'true' if es_findemes else 'false'}\n")
           PYEOF
-          echo "es_findemes=$?" >> $GITHUB_OUTPUT
 
       - name: Cachear Chromium de Playwright
-        if: steps.check_dia.outcome == 'success'
+        if: steps.check_dia.outputs.es_findemes == 'true' || inputs.forzar
         uses: actions/cache@v4
         with:
           path: ~/.cache/ms-playwright
           key: playwright-chromium-${{ runner.os }}-v1
 
       - name: Instalar Playwright + Chromium
-        if: steps.check_dia.outcome == 'success'
+        if: steps.check_dia.outputs.es_findemes == 'true' || inputs.forzar
         run: |
           sudo find /etc/apt/sources.list.d/ \( -name "*google*" -o -name "*chrome*" \) -delete 2>/dev/null || true
           sudo sed -i '/dl\.google\.com/d' /etc/apt/sources.list 2>/dev/null || true
@@ -63,7 +73,7 @@ jobs:
           playwright install chromium --with-deps
 
       - name: Descargar ventas desde SharePoint (actualizacion nocturna)
-        if: steps.check_dia.outcome == 'success'
+        if: steps.check_dia.outputs.es_findemes == 'true' || inputs.forzar
         run: |
           python3 - << 'PYEOF'
           import sys, json, re, requests
@@ -212,7 +222,7 @@ jobs:
           PYEOF
 
       - name: Descargar LakiDey y Turbito (actualizacion nocturna)
-        if: steps.check_dia.outcome == 'success'
+        if: steps.check_dia.outputs.es_findemes == 'true' || inputs.forzar
         run: |
           python3 - << 'PYEOF'
           import sys, json, re, requests, shutil, os
@@ -342,7 +352,7 @@ jobs:
           PYEOF
 
       - name: Commit actualizacion nocturna fin de mes
-        if: steps.check_dia.outcome == 'success'
+        if: steps.check_dia.outputs.es_findemes == 'true' || inputs.forzar
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
