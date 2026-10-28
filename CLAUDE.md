@@ -57,7 +57,8 @@ Power BI → Power Automate (DAX diario → JSON en SharePoint)
 - **Nombre del juego Go**: es `"Go"` en ventas y `"PozoPowerGo"` en premios/DMS. Acepta ambos.
 - **Unidades**: PozoPower viene en soles y 1 ticket = S/5, así que usa `Math.floor(soles / 5)` antes de comparar con `keys_bonos.json`, que está en unidades. LakiDey: S/1 = 1 unidad.
 - **Semana Tambo**: de jueves a miércoles (`juevesDe(fecha)`). Las fechas se parsean como `new Date(fecha + 'T12:00:00')` para evitar desfases de zona horaria.
-- **Semana de incentivo de Apuesta Total**: de miércoles a martes (`miercolesDe` en `bonus_at.html`). Cuando la semana cruza de mes, la página también carga `ventas_mes_prev.json` (array `ventasSemana`) para no perder los días del mes anterior.
+- **Semana de los demás partners**: de lunes a domingo, salvo Apuesta Total, que va de miércoles a martes (`miercolesDe` en `bonus_at.html`).
+- **Semanas que cruzan de mes**: todas las páginas de `BONOS PARTNERS/` también cargan `ventas_mes_prev.json`. Los cálculos semanales usan el array `ventasSemana` (no `allVentas`) para no perder los días del mes anterior. Tambo lo resuelve aparte con `allVentasPrev`.
 - **Cencosud con 2 POS**: algunas tiendas tienen un 2do POS con otro `org_code` (4043–4056). `bonus_cencosud.html` lo reasigna al ID principal con `POS2_MAP` (el código original queda en `pos_code`) y muestra la venta separada por POS. Si se agrega un 2do POS, hay que sumarlo a `POS2_MAP`.
 - Los archivos `*_prev.json` contienen el mes anterior.
 - Algunos JSON traen BOM: los scripts de Node lo quitan con `.replace(/^﻿/, '')`.
