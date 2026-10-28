@@ -187,7 +187,10 @@ jobs:
                       old_dates = [v.get("fecha","") for v in existing_arr if v.get("fecha")]
                       new_month = max(new_dates)[:7] if new_dates else ""
                       old_month = max(old_dates)[:7] if old_dates else ""
-                      if new_month and old_month and new_month != old_month:
+                      if new_month and old_month and new_month < old_month:
+                          print(f"PROTECCION [{label}]: descarga de {new_month} es anterior al archivo actual ({old_month}) — no se sobreescribe")
+                          return True
+                      if new_month and old_month and new_month > old_month:
                           prev_dest = dest.replace(".json", "_prev.json")
                           _sh.copy2(dest, prev_dest)
                           print(f"  -> Mes cambió {old_month}→{new_month}, backup guardado: {prev_dest}")
@@ -324,7 +327,10 @@ jobs:
                       old_dates = [v.get("fecha","") for v in existing_arr if v.get("fecha")]
                       new_month = max(new_dates)[:7] if new_dates else ""
                       old_month = max(old_dates)[:7] if old_dates else ""
-                      if new_month and old_month and new_month != old_month:
+                      if new_month and old_month and new_month < old_month:
+                          print(f"PROTECCION [{label}]: descarga de {new_month} es anterior al archivo actual ({old_month}) — no se sobreescribe")
+                          return True
+                      if new_month and old_month and new_month > old_month:
                           prev_dest = dest.replace(".json", "_prev.json")
                           shutil.copy2(dest, prev_dest)
                           print(f"  -> Mes cambió {old_month}→{new_month}, backup: {prev_dest}")
