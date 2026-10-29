@@ -842,13 +842,16 @@
     .top-tg.active { background: var(--tc); color: #fff; }
     .top-me { font-size: 13px; line-height: 1.4; margin-bottom: 10px; }
     .top-me b { color: var(--tc); }
-    .top-list { display: flex; flex-direction: column; gap: 6px; }
+    .top-list { display: flex; flex-direction: column; gap: 4px; }
+    .top-list .rk-row { padding: 6px 10px; border-radius: 10px; }
+    .top-list .rk-bar { margin-top: 3px; }
     .top-sep { text-align: center; color: var(--dim); font-size: 14px; line-height: 1; }
     .top-empty { font-size: 12px; color: var(--muted); text-align: center; padding: 8px 0; }
     @media (min-width: 1100px) {
       .top-card {
-        position: fixed; left: calc(50% + 246px); top: 50%; transform: translateY(-50%);
-        width: 280px; max-height: calc(100vh - 100px); overflow-y: auto; z-index: 2;
+        /* centrado en el espacio bajo la barra superior (~66px) */
+        position: fixed; left: calc(50% + 246px); top: calc(50% + 33px); transform: translateY(-50%);
+        width: 280px; max-height: calc(100vh - 100px); overflow-y: auto; scrollbar-width: thin; z-index: 2;
         box-shadow: 0 8px 30px rgba(13,31,53,.12);
       }
     }
