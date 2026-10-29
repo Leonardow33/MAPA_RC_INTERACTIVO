@@ -68,6 +68,14 @@ Power BI → Power Automate (DAX diario → JSON en SharePoint)
 
 - Raíz: `visitas.html` (tracking de visitas RC, que lee Google Sheets en tiempo real), `mapa.html`, `bonus.html` (bonos Tambo con descarga del Excel FORMATO_1_TAMBO), `zonas.html`, `SUPYCAP.html`, `logistica.html`, `admin_claves.html` (incluye el resumen gerencial de ventas), `progreso.html`, `incidencias.html`, `activacion.html`.
 - `BONOS PARTNERS/bonus_<partner>.html`: una página por partner, todas con el mismo patrón (`const PARTNER = '...'` + `Promise.all` de puntos y los 3 JSON de ventas + `renderStore`). Un cambio en una casi siempre aplica a las 7. `bonus_cencosud.html` además carga `metas_cencosud.json`.
+- **`bonus_at.html` (Apuesta Total)** tiene además el **Top Turbito / Top LakiDey**: el ranking de ventas del mes de ese juego entre todas las tiendas AT activas (`topDe(juego)` sobre `allLoteria`). Todas las tarjetas se llenan con `fillTopCard`.
+  - **Desktop (≥1100px)**: en el buscador y en el dashboard, Turbito va fijo a la izquierda y LakiDey a la derecha (`.top-side`). En el buscador solo se muestra el top 10; en el dashboard además "Eres top N" y la fila de la tienda.
+  - **Móvil**: una sola tarjeta con botón Turbito/LakiDey (`.top-mobile`). En el buscador va antes del video; en el dashboard, entre el ranking semanal y el video.
+  - **Premios**: S/ 60, S/ 40 y S/ 20 para los 3 primeros (`TOP_PREMIOS`). Se muestran como insignias y en los mensajes.
+  - **Colores**: Turbito en marrón `#92400E` (también en la barra del desglose por juego) y LakiDey en celeste `#3B9EE8`. Los logos están en `TOP_LOGO`.
+  - **Video de la llama**: va al final de las dos pantallas. Ya no hay stickers laterales.
+- **Stock Rapiraspas**: está oculto en AT, Aciertala, Doradobet, Livesport, Retabet y Tinbet porque no se usa. El código se conserva detrás de `const STOCK_ACTIVO = false`; con `true` vuelve a aparecer.
+- `bonus_at.html` tiene finales de línea mixtos (LF/CRLF). Los scripts que lo editen deben aceptar `\r?\n`.
 - La lógica compartida grande vive en `js/` (`mapa.js`, `visitas.js`, `planificador.js`, `zonas.js`, `supycap.js`). Mucho JS va inline en los HTML.
 - `herramientas/`: utilidades internas (`editor_pdv.html`, `mapa_incidencias.html`).
 - `sources/` (Excel fuente, ignorado por git), `distribucion/` (paquetes zip y docs para distribuir) y los `*_prebak.json` no forman parte del sitio.
