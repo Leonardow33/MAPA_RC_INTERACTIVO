@@ -831,6 +831,14 @@
     .top-list .rk-bar { margin-top: 3px; }
     .top-sep { text-align: center; color: var(--dim); font-size: 14px; line-height: 1; }
     .top-empty { font-size: 12px; color: var(--muted); text-align: center; padding: 8px 0; }
+    .top-prize { flex-shrink: 0; display: flex; flex-direction: column; align-items: center; line-height: 1; padding: 4px 7px; border-radius: 8px; color: #fff; text-shadow: 0 1px 1px rgba(0,0,0,.25); box-shadow: 0 2px 8px rgba(0,0,0,.18); animation: prizePulse 2.4s ease-in-out infinite; }
+    .top-prize b { font-size: 13px; font-weight: 800; white-space: nowrap; }
+    .top-prize small { font-size: 8px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; opacity: .95; margin-bottom: 2px; }
+    .top-prize.p0 { background: linear-gradient(135deg, #FCD34D, #D97706); }
+    .top-prize.p1 { background: linear-gradient(135deg, #CBD5E1, #64748B); }
+    .top-prize.p2 { background: linear-gradient(135deg, #FDBA74, #9A3412); }
+    @keyframes prizePulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.07); } }
+    @media (prefers-reduced-motion: reduce) { .top-prize { animation: none; } }
     .top-side { display: none; }
     @media (min-width: 1100px) {
       .top-mobile { display: none !important; }
@@ -838,7 +846,7 @@
         display: block;
         /* centrado en el espacio bajo la barra superior (~66px) */
         position: fixed; top: calc(50% + 33px); transform: translateY(-50%);
-        width: 280px; max-height: calc(100vh - 100px); overflow-y: auto; scrollbar-width: thin; z-index: 2;
+        width: 300px; max-height: calc(100vh - 100px); overflow-y: auto; scrollbar-width: thin; z-index: 2;
         box-shadow: 0 8px 30px rgba(13,31,53,.12);
       }
       .top-side.left  { right: calc(50% + 246px); }
@@ -2051,14 +2059,19 @@
       .sort((a, b) => (b.sold - a.sold) || a.s.nombre.localeCompare(b.s.nombre));
   }
 
+  // Premio para los 3 primeros de cada top
+  const TOP_PREMIOS = [60, 40, 20];
+
   function topRowHTML(r, i, max, currentId) {
     const pos = i < 3 ? ['🥇','🥈','🥉'][i] : i + 1;
+    const premio = i < 3 ? `<div class="top-prize p${i}"><small>Premio</small><b>S/ ${TOP_PREMIOS[i]}</b></div>` : '';
     return `<div class="rk-row${String(r.s.ID) === currentId ? ' rk-row--me' : ''}" data-id="${r.s.ID}">
       <div class="rk-pos">${pos}</div>
       <div class="rk-info">
         <div class="rk-name">${r.s.nombre}</div>
         <div class="rk-bar"><div class="rk-fill" style="width:${max ? r.sold / max * 100 : 0}%;background:var(--tc)"></div></div>
       </div>
+      ${premio}
       <div class="rk-right"><div class="rk-pct" style="color:var(--tc);font-size:13px">${fmtS(r.sold)}</div></div>
     </div>`;
   }
@@ -2074,15 +2087,14 @@
       `<img src="${TOP_LOGO[juego]}" class="top-logo" alt="">Top ${juego} · ${isMesPrev ? 'mes anterior' : 'este mes'}`;
     card.querySelectorAll('.top-tg').forEach(b => b.classList.toggle('active', b.dataset.juego === juego));
 
+    const faltaPara = k => fmtS(Math.max(1, Math.ceil(rows[k].sold - me.sold + 0.01)));
     let msg;
-    if (!store)           msg = `Las 10 tiendas que más venden ${juego} ${isMesPrev ? 'el mes anterior' : 'este mes'}.`;
-    else if (!me || !me.sold) msg = `Aún no tienes ventas de ${juego} este mes. ¡Tu primera venta te pone en carrera por el top 10!`;
-    else if (idx === 0)   msg = `🏆 <b>¡Eres top 1!</b> Eres la tienda que más vende ${juego}. ¡Defiende tu lugar!`;
-    else if (idx < 10)    msg = `🔥 <b>¡Eres top ${idx + 1}!</b> Estás dentro del top 10, ¡sigue así!`;
-    else {
-      const falta = Math.max(1, Math.ceil(rows[9].sold - me.sold + 0.01));
-      msg = `Eres <b>top ${idx + 1}</b> de ${rows.length}. ¡Tú puedes entrar al top 10! Te faltan ${fmtS(falta)}.`;
-    }
+    if (!store)           msg = `Las 10 tiendas que más venden ${juego} ${isMesPrev ? 'el mes anterior' : 'este mes'}. 🎁 <b>Los 3 primeros ganan S/ 60, S/ 40 y S/ 20.</b>`;
+    else if (!me || !me.sold) msg = `Aún no tienes ventas de ${juego} este mes. ¡Tu primera venta te pone en carrera por el premio de hasta <b>S/ 60</b>!`;
+    else if (idx === 0)   msg = `🏆 <b>¡Eres top 1!</b> Vas ganando <b>S/ 60</b>. ¡Defiende tu lugar!`;
+    else if (idx < 3)     msg = `🔥 <b>¡Eres top ${idx + 1}!</b> Vas ganando <b>S/ ${TOP_PREMIOS[idx]}</b>. Te faltan ${faltaPara(idx - 1)} para subir al puesto ${idx} y ganar <b>S/ ${TOP_PREMIOS[idx - 1]}</b>.`;
+    else if (idx < 10)    msg = `🔥 <b>¡Eres top ${idx + 1}!</b> Te faltan ${faltaPara(2)} para el 3er puesto y ganar <b>S/ 20</b>. ¡Tú puedes!`;
+    else                  msg = `Eres <b>top ${idx + 1}</b> de ${rows.length}. ¡Tú puedes entrar al top 10! Te faltan ${faltaPara(9)}. 🎁 Los 3 primeros ganan hasta <b>S/ 60</b>.`;
     card.querySelector('.top-me').innerHTML = msg;
 
     const top = rows.slice(0, 10).filter(r => r.sold > 0);
