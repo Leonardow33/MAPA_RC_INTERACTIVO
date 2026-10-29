@@ -830,7 +830,7 @@
     .top-empty { font-size: 12px; color: var(--muted); text-align: center; padding: 8px 0; }
     .top-side { display: none; }
     @media (min-width: 1100px) {
-      #top-card { display: none !important; }
+      .top-mobile { display: none !important; }
       .top-side.on {
         display: block;
         /* centrado en el espacio bajo la barra superior (~66px) */
@@ -1125,6 +1125,19 @@
     </div>
   </div>
 
+  <!-- Top Turbito / LakiDey (solo móvil; en desktop van a los lados) -->
+  <div class="top-card top-mobile ss-promo" id="ss-top-card">
+    <div class="top-hdr">
+      <div class="card-title top-title" style="margin-bottom:0">Top Turbito</div>
+      <div class="top-toggle">
+        <button class="top-tg active" data-juego="Turbito" onclick="setTopJuego('Turbito')"><img src="../sources/logos-games/Turbito.png" alt="">Turbito</button>
+        <button class="top-tg" data-juego="LakiDey" onclick="setTopJuego('LakiDey')"><img src="../sources/logos-games/lakidey.png" alt="">LakiDey</button>
+      </div>
+    </div>
+    <div class="top-me"></div>
+    <div class="top-list"></div>
+  </div>
+
   <!-- Video de la llama al final -->
   <div class="promo-card ss-promo">
     <video autoplay muted loop playsinline class="promo-video">
@@ -1273,7 +1286,7 @@
     </div>
 
     <!-- Top Turbito / LakiDey del mes (solo móvil; en desktop van a los lados) -->
-    <div class="top-card" id="top-card" style="display:none">
+    <div class="top-card top-mobile" id="top-card" style="display:none">
       <div class="top-hdr">
         <div class="card-title top-title" style="margin-bottom:0">Top Turbito</div>
         <div class="top-toggle">
@@ -1402,6 +1415,7 @@
     document.getElementById('pin-screen').style.display    = 'none';
     document.getElementById('search-screen').style.display = 'flex';
     renderTopSides(null);
+    renderSsTop();
     if (!selectorReady) {
       selectorReady = true;
       setupSearch();
@@ -2085,7 +2099,10 @@
     fillTopCard(card, _topJuego, _topStore);
   }
 
-  function setTopJuego(juego) { _topJuego = juego; renderTopCard(); }
+  // Tarjeta del buscador en móvil (solo el top 10, sin tienda)
+  function renderSsTop() { fillTopCard(document.getElementById('ss-top-card'), _topJuego, null); }
+
+  function setTopJuego(juego) { _topJuego = juego; renderTopCard(); renderSsTop(); }
 
   // Tarjetas laterales en desktop: Turbito a la izquierda, LakiDey a la derecha
   function renderTopSides(store) {
@@ -2196,6 +2213,7 @@
     document.getElementById('dashboard').style.display     = 'none';
     document.getElementById('search-screen').style.display = 'flex';
     renderTopSides(null);
+    renderSsTop();
     const activeRole = document.querySelector('.role-tab.active')?.id?.replace('tab-','') || 'tienda';
     if (activeRole === 'tienda') {
       const input = document.getElementById('search-input');
