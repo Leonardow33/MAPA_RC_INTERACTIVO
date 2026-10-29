@@ -815,11 +815,13 @@
     /* ── TOP TURBITO / LAKIDEY ──────────────────────────────
        Desktop: Turbito fijo a la izquierda y LakiDey a la derecha (buscador y dashboard).
        Móvil: una sola tarjeta con botón para cambiar de juego, dentro del dashboard. */
-    .top-card { --tc: #0891B2; background: var(--surf); border: 1px solid var(--border); border-radius: 16px; padding: 16px 14px 14px; }
+    .top-card { --tc: #92400E; background: var(--surf); border: 1px solid var(--border); border-radius: 16px; padding: 16px 14px 14px; }
     .top-hdr { display: flex; align-items: center; justify-content: space-between; gap: 8px; flex-wrap: wrap; margin-bottom: 10px; }
     .top-toggle { display: flex; background: var(--surf2); border: 1px solid var(--border); border-radius: 999px; padding: 2px; }
     .top-tg { display: flex; align-items: center; gap: 4px; border: none; background: transparent; font: inherit; font-size: 11px; font-weight: 700; color: var(--muted); padding: 5px 10px; border-radius: 999px; cursor: pointer; transition: background .15s, color .15s; }
     .top-tg img { width: 14px; height: 14px; object-fit: contain; }
+    .top-title { display: flex; align-items: center; gap: 6px; }
+    .top-logo { width: 22px; height: 22px; object-fit: contain; flex-shrink: 0; }
     .top-tg.active { background: var(--tc); color: #fff; }
     .top-me { font-size: 13px; line-height: 1.4; margin-bottom: 10px; }
     .top-me b { color: var(--tc); }
@@ -2027,7 +2029,8 @@
   }
 
   // ── Top Turbito / LakiDey: ventas del mes entre todas las tiendas AT ──────
-  const TOP_COLOR = { Turbito: '#0891B2', LakiDey: '#3B9EE8' };
+  const TOP_COLOR = { Turbito: '#92400E', LakiDey: '#3B9EE8' };
+  const TOP_LOGO  = { Turbito: '../sources/logos-games/Turbito.png', LakiDey: '../sources/logos-games/lakidey.png' };
   const _topCache = {};
   let _topJuego = 'Turbito', _topStore = null;
 
@@ -2066,7 +2069,8 @@
     const idx   = id ? rows.findIndex(r => String(r.s.ID) === id) : -1;
     const me    = rows[idx];
     card.style.setProperty('--tc', TOP_COLOR[juego]);
-    card.querySelector('.top-title').textContent = 'Top ' + juego + ' · ' + (isMesPrev ? 'mes anterior' : 'este mes');
+    card.querySelector('.top-title').innerHTML =
+      `<img src="${TOP_LOGO[juego]}" class="top-logo" alt="">Top ${juego} · ${isMesPrev ? 'mes anterior' : 'este mes'}`;
     card.querySelectorAll('.top-tg').forEach(b => b.classList.toggle('active', b.dataset.juego === juego));
 
     let msg;
