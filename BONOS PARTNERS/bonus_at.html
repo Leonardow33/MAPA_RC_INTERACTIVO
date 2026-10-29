@@ -815,7 +815,7 @@
     /* ── TOP TURBITO / LAKIDEY ──────────────────────────────
        Desktop: Turbito fijo a la izquierda y LakiDey a la derecha (buscador y dashboard).
        Móvil: una sola tarjeta con botón para cambiar de juego, dentro del dashboard. */
-    .top-card { --tc: #92400E; background: var(--surf); border: 1px solid var(--border); border-radius: 16px; padding: 16px 14px 14px; }
+    .top-card { --tc: #92400E; background: var(--surf); border: 2px solid var(--tc); border-radius: 16px; padding: 16px 14px 14px; }
     .top-hdr { display: flex; align-items: center; justify-content: space-between; gap: 8px; flex-wrap: wrap; margin-bottom: 10px; }
     .top-toggle { display: flex; background: var(--surf2); border: 1px solid var(--border); border-radius: 999px; padding: 2px; }
     .top-tg { display: flex; align-items: center; gap: 4px; border: none; background: transparent; font: inherit; font-size: 11px; font-weight: 700; color: var(--muted); padding: 5px 10px; border-radius: 999px; cursor: pointer; transition: background .15s, color .15s; }
@@ -826,7 +826,8 @@
     .top-me { font-size: 13px; line-height: 1.4; margin-bottom: 10px; }
     .top-me b { color: var(--tc); }
     .top-list { display: flex; flex-direction: column; gap: 4px; }
-    .top-list .rk-row { padding: 6px 10px; border-radius: 10px; }
+    .top-list .rk-row { padding: 6px 10px; border-radius: 10px; border-color: color-mix(in srgb, var(--tc) 45%, transparent); }
+    .top-list .rk-row:hover { border-color: var(--tc); }
     .top-list .rk-bar { margin-top: 3px; }
     .top-sep { text-align: center; color: var(--dim); font-size: 14px; line-height: 1; }
     .top-empty { font-size: 12px; color: var(--muted); text-align: center; padding: 8px 0; }
