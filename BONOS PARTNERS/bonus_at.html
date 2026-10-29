@@ -788,7 +788,7 @@
     }
     @keyframes spin { to { transform: rotate(360deg); } }
 
-    /* ── PROMO CARD (solo móvil) ────────────────────────── */
+    /* ── PROMO CARD: video de la llama al final de la página ── */
     .promo-card {
       border: 1px solid var(--border);
       border-radius: 20px;
@@ -810,30 +810,11 @@
       filter: drop-shadow(0 3px 10px rgba(0,0,0,.55));
     }
 
-    @media (min-width: 1100px) { .promo-card { display: none; } }
+    .ss-promo { width: 100%; max-width: 420px; margin-top: 24px; }
 
-    /* ── VIDEO SIDE (izquierda, desktop) ────────────────── */
-    .video-side {
-      position: fixed;
-      right: calc(50% + 246px);
-      top: 50%;
-      transform: translateY(-50%);
-      width: 220px;
-      z-index: 0;
-      pointer-events: none;
-    }
-    .video-side video {
-      width: 100%;
-      display: block;
-      border-radius: 18px;
-      box-shadow:
-        0 0 0 1px rgba(229,53,53,.2),
-        0 8px 40px rgba(0,0,0,.7),
-        0 0 60px rgba(229,53,53,.15);
-    }
-    @media (max-width: 1099px) { .video-side { display: none; } }
-
-    /* ── TOP TURBITO / LAKIDEY (derecha en desktop, en la columna en móvil) ── */
+    /* ── TOP TURBITO / LAKIDEY ──────────────────────────────
+       Desktop: Turbito fijo a la izquierda y LakiDey a la derecha (buscador y dashboard).
+       Móvil: una sola tarjeta con botón para cambiar de juego, dentro del dashboard. */
     .top-card { --tc: #0891B2; background: var(--surf); border: 1px solid var(--border); border-radius: 16px; padding: 16px 14px 14px; }
     .top-hdr { display: flex; align-items: center; justify-content: space-between; gap: 8px; flex-wrap: wrap; margin-bottom: 10px; }
     .top-toggle { display: flex; background: var(--surf2); border: 1px solid var(--border); border-radius: 999px; padding: 2px; }
@@ -847,13 +828,18 @@
     .top-list .rk-bar { margin-top: 3px; }
     .top-sep { text-align: center; color: var(--dim); font-size: 14px; line-height: 1; }
     .top-empty { font-size: 12px; color: var(--muted); text-align: center; padding: 8px 0; }
+    .top-side { display: none; }
     @media (min-width: 1100px) {
-      .top-card {
+      #top-card { display: none !important; }
+      .top-side.on {
+        display: block;
         /* centrado en el espacio bajo la barra superior (~66px) */
-        position: fixed; left: calc(50% + 246px); top: calc(50% + 33px); transform: translateY(-50%);
+        position: fixed; top: calc(50% + 33px); transform: translateY(-50%);
         width: 280px; max-height: calc(100vh - 100px); overflow-y: auto; scrollbar-width: thin; z-index: 2;
         box-shadow: 0 8px 30px rgba(13,31,53,.12);
       }
+      .top-side.left  { right: calc(50% + 246px); }
+      .top-side.right { left:  calc(50% + 246px); }
     }
 
     @media (prefers-reduced-motion: reduce) {
@@ -1138,6 +1124,13 @@
       <p class="sc-count" id="gz-count"></p>
     </div>
   </div>
+
+  <!-- Video de la llama al final -->
+  <div class="promo-card ss-promo">
+    <video autoplay muted loop playsinline class="promo-video">
+      <source src="../sources/logos-games/WhatsApp%20Video%202026-07-06%20at%202.57.39%20PM.mp4" type="video/mp4">
+    </video>
+  </div>
 </div>
 
 <!-- DASHBOARD -->
@@ -1279,17 +1272,17 @@
       <div class="rk-list" id="rank-card-list"></div>
     </div>
 
-    <!-- Top Turbito / LakiDey del mes (en desktop va fijo a la derecha) -->
+    <!-- Top Turbito / LakiDey del mes (solo móvil; en desktop van a los lados) -->
     <div class="top-card" id="top-card" style="display:none">
       <div class="top-hdr">
-        <div class="card-title" id="top-title" style="margin-bottom:0">Top Turbito</div>
+        <div class="card-title top-title" style="margin-bottom:0">Top Turbito</div>
         <div class="top-toggle">
           <button class="top-tg active" data-juego="Turbito" onclick="setTopJuego('Turbito')"><img src="../sources/logos-games/Turbito.png" alt="">Turbito</button>
           <button class="top-tg" data-juego="LakiDey" onclick="setTopJuego('LakiDey')"><img src="../sources/logos-games/lakidey.png" alt="">LakiDey</button>
         </div>
       </div>
-      <div class="top-me" id="top-me"></div>
-      <div class="top-list" id="top-list"></div>
+      <div class="top-me"></div>
+      <div class="top-list"></div>
     </div>
 
     <!-- Stock Rapiraspas -->
@@ -1342,7 +1335,7 @@
       <div class="stock-feedback" id="stock-feedback"></div>
     </div>
 
-    <!-- Promo: video limpio (solo móvil) -->
+    <!-- Video de la llama al final -->
     <div class="promo-card">
       <video autoplay muted loop playsinline class="promo-video">
         <source src="../sources/logos-games/WhatsApp%20Video%202026-07-06%20at%202.57.39%20PM.mp4" type="video/mp4">
@@ -1351,11 +1344,16 @@
   </div>
 </div>
 
-<!-- Video promo: lado izquierdo (desktop) -->
-<div class="video-side">
-  <video autoplay muted loop playsinline>
-    <source src="../sources/logos-games/WhatsApp%20Video%202026-07-06%20at%202.57.39%20PM.mp4" type="video/mp4">
-  </video>
+<!-- Top Turbito (izquierda) y Top LakiDey (derecha): solo desktop -->
+<div class="top-card top-side left" id="top-side-Turbito">
+  <div class="top-hdr"><div class="card-title top-title" style="margin-bottom:0"></div></div>
+  <div class="top-me"></div>
+  <div class="top-list"></div>
+</div>
+<div class="top-card top-side right" id="top-side-LakiDey">
+  <div class="top-hdr"><div class="card-title top-title" style="margin-bottom:0"></div></div>
+  <div class="top-me"></div>
+  <div class="top-list"></div>
 </div>
 
 <script>
@@ -1403,6 +1401,7 @@
     document.getElementById('loading').style.display       = 'none';
     document.getElementById('pin-screen').style.display    = 'none';
     document.getElementById('search-screen').style.display = 'flex';
+    renderTopSides(null);
     if (!selectorReady) {
       selectorReady = true;
       setupSearch();
@@ -2046,33 +2045,30 @@
     </div>`;
   }
 
-  function renderTopCard(store) {
-    if (store) _topStore = store;
-    if (!_topStore) return;
-    const juego = _topJuego;
-    const card  = document.getElementById('top-card');
+  // Llena una tarjeta Top (móvil o lateral). Sin tienda (buscador) solo muestra el top 10.
+  function fillTopCard(card, juego, store) {
     const rows  = topDe(juego);
-    const id    = String(_topStore.ID);
-    const idx   = rows.findIndex(r => String(r.s.ID) === id);
+    const id    = store ? String(store.ID) : null;
+    const idx   = id ? rows.findIndex(r => String(r.s.ID) === id) : -1;
     const me    = rows[idx];
-    card.style.display = '';
     card.style.setProperty('--tc', TOP_COLOR[juego]);
-    document.getElementById('top-title').textContent = 'Top ' + juego + ' · ' + (isMesPrev ? 'mes anterior' : 'este mes');
+    card.querySelector('.top-title').textContent = 'Top ' + juego + ' · ' + (isMesPrev ? 'mes anterior' : 'este mes');
     card.querySelectorAll('.top-tg').forEach(b => b.classList.toggle('active', b.dataset.juego === juego));
 
     let msg;
-    if (!me || !me.sold)  msg = `Aún no tienes ventas de ${juego} este mes. ¡Tu primera venta te pone en carrera por el top 10!`;
+    if (!store)           msg = `Las 10 tiendas que más venden ${juego} ${isMesPrev ? 'el mes anterior' : 'este mes'}.`;
+    else if (!me || !me.sold) msg = `Aún no tienes ventas de ${juego} este mes. ¡Tu primera venta te pone en carrera por el top 10!`;
     else if (idx === 0)   msg = `🏆 <b>¡Eres top 1!</b> Eres la tienda que más vende ${juego}. ¡Defiende tu lugar!`;
     else if (idx < 10)    msg = `🔥 <b>¡Eres top ${idx + 1}!</b> Estás dentro del top 10, ¡sigue así!`;
     else {
       const falta = Math.max(1, Math.ceil(rows[9].sold - me.sold + 0.01));
       msg = `Eres <b>top ${idx + 1}</b> de ${rows.length}. ¡Tú puedes entrar al top 10! Te faltan ${fmtS(falta)}.`;
     }
-    document.getElementById('top-me').innerHTML = msg;
+    card.querySelector('.top-me').innerHTML = msg;
 
     const top = rows.slice(0, 10).filter(r => r.sold > 0);
     const max = top.length ? top[0].sold : 0;
-    const list = document.getElementById('top-list');
+    const list = card.querySelector('.top-list');
     list.innerHTML = !top.length
       ? `<div class="top-empty">Aún no hay ventas de ${juego} este mes.</div>`
       : top.map((r, i) => topRowHTML(r, i, max, id)).join('') +
@@ -2080,7 +2076,26 @@
     bindRankRows(list);
   }
 
+  // Tarjeta del dashboard en móvil (con botón Turbito / LakiDey)
+  function renderTopCard(store) {
+    if (store) _topStore = store;
+    if (!_topStore) return;
+    const card = document.getElementById('top-card');
+    card.style.display = '';
+    fillTopCard(card, _topJuego, _topStore);
+  }
+
   function setTopJuego(juego) { _topJuego = juego; renderTopCard(); }
+
+  // Tarjetas laterales en desktop: Turbito a la izquierda, LakiDey a la derecha
+  function renderTopSides(store) {
+    ['Turbito', 'LakiDey'].forEach(juego => {
+      const card = document.getElementById('top-side-' + juego);
+      fillTopCard(card, juego, store);
+      card.classList.add('on');
+      card.scrollTop = 0;
+    });
+  }
 
   function pctColor(pct) {
     if (pct >= 100) return 'var(--green)';
@@ -2180,6 +2195,7 @@
   function volverBusqueda() {
     document.getElementById('dashboard').style.display     = 'none';
     document.getElementById('search-screen').style.display = 'flex';
+    renderTopSides(null);
     const activeRole = document.querySelector('.role-tab.active')?.id?.replace('tab-','') || 'tienda';
     if (activeRole === 'tienda') {
       const input = document.getElementById('search-input');
@@ -2405,6 +2421,7 @@
 
     renderRankCard(store);
     renderTopCard(store);
+    renderTopSides(store);
     if (STOCK_ACTIVO) { document.getElementById('stock-card').style.display = ''; loadStock(store); }
   }
 
