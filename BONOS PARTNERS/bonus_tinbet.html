@@ -1276,7 +1276,7 @@
     </div>
 
     <!-- Stock Rapiraspas -->
-    <div class="stock-card">
+    <div class="stock-card" id="stock-card" style="display:none">
       <div class="stock-card-hdr">
         <div class="stock-card-title">📦 Stock Rapiraspas</div>
         <div style="display:flex;align-items:center;gap:8px">
@@ -2324,7 +2324,7 @@
     document.getElementById('motive-detail').textContent = m.detail;
     mc.style.border = `1px solid ${m.clr}40`;
     renderRankCard(store);
-    loadStock(store);
+    if (STOCK_ACTIVO) { document.getElementById('stock-card').style.display = ''; loadStock(store); }
   }
 
   // ── Banner mes anterior ────────────────────────────────────────────────────
@@ -2349,6 +2349,8 @@
   init();
 
   // ── Stock Rapiraspas ────────────────────────────────────────────────────────
+  // Oculto porque no se usa: cambia a true para volver a mostrarlo
+  const STOCK_ACTIVO = false;
   const GAS_STOCK_URL = 'https://script.google.com/macros/s/AKfycbyUKWhWdbbSwOcr-ae3TDI1CW7b5HYlO88HMawG3oWz0eeQ7lzvR4SbTBrg2z3eKib4/exec';
   let _stockStore = null;
 
