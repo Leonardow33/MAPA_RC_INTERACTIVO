@@ -74,6 +74,10 @@ Power BI → Power Automate (DAX diario → JSON en SharePoint)
   - **Premios**: S/ 60, S/ 40 y S/ 20 para los 3 primeros (`TOP_PREMIOS`). Se muestran como insignias y en los mensajes.
   - **Colores**: Turbito en marrón `#92400E` (también en la barra del desglose por juego) y LakiDey en celeste `#3B9EE8`. Los logos están en `TOP_LOGO`.
   - **Video de la llama**: va al final de las dos pantallas. Ya no hay stickers laterales.
+  - **Fondo Lotobola**: franja magenta y bolitas (`.lb-bg`) en el buscador y en el dashboard. La llama `suerte-3.png` solo aparece en el buscador.
+  - **Promociones activas** (`<section class="promos">` en el buscador): texto fijo en el HTML. Si una promo lleva `data-hasta="AAAA-MM-DD"`, se oculta sola al día siguiente (hora de Lima). La Campaña Fixture Liga 1 dura hasta el 23-nov; los bundles no tienen fecha de fin. Las imágenes están en `sources/logos-games/` (`lotobola.webp`, `kv_fixture_liga1.jpg`, `bundle_*.webp`).
+  - **Pestañas**: Mi tienda · Supervisor · Ranking de tiendas · Ranking de supervisores (`rankingSupervisores(per)`: semana = `meta_diaria × 7`, mes = `meta_diaria × 30`). La pestaña **Jefe Comercial está oculta** (`tab-jz` con `display:none`), pero su panel y su descarga (`downloadJzReport`) se conservan.
+  - `sources/` está en `.gitignore`: las imágenes nuevas de `sources/logos-games/` se agregan con `git add -f`, o no se publican.
 - **Stock Rapiraspas**: está oculto en AT, Aciertala, Doradobet, Livesport, Retabet y Tinbet porque no se usa. El código se conserva detrás de `const STOCK_ACTIVO = false`; con `true` vuelve a aparecer.
 - `bonus_at.html` tiene finales de línea mixtos (LF/CRLF). Los scripts que lo editen deben aceptar `\r?\n`.
 - La lógica compartida grande vive en `js/` (`mapa.js`, `visitas.js`, `planificador.js`, `zonas.js`, `supycap.js`). Mucho JS va inline en los HTML.
