@@ -1049,6 +1049,87 @@
     .rk-pct { font-size: 14px; font-weight: 800; font-variant-numeric: tabular-nums; }
     .rk-amt { font-size: 10px; color: var(--muted); white-space: nowrap; font-variant-numeric: tabular-nums; }
     .gz-sem { font-size: 12px; color: var(--muted); margin-bottom: 6px; }
+
+    /* ── FONDO DE MARCA LOTOBOLA ────────────────────────────── */
+    #search-screen > *:not(.lb-bg) { position: relative; z-index: 1; }
+    .lb-bg {
+      position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden;
+      background:
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cg fill='none' stroke='%230D1F35' stroke-opacity='.05' stroke-width='2'%3E%3Ccircle cx='30' cy='34' r='16'/%3E%3Ccircle cx='128' cy='22' r='10'/%3E%3Ccircle cx='96' cy='108' r='20'/%3E%3Ccircle cx='22' cy='146' r='9'/%3E%3Ccircle cx='160' cy='150' r='13'/%3E%3C/g%3E%3Cg fill='%23E53535' fill-opacity='.10'%3E%3Crect x='70' y='40' width='8' height='4' rx='2' transform='rotate(25 74 42)'/%3E%3Crect x='150' y='90' width='8' height='4' rx='2' transform='rotate(-30 154 92)'/%3E%3Crect x='50' y='170' width='8' height='4' rx='2'/%3E%3C/g%3E%3Cg fill='%23F5B301' fill-opacity='.18'%3E%3Ccircle cx='60' cy='88' r='3'/%3E%3Ccircle cx='140' cy='60' r='2.5'/%3E%3Ccircle cx='118' cy='160' r='3'/%3E%3C/g%3E%3C/svg%3E"),
+        radial-gradient(circle at 10% 70%, rgba(236,72,153,.10), transparent 40%),
+        radial-gradient(circle at 92% 75%, rgba(59,158,232,.14), transparent 40%),
+        linear-gradient(180deg, #EAF3FF 0%, #FDF2F6 100%);
+    }
+    .lb-band {
+      position: absolute; left: 0; right: 0; top: 0; height: 260px;
+      background:
+        radial-gradient(ellipse at 50% -20%, rgba(255,255,255,.25), transparent 60%),
+        linear-gradient(135deg, #F27BB6 0%, #E4519B 50%, #CC2F80 100%);
+      clip-path: ellipse(85% 100% at 50% 0%);
+    }
+    .lb-ball {
+      position: absolute; display: grid; place-items: center; border-radius: 50%;
+      font-weight: 900; color: #0D1F35; box-shadow: inset -6px -8px 14px rgba(0,0,0,.18), 0 6px 18px rgba(13,31,53,.15);
+      background: radial-gradient(circle at 32% 28%, #fff 0 18%, var(--bc, #FCD34D) 19% 100%);
+      animation: lbFloat 7s ease-in-out infinite;
+    }
+    .lb-ball.b1 { --bc:#FCD34D; width:58px; height:58px; font-size:20px; left:7%;  top:40px; }
+    .lb-ball.b2 { --bc:#7DD3FC; width:44px; height:44px; font-size:15px; left:20%; top:150px; animation-delay:-2s; }
+    .lb-ball.b3 { --bc:#F9A8D4; width:50px; height:50px; font-size:18px; right:9%; top:56px; animation-delay:-4s; }
+    .lb-ball.b4 { --bc:#86EFAC; width:40px; height:40px; font-size:14px; right:22%; top:170px; animation-delay:-1s; }
+    .lb-ball.b5 { --bc:#FDBA74; width:36px; height:36px; font-size:12px; left:3%;  bottom:16%; animation-delay:-3s; opacity:.7; }
+    .lb-ball.b6 { --bc:#C4B5FD; width:42px; height:42px; font-size:14px; right:4%; bottom:30%; animation-delay:-5s; opacity:.7; }
+    .lb-llama { position: absolute; right: -10px; bottom: -20px; width: 170px; opacity: .9; filter: drop-shadow(0 8px 20px rgba(0,0,0,.18)); }
+    @keyframes lbFloat { 0%,100% { transform: translateY(0) rotate(0); } 50% { transform: translateY(-10px) rotate(8deg); } }
+    @media (prefers-reduced-motion: reduce) { .lb-ball { animation: none; } }
+    @media (max-width: 700px) {
+      .lb-ball.b2, .lb-ball.b4, .lb-ball.b5, .lb-ball.b6 { display: none; }
+      .lb-ball.b1 { left: 4%; top: 18px; width: 40px; height: 40px; font-size: 14px; }
+      .lb-ball.b3 { right: 4%; top: 26px; width: 36px; height: 36px; font-size: 13px; }
+      .lb-llama { display: none; }
+      .lb-band { height: 230px; }
+    }
+    @media (min-width: 1100px) { .lb-llama { display: none; } } /* en desktop los Top ocupan los lados */
+    #search-screen .ss-eyebrow { color: #FDE68A; }
+    #search-screen .ss-heading { color: #fff; text-shadow: 0 3px 0 #0B4A9E, 0 6px 14px rgba(0,0,0,.18); }
+    #search-screen .ss-sub { color: rgba(255,255,255,.88); }
+
+    /* ── PROMOS ACTIVAS (estilo deck Lotobola: magenta + azul + amarillo) ── */
+    .promos { width: 100%; max-width: 480px; margin: 2px 0 20px; display: flex; flex-direction: column; gap: 8px; }
+    .promos-lbl { display: flex; align-items: center; justify-content: center; gap: 7px; font-size: 10px; font-weight: 800; letter-spacing: .16em; text-transform: uppercase; color: #fff; }
+    .live-dot { width: 8px; height: 8px; border-radius: 50%; background: #FFD23F; box-shadow: 0 0 0 0 rgba(255,210,63,.8); animation: livePulse 1.8s infinite; }
+    @keyframes livePulse { 70% { box-shadow: 0 0 0 8px rgba(255,210,63,0); } 100% { box-shadow: 0 0 0 0 rgba(255,210,63,0); } }
+    .fx-card { display: flex; gap: 12px; align-items: center; border-radius: 18px; padding: 10px; color: #fff;
+      background: linear-gradient(135deg, #F06AAE 0%, #DB3F8C 60%, #C42B7A 100%); box-shadow: 0 10px 26px rgba(196,43,122,.35); border: 2px solid rgba(255,255,255,.75); }
+    .fx-kv { width: 92px; aspect-ratio: 305/432; object-fit: cover; border-radius: 10px; flex-shrink: 0; box-shadow: 0 4px 12px rgba(0,0,0,.25); }
+    .fx-body { min-width: 0; }
+    .fx-tag { display: inline-block; font-size: 10px; font-weight: 800; background: #FFD23F; color: #0B3D91; padding: 3px 10px; border-radius: 999px; margin-bottom: 5px; }
+    .fx-title { font-size: 20px; font-weight: 900; line-height: 1.05; }
+    .fx-hook { font-size: 12.5px; margin: 5px 0 6px; opacity: .97; line-height: 1.3; }
+    .fx-hook b { color: #FFD23F; text-transform: uppercase; }
+    .fx-steps { list-style: none; display: flex; flex-direction: column; gap: 3px; }
+    .fx-steps li { font-size: 11.5px; padding-left: 14px; position: relative; }
+    .fx-steps li::before { content: ''; position: absolute; left: 2px; top: 6px; width: 6px; height: 6px; border-radius: 50%; background: #FFD23F; }
+    .bd-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+    .bd-card { background: #fff; border-radius: 16px; padding: 10px 8px 11px; text-align: center; box-shadow: 0 6px 16px rgba(13,31,53,.10); }
+    .bd-logo { height: 44px; max-width: 92%; object-fit: contain; display: block; margin: 0 auto 4px; }
+    .bd-offer { font-size: 26px; font-weight: 900; line-height: 1; color: #0B4A9E; letter-spacing: -.01em; }
+    .bd-txt { font-size: 11px; color: #0D1F35; margin-top: 4px; line-height: 1.25; font-weight: 600; }
+    .bd-card.hot { background: linear-gradient(160deg, #FF8A3D, #D9530C); color: #fff; box-shadow: 0 8px 20px rgba(217,83,12,.35); }
+    .bd-card.hot .bd-logo { background: #fff; border-radius: 8px; padding: 2px 6px; }
+    .bd-card.hot .bd-offer, .bd-card.hot .bd-txt { color: #fff; }
+    .promos-tip { text-align: center; font-size: 11.5px; font-weight: 700; color: #0B4A9E; }
+    /* Marca */
+    .ss-brand { display: flex; align-items: center; gap: 8px; background: #fff; border-radius: 999px; padding: 5px 14px 5px 10px; margin-bottom: 10px; box-shadow: 0 4px 14px rgba(0,0,0,.12); }
+    .ss-brand img { height: 22px; }
+    .ss-brand span { font-size: 11px; font-weight: 800; color: #0B4A9E; letter-spacing: .04em; }
+    @media (max-width: 380px) { .fx-kv { width: 76px; } .fx-title { font-size: 17px; } .bd-offer { font-size: 22px; } }
+
+    /* Mismo fondo en el dashboard de la tienda (sin la llama) */
+    #dashboard .dash-body { position: relative; z-index: 1; }
+    #dashboard .lb-band { height: 300px; }
+    #dashboard .lb-llama { display: none; }
+    #dashboard .period-card--primary { background: linear-gradient(135deg, #FDEEEE 0%, var(--surf) 60%); } /* opaco: sobre el magenta */
   </style>
 </head>
 <body>
@@ -1076,9 +1157,66 @@
 
 <!-- SEARCH / SELECTOR SCREEN -->
 <div id="search-screen" style="display:none">
-    <div class="ss-eyebrow">Apuesta Total · LOTOBOLA</div>
+  <!-- Fondo de marca Lotobola (decorativo) -->
+  <div class="lb-bg" aria-hidden="true">
+    <div class="lb-band"></div>
+    <span class="lb-ball b1">7</span><span class="lb-ball b2">23</span><span class="lb-ball b3">5</span>
+    <span class="lb-ball b4">14</span><span class="lb-ball b5">31</span><span class="lb-ball b6">9</span>
+    <img class="lb-llama" src="../sources/logos-games/suerte-3.png" alt="">
+  </div>
+
+  <div class="ss-brand"><img src="../sources/logos-games/lotobola.webp" alt="Lotobola"><span>× Apuesta Total</span></div>
   <h1 class="ss-heading">¿Quién eres?</h1>
   <p class="ss-sub">Selecciona tu rol para ver el progreso de tus tiendas</p>
+
+  <!-- ═══ PROMOS ACTIVAS ═══════════════════════════════════════════
+       Para cambiar las promos solo edita los textos de este bloque.
+       Para ocultar una promo, bórrala o ponle style="display:none".
+       data-hasta="AAAA-MM-DD": la promo se oculta sola después de esa fecha (hora de Lima). -->
+  <section class="promos" aria-label="Promociones activas">
+    <div class="promos-lbl"><span class="live-dot"></span> Promociones y campañas activas</div>
+
+    <!-- Campaña principal: Fixture Liga 1 (KV oficial) -->
+    <div class="fx-card" data-hasta="2026-11-23">
+      <img src="../sources/logos-games/kv_fixture_liga1.jpg" alt="KV Campaña Fixture Liga 1" class="fx-kv">
+      <div class="fx-body">
+        <div class="fx-tag">Hasta el 23-nov</div>
+        <div class="fx-title">Campaña Fixture Liga 1</div>
+        <div class="fx-hook">¡Completa tu fixture y llévate la <b>pelota</b> a casa GRATIS!</div>
+        <ul class="fx-steps">
+          <li><b>S/ 5</b> en Lotobola = fixture gratis y 1 sticker</li>
+          <li><b>50 stickers</b> = pelota gratis ⚽</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Bundles activos -->
+    <div class="bd-row">
+      <div class="bd-card">
+        <img src="../sources/logos-games/bundle_lakidey.webp" alt="LakiDey" class="bd-logo">
+        <div class="bd-offer">5 + 1</div>
+        <div class="bd-txt">Compra 5 y llévate <b>1 gratis</b></div>
+      </div>
+      <div class="bd-card">
+        <img src="../sources/logos-games/bundle_pozopowergo.webp" alt="Pozo Power Go" class="bd-logo">
+        <div class="bd-offer">5 + 1</div>
+        <div class="bd-txt">Compra 5 y llévate <b>1 gratis</b></div>
+      </div>
+      <div class="bd-card hot">
+        <img src="../sources/logos-games/bundle_turbito.webp" alt="Turbito" class="bd-logo">
+        <div class="bd-offer">5 + 2</div>
+        <div class="bd-txt">Compra 5 y llévate <b>2 gratis</b></div>
+      </div>
+    </div>
+    <div class="promos-tip">✅ Ofrece la promo en cada compra</div>
+  </section>
+  <script>
+    // Oculta las promos vencidas: hoy (Lima, UTC-5) posterior a data-hasta
+    (function () {
+      const hoy = new Date(Date.now() - 5 * 3600e3).toISOString().slice(0, 10);
+      document.querySelectorAll('.promos [data-hasta]').forEach(el => { if (hoy > el.dataset.hasta) el.remove(); });
+    })();
+  </script>
 
   <div class="role-tabs">
     <button class="role-tab active" id="tab-tienda" onclick="setRole('tienda')">🏪 Mi tienda</button>
@@ -1159,6 +1297,12 @@
 
 <!-- DASHBOARD -->
 <div id="dashboard">
+  <!-- Fondo de marca Lotobola (decorativo), igual que en el buscador -->
+  <div class="lb-bg" aria-hidden="true">
+    <div class="lb-band"></div>
+    <span class="lb-ball b1">7</span><span class="lb-ball b2">23</span><span class="lb-ball b3">5</span>
+    <span class="lb-ball b4">14</span><span class="lb-ball b5">31</span><span class="lb-ball b6">9</span>
+  </div>
   <nav class="dash-nav">
     <button class="back-btn" onclick="volverBusqueda()">← Volver</button>
     <div class="nav-store">
