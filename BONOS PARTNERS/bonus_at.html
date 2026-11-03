@@ -1050,6 +1050,19 @@
     .rk-amt { font-size: 10px; color: var(--muted); white-space: nowrap; font-variant-numeric: tabular-nums; }
     .gz-sem { font-size: 12px; color: var(--muted); margin-bottom: 6px; }
 
+    /* ── RANKING DE SUPERVISORES ────────────────────────────── */
+    #role-panel-rsup { width: 100%; max-width: 420px; }
+    .rs-toggle { display: flex; background: var(--surf); border: 1.5px solid var(--border); border-radius: 999px; padding: 3px; margin-bottom: 12px; }
+    .rs-tg { flex: 1; border: none; background: transparent; font: inherit; font-size: 12px; font-weight: 700; color: var(--muted); padding: 8px 10px; border-radius: 999px; cursor: pointer; transition: background .15s, color .15s; }
+    .rs-tg.active { background: var(--accent); color: #fff; }
+    .rk-sub { font-size: 10px; color: var(--muted); margin-top: 1px; }
+    #search-screen .rank-sub { background: rgba(255,255,255,.92); color: var(--text); font-weight: 600; border-radius: 999px; padding: 5px 12px; margin: 0 auto 10px; width: fit-content; box-shadow: 0 2px 8px rgba(13,31,53,.08); }
+
+    /* ── TABS: 4 pestañas ───────────────────────────────────── */
+    .role-tabs { max-width: 480px; }
+    .role-tab { font-size: 12.5px; line-height: 1.25; padding: 10px 6px; }
+    @media (max-width: 520px) { .role-tabs { display: grid; grid-template-columns: 1fr 1fr; } .role-tab { padding: 11px 6px; } }
+
     /* ── FONDO DE MARCA LOTOBOLA ────────────────────────────── */
     #search-screen > *:not(.lb-bg) { position: relative; z-index: 1; }
     .lb-bg {
@@ -1220,9 +1233,21 @@
 
   <div class="role-tabs">
     <button class="role-tab active" id="tab-tienda" onclick="setRole('tienda')">🏪 Mi tienda</button>
-    <button class="role-tab" id="tab-gz" onclick="setRole('gz')">Supervisor</button>
-    <button class="role-tab" id="tab-jz" onclick="setRole('jz')">Jefe Comercial</button>
-    <button class="role-tab" id="tab-rank" onclick="setRole('rank')">🏆 Ranking</button>
+    <button class="role-tab" id="tab-gz" onclick="setRole('gz')">👤 Supervisor</button>
+    <!-- Jefe Comercial: oculto, se conserva el panel y su código. Quita el style para mostrarlo. -->
+    <button class="role-tab" id="tab-jz" onclick="setRole('jz')" style="display:none">Jefe Comercial</button>
+    <button class="role-tab" id="tab-rank" onclick="setRole('rank')">🏆 Ranking de tiendas</button>
+    <button class="role-tab" id="tab-rsup" onclick="setRole('rsup')">🎖️ Ranking de supervisores</button>
+  </div>
+
+  <!-- Panel: Ranking de supervisores → avance agregado de sus tiendas -->
+  <div id="role-panel-rsup" style="display:none">
+    <div class="rs-toggle">
+      <button class="rs-tg active" data-per="sem" onclick="setRsupPer('sem')">Esta semana</button>
+      <button class="rs-tg" data-per="mes" onclick="setRsupPer('mes')">Este mes</button>
+    </div>
+    <p class="rank-sub" id="rsup-sub"></p>
+    <div class="rk-list" id="rsup-list"></div>
   </div>
 
   <!-- Panel: Ranking → posición y avance semanal por clúster -->
@@ -1580,13 +1605,14 @@
   }
 
   function setRole(role) {
-    ['tienda','jz','gz','rank'].forEach(r => {
+    ['tienda','jz','gz','rank','rsup'].forEach(r => {
       const tab = document.getElementById('tab-' + r);
       if (!tab) return;
       tab.classList.toggle('active', r === role);
       document.getElementById('role-panel-' + r).style.display = r === role ? '' : 'none';
     });
     if (role === 'rank') renderRankPanel();
+    if (role === 'rsup') renderRsupPanel();
     if (role === 'tienda') document.getElementById('search-input').focus();
   }
 
@@ -2163,6 +2189,67 @@
     bindRankRows(list);
   }
 
+  // ── Ranking de supervisores: avance agregado de todas sus tiendas ─────────
+  // Semana: ventas Mié→Mar vs Σ meta semanal (meta_diaria × 7).
+  // Mes: ventas del mes vs Σ meta mensual (meta_diaria × 30), igual que la tarjeta de Supervisor.
+  let _rsupPer = 'sem';
+  function setRsupPer(per) {
+    _rsupPer = per;
+    document.querySelectorAll('.rs-tg').forEach(b => b.classList.toggle('active', b.dataset.per === per));
+    renderRsupPanel();
+  }
+
+  function rankingSupervisores(per) {
+    const vm = per === 'sem'
+      ? weeklyVentasMap()
+      : monthlyVentasMap(new Set(allStores.map(s => String(s.ID))));
+    const g = {};
+    allStores.forEach(s => {
+      const k = s.gz;
+      if (!k || k === 'SIN INFO') return;
+      if (!g[k]) g[k] = { nombre: k, n: 0, sold: 0, meta: 0 };
+      g[k].n++;
+      g[k].sold += vm[String(s.ID)] || 0;
+      const md = parseFloat(s.meta_diaria);
+      g[k].meta += per === 'sem' ? metaSemDe(s) : (md > 0 ? Math.round(md * 30) : 0);
+    });
+    return Object.values(g)
+      .map(r => ({ ...r, pct: r.meta ? r.sold / r.meta * 100 : null }))
+      .sort((a, b) => ((b.pct ?? -1) - (a.pct ?? -1)) || (b.sold - a.sold) || a.nombre.localeCompare(b.nombre));
+  }
+
+  function renderRsupPanel() {
+    const rows = rankingSupervisores(_rsupPer);
+    document.getElementById('rsup-sub').textContent = _rsupPer === 'sem'
+      ? 'Avance vs meta semanal · ' + textoSemana()
+      : 'Avance vs meta mensual · ' + (isMesPrev ? 'mes anterior' : 'mes en curso');
+    const list = document.getElementById('rsup-list');
+    list.innerHTML = rows.map((r, i) => {
+      const pct = r.pct !== null ? Math.round(r.pct) : null;
+      const col = pct !== null ? pctColor(pct) : 'var(--dim)';
+      const pos = i < 3 ? ['🥇','🥈','🥉'][i] : i + 1;
+      return `<div class="rk-row" data-gz="${r.nombre.replace(/"/g, '&quot;')}">
+        <div class="rk-pos">${pos}</div>
+        <div class="rk-info">
+          <div class="rk-name">${r.nombre}</div>
+          <div class="rk-sub">${r.n} tienda${r.n !== 1 ? 's' : ''}</div>
+          <div class="rk-bar"><div class="rk-fill" style="width:${Math.min(pct || 0, 100)}%;background:${col}"></div></div>
+        </div>
+        <div class="rk-right">
+          <div class="rk-pct" style="color:${col}">${pct !== null ? pct + '%' : '—'}</div>
+          <div class="rk-amt">${fmtS(r.sold)} / ${r.meta ? fmtS(r.meta) : 'S/ —'}</div>
+        </div>
+      </div>`;
+    }).join('') || '<div class="top-empty">Sin supervisores con tiendas asignadas</div>';
+    // Al tocar un supervisor se abre su detalle en la pestaña Supervisor
+    list.querySelectorAll('.rk-row').forEach(row => row.addEventListener('click', () => {
+      setRole('gz');
+      const sel = document.getElementById('gz-select');
+      sel.value = row.dataset.gz;
+      sel.dispatchEvent(new Event('change'));
+    }));
+  }
+
   function renderRankCard(store) {
     const card = document.getElementById('rank-card');
     if (isMesPrev) { card.style.display = 'none'; return; }
@@ -2358,6 +2445,7 @@
 
   function setupSearch() {
     if (isMesPrev) { const t = document.getElementById('tab-rank'); if (t) t.style.display = 'none'; }
+    if (isMesPrev) { _rsupPer = 'mes'; const tg = document.querySelector('.rs-toggle'); if (tg) tg.style.display = 'none'; }
     sortedStores = [...allStores].sort((a, b) => a.nombre.localeCompare(b.nombre));
     renderStoreCards('tienda', sortedStores);
     const input = document.getElementById('search-input');
