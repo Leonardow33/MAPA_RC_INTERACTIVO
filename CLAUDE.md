@@ -19,13 +19,16 @@ python -m http.server 8000
 - Pruebas del planificador de rutas (invariantes sobre datos reales): `node scripts/test_plan.js`
 - Generar plan de rutas: `MODO=diario node scripts/generar_plan.js` o `MODO=semanal node scripts/generar_plan.js` (opcional `VIGENTE_DESDE=YYYY-MM-DD` en modo semanal). Escribe `data/planes/plan_<fecha>.json` y `data/planes/index.json`.
 - `js/planificador.js` se usa en el navegador y también con `require()` en Node: mantenlo compatible con ambos.
+- **Probar una página en el navegador**: levanta el servidor y usa Playwright desde Python, que ya está instalado con Chromium (`page.goto`, `page.screenshot`, `page.on('pageerror')`). Para ver semanas cerradas antes de que existan datos, intercepta el HTML con `page.route` y cambia una constante, por ejemplo `INCENTIVO_INICIO` en `bonus_at.html`. No modifiques el archivo para esto. Para revisar que el JS inline compile, pasa cada `<script>` por `new Function()` en Node.
+- En Windows, los `print` con emojis o `→` fallan en la consola (cp1252): corre Python con `PYTHONIOENCODING=utf-8 python -X utf8`. Los scripts Python largos escríbelos en un archivo en vez de usar un heredoc de bash.
 
 ## Flujo de datos
 
 ```
 Power BI → Power Automate (DAX diario → JSON en SharePoint)
   → actualizar_ventas.yml (Playwright descarga, lanzado por cron-job.org)
-  → data/ventas_mes.json · ventas_raspes.json · ventas_loteria.json
+  → data/ventas_mes.json · ventas_raspes.json · ventas_loteria.json · ventas_lakidey.json · ventas_turbito.json
+  → (+ data/tambo_*.json del BI de Tambo → scripts/tambo_bi.py corrige los días cerrados Tambo)
   → build-dist.yml → rama dist (visitas.html y mapa.html ofuscados) → GitHub Pages
 ```
 
@@ -42,7 +45,7 @@ Power BI → Power Automate (DAX diario → JSON en SharePoint)
 ### Workflows con horario (hora de Lima = UTC-5)
 | Workflow | Cuándo | Qué hace |
 |---|---|---|
-| `actualizar_ventas.yml` | `workflow_dispatch` lanzado por cron-job.org cada 25 min | Descarga los 5 JSON de ventas, crea los `_prev` al cambiar de mes y sincroniza `dist` |
+| `actualizar_ventas.yml` | `workflow_dispatch` lanzado por cron-job.org cada 25 min | Descarga los 5 JSON de ventas y los 3 `tambo_*`, aplica `tambo_bi.py`, crea los `_prev` al cambiar de mes y sincroniza `dist` |
 | `findemes_noche.yml` | cron-job.org a diario a las 23:40 | Descarga extra solo el último día del mes; los demás días termina en ~3 s sin hacer nada (input `forzar` para lanzarlo a mano). Su `schedule` de GitHub es solo un respaldo: suele llegar 4–8 h tarde, cuando ya es día 1 |
 | `safety_snapshot_findemes.yml` | 11:00 | Respaldo del snapshot de la semana Tambo el último día (Power BI se reinicia el día 1) |
 | `snapshot_bonos.yml` | jueves 9:00 | Agrega la semana Tambo cerrada a `historico_bonos.json` (input `semanas_atras`) |
@@ -60,7 +63,10 @@ Power BI → Power Automate (DAX diario → JSON en SharePoint)
 - **Unidades**: PozoPower viene en soles; `keys_bonos.json` está en tickets. Usa el campo `tickets` del registro si existe (Tambo, días cerrados); si no, estima con `Math.floor(soles / 5)` (1 ticket = S/5, pero la promo 3x12 hace que esa estimación cuente de menos). LakiDey: S/1 = 1 unidad.
 - **Semana Tambo**: de jueves a miércoles (`juevesDe(fecha)`). Las fechas se parsean como `new Date(fecha + 'T12:00:00')` para evitar desfases de zona horaria.
 - **Semana de los demás partners**: de lunes a domingo, salvo Apuesta Total, que desde el 5-nov-2026 va de jueves a miércoles, como Tambo (ver `bonus_at.html`).
-- **Semanas que cruzan de mes**: todas las páginas de `BONOS PARTNERS/` también cargan `ventas_mes_prev.json`. Los cálculos semanales usan el array `ventasSemana` (no `allVentas`) para no perder los días del mes anterior. Tambo lo resuelve aparte con `allVentasPrev`.
+- **Semanas que cruzan de mes**: todas las páginas de `BONOS PARTNERS/` también cargan `ventas_mes_prev.json`. Los cálculos semanales usan el array `ventasSemana` (no `allVentas`) para no perder los días del mes anterior. Hay 3 casos especiales:
+  - **Tambo** lo resuelve aparte con `allVentasPrev`.
+  - **`bonus_at.html`** carga los `_prev` de los 5 archivos, porque su mes de incentivo cruza de mes.
+  - **`bonus.html`** (Tambo) carga `ventas_mes_prev`, `ventas_loteria_prev` y `ventas_lakidey_prev`.
 - **Cencosud con 2 POS**: algunas tiendas tienen un 2do POS con otro `org_code` (4043–4056). `bonus_cencosud.html` lo reasigna al ID principal con `POS2_MAP` (el código original queda en `pos_code`) y muestra la venta separada por POS. Si se agrega un 2do POS, hay que sumarlo a `POS2_MAP`.
 - Los archivos `*_prev.json` contienen el mes anterior.
 - **BI de Tambo (dos BIs)**: nuestro BI reúne a todos los partners y Tambo tiene su propio BI. La métrica es la misma, pero cada uno calcula la **promo de PozoPower (3 jugadas por S/12)** por su lado: el monto PozoPower por tienda y día difiere en **±S/3 (múltiplos de 3) en las dos direcciones**, aunque los **tickets son iguales**. Los demás juegos cuadran exacto. No es un error del repo ni de la descarga.
@@ -84,7 +90,7 @@ Power BI → Power Automate (DAX diario → JSON en SharePoint)
   - Como cruza de mes, la página **siempre carga el mes actual y el `_prev` de los 5 archivos** (`conPrev`) y filtra por fecha (`enPeriodo`).
   - **Premio semanal por clúster** (`CLUSTER_PREMIO`, clúster = campo `cluster` de `puntos.json`, ya que `cluster_bono` viene "SIN CLUSTER"). Ganadoras por semana y premio: DIAMANTE 3 × S/ 100, PLATINO 3 × S/ 75, ORO 10 × S/ 50, PLATA 10 × S/ 35, BRONCE 10 × S/ 25 y COBRE 10 × S/ 20. Para competir hay que llegar al **100% de la meta semanal** (`meta_diaria × 7`). Ganan las de **mayor % de avance sobre la meta** dentro del clúster, en ranking nacional (`rankingDe(cluster, sem)`). El usuario confirmó el % de avance; el "crecimiento" lo calcula la AM, y si cambia, avisará. Los premios se acumulan en las 4 semanas.
   - **Tarjetas**: el ranking semanal lleva insignias "Gana/Ganó S/ X" y el estado de la tienda. Hay una tarjeta "Incentivo semanal acumulable" con las 4 semanas y el acumulado (`renderIncentivoCard`) y una tabla "Premios por clúster" (`renderPremiosCard`, también en la pestaña Ranking de tiendas, que tiene selector de semana).
-  - **Cobertura mínima diaria** (`COBERTURA_MIN`): S/ 10 en DIAMANTE, PLATINO y ORO, y S/ 5 en PLATA, BRONCE y COBRE. Son constantes en el código, sin columna en la base. Se muestra en la tarjeta "Hoy" y como "cubiertos X de Y" bajo el gráfico semanal. % cobertura = días cubiertos ÷ (tiendas × 28). 
+  - **Cobertura mínima diaria** (`COBERTURA_MIN`): S/ 10 en DIAMANTE, PLATINO y ORO, y S/ 5 en PLATA, BRONCE y COBRE. Son constantes en el código, sin columna en la base. Se muestra en la tarjeta "Hoy" y como "cubiertos X de Y" bajo el gráfico semanal. % cobertura = días cubiertos ÷ (tiendas × 28).
   - **Bono SOP (supervisores)** en la pestaña Ranking de supervisores (`rankingSupervisores('mes')`, `estadoSop`) y en el resumen de la pestaña Supervisor. Funciona así:
     - **Llave 1:** cobertura ≥ 90%. Mientras el mes corre se calcula sobre los días cerrados, sin contar hoy; al cierre equivale a los 28 días.
     - **Llave 2:** cumplimiento ≥ 100%, es decir, venta del mes de incentivo ÷ Σ `meta_diaria × 28` de la cartera.
@@ -92,17 +98,17 @@ Power BI → Power Automate (DAX diario → JSON en SharePoint)
     - **Bono Volumen:** S/ 200 a la mayor venta total, sin requisitos.
     - El supervisor sale de `gz`. **Los Jefes Comerciales (JC) los calcula la jefa**: no se implementan.
 - **`bonus_at.html` · Top Turbito / LakiDey / Rapiraspa**: ranking de ventas del mes de incentivo de ese juego entre todas las tiendas AT activas (`topDe(juego)`: Turbito y LakiDey salen de `allLoteria`; Rapiraspa suma todos los raspes de `allRaspes`). Todas las tarjetas se llenan con `fillTopCard`.
-  - **Desktop (≥1100px)**: en el buscador y en el dashboard, Turbito va fijo a la izquierda (no se mueve) y LakiDey a la derecha (`.top-side`). Rapiraspa va al lado de LakiDey (`.right2`) desde 1760px; en pantallas más angostas, debajo de LakiDey. Las tarjetas laterales de LakiDey y Rapiraspa muestran el **top 5** (`fillTopCard(..., lim)`), para que entren sin scroll al ir apiladas; Turbito y la tarjeta móvil muestran el top 10. En el buscador solo se muestra el top 10; en el dashboard además "Eres top N" y la fila de la tienda.
+  - **Desktop (≥1100px)**: en el buscador y en el dashboard, Turbito va fijo a la izquierda (no se mueve) y LakiDey a la derecha (`.top-side`). Rapiraspa va al lado de LakiDey (`.right2`) desde 1760px; en pantallas más angostas, debajo de LakiDey. Las tarjetas laterales de LakiDey y Rapiraspa muestran el **top 5** (`fillTopCard(..., lim)`), para que entren sin scroll al ir apiladas; Turbito y la tarjeta móvil muestran el top 10. En el buscador solo se muestra el top; en el dashboard además "Eres top N" y la fila de la tienda.
   - **Móvil**: una sola tarjeta con botones Turbito/LakiDey/Rapiraspa (`.top-mobile`). En el buscador va antes del video; en el dashboard, entre el ranking semanal y el video.
   - **Premios**: S/ 60, S/ 40 y S/ 20 para los 3 primeros (`TOP_PREMIOS`). Se muestran como insignias y en los mensajes.
-  - **Colores**: Turbito en marrón `#92400E` (también en la barra del desglose por juego) LakiDey en celeste `#3B9EE8` y Rapiraspa en morado `#5B3E99`. Los logos están en `TOP_LOGO`.
+  - **Colores**: Turbito en marrón `#92400E` (también en la barra del desglose por juego), LakiDey en celeste `#3B9EE8` y Rapiraspa en morado `#5B3E99`. Los logos están en `TOP_LOGO`.
   - **Video de la llama**: va al final de las dos pantallas. Ya no hay stickers laterales.
   - **Fondo Lotobola**: franja magenta y bolitas (`.lb-bg`) en el buscador y en el dashboard. La llama `suerte-3.png` solo aparece en el buscador.
   - **Promociones activas** (`<section class="promos">` en el buscador): texto fijo en el HTML. Si una promo lleva `data-hasta="AAAA-MM-DD"`, se oculta sola al día siguiente (hora de Lima). La Campaña Fixture Liga 1 dura hasta el 23-nov; los bundles no tienen fecha de fin. Las imágenes están en `sources/logos-games/` (`lotobola.webp`, `kv_fixture_liga1.jpg`, `bundle_*.webp`).
   - **Pestañas**: Mi tienda · Supervisor · Ranking de tiendas · Ranking de supervisores (`rankingSupervisores(per)`: solo el mes de incentivo, ventas vs `meta_diaria × 28`, con las llaves del Bono SOP). La pestaña **Jefe Comercial está oculta** (`tab-jz` con `display:none`), pero su panel y su descarga (`downloadJzReport`) se conservan.
   - `sources/` está en `.gitignore`: las imágenes nuevas de `sources/logos-games/` se agregan con `git add -f`, o no se publican.
 - **Stock Rapiraspas**: está oculto en AT, Aciertala, Doradobet, Livesport, Retabet y Tinbet porque no se usa. El código se conserva detrás de `const STOCK_ACTIVO = false`; con `true` vuelve a aparecer.
-- `bonus_at.html` tiene finales de línea mixtos (LF/CRLF). Los scripts que lo editen deben aceptar `\r?\n`.
+- **Finales de línea**: en git los archivos están en LF, pero la copia de trabajo de Windows está en CRLF (autocrlf). La herramienta Edit funciona bien. Los scripts que editen con `read_bytes()`/`write_bytes()` deben buscar y escribir `\r\n` (o aceptar `\r?\n`), como en `bonus_at.html`.
 - La lógica compartida grande vive en `js/` (`mapa.js`, `visitas.js`, `planificador.js`, `zonas.js`, `supycap.js`). Mucho JS va inline en los HTML.
 - `herramientas/`: utilidades internas (`editor_pdv.html`, `mapa_incidencias.html`).
 - `sources/` (Excel fuente, ignorado por git), `distribucion/` (paquetes zip y docs para distribuir) y los `*_prebak.json` no forman parte del sitio.
@@ -110,5 +116,7 @@ Power BI → Power Automate (DAX diario → JSON en SharePoint)
 ## Convenciones
 
 - Haz commits pequeños, uno por cada cambio funcional, con mensaje en español y prefijo tipo `feat(...)`, `fix:`, `ci:` o `chore:`.
+- A veces el usuario manda varias ediciones seguidas y pide **no hacer commit hasta tenerlas todas**: en ese caso espera a que diga "commit and push".
+- Cuando cambie una regla de negocio (bonos, semanas, metas, flujos de Power Automate), actualiza también este archivo.
 - Los commits automáticos de datos llevan `[skip ci]`.
 - No hagas commit de `pbi_session.b64.txt` (es una sesión de Power BI) ni de `sources/`.
