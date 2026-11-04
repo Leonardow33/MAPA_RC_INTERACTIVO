@@ -52,6 +52,23 @@ jobs:
                   "data/ventas_loteria.json",
                   "ventas_loteria"
               ),
+              # BI de Tambo (días desde el jueves de la semana Tambo). scripts/tambo_bi.py
+              # los aplica a los días cerrados. Si fallan, no detienen el workflow.
+              (
+                  "https://elotgroup2020-my.sharepoint.com/:u:/g/personal/doriant_elotgroup_com/IQDcrTYZbDpmRKvlMeRjznI_AQEMB6opqMcAFOIVzgWkquM?e=expQYV",
+                  "data/tambo_totales.json",
+                  "tambo_totales"
+              ),
+              (
+                  "https://elotgroup2020-my.sharepoint.com/:u:/g/personal/doriant_elotgroup_com/IQDNWAVZB9LVQYFaNHexU5wxAWqU_gwEPcNDC7iZ-a-5LR4?e=6TfkIF",
+                  "data/tambo_pozopower.json",
+                  "tambo_pozopower"
+              ),
+              (
+                  "https://elotgroup2020-my.sharepoint.com/:u:/g/personal/doriant_elotgroup_com/IQCee1fF3YJJRLapvcZ-yZRmAfWRCCMhhsu4RM6x0eXWpAA?e=BKhGWv",
+                  "data/tambo_tickets.json",
+                  "tambo_tickets"
+              ),
           ]
 
           SP_BASE = "https://elotgroup2020-my.sharepoint.com"
@@ -178,7 +195,8 @@ jobs:
                       print(f"PROTECCIÓN [{label}]: descarga devolvió 0 registros pero el archivo actual tiene {len(existing_arr)} — no se sobreescribe")
                       return True
                   print(f"ADVERTENCIA [{label}]: 0 registros (archivo también estaba vacío)")
-              elif len(existing_arr) > 0:
+              elif len(existing_arr) > 0 and not label.startswith("tambo_"):
+                  # (los archivos tambo_* traen 2 meses en la semana cruzada: sin _prev)
                   # Detectar cambio de mes: si la fecha máxima de los nuevos datos
                   # es de un mes distinto al de los datos existentes, crear backup _prev
                   import shutil as _sh
@@ -212,7 +230,9 @@ jobs:
 
           if errores:
               print(f"ERRORES en: {errores}")
-              sys.exit(1)
+              if any(not e.startswith("tambo_") for e in errores):
+                  sys.exit(1)
+              print("  (solo fallaron archivos del BI de Tambo: se sigue con el último descargado)")
           PYEOF
 
       - name: Descargar LakiDey y Turbito desde SharePoint
@@ -354,9 +374,9 @@ jobs:
               sys.exit(1)
           PYEOF
 
-      - name: Aplicar ajustes Tambo (totales del BI de Tambo)
+      - name: Aplicar BI de Tambo a días cerrados (totales, PozoPower, tickets)
         continue-on-error: true
-        run: python3 scripts/ajustes_tambo.py aplicar
+        run: python3 scripts/tambo_bi.py aplicar
 
       - name: Snapshot fin de mes (si aplica)
         run: |
@@ -464,7 +484,7 @@ jobs:
               amt = v.get('total') or 0
               if tj == 'PozoPower':
                   ventas_map[vid]['pp'] += amt
-                  ventas_map[vid]['pp_tkt'] = ventas_map[vid].get('pp_tkt', 0) + pp_tickets(amt)
+                  ventas_map[vid]['pp_tkt'] = ventas_map[vid].get('pp_tkt', 0) + (v['tickets'] if v.get('tickets') is not None else pp_tickets(amt))
               if tj == 'LakiDey':  ventas_map[vid]['ld'] += amt
 
           TIER_ORDER  = ['A', 'B', 'C', 'D']
@@ -521,7 +541,7 @@ jobs:
               v = ventas_map.get(pid)
               if v and (v['pp'] > 0 or v['ld'] > 0 or v['grand'] > 0):
                   ventas_parciales[pid] = {
-                      'pp':    v['pp'] // 5,   # soles → unidades
+                      'pp':    v.get('pp_tkt', 0),   # tickets (campo tickets del BI de Tambo o estimado desde soles)
                       'ld':    v['ld'],
                       'grand': v['grand'],
                   }
@@ -564,6 +584,7 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add data/ventas_mes.json data/ventas_raspes.json data/ventas_loteria.json data/ventas_lakidey.json data/ventas_turbito.json data/historico_bonos.json
+          git add data/tambo_totales.json data/tambo_pozopower.json data/tambo_tickets.json 2>/dev/null || true
           git add data/ventas_mes_prev.json data/ventas_raspes_prev.json data/ventas_loteria_prev.json data/ventas_lakidey_prev.json data/ventas_turbito_prev.json 2>/dev/null || true
           git diff --cached --quiet || {
             git commit -m "chore: actualizar ventas_mes.json [skip ci]"
