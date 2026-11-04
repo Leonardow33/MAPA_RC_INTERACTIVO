@@ -1242,10 +1242,6 @@
 
   <!-- Panel: Ranking de supervisores → avance agregado de sus tiendas -->
   <div id="role-panel-rsup" style="display:none">
-    <div class="rs-toggle">
-      <button class="rs-tg active" data-per="sem" onclick="setRsupPer('sem')">Esta semana</button>
-      <button class="rs-tg" data-per="mes" onclick="setRsupPer('mes')">Este mes</button>
-    </div>
     <p class="rank-sub" id="rsup-sub"></p>
     <div class="rk-list" id="rsup-list"></div>
   </div>
@@ -2192,7 +2188,8 @@
   // ── Ranking de supervisores: avance agregado de todas sus tiendas ─────────
   // Semana: ventas Mié→Mar vs Σ meta semanal (meta_diaria × 7).
   // Mes: ventas del mes vs Σ meta mensual (meta_diaria × 30), igual que la tarjeta de Supervisor.
-  let _rsupPer = 'sem';
+  // Solo mes en curso: la semana Mié→Mar cruzaba al mes anterior.
+  let _rsupPer = 'mes';
   function setRsupPer(per) {
     _rsupPer = per;
     document.querySelectorAll('.rs-tg').forEach(b => b.classList.toggle('active', b.dataset.per === per));
