@@ -1247,8 +1247,8 @@
           <th onclick="kamSort('totMes')">Ventas Mes</th>
           <th onclick="kamSort('metaMes')">Meta Mes</th>
           <th onclick="kamSort('pctMes')">% Avance</th>
-          <th onclick="kamSort('commFT')">Com. FT</th>
-          <th onclick="kamSort('commFTT1')">Com. FTT1</th>
+          <th onclick="kamSort('commFT')">Com. FT T2</th>
+          <th onclick="kamSort('commFTT1')">Com. FT T1</th>
           <th onclick="kamSort('commPT')">Com. PT</th>
         </tr></thead>
         <tbody id="kam-tbody"></tbody>
@@ -1479,7 +1479,7 @@
         <div class="cluster-badge" id="comm-cluster-badge">Cluster —</div>
       </div>
       <div class="role-btns">
-        <button class="role-btn active" data-role="FT"   onclick="setPromoterRole('FT')">FT</button>
+        <button class="role-btn active" data-role="FT"   onclick="setPromoterRole('FT')">FT T2</button>
         <button class="role-btn"        data-role="FTT1" onclick="setPromoterRole('FTT1')">FT T1</button>
         <button class="role-btn"        data-role="PT"   onclick="setPromoterRole('PT')">PT</button>
       </div>
@@ -2172,7 +2172,9 @@
   }
 
   // ── Comisiones por cluster/rol — monto total al 100% ─────────────────────
-  // Distribución: PP=30%, PPGO=20%, LD=15%, E3=20%, Turbito=15%
+  // Distribución (nov-2026): PP=25%, PPGO=15%, LD=15%, SC/E3=25%, Turbito=20%
+  // FT = FT T2 (solo cambia el nombre visible)
+  const COMM_PESOS = { pp: 0.25, go: 0.15, ld: 0.15, e3: 0.25, tb: 0.20 };
   const CLUSTER_TOTALS = {
     1: { FT: 800, FTT1: 580, PT: 380 },
     2: { FT: 700, FTT1: 500, PT: 320 },
@@ -2276,11 +2278,11 @@
     const CLUSTER_LABEL = { 1:'PREMIUM', 2:'1', 3:'2', 4:'3' };
     if (badge) badge.textContent = 'Cluster ' + (CLUSTER_LABEL[d.clusterNum] || d.clusterNum);
     const games = [
-      { name:'PozoPower', pct:d.ppPctProy, base:Math.round(total100 * 0.30) },
-      { name:'PP GO',     pct:d.goPctProy, base:Math.round(total100 * 0.20) },
-      { name:'LakiDey',   pct:d.ldPctProy, base:Math.round(total100 * 0.15) },
-      { name:'SC/E3',     pct:d.e3PctProy, base:Math.round(total100 * 0.20) },
-      { name:'Turbito',   pct:d.tbPctProy, base:Math.round(total100 * 0.15) },
+      { name:'PozoPower', pct:d.ppPctProy, base:Math.round(total100 * COMM_PESOS.pp) },
+      { name:'PP GO',     pct:d.goPctProy, base:Math.round(total100 * COMM_PESOS.go) },
+      { name:'LakiDey',   pct:d.ldPctProy, base:Math.round(total100 * COMM_PESOS.ld) },
+      { name:'SC/E3',     pct:d.e3PctProy, base:Math.round(total100 * COMM_PESOS.e3) },
+      { name:'Turbito',   pct:d.tbPctProy, base:Math.round(total100 * COMM_PESOS.tb) },
     ];
     let totalEst = 0;
     const PC = { ok:'#22C55E', warn:'#F59E0B', err:'#EF4444', dim:'var(--muted)' };
@@ -2578,7 +2580,7 @@
     const rows = _kamData.filter(d => !_kamSupFilter || d.gz === _kamSupFilter)
                          .sort((a,b) => (b.pctMes||0) - (a.pctMes||0));
 
-    const aoa  = [['Código','Nombre','Cluster','Supervisor','Ventas Mes (S/)','Meta Mes (S/)','% Avance','Com. FT (S/)','Com. FTT1 (S/)','Com. PT (S/)']];
+    const aoa  = [['Código','Nombre','Cluster','Supervisor','Ventas Mes (S/)','Meta Mes (S/)','% Avance','Com. FT T2 (S/)','Com. FT T1 (S/)','Com. PT (S/)']];
     rows.forEach(d => aoa.push([
       d.id,
       d.nombre,
