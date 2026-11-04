@@ -858,6 +858,10 @@
       .top-side.right, .top-side.right2 { left: calc(50% + 246px); transform: none; max-height: calc(50vh - 46px); }
       .top-side.right  { top: 76px; }
       .top-side.right2 { top: calc(50% + 40px); }
+      .top-side.right, .top-side.right2 { padding: 12px 12px 10px; }
+      .top-side.right .top-me, .top-side.right2 .top-me { font-size: 12px; line-height: 1.35; margin-bottom: 6px; }
+      .top-side.right .top-hdr, .top-side.right2 .top-hdr { margin-bottom: 6px; }
+      .top-side.right .top-list .rk-row, .top-side.right2 .top-list .rk-row { padding: 4px 10px; }
     }
     .sop-rules { font-size: 11px; line-height: 1.5; color: var(--text); background: rgba(255,255,255,.92); border: 1px solid var(--border); border-radius: 12px; padding: 8px 12px; margin: 0 0 10px; }
     .sop-rules small { color: var(--muted); }
@@ -2612,7 +2616,8 @@
   }
 
   // Llena una tarjeta Top (móvil o lateral). Sin tienda (buscador) solo muestra el top 10.
-  function fillTopCard(card, juego, store) {
+  // `lim`: cuántas tiendas listar (10 por defecto; 5 en LakiDey y Rapiraspa laterales)
+  function fillTopCard(card, juego, store, lim = 10) {
     const rows  = topDe(juego);
     const id    = store ? String(store.ID) : null;
     const idx   = id ? rows.findIndex(r => String(r.s.ID) === id) : -1;
@@ -2624,21 +2629,21 @@
 
     const faltaPara = k => fmtS(Math.max(1, Math.ceil(rows[k].sold - me.sold + 0.01)));
     let msg;
-    if (!store)           msg = `Las 10 tiendas que más venden ${juego} ${isMesPrev ? 'en el mes de incentivo anterior' : 'en este mes de incentivo'} (${PERIODO.texto}). 🎁 <b>Los 3 primeros ganan S/ 60, S/ 40 y S/ 20.</b>`;
+    if (!store)           msg = `Las ${lim} tiendas que más venden ${juego} ${isMesPrev ? 'en el mes de incentivo anterior' : 'en este mes de incentivo'} (${PERIODO.texto}). 🎁 <b>Los 3 primeros ganan S/ 60, S/ 40 y S/ 20.</b>`;
     else if (!me || !me.sold) msg = `Aún no tienes ventas de ${juego} en este mes de incentivo. ¡Tu primera venta te pone en carrera por el premio de hasta <b>S/ 60</b>!`;
     else if (idx === 0)   msg = `🏆 <b>¡Eres top 1!</b> Vas ganando <b>S/ 60</b>. ¡Defiende tu lugar!`;
     else if (idx < 3)     msg = `🔥 <b>¡Eres top ${idx + 1}!</b> Vas ganando <b>S/ ${TOP_PREMIOS[idx]}</b>. Te faltan ${faltaPara(idx - 1)} para subir al puesto ${idx} y ganar <b>S/ ${TOP_PREMIOS[idx - 1]}</b>.`;
-    else if (idx < 10)    msg = `🔥 <b>¡Eres top ${idx + 1}!</b> Te faltan ${faltaPara(2)} para el 3er puesto y ganar <b>S/ 20</b>. ¡Tú puedes!`;
-    else                  msg = `Eres <b>top ${idx + 1}</b> de ${rows.length}. ¡Tú puedes entrar al top 10! Te faltan ${faltaPara(9)}. 🎁 Los 3 primeros ganan hasta <b>S/ 60</b>.`;
+    else if (idx < lim)   msg = `🔥 <b>¡Eres top ${idx + 1}!</b> Te faltan ${faltaPara(2)} para el 3er puesto y ganar <b>S/ 20</b>. ¡Tú puedes!`;
+    else                  msg = `Eres <b>top ${idx + 1}</b> de ${rows.length}. ¡Tú puedes entrar al top ${lim}! Te faltan ${faltaPara(lim - 1)}. 🎁 Los 3 primeros ganan hasta <b>S/ 60</b>.`;
     card.querySelector('.top-me').innerHTML = msg;
 
-    const top = rows.slice(0, 10).filter(r => r.sold > 0);
+    const top = rows.slice(0, lim).filter(r => r.sold > 0);
     const max = top.length ? top[0].sold : 0;
     const list = card.querySelector('.top-list');
     list.innerHTML = !top.length
       ? `<div class="top-empty">Aún no hay ventas de ${juego} en este mes de incentivo.</div>`
       : top.map((r, i) => topRowHTML(r, i, max, id)).join('') +
-        (idx >= 10 && me.sold > 0 ? '<div class="top-sep">⋯</div>' + topRowHTML(me, idx, max, id) : '');
+        (idx >= lim && me.sold > 0 ? '<div class="top-sep">⋯</div>' + topRowHTML(me, idx, max, id) : '');
     bindRankRows(list);
   }
 
@@ -2660,7 +2665,7 @@
   function renderTopSides(store) {
     ['Turbito', 'LakiDey', 'Rapiraspa'].forEach(juego => {
       const card = document.getElementById('top-side-' + juego);
-      fillTopCard(card, juego, store);
+      fillTopCard(card, juego, store, juego === 'Turbito' ? 10 : 5);
       card.classList.add('on');
       card.scrollTop = 0;
     });
