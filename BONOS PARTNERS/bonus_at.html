@@ -859,6 +859,14 @@
       .top-side.right  { top: 76px; }
       .top-side.right2 { top: calc(50% + 40px); }
     }
+    .sop-rules { font-size: 11px; line-height: 1.5; color: var(--text); background: rgba(255,255,255,.92); border: 1px solid var(--border); border-radius: 12px; padding: 8px 12px; margin: 0 0 10px; }
+    .sop-rules small { color: var(--muted); }
+    .sop-st { margin-top: 4px; }
+    .sop-win { color: var(--green); }
+    .sop-no  { color: var(--red); font-weight: 600; }
+    .sop-no2 { color: #8E5BA8; font-weight: 600; }
+    .sop-vol { font-size: 10px; font-weight: 700; color: #92400E; background: #FEF3C7; border-radius: 999px; padding: 1px 6px; white-space: nowrap; }
+    .gz-sop { font-size: 12px; line-height: 1.5; background: var(--surf2); border: 1px solid var(--border); border-radius: 10px; padding: 8px 10px; margin: 0 0 10px; }
     .pc-cob { font-size: 11px; color: var(--muted); margin-top: 6px; padding-top: 6px; border-top: 1px dashed var(--border); }
     .pc-cob b { color: var(--red); }
     .pc-cob.ok b { color: var(--green); }
@@ -1289,6 +1297,7 @@
   <!-- Panel: Ranking de supervisores → avance agregado de sus tiendas -->
   <div id="role-panel-rsup" style="display:none">
     <p class="rank-sub" id="rsup-sub"></p>
+    <div class="sop-rules" id="rsup-rules" style="display:none"></div>
     <div class="rk-list" id="rsup-list"></div>
   </div>
 
@@ -1750,6 +1759,7 @@
     stores.forEach(s => { semV += wm[String(s.ID)] || 0; semM += metaSemDe(s); });
     const semPct     = semM ? Math.round(semV / semM * 100) : null;
     const semCol     = semPct !== null ? pctColor(semPct) : 'var(--dim)';
+    const sopRow     = role === 'gz' && PERIODO.conPremios ? rankingSupervisores('mes').find(r => r.nombre === name) : null;
 
     summaryEl.style.display = '';
     summaryEl.innerHTML = `
@@ -1775,6 +1785,7 @@
             <div class="gz-sum-lbl">Falta</div>
           </div>
         </div>
+        ${sopRow ? `<div class="gz-sop">Bono SOP · cobertura <b>${sopRow.cob !== null ? Math.round(sopRow.cob) + '%' : '—'}</b> · cumplimiento <b>${sopRow.pct !== null ? Math.round(sopRow.pct) + '%' : '—'}</b><br>${estadoSop(sopRow)}${sopRow.volumen ? ' · 💰 lidera el Bono Volumen (S/ ' + SOP_VOLUMEN + ')' : ''}</div>` : ''}
         <div class="gz-sem">Esta semana: <b>${fmtS(semV)}</b> de ${semM ? fmtS(semM) : 'S/ —'} · <b style="color:${semCol}">${semPct !== null ? semPct + '%' : '—'}</b></div>
         <div class="pbar-track" style="margin:0 0 14px"><div class="pbar-fill" style="width:${Math.min(semPct || 0, 100)}%;background:${semCol}"></div></div>
         <div style="border-radius:12px;padding:11px 13px;display:flex;gap:11px;align-items:flex-start;background:${m.bg};margin-bottom:12px;">
@@ -2349,42 +2360,110 @@
     renderRsupPanel();
   }
 
+  // ── Bono SOP (supervisores) del mes de incentivo ─────────────────────────
+  // Llave 1: cobertura ≥ 90% (días-tienda con la venta mínima del clúster ÷
+  // tiendas × días). Mientras el mes corre se usan los días cerrados (sin hoy);
+  // al cierre son los 28 días. Llave 2: cumplimiento ≥ 100% (venta ÷ Σ meta_diaria × 28).
+  // Entre los que pasan las 2 llaves, Top 3 por mayor % de cumplimiento.
+  // Bono Volumen: mayor venta total, sin requisitos. Los JC los calcula la jefa.
+  const SOP_PREMIOS   = [300, 200, 100];
+  const SOP_VOLUMEN   = 200;
+  const SOP_COBERTURA = 90;
+
+  // Días cerrados del mes de incentivo (fechas < hoy, hasta el fin del período)
+  function diasCerradosPeriodo() {
+    const hoy = isoToday(), out = [];
+    const d = new Date(PERIODO.ini);
+    while (d <= PERIODO.fin) { const k = isoDe(d); if (k < hoy) out.push(k); d.setDate(d.getDate() + 1); }
+    return out;
+  }
+
+  let _sopCache = null;
   function rankingSupervisores(per) {
+    if (per !== 'sem' && _sopCache) return _sopCache;
     const vm = per === 'sem'
       ? weeklyVentasMap()
       : monthlyVentasMap(new Set(allStores.map(s => String(s.ID))));
+    // Venta diaria por tienda (para la cobertura)
+    const dias = per === 'sem' ? [] : diasCerradosPeriodo();
+    const diaSet = new Set(dias), porDia = {};
+    if (dias.length) allVentas.forEach(v => {
+      if (v.tipo_juego !== 'TOTAL' || !diaSet.has(v.fecha)) return;
+      const k = String(v.org_code) + '|' + v.fecha;
+      porDia[k] = (porDia[k] || 0) + (v.total || 0);
+    });
     const g = {};
     allStores.forEach(s => {
       const k = s.gz;
       if (!k || k === 'SIN INFO') return;
-      if (!g[k]) g[k] = { nombre: k, n: 0, sold: 0, meta: 0 };
+      if (!g[k]) g[k] = { nombre: k, n: 0, sold: 0, meta: 0, cub: 0, posibles: 0 };
       g[k].n++;
       g[k].sold += vm[String(s.ID)] || 0;
       const md = parseFloat(s.meta_diaria);
       g[k].meta += per === 'sem' ? metaSemDe(s) : (md > 0 ? Math.round(md * PERIODO.dias) : 0);
+      const min = coberturaMin(s);
+      if (min) dias.forEach(f => { g[k].posibles++; if ((porDia[String(s.ID) + '|' + f] || 0) >= min) g[k].cub++; });
     });
-    return Object.values(g)
-      .map(r => ({ ...r, pct: r.meta ? r.sold / r.meta * 100 : null }))
-      .sort((a, b) => ((b.pct ?? -1) - (a.pct ?? -1)) || (b.sold - a.sold) || a.nombre.localeCompare(b.nombre));
+    const rows = Object.values(g).map(r => {
+      const pct = r.meta ? r.sold / r.meta * 100 : null;
+      const cob = r.posibles ? r.cub / r.posibles * 100 : null;
+      const okCob = cob !== null && cob >= SOP_COBERTURA;
+      const okMeta = pct !== null && pct >= 100;
+      return { ...r, pct, cob, okCob, okMeta, compite: okCob && okMeta, premio: 0, volumen: false };
+    });
+    if (per === 'sem') return rows.sort((a, b) => ((b.pct ?? -1) - (a.pct ?? -1)) || (b.sold - a.sold) || a.nombre.localeCompare(b.nombre));
+    // Primero los que pasan las 2 llaves; dentro de cada grupo, mayor % de cumplimiento
+    rows.sort((a, b) => (b.compite - a.compite) || ((b.pct ?? -1) - (a.pct ?? -1)) || (b.sold - a.sold) || a.nombre.localeCompare(b.nombre));
+    if (PERIODO.conPremios) {
+      rows.filter(r => r.compite).slice(0, SOP_PREMIOS.length).forEach((r, i) => { r.premio = SOP_PREMIOS[i]; r.puesto = i + 1; });
+      const vol = rows.reduce((m, r) => (!m || r.sold > m.sold ? r : m), null);
+      if (vol && vol.sold > 0) vol.volumen = true;
+    }
+    return _sopCache = rows;
+  }
+
+  // Texto del estado de un supervisor en el bono SOP
+  function estadoSop(r) {
+    if (!PERIODO.conPremios) return '';
+    const cerrado = isoToday() > PERIODO.finIso;
+    const cob = r.cob !== null ? Math.round(r.cob) + '%' : '—';
+    if (r.premio) return `<b class="sop-win">${r.puesto}° puesto → S/ ${r.premio}</b>${cerrado ? '' : ' (va ganando)'}`;
+    if (!r.okCob) return `<span class="sop-no">No compite: cobertura ${cob} (mín. ${SOP_COBERTURA}%)</span>`;
+    if (!r.okMeta) return `<span class="sop-no2">No compite: cumplimiento ${r.pct !== null ? Math.round(r.pct) : 0}% (mín. 100%)</span>`;
+    return 'Pasa las 2 llaves · fuera del top 3';
   }
 
   function renderRsupPanel() {
     const rows = rankingSupervisores(_rsupPer);
+    const sop  = _rsupPer !== 'sem' && PERIODO.conPremios;
     document.getElementById('rsup-sub').textContent = _rsupPer === 'sem'
       ? 'Avance vs meta semanal · ' + textoSemana()
       : 'Avance vs meta del mes de incentivo · ' + PERIODO.texto + (isMesPrev ? ' (anterior)' : '');
+    const vol = rows.find(r => r.volumen);
+    const rules = document.getElementById('rsup-rules');
+    rules.style.display = sop ? '' : 'none';
+    if (sop) rules.innerHTML =
+      `<b>Bono SOP</b> · Llave 1: cobertura ≥ ${SOP_COBERTURA}% · Llave 2: cumplimiento ≥ 100% · ` +
+      `Top 3 entre los que pasan: S/ ${SOP_PREMIOS.join(' · S/ ')}` +
+      (vol ? `<br>💰 Bono Volumen (S/ ${SOP_VOLUMEN}, mayor venta total): <b>${vol.nombre}</b> · ${fmtS(vol.sold)}` : '') +
+      `<br><small>Cobertura sobre los días cerrados del mes de incentivo (al cierre, los 28 días).</small>`;
     const list = document.getElementById('rsup-list');
     list.innerHTML = rows.map((r, i) => {
       const pct = r.pct !== null ? Math.round(r.pct) : null;
       const col = pct !== null ? pctColor(pct) : 'var(--dim)';
       const pos = i < 3 ? ['🥇','🥈','🥉'][i] : i + 1;
-      return `<div class="rk-row" data-gz="${r.nombre.replace(/"/g, '&quot;')}">
-        <div class="rk-pos">${pos}</div>
+      const badge = sop && r.premio
+        ? `<div class="top-prize p${r.puesto - 1}"><small>${r.puesto}° puesto</small><b>S/ ${r.premio}</b></div>` : '';
+      const cob = r.cob !== null ? Math.round(r.cob) + '%' : '—';
+      return `<div class="rk-row${sop && r.premio ? ' rk-row--win' : ''}" data-gz="${r.nombre.replace(/"/g, '&quot;')}">
+        <div class="rk-pos">${sop ? (r.compite ? pos : '–') : pos}</div>
         <div class="rk-info">
-          <div class="rk-name">${r.nombre}</div>
-          <div class="rk-sub">${r.n} tienda${r.n !== 1 ? 's' : ''}</div>
+          <div class="rk-name">${r.nombre}${sop && r.volumen ? ' <span class="sop-vol">💰 Volumen S/ ' + SOP_VOLUMEN + '</span>' : ''}</div>
+          <div class="rk-sub">${r.n} tienda${r.n !== 1 ? 's' : ''}${_rsupPer !== 'sem' ? ' · cobertura ' + cob : ''}</div>
           <div class="rk-bar"><div class="rk-fill" style="width:${Math.min(pct || 0, 100)}%;background:${col}"></div></div>
+          ${sop ? `<div class="rk-sub sop-st">${estadoSop(r)}</div>` : ''}
         </div>
+        ${badge}
         <div class="rk-right">
           <div class="rk-pct" style="color:${col}">${pct !== null ? pct + '%' : '—'}</div>
           <div class="rk-amt">${fmtS(r.sold)} / ${r.meta ? fmtS(r.meta) : 'S/ —'}</div>
