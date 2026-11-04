@@ -357,6 +357,11 @@ jobs:
               sys.exit(1)
           PYEOF
 
+      - name: Aplicar ajustes Tambo (totales del BI de Tambo)
+        if: steps.check_dia.outputs.es_findemes == 'true' || inputs.forzar
+        continue-on-error: true
+        run: python3 scripts/ajustes_tambo.py aplicar
+
       - name: Commit actualizacion nocturna fin de mes
         if: steps.check_dia.outputs.es_findemes == 'true' || inputs.forzar
         run: |
