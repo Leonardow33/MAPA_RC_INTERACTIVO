@@ -851,7 +851,17 @@
       }
       .top-side.left  { right: calc(50% + 246px); }
       .top-side.right { left:  calc(50% + 246px); }
+      .top-side.right2 { left: calc(50% + 558px); }   /* Rapiraspa, al lado de LakiDey */
     }
+    /* Sin espacio para 3 columnas: LakiDey arriba y Rapiraspa abajo, en el lado derecho */
+    @media (min-width: 1100px) and (max-width: 1759px) {
+      .top-side.right, .top-side.right2 { left: calc(50% + 246px); transform: none; max-height: calc(50vh - 46px); }
+      .top-side.right  { top: 76px; }
+      .top-side.right2 { top: calc(50% + 40px); }
+    }
+    .pc-cob { font-size: 11px; color: var(--muted); margin-top: 6px; padding-top: 6px; border-top: 1px dashed var(--border); }
+    .pc-cob b { color: var(--red); }
+    .pc-cob.ok b { color: var(--green); }
 
     @media (prefers-reduced-motion: reduce) {
       .ring-fill, .pbar-fill, .gr-fill { transition: none; }
@@ -1056,6 +1066,42 @@
     .rs-tg { flex: 1; border: none; background: transparent; font: inherit; font-size: 12px; font-weight: 700; color: var(--muted); padding: 8px 10px; border-radius: 999px; cursor: pointer; transition: background .15s, color .15s; }
     .rs-tg.active { background: var(--accent); color: #fff; }
     .rk-sub { font-size: 10px; color: var(--muted); margin-top: 1px; }
+    /* Premios semanales por clúster (AT) */
+    .rk-row--win { border-color: #0DA870; background: rgba(13,168,112,.06); }
+    .rk-prize { background: linear-gradient(135deg, #34D399, #059669); padding: 3px 6px; animation: none; }
+    .rk-prize b { font-size: 11px; }
+    .rk-rule { font-size: 11px; color: var(--muted); margin-top: 6px; }
+    .rk-state { font-size: 12px; color: var(--text); margin-top: 4px; }
+    .rk-ok { color: var(--green); }
+    .inc-card, .pz-card { position: relative; background: var(--surf); border: 1px solid var(--border); border-radius: 16px; padding: 16px 14px 14px; }
+    .inc-sub { font-weight: 600; color: var(--muted); text-transform: none; letter-spacing: 0; }
+    .inc-cluster { font-size: 12px; color: var(--muted); margin: -2px 0 12px; display: flex; flex-wrap: wrap; align-items: center; gap: 6px; }
+    .inc-chip { color: #fff; font-size: 10px; font-weight: 800; letter-spacing: .06em; padding: 3px 8px; border-radius: 999px; }
+    .inc-weeks { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; }
+    .inc-week { border: 1.5px solid var(--border); border-radius: 12px; padding: 10px 8px; text-align: center; background: #FFF5FA; min-width: 0; }
+    .inc-week.fut { opacity: .6; background: var(--surf); }
+    .inc-week.live { border-color: var(--accent); }
+    .inc-week.win { border-color: #0DA870; background: rgba(13,168,112,.08); }
+    .inc-week.lose { background: var(--surf); }
+    .iw-n { font-size: 13px; font-weight: 800; color: #0B4A9E; }
+    .iw-d { font-size: 11px; color: var(--muted); margin-top: 2px; }
+    .iw-st { font-size: 11px; font-weight: 700; margin-top: 6px; line-height: 1.3; }
+    .inc-week.win .iw-st { color: var(--green); }
+    .inc-total { margin-top: 12px; font-size: 12px; color: var(--muted); text-align: center; }
+    .inc-total b { font-size: 16px; color: var(--text); }
+    .pz-note { font-size: 11px; color: var(--muted); margin: -4px 0 10px; line-height: 1.4; }
+    .pz-table { display: flex; flex-direction: column; gap: 4px; font-size: 12px; }
+    .pz-row { display: grid; grid-template-columns: 1.7fr 1fr .8fr .9fr .9fr; gap: 6px; align-items: center; padding: 7px 8px; border-radius: 10px; font-variant-numeric: tabular-nums; }
+    .pz-row > div:not(:first-child) { text-align: right; }
+    .pz-row small { display: block; font-size: 10px; color: var(--muted); font-weight: 500; }
+    .pz-h { font-size: 10px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: .04em; }
+    .pz-row:not(.pz-h):nth-child(even) { background: #FFF5FA; }
+    .pz-me { box-shadow: 0 0 0 2px var(--accent) inset; background: var(--surf2) !important; }
+    .pz-dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 5px; }
+    @media (max-width: 420px) {
+      .inc-weeks { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .pz-row { grid-template-columns: 1.5fr 1fr .7fr .8fr .8fr; font-size: 11px; padding: 6px; }
+    }
     #search-screen .rank-sub { background: rgba(255,255,255,.92); color: var(--text); font-weight: 600; border-radius: 999px; padding: 5px 12px; margin: 0 auto 10px; width: fit-content; box-shadow: 0 2px 8px rgba(13,31,53,.08); }
 
     /* ── TABS: 4 pestañas ───────────────────────────────────── */
@@ -1249,8 +1295,10 @@
   <!-- Panel: Ranking → posición y avance semanal por clúster -->
   <div id="role-panel-rank" style="display:none">
     <select class="role-select" id="rank-select"></select>
+    <select class="role-select" id="rank-week"></select>
     <p class="rank-sub" id="rank-sub"></p>
     <div class="rk-list" id="rank-list"></div>
+    <div class="pz-card" id="rank-premios" style="display:none;margin-top:12px"></div>
   </div>
 
   <!-- Panel: Tienda → búsqueda por nombre/código + lista completa -->
@@ -1302,6 +1350,7 @@
       <div class="top-toggle">
         <button class="top-tg active" data-juego="Turbito" onclick="setTopJuego('Turbito')"><img src="../sources/logos-games/Turbito.png" alt="">Turbito</button>
         <button class="top-tg" data-juego="LakiDey" onclick="setTopJuego('LakiDey')"><img src="../sources/logos-games/lakidey.png" alt="">LakiDey</button>
+        <button class="top-tg" data-juego="Rapiraspa" onclick="setTopJuego('Rapiraspa')"><img src="../sources/logos-games/rapiraspa.png" alt="">Rapiraspa</button>
       </div>
     </div>
     <div class="top-me"></div>
@@ -1348,9 +1397,10 @@
         <div class="pc-meta" id="hoy-meta">Meta: —</div>
         <div class="pbar-track"><div class="pbar-fill" id="hoy-bar"></div></div>
         <div class="pc-pct" id="hoy-pct">—</div>
+        <div class="pc-cob" id="hoy-cob" style="display:none"></div>
       </div>
       <div class="period-card period-card--primary">
-        <div class="pc-label">Esta Semana</div>
+        <div class="pc-label" id="sem-label">Esta Semana</div>
         <div class="pc-val" id="sem-val">S/ 0</div>
         <div class="pc-meta" id="sem-meta">Meta: —</div>
         <div class="pbar-track"><div class="pbar-fill" id="sem-bar"></div></div>
@@ -1363,7 +1413,7 @@
       <img src="../sources/logos-games/suerte-1.png" aria-hidden="true"
            style="position:absolute;width:88px;bottom:-8px;left:-6px;transform:rotate(-10deg);opacity:.22;pointer-events:none;">
       <div class="ring-card-glow" id="ring-glow"></div>
-      <div class="ring-period-label">PROGRESO DEL MES</div>
+      <div class="ring-period-label" id="ring-period-label">MES DE INCENTIVO</div>
       <div class="ring-wrap">
         <svg class="ring-svg" viewBox="0 0 168 168">
           <circle class="ring-track" cx="84" cy="84" r="67.5"/>
@@ -1371,7 +1421,7 @@
         </svg>
         <div class="ring-center">
           <div class="ring-pct" id="ring-pct">0<span class="ring-pct-sign">%</span></div>
-          <div class="ring-sub">del mes</div>
+          <div class="ring-sub">del mes de incentivo</div>
         </div>
       </div>
       <div class="ring-amounts">
@@ -1381,7 +1431,7 @@
         </div>
         <div class="ra-item">
           <div class="ra-val" id="ra-meta" style="color:var(--muted)">S/ —</div>
-          <div class="ra-lbl">Meta mes</div>
+          <div class="ra-lbl">Meta (4 sem.)</div>
         </div>
         <div class="ra-item">
           <div class="ra-val" id="ra-falta" style="color:var(--muted)">—</div>
@@ -1395,7 +1445,7 @@
       <img src="../sources/logos-games/suerte-3.png" aria-hidden="true"
            style="position:absolute;width:72px;bottom:-6px;right:-4px;transform:rotate(9deg);opacity:.2;pointer-events:none;">
       <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
-        <div class="card-title" id="games-card-title" style="margin-bottom:0">Desglose por juego · este mes</div>
+        <div class="card-title" id="games-card-title" style="margin-bottom:0">Desglose por juego · mes de incentivo</div>
         <button id="btn-vista-dia" class="vista-toggle" onclick="toggleVistaDia()">📅 Ver día</button>
       </div>
       <div class="game-row">
@@ -1448,7 +1498,7 @@
     <div class="week-card">
       <img src="../sources/logos-games/suerte-4.png" aria-hidden="true"
            style="position:absolute;width:62px;top:-4px;right:-2px;transform:rotate(14deg);opacity:.18;pointer-events:none;">
-      <div class="card-title">Evolución · semana en curso</div>
+      <div class="card-title" id="week-card-title">Evolución · semana en curso</div>
       <div class="week-chart" id="week-chart"></div>
       <div class="wc-tooltip" id="wc-tooltip" style="display:none"></div>
       <div class="wc-meta-cap" id="wc-meta-cap" style="display:none"></div>
@@ -1461,13 +1511,25 @@
       <div class="rk-list" id="rank-card-list"></div>
     </div>
 
-    <!-- Top Turbito / LakiDey del mes (solo móvil; en desktop van a los lados) -->
+    <!-- Incentivo del mes: 4 semanas jue→mié, premio por semana ganada (acumulable) -->
+    <div class="inc-card" id="inc-card" style="display:none">
+      <div class="card-title">Incentivo semanal acumulable <span class="inc-sub" id="inc-sub"></span></div>
+      <div class="inc-cluster" id="inc-cluster"></div>
+      <div class="inc-weeks" id="inc-weeks"></div>
+      <div class="inc-total" id="inc-total"></div>
+    </div>
+
+    <!-- Premios por clúster -->
+    <div class="pz-card" id="premios-card" style="display:none"></div>
+
+    <!-- Top Turbito / LakiDey / Rapiraspa del mes de incentivo (solo móvil; en desktop van a los lados) -->
     <div class="top-card top-mobile" id="top-card" style="display:none">
       <div class="top-hdr">
         <div class="card-title top-title" style="margin-bottom:0">Top Turbito</div>
         <div class="top-toggle">
           <button class="top-tg active" data-juego="Turbito" onclick="setTopJuego('Turbito')"><img src="../sources/logos-games/Turbito.png" alt="">Turbito</button>
           <button class="top-tg" data-juego="LakiDey" onclick="setTopJuego('LakiDey')"><img src="../sources/logos-games/lakidey.png" alt="">LakiDey</button>
+          <button class="top-tg" data-juego="Rapiraspa" onclick="setTopJuego('Rapiraspa')"><img src="../sources/logos-games/rapiraspa.png" alt="">Rapiraspa</button>
         </div>
       </div>
       <div class="top-me"></div>
@@ -1533,13 +1595,19 @@
   </div>
 </div>
 
-<!-- Top Turbito (izquierda) y Top LakiDey (derecha): solo desktop -->
+<!-- Top Turbito (izquierda), Top LakiDey y Top Rapiraspa (derecha): solo desktop -->
 <div class="top-card top-side left" id="top-side-Turbito">
   <div class="top-hdr"><div class="card-title top-title" style="margin-bottom:0"></div></div>
   <div class="top-me"></div>
   <div class="top-list"></div>
 </div>
 <div class="top-card top-side right" id="top-side-LakiDey">
+  <div class="top-hdr"><div class="card-title top-title" style="margin-bottom:0"></div></div>
+  <div class="top-me"></div>
+  <div class="top-list"></div>
+</div>
+<!-- Top Rapiraspa: al lado de LakiDey (debajo si no hay espacio) -->
+<div class="top-card top-side right2" id="top-side-Rapiraspa">
   <div class="top-hdr"><div class="card-title top-title" style="margin-bottom:0"></div></div>
   <div class="top-me"></div>
   <div class="top-list"></div>
@@ -1657,17 +1725,13 @@
       wrapEl.style.display    = 'none';
       return;
     }
-    const now        = new Date();
-    const mesIni   = new Date(now.getFullYear(), now.getMonth() - (isMesPrev ? 1 : 0), 1);
-    const mesFin   = new Date(now.getFullYear(), now.getMonth() - (isMesPrev ? 1 : 0) + 1, 0, 23, 59, 59);
-    const diasCalMes = 30;
+    const diasCalMes = PERIODO.dias;            // mes de incentivo = 4 semanas
     const ids        = new Set(stores.map(s => String(s.ID)));
 
     let totalVentas = 0;
     allVentas.forEach(v => {
-      if (!ids.has(String(v.org_code)) || !v.fecha || v.tipo_juego !== 'TOTAL') return;
-      const f = new Date(v.fecha + 'T12:00:00');
-      if (f >= mesIni && f <= mesFin) totalVentas += v.total || 0;
+      if (!ids.has(String(v.org_code)) || v.tipo_juego !== 'TOTAL' || !enPeriodo(v.fecha)) return;
+      totalVentas += v.total || 0;
     });
 
     let totalMeta = 0;
@@ -1691,7 +1755,7 @@
     summaryEl.innerHTML = `
       <div class="gz-sum-card">
         <div class="gz-sum-top">
-          <div class="gz-sum-title">${stores.length} tienda${stores.length !== 1 ? 's' : ''} · este mes</div>
+          <div class="gz-sum-title">${stores.length} tienda${stores.length !== 1 ? 's' : ''} · mes de incentivo ${PERIODO.texto}</div>
           <div class="gz-sum-pct" style="color:${col}">${pct !== null ? pct + '%' : '—'}</div>
         </div>
         <div class="pbar-track" style="margin:8px 0 14px">
@@ -1704,7 +1768,7 @@
           </div>
           <div class="gz-sum-stat">
             <div class="gz-sum-val" style="color:var(--muted)">${totalMeta ? fmtS(totalMeta) : 'S/ —'}</div>
-            <div class="gz-sum-lbl">Meta mes</div>
+            <div class="gz-sum-lbl">Meta (4 sem.)</div>
           </div>
           <div class="gz-sum-stat">
             <div class="gz-sum-val" style="color:${faltaColor}">${faltaAmt}</div>
@@ -1782,16 +1846,15 @@
   }
 
   function downloadJzReport(jz, stores) {
-    const now        = new Date();
-    const diasCalMes = now.getDate();
-    const meses      = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
-    const mesLabel   = meses[now.getMonth()] + ' ' + now.getFullYear();
+    const hoyMs      = new Date(isoToday() + 'T00:00:00');
+    const diasCalMes = Math.min(PERIODO.dias, Math.max(0, Math.round((hoyMs - PERIODO.ini) / 864e5) + 1));
+    const mesLabel   = 'Mes de incentivo ' + PERIODO.texto;
     const ids        = new Set(stores.map(s => String(s.ID)));
     const vm         = monthlyVentasMap(ids);
     const wm         = weeklyVentasMap();
     const esc        = v => String(v == null ? '' : v).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
-    const cols      = ['Jefe Comercial','Supervisor','ID Tienda','Tienda','Período','Días transcurridos','Ventas S/','Meta Mensual S/','Avance % (mes)','Falta para meta S/','Ventas semana S/','Meta semanal S/','Avance % (semana)'];
-    const totalDias = 30;
+    const cols      = ['Jefe Comercial','Supervisor','ID Tienda','Tienda','Período','Días transcurridos','Ventas S/','Meta mes de incentivo S/','Avance % (mes)','Falta para meta S/','Ventas semana S/','Meta semanal S/','Avance % (semana)'];
+    const totalDias = PERIODO.dias;
 
     const filas = [...stores]
       .sort((a, b) => {
@@ -1843,17 +1906,14 @@
     URL.revokeObjectURL(url);
   }
 
+  // Ventas del mes de incentivo (4 semanas jue→mié, puede cruzar de mes)
   function monthlyVentasMap(ids) {
-    const now    = new Date();
-    const mesIni   = new Date(now.getFullYear(), now.getMonth() - (isMesPrev ? 1 : 0), 1);
-    const mesFin   = new Date(now.getFullYear(), now.getMonth() - (isMesPrev ? 1 : 0) + 1, 0, 23, 59, 59);
     const map    = {};
     allVentas.forEach(v => {
-      if (!v.fecha || v.tipo_juego !== 'TOTAL') return;
+      if (v.tipo_juego !== 'TOTAL' || !enPeriodo(v.fecha)) return;
       const sid = String(v.org_code);
       if (!ids.has(sid)) return;
-      const f = new Date(v.fecha + 'T12:00:00');
-      if (f >= mesIni && f <= mesFin) map[sid] = (map[sid] || 0) + (v.total || 0);
+      map[sid] = (map[sid] || 0) + (v.total || 0);
     });
     return map;
   }
@@ -1893,7 +1953,7 @@
   function renderGzDetail(stores) {
     const wrap       = document.getElementById('gz-stores-wrap');
     const now        = new Date();
-    const diasCalMes = 30;
+    const diasCalMes = PERIODO.dias;           // mes de incentivo = 4 semanas
     const ids        = new Set(stores.map(s => String(s.ID)));
     const vm         = monthlyVentasMap(ids);
     const list       = document.createElement('div');
@@ -1910,7 +1970,7 @@
   function renderJzDetail(stores) {
     const wrap       = document.getElementById('jz-stores-wrap');
     const now        = new Date();
-    const diasCalMes = 30;
+    const diasCalMes = PERIODO.dias;           // mes de incentivo = 4 semanas
     const ids        = new Set(stores.map(s => String(s.ID)));
     const vm         = monthlyVentasMap(ids);
     const wm         = weeklyVentasMap();
@@ -2014,7 +2074,7 @@
   };
 
   let allStores = [], allVentas = [], allRaspes = [], allLoteria = [], sortedStores = [];
-  let ventasSemana = [];   // allVentas + días del mes anterior (para semanas que cruzan de mes)
+  let ventasSemana = [];   // = allVentas (mes actual + días del mes anterior, para el mes de incentivo)
   let selectorReady = false;
 
   function loadJSON(u) {
@@ -2038,14 +2098,67 @@
     j.setDate(j.getDate() - ((wd - 4 + 7) % 7));
     return j;
   }
-  // Semana de incentivo Apuesta Total: miércoles → martes
-  function miercolesDe(d) {
-    const j = new Date(d);
-    j.setHours(0,0,0,0);
-    const wd = j.getDay();
-    j.setDate(j.getDate() - ((wd - 3 + 7) % 7)); // retrocede al miércoles anterior
-    return j;
+  // ── Mes de incentivo AT: 4 semanas cerradas de jueves a miércoles ─────────
+  // El primero empieza el jueves 5-nov-2026 y los siguientes son bloques
+  // consecutivos de 4 semanas, así que el "mes" toma días del mes siguiente.
+  const INCENTIVO_INICIO  = '2026-11-05';
+  const INCENTIVO_SEMANAS = 4;
+  // Premios por clúster: ganadoras por semana (ranking nacional del clúster) y
+  // premio por cada semana ganada. Meta semanal = meta_diaria × 7.
+  const CLUSTER_PREMIO = {
+    DIAMANTE: { ganadoras: 3,  premio: 100, color: '#0B4A9E' },
+    PLATINO:  { ganadoras: 3,  premio: 75,  color: '#8E5BA8' },
+    ORO:      { ganadoras: 10, premio: 50,  color: '#C9992E' },
+    PLATA:    { ganadoras: 10, premio: 35,  color: '#6B7FC0' },
+    BRONCE:   { ganadoras: 10, premio: 25,  color: '#B8702F' },
+    COBRE:    { ganadoras: 10, premio: 20,  color: '#4FA5A0' },
+  };
+  // Cobertura (desde noviembre): el día cuenta como cubierto si la tienda vende
+  // al menos este mínimo. % cobertura = días cubiertos ÷ (tiendas × 28 días).
+  const COBERTURA_MIN = { DIAMANTE: 10, PLATINO: 10, ORO: 10, PLATA: 5, BRONCE: 5, COBRE: 5 };
+  function coberturaMin(store) { return COBERTURA_MIN[String(clusterDe(store) || '').toUpperCase()] || null; }
+  const MESES_CORTO = ['ene','feb','mar','abr','may','jun','jul','ago','sep','oct','nov','dic'];
+
+  function isoDe(d) {
+    return d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0');
   }
+  function fechaCorta(d) { return String(d.getDate()).padStart(2,'0') + ' ' + MESES_CORTO[d.getMonth()]; }
+
+  // offset 0 = mes de incentivo que contiene hoy; -1 = el anterior
+  function periodoIncentivo(offset) {
+    const base  = new Date(INCENTIVO_INICIO + 'T00:00:00');
+    const hoy   = new Date(isoToday() + 'T00:00:00');
+    const largo = INCENTIVO_SEMANAS * 7;
+    const k     = Math.floor(Math.round((hoy - base) / 864e5) / largo) + (offset || 0);
+    const ini   = new Date(base); ini.setDate(base.getDate() + k * largo);
+    const semanas = [];
+    for (let i = 0; i < INCENTIVO_SEMANAS; i++) {
+      const a = new Date(ini); a.setDate(ini.getDate() + i * 7);
+      const b = new Date(a);   b.setDate(a.getDate() + 6); b.setHours(23,59,59,999);
+      semanas.push({ n: i + 1, ini: a, fin: b, iniIso: isoDe(a), finIso: isoDe(b) });
+    }
+    const fin = semanas[semanas.length - 1].fin;
+    return {
+      ini, fin, semanas, dias: largo,
+      iniIso: isoDe(ini), finIso: isoDe(fin),
+      texto: fechaCorta(ini) + ' – ' + fechaCorta(fin),
+      conPremios: ini >= base,          // antes del 5-nov no había premios por clúster
+    };
+  }
+  const PERIODO = periodoIncentivo(isMesPrev ? -1 : 0);
+  const enPeriodo = fecha => !!fecha && fecha >= PERIODO.iniIso && fecha <= PERIODO.finIso;
+
+  // Semana que se muestra: la de hoy (o la última del mes anterior si ?mes=prev)
+  function semanaActual() {
+    if (isMesPrev) return PERIODO.semanas[PERIODO.semanas.length - 1];
+    const hoy = isoToday();
+    return PERIODO.semanas.find(s => hoy >= s.iniIso && hoy <= s.finIso) || PERIODO.semanas[0];
+  }
+  function estadoSemana(sem) {
+    const hoy = isoToday();
+    return hoy > sem.finIso ? 'cerrada' : hoy >= sem.iniIso ? 'en curso' : 'futura';
+  }
+  function premioCluster(c) { return PERIODO.conPremios ? (CLUSTER_PREMIO[String(c || '').toUpperCase()] || null) : null; }
 
   function diasVisitaEnRango(dias, inicio, fin) {
     const nums = (dias || []).map(d => DIA_JS[d.toUpperCase()]).filter(n => n !== undefined);
@@ -2056,10 +2169,11 @@
   }
 
   // ── Meta semanal y ranking por clúster ────────────────────────────────────
-  // Meta semanal = meta_diaria × 7 (semana Mié→Mar). El clúster sale de cluster_bono
+  // Meta semanal = meta_diaria × 7 (semana Jue→Mié). El clúster sale de cluster_bono
   // y, si viene vacío o "SIN CLUSTER", de cluster.
   const sinCluster = v => !v || !String(v).trim() || String(v).trim().toUpperCase() === 'SIN CLUSTER';
-  let _clusterMap = null, _semMap = null, _rankReady = false;
+  let _clusterMap = null, _rankReady = false;
+  const _semMaps = {};
 
   function metaSemDe(s) {
     const md = parseFloat(s.meta_diaria);
@@ -2084,42 +2198,58 @@
     return _clusterMap[String(s.ID)];
   }
 
-  function rangoSemana() {
-    const ini = miercolesDe(new Date());
-    const fin = new Date(ini); fin.setDate(ini.getDate() + 6); fin.setHours(23,59,59,999);
-    return { ini, fin };
+  function rangoSemana() { return semanaActual(); }
+
+  function textoSemana(sem) {
+    const s = sem || rangoSemana();
+    return 'semana ' + s.n + ' · ' + fechaCorta(s.ini) + ' – ' + fechaCorta(s.fin);
   }
 
-  function textoSemana() {
-    const { ini, fin } = rangoSemana();
-    const f = d => d.getDate() + '/' + (d.getMonth() + 1);
-    return 'semana ' + f(ini) + ' – ' + f(fin);
-  }
-
-  function weeklyVentasMap() {
-    if (_semMap) return _semMap;
-    const { ini, fin } = rangoSemana();
-    _semMap = {};
+  function weeklyVentasMap(sem) {
+    const s = sem || rangoSemana();
+    if (_semMaps[s.iniIso]) return _semMaps[s.iniIso];
+    const map = {};
     ventasSemana.forEach(v => {
-      if (!v.fecha || v.tipo_juego !== 'TOTAL') return;
-      const f = new Date(v.fecha + 'T12:00:00');
-      if (f < ini || f > fin) return;
+      if (!v.fecha || v.tipo_juego !== 'TOTAL' || v.fecha < s.iniIso || v.fecha > s.finIso) return;
       const sid = String(v.org_code);
-      _semMap[sid] = (_semMap[sid] || 0) + (v.total || 0);
+      map[sid] = (map[sid] || 0) + (v.total || 0);
     });
-    return _semMap;
+    return _semMaps[s.iniIso] = map;
   }
 
-  function rankingDe(cluster) {
-    const wm = weeklyVentasMap();
-    return allStores
-      .filter(s => clusterDe(s) === cluster)
-      .map(s => {
-        const sold = wm[String(s.ID)] || 0;
-        const meta = metaSemDe(s);
-        return { s, sold, meta, pct: meta ? sold / meta * 100 : null };
+  // Ranking de la semana dentro del clúster. Ganan las que cumplen el 100% de su
+  // meta semanal y tienen el mayor % del clúster, hasta el cupo de ganadoras.
+  function rankingDe(cluster, sem) {
+    const s  = sem || rangoSemana();
+    const wm = weeklyVentasMap(s);
+    const rows = allStores
+      .filter(st => clusterDe(st) === cluster)
+      .map(st => {
+        const sold = wm[String(st.ID)] || 0;
+        const meta = metaSemDe(st);
+        return { s: st, sold, meta, pct: meta ? sold / meta * 100 : null, gana: false, premio: 0 };
       })
       .sort((a, b) => ((b.pct ?? -1) - (a.pct ?? -1)) || (b.sold - a.sold) || a.s.nombre.localeCompare(b.s.nombre));
+    const cp = premioCluster(cluster);
+    if (cp && estadoSemana(s) !== 'futura') {
+      rows.filter(r => r.pct !== null && r.pct >= 100).slice(0, cp.ganadoras)
+          .forEach(r => { r.gana = true; r.premio = cp.premio; });
+    }
+    return rows;
+  }
+
+  // Resultado de una tienda en cada semana del mes de incentivo
+  function resultadoIncentivo(store) {
+    const cluster = clusterDe(store);
+    const id = String(store.ID);
+    return PERIODO.semanas.map(sem => {
+      const estado = estadoSemana(sem);
+      if (estado === 'futura') return { sem, estado };
+      const rows = rankingDe(cluster, sem);
+      const i = rows.findIndex(r => String(r.s.ID) === id);
+      const r = rows[i] || {};
+      return { sem, estado, pos: i + 1, de: rows.length, pct: r.pct, sold: r.sold || 0, meta: r.meta || 0, gana: !!r.gana, premio: r.premio || 0 };
+    });
   }
 
   function clustersOrdenados() {
@@ -2141,23 +2271,34 @@
     return c === 'GENERAL' ? 'todas las tiendas' : c === 'SIN CLÚSTER' ? 'sin clúster' : 'clúster ' + c;
   }
 
-  function rankRowsHTML(rows, currentId) {
+  function rankRowsHTML(rows, currentId, cerrada) {
     return rows.map((r, i) => {
       const pct = r.pct !== null ? Math.round(r.pct) : null;
       const col = pct !== null ? pctColor(pct) : 'var(--dim)';
       const pos = i < 3 ? ['🥇','🥈','🥉'][i] : i + 1;
-      return `<div class="rk-row${String(r.s.ID) === currentId ? ' rk-row--me' : ''}" data-id="${r.s.ID}">
+      const cls = (String(r.s.ID) === currentId ? ' rk-row--me' : '') + (r.gana ? ' rk-row--win' : '');
+      const premio = r.gana
+        ? `<div class="top-prize rk-prize"><small>${cerrada ? 'Ganó' : 'Gana'}</small><b>S/ ${r.premio}</b></div>` : '';
+      return `<div class="rk-row${cls}" data-id="${r.s.ID}">
         <div class="rk-pos">${pos}</div>
         <div class="rk-info">
           <div class="rk-name">${r.s.nombre}</div>
           <div class="rk-bar"><div class="rk-fill" style="width:${Math.min(pct || 0, 100)}%;background:${col}"></div></div>
         </div>
+        ${premio}
         <div class="rk-right">
           <div class="rk-pct" style="color:${col}">${pct !== null ? pct + '%' : '—'}</div>
           <div class="rk-amt">${fmtS(r.sold)} / ${r.meta ? fmtS(r.meta) : 'S/ —'}</div>
         </div>
       </div>`;
     }).join('');
+  }
+
+  // Texto de la regla de premio de un clúster
+  function reglaPremio(cluster) {
+    const cp = premioCluster(cluster);
+    if (!cp) return '';
+    return `Ganan las ${cp.ganadoras} con mayor % que cumplan el 100% · S/ ${cp.premio} c/u`;
   }
 
   function bindRankRows(el) {
@@ -2178,17 +2319,29 @@
       }).join('');
       sel.style.display = cs.length > 1 ? '' : 'none';
       sel.addEventListener('change', renderRankPanel);
+      // Semanas del mes de incentivo (las futuras no se pueden elegir)
+      const wsel = document.getElementById('rank-week');
+      const act  = rangoSemana();
+      wsel.innerHTML = PERIODO.semanas.map(s =>
+        `<option value="${s.n}"${s.n === act.n ? ' selected' : ''}${estadoSemana(s) === 'futura' ? ' disabled' : ''}>` +
+        `Semana ${s.n} · ${fechaCorta(s.ini)} – ${fechaCorta(s.fin)}${estadoSemana(s) === 'en curso' ? ' (en curso)' : estadoSemana(s) === 'cerrada' ? ' (cerrada)' : ''}</option>`
+      ).join('');
+      wsel.addEventListener('change', renderRankPanel);
+      renderPremiosCard(document.getElementById('rank-premios'), null);
     }
-    document.getElementById('rank-sub').textContent = 'Avance vs meta semanal · ' + textoSemana();
+    const sem = PERIODO.semanas[(+document.getElementById('rank-week').value || rangoSemana().n) - 1];
+    const cerrada = estadoSemana(sem) === 'cerrada';
+    const regla = reglaPremio(sel.value);
+    document.getElementById('rank-sub').textContent =
+      (cerrada ? 'Resultado final · ' : 'Avance vs meta semanal · ') + textoSemana(sem) + (regla ? ' · ' + regla : '');
     const list = document.getElementById('rank-list');
-    list.innerHTML = rankRowsHTML(rankingDe(sel.value), null);
+    list.innerHTML = rankRowsHTML(rankingDe(sel.value, sem), null, cerrada);
     bindRankRows(list);
   }
 
   // ── Ranking de supervisores: avance agregado de todas sus tiendas ─────────
-  // Semana: ventas Mié→Mar vs Σ meta semanal (meta_diaria × 7).
-  // Mes: ventas del mes vs Σ meta mensual (meta_diaria × 30), igual que la tarjeta de Supervisor.
-  // Solo mes en curso: la semana Mié→Mar cruzaba al mes anterior.
+  // Semana: ventas Jue→Mié vs Σ meta semanal (meta_diaria × 7).
+  // Mes: ventas del mes de incentivo (4 semanas) vs Σ meta_diaria × 28, igual que la tarjeta de Supervisor.
   let _rsupPer = 'mes';
   function setRsupPer(per) {
     _rsupPer = per;
@@ -2208,7 +2361,7 @@
       g[k].n++;
       g[k].sold += vm[String(s.ID)] || 0;
       const md = parseFloat(s.meta_diaria);
-      g[k].meta += per === 'sem' ? metaSemDe(s) : (md > 0 ? Math.round(md * 30) : 0);
+      g[k].meta += per === 'sem' ? metaSemDe(s) : (md > 0 ? Math.round(md * PERIODO.dias) : 0);
     });
     return Object.values(g)
       .map(r => ({ ...r, pct: r.meta ? r.sold / r.meta * 100 : null }))
@@ -2219,7 +2372,7 @@
     const rows = rankingSupervisores(_rsupPer);
     document.getElementById('rsup-sub').textContent = _rsupPer === 'sem'
       ? 'Avance vs meta semanal · ' + textoSemana()
-      : 'Avance vs meta mensual · ' + (isMesPrev ? 'mes anterior' : 'mes en curso');
+      : 'Avance vs meta del mes de incentivo · ' + PERIODO.texto + (isMesPrev ? ' (anterior)' : '');
     const list = document.getElementById('rsup-list');
     list.innerHTML = rows.map((r, i) => {
       const pct = r.pct !== null ? Math.round(r.pct) : null;
@@ -2254,10 +2407,21 @@
     const cluster = clusterDe(store);
     const rows    = rankingDe(cluster);
     const pos     = rows.findIndex(r => String(r.s.ID) === id) + 1;
+    const yo      = rows[pos - 1];
+    const cp      = premioCluster(cluster);
     card.style.display = '';
     document.getElementById('rank-card-title').textContent = 'Ranking semanal · ' + nombreCluster(cluster);
+    let estado = '';
+    if (cp && yo) {
+      const corte = rows.filter(r => r.gana).length;
+      if (yo.gana)                         estado = `<b class="rk-ok">🏆 Vas ganando S/ ${cp.premio} esta semana</b>`;
+      else if (yo.meta && yo.sold < yo.meta) estado = `Te faltan <b>${fmtS(yo.meta - yo.sold)}</b> para el 100% de tu meta semanal`;
+      else                                 estado = `Ya cumpliste el 100% · sube al top ${cp.ganadoras} para ganar` + (corte >= cp.ganadoras ? ` (la #${cp.ganadoras} va con ${Math.round(rows.filter(r => r.gana)[cp.ganadoras - 1].pct)}%)` : '');
+    }
     document.getElementById('rank-card-pos').innerHTML =
-      `<span class="rk-big">#${pos}</span> de ${rows.length} <span class="rk-week">· ${textoSemana()}</span>`;
+      `<span class="rk-big">#${pos}</span> de ${rows.length} <span class="rk-week">· ${textoSemana()}</span>` +
+      (cp ? `<div class="rk-rule">${reglaPremio(cluster)}</div>` : '') +
+      (estado ? `<div class="rk-state">${estado}</div>` : '');
     const list = document.getElementById('rank-card-list');
     list.innerHTML = rankRowsHTML(rows, id);
     bindRankRows(list);
@@ -2265,20 +2429,84 @@
     if (me) list.scrollTop = me.offsetTop - list.clientHeight / 2 + me.clientHeight / 2;
   }
 
-  // ── Top Turbito / LakiDey: ventas del mes entre todas las tiendas AT ──────
-  const TOP_COLOR = { Turbito: '#92400E', LakiDey: '#3B9EE8' };
-  const TOP_LOGO  = { Turbito: '../sources/logos-games/Turbito.png', LakiDey: '../sources/logos-games/lakidey.png' };
+  // ── Incentivo del mes: 4 semanas, premio por semana ganada, se acumula ────
+  function renderIncentivoCard(store) {
+    const card = document.getElementById('inc-card');
+    const cluster = clusterDe(store);
+    const cp = premioCluster(cluster);
+    if (!cp) { card.style.display = 'none'; return; }
+    card.style.display = '';
+    const res = resultadoIncentivo(store);
+    const ganado = res.reduce((a, r) => a + (r.gana ? r.premio : 0), 0);
+    const maximo = cp.premio * PERIODO.semanas.length;
+    document.getElementById('inc-sub').textContent = PERIODO.texto;
+    document.getElementById('inc-cluster').innerHTML =
+      `<span class="inc-chip" style="background:${cp.color}">${cluster}</span>` +
+      `Meta semanal ${fmtS(metaSemDe(store))} · ganan ${cp.ganadoras} por semana · S/ ${cp.premio} por semana ganada`;
+    document.getElementById('inc-weeks').innerHTML = res.map(r => {
+      const fechas = `${fechaCorta(r.sem.ini)} – ${fechaCorta(r.sem.fin)}`;
+      let st, cls;
+      if (r.estado === 'futura') { cls = 'fut'; st = 'Próximamente'; }
+      else {
+        const pct = r.pct !== null && r.pct !== undefined ? Math.round(r.pct) + '%' : '—';
+        if (r.estado === 'cerrada') {
+          cls = r.gana ? 'win' : 'lose';
+          st  = r.gana ? `✅ Ganó S/ ${r.premio}` : `No ganó · ${pct} · #${r.pos}`;
+        } else {
+          cls = r.gana ? 'live win' : 'live';
+          st  = r.gana ? `🏆 Va ganando S/ ${r.premio}` : `En curso · ${pct} · #${r.pos}`;
+        }
+      }
+      return `<div class="inc-week ${cls}"><div class="iw-n">Semana ${r.sem.n}</div><div class="iw-d">${fechas}</div><div class="iw-st">${st}</div></div>`;
+    }).join('');
+    document.getElementById('inc-total').innerHTML =
+      `Acumulado: <b>S/ ${ganado}</b> de S/ ${maximo} posibles · se paga en un solo desembolso`;
+  }
+
+  // ── Tabla de premios por clúster (resalta el de la tienda) ────────────────
+  function renderPremiosCard(el, cluster) {
+    if (!el) return;
+    if (!PERIODO.conPremios) { el.style.display = 'none'; return; }
+    const metaDe = {}, cnt = {};
+    allStores.forEach(s => {
+      const c = clusterDe(s), md = parseFloat(s.meta_diaria) || 0;
+      cnt[c] = (cnt[c] || 0) + 1;
+      if (!metaDe[c]) metaDe[c] = {};
+      metaDe[c][md] = (metaDe[c][md] || 0) + 1;
+    });
+    const moda = c => +Object.entries(metaDe[c] || {}).sort((a, b) => b[1] - a[1])[0]?.[0] || 0;
+    const n = PERIODO.semanas.length;
+    el.style.display = '';
+    el.innerHTML = `
+      <div class="card-title">Premios por clúster · ${PERIODO.texto}</div>
+      <div class="pz-note">Cumple el 100% de tu meta semanal y quédate entre las que más crecen de tu clúster (ranking nacional). Los premios de las ${n} semanas se acumulan.</div>
+      <div class="pz-table">
+        <div class="pz-row pz-h"><div>Clúster</div><div>Meta semanal</div><div>Ganadoras</div><div>Por semana</div><div>${n} semanas</div></div>
+        ${Object.entries(CLUSTER_PREMIO).map(([c, p]) => `
+          <div class="pz-row${c === String(cluster || '').toUpperCase() ? ' pz-me' : ''}">
+            <div><span class="pz-dot" style="background:${p.color}"></span><b style="color:${p.color}">${c}</b><small>${cnt[c] || 0} tiendas · S/ ${moda(c)}/día</small></div>
+            <div>${fmtS(moda(c) * 7)}</div>
+            <div>${p.ganadoras}</div>
+            <div>S/ ${p.premio}</div>
+            <div><b>S/ ${p.premio * n}</b></div>
+          </div>`).join('')}
+      </div>`;
+  }
+
+  // ── Top Turbito / LakiDey / Rapiraspa: ventas del mes entre todas las tiendas AT ──
+  const TOP_COLOR = { Turbito: '#92400E', LakiDey: '#3B9EE8', Rapiraspa: '#5B3E99' };
+  const TOP_LOGO  = { Turbito: '../sources/logos-games/Turbito.png', LakiDey: '../sources/logos-games/lakidey.png',
+                      Rapiraspa: '../sources/logos-games/rapiraspa.png' };
   const _topCache = {};
   let _topJuego = 'Turbito', _topStore = null;
 
   function topDe(juego) {
     if (_topCache[juego]) return _topCache[juego];
-    const now = new Date();
-    const m   = new Date(now.getFullYear(), now.getMonth() - (isMesPrev ? 1 : 0), 1);
-    const ym  = m.getFullYear() + '-' + String(m.getMonth() + 1).padStart(2, '0');
+    // Ventas del mes de incentivo (4 semanas jue→mié)
+    // Rapiraspa = todos los raspes (ventas_raspes); Turbito y LakiDey salen de lotería
     const tot = {};
-    allLoteria.forEach(v => {
-      if (v.tipo_juego !== juego || !v.fecha || v.fecha.slice(0, 7) !== ym) return;
+    (juego === 'Rapiraspa' ? allRaspes : allLoteria).forEach(v => {
+      if ((juego !== 'Rapiraspa' && v.tipo_juego !== juego) || !enPeriodo(v.fecha)) return;
       const sid = String(v.org_code);
       tot[sid] = (tot[sid] || 0) + (v.total || 0);
     });
@@ -2312,13 +2540,13 @@
     const me    = rows[idx];
     card.style.setProperty('--tc', TOP_COLOR[juego]);
     card.querySelector('.top-title').innerHTML =
-      `<img src="${TOP_LOGO[juego]}" class="top-logo" alt="">Top ${juego} · ${isMesPrev ? 'mes anterior' : 'este mes'}`;
+      `<img src="${TOP_LOGO[juego]}" class="top-logo" alt="">Top ${juego} · ${isMesPrev ? 'mes de incentivo anterior' : 'mes de incentivo'}`;
     card.querySelectorAll('.top-tg').forEach(b => b.classList.toggle('active', b.dataset.juego === juego));
 
     const faltaPara = k => fmtS(Math.max(1, Math.ceil(rows[k].sold - me.sold + 0.01)));
     let msg;
-    if (!store)           msg = `Las 10 tiendas que más venden ${juego} ${isMesPrev ? 'el mes anterior' : 'este mes'}. 🎁 <b>Los 3 primeros ganan S/ 60, S/ 40 y S/ 20.</b>`;
-    else if (!me || !me.sold) msg = `Aún no tienes ventas de ${juego} este mes. ¡Tu primera venta te pone en carrera por el premio de hasta <b>S/ 60</b>!`;
+    if (!store)           msg = `Las 10 tiendas que más venden ${juego} ${isMesPrev ? 'en el mes de incentivo anterior' : 'en este mes de incentivo'} (${PERIODO.texto}). 🎁 <b>Los 3 primeros ganan S/ 60, S/ 40 y S/ 20.</b>`;
+    else if (!me || !me.sold) msg = `Aún no tienes ventas de ${juego} en este mes de incentivo. ¡Tu primera venta te pone en carrera por el premio de hasta <b>S/ 60</b>!`;
     else if (idx === 0)   msg = `🏆 <b>¡Eres top 1!</b> Vas ganando <b>S/ 60</b>. ¡Defiende tu lugar!`;
     else if (idx < 3)     msg = `🔥 <b>¡Eres top ${idx + 1}!</b> Vas ganando <b>S/ ${TOP_PREMIOS[idx]}</b>. Te faltan ${faltaPara(idx - 1)} para subir al puesto ${idx} y ganar <b>S/ ${TOP_PREMIOS[idx - 1]}</b>.`;
     else if (idx < 10)    msg = `🔥 <b>¡Eres top ${idx + 1}!</b> Te faltan ${faltaPara(2)} para el 3er puesto y ganar <b>S/ 20</b>. ¡Tú puedes!`;
@@ -2329,7 +2557,7 @@
     const max = top.length ? top[0].sold : 0;
     const list = card.querySelector('.top-list');
     list.innerHTML = !top.length
-      ? `<div class="top-empty">Aún no hay ventas de ${juego} este mes.</div>`
+      ? `<div class="top-empty">Aún no hay ventas de ${juego} en este mes de incentivo.</div>`
       : top.map((r, i) => topRowHTML(r, i, max, id)).join('') +
         (idx >= 10 && me.sold > 0 ? '<div class="top-sep">⋯</div>' + topRowHTML(me, idx, max, id) : '');
     bindRankRows(list);
@@ -2349,9 +2577,9 @@
 
   function setTopJuego(juego) { _topJuego = juego; renderTopCard(); renderSsTop(); }
 
-  // Tarjetas laterales en desktop: Turbito a la izquierda, LakiDey a la derecha
+  // Tarjetas laterales en desktop: Turbito a la izquierda, LakiDey y Rapiraspa a la derecha
   function renderTopSides(store) {
-    ['Turbito', 'LakiDey'].forEach(juego => {
+    ['Turbito', 'LakiDey', 'Rapiraspa'].forEach(juego => {
       const card = document.getElementById('top-side-' + juego);
       fillTopCard(card, juego, store);
       card.classList.add('on');
@@ -2382,10 +2610,10 @@
   }
 
   function motivation(pct) {
-    if (pct === null) return { icon:'📊', msg:'Registra tus ventas diariamente', detail:'Tu progreso aparecerá aquí en cuanto haya datos del mes.', bg:'rgba(90,116,153,.12)', clr:'var(--muted)' };
-    if (pct >= 110)   return { icon:'🏆', msg:'¡Meta superada! Excelente trabajo', detail:'Estás por encima del objetivo mensual. ¡Sigue así!', bg:'rgba(16,217,138,.12)', clr:'var(--green)' };
-    if (pct >= 100)   return { icon:'🎯', msg:'¡Meta cumplida este mes!', detail:'Lograste tu objetivo. ¡Sigue vendiendo y cierra el mes fuerte!', bg:'rgba(16,217,138,.1)', clr:'var(--green)' };
-    if (pct >= 80)    return { icon:'🔥', msg:'Casi llegas — ¡un último empuje!', detail:`Solo te falta el ${Math.round(100-pct)}% para alcanzar la meta mensual.`, bg:'rgba(229,53,53,.12)', clr:'var(--accent)' };
+    if (pct === null) return { icon:'📊', msg:'Registra tus ventas diariamente', detail:'Tu progreso aparecerá aquí en cuanto haya datos del mes de incentivo.', bg:'rgba(90,116,153,.12)', clr:'var(--muted)' };
+    if (pct >= 110)   return { icon:'🏆', msg:'¡Meta superada! Excelente trabajo', detail:'Estás por encima del objetivo del mes de incentivo. ¡Sigue así!', bg:'rgba(16,217,138,.12)', clr:'var(--green)' };
+    if (pct >= 100)   return { icon:'🎯', msg:'¡Meta del mes de incentivo cumplida!', detail:'Lograste tu objetivo. ¡Sigue vendiendo y cierra las 4 semanas fuerte!', bg:'rgba(16,217,138,.1)', clr:'var(--green)' };
+    if (pct >= 80)    return { icon:'🔥', msg:'Casi llegas — ¡un último empuje!', detail:`Solo te falta el ${Math.round(100-pct)}% para alcanzar la meta del mes de incentivo.`, bg:'rgba(229,53,53,.12)', clr:'var(--accent)' };
     if (pct >= 60)    return { icon:'💪', msg:'Buen ritmo, mantén el paso', detail:'Vas bien. Enfócate en cerrar cada día con tu meta diaria cubierta.', bg:'rgba(245,158,11,.1)', clr:'var(--amber)' };
     if (pct >= 30)    return { icon:'📈', msg:'Hay margen para mejorar', detail:'Cada venta cuenta. Recuerda atender a todos tus clientes frecuentes.', bg:'rgba(245,158,11,.08)', clr:'var(--amber)' };
     return { icon:'⚡', msg:'¡VAMOS POR MÁS!', detail:'Aprovecha la afluencia del mundial para llegar a tu meta.', bg:'rgba(240,68,68,.1)', clr:'var(--red)' };
@@ -2393,15 +2621,22 @@
 
   async function init() {
     try {
-      const [puntosData, ventasData, raspesData, loteriaData, lakideyData, turbitoData, ventasPrevData] = await Promise.all([
+      // El mes de incentivo (4 semanas jue→mié) cruza de mes: siempre se cargan el
+      // mes actual y el anterior de cada archivo, y se filtra por fecha.
+      const opt = u => loadJSON(u).catch(() => ({ventas:[]}));
+      const [puntosData, ventasData, raspesData, loteriaData, lakideyData, turbitoData,
+             ventasPrevData, raspesPrevData, loteriaPrevData, lakideyPrevData, turbitoPrevData] = await Promise.all([
         loadJSON('../data/puntos.json'),
-        loadJSON('../data/' + (isMesPrev ? 'ventas_mes_prev' : 'ventas_mes') + '.json'),
-        loadJSON('../data/' + (isMesPrev ? 'ventas_raspes_prev' : 'ventas_raspes') + '.json'),
-        loadJSON('../data/' + (isMesPrev ? 'ventas_loteria_prev' : 'ventas_loteria') + '.json'),
-        loadJSON('../data/' + (isMesPrev ? 'ventas_lakidey_prev' : 'ventas_lakidey') + '.json').catch(() => ({ventas:[]})),
-        loadJSON('../data/' + (isMesPrev ? 'ventas_turbito_prev' : 'ventas_turbito') + '.json').catch(() => ({ventas:[]})),
-        // Mes anterior: solo para semanas que cruzan de mes
-        isMesPrev ? Promise.resolve({ventas:[]}) : loadJSON('../data/ventas_mes_prev.json').catch(() => ({ventas:[]})),
+        loadJSON('../data/ventas_mes.json'),
+        loadJSON('../data/ventas_raspes.json'),
+        loadJSON('../data/ventas_loteria.json'),
+        opt('../data/ventas_lakidey.json'),
+        opt('../data/ventas_turbito.json'),
+        opt('../data/ventas_mes_prev.json'),
+        opt('../data/ventas_raspes_prev.json'),
+        opt('../data/ventas_loteria_prev.json'),
+        opt('../data/ventas_lakidey_prev.json'),
+        opt('../data/ventas_turbito_prev.json'),
       ]);
 
       allStores = (Array.isArray(puntosData) ? puntosData : []).filter(p =>
@@ -2409,18 +2644,19 @@
         (p.estado || '').toUpperCase() === 'ACTIVO'
       );
 
-      const todos = ventasData.body || ventasData.ventas || [];
-      allVentas  = todos.filter(v => (v.partner || '').toUpperCase() === PARTNER);
-      // Semana que cruza de mes: se suman los días del mes anterior que no estén ya en ventas_mes
-      const mesesActuales = new Set(allVentas.map(v => (v.fecha || '').slice(0, 7)));
-      const prevSemana = (ventasPrevData.body || ventasPrevData.ventas || []).filter(v =>
-        (v.partner || '').toUpperCase() === PARTNER && v.fecha && !mesesActuales.has(v.fecha.slice(0, 7))
-      );
-      ventasSemana = allVentas.concat(prevSemana);
-      allRaspes  = (raspesData.body  || raspesData.ventas  || []).filter(v => (v.partner || '').toUpperCase() === PARTNER);
-      allLoteria = (loteriaData.body || loteriaData.ventas || []).filter(v => (v.partner || '').toUpperCase() === PARTNER);
-      const _ld = (lakideyData.ventas || lakideyData.body || []).filter(v => (v.partner || '').toUpperCase() === PARTNER);
-      const _tb = (turbitoData.ventas || turbitoData.body || []).filter(v => (v.partner || '').toUpperCase() === PARTNER);
+      // Filas del partner del archivo actual + las del _prev cuyos meses no estén en el actual
+      const delPartner = d => (d.body || d.ventas || []).filter(v => (v.partner || '').toUpperCase() === PARTNER);
+      const conPrev = (act, prev) => {
+        const a = delPartner(act);
+        const meses = new Set(a.map(v => (v.fecha || '').slice(0, 7)));
+        return a.concat(delPartner(prev).filter(v => v.fecha && !meses.has(v.fecha.slice(0, 7))));
+      };
+      allVentas    = conPrev(ventasData, ventasPrevData);
+      ventasSemana = allVentas;
+      allRaspes    = conPrev(raspesData, raspesPrevData);
+      allLoteria   = conPrev(loteriaData, loteriaPrevData);
+      const _ld = conPrev(lakideyData, lakideyPrevData);
+      const _tb = conPrev(turbitoData, turbitoPrevData);
       if (_ld.length > 0) { allLoteria = allLoteria.filter(v => v.tipo_juego !== 'LakiDey'); allLoteria.push(..._ld); }
       if (_tb.length > 0) { allLoteria = allLoteria.filter(v => v.tipo_juego !== 'Turbito'); allLoteria.push(..._tb); }
 
@@ -2488,11 +2724,12 @@
     document.getElementById('no-meta-note').style.display = hasMeta ? 'none' : '';
 
     const hoy      = isoToday();
-    const now      = new Date();
-    const mesIni   = new Date(now.getFullYear(), now.getMonth() - (isMesPrev ? 1 : 0), 1);
-    const mesFin   = new Date(now.getFullYear(), now.getMonth() - (isMesPrev ? 1 : 0) + 1, 0, 23, 59, 59);
-    const semIni   = miercolesDe(now);
-    const semFin   = new Date(semIni); semFin.setDate(semIni.getDate()+6); semFin.setHours(23,59,59,999);
+    // "Mes" = mes de incentivo (4 semanas jue→mié); semana = jue→mié
+    const mesIni   = PERIODO.ini;
+    const mesFin   = PERIODO.fin;
+    const semAct   = rangoSemana();
+    const semIni   = semAct.ini;
+    const semFin   = semAct.fin;
 
     // Aggregate ventas for this store
     const id       = String(store.ID);
@@ -2533,7 +2770,7 @@
     // Metas
     const dias       = store.dias || [];
     const metaDiaria = hasMeta ? store.meta_diaria : null;
-    const diasCalMes = 30;                      // siempre 30 para homogenizar todos los meses
+    const diasCalMes = PERIODO.dias;            // mes de incentivo = 4 semanas (28 días)
     const diasCalSem = 7;                       // la semana siempre tiene 7 días
     const metaSem    = hasMeta ? Math.round(metaDiaria * diasCalSem) : null;
     const metaMes    = hasMeta ? Math.round(metaDiaria * diasCalMes) : null;
@@ -2576,8 +2813,23 @@
     document.getElementById('hoy-pct').textContent  = pctHoy !== null ? fmtPct(pctHoy) : '—';
     document.getElementById('hoy-pct').style.color  = hoyCol;
     setBar(document.getElementById('hoy-bar'), pctHoy || 0, hoyCol);
+    // Cobertura mínima del día según el clúster
+    const cobMin = coberturaMin(store);
+    const cobEl  = document.getElementById('hoy-cob');
+    if (cobMin) {
+      const ok = totHoy >= cobMin;
+      cobEl.className = 'pc-cob' + (ok ? ' ok' : '');
+      cobEl.innerHTML = `Cobertura mín. ${fmtS(cobMin)} · ` +
+        (ok ? '<b>✓ día cubierto</b>' : `faltan <b>${fmtS(cobMin - totHoy)}</b>`);
+      cobEl.style.display = '';
+    } else {
+      cobEl.style.display = 'none';
+    }
 
     // Week card
+    document.getElementById('sem-label').textContent = `Semana ${semAct.n} · ${fechaCorta(semIni)} – ${fechaCorta(semFin)}`;
+    document.getElementById('week-card-title').textContent = `Evolución · semana ${semAct.n} del mes de incentivo (jue → mié)`;
+    document.getElementById('ring-period-label').textContent = 'MES DE INCENTIVO · ' + PERIODO.texto.toUpperCase();
     const semCol = pctSem !== null ? pctColor(pctSem) : 'var(--dim)';
     document.getElementById('sem-val').textContent  = fmtS(totSem);
     document.getElementById('sem-val').style.color  = semCol;
@@ -2594,12 +2846,12 @@
     const btnVD = document.getElementById('btn-vista-dia');
     if (btnVD) { btnVD.textContent = '📅 Ver día'; btnVD.classList.remove('active'); }
     const ttlVD = document.getElementById('games-card-title');
-    if (ttlVD) ttlVD.textContent = 'Desglose por juego · este mes';
+    if (ttlVD) ttlVD.textContent = 'Desglose por juego · mes de incentivo';
     renderGamesMode();
 
-    // Weekly chart (Mié→Mar, 7 days)
-    const DAY_NAMES      = ['Mié','Jue','Vie','Sáb','Dom','Lun','Mar'];
-    const DAY_NAMES_LONG = ['Miércoles','Jueves','Viernes','Sábado','Domingo','Lunes','Martes'];
+    // Weekly chart (Jue→Mié, 7 days)
+    const DAY_NAMES      = ['Jue','Vie','Sáb','Dom','Lun','Mar','Mié'];
+    const DAY_NAMES_LONG = ['Jueves','Viernes','Sábado','Domingo','Lunes','Martes','Miércoles'];
     const weekKeys = [];
     for (let i = 0; i < 7; i++) {
       const d = new Date(semIni);
@@ -2664,7 +2916,9 @@
     if (metaDiaria) {
       const pasados   = weekKeys.filter(dk => dk <= hoy).length;
       const cumplidos = weekKeys.filter((dk, i) => dk <= hoy && dayTotals[i] >= metaDiaria).length;
-      capEl.textContent = `Meta diaria ${fmtS(metaDiaria)} · cumplida ${cumplidos} de ${pasados} día${pasados !== 1 ? 's' : ''}`;
+      const cubiertos = cobMin ? weekKeys.filter((dk, i) => dk <= hoy && dayTotals[i] >= cobMin).length : null;
+      capEl.textContent = `Meta diaria ${fmtS(metaDiaria)} · cumplida ${cumplidos} de ${pasados} día${pasados !== 1 ? 's' : ''}` +
+        (cobMin ? ` · cubiertos ${cubiertos} de ${pasados}` : '');
       capEl.style.display = '';
     } else {
       capEl.style.display = 'none';
@@ -2684,6 +2938,8 @@
     mc.style.border = `1px solid ${m.clr}40`;
 
     renderRankCard(store);
+    renderIncentivoCard(store);
+    renderPremiosCard(document.getElementById('premios-card'), clusterDe(store));
     renderTopCard(store);
     renderTopSides(store);
     if (STOCK_ACTIVO) { document.getElementById('stock-card').style.display = ''; loadStock(store); }
@@ -2700,7 +2956,7 @@
     var _bn = document.createElement('div');
     _bn.id  = 'prev-mes-banner';
     _bn.style.cssText = 'position:fixed;top:0;left:0;right:0;z-index:9999;background:#F59E0B;color:#1C1917;font-size:13px;font-weight:700;text-align:center;padding:8px 12px;display:flex;align-items:center;justify-content:center;gap:12px;box-shadow:0 2px 8px rgba(0,0,0,.18)';
-    _bn.innerHTML = '<span>Viendo datos de <strong>' + _ms[_pm.getMonth()] + ' ' + _pm.getFullYear() + '</strong></span><a href="' + location.pathname + '" style="background:white;color:#1C1917;border-radius:8px;padding:3px 10px;text-decoration:none;font-size:12px">Ver mes actual</a>';
+    _bn.innerHTML = '<span>Viendo el mes de incentivo anterior: <strong>' + PERIODO.texto + '</strong></span><a href="' + location.pathname + '" style="background:white;color:#1C1917;border-radius:8px;padding:3px 10px;text-decoration:none;font-size:12px">Ver mes actual</a>';
     document.body.prepend(_bn);
     setTimeout(function() {
       var db = document.getElementById('dashboard');
@@ -2852,7 +3108,7 @@
       if (ttl) ttl.textContent = 'Desglose por juego · hoy';
     } else {
       if (btn) { btn.textContent = '📅 Ver día'; btn.classList.remove('active'); }
-      if (ttl) ttl.textContent = 'Desglose por juego · este mes';
+      if (ttl) ttl.textContent = 'Desglose por juego · mes de incentivo';
     }
     renderGamesMode();
   }
@@ -2891,14 +3147,9 @@
   function devGetRows() {
     var nameMap = {};
     allStores.forEach(function(s){ nameMap[String(s.ID||'')] = s.nombre||''; });
-    var now = new Date();
-    var mesN = isMesPrev ? now.getMonth() - 1 : now.getMonth();
-    var yearN = now.getFullYear();
-    if (mesN < 0) { mesN = 11; yearN--; }
-    var ini = new Date(yearN, mesN, 1);
-    var fin = new Date(yearN, mesN + 1, 0);
-    var desde = ini.toISOString().slice(0,10);
-    var hasta = fin.toISOString().slice(0,10);
+    // Rango del mes de incentivo
+    var desde = PERIODO.iniIso;
+    var hasta = PERIODO.finIso;
     var seen = {};
     function push(arr, src) {
       arr.forEach(function(v){
