@@ -132,7 +132,12 @@ jobs:
                   ventas_map[vid] = {'pp': 0, 'ld': 0, 'grand': 0}
               tj  = v.get('tipo_juego', '')
               amt = v.get('total') or 0
-              if tj == 'PozoPower': ventas_map[vid]['pp'] += amt
+              if tj == 'PozoPower':
+                  ventas_map[vid]['pp'] += amt
+                  if v.get('tickets') is not None:  # tickets del BI de Tambo
+                      ventas_map[vid]['pp_tk'] = ventas_map[vid].get('pp_tk', 0) + v['tickets']
+                  else:
+                      ventas_map[vid]['pp_sin'] = ventas_map[vid].get('pp_sin', 0) + amt
               if tj == 'LakiDey':  ventas_map[vid]['ld'] += amt
 
           TIER_ORDER = ['A', 'B', 'C', 'D']
@@ -144,7 +149,7 @@ jobs:
               if cb not in TIER_ORDER:
                   continue
               v      = ventas_map.get(pid, {'pp': 0, 'ld': 0, 'grand': 0})
-              pp_uni = v['pp'] // 5
+              pp_uni = int(v.get('pp_tk', 0) + v.get('pp_sin', 0) // 5)
               total  = v['grand']
               floor_idx = TIER_ORDER.index(cb)
               bono_tier = None
@@ -182,7 +187,7 @@ jobs:
               v = ventas_map.get(pid)
               if v and (v['pp'] > 0 or v['ld'] > 0 or v['grand'] > 0):
                   ventas_parciales[pid] = {
-                      'pp':    v['pp'] // 5,
+                      'pp':    int(v.get('pp_tk', 0) + v.get('pp_sin', 0) // 5),
                       'ld':    v['ld'],
                       'grand': v['grand'],
                   }

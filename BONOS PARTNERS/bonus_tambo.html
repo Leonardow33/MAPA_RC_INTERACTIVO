@@ -1974,7 +1974,8 @@
       String(d.getDate()).padStart(2,'0');
   }
 
-  // Monto diario PozoPower = 12·promos(3x12) + 5·sueltos; se toma el mínimo de promos que cuadra
+  // Tickets PozoPower: se usa el campo `tickets` (BI de Tambo, días cerrados) cuando existe.
+  // Monto diario PozoPower = 12·promos(3x12) + 5·sueltos; se toma el mínimo de promos que cuadra (estimación)
   function ppTickets(monto) {
     const A = Math.round(monto);
     if (A <= 0) return 0;
@@ -2203,12 +2204,12 @@
       if ((tj === 'PozoPowerGo' || tj === 'Go') && f >= mesIni && f <= mesFin) goMes += amt;
       if (tj === 'Elige 3'     && f >= mesIni && f <= mesFin) e3Mes      += amt;
       if (tj === 'Turbito'     && f >= mesIni && f <= mesFin) turbitoMes += amt;
-      if (tj === 'PozoPower'   && f >= semJue && f <= semMie) { ppSem += amt; ppTktSem += ppTickets(amt); }
+      if (tj === 'PozoPower'   && f >= semJue && f <= semMie) { ppSem += amt; ppTktSem += (v.tickets != null ? v.tickets : ppTickets(amt)); }
       if (tj === 'LakiDey'     && f >= semJue && f <= semMie) ldSem      += amt;
       if ((tj === 'PozoPowerGo' || tj === 'Go') && f >= semJue && f <= semMie) goSem += amt;
       if (tj === 'Elige 3'     && f >= semJue && f <= semMie) e3Sem      += amt;
       if (tj === 'Turbito'     && f >= semJue && f <= semMie) turbitoSem += amt;
-      if (tj === 'PozoPower'   && v.fecha === hoy) { ppHoy += amt; ppTktHoy += ppTickets(amt); }
+      if (tj === 'PozoPower'   && v.fecha === hoy) { ppHoy += amt; ppTktHoy += (v.tickets != null ? v.tickets : ppTickets(amt)); }
       if (tj === 'LakiDey'     && v.fecha === hoy) ldHoy      += amt;
       if ((tj === 'PozoPowerGo' || tj === 'Go') && v.fecha === hoy) goHoy += amt;
       if (tj === 'Elige 3'     && v.fecha === hoy) e3Hoy      += amt;
@@ -2220,7 +2221,7 @@
       const f   = new Date(v.fecha + 'T12:00:00');
       const amt = v.total || 0;
       const tj  = v.tipo_juego || '';
-      if (tj === 'PozoPower'                    && f >= semJue && f <= semMie) { ppSem += amt; ppTktSem += ppTickets(amt); }
+      if (tj === 'PozoPower'                    && f >= semJue && f <= semMie) { ppSem += amt; ppTktSem += (v.tickets != null ? v.tickets : ppTickets(amt)); }
       if (tj === 'LakiDey'                      && f >= semJue && f <= semMie) ldSem      += amt;
       if ((tj === 'PozoPowerGo' || tj === 'Go') && f >= semJue && f <= semMie) goSem      += amt;
       if (tj === 'Elige 3'                      && f >= semJue && f <= semMie) e3Sem      += amt;

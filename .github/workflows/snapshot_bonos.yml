@@ -83,6 +83,26 @@ jobs:
           ventas = ventas_data.get('body') or ventas_data.get('ventas') or []
           ventas_map = {}
 
+          # Semana que cruza de mes: los días del mes anterior se leen de los _prev,
+          # que tienen las correcciones del BI de Tambo (el snapshot parcial del
+          # último día quedó congelado a esa hora). El parcial queda como respaldo.
+          if partial and jueves.month != miercoles.month:
+              def _rows(path):
+                  try:
+                      d = json.loads(Path(path).read_text(encoding='utf-8-sig'))
+                      return d.get('body') or d.get('ventas') or []
+                  except Exception:
+                      return []
+              prev_v  = _rows('data/ventas_mes_prev.json')
+              prev_lt = [v for v in _rows('data/ventas_loteria_prev.json') if v.get('tipo_juego') != 'LakiDey']
+              prev_lk = _rows('data/ventas_lakidey_prev.json')
+              mes_prev = str(jueves)[:7]
+              if any(str(v.get('fecha', ''))[:7] == mes_prev and v.get('tipo_juego') == 'TOTAL' for v in prev_v):
+                  ventas = ventas + prev_v
+                  loteria_rows = loteria_rows + prev_lt + prev_lk
+                  print(f"  Semana cruzada: días de {mes_prev} desde los _prev (no del snapshot parcial)")
+                  partial = None
+
           if partial:
               # ── Semana cruzada: merge datos parciales + dias del mes nuevo ──
               mie_parcial      = date.fromisoformat(partial['miercoles'])
@@ -96,6 +116,7 @@ jobs:
                   for vid, vp in partial['ventas_parciales'].items():
                       ventas_map[vid] = {
                           'pp':    vp['pp'] * 5,   # unidades → soles
+                          'pp_tk': vp['pp'],
                           'ld':    vp['ld'],
                           'grand': vp['grand'],
                       }
@@ -105,6 +126,7 @@ jobs:
                       vid = str(g['id'])
                       ventas_map[vid] = {
                           'pp':    g['pp'] * 5,
+                          'pp_tk': g['pp'],
                           'ld':    g['ld'],
                           'grand': g['total'],
                       }
@@ -138,7 +160,12 @@ jobs:
                       ventas_map[vid] = {'pp': 0, 'ld': 0, 'grand': 0}
                   tj  = v.get('tipo_juego', '')
                   amt = v.get('total') or 0
-                  if tj == 'PozoPower': ventas_map[vid]['pp'] += amt
+                  if tj == 'PozoPower':
+                      ventas_map[vid]['pp'] += amt
+                      if v.get('tickets') is not None:  # tickets del BI de Tambo
+                          ventas_map[vid]['pp_tk'] = ventas_map[vid].get('pp_tk', 0) + v['tickets']
+                      else:
+                          ventas_map[vid]['pp_sin'] = ventas_map[vid].get('pp_sin', 0) + amt
                   if tj == 'LakiDey':  ventas_map[vid]['ld'] += amt
               if fechas_nuevas:
                   print(f"  Dias del mes nuevo incorporados: {sorted(fechas_nuevas)}")
@@ -173,7 +200,12 @@ jobs:
                       ventas_map[vid] = {'pp': 0, 'ld': 0, 'grand': 0}
                   tj  = v.get('tipo_juego', '')
                   amt = v.get('total') or 0
-                  if tj == 'PozoPower': ventas_map[vid]['pp'] += amt
+                  if tj == 'PozoPower':
+                      ventas_map[vid]['pp'] += amt
+                      if v.get('tickets') is not None:  # tickets del BI de Tambo
+                          ventas_map[vid]['pp_tk'] = ventas_map[vid].get('pp_tk', 0) + v['tickets']
+                      else:
+                          ventas_map[vid]['pp_sin'] = ventas_map[vid].get('pp_sin', 0) + amt
                   if tj == 'LakiDey':  ventas_map[vid]['ld'] += amt
 
           # ── Calcular ganadores ────────────────────────────────────────
@@ -186,7 +218,7 @@ jobs:
               if cb not in TIER_ORDER:
                   continue
               v      = ventas_map.get(pid, {'pp': 0, 'ld': 0, 'grand': 0})
-              pp_uni = v['pp'] // 5
+              pp_uni = int(v.get('pp_tk', 0) + v.get('pp_sin', 0) // 5)
               total  = v['grand']
               # Tier más alto que cumple (del propio cluster hacia A)
               floor_idx = TIER_ORDER.index(cb)

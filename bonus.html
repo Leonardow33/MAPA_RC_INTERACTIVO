@@ -660,6 +660,17 @@
   }
 
   // ── Semanas Jue→Mié ───────────────────────────────────────────
+  // Tickets PozoPower: el campo `tickets` (BI de Tambo, días cerrados) cuando existe;
+  // si no, se estiman desde los soles (1 ticket = S/5)
+  function sumarPP(acc, v) {
+    acc.pp += (v.total || 0);
+    if (v.tickets != null) acc.ppTk = (acc.ppTk || 0) + v.tickets;
+    else acc.ppSin = (acc.ppSin || 0) + (v.total || 0);
+  }
+  function ppUnidades(acc) {
+    return (acc.ppTk || 0) + Math.floor((acc.ppSin || 0) / 5);
+  }
+
   function juevesDe(fecha) {
     const d = new Date(fecha);
     d.setHours(0, 0, 0, 0);
@@ -732,13 +743,18 @@
 
   async function init() {
     try {
-      const [ventas, loteria, lakideyData, puntos, keys, historico] = await Promise.all([
+      const [ventas, loteria, lakideyData, puntos, keys, historico,
+             ventasPrev, loteriaPrev, lakideyPrev] = await Promise.all([
         loadJSON('data/ventas_mes.json'),
         loadJSON('data/ventas_loteria.json').catch(() => ({ ventas: [] })),
         loadJSON('data/ventas_lakidey.json').catch(() => ({ ventas: [] })),
         loadJSON('data/puntos.json'),
         loadJSON('data/keys_bonos.json'),
         loadJSON('data/historico_bonos.json').catch(() => ({ semanas: [] })),
+        // Mes anterior: para la semana Tambo que cruza de mes
+        loadJSON('data/ventas_mes_prev.json').catch(() => ({ ventas: [] })),
+        loadJSON('data/ventas_loteria_prev.json').catch(() => ({ ventas: [] })),
+        loadJSON('data/ventas_lakidey_prev.json').catch(() => ({ ventas: [] })),
       ]);
 
       document.getElementById('updated').textContent =
@@ -782,11 +798,21 @@
       });
 
       // Guardar estado global para recalcular al cambiar semana
-      window.TODAS_VENTAS  = ventas.body || ventas.ventas || [];
+      // Se suman los días del mes anterior (_prev) que no estén en el archivo actual,
+      // para que la semana que cruza de mes salga completa
+      const _filas = d => d.body || d.ventas || [];
+      const _sinMesesDe = (prev, actual) => {
+        const meses = new Set(actual.map(v => (v.fecha || '').slice(0, 7)));
+        return prev.filter(v => v.fecha && !meses.has(v.fecha.slice(0, 7)));
+      };
+      const _ventasAct = _filas(ventas);
+      window.TODAS_VENTAS  = [..._ventasAct, ..._sinMesesDe(_filas(ventasPrev), _ventasAct)];
       // Merge LakiDey desde archivo dedicado (ventas_loteria.json ya no lo incluye)
-      const _ldRows = lakideyData.ventas || lakideyData.body || [];
-      const _loteriaBase = (loteria.ventas || loteria.body || []).filter(v => v.tipo_juego !== 'LakiDey');
-      window.LOTERIA_VENTAS = [..._loteriaBase, ..._ldRows];
+      const _ldRows = _filas(lakideyData);
+      const _loteriaBase = _filas(loteria).filter(v => v.tipo_juego !== 'LakiDey');
+      const _lotAct = [..._loteriaBase, ..._ldRows];
+      const _lotPrev = [..._filas(loteriaPrev).filter(v => v.tipo_juego !== 'LakiDey'), ..._filas(lakideyPrev)];
+      window.LOTERIA_VENTAS = [..._lotAct, ..._sinMesesDe(_lotPrev, _lotAct)];
       window.KEYS          = KEYS;
       window.HISTORICO     = historico;
       window.HISTORICO_MAP = {};
@@ -850,7 +876,7 @@
       if (fecha < jueves || fecha > miercoles) return;
       const id = String(v.org_code);
       if (!ventasMap[id]) ventasMap[id] = { pp: 0, ld: 0, grand: 0 };
-      if (v.tipo_juego === 'PozoPower') ventasMap[id].pp += (v.total || 0);
+      if (v.tipo_juego === 'PozoPower') sumarPP(ventasMap[id], v);
       if (v.tipo_juego === 'LakiDey')  ventasMap[id].ld += (v.total || 0);
     });
 
@@ -862,7 +888,7 @@
       const cb  = (p.cluster_bono || '').trim().toUpperCase();
       const key = KEYS[cb] || null;
       const v      = ventasMap[id] || { pp: 0, ld: 0, grand: 0 };
-      const pp_uni = Math.floor(v.pp / 5); // soles → unidades (1 PozoPower = S/5)
+      const pp_uni = ppUnidades(v);
       const total  = v.grand;
       // Tier más alto que cumple (del cluster asignado hacia arriba)
       const TIER_ORDER = ['A', 'B', 'C', 'D'];
@@ -1347,7 +1373,7 @@
       if (f < juevesFecha || f > mie) return;
       const id = String(v.org_code);
       if (!vmap[id]) vmap[id] = { pp: 0, ld: 0, grand: 0 };
-      if (v.tipo_juego === 'PozoPower') vmap[id].pp += (v.total || 0);
+      if (v.tipo_juego === 'PozoPower') sumarPP(vmap[id], v);
       if (v.tipo_juego === 'LakiDey')  vmap[id].ld += (v.total || 0);
     });
 
@@ -1361,7 +1387,7 @@
       const fi  = TIER_ORDER.indexOf(cb);
       if (fi < 0) return;
       const v      = vmap[id] || { pp: 0, ld: 0, grand: 0 };
-      const pp_uni = Math.floor(v.pp / 5);
+      const pp_uni = ppUnidades(v);
       let bonoTier = null;
       for (let ti = 0; ti <= fi; ti++) {
         const t = TIER_ORDER[ti], k = KEYS[t];
