@@ -1113,6 +1113,9 @@
     .rk-sub { font-size: 10px; color: var(--muted); margin-top: 1px; }
     /* Premios semanales por clúster (AT) */
     .rk-row--win { border-color: #0DA870; background: rgba(13,168,112,.06); }
+    /* Zona de premio (top del clúster) que aún no llega al 100%: verde suave */
+    .rk-row--zona { border-color: rgba(13,168,112,.55); border-style: dashed; background: rgba(13,168,112,.03); }
+    .rk-falta { flex-shrink: 0; font-size: 9px; font-weight: 800; line-height: 1.15; text-align: center; text-transform: uppercase; letter-spacing: .04em; color: #059669; background: rgba(13,168,112,.1); border: 1px dashed rgba(5,150,105,.5); border-radius: 8px; padding: 3px 6px; }
     .rk-prize { background: linear-gradient(135deg, #34D399, #059669); padding: 3px 6px; animation: none; }
     .rk-prize b { font-size: 11px; }
     .rk-rule { font-size: 11px; color: var(--muted); margin-top: 6px; }
@@ -2324,6 +2327,8 @@
     if (cp && estadoSemana(s) !== 'futura') {
       rows.filter(r => r.pct !== null && r.pct >= 100).slice(0, cp.ganadoras)
           .forEach(r => { r.gana = true; r.premio = cp.premio; });
+      // Solo visual: posiciones dentro del cupo del clúster (zona de premio), ganen o no
+      rows.slice(0, cp.ganadoras).forEach(r => { r.zona = true; });
     }
     return rows;
   }
@@ -2366,9 +2371,10 @@
       const pct = r.pct !== null ? Math.round(r.pct) : null;
       const col = pct !== null ? pctColor(pct) : 'var(--dim)';
       const pos = i < 3 ? ['🥇','🥈','🥉'][i] : i + 1;
-      const cls = (String(r.s.ID) === currentId ? ' rk-row--me' : '') + (r.gana ? ' rk-row--win' : '');
+      const cls = (String(r.s.ID) === currentId ? ' rk-row--me' : '') + (r.gana ? ' rk-row--win' : r.zona ? ' rk-row--zona' : '');
       const premio = r.gana
-        ? `<div class="top-prize rk-prize"><small>${cerrada ? 'Ganó' : 'Gana'}</small><b>S/ ${r.premio}</b></div>` : '';
+        ? `<div class="top-prize rk-prize"><small>${cerrada ? 'Ganó' : 'Gana'}</small><b>S/ ${r.premio}</b></div>`
+        : r.zona ? `<div class="rk-falta" title="Está en el top del clúster, pero necesita llegar al 100% de su meta semanal para ganar">Falta<br>100%</div>` : '';
       return `<div class="rk-row${cls}" data-id="${r.s.ID}">
         <div class="rk-pos">${pos}</div>
         <div class="rk-info">
