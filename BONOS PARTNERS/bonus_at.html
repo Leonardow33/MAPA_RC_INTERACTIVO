@@ -1228,6 +1228,8 @@
     /* Marca */
     .ss-brand { display: flex; align-items: center; gap: 8px; background: #fff; border-radius: 999px; padding: 5px 14px 5px 10px; margin-bottom: 10px; box-shadow: 0 4px 14px rgba(0,0,0,.12); }
     .ss-brand img { height: 22px; }
+    /* Acceso oculto KAM (doble toque / mantener presionado): sin menú de imagen, selección ni zoom */
+    #search-screen .ss-brand, #search-screen .ss-brand * { -webkit-touch-callout: none; -webkit-user-select: none; user-select: none; -webkit-user-drag: none; touch-action: none; }
     .ss-brand span { font-size: 11px; font-weight: 800; color: #0B4A9E; letter-spacing: .04em; }
     @media (max-width: 380px) { .fx-kv { width: 76px; } .fx-title { font-size: 17px; } .bd-offer { font-size: 22px; } }
 
@@ -2865,13 +2867,10 @@
     });
   }
 
-  // Acceso oculto al panel KAM: 3 toques en menos de 1.5 s sobre el logo del buscador
-  let _kamTaps = [];
+  // Acceso oculto al panel KAM sobre el logo del buscador: doble clic / doble toque,
+  // o mantener presionado 1 segundo
+  let _kamTap = 0, _kamHold = null;
   function abrirKamOculto() {
-    const now = Date.now();
-    _kamTaps = _kamTaps.filter(t => now - t < 1500).concat(now);
-    if (_kamTaps.length < 3) return;
-    _kamTaps = [];
     setRole('kam');
     document.getElementById('role-panel-kam').scrollIntoView({ behavior: 'smooth', block: 'center' });
     if (!_kamToken) setTimeout(() => document.getElementById('kam-pass').focus(), 300);
@@ -2880,7 +2879,18 @@
   document.addEventListener('DOMContentLoaded', () => {
     loadRush();
     const brand = document.querySelector('#search-screen .ss-brand');
-    if (brand) brand.addEventListener('click', abrirKamOculto);
+    if (brand) {
+      brand.style.webkitUserSelect = brand.style.userSelect = 'none';
+      brand.style.webkitTouchCallout = 'none';
+      brand.addEventListener('contextmenu', e => e.preventDefault());
+      brand.addEventListener('click', () => {
+        const now = Date.now();
+        if (now - _kamTap < 700) { _kamTap = 0; abrirKamOculto(); } else _kamTap = now;
+      });
+      const stopHold = () => { clearTimeout(_kamHold); _kamHold = null; };
+      brand.addEventListener('pointerdown', () => { stopHold(); _kamHold = setTimeout(() => { _kamHold = null; abrirKamOculto(); }, 1000); });
+      ['pointerup', 'pointerleave', 'pointercancel'].forEach(ev => brand.addEventListener(ev, stopHold));
+    }
     document.getElementById('kam-pass').addEventListener('keydown', e => { if (e.key === 'Enter') kamLogin(); });
     document.getElementById('kam-file').addEventListener('change', async e => {
       const f = e.target.files[0];
@@ -2913,6 +2923,7 @@
           msg.textContent = '✅ Listo. Se verá para todos en unos 3 a 5 minutos.';
           return true;
         }
+        if (res.status === 401 || res.status === 403) throw new Error('el acceso a GitHub venció o no tiene permiso de escritura. Avisa al equipo de Geodor.');
         if (res.status !== 409 && res.status !== 422) throw new Error('GitHub respondió ' + res.status);
       }
       throw new Error('conflicto al guardar, intenta de nuevo');
