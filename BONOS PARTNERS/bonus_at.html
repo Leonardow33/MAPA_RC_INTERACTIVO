@@ -1106,6 +1106,7 @@
 
     /* ── RANKING DE SUPERVISORES ────────────────────────────── */
     #role-panel-rsup { width: 100%; max-width: 420px; }
+    #role-panel-kam { width: 100%; max-width: 420px; }
     .rs-toggle { display: flex; background: var(--surf); border: 1.5px solid var(--border); border-radius: 999px; padding: 3px; margin-bottom: 12px; }
     .rs-tg { flex: 1; border: none; background: transparent; font: inherit; font-size: 12px; font-weight: 700; color: var(--muted); padding: 8px 10px; border-radius: 999px; cursor: pointer; transition: background .15s, color .15s; }
     .rs-tg.active { background: var(--accent); color: #fff; }
@@ -1333,7 +1334,8 @@
     <button class="role-tab" id="tab-jz" onclick="setRole('jz')" style="display:none">Jefe Comercial</button>
     <button class="role-tab" id="tab-rank" onclick="setRole('rank')">🏆 Ranking de tiendas</button>
     <button class="role-tab" id="tab-rsup" onclick="setRole('rsup')">🎖️ Ranking de supervisores</button>
-    <button class="role-tab" id="tab-kam" onclick="setRole('kam')">🔒 KAM</button>
+    <!-- KAM: pestaña oculta. Se abre con 3 toques seguidos sobre el logo "Lotobola × Apuesta Total" (abrirKamOculto) -->
+    <button class="role-tab" id="tab-kam" onclick="setRole('kam')" style="display:none">🔒 KAM</button>
   </div>
 
   <!-- Panel KAM: sube / quita el flyer rush (protegido con contraseña) -->
@@ -2863,8 +2865,22 @@
     });
   }
 
+  // Acceso oculto al panel KAM: 3 toques en menos de 1.5 s sobre el logo del buscador
+  let _kamTaps = [];
+  function abrirKamOculto() {
+    const now = Date.now();
+    _kamTaps = _kamTaps.filter(t => now - t < 1500).concat(now);
+    if (_kamTaps.length < 3) return;
+    _kamTaps = [];
+    setRole('kam');
+    document.getElementById('role-panel-kam').scrollIntoView({ behavior: 'smooth', block: 'center' });
+    if (!_kamToken) setTimeout(() => document.getElementById('kam-pass').focus(), 300);
+  }
+
   document.addEventListener('DOMContentLoaded', () => {
     loadRush();
+    const brand = document.querySelector('#search-screen .ss-brand');
+    if (brand) brand.addEventListener('click', abrirKamOculto);
     document.getElementById('kam-pass').addEventListener('keydown', e => { if (e.key === 'Enter') kamLogin(); });
     document.getElementById('kam-file').addEventListener('change', async e => {
       const f = e.target.files[0];
