@@ -23,6 +23,7 @@ on:
       - 'data/ventas_loteria.json'
       - 'data/keys_bonos.json'
       - 'data/historico_bonos.json'
+      - 'data/rush.json'
       - 'icons/**'
       - 'BONOS PARTNERS/*.html'
   workflow_dispatch:

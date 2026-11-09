@@ -849,20 +849,52 @@
         width: 300px; max-height: calc(100vh - 100px); overflow-y: auto; scrollbar-width: thin; z-index: 2;
         box-shadow: 0 8px 30px rgba(13,31,53,.12);
       }
-      .top-side.left  { right: calc(50% + 246px); }
-      .top-side.right { left:  calc(50% + 246px); }
-      .top-side.right2 { left: calc(50% + 558px); }   /* Rapiraspa, al lado de LakiDey */
+      .top-side.right { left:  calc(50% + 246px); }   /* Turbito */
+      /* Columna izquierda: flyer rush arriba y debajo LakiDey y Rapiraspa (top 5) */
+      .side-col.on {
+        display: flex; flex-direction: column; gap: 10px;
+        position: fixed; top: 76px; bottom: 14px; right: calc(50% + 246px);
+        width: clamp(300px, calc(50vw - 280px), 380px);
+        overflow-y: auto; scrollbar-width: thin; z-index: 2;
+      }
+      .side-col .top-side.on {
+        position: static; transform: none; width: auto; max-height: none; overflow: visible; flex-shrink: 0;
+        padding: 12px 12px 10px;
+      }
+      .side-col .top-me { font-size: 12px; line-height: 1.35; margin-bottom: 6px; }
+      .side-col .top-hdr { margin-bottom: 6px; }
+      .side-col .top-list .rk-row { padding: 4px 10px; }
+      .rush-side { flex-shrink: 0; }
     }
-    /* Sin espacio para 3 columnas: LakiDey arriba y Rapiraspa abajo, en el lado derecho */
-    @media (min-width: 1100px) and (max-width: 1759px) {
-      .top-side.right, .top-side.right2 { left: calc(50% + 246px); transform: none; max-height: calc(50vh - 46px); }
-      .top-side.right  { top: 76px; }
-      .top-side.right2 { top: calc(50% + 40px); }
-      .top-side.right, .top-side.right2 { padding: 12px 12px 10px; }
-      .top-side.right .top-me, .top-side.right2 .top-me { font-size: 12px; line-height: 1.35; margin-bottom: 6px; }
-      .top-side.right .top-hdr, .top-side.right2 .top-hdr { margin-bottom: 6px; }
-      .top-side.right .top-list .rk-row, .top-side.right2 .top-list .rk-row { padding: 4px 10px; }
+    .side-col { display: none; }
+
+    /* ── FLYER RUSH (lo sube la KAM desde la pestaña 🔒 KAM) ── */
+    .rush-card {
+      background: var(--surf); border: 2px solid #E0218A; border-radius: 16px; padding: 8px;
+      box-shadow: 0 8px 30px rgba(13,31,53,.12); text-align: center;
     }
+    .rush-card[hidden] { display: none !important; }
+    .rush-lbl { font-size: 10px; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; color: #E0218A; margin: 2px 0 6px; }
+    .rush-card img { display: block; width: 100%; max-height: 46vh; object-fit: contain; border-radius: 10px; cursor: zoom-in; }
+    .rush-mobile { width: 100%; max-width: 420px; margin: 0 auto 14px; }
+    .rush-mobile img { max-height: none; }
+    @media (min-width: 1100px) { .rush-mobile { display: none !important; } }
+    .rush-zoom { position: fixed; inset: 0; z-index: 9999; background: rgba(0,0,0,.85); display: flex; align-items: center; justify-content: center; padding: 16px; cursor: zoom-out; }
+    .rush-zoom img { max-width: 100%; max-height: 100%; object-fit: contain; border-radius: 10px; }
+
+    /* Panel KAM */
+    .kam-box { background: var(--surf); border: 1.5px solid var(--border); border-radius: 16px; padding: 16px; margin-bottom: 12px; }
+    .kam-box h3 { font-size: 14px; margin: 0 0 8px; }
+    .kam-box p { font-size: 12px; color: var(--muted); margin: 0 0 10px; line-height: 1.45; }
+    .kam-row { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; margin-bottom: 10px; }
+    .kam-row label { font-size: 12px; font-weight: 600; display: flex; flex-direction: column; gap: 4px; flex: 1; min-width: 130px; }
+    .kam-box input[type=password], .kam-box input[type=date], .kam-box input[type=file] { font: inherit; font-size: 13px; padding: 8px 10px; border: 1px solid var(--border); border-radius: 10px; background: var(--surf2); color: var(--text); width: 100%; box-sizing: border-box; }
+    .kam-btn { font: inherit; font-size: 13px; font-weight: 700; border: none; border-radius: 10px; padding: 9px 16px; cursor: pointer; background: #E0218A; color: #fff; }
+    .kam-btn.sec { background: var(--surf2); color: var(--text); border: 1px solid var(--border); }
+    .kam-btn:disabled { opacity: .55; cursor: wait; }
+    .kam-msg { font-size: 12px; margin-top: 8px; min-height: 16px; }
+    .kam-msg.err { color: var(--red); } .kam-msg.ok { color: var(--green); }
+    .kam-prev { max-width: 100%; max-height: 360px; display: block; margin: 0 auto 10px; border-radius: 10px; border: 1px solid var(--border); }
     .sop-rules { font-size: 11px; line-height: 1.5; color: var(--text); background: rgba(255,255,255,.92); border: 1px solid var(--border); border-radius: 12px; padding: 8px 12px; margin: 0 0 10px; }
     .sop-rules small { color: var(--muted); }
     .sop-st { margin-top: 4px; }
@@ -1120,6 +1152,8 @@
     .role-tabs { max-width: 480px; }
     .role-tab { font-size: 12.5px; line-height: 1.25; padding: 10px 6px; }
     @media (max-width: 520px) { .role-tabs { display: grid; grid-template-columns: 1fr 1fr; } .role-tab { padding: 11px 6px; } }
+    #tab-kam { flex: 0 0 auto; padding-left: 10px; padding-right: 10px; }
+    @media (max-width: 520px) { #tab-kam { grid-column: span 2; padding: 8px 6px; } }
 
     /* ── FONDO DE MARCA LOTOBOLA ────────────────────────────── */
     #search-screen > *:not(.lb-bg) { position: relative; z-index: 1; }
@@ -1244,6 +1278,9 @@
        Para cambiar las promos solo edita los textos de este bloque.
        Para ocultar una promo, bórrala o ponle style="display:none".
        data-hasta="AAAA-MM-DD": la promo se oculta sola después de esa fecha (hora de Lima). -->
+  <!-- Flyer rush en móvil (en desktop va en la columna izquierda) -->
+  <div class="rush-card rush-mobile" hidden><div class="rush-lbl">🔥 Rush del fin de semana</div><img alt="Flyer rush" onclick="zoomRush(this.src)"></div>
+
   <section class="promos" aria-label="Promociones activas">
     <div class="promos-lbl"><span class="live-dot"></span> Promociones y campañas activas</div>
 
@@ -1296,6 +1333,35 @@
     <button class="role-tab" id="tab-jz" onclick="setRole('jz')" style="display:none">Jefe Comercial</button>
     <button class="role-tab" id="tab-rank" onclick="setRole('rank')">🏆 Ranking de tiendas</button>
     <button class="role-tab" id="tab-rsup" onclick="setRole('rsup')">🎖️ Ranking de supervisores</button>
+    <button class="role-tab" id="tab-kam" onclick="setRole('kam')">🔒 KAM</button>
+  </div>
+
+  <!-- Panel KAM: sube / quita el flyer rush (protegido con contraseña) -->
+  <div id="role-panel-kam" style="display:none">
+    <div class="kam-box" id="kam-login">
+      <h3>🔒 Acceso KAM</h3>
+      <p>Ingresa la contraseña para cambiar el flyer del rush.</p>
+      <div class="kam-row">
+        <input type="password" id="kam-pass" placeholder="Contraseña" autocomplete="current-password" style="flex:1">
+        <button class="kam-btn" id="kam-login-btn" onclick="kamLogin()">Ingresar</button>
+      </div>
+      <div class="kam-msg" id="kam-login-msg"></div>
+    </div>
+    <div class="kam-box" id="kam-editor" style="display:none">
+      <h3>🔥 Flyer del rush</h3>
+      <p>Sube la imagen (JPG, PNG o WEBP). Se verá en el buscador y en el dashboard de todas las tiendas, sobre los Top LakiDey y Rapiraspa. Al publicar reemplaza al flyer anterior. Tarda unos <b>3 a 5 minutos</b> en verse publicado.</p>
+      <img class="kam-prev" id="kam-prev" alt="Vista previa" style="display:none">
+      <div class="kam-row"><label>Imagen<input type="file" id="kam-file" accept="image/*"></label></div>
+      <div class="kam-row">
+        <label>Visible desde (opcional)<input type="date" id="kam-desde"></label>
+        <label>Visible hasta (opcional)<input type="date" id="kam-hasta"></label>
+      </div>
+      <div class="kam-row">
+        <button class="kam-btn" id="kam-pub" onclick="kamPublicar()">Publicar flyer</button>
+        <button class="kam-btn sec" id="kam-del" onclick="kamQuitar()">Quitar flyer</button>
+      </div>
+      <div class="kam-msg" id="kam-msg"></div>
+    </div>
   </div>
 
   <!-- Panel: Ranking de supervisores → avance agregado de sus tiendas -->
@@ -1535,6 +1601,9 @@
     <!-- Premios por clúster -->
     <div class="pz-card" id="premios-card" style="display:none"></div>
 
+    <!-- Flyer rush en móvil -->
+    <div class="rush-card rush-mobile" hidden><div class="rush-lbl">🔥 Rush del fin de semana</div><img alt="Flyer rush" onclick="zoomRush(this.src)"></div>
+
     <!-- Top Turbito / LakiDey / Rapiraspa del mes de incentivo (solo móvil; en desktop van a los lados) -->
     <div class="top-card top-mobile" id="top-card" style="display:none">
       <div class="top-hdr">
@@ -1608,19 +1677,21 @@
   </div>
 </div>
 
-<!-- Top Turbito (izquierda), Top LakiDey y Top Rapiraspa (derecha): solo desktop -->
-<div class="top-card top-side left" id="top-side-Turbito">
-  <div class="top-hdr"><div class="card-title top-title" style="margin-bottom:0"></div></div>
-  <div class="top-me"></div>
-  <div class="top-list"></div>
+<!-- Solo desktop. Izquierda: flyer rush (si hay uno vigente) + Top LakiDey + Top Rapiraspa. Derecha: Top Turbito -->
+<div class="side-col" id="side-left">
+  <div class="rush-card rush-side" hidden><div class="rush-lbl">🔥 Rush del fin de semana</div><img alt="Flyer rush" onclick="zoomRush(this.src)"></div>
+  <div class="top-card top-side" id="top-side-LakiDey">
+    <div class="top-hdr"><div class="card-title top-title" style="margin-bottom:0"></div></div>
+    <div class="top-me"></div>
+    <div class="top-list"></div>
+  </div>
+  <div class="top-card top-side" id="top-side-Rapiraspa">
+    <div class="top-hdr"><div class="card-title top-title" style="margin-bottom:0"></div></div>
+    <div class="top-me"></div>
+    <div class="top-list"></div>
+  </div>
 </div>
-<div class="top-card top-side right" id="top-side-LakiDey">
-  <div class="top-hdr"><div class="card-title top-title" style="margin-bottom:0"></div></div>
-  <div class="top-me"></div>
-  <div class="top-list"></div>
-</div>
-<!-- Top Rapiraspa: al lado de LakiDey (debajo si no hay espacio) -->
-<div class="top-card top-side right2" id="top-side-Rapiraspa">
+<div class="top-card top-side right" id="top-side-Turbito">
   <div class="top-hdr"><div class="card-title top-title" style="margin-bottom:0"></div></div>
   <div class="top-me"></div>
   <div class="top-list"></div>
@@ -1682,7 +1753,7 @@
   }
 
   function setRole(role) {
-    ['tienda','jz','gz','rank','rsup'].forEach(r => {
+    ['tienda','jz','gz','rank','rsup','kam'].forEach(r => {
       const tab = document.getElementById('tab-' + r);
       if (!tab) return;
       tab.classList.toggle('active', r === role);
@@ -2661,7 +2732,7 @@
 
   function setTopJuego(juego) { _topJuego = juego; renderTopCard(); renderSsTop(); }
 
-  // Tarjetas laterales en desktop: Turbito a la izquierda, LakiDey y Rapiraspa a la derecha
+  // Tarjetas laterales en desktop: LakiDey y Rapiraspa a la izquierda (bajo el flyer rush), Turbito a la derecha
   function renderTopSides(store) {
     ['Turbito', 'LakiDey', 'Rapiraspa'].forEach(juego => {
       const card = document.getElementById('top-side-' + juego);
@@ -2669,6 +2740,188 @@
       card.classList.add('on');
       card.scrollTop = 0;
     });
+    const col = document.getElementById('side-left');
+    col.classList.add('on');
+    col.scrollTop = 0;
+  }
+
+  // ── FLYER RUSH ─────────────────────────────────────────────
+  // La KAM lo sube desde la pestaña 🔒 KAM: la página hace commit de data/rush.json en main con la
+  // API de GitHub (el push dispara build-dist). El token va cifrado con la contraseña de la KAM
+  // (AES-GCM + PBKDF2). Para generar RUSH_TOKEN_ENC: scripts/cifrar_token_rush.js.
+  const RUSH_REPO = 'Leonardow33/MAPA_RC_INTERACTIVO';
+  const RUSH_PATH = 'data/rush.json';
+  const RUSH_TOKEN_ENC = {"s":"W+KSwvk7cW2CUjvwAG0ttw==","i":"PDQp8tFG+3lrbRnv","c":"tcJoqCSXK9ksrb+YiF5SQx02IWGALO/gCibJTf/XE9Jlyrl6kvEPtdMvfQOmSJjI+BlhdnIiljXXpeqvME4yPWZhuM76Ph+UQ9DzYBN+F2Nwmh0OUKWKH5EblBAXxIloMDo/6YpPfkHJ6FszSg=="}; // scripts/cifrar_token_rush.js
+  let _kamToken = null, _kamImg = null;
+
+  const hoyLima = () => new Date(Date.now() - 5 * 3600e3).toISOString().slice(0, 10);
+
+  function rushVigente(r) {
+    if (!r || !r.imagen) return false;
+    const h = hoyLima();
+    return !(r.desde && h < r.desde) && !(r.hasta && h > r.hasta);
+  }
+
+  function pintarRush(r) {
+    const ok = rushVigente(r);
+    document.querySelectorAll('.rush-card').forEach(c => {
+      c.hidden = !ok;
+      if (ok) c.querySelector('img').src = r.imagen;
+    });
+  }
+
+  async function loadRush() {
+    try {
+      const res = await fetch('../' + RUSH_PATH + '?t=' + Date.now());
+      if (res.ok) pintarRush(await res.json());
+    } catch (e) { /* sin flyer */ }
+  }
+
+  function zoomRush(src) {
+    const d = document.createElement('div');
+    d.className = 'rush-zoom';
+    d.innerHTML = `<img src="${src}" alt="Flyer rush">`;
+    d.onclick = () => d.remove();
+    document.body.appendChild(d);
+  }
+
+  const _b64ToBytes = s => Uint8Array.from(atob(s), c => c.charCodeAt(0));
+
+  async function kamLogin() {
+    const pass = document.getElementById('kam-pass').value;
+    const msg  = document.getElementById('kam-login-msg');
+    const btn  = document.getElementById('kam-login-btn');
+    if (!pass) return;
+    if (!RUSH_TOKEN_ENC) { msg.className = 'kam-msg err'; msg.textContent = 'El panel aún no está configurado.'; return; }
+    btn.disabled = true; msg.className = 'kam-msg'; msg.textContent = 'Verificando…';
+    try {
+      const enc  = new TextEncoder();
+      const base = await crypto.subtle.importKey('raw', enc.encode(pass), 'PBKDF2', false, ['deriveKey']);
+      const key  = await crypto.subtle.deriveKey(
+        { name: 'PBKDF2', salt: _b64ToBytes(RUSH_TOKEN_ENC.s), iterations: 600000, hash: 'SHA-256' },
+        base, { name: 'AES-GCM', length: 256 }, false, ['decrypt']);
+      const pt   = await crypto.subtle.decrypt({ name: 'AES-GCM', iv: _b64ToBytes(RUSH_TOKEN_ENC.i) }, key, _b64ToBytes(RUSH_TOKEN_ENC.c));
+      _kamToken  = new TextDecoder().decode(pt);
+      document.getElementById('kam-pass').value = '';
+      document.getElementById('kam-login').style.display  = 'none';
+      document.getElementById('kam-editor').style.display = '';
+      kamCargarActual();
+    } catch (e) {
+      msg.className = 'kam-msg err'; msg.textContent = 'Contraseña incorrecta.';
+    } finally { btn.disabled = false; }
+  }
+
+  const _kamHeaders = () => ({ Authorization: 'Bearer ' + _kamToken, Accept: 'application/vnd.github+json' });
+
+  // Lee el rush.json actual desde GitHub (no espera a la publicación en Pages)
+  async function kamGet() {
+    const res = await fetch(`https://api.github.com/repos/${RUSH_REPO}/contents/${RUSH_PATH}?ref=main&t=${Date.now()}`, { headers: _kamHeaders() });
+    if (res.status === 404) return { sha: null, data: null };
+    if (!res.ok) throw new Error('GitHub respondió ' + res.status);
+    const j = await res.json();
+    let data = null;
+    try {
+      const raw = await fetch(`https://api.github.com/repos/${RUSH_REPO}/contents/${RUSH_PATH}?ref=main&t=${Date.now()}`,
+        { headers: { ..._kamHeaders(), Accept: 'application/vnd.github.raw+json' } }).then(r => r.text());
+      data = JSON.parse(raw.replace(/^﻿/, ''));
+    } catch (e) {}
+    return { sha: j.sha, data };
+  }
+
+  async function kamCargarActual() {
+    const msg = document.getElementById('kam-msg');
+    try {
+      const { data } = await kamGet();
+      if (data && data.imagen) {
+        const prev = document.getElementById('kam-prev');
+        prev.src = data.imagen; prev.style.display = '';
+        document.getElementById('kam-desde').value = data.desde || '';
+        document.getElementById('kam-hasta').value = data.hasta || '';
+        msg.className = 'kam-msg';
+        msg.textContent = 'Flyer actual' + (data.updated ? ' (subido el ' + new Date(data.updated).toLocaleString('es-PE', { timeZone: 'America/Lima' }) + ')' : '') +
+          (rushVigente(data) ? '' : ' · ahora no está visible por las fechas');
+      } else { msg.className = 'kam-msg'; msg.textContent = 'No hay flyer publicado.'; }
+    } catch (e) { msg.className = 'kam-msg err'; msg.textContent = 'No se pudo leer el flyer actual: ' + e.message; }
+  }
+
+  // Comprime la imagen a WEBP (máx. 1080×1600) para que el JSON quede liviano
+  function kamComprimir(file) {
+    return new Promise((resolve, reject) => {
+      const img = new Image();
+      img.onload = () => {
+        const k = Math.min(1, 1080 / img.width, 1600 / img.height);
+        const c = document.createElement('canvas');
+        c.width = Math.round(img.width * k); c.height = Math.round(img.height * k);
+        c.getContext('2d').drawImage(img, 0, 0, c.width, c.height);
+        let q = 0.85, url = c.toDataURL('image/webp', q);
+        while (url.length > 900000 && q > 0.4) { q -= 0.1; url = c.toDataURL('image/webp', q); }
+        URL.revokeObjectURL(img.src);
+        resolve(url);
+      };
+      img.onerror = () => reject(new Error('No se pudo leer la imagen'));
+      img.src = URL.createObjectURL(file);
+    });
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    loadRush();
+    document.getElementById('kam-pass').addEventListener('keydown', e => { if (e.key === 'Enter') kamLogin(); });
+    document.getElementById('kam-file').addEventListener('change', async e => {
+      const f = e.target.files[0];
+      if (!f) return;
+      const msg = document.getElementById('kam-msg');
+      try {
+        _kamImg = await kamComprimir(f);
+        const prev = document.getElementById('kam-prev');
+        prev.src = _kamImg; prev.style.display = '';
+        msg.className = 'kam-msg'; msg.textContent = 'Vista previa del nuevo flyer. Pulsa "Publicar flyer".';
+      } catch (err) { _kamImg = null; msg.className = 'kam-msg err'; msg.textContent = err.message; }
+    });
+  });
+
+  async function kamGuardar(data, texto) {
+    const msg = document.getElementById('kam-msg');
+    const btns = [document.getElementById('kam-pub'), document.getElementById('kam-del')];
+    btns.forEach(b => b.disabled = true);
+    msg.className = 'kam-msg'; msg.textContent = 'Publicando…';
+    try {
+      const content = btoa(unescape(encodeURIComponent(JSON.stringify(data))));
+      for (let intento = 0; intento < 2; intento++) {
+        const { sha } = await kamGet();
+        const res = await fetch(`https://api.github.com/repos/${RUSH_REPO}/contents/${RUSH_PATH}`, {
+          method: 'PUT', headers: _kamHeaders(),
+          body: JSON.stringify({ message: 'chore: ' + texto + ' (panel KAM)', content, branch: 'main', ...(sha ? { sha } : {}) }) });
+        if (res.ok) {
+          pintarRush(data);
+          msg.className = 'kam-msg ok';
+          msg.textContent = '✅ Listo. Se verá para todos en unos 3 a 5 minutos.';
+          return true;
+        }
+        if (res.status !== 409 && res.status !== 422) throw new Error('GitHub respondió ' + res.status);
+      }
+      throw new Error('conflicto al guardar, intenta de nuevo');
+    } catch (e) {
+      msg.className = 'kam-msg err'; msg.textContent = 'No se pudo publicar: ' + e.message;
+      return false;
+    } finally { btns.forEach(b => b.disabled = false); }
+  }
+
+  async function kamPublicar() {
+    const msg   = document.getElementById('kam-msg');
+    const desde = document.getElementById('kam-desde').value || null;
+    const hasta = document.getElementById('kam-hasta').value || null;
+    if (!_kamImg) { msg.className = 'kam-msg err'; msg.textContent = 'Primero elige una imagen.'; return; }
+    if (desde && hasta && hasta < desde) { msg.className = 'kam-msg err'; msg.textContent = 'La fecha "hasta" es anterior a "desde".'; return; }
+    if (await kamGuardar({ imagen: _kamImg, desde, hasta, updated: new Date().toISOString() }, 'actualizar flyer rush AT')) {
+      _kamImg = null; document.getElementById('kam-file').value = '';
+    }
+  }
+
+  async function kamQuitar() {
+    if (!confirm('¿Quitar el flyer? Las tiendas dejarán de verlo.')) return;
+    if (await kamGuardar({ imagen: null, desde: null, hasta: null, updated: new Date().toISOString() }, 'quitar flyer rush AT')) {
+      document.getElementById('kam-prev').style.display = 'none';
+    }
   }
 
   function pctColor(pct) {
