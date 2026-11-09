@@ -849,7 +849,11 @@
         width: 300px; max-height: calc(100vh - 100px); overflow-y: auto; scrollbar-width: thin; z-index: 2;
         box-shadow: 0 8px 30px rgba(13,31,53,.12);
       }
-      .top-side.right { left:  calc(50% + 246px); }   /* Turbito */
+      /* Turbito: más ancho y alto (top 10 + 5 que se acercan), con scroll si no entra */
+      .top-side.right.on {
+        left: calc(50% + 246px); top: 76px; transform: none;
+        width: clamp(300px, calc(50vw - 280px), 400px); max-height: calc(100vh - 90px);
+      }
       /* Columna izquierda: flyer rush arriba y debajo LakiDey y Rapiraspa (top 5) */
       .side-col.on {
         display: flex; flex-direction: column; gap: 10px;
@@ -870,14 +874,16 @@
 
     /* ── FLYER RUSH (lo sube la KAM desde la pestaña 🔒 KAM) ── */
     .rush-card {
-      background: var(--surf); border: 2px solid #E0218A; border-radius: 16px; padding: 8px;
+      background: #E0218A; border: 2px solid #E0218A; border-radius: 16px; padding: 0; overflow: hidden;
       box-shadow: 0 8px 30px rgba(13,31,53,.12); text-align: center;
     }
     .rush-card[hidden] { display: none !important; }
-    .rush-lbl { font-size: 10px; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; color: #E0218A; margin: 2px 0 6px; }
-    .rush-card img { display: block; width: 100%; max-height: 46vh; object-fit: contain; border-radius: 10px; cursor: zoom-in; }
+    .rush-lbl { font-size: 10px; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; color: #fff; padding: 5px 0 4px; }
+    /* La imagen ocupa todo el ancho, sin bordes ni recorte */
+    .rush-card img { display: block; width: 100%; height: auto; cursor: zoom-in; }
     .rush-mobile { width: 100%; max-width: 420px; margin: 0 auto 14px; }
-    .rush-mobile img { max-height: none; }
+    .top-near { font-size: 10px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; color: var(--tc); text-align: center; margin: 6px 0 2px; }
+    .top-list .rk-row.near { opacity: .85; }
     @media (min-width: 1100px) { .rush-mobile { display: none !important; } }
     .rush-zoom { position: fixed; inset: 0; z-index: 9999; background: rgba(0,0,0,.85); display: flex; align-items: center; justify-content: center; padding: 16px; cursor: zoom-out; }
     .rush-zoom img { max-width: 100%; max-height: 100%; object-fit: contain; border-radius: 10px; }
@@ -2698,7 +2704,8 @@
 
   // Llena una tarjeta Top (móvil o lateral). Sin tienda (buscador) solo muestra el top 10.
   // `lim`: cuántas tiendas listar (10 por defecto; 5 en LakiDey y Rapiraspa laterales)
-  function fillTopCard(card, juego, store, lim = 10) {
+  // `extra`: tiendas adicionales bajo "Se están acercando" (Turbito lateral: 5)
+  function fillTopCard(card, juego, store, lim = 10, extra = 0) {
     const rows  = topDe(juego);
     const id    = store ? String(store.ID) : null;
     const idx   = id ? rows.findIndex(r => String(r.s.ID) === id) : -1;
@@ -2718,13 +2725,14 @@
     else                  msg = `Eres <b>top ${idx + 1}</b> de ${rows.length}. ¡Tú puedes entrar al top ${lim}! Te faltan ${faltaPara(lim - 1)}. 🎁 Los 3 primeros ganan hasta <b>S/ 60</b>.`;
     card.querySelector('.top-me').innerHTML = msg;
 
-    const top = rows.slice(0, lim).filter(r => r.sold > 0);
+    const top = rows.slice(0, lim + extra).filter(r => r.sold > 0);
     const max = top.length ? top[0].sold : 0;
     const list = card.querySelector('.top-list');
     list.innerHTML = !top.length
       ? `<div class="top-empty">Aún no hay ventas de ${juego} en este mes de incentivo.</div>`
-      : top.map((r, i) => topRowHTML(r, i, max, id)).join('') +
-        (idx >= lim && me.sold > 0 ? '<div class="top-sep">⋯</div>' + topRowHTML(me, idx, max, id) : '');
+      : top.map((r, i) => (i === lim ? '<div class="top-near">🔥 Se están acercando</div>' : '') +
+          (i >= lim ? topRowHTML(r, i, max, id).replace('class="rk-row', 'class="rk-row near') : topRowHTML(r, i, max, id))).join('') +
+        (idx >= lim + extra && me.sold > 0 ? '<div class="top-sep">⋯</div>' + topRowHTML(me, idx, max, id) : '');
     bindRankRows(list);
   }
 
@@ -2746,7 +2754,8 @@
   function renderTopSides(store) {
     ['Turbito', 'LakiDey', 'Rapiraspa'].forEach(juego => {
       const card = document.getElementById('top-side-' + juego);
-      fillTopCard(card, juego, store, juego === 'Turbito' ? 10 : 5);
+      if (juego === 'Turbito') fillTopCard(card, juego, store, 10, 5);
+      else fillTopCard(card, juego, store, 5);
       card.classList.add('on');
       card.scrollTop = 0;
     });
