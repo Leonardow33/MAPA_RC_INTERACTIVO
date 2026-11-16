@@ -1855,6 +1855,7 @@ function renderDashboard() {
             </div>
         </div>
 
+        ${htmlReporteRC()}
         ${htmlComision()}
 
         <div class="dash-card" style="margin-bottom:12px">
@@ -1944,32 +1945,41 @@ function excepcionesISO() {
     return excepcionales.map(e => ({ ...e, fecha: String(e.fecha || '').slice(0, 10) }));
 }
 
-// Visitas por fecha de un rango, reutilizando el mismo caché semanal del dashboard
-async function cargarVisitasRango(desde, hasta) {
-    const porFecha = {};
+// Datos crudos por fecha de un rango ({ fecha: [ {rc, visitas} ] }), con el mismo caché semanal del dashboard
+async function cargarVisitasRangoRaw(desde, hasta) {
     const lunesHoy = PLAN.lunesDe(PLAN.hoyLima());
-    for (let lunes = PLAN.lunesDe(desde); lunes <= hasta; lunes = PLAN.sumarDias(lunes, 7)) {
+    const lunesL = [];
+    for (let lunes = PLAN.lunesDe(desde); lunes <= hasta; lunes = PLAN.sumarDias(lunes, 7)) lunesL.push(lunes);
+    const semanas = await Promise.all(lunesL.map(async lunes => {
         const cacheKey = `mapasrc_rc_${lunes}`;
         const ttl = (lunes === lunesHoy ? 10 : 24 * 60) * 60000;
-        let data = null;
         try {
             const c = JSON.parse(localStorage.getItem(cacheKey) || 'null');
-            if (c && (Date.now() - c.ts) < ttl) data = c.data;
+            if (c && (Date.now() - c.ts) < ttl) return c.data;
         } catch (e) {}
-        if (!data) {
-            try {
-                const r = await fetch(SHEET_URL + `?action=getVisitasSemana&fecha=${lunes}`);
-                const j = await r.json();
-                data = (j && typeof j === 'object' && !Array.isArray(j)) ? j : {};
-                try { localStorage.setItem(cacheKey, JSON.stringify({ ts: Date.now(), data })); } catch (e) {}
-            } catch (e) { data = {}; }
-        }
-        Object.entries(data).forEach(([fecha, dia]) => {
-            const set = porFecha[fecha] || (porFecha[fecha] = new Set());
-            (Array.isArray(dia) ? dia : []).forEach(rc =>
-                (rc.visitas || []).forEach(v => { if (v.id) set.add(normalizeID(v.id)); }));
-        });
-    }
+        try {
+            const r = await fetch(SHEET_URL + `?action=getVisitasSemana&fecha=${lunes}`);
+            const j = await r.json();
+            const data = (j && typeof j === 'object' && !Array.isArray(j)) ? j : {};
+            try { localStorage.setItem(cacheKey, JSON.stringify({ ts: Date.now(), data })); } catch (e) {}
+            return data;
+        } catch (e) { return {}; }
+    }));
+    const out = {};
+    semanas.forEach(data => Object.entries(data).forEach(([fecha, dia]) => {
+        if (fecha >= desde && fecha <= hasta) out[fecha] = Array.isArray(dia) ? dia : [];
+    }));
+    return out;
+}
+
+// Visitas por fecha de un rango ({ fecha: Set<id> }), incluye la semana completa del primer lunes
+async function cargarVisitasRango(desde, hasta) {
+    const raw = await cargarVisitasRangoRaw(PLAN.lunesDe(desde), hasta);
+    const porFecha = {};
+    Object.entries(raw).forEach(([fecha, dia]) => {
+        const set = porFecha[fecha] || (porFecha[fecha] = new Set());
+        dia.forEach(rc => (rc.visitas || []).forEach(v => { if (v.id) set.add(normalizeID(v.id)); }));
+    });
     return porFecha;
 }
 
@@ -2089,6 +2099,414 @@ function descargarComisionExcel() {
     a.download = `Cumplimiento_Comision_${res.desde}_${res.hasta}${dashRCFilter ? '_' + dashRCFilter : ''}.xls`;
     a.click();
     URL.revokeObjectURL(a.href);
+}
+
+// ── REPORTE MENSUAL DE VISITAS POR RC (Excel, agrupado por tipo de RC) ─────
+// Tipo de RC según su cartera ACTIVA actual: Provincia (≥50% de tiendas en provincia),
+// Tambo Lima, Casas de apuesta Lima, Promotoras Cencosud o Mixto Lima.
+const TIPOS_RC = ['TAMBO LIMA', 'CASAS DE APUESTA LIMA', 'PROVINCIA', 'MIXTO LIMA', 'PROMOTORAS CENCOSUD', 'VACANTE'];
+const _reporteRC = { periodo: 'actual', tipo: 'ALL', rc: 'ALL', cargando: false, error: '', res: null };
+
+function tipoDeRC(rc, cartera) {
+    if (/^VACANTE/i.test(rc)) return 'VACANTE';
+    const n = cartera.length || 1;
+    const cuenta = f => cartera.filter(f).length / n;
+    if (cuenta(p => (p.tipo || '').toUpperCase() === 'CENCOSUD') >= 0.5) return 'PROMOTORAS CENCOSUD';
+    if (cuenta(p => (p.zonal_tipo || '').toUpperCase() === 'PROVINCIA') >= 0.5) return 'PROVINCIA';
+    if (cuenta(p => (p.tipo || '').toUpperCase() === 'TAMBO') >= 0.5) return 'TAMBO LIMA';
+    if (cuenta(p => (p.tipo || '').toUpperCase() === 'CASA DE APUESTA') >= 0.5) return 'CASAS DE APUESTA LIMA';
+    return 'MIXTO LIMA';
+}
+
+// { rc: { tipo, cartera: [puntos ACTIVO], supervisor } }
+function carterasRC() {
+    const m = {};
+    puntosData.forEach(p => {
+        if ((p.estado || '').toUpperCase() !== 'ACTIVO' || !p.rc || p.rc === 'SIN RC') return;
+        (m[p.rc] || (m[p.rc] = { cartera: [] })).cartera.push(p);
+    });
+    Object.entries(m).forEach(([rc, o]) => {
+        o.tipo = tipoDeRC(rc, o.cartera);
+        const sups = {};
+        o.cartera.forEach(p => { if (p.supervisor) sups[p.supervisor] = (sups[p.supervisor] || 0) + 1; });
+        o.supervisor = Object.entries(sups).sort((a, b) => b[1] - a[1])[0]?.[0] || '';
+    });
+    return m;
+}
+
+function rangoReporte(periodo) {
+    const hoy = PLAN.hoyLima();
+    const ini = hoy.slice(0, 8) + '01';
+    const finAnt = PLAN.sumarDias(ini, -1), iniAnt = finAnt.slice(0, 8) + '01';
+    if (periodo === 'anterior') return { desde: iniAnt, hasta: finAnt };
+    if (periodo === 'ambos') return { desde: iniAnt, hasta: hoy };
+    return { desde: ini, hasta: hoy };
+}
+
+const estadoCumpl = pct => pct === null ? 'SIN RUTA' : pct >= 90 ? 'CUMPLE' : pct >= 70 ? 'EN RIESGO' : 'NO CUMPLE';
+
+async function generarReporteRC() {
+    const periodo = document.getElementById('repPeriodo')?.value || _reporteRC.periodo;
+    const tipo    = document.getElementById('repTipo')?.value    || 'ALL';
+    const rcSel   = document.getElementById('repRC')?.value      || 'ALL';
+    Object.assign(_reporteRC, { periodo, tipo, rc: rcSel, cargando: true, error: '' });
+    renderDashboard();
+    try {
+        const { desde, hasta } = rangoReporte(periodo);
+        await _planListo;
+        await PLAN.asegurarRango(PLAN.lunesDe(desde), hasta);
+        if (!excepcionales.length) {
+            try { excepcionales = await (await fetch(SHEET_URL + '?action=getExcepcionales')).json(); } catch (_) {}
+        }
+        const raw = await cargarVisitasRangoRaw(PLAN.lunesDe(desde), hasta);
+        const visitadoEn = {};   // fecha → Set<id>
+        Object.entries(raw).forEach(([f, dia]) => {
+            const set = visitadoEn[f] = new Set();
+            dia.forEach(r => (r.visitas || []).forEach(v => { if (v.id) set.add(normalizeID(v.id)); }));
+        });
+        const carteras = carterasRC();
+        const incluye = rc => carteras[rc] && (tipo === 'ALL' || carteras[rc].tipo === tipo) && (rcSel === 'ALL' || rc === rcSel);
+        const cum = PLAN.cumplimiento({
+            puntos: puntosData, desde, hasta,
+            fueVisitada: (id, f) => (visitadoEn[f] || new Set()).has(normalizeID(id)),
+            excepciones: excepcionesISO(),
+        });
+        const fin = cum.hasta;
+        const puntosMap = new Map(puntosData.map(p => [normalizeID(p.ID), p]));
+        const excMap = new Map();
+        excepcionesISO().forEach(e => { const c = PLAN.codigoExcepcion(e); if (c) excMap.set(PLAN.normDia(e.nombre) + '|' + e.fecha, c); });
+
+        // Lo planificado: por día y RC (feriados = 0) y por semana (cualquier RC)
+        const DIA_DE = f => PLAN.DIAS_ORDEN[(new Date(f + 'T12:00:00').getDay() + 6) % 7] || 'DOMINGO';
+        const activos = puntosData.filter(p => (p.estado || '').toUpperCase() === 'ACTIVO');
+        const planDia = {}, planSemana = {};   // planDia[f][rc] = Set<id> · planSemana[lunes] = Set<id>
+        for (let f = PLAN.lunesDe(desde); f <= fin; f = PLAN.sumarDias(f, 1)) {
+            if (new Date(f + 'T12:00:00').getDay() === 0) continue;
+            const pd = planDia[f] = {}, ps = planSemana[PLAN.lunesDe(f)] || (planSemana[PLAN.lunesDe(f)] = new Set());
+            const plan = PLAN.planVigente(f), feriado = PLAN.tipoDia(f) === 'FERIADO';
+            activos.forEach(p => {
+                if (!PLAN.programadaEn(plan, p, f)) return;
+                const id = normalizeID(p.ID);
+                ps.add(id);
+                if (!feriado) { const rc = PLAN.rcDeTienda(p, f); (pd[rc] || (pd[rc] = new Set())).add(id); }
+            });
+        }
+
+        // Visitas registradas por RC (pares ENTRADA/SALIDA) dentro del rango
+        const actRC = {};    // rc → { visitas, dias:Set, tiempos:[], fuera, porDia:{fecha:{...}} }
+        const visitasTienda = {};   // id → { dias:Set, ultima }
+        const visitasDet = [];      // una fila por visita
+        Object.entries(raw).sort().forEach(([f, dia]) => {
+            if (f < desde || f > fin) return;
+            dia.forEach(entry => {
+                const rc = entry.rc || '';
+                const filas = visitasDelDia([entry]);
+                if (!filas.length) return;
+                const a = actRC[rc] || (actRC[rc] = { visitas: 0, dias: new Set(), tiempos: [], fuera: 0, porDia: {} });
+                const d = a.porDia[f] || (a.porDia[f] = { visitas: 0, ids: new Set(), primera: '', ultima: '', tiempos: [] });
+                a.dias.add(f);
+                const plHoy = (planDia[f] || {})[rc] || new Set();
+                filas.forEach(v => {
+                    a.visitas++; d.visitas++; d.ids.add(v.id);
+                    const pv = puntosMap.get(v.id) || {};
+                    visitasDet.push({
+                        fecha: f, dia: DIA_DE(f), rc, n: v.n, id: v.id, nombre: pv.nombre || v.tienda || '', partner: pv.responsable || '',
+                        distrito: pv.distrito || '', entrada: v.entrada, salida: v.salida, tiempo: v.tiempo ? Math.round(v.tiempo / 60) : '',
+                        planHoy: plHoy.has(v.id) ? 'SÍ' : 'NO', planSem: (planSemana[PLAN.lunesDe(f)] || new Set()).has(v.id) ? 'SÍ' : 'NO',
+                        cartera: pv.rc === rc ? 'SÍ' : 'NO',
+                    });
+                    if (v.tiempo) { a.tiempos.push(v.tiempo); d.tiempos.push(v.tiempo); }
+                    const h1 = v.entrada || v.salida, h2 = v.salida || v.entrada;
+                    if (h1 && (!d.primera || h1 < d.primera)) d.primera = h1;
+                    if (h2 && (!d.ultima || h2 > d.ultima)) d.ultima = h2;
+                    const p = puntosMap.get(v.id);
+                    if (!p || p.rc !== rc) a.fuera++;
+                    const t = visitasTienda[v.id] || (visitasTienda[v.id] = { dias: new Set(), ultima: '' });
+                    t.dias.add(f);
+                    if (f > t.ultima) t.ultima = f;
+                });
+            });
+        });
+        const prom = arr => arr.length ? Math.round(arr.reduce((x, y) => x + y, 0) / arr.length / 60) : '';
+
+        // Hoja: resumen por RC
+        const porRC = Object.keys(carteras).filter(incluye).map(rc => {
+            const c = carteras[rc], r = cum.porRC[rc] || { planificadas: 0, feriado: 0, excepcion: 0, efectivas: 0, cumplidas: 0, pct: null, maxFuerte: 0, maxImpulso: 0 };
+            const a = actRC[rc] || { visitas: 0, dias: new Set(), tiempos: [], fuera: 0 };
+            const visitadas = c.cartera.filter(p => visitasTienda[normalizeID(p.ID)]).length;
+            const cfg = PLAN.infoRC(rc, fin);
+            return {
+                tipo: c.tipo, rc, supervisor: c.supervisor, ruta: cfg ? `Ciclo ${cfg.T} sem` : 'SharePoint',
+                tiendas: c.cartera.length, planificadas: r.planificadas, feriado: r.feriado, excepcion: r.excepcion,
+                efectivas: r.efectivas, cumplidas: r.cumplidas, faltantes: r.efectivas - r.cumplidas, pct: r.pct,
+                estado: estadoCumpl(r.pct), visitadas, sinVisita: c.cartera.length - visitadas,
+                cobertura: c.cartera.length ? Math.round(visitadas / c.cartera.length * 100) : null,
+                visitas: a.visitas, dias: a.dias.size, promDia: a.dias.size ? Math.round(a.visitas / a.dias.size * 10) / 10 : '',
+                tiempo: prom(a.tiempos), fuera: a.fuera, maxF: r.maxFuerte || 0, maxI: r.maxImpulso || 0,
+            };
+        }).sort((x, y) => TIPOS_RC.indexOf(x.tipo) - TIPOS_RC.indexOf(y.tipo) || (y.pct ?? -1) - (x.pct ?? -1) || x.rc.localeCompare(y.rc));
+
+        // Hoja: resumen por tipo
+        const porTipo = TIPOS_RC.map(t => {
+            const fs = porRC.filter(r => r.tipo === t);
+            if (!fs.length) return null;
+            const s = k => fs.reduce((x, r) => x + (r[k] || 0), 0);
+            const ef = s('efectivas'), cu = s('cumplidas'), ti = s('tiendas'), vi = s('visitadas');
+            return {
+                tipo: t, rcs: fs.length, tiendas: ti, planificadas: s('planificadas'), efectivas: ef, cumplidas: cu,
+                faltantes: ef - cu, pct: ef ? Math.round(cu / ef * 100) : null, cobertura: ti ? Math.round(vi / ti * 100) : null,
+                cumple: fs.filter(r => r.estado === 'CUMPLE').length, riesgo: fs.filter(r => r.estado === 'EN RIESGO').length,
+                noCumple: fs.filter(r => r.estado === 'NO CUMPLE').length, visitas: s('visitas'),
+            };
+        }).filter(Boolean);
+
+        // Hoja: detalle por tienda y hoja de faltas
+        const rcsInc = new Set(porRC.map(r => r.rc));
+        const tiendas = [], faltas = [];
+        Object.values(cum.porTienda).forEach(t => {
+            if (!rcsInc.has(t.rc)) return;
+            const p = puntosMap.get(normalizeID(t.id)) || {};
+            const vt = visitasTienda[normalizeID(t.id)];
+            const base = { tipo: carteras[t.rc]?.tipo || '', rc: t.rc, id: t.id, nombre: p.nombre || '', partner: p.responsable || '' };
+            tiendas.push({ ...base, tipoTienda: p.tipo || '', zona: p.zonal_tipo || '', distrito: p.distrito || '', frecuencia: p.frecuencia || '',
+                planificadas: t.planificadas, feriado: t.feriado, excepcion: t.excepcion, efectivas: t.efectivas, cumplidas: t.cumplidas,
+                faltantes: t.efectivas - t.cumplidas, nVisitas: vt ? vt.dias.size : 0, ultima: vt ? vt.ultima : '',
+                estado: !t.efectivas ? 'SIN VISITA EFECTIVA' : t.cumplidas >= t.efectivas ? 'AL DÍA' : t.cumplidas ? 'CON FALTAS' : 'NUNCA VISITADA' });
+            t.faltas.forEach(f => faltas.push({ ...base, semana: PLAN.lunesDe(f), fecha: f, dia: PLAN.DIAS_ORDEN[(new Date(f + 'T12:00:00').getDay() + 6) % 7] || '', ultima: vt ? vt.ultima : '' }));
+        });
+        const ordT = (x, y) => TIPOS_RC.indexOf(x.tipo) - TIPOS_RC.indexOf(y.tipo) || x.rc.localeCompare(y.rc);
+        tiendas.sort((x, y) => ordT(x, y) || y.faltantes - x.faltantes || x.nombre.localeCompare(y.nombre));
+        faltas.sort((x, y) => ordT(x, y) || x.fecha.localeCompare(y.fecha) || x.nombre.localeCompare(y.nombre));
+
+        // Hoja: diario por RC (una fila por RC y día lun–sáb) + matriz RC × día
+        const diario = [];
+        const fechas = [];
+        for (let f = desde; f <= fin; f = PLAN.sumarDias(f, 1)) if (new Date(f + 'T12:00:00').getDay() !== 0) fechas.push(f);
+        const matriz = porRC.map(r => ({ tipo: r.tipo, rc: r.rc, celdas: {}, diasPlan: 0, diasVisito: 0, diasSinVisita: 0, puntos: 0, plan: 0, planVis: 0 }));
+        const matrizDe = Object.fromEntries(matriz.map(m => [m.rc, m]));
+        fechas.forEach(f => {
+            const feriado = PLAN.tipoDia(f) === 'FERIADO';
+            rcsInc.forEach(rc => {
+                const pl = (planDia[f] || {})[rc] || new Set(), d = actRC[rc]?.porDia[f];
+                const ids = d ? d.ids : new Set();
+                const exc = excMap.get(PLAN.normDia(rc) + '|' + f) || '';
+                const visPlan = [...pl].filter(id => ids.has(id)).length;
+                const visitoPlanSem = [...pl].filter(id => fechas.some(g => g >= PLAN.lunesDe(f) && g <= PLAN.sumarDias(PLAN.lunesDe(f), 5) && (visitadoEn[g] || new Set()).has(id))).length;
+                const obs = feriado ? 'FERIADO ' + PLAN.feriadoNombre(f) : exc;
+                const estado = feriado || exc ? (ids.size ? 'TRABAJÓ' : 'NO APLICA')
+                    : !ids.size ? (pl.size ? 'NO VISITÓ' : 'SIN PLAN')
+                    : !pl.size ? 'TRABAJÓ' : visPlan >= pl.size ? 'COMPLETO' : visPlan ? 'PARCIAL' : 'FUERA DE RUTA';
+                const m = matrizDe[rc];
+                m.celdas[f] = { plan: pl.size, vis: ids.size, visPlan, estado };
+                if (pl.size) m.diasPlan++;
+                if (ids.size) m.diasVisito++;
+                if (pl.size && !ids.size && !feriado && !exc) m.diasSinVisita++;
+                m.puntos += ids.size; m.plan += pl.size; m.planVis += visPlan;
+                diario.push({
+                    fecha: f, dia: DIA_DE(f), tipo: carteras[rc].tipo, rc, visito: ids.size ? 'SÍ' : 'NO', estado,
+                    planificadas: pl.size, puntos: ids.size, visitadasPlan: visPlan, faltan: Math.max(0, pl.size - visPlan),
+                    pctDia: pl.size ? Math.round(visPlan / pl.size * 100) : null, fueraPlan: [...ids].filter(id => !pl.has(id)).length,
+                    planSem: visitoPlanSem, visitas: d ? d.visitas : 0, primera: d ? d.primera : '', ultima: d ? d.ultima : '',
+                    jornada: d && d.primera && d.ultima ? Math.max(0, Math.round((_parseSeg(d.ultima) - _parseSeg(d.primera)) / 60)) : '',
+                    tiempo: d ? prom(d.tiempos) : '', obs,
+                });
+            });
+        });
+        diario.sort((x, y) => ordT(x, y) || x.fecha.localeCompare(y.fecha));
+        visitasDet.splice(0, visitasDet.length, ...visitasDet.filter(v => rcsInc.has(v.rc)));
+        visitasDet.forEach(v => { v.tipo = carteras[v.rc]?.tipo || ''; });
+        visitasDet.sort((x, y) => ordT(x, y) || x.fecha.localeCompare(y.fecha) || x.n - y.n);
+
+        _reporteRC.res = { desde, hasta: fin, porRC, porTipo, tiendas, faltas, diario, fechas, matriz, visitasDet, noReconocidas: cum.noReconocidas };
+        _reporteRC.cargando = false;
+        renderDashboard();
+        descargarReporteRCExcel();
+        return;
+    } catch (e) {
+        _reporteRC.error = 'No se pudo generar: ' + e.message;
+        console.error(e);
+    }
+    _reporteRC.cargando = false;
+    renderDashboard();
+}
+
+function descargarReporteRCExcel() {
+    const res = _reporteRC.res;
+    if (!res) return;
+    const esc = v => String(v ?? '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    const ESTILO = { 'CUMPLE': 'OK', 'AL DÍA': 'OK', 'EN RIESGO': 'RI', 'CON FALTAS': 'RI', 'NO CUMPLE': 'NO', 'NUNCA VISITADA': 'NO' };
+    const ESTADO_DIA = { 'COMPLETO': 'OK', 'PARCIAL': 'RI', 'NO VISITÓ': 'NO', 'FUERA DE RUTA': 'FR', 'TRABAJÓ': 'FR', 'SIN PLAN': 'GR', 'NO APLICA': 'GR' };
+    const celda = x => {
+        const v = x && typeof x === 'object' ? x.v : x;
+        const num = typeof v === 'number' && isFinite(v);
+        const est = x && typeof x === 'object' ? x.s : ESTILO[v];
+        const st = est ? ` ss:StyleID="${est}"` : '';
+        return `<Cell${st}><Data ss:Type="${num ? 'Number' : 'String'}">${esc(v)}</Data></Cell>`;
+    };
+    const hoja = (nombre, cols, filas, nota) => {
+        const hdr = cols.map(c => `<Cell ss:StyleID="H"><Data ss:Type="String">${esc(c[0])}</Data></Cell>`).join('');
+        const anchos = cols.map(c => `<Column ss:Width="${c[2] || 70}"/>`).join('');
+        const rows = filas.map(f => '<Row>' + cols.map(c => celda(typeof c[1] === 'function' ? c[1](f) : f[c[1]])).join('') + '</Row>').join('');
+        return `<Worksheet ss:Name="${esc(nombre)}"><Table>${anchos}` +
+            (nota ? `<Row><Cell ss:StyleID="I"><Data ss:Type="String">${esc(nota)}</Data></Cell></Row>` : '') +
+            `<Row>${hdr}</Row>${rows}</Table><WorksheetOptions xmlns="urn:schemas-microsoft-com:office:excel"><FreezePanes/><FrozenNoSplit/><SplitHorizontal>${nota ? 2 : 1}</SplitHorizontal><TopRowBottomPane>${nota ? 2 : 1}</TopRowBottomPane></WorksheetOptions></Worksheet>`;
+    };
+    const pct = k => f => f[k] === null || f[k] === undefined ? '' : { v: f[k] / 100, s: 'P' };
+    const nota = `Periodo ${res.desde} a ${res.hasta} · Visita cumplida = tienda visitada algún día (lun–sáb) de la semana planificada · Feriados y excepciones (descanso, permiso, vacaciones, licencia) no penalizan · Estado: CUMPLE ≥90%, EN RIESGO 70–89%, NO CUMPLE <70%`;
+    const hojas = [
+        hoja('Resumen por tipo', [
+            ['Tipo RC', 'tipo', 150], ['# RCs', 'rcs'], ['Tiendas cartera', 'tiendas'], ['Planificadas', 'planificadas'],
+            ['Efectivas', 'efectivas'], ['Cumplidas', 'cumplidas'], ['Faltantes', 'faltantes'], ['% Cumplimiento', pct('pct')],
+            ['% Cobertura cartera', pct('cobertura')], ['RCs que cumplen', 'cumple'], ['RCs en riesgo', 'riesgo'],
+            ['RCs que no cumplen', 'noCumple'], ['Visitas registradas', 'visitas'],
+        ], res.porTipo, nota),
+        hoja('Resumen por RC', [
+            ['Tipo RC', 'tipo', 150], ['RC', 'rc', 160], ['Supervisor', 'supervisor', 130], ['Ruta', 'ruta', 90],
+            ['Tiendas cartera', 'tiendas'], ['Planificadas', 'planificadas'], ['Feriado', 'feriado'], ['Excepción', 'excepcion'],
+            ['Efectivas', 'efectivas'], ['Cumplidas', 'cumplidas'], ['Faltantes', 'faltantes'], ['% Cumplimiento', pct('pct')],
+            ['Estado', 'estado', 80], ['Tiendas visitadas', 'visitadas'], ['Tiendas sin visita', 'sinVisita'],
+            ['% Cobertura cartera', pct('cobertura')], ['Visitas registradas', 'visitas'], ['Días con visitas', 'dias'],
+            ['Prom. visitas/día', 'promDia'], ['Tiempo prom. en tienda (min)', 'tiempo'], ['Visitas fuera de cartera', 'fuera'],
+            ['Máx plan/día L-M-J-V', 'maxF'], ['Máx plan/día Mi-S', 'maxI'],
+        ], res.porRC, nota),
+        hoja('Puntos por día', [
+            ['Tipo RC', 'tipo', 150], ['RC', 'rc', 160],
+            ...res.fechas.map(f => [f.slice(8) + '/' + f.slice(5, 7) + ' ' + PLAN.DIAS_ORDEN[(new Date(f + 'T12:00:00').getDay() + 6) % 7].slice(0, 2), m => {
+                const c = m.celdas[f];
+                if (!c) return '';
+                return { v: c.vis, s: ESTADO_DIA[c.estado] };
+            }, 42]),
+            ['Días con plan', 'diasPlan'], ['Días que visitó', 'diasVisito'], ['Días sin visita (con plan)', 'diasSinVisita'],
+            ['Puntos visitados (total)', 'puntos'], ['Prom. puntos/día visitado', m => m.diasVisito ? Math.round(m.puntos / m.diasVisito * 10) / 10 : ''],
+            ['Planificadas', 'plan'], ['Visitadas el mismo día', 'planVis'], ['% del plan el mismo día', m => m.plan ? { v: m.planVis / m.plan, s: 'P' } : ''],
+        ], res.matriz, 'Cada celda = puntos distintos que visitó ese día. Verde: visitó todo lo planificado · Ámbar: parcial · Rojo: tenía plan y no visitó · Azul: visitó pero nada de lo planificado del día · Gris: sin plan, feriado o excepción.'),
+        hoja('Diario por RC', [
+            ['Fecha', 'fecha', 75], ['Día', 'dia'], ['Tipo RC', 'tipo', 150], ['RC', 'rc', 160], ['¿Visitó?', 'visito', 50],
+            ['Estado del día', f => ({ v: f.estado, s: ESTADO_DIA[f.estado] }), 90], ['Planificadas del día', 'planificadas'],
+            ['Puntos visitados', 'puntos'], ['Visitadas de lo planificado (mismo día)', 'visitadasPlan'], ['Faltan del día', 'faltan'],
+            ['% del plan del día', pct('pctDia')], ['Visitas fuera del plan del día', 'fueraPlan'],
+            ['Planificadas del día cumplidas en la semana', 'planSem'], ['Visitas registradas', 'visitas'],
+            ['Primera marca', 'primera'], ['Última marca', 'ultima'], ['Jornada (min)', 'jornada'],
+            ['Tiempo prom. en tienda (min)', 'tiempo'], ['Observación', 'obs', 140],
+        ], res.diario, 'Una fila por RC y día (lun–sáb). "Mismo día" compara con lo planificado para ese día; "cumplidas en la semana" aplica la regla oficial (visitada cualquier día de esa semana).'),
+        hoja('Visitas (detalle)', [
+            ['Fecha', 'fecha', 75], ['Día', 'dia'], ['Tipo RC', 'tipo', 150], ['RC', 'rc', 160], ['# del día', 'n', 45],
+            ['Org ID', 'id'], ['Tienda', 'nombre', 200], ['Partner', 'partner', 110], ['Distrito', 'distrito', 110],
+            ['Entrada', 'entrada'], ['Salida', 'salida'], ['Tiempo en tienda (min)', 'tiempo'],
+            ['¿Planificada ese día?', 'planHoy', 60], ['¿Planificada esa semana?', 'planSem', 60], ['¿De su cartera?', 'cartera', 60],
+        ], res.visitasDet, 'Una fila por visita registrada (entrada/salida), en el orden del día.'),
+        hoja('Detalle por tienda', [
+            ['Tipo RC', 'tipo', 150], ['RC', 'rc', 160], ['Org ID', 'id'], ['Tienda', 'nombre', 200], ['Partner', 'partner', 110],
+            ['Tipo tienda', 'tipoTienda', 100], ['Zona', 'zona'], ['Distrito', 'distrito', 110], ['Frecuencia', 'frecuencia', 110],
+            ['Planificadas', 'planificadas'], ['Feriado', 'feriado'], ['Excepción', 'excepcion'], ['Efectivas', 'efectivas'],
+            ['Cumplidas', 'cumplidas'], ['Faltantes', 'faltantes'], ['Días con visita', 'nVisitas'], ['Última visita', 'ultima', 75],
+            ['Estado', 'estado', 110],
+        ], res.tiendas, nota),
+        hoja('Visitas faltantes', [
+            ['Tipo RC', 'tipo', 150], ['RC', 'rc', 160], ['Semana (lunes)', 'semana', 80], ['Fecha planificada', 'fecha', 80],
+            ['Día', 'dia'], ['Org ID', 'id'], ['Tienda', 'nombre', 200], ['Partner', 'partner', 110], ['Última visita', 'ultima', 75],
+        ], res.faltas, 'Cada fila es una visita planificada que no se cumplió en su semana.'),
+    ];
+    const xml = `<?xml version="1.0"?><?mso-application progid="Excel.Sheet"?>` +
+        `<Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet" xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet">` +
+        `<Styles><Style ss:ID="H"><Font ss:Bold="1"/><Interior ss:Color="#D9E1F2" ss:Pattern="Solid"/><Alignment ss:WrapText="1" ss:Vertical="Center"/></Style>` +
+        `<Style ss:ID="I"><Font ss:Italic="1" ss:Color="#555555"/></Style>` +
+        `<Style ss:ID="OK"><Font ss:Bold="1" ss:Color="#006100"/><Interior ss:Color="#C6EFCE" ss:Pattern="Solid"/></Style>` +
+        `<Style ss:ID="RI"><Font ss:Bold="1" ss:Color="#9C5700"/><Interior ss:Color="#FFEB9C" ss:Pattern="Solid"/></Style>` +
+        `<Style ss:ID="NO"><Font ss:Bold="1" ss:Color="#9C0006"/><Interior ss:Color="#FFC7CE" ss:Pattern="Solid"/></Style>` +
+        `<Style ss:ID="FR"><Font ss:Bold="1" ss:Color="#1F4E79"/><Interior ss:Color="#DDEBF7" ss:Pattern="Solid"/></Style>` +
+        `<Style ss:ID="GR"><Font ss:Color="#808080"/><Interior ss:Color="#EDEDED" ss:Pattern="Solid"/></Style>` +
+        `<Style ss:ID="P"><NumberFormat ss:Format="0%"/></Style></Styles>` +
+        hojas.join('') + `</Workbook>`;
+    const blob = new Blob([xml], { type: 'application/vnd.ms-excel' });
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    const sufijo = (_reporteRC.rc !== 'ALL' ? '_' + _reporteRC.rc : _reporteRC.tipo !== 'ALL' ? '_' + _reporteRC.tipo : '').replace(/[^A-Za-z0-9]+/g, '_');
+    a.download = `Reporte_Visitas_RC_${res.desde}_${res.hasta}${sufijo}.xls`;
+    a.click();
+    URL.revokeObjectURL(a.href);
+}
+
+function htmlReporteRC() {
+    if (modoVista !== 'rc') return '';
+    const carteras = carterasRC();
+    const tipos = TIPOS_RC.filter(t => Object.values(carteras).some(c => c.tipo === t));
+    const rcs = Object.keys(carteras).filter(rc => _reporteRC.tipo === 'ALL' || carteras[rc].tipo === _reporteRC.tipo).sort();
+    const sel = 'padding:5px 8px;border-radius:8px;border:1px solid #334155;background:#1E293B;color:#CBD5E1;font-size:12px;font-family:inherit;max-width:220px';
+    const btn = 'border:none;border-radius:8px;padding:6px 12px;font-size:11px;font-weight:700;cursor:pointer;font-family:inherit';
+    const opt = (v, t, cur) => `<option value="${v}"${v === cur ? ' selected' : ''}>${t}</option>`;
+    const res = _reporteRC.res;
+    const color = e => e === 'CUMPLE' ? '#10B981' : e === 'EN RIESGO' ? '#F59E0B' : e === 'NO CUMPLE' ? '#EF4444' : '#64748B';
+    return `<div class="dash-card" style="margin-bottom:12px">
+        <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-bottom:8px">
+            <div class="dash-card-title" style="margin-bottom:0">Reporte de visitas por RC · descarga Excel</div>
+            <div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap">
+                <select id="repPeriodo" style="${sel}" onchange="_reporteRC.periodo=this.value">
+                    ${opt('actual', 'Mes actual', _reporteRC.periodo)}${opt('anterior', 'Mes anterior', _reporteRC.periodo)}${opt('ambos', 'Mes anterior + actual', _reporteRC.periodo)}
+                </select>
+                <select id="repTipo" style="${sel}" onchange="_reporteRC.tipo=this.value;_reporteRC.rc='ALL';renderDashboard()">
+                    ${opt('ALL', 'Todos los tipos de RC', _reporteRC.tipo)}${tipos.map(t => opt(t, t, _reporteRC.tipo)).join('')}
+                </select>
+                <select id="repRC" style="${sel}" onchange="_reporteRC.rc=this.value">
+                    ${opt('ALL', 'Todos los RC', _reporteRC.rc)}${rcs.map(r => opt(r, r, _reporteRC.rc)).join('')}
+                </select>
+                <button onclick="generarReporteRC()" style="${btn};background:#10B981;color:#fff" ${_reporteRC.cargando ? 'disabled' : ''}>${_reporteRC.cargando ? '⏳ Generando…' : '⬇ Descargar reporte'}</button>
+            </div>
+        </div>
+        <div style="font-size:10px;color:#64748B;margin-bottom:6px">
+            Hojas: resumen por tipo de RC · resumen por RC (cumple / en riesgo / no cumple, faltantes, cobertura, tiempos) · puntos por día (matriz RC × día) · diario por RC · visitas (detalle de cada visita) · detalle por tienda · visitas faltantes.
+            Tipo de RC según su cartera activa: Tambo Lima, Casas de apuesta Lima, Provincia, Mixto Lima, Promotoras Cencosud.
+        </div>
+        ${_reporteRC.error ? `<div style="font-size:11px;color:#EF4444;margin-bottom:6px">${_reporteRC.error}</div>` : ''}
+        ${!res ? '' : `
+        <div style="font-size:10px;color:#475569;margin-bottom:6px">Último reporte: ${res.desde} → ${res.hasta}
+            <button onclick="descargarReporteRCExcel()" style="${btn};background:transparent;color:#10B981;padding:2px 6px">⬇ volver a descargar</button></div>
+        <div style="display:flex;gap:6px;margin-bottom:8px">
+            ${['resumen', 'dia'].map(v => `<button onclick="_reporteRC.vista='${v}';renderDashboard()" style="${btn};background:${(_reporteRC.vista || 'resumen') === v ? '#6366F1' : '#1E293B'};color:#fff;border:1px solid #334155">${v === 'resumen' ? 'Resumen por RC' : 'Puntos por día'}</button>`).join('')}
+        </div>
+        ${_reporteRC.vista === 'dia' ? htmlMatrizDiaria(res) : `
+        <div style="overflow:auto;max-height:360px"><table class="dash-table">
+            <thead><tr><th>Tipo RC</th><th>RC</th><th>Efectivas</th><th>Cumplidas</th><th>Faltan</th><th>%</th><th>Estado</th><th>Cobertura</th></tr></thead>
+            <tbody>${res.porRC.map(r => `<tr>
+                <td style="font-size:10px;color:#94A3B8">${r.tipo}</td><td class="td-name">${r.rc}</td>
+                <td>${r.efectivas}</td><td style="color:#10B981;font-weight:700">${r.cumplidas}</td>
+                <td style="color:${r.faltantes ? '#EF4444' : '#64748B'};font-weight:700">${r.faltantes}</td>
+                <td style="font-weight:800;color:${color(r.estado)}">${r.pct === null ? '—' : r.pct + '%'}</td>
+                <td style="font-size:10px;font-weight:700;color:${color(r.estado)}">${r.estado}</td>
+                <td>${r.cobertura === null ? '—' : r.cobertura + '%'}</td></tr>`).join('')}</tbody>
+        </table></div>`}`}
+    </div>`;
+}
+
+// Matriz RC × día: puntos visitados, coloreado contra lo planificado del día
+function htmlMatrizDiaria(res) {
+    const COL = {
+        'COMPLETO': ['#065F46', '#A7F3D0'], 'PARCIAL': ['#78350F', '#FDE68A'], 'NO VISITÓ': ['#7F1D1D', '#FECACA'],
+        'FUERA DE RUTA': ['#1E3A8A', '#BFDBFE'], 'TRABAJÓ': ['#1E3A8A', '#BFDBFE'], 'SIN PLAN': ['transparent', '#475569'], 'NO APLICA': ['#334155', '#94A3B8'],
+    };
+    const dd = f => PLAN.DIAS_ORDEN[(new Date(f + 'T12:00:00').getDay() + 6) % 7].slice(0, 2);
+    const th = 'style="font-size:9px;padding:4px 2px;text-align:center;white-space:nowrap"';
+    return `<div style="overflow:auto;max-height:460px"><table class="dash-table" style="font-size:11px">
+        <thead><tr><th style="position:sticky;left:0;background:#0F172A;z-index:1">RC</th>
+            ${res.fechas.map(f => `<th ${th}>${dd(f)}<br>${f.slice(8)}/${f.slice(5, 7)}</th>`).join('')}
+            <th ${th}>Días<br>visitó</th><th ${th}>Días sin<br>visita</th><th ${th}>Puntos</th><th ${th}>Prom<br>/día</th></tr></thead>
+        <tbody>${res.matriz.map(m => `<tr>
+            <td class="td-name" style="position:sticky;left:0;background:#0F172A;white-space:nowrap;font-size:11px" title="${m.tipo}">${m.rc}</td>
+            ${res.fechas.map(f => {
+                const c = m.celdas[f];
+                if (!c) return '<td></td>';
+                const [bg, fg] = COL[c.estado] || COL['SIN PLAN'];
+                return `<td title="${f} · ${c.estado} · visitó ${c.vis} · plan ${c.plan} · del plan ${c.visPlan}" style="text-align:center;padding:3px 2px">
+                    <span style="display:inline-block;min-width:24px;border-radius:5px;padding:2px 3px;font-weight:700;background:${bg};color:${fg}">${c.vis || (c.plan ? 0 : '·')}</span></td>`;
+            }).join('')}
+            <td style="text-align:center">${m.diasVisito}</td>
+            <td style="text-align:center;font-weight:700;color:${m.diasSinVisita ? '#EF4444' : '#64748B'}">${m.diasSinVisita}</td>
+            <td style="text-align:center">${m.puntos}</td>
+            <td style="text-align:center">${m.diasVisito ? Math.round(m.puntos / m.diasVisito * 10) / 10 : '—'}</td></tr>`).join('')}</tbody>
+    </table></div>
+    <div style="font-size:10px;color:#64748B;margin-top:6px">Número = puntos distintos visitados ese día (pasa el mouse para ver el plan).
+        <span style="color:#10B981">■</span> visitó todo lo planificado · <span style="color:#F59E0B">■</span> parcial · <span style="color:#EF4444">■</span> tenía plan y no visitó ·
+        <span style="color:#60A5FA">■</span> visitó, pero nada del plan del día · gris: feriado o excepción</div>`;
 }
 // ──────────────────────────────────────────────────────────────────────────
 

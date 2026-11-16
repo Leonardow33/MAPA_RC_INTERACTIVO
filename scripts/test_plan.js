@@ -52,7 +52,7 @@ Object.entries(plan.tiendas).forEach(([id, a]) => {
 
 console.log('3. Toda tienda activa de un RC replanificado tiene plan');
 puntos.forEach(p => {
-    if ((p.estado || '').toUpperCase() !== 'ACTIVO' || (p.zonal_tipo || '').toUpperCase() !== 'LIMA') return;
+    if ((p.estado || '').toUpperCase() !== 'ACTIVO') return;
     if (!plan.rcs[p.rc] || !p.lat || !p.lng) return;
     check(!!plan.tiendas[String(p.ID)], `${p.ID} (${p.rc}) sin plan`);
 });

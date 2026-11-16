@@ -203,7 +203,10 @@ function cumplimiento(o) {
         if (!c) { noReconocidas.push(e); return; }
         if (EXC_EXCLUYE.has(c)) exc.set(normDia(e.nombre) + '|' + iso(e.fecha), c);
     });
-    const porRC = {};
+    const porRC = {}, porTienda = {};
+    const tienda = (p, rc) => porTienda[String(p.ID)] || (porTienda[String(p.ID)] = {
+        id: String(p.ID), rc, planificadas: 0, feriado: 0, excepcion: 0, efectivas: 0, cumplidas: 0, faltas: []
+    });
     const fila = rc => porRC[rc] || (porRC[rc] = {
         rc, planificadas: 0, feriado: 0, excepcion: 0, efectivas: 0, cumplidas: 0, carga: {}
     });
@@ -222,19 +225,21 @@ function cumplimiento(o) {
                 const rc = a && plan.rcs[a.rc] ? a.rc : p.rc;
                 const enRango = s >= desde;
                 const r = enRango ? fila(rc) : null;
-                if (enRango) r.planificadas++;
-                if (tipoDia(s) === 'FERIADO') { if (enRango) r.feriado++; return; }
+                const t = enRango ? tienda(p, rc) : null;
+                if (enRango) { r.planificadas++; t.planificadas++; t.rc = rc; }
+                if (tipoDia(s) === 'FERIADO') { if (enRango) { r.feriado++; t.feriado++; } return; }
                 if (enRango) r.carga[s] = (r.carga[s] || 0) + 1;
-                if (exc.has(normDia(rc) + '|' + s)) { if (enRango) r.excepcion++; return; }
-                efect.push({ rc, enRango });
+                if (exc.has(normDia(rc) + '|' + s)) { if (enRango) { r.excepcion++; t.excepcion++; } return; }
+                efect.push({ rc, enRango, fecha: s });
             });
             if (!efect.length) return;
             const visitas = semana.filter(s => o.fueVisitada(id, s)).length;
             efect.forEach((e, k) => {
                 if (!e.enRango) return;
-                const r = fila(e.rc);
-                r.efectivas++;
-                if (k < visitas) r.cumplidas++;
+                const r = fila(e.rc), t = tienda(p, e.rc);
+                r.efectivas++; t.efectivas++;
+                if (k < visitas) { r.cumplidas++; t.cumplidas++; }
+                else t.faltas.push(e.fecha);
             });
         });
     }
@@ -252,7 +257,7 @@ function cumplimiento(o) {
         ['planificadas', 'feriado', 'excepcion', 'efectivas', 'cumplidas'].forEach(k => { total[k] += r[k]; });
     });
     total.pct = total.efectivas ? Math.round(total.cumplidas / total.efectivas * 100) : null;
-    return { desde, hasta: fin, porRC, total, noReconocidas };
+    return { desde, hasta: fin, porRC, porTienda, total, noReconocidas };
 }
 
 // ── Planificación (cercanía + topes) ──────────────────────────────────────
@@ -549,7 +554,7 @@ function cargaSharePoint(pts) {
     };
 }
 
-// Plan por fechas: RC de Lima que pasan el tope (o ya replanificados) pasan a ciclo.
+// Plan por fechas: RC (Lima y provincia) que pasan el tope (o ya replanificados) pasan a ciclo.
 // modo 'semanal' (lunes, para la semana siguiente): puede rearmar rutas completas.
 // modo 'diario' (desde mañana): solo altas/bajas sin mover tiendas; los excesos quedan como alerta.
 function planificar(o) {
@@ -558,7 +563,6 @@ function planificar(o) {
     const porRC = {};
     pts.forEach(p => {
         if ((p.estado || '').toUpperCase() !== 'ACTIVO') return;
-        if ((p.zonal_tipo || '').toUpperCase() !== 'LIMA') return;
         if (!p.rc || p.rc === 'SIN RC' || !p.lat || !p.lng || !isFinite(p.lat) || !isFinite(p.lng)) return;
         (porRC[p.rc] = porRC[p.rc] || []).push(p);
     });
