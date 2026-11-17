@@ -1628,7 +1628,7 @@ function renderDashboard() {
             </div>`;
         })()}
 
-        ${htmlVisitasDelDia(rcs, fechaLabel)}
+        <div id="visDiaCard">${htmlVisitasDelDia(rcs, fechaLabel)}</div>
 
         <div class="dash-grid">
             <div class="dash-card">
@@ -1909,7 +1909,70 @@ function visitasDelDia(rcs) {
     return filas;
 }
 
-function htmlVisitasDelDia(rcs, fechaLabel) {
+// Filtro de día propio de la tabla: la hoja de visitas guarda el mes en curso y el anterior
+// (los meses más viejos se borran a mano), así que el selector va del día 1 del mes anterior a hoy.
+const _visDia = { fecha: '', modo: '', rcs: null, cargando: false, error: '' };
+
+function rangoVisDia() {
+    const hoy = PLAN.hoyLima();
+    const [y, m] = hoy.split('-').map(Number);
+    const min = m === 1 ? `${y - 1}-12-01` : `${y}-${String(m - 1).padStart(2, '0')}-01`;
+    return { min, max: hoy };
+}
+
+async function cambiarVisDia(fecha) {
+    const { min, max } = rangoVisDia();
+    if (!fecha || fecha < min || fecha > max) fecha = '';
+    _visDia.fecha = fecha; _visDia.modo = modoVista; _visDia.rcs = null; _visDia.error = '';
+    if (fecha) {
+        _visDia.cargando = true; refrescarVisDia();
+        try {
+            const accion = modoVista === 'cap' ? 'getVisitasMapa2' : modoVista === 'sup' ? 'getVisitasSup' : 'getVisitas';
+            const r = await fetch(SHEET_URL + `?action=${accion}&fecha=${fecha}`);
+            const data = await r.json();
+            if (_visDia.fecha !== fecha) return;                 // llegó otra selección mientras cargaba
+            _visDia.rcs = Array.isArray(data) ? data : [];
+        } catch (e) { _visDia.error = 'Error al cargar visitas'; }
+        _visDia.cargando = false;
+    }
+    refrescarVisDia();
+}
+
+// Vuelve a pintar solo la tarjeta, con los filtros de supervisor y RC del dashboard
+function refrescarVisDia() {
+    const el = document.getElementById('visDiaCard');
+    if (!el) return;
+    if (!_visDia.fecha) { renderDashboard(); return; }
+    el.innerHTML = htmlVisitasDelDia([], '');
+}
+
+function htmlVisitasDelDia(rcsDash, fechaDash) {
+    // Si la tabla tiene un día propio (del mismo modo), manda sobre el día del dashboard
+    if (_visDia.fecha && _visDia.modo !== modoVista) { _visDia.fecha = ''; _visDia.rcs = null; }
+    const propio = !!_visDia.fecha;
+    let rcs = rcsDash, fechaLabel = fechaDash;
+    if (propio) {
+        const supFiltro = document.getElementById('supFilter')?.value || 'ALL';
+        rcs = (_visDia.rcs || [])
+            .filter(r => supFiltro === 'ALL' || r.supervisor === supFiltro)
+            .filter(r => !dashRCFilter || r.rc === dashRCFilter)
+            .sort((a, b) => String(a.rc).localeCompare(String(b.rc)));
+        const d = new Date(_visDia.fecha + 'T12:00:00');
+        fechaLabel = `${['Dom','Lun','Mar','Mié','Jue','Vie','Sáb'][d.getDay()]} ${d.getDate()}/${d.getMonth() + 1}`;
+    }
+    const { min, max } = rangoVisDia();
+    const valorSel = _visDia.fecha || (typeof selectedDate !== 'undefined' && selectedDate) || max;
+    const selector = `<input type="date" min="${min}" max="${max}" value="${valorSel}" onchange="cambiarVisDia(this.value)" title="Elegir día (mes en curso y anterior)"
+            style="padding:3px 6px;border-radius:6px;border:1px solid #334155;background:#1E293B;color:#CBD5E1;font-size:11px;font-family:inherit;color-scheme:dark">
+        ${propio ? `<button onclick="cambiarVisDia('')" title="Volver al día del dashboard" style="background:none;border:1px solid #334155;color:#94A3B8;border-radius:6px;padding:2px 8px;font-size:11px;cursor:pointer;font-family:inherit">✕</button>` : ''}`;
+    if (propio && (_visDia.cargando || _visDia.error)) {
+        return `<div class="dash-card" style="margin-bottom:12px">
+        <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:8px">
+            <div class="dash-card-title" style="margin-bottom:0">Tiendas visitadas · ${fechaLabel}</div>${selector}
+        </div>
+        <div style="color:${_visDia.error ? '#EF4444' : '#94A3B8'};font-size:12px;text-align:center;padding:16px 0">${_visDia.error || '⏳ Cargando visitas…'}</div>
+    </div>`;
+    }
     const filas = visitasDelDia(rcs);
     const fmt = s => { if (!s) return '—'; const m = Math.floor(s / 60), x = s % 60; return m >= 60 ? `${Math.floor(m / 60)}h ${m % 60}m` : `${m}m ${String(x).padStart(2, '0')}s`; };
     const colorT = s => !s ? '#475569' : s < 5 * 60 ? '#F59E0B' : s > 45 * 60 ? '#EF4444' : '#10B981';
@@ -1918,7 +1981,7 @@ function htmlVisitasDelDia(rcs, fechaLabel) {
     const varios = new Set(filas.map(f => f.rc)).size > 1;
     return `<div class="dash-card" style="margin-bottom:12px">
         <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-bottom:8px">
-            <div class="dash-card-title" style="margin-bottom:0">Tiendas visitadas · ${fechaLabel}</div>
+            <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap"><div class="dash-card-title" style="margin-bottom:0">Tiendas visitadas · ${fechaLabel}</div>${selector}</div>
             <div style="font-size:11px;color:#94A3B8">${filas.length} visita${filas.length !== 1 ? 's' : ''} · promedio en tienda <b style="color:#10B981">${fmt(prom)}</b></div>
         </div>
         ${!filas.length ? '<div style="color:#475569;font-size:12px;text-align:center;padding:16px 0">Sin visitas registradas</div>' : `
