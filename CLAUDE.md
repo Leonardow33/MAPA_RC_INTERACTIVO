@@ -50,7 +50,8 @@ Power BI → Power Automate (DAX diario → JSON en SharePoint)
 | `findemes_noche.yml` | cron-job.org a diario a las 23:40 | Descarga extra solo el último día del mes; los demás días termina en ~3 s sin hacer nada (input `forzar` para lanzarlo a mano). Su `schedule` de GitHub es solo un respaldo: suele llegar 4–8 h tarde, cuando ya es día 1 |
 | `safety_snapshot_findemes.yml` | 11:00 | Respaldo del snapshot de la semana Tambo el último día (Power BI se reinicia el día 1) |
 | `snapshot_bonos.yml` | jueves 9:00 | Agrega la semana Tambo cerrada a `historico_bonos.json` (input `semanas_atras`) |
-| `actualizar_puntos.yml` / `plan_rutas.yml` | lunes 8:00 / al cambiar puntos | Ejecutan `generar_plan.js` |
+| `plan_rutas.yml` | al cambiar `puntos.json`/Top 300 (modo diario) · lunes 8:00 (modo semanal) · a mano (input `modo`, `vigente_desde`) | Ejecuta `generar_plan.js`, hace commit de `data/planes` y lanza `build-dist.yml` (el push con `GITHUB_TOKEN` no lo dispara). No toca `puntos.json` |
+| `actualizar_puntos.yml` | **deshabilitado a propósito** | Bajaba BASE_RSUM de SharePoint y reescribía `puntos.json`. Desde jul-2026 eso lo hace Power Automate; reactivarlo pisaría `puntos.json` con el Excel viejo |
 | `update-sinventa.yml` | cada 15 min | Actualiza `sinventa.txt` |
 | `enviar_claves_diarias.yml` | diario 7:00 | Envía las claves diarias |
 

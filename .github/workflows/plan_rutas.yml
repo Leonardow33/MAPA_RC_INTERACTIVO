@@ -1,14 +1,28 @@
-name: Plan de rutas (cambios en puntos)
+name: Plan de rutas
 
-# Cada vez que cambian los puntos (Power Automate) o el Top 300: si hay altas, bajas o cambios
-# de RC/Top 300, publica una versión del plan que rige desde mañana sin mover tiendas ya asignadas.
+# Solo genera el plan: no toca data/puntos.json (eso lo hace Power Automate).
+# - push (cambian puntos o Top 300) → MODO=diario: versión desde mañana sin mover tiendas ya asignadas.
+# - schedule (lunes 8:00 Lima)      → MODO=semanal: versión del próximo lunes; replanifica los RC que pasan el tope.
+# - workflow_dispatch               → modo a elección (semanal admite vigente_desde).
 on:
   push:
     branches: [main]
     paths:
       - 'data/puntos.json'
       - 'data/top100_tambo.json'
+  schedule:
+    - cron: '0 13 * * 1'   # Lunes 8:00 Lima (UTC-5)
   workflow_dispatch:
+    inputs:
+      modo:
+        description: 'diario o semanal'
+        type: choice
+        options: [diario, semanal]
+        default: diario
+      vigente_desde:
+        description: 'Solo semanal: fecha futura AAAA-MM-DD desde la que rige (vacío = próximo lunes)'
+        required: false
+        default: ''
 
 concurrency:
   group: plan-rutas
@@ -19,23 +33,37 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: write
+      actions: write
     steps:
       - uses: actions/checkout@v4
 
-      - name: Actualizar plan desde mañana
+      - name: Generar plan
         env:
-          MODO: diario
-        run: node scripts/generar_plan.js
+          MODO: ${{ github.event_name == 'schedule' && 'semanal' || github.event.inputs.modo || 'diario' }}
+          VIGENTE_DESDE: ${{ github.event.inputs.vigente_desde }}
+        run: |
+          echo "Modo: $MODO"
+          node scripts/generar_plan.js
 
       - name: Commit si hubo cambios
+        id: commit
+        env:
+          MODO: ${{ github.event_name == 'schedule' && 'semanal' || github.event.inputs.modo || 'diario' }}
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add data/planes
           git diff --cached --quiet && { echo "Plan sin cambios"; exit 0; }
-          git commit -m "chore: actualizar plan de rutas por cambios en puntos [skip ci]"
+          git commit -m "chore: actualizar plan de rutas ($MODO) [skip ci]"
           for i in 1 2 3 4 5; do
-            git pull --rebase && git push && break
+            git pull --rebase && git push && echo "pushed=1" >> "$GITHUB_OUTPUT" && break
             echo "Intento $i fallido, reintentando en $((i*5))s..."
             sleep $((i * 5))
           done
+
+      # Un push con GITHUB_TOKEN no dispara build-dist.yml; workflow_dispatch sí está permitido.
+      - name: Publicar en dist
+        if: steps.commit.outputs.pushed == '1'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh workflow run build-dist.yml --ref main
