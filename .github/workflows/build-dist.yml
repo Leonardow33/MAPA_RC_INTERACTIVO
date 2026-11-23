@@ -25,6 +25,7 @@ on:
       - 'data/historico_bonos.json'
       - 'data/rush.json'
       - 'data/ganadoras.json'
+      - 'data/at_ganadoras_extra.json'
       - 'icons/**'
       - 'BONOS PARTNERS/*.html'
   workflow_dispatch:

@@ -1263,6 +1263,20 @@
     .gan-acts { display: flex; gap: 4px; }
     .gan-acts button { width: 28px; height: 28px; border-radius: 8px; border: 1px solid var(--border); background: var(--surf); color: var(--text); cursor: pointer; font-size: 13px; }
     .gan-acts button:disabled { opacity: .35; cursor: default; }
+    /* Panel KAM: ganadoras por semana */
+    .kam-box select { font: inherit; font-size: 13px; padding: 8px 10px; border: 1px solid var(--border); border-radius: 10px; background: var(--surf2); color: var(--text); width: 100%; box-sizing: border-box; }
+    .win-sub { font-size: 12px; color: var(--muted); margin-bottom: 6px; }
+    .win-list { display: flex; flex-direction: column; gap: 5px; margin-bottom: 10px; }
+    .win-row { display: flex; align-items: center; gap: 8px; padding: 6px 8px; border: 1px solid var(--border); border-radius: 10px; background: var(--surf2); font-size: 12px; }
+    .win-row.g { background: rgba(16,185,129,.10); border-color: rgba(16,185,129,.45); }
+    .win-row > b { width: 20px; text-align: center; color: var(--muted); flex-shrink: 0; }
+    .win-n { flex: 1; min-width: 0; font-weight: 700; line-height: 1.2; }
+    .win-n small { display: block; font-weight: 500; color: var(--muted); font-size: 11px; }
+    .win-p { font-weight: 800; width: 44px; text-align: right; flex-shrink: 0; }
+    .win-tag { font-size: 10.5px; font-weight: 800; padding: 3px 8px; border-radius: 999px; white-space: nowrap; }
+    .win-tag.ok { background: #10B981; color: #fff; }
+    .win-tag.no { background: var(--surf); color: var(--muted); border: 1px solid var(--border); }
+    .win-ap { display: flex; align-items: center; gap: 4px; font-size: 11.5px; font-weight: 800; white-space: nowrap; cursor: pointer; }
     /* Pop-up de motivación */
     .mot-ov { position: fixed; inset: 0; z-index: 9000; background: rgba(13,31,53,.55); display: flex; align-items: center; justify-content: center; padding: 16px; animation: motFade .25s ease; }
     .mot-ov[hidden] { display: none !important; }
@@ -1437,6 +1451,17 @@
         <button class="kam-btn sec" id="gan-del" onclick="ganQuitarTodo()">Quitar todas</button>
       </div>
       <div class="kam-msg" id="gan-msg"></div>
+    </div>
+    <div class="kam-box" id="kam-win" style="display:none">
+      <h3>🏅 Ganadoras por semana</h3>
+      <p>Top 15 de cada clúster. Ganan solas las del cupo que llegan al 100%. Para sumar más ganadoras (empates o puestos muy cercanos), marca <b>Aprobar</b> (solo tiendas con 100% o más) y pulsa <b>Guardar aprobaciones</b>. Tarda unos <b>3 a 5 minutos</b> en verse publicado.</p>
+      <div class="kam-row">
+        <label>Semana<select id="win-sem"></select></label>
+        <label>Clúster<select id="win-cl"></select></label>
+      </div>
+      <div class="win-list" id="win-list"></div>
+      <div class="kam-row"><button class="kam-btn" id="win-save" onclick="winGuardar()">Guardar aprobaciones</button></div>
+      <div class="kam-msg" id="win-msg"></div>
     </div>
   </div>
 
@@ -2282,6 +2307,10 @@
   const INCENTIVO_SEMANAS = 4;
   // Premios por clúster: ganadoras por semana (ranking nacional del clúster) y
   // premio por cada semana ganada. Meta semanal = meta_diaria × 7.
+  // Ganadoras aprobadas por la KAM además del cupo (empates o puestos muy cercanos), desde el panel 🔒 KAM.
+  // data/at_ganadoras_extra.json = { semanas: { 'AAAA-MM-DD' (jueves que abre la semana): ['ID', ...] }, updated }
+  const GANEXTRA_PATH = 'data/at_ganadoras_extra.json';
+  let GAN_EXTRA = {};
   const CLUSTER_PREMIO = {
     DIAMANTE: { ganadoras: 3,  premio: 100, color: '#0B4A9E' },
     PLATINO:  { ganadoras: 3,  premio: 75,  color: '#8E5BA8' },
@@ -2409,8 +2438,13 @@
       .sort((a, b) => ((b.pct ?? -1) - (a.pct ?? -1)) || (b.sold - a.sold) || a.s.nombre.localeCompare(b.s.nombre));
     const cp = premioCluster(cluster);
     if (cp && estadoSemana(s) !== 'futura') {
-      rows.filter(r => r.pct !== null && r.pct >= 100).slice(0, cp.ganadoras)
-          .forEach(r => { r.gana = true; r.premio = cp.premio; });
+      const cumplen = rows.filter(r => r.pct !== null && r.pct >= 100);
+      cumplen.slice(0, cp.ganadoras).forEach(r => { r.gana = true; r.premio = cp.premio; });
+      // Fuera del cupo solo ganan las aprobadas por la KAM (empates o puestos muy cercanos)
+      const extra = (GAN_EXTRA[s.iniIso] || []).map(String);
+      if (extra.length) rows.forEach(r => {
+        if (!r.gana && extra.includes(String(r.s.ID))) { r.gana = true; r.premio = cp.premio; r.extra = true; }
+      });
       // Solo visual: posiciones dentro del cupo del clúster (zona de premio), ganen o no
       rows.slice(0, cp.ganadoras).forEach(r => { r.zona = true; });
     }
@@ -2457,7 +2491,7 @@
       const pos = i < 3 ? ['🥇','🥈','🥉'][i] : i + 1;
       const cls = (String(r.s.ID) === currentId ? ' rk-row--me' : '') + (r.gana ? ' rk-row--win' : r.zona ? ' rk-row--zona' : '');
       const premio = r.gana
-        ? `<div class="top-prize rk-prize"><small>${cerrada ? 'Ganó' : 'Gana'}</small><b>S/ ${r.premio}</b></div>`
+        ? `<div class="top-prize rk-prize"${r.extra ? ' title="Ganadora aprobada por la KAM"' : ''}><small>${cerrada ? 'Ganó' : 'Gana'}</small><b>S/ ${r.premio}</b></div>`
         : r.zona ? `<div class="rk-falta" title="Está en el top del clúster, pero necesita llegar al 100% de su meta semanal para ganar">Falta<br>100%</div>` : '';
       return `<div class="rk-row${cls}" data-id="${r.s.ID}">
         <div class="rk-pos">${pos}</div>
@@ -2903,6 +2937,8 @@
       document.getElementById('kam-login').style.display  = 'none';
       document.getElementById('kam-editor').style.display = '';
       document.getElementById('kam-gan').style.display = '';
+      document.getElementById('kam-win').style.display = '';
+      winCargar();
       kamCargarActual();
       ganCargarActual();
     } catch (e) {
@@ -3272,6 +3308,101 @@
   function cerrarMotivacion() { document.getElementById('mot-ov').hidden = true; }
   document.addEventListener('keydown', e => { if (e.key === 'Escape') { const o = document.getElementById('mot-ov'); if (o && !o.hidden) cerrarMotivacion(); } });
 
+  // ── PANEL KAM: GANADORAS POR SEMANA ────────────────────────
+  // Lectura/escritura genérica de un JSON del repo con el token de la KAM.
+  async function ghGet(path) {
+    const url = () => `https://api.github.com/repos/${RUSH_REPO}/contents/${path}?ref=main&t=${Date.now()}_${Math.random().toString(36).slice(2)}`;
+    const res = await fetch(url(), { headers: _kamHeaders(), cache: 'no-store' });
+    if (res.status === 404) return { sha: null, data: null };
+    if (!res.ok) throw new Error('GitHub respondió ' + res.status);
+    const j = await res.json();
+    let txt;
+    if (j.content) txt = decodeURIComponent(escape(atob(j.content.replace(/\s/g, ''))));
+    else {
+      const raw = await fetch(url(), { headers: { ..._kamHeaders(), Accept: 'application/vnd.github.raw+json' }, cache: 'no-store' });
+      if (!raw.ok) throw new Error('GitHub respondió ' + raw.status);
+      txt = await raw.text();
+    }
+    return { sha: j.sha, data: JSON.parse(txt.replace(/^\uFEFF/, '')) };
+  }
+  async function ghPut(path, data, mensaje) {
+    const content = btoa(unescape(encodeURIComponent(JSON.stringify(data, null, 1))));
+    for (let intento = 0; intento < 2; intento++) {
+      const { sha } = await ghGet(path);
+      const res = await fetch(`https://api.github.com/repos/${RUSH_REPO}/contents/${path}`, {
+        method: 'PUT', headers: _kamHeaders(),
+        body: JSON.stringify({ message: 'chore: ' + mensaje + ' (panel KAM)', content, branch: 'main', ...(sha ? { sha } : {}) }) });
+      if (res.ok) return;
+      if (res.status === 401 || res.status === 403) throw new Error('el acceso a GitHub venció o no tiene permiso de escritura.');
+      if (res.status !== 409 && res.status !== 422) throw new Error('GitHub respondió ' + res.status);
+    }
+    throw new Error('conflicto al guardar, intenta de nuevo');
+  }
+
+  let _winSel = {}, _winCargado = false;   // copia editable de GAN_EXTRA
+  async function winCargar() {
+    const msg = document.getElementById('win-msg');
+    try {
+      const { data } = await ghGet(GANEXTRA_PATH);
+      GAN_EXTRA = (data && data.semanas) || {};
+      _winSel = JSON.parse(JSON.stringify(GAN_EXTRA));
+      _winCargado = true;
+      msg.className = 'kam-msg'; msg.textContent = '';
+    } catch (e) { msg.className = 'kam-msg err'; msg.textContent = 'No se pudieron leer las aprobaciones: ' + e.message; }
+    winSetup(); winPintar();
+  }
+  function winSetup() {
+    const ss = document.getElementById('win-sem'), cs = document.getElementById('win-cl');
+    if (ss.options.length) return;
+    const sems = PERIODO.semanas.filter(s => estadoSemana(s) !== 'futura');
+    ss.innerHTML = sems.map(s => `<option value="${s.n}">Semana ${s.n} · ${fechaCorta(s.ini)} – ${fechaCorta(s.fin)}${estadoSemana(s) === 'en curso' ? ' (en curso)' : ''}</option>`).join('');
+    const cerrada = sems.filter(s => estadoSemana(s) === 'cerrada').pop();   // por defecto, la última cerrada
+    if (cerrada) ss.value = cerrada.n;
+    cs.innerHTML = Object.keys(CLUSTER_PREMIO).filter(c => allStores.some(st => clusterDe(st) === c))
+      .map(c => `<option value="${c}">${c}</option>`).join('');
+    ss.onchange = cs.onchange = winPintar;
+  }
+  function winPintar() {
+    const box = document.getElementById('win-list');
+    const sem = PERIODO.semanas[+document.getElementById('win-sem').value - 1];
+    const cl  = document.getElementById('win-cl').value;
+    const cp  = sem && cl ? premioCluster(cl) : null;
+    if (!cp) { box.innerHTML = '<p style="margin:0">No hay semanas con premio para revisar.</p>'; return; }
+    // Ranking sin las aprobaciones, para ver quiénes ganan solas
+    const guardadas = GAN_EXTRA; GAN_EXTRA = {};
+    const rows = rankingDe(cl, sem).slice(0, 15);
+    GAN_EXTRA = guardadas;
+    const sel = (_winSel[sem.iniIso] || []).map(String);
+    box.innerHTML = `<div class="win-sub">Cupo ${cp.ganadoras} · S/ ${cp.premio} c/u · ${estadoSemana(sem) === 'cerrada' ? 'semana cerrada' : 'semana en curso (todavía puede cambiar)'}</div>` +
+      rows.map((r, i) => {
+        const id = String(r.s.ID);
+        const est = r.gana
+          ? `<span class="win-tag ok">Gana</span>`
+          : r.pct !== null && r.pct >= 100
+            ? `<label class="win-ap"><input type="checkbox"${sel.includes(id) ? ' checked' : ''} onchange="winMarcar('${sem.iniIso}','${id}',this.checked)"> Aprobar</label>`
+            : `<span class="win-tag no">Menos de 100%</span>`;
+        return `<div class="win-row${r.gana ? ' g' : ''}"><b>${i + 1}</b>
+          <div class="win-n">${r.s.nombre}<small>${id} · ${fmtS(r.sold)} / ${fmtS(r.meta)}</small></div>
+          <div class="win-p">${r.pct !== null ? Math.round(r.pct) + '%' : '—'}</div>${est}</div>`;
+      }).join('');
+  }
+  function winMarcar(iso, id, on) {
+    const a = new Set((_winSel[iso] || []).map(String));
+    if (on) a.add(id); else a.delete(id);
+    if (a.size) _winSel[iso] = [...a]; else delete _winSel[iso];
+  }
+  async function winGuardar() {
+    const msg = document.getElementById('win-msg'), btn = document.getElementById('win-save');
+    if (!_winCargado) { msg.className = 'kam-msg err'; msg.textContent = 'No se pudieron leer las aprobaciones guardadas. Recarga la página y vuelve a entrar.'; return; }
+    btn.disabled = true; msg.className = 'kam-msg'; msg.textContent = 'Guardando…';
+    try {
+      await ghPut(GANEXTRA_PATH, { semanas: _winSel, updated: new Date().toISOString() }, 'aprobar ganadoras semanales AT');
+      GAN_EXTRA = JSON.parse(JSON.stringify(_winSel));
+      msg.className = 'kam-msg ok'; msg.textContent = '✅ Guardado. Las tiendas lo verán en unos 3 a 5 minutos.';
+    } catch (e) { msg.className = 'kam-msg err'; msg.textContent = 'No se pudo guardar: ' + e.message; }
+    finally { btn.disabled = false; }
+  }
+
   function pctColor(pct) {
     if (pct >= 100) return 'var(--green)';
     if (pct >= 80)  return 'var(--accent)';
@@ -3323,6 +3454,9 @@
         opt('../data/ventas_lakidey_prev.json'),
         opt('../data/ventas_turbito_prev.json'),
       ]);
+
+      const ge = await loadJSON('../' + GANEXTRA_PATH).catch(() => null);
+      GAN_EXTRA = (ge && ge.semanas) || {};
 
       allStores = (Array.isArray(puntosData) ? puntosData : []).filter(p =>
         (p.responsable || '').toUpperCase() === PARTNER &&
