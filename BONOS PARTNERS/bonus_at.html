@@ -1233,6 +1233,65 @@
     .bd-card.hot { background: linear-gradient(160deg, #FF8A3D, #D9530C); color: #fff; box-shadow: 0 8px 20px rgba(217,83,12,.35); }
     .bd-card.hot .bd-logo { background: #fff; border-radius: 8px; padding: 2px 6px; }
     .bd-card.hot .bd-offer, .bd-card.hot .bd-txt { color: #fff; }
+    /* Carrusel de ganadoras */
+    .gw-card { border-radius: 18px; overflow: hidden; background: linear-gradient(135deg, #F06AAE 0%, #DB3F8C 60%, #C42B7A 100%);
+      box-shadow: 0 10px 26px rgba(196,43,122,.35); border: 2px solid rgba(255,255,255,.8); }
+    .gw-card[hidden] { display: none !important; }
+    .gw-hdr { display: flex; justify-content: space-between; align-items: center; padding: 8px 14px; color: #fff; font-size: 13px; font-weight: 900; letter-spacing: .02em; }
+    .gw-hdr small { font-size: 10px; font-weight: 700; opacity: .85; }
+    .gw-track { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; }
+    .gw-track::-webkit-scrollbar { display: none; }
+    .gw-slide { flex: 0 0 100%; scroll-snap-align: center; margin: 0; position: relative; background: #FDF2F8; aspect-ratio: 4 / 5; max-height: 520px; display: flex; align-items: center; justify-content: center; }
+    .gw-slide img { width: 100%; height: 100%; object-fit: contain; cursor: zoom-in; display: block; }
+    .gw-slide figcaption { position: absolute; left: 10px; right: 10px; bottom: 10px; background: rgba(13,31,53,.82); color: #fff; font-size: 14px; font-weight: 800; padding: 8px 12px; border-radius: 12px; text-align: center; line-height: 1.25; }
+    .gw-amt { position: absolute; top: 12px; right: 12px; background: #FFD23F; color: #0B3D91; font-size: 30px; font-weight: 900; line-height: 1; padding: 8px 14px 9px; border-radius: 16px;
+      border: 3px solid #fff; box-shadow: 0 4px 0 #C99A00, 0 8px 18px rgba(0,0,0,.25); transform: rotate(4deg); text-align: center; }
+    .gw-amt small { display: block; font-size: 10px; font-weight: 900; letter-spacing: .14em; color: #C42B7A; margin-bottom: 2px; }
+    @media (max-width: 380px) { .gw-amt { font-size: 24px; } .gw-slide figcaption { font-size: 13px; } }
+    .gw-dots { display: flex; justify-content: center; gap: 6px; padding: 8px 0 9px; }
+    .gw-dots:empty { display: none; }
+    .gw-dots button { width: 8px; height: 8px; border-radius: 999px; border: none; padding: 0; background: rgba(255,255,255,.5); cursor: pointer; transition: width .2s, background .2s; }
+    .gw-dots button.on { width: 22px; background: #FFD23F; }
+    /* Panel KAM: lista de fotos */
+    .gan-list { display: flex; flex-direction: column; gap: 8px; margin-bottom: 10px; }
+    .gan-item { display: flex; gap: 8px; align-items: center; background: var(--surf2); border: 1px solid var(--border); border-radius: 10px; padding: 6px; }
+    .gan-item img { width: 52px; height: 64px; object-fit: cover; border-radius: 6px; flex-shrink: 0; }
+    .gan-fields { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 5px; }
+    .gan-amt-in { display: flex; align-items: center; gap: 4px; }
+    .gan-amt-in span { font-size: 12px; font-weight: 800; color: var(--muted); }
+    .gan-item input { flex: 1; min-width: 0; font: inherit; font-size: 12px; padding: 7px 8px; border: 1px solid var(--border); border-radius: 8px; background: var(--surf); color: var(--text); }
+    .gan-acts { display: flex; gap: 4px; }
+    .gan-acts button { width: 28px; height: 28px; border-radius: 8px; border: 1px solid var(--border); background: var(--surf); color: var(--text); cursor: pointer; font-size: 13px; }
+    .gan-acts button:disabled { opacity: .35; cursor: default; }
+    /* Pop-up de motivación */
+    .mot-ov { position: fixed; inset: 0; z-index: 9000; background: rgba(13,31,53,.55); display: flex; align-items: center; justify-content: center; padding: 16px; animation: motFade .25s ease; }
+    .mot-ov[hidden] { display: none !important; }
+    .mot-box { position: relative; width: min(380px, 100%); border-radius: 24px; padding: 26px 22px 20px; text-align: center; color: #fff; overflow: hidden;
+      background: radial-gradient(circle at 50% -10%, rgba(255,255,255,.28), transparent 55%), linear-gradient(160deg, #F27BB6 0%, #E4519B 45%, #B8226E 100%);
+      box-shadow: 0 24px 60px rgba(0,0,0,.35); border: 3px solid #fff; animation: motPop .35s cubic-bezier(.2,1.4,.4,1); }
+    .mot-x { position: absolute; top: 10px; right: 10px; width: 32px; height: 32px; border-radius: 50%; border: none; background: rgba(255,255,255,.25); color: #fff; font-size: 14px; cursor: pointer; }
+    .mot-hi { font-size: 15px; font-weight: 800; margin-bottom: 4px; }
+    .mot-num { font-size: 96px; font-weight: 900; line-height: .95; color: #FFD23F; text-shadow: 0 4px 0 #0B4A9E, 0 10px 24px rgba(0,0,0,.25); }
+    .mot-num.hoy { font-size: 72px; animation: motPulse 1.2s ease-in-out infinite; }
+    .mot-t { font-size: 18px; font-weight: 900; margin: 6px 0 12px; }
+    .mot-days { display: flex; justify-content: center; gap: 5px; margin-bottom: 14px; }
+    .mot-days span { width: 38px; padding: 5px 0; border-radius: 10px; font-size: 13px; font-weight: 800; display: flex; flex-direction: column; line-height: 1.15; background: rgba(255,255,255,.18); }
+    .mot-days span b { font-size: 9px; font-weight: 800; opacity: .85; }
+    .mot-days span.p { opacity: .45; text-decoration: line-through; }
+    .mot-days span.h { background: #fff; color: #C42B7A; transform: scale(1.12); box-shadow: 0 4px 10px rgba(0,0,0,.2); }
+    .mot-days span.c { outline: 2px solid #FFD23F; outline-offset: -2px; }
+    .mot-days span.c.f::after, .mot-days span.c.h::after { content: '🏁'; font-size: 10px; }
+    .mot-msg { font-size: 14px; line-height: 1.45; margin-bottom: 10px; }
+    .mot-msg b { color: #FFD23F; }
+    .mot-prem { font-size: 12px; background: rgba(13,31,53,.25); border-radius: 12px; padding: 7px 10px; margin-bottom: 14px; }
+    .mot-prem:empty { display: none; }
+    .mot-btn { width: 100%; border: none; border-radius: 14px; padding: 13px; font: inherit; font-size: 15px; font-weight: 900; background: #FFD23F; color: #0B3D91; cursor: pointer; box-shadow: 0 4px 0 #C99A00; }
+    .mot-btn:active { transform: translateY(2px); box-shadow: 0 2px 0 #C99A00; }
+    @keyframes motFade { from { opacity: 0; } }
+    @keyframes motPop { from { transform: scale(.8); opacity: 0; } }
+    @keyframes motPulse { 50% { transform: scale(1.08); } }
+    @media (prefers-reduced-motion: reduce) { .mot-ov, .mot-box, .mot-num.hoy { animation: none; } }
+    @media (max-width: 360px) { .mot-days span { width: 34px; } .mot-num { font-size: 80px; } }
     .promos-tip { text-align: center; font-size: 11.5px; font-weight: 700; color: #0B4A9E; }
     /* Marca */
     .ss-brand { display: flex; align-items: center; gap: 8px; background: #fff; border-radius: 999px; padding: 5px 14px 5px 10px; margin-bottom: 10px; box-shadow: 0 4px 14px rgba(0,0,0,.12); }
@@ -1296,18 +1355,11 @@
   <section class="promos" aria-label="Promociones activas">
     <div class="promos-lbl"><span class="live-dot"></span> Promociones y campañas activas</div>
 
-    <!-- Campaña principal: Fixture Liga 1 (KV oficial) -->
-    <div class="fx-card" data-hasta="2026-11-23">
-      <img src="../sources/logos-games/kv_fixture_liga1.jpg" alt="KV Campaña Fixture Liga 1" class="fx-kv">
-      <div class="fx-body">
-        <div class="fx-tag">Hasta el 23-nov</div>
-        <div class="fx-title">Campaña Fixture Liga 1</div>
-        <div class="fx-hook">¡Completa tu fixture y llévate la <b>pelota</b> a casa GRATIS!</div>
-        <ul class="fx-steps">
-          <li><b>S/ 5</b> en Lotobola = fixture gratis y 1 sticker</li>
-          <li><b>50 stickers</b> = pelota gratis ⚽</li>
-        </ul>
-      </div>
+    <!-- Carrusel de ganadoras: las fotos se suben desde la pestaña 🔒 KAM (data/ganadoras.json) -->
+    <div class="gw-card" id="gw-card" hidden>
+      <div class="gw-hdr"><span>🏆 Ganadoras de la semana</span><small id="gw-count"></small></div>
+      <div class="gw-track" id="gw-track"></div>
+      <div class="gw-dots" id="gw-dots"></div>
     </div>
 
     <!-- Bundles activos -->
@@ -1374,6 +1426,17 @@
         <button class="kam-btn sec" id="kam-del" onclick="kamQuitar()">Quitar flyer</button>
       </div>
       <div class="kam-msg" id="kam-msg"></div>
+    </div>
+    <div class="kam-box" id="kam-gan" style="display:none">
+      <h3>🏆 Carrusel de ganadoras</h3>
+      <p>Sube las fotos de las ganadoras (puedes elegir varias a la vez). Se ven en el buscador, debajo de "Promociones y campañas activas". A cada foto ponle el <b>nombre y tienda</b> y el <b>monto ganado</b> (los dos son opcionales). Ordénalas con las flechas. Máximo <b>12 fotos</b>. Tarda unos <b>3 a 5 minutos</b> en verse publicado.</p>
+      <div class="kam-row"><label>Agregar fotos<input type="file" id="gan-file" accept="image/*" multiple></label></div>
+      <div class="gan-list" id="gan-list"></div>
+      <div class="kam-row">
+        <button class="kam-btn" id="gan-pub" onclick="ganPublicar()">Publicar carrusel</button>
+        <button class="kam-btn sec" id="gan-del" onclick="ganQuitarTodo()">Quitar todas</button>
+      </div>
+      <div class="kam-msg" id="gan-msg"></div>
     </div>
   </div>
 
@@ -1690,6 +1753,20 @@
   </div>
 </div>
 
+<!-- Pop-up de motivación: sale 1 vez al día (primer ingreso) con la cuenta regresiva al cierre de la semana -->
+<div class="mot-ov" id="mot-ov" hidden onclick="if(event.target===this)cerrarMotivacion()">
+  <div class="mot-box" role="dialog" aria-modal="true" aria-labelledby="mot-t">
+    <button class="mot-x" onclick="cerrarMotivacion()" aria-label="Cerrar">✕</button>
+    <div class="mot-hi" id="mot-hi"></div>
+    <div class="mot-num" id="mot-num"></div>
+    <div class="mot-t" id="mot-t"></div>
+    <div class="mot-days" id="mot-days"></div>
+    <div class="mot-msg" id="mot-msg"></div>
+    <div class="mot-prem" id="mot-prem"></div>
+    <button class="mot-btn" onclick="cerrarMotivacion()">¡Vamos por mi incentivo! 💪</button>
+  </div>
+</div>
+
 <!-- Solo desktop. Izquierda: flyer rush (si hay uno vigente) + Top LakiDey + Top Rapiraspa. Derecha: Top Turbito -->
 <div class="side-col" id="side-left">
   <div class="rush-card rush-side" hidden><div class="rush-lbl">🔥 Rush del fin de semana</div><img alt="Flyer rush" onclick="zoomRush(this.src)"></div>
@@ -1763,6 +1840,7 @@
       setupRoleSelects();
     }
     document.getElementById('search-input').focus();
+    mostrarMotivacion();
   }
 
   function setRole(role) {
@@ -2824,7 +2902,9 @@
       document.getElementById('kam-pass').value = '';
       document.getElementById('kam-login').style.display  = 'none';
       document.getElementById('kam-editor').style.display = '';
+      document.getElementById('kam-gan').style.display = '';
       kamCargarActual();
+      ganCargarActual();
     } catch (e) {
       msg.className = 'kam-msg err'; msg.textContent = 'Contraseña incorrecta.';
     } finally { btn.disabled = false; }
@@ -2965,6 +3045,222 @@
       document.getElementById('kam-prev').style.display = 'none';
     }
   }
+
+  // ── CARRUSEL DE GANADORAS ──────────────────────────────────
+  // data/ganadoras.json = { fotos: [{ imagen: dataURL, texto }], updated }. Lo publica la KAM.
+  const GAN_PATH = 'data/ganadoras.json';
+  let _ganFotos = [], _ganTimer = null;
+
+  // Cada foto: { imagen, nombre, monto }. "texto" se acepta por compatibilidad (versión anterior).
+  const ganEsc    = t => String(t).replace(/[<>&"]/g, c => ({'<':'&lt;','>':'&gt;','&':'&amp;','"':'&quot;'}[c]));
+  const ganNombre = f => (f.nombre || f.texto || '').trim();
+  const ganMonto  = f => { const n = parseFloat(String(f.monto ?? '').replace(',', '.')); return n > 0 ? n.toLocaleString('es-PE', { maximumFractionDigits: 2 }) : ''; };
+
+  function pintarGanadoras(d) {
+    const fotos = (d && Array.isArray(d.fotos)) ? d.fotos.filter(f => f && f.imagen) : [];
+    const card = document.getElementById('gw-card');
+    if (!card) return;
+    card.hidden = !fotos.length;
+    clearInterval(_ganTimer);
+    if (!fotos.length) return;
+    const track = document.getElementById('gw-track'), dots = document.getElementById('gw-dots');
+    track.innerHTML = fotos.map((f, i) => `<figure class="gw-slide">
+        <img src="${f.imagen}" alt="Ganadora ${i + 1}" loading="${i ? 'lazy' : 'eager'}" onclick="zoomRush(this.src)">
+        ${ganMonto(f) ? `<div class="gw-amt"><small>GANÓ</small>S/ ${ganMonto(f)}</div>` : ''}
+        ${ganNombre(f) ? `<figcaption>${ganEsc(ganNombre(f))}</figcaption>` : ''}
+      </figure>`).join('');
+    dots.innerHTML = fotos.length > 1 ? fotos.map((_, i) => `<button aria-label="Foto ${i + 1}" data-i="${i}"></button>`).join('') : '';
+    document.getElementById('gw-count').textContent = fotos.length > 1 ? fotos.length + ' fotos' : '';
+    const marcar = () => {
+      const i = Math.round(track.scrollLeft / track.clientWidth);
+      dots.querySelectorAll('button').forEach((b, k) => b.classList.toggle('on', k === i));
+      return i;
+    };
+    dots.querySelectorAll('button').forEach(b => b.onclick = () => track.scrollTo({ left: b.dataset.i * track.clientWidth, behavior: 'smooth' }));
+    track.onscroll = () => { clearTimeout(track._t); track._t = setTimeout(marcar, 80); };
+    marcar();
+    if (fotos.length > 1 && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      let pausa = false;
+      track.addEventListener('pointerdown', () => { pausa = true; setTimeout(() => pausa = false, 8000); });
+      _ganTimer = setInterval(() => {
+        if (pausa || document.hidden || !track.clientWidth) return;
+        const i = (marcar() + 1) % fotos.length;
+        track.scrollTo({ left: i * track.clientWidth, behavior: 'smooth' });
+      }, 4500);
+    }
+  }
+
+  async function loadGanadoras() {
+    try {
+      const res = await fetch('../' + GAN_PATH + '?t=' + Date.now());
+      if (res.ok) pintarGanadoras(await res.json());
+    } catch (e) { /* sin carrusel */ }
+  }
+  document.addEventListener('DOMContentLoaded', loadGanadoras);
+
+  // Panel KAM → ganadoras (usa el mismo token y repo que el flyer rush)
+  async function ganGet() {
+    const url = `https://api.github.com/repos/${RUSH_REPO}/contents/${GAN_PATH}?ref=main&t=${Date.now()}`;
+    const res = await fetch(url, { headers: _kamHeaders() });
+    if (res.status === 404) return { sha: null, data: null };
+    if (!res.ok) throw new Error('GitHub respondió ' + res.status);
+    const j = await res.json();
+    let data = null;
+    try {
+      const raw = await fetch(url, { headers: { ..._kamHeaders(), Accept: 'application/vnd.github.raw+json' } }).then(r => r.text());
+      data = JSON.parse(raw.replace(/^\uFEFF/, ''));
+    } catch (e) {}
+    return { sha: j.sha, data };
+  }
+
+  function ganPintarLista() {
+    const box = document.getElementById('gan-list');
+    box.innerHTML = _ganFotos.map((f, i) => `<div class="gan-item">
+        <img src="${f.imagen}" alt="">
+        <div class="gan-fields">
+          <input type="text" maxlength="45" placeholder="Nombre y tienda (ej. María T. · Red AT Pisco)" value="${ganEsc(f.nombre || '')}" oninput="_ganFotos[${i}].nombre=this.value">
+          <div class="gan-amt-in"><span>S/</span><input type="number" min="0" step="1" inputmode="decimal" placeholder="Monto ganado" value="${f.monto ?? ''}" oninput="_ganFotos[${i}].monto=this.value"></div>
+        </div>
+        <div class="gan-acts">
+          <button title="Subir" onclick="ganMover(${i},-1)" ${i ? '' : 'disabled'}>↑</button>
+          <button title="Bajar" onclick="ganMover(${i},1)" ${i < _ganFotos.length - 1 ? '' : 'disabled'}>↓</button>
+          <button title="Quitar" onclick="_ganFotos.splice(${i},1);ganPintarLista()">✕</button>
+        </div>
+      </div>`).join('') || '<p style="margin:0 0 10px">Aún no hay fotos en el carrusel.</p>';
+  }
+  function ganMover(i, d) { const f = _ganFotos.splice(i, 1)[0]; _ganFotos.splice(i + d, 0, f); ganPintarLista(); }
+
+  async function ganCargarActual() {
+    const msg = document.getElementById('gan-msg');
+    try {
+      const { data } = await ganGet();
+      _ganFotos = (data && data.fotos) ? data.fotos.map(f => ({ imagen: f.imagen, nombre: ganNombre(f), monto: f.monto ?? '' })) : [];
+      ganPintarLista();
+      msg.className = 'kam-msg';
+      msg.textContent = _ganFotos.length ? 'Carrusel actual: ' + _ganFotos.length + ' foto(s).' : '';
+    } catch (e) { msg.className = 'kam-msg err'; msg.textContent = 'No se pudo leer el carrusel actual: ' + e.message; }
+  }
+
+  // Fotos más livianas que el flyer: máx. 900×1125 y ~180 KB cada una
+  function ganComprimir(file) {
+    return new Promise((resolve, reject) => {
+      const img = new Image();
+      img.onload = () => {
+        const k = Math.min(1, 900 / img.width, 1125 / img.height);
+        const c = document.createElement('canvas');
+        c.width = Math.round(img.width * k); c.height = Math.round(img.height * k);
+        c.getContext('2d').drawImage(img, 0, 0, c.width, c.height);
+        let q = 0.82, url = c.toDataURL('image/webp', q);
+        while (url.length > 240000 && q > 0.4) { q -= 0.08; url = c.toDataURL('image/webp', q); }
+        URL.revokeObjectURL(img.src); resolve(url);
+      };
+      img.onerror = () => reject(new Error('No se pudo leer ' + file.name));
+      img.src = URL.createObjectURL(file);
+    });
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    const inp = document.getElementById('gan-file');
+    if (!inp) return;
+    inp.addEventListener('change', async e => {
+      const msg = document.getElementById('gan-msg');
+      const files = [...e.target.files];
+      const libres = 12 - _ganFotos.length;
+      if (files.length > libres) { msg.className = 'kam-msg err'; msg.textContent = 'Máximo 12 fotos: solo se agregan ' + Math.max(libres, 0) + '.'; }
+      for (const f of files.slice(0, Math.max(libres, 0))) {
+        try { _ganFotos.push({ imagen: await ganComprimir(f), nombre: '', monto: '' }); }
+        catch (err) { msg.className = 'kam-msg err'; msg.textContent = err.message; }
+      }
+      inp.value = '';
+      ganPintarLista();
+      if (files.length <= libres) { msg.className = 'kam-msg'; msg.textContent = 'Escribe nombre y monto de cada foto, revisa el orden y pulsa "Publicar carrusel".'; }
+    });
+  });
+
+  async function ganGuardar(data, texto) {
+    const msg = document.getElementById('gan-msg');
+    const btns = [document.getElementById('gan-pub'), document.getElementById('gan-del')];
+    btns.forEach(b => b.disabled = true);
+    msg.className = 'kam-msg'; msg.textContent = 'Publicando…';
+    try {
+      const content = btoa(unescape(encodeURIComponent(JSON.stringify(data))));
+      for (let intento = 0; intento < 2; intento++) {
+        const { sha } = await ganGet();
+        const res = await fetch(`https://api.github.com/repos/${RUSH_REPO}/contents/${GAN_PATH}`, {
+          method: 'PUT', headers: _kamHeaders(),
+          body: JSON.stringify({ message: 'chore: ' + texto + ' (panel KAM)', content, branch: 'main', ...(sha ? { sha } : {}) }) });
+        if (res.ok) {
+          pintarGanadoras(data);
+          msg.className = 'kam-msg ok'; msg.textContent = '✅ Listo. Se verá para todos en unos 3 a 5 minutos.';
+          return true;
+        }
+        if (res.status === 401 || res.status === 403) throw new Error('el acceso a GitHub venció o no tiene permiso de escritura.');
+        if (res.status !== 409 && res.status !== 422) throw new Error('GitHub respondió ' + res.status);
+      }
+      throw new Error('conflicto al guardar, intenta de nuevo');
+    } catch (e) {
+      msg.className = 'kam-msg err'; msg.textContent = 'No se pudo publicar: ' + e.message; return false;
+    } finally { btns.forEach(b => b.disabled = false); }
+  }
+  function ganPublicar() {
+    if (!_ganFotos.length) { const m = document.getElementById('gan-msg'); m.className = 'kam-msg err'; m.textContent = 'Agrega al menos una foto, o usa "Quitar todas".'; return; }
+    const fotos = _ganFotos.map(f => ({ imagen: f.imagen, nombre: (f.nombre || '').trim(), monto: ganMonto(f) ? parseFloat(String(f.monto).replace(',', '.')) : null }));
+    ganGuardar({ fotos, updated: new Date().toISOString() }, 'actualizar carrusel de ganadoras AT');
+  }
+  async function ganQuitarTodo() {
+    if (!confirm('¿Quitar todas las fotos del carrusel? Las tiendas dejarán de verlo.')) return;
+    if (await ganGuardar({ fotos: [], updated: new Date().toISOString() }, 'quitar carrusel de ganadoras AT')) { _ganFotos = []; ganPintarLista(); }
+  }
+
+  // ── POP-UP DE MOTIVACIÓN ───────────────────────────────────
+  // Sale una vez al día (primer ingreso del día en ese celular/PC) con la cuenta
+  // regresiva al cierre de la semana de incentivos (cierra los miércoles).
+  const DIAS_NOM = ['domingo','lunes','martes','miércoles','jueves','viernes','sábado'];
+  const DIAS_INI = ['D','L','M','M','J','V','S'];
+  function mostrarMotivacion(forzar) {
+    if (isMesPrev) return;
+    const hoy = isoToday(), KEY = 'at_motivacion';
+    if (!forzar) {
+      try { if (localStorage.getItem(KEY) === hoy) return; } catch (e) {}
+    }
+    const sem = semanaActual();
+    if (!sem || hoy < sem.iniIso || hoy > sem.finIso) return;
+    const dHoy = new Date(hoy + 'T12:00:00');
+    const quedan = Math.round((new Date(sem.finIso + 'T12:00:00') - dHoy) / 864e5) + 1;   // incluye hoy
+    const h = Number(new Date().toLocaleString('en-US', { timeZone: 'America/Lima', hour: 'numeric', hour12: false })) % 24;
+    const saludo = h < 12 ? '☀️ ¡Buenos días, equipo!' : h < 19 ? '🌤️ ¡Buenas tardes, equipo!' : '🌙 ¡Buenas noches, equipo!';
+    const cierre = DIAS_NOM[new Date(sem.finIso + 'T12:00:00').getDay()] + ' ' + fechaCorta(sem.fin);
+    let num, tit, msg;
+    if (quedan === 1) {
+      num = '¡HOY!'; tit = 'Cierra la semana ' + sem.n;
+      msg = 'Es el último día para cumplir tu meta semanal. <b>Cada venta de hoy cuenta</b> para asegurar tu incentivo. ¡A cerrar fuerte! 🔥';
+    } else {
+      num = quedan; tit = 'días para cerrar la semana ' + sem.n;
+      msg = quedan === 2
+        ? 'Mañana ' + cierre + ' cierra la semana. <b>Asegura hoy tu incentivo:</b> ofrece Lotobola en cada compra.'
+        : 'La semana cierra el <b>' + cierre + '</b>. Cumple tu meta diaria desde hoy y <b>asegura tu incentivo</b>. ¡Tú puedes! 🍀';
+    }
+    // Tira de días de la semana (jue → mié): pasados, hoy y por venir
+    let dias = '';
+    for (let i = 0; i < 7; i++) {
+      const d = new Date(sem.ini); d.setDate(sem.ini.getDate() + i);
+      const iso = isoDe(d), cls = iso < hoy ? 'p' : iso === hoy ? 'h' : 'f';
+      dias += `<span class="${cls}${i === 6 ? ' c' : ''}"><b>${DIAS_INI[d.getDay()]}</b>${d.getDate()}</span>`;
+    }
+    const prem = Object.entries(CLUSTER_PREMIO).map(([k, v]) => v.premio).filter(Boolean);
+    document.getElementById('mot-hi').textContent  = saludo;
+    document.getElementById('mot-num').textContent = num;
+    document.getElementById('mot-num').classList.toggle('hoy', quedan === 1);
+    document.getElementById('mot-t').textContent   = tit;
+    document.getElementById('mot-days').innerHTML  = dias;
+    document.getElementById('mot-msg').innerHTML   = msg;
+    document.getElementById('mot-prem').innerHTML  = prem.length
+      ? `🏆 Premios de <b>S/ ${Math.min(...prem)}</b> a <b>S/ ${Math.max(...prem)}</b> por semana según tu clúster` : '';
+    document.getElementById('mot-ov').hidden = false;
+    try { localStorage.setItem(KEY, hoy); } catch (e) {}
+  }
+  function cerrarMotivacion() { document.getElementById('mot-ov').hidden = true; }
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') { const o = document.getElementById('mot-ov'); if (o && !o.hidden) cerrarMotivacion(); } });
 
   function pctColor(pct) {
     if (pct >= 100) return 'var(--green)';
