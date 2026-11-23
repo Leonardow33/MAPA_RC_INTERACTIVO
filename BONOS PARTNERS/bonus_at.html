@@ -3049,7 +3049,7 @@
   // ── CARRUSEL DE GANADORAS ──────────────────────────────────
   // data/ganadoras.json = { fotos: [{ imagen: dataURL, texto }], updated }. Lo publica la KAM.
   const GAN_PATH = 'data/ganadoras.json';
-  let _ganFotos = [], _ganTimer = null;
+  let _ganFotos = [], _ganTimer = null, _ganCargado = false;   // _ganCargado: se leyó el carrusel publicado (si no, no se deja publicar para no borrar fotos)
 
   // Cada foto: { imagen, nombre, monto }. "texto" se acepta por compatibilidad (versión anterior).
   const ganEsc    = t => String(t).replace(/[<>&"]/g, c => ({'<':'&lt;','>':'&gt;','&':'&amp;','"':'&quot;'}[c]));
@@ -3100,16 +3100,24 @@
 
   // Panel KAM → ganadoras (usa el mismo token y repo que el flyer rush)
   async function ganGet() {
-    const url = `https://api.github.com/repos/${RUSH_REPO}/contents/${GAN_PATH}?ref=main&t=${Date.now()}`;
-    const res = await fetch(url, { headers: _kamHeaders() });
+    // Cada consulta con su propia URL: si se repite la misma, el navegador puede devolver de caché
+    // la respuesta de metadatos (sin "fotos") y el panel creería que el carrusel está vacío.
+    const url = () => `https://api.github.com/repos/${RUSH_REPO}/contents/${GAN_PATH}?ref=main&t=${Date.now()}_${Math.random().toString(36).slice(2)}`;
+    const res = await fetch(url(), { headers: _kamHeaders(), cache: 'no-store' });
     if (res.status === 404) return { sha: null, data: null };
     if (!res.ok) throw new Error('GitHub respondió ' + res.status);
     const j = await res.json();
+    const parse = t => JSON.parse(String(t).replace(/^\uFEFF/, ''));
     let data = null;
-    try {
-      const raw = await fetch(url, { headers: { ..._kamHeaders(), Accept: 'application/vnd.github.raw+json' } }).then(r => r.text());
-      data = JSON.parse(raw.replace(/^\uFEFF/, ''));
-    } catch (e) {}
+    // 1) contenido en base64 dentro de la respuesta (archivos < 1 MB)
+    try { if (j.content) data = parse(decodeURIComponent(escape(atob(j.content.replace(/\s/g, ''))))); } catch (e) { data = null; }
+    // 2) si no vino (archivo grande), pedirlo en crudo
+    if (!data || !Array.isArray(data.fotos)) {
+      const raw = await fetch(url(), { headers: { ..._kamHeaders(), Accept: 'application/vnd.github.raw+json' }, cache: 'no-store' });
+      if (!raw.ok) throw new Error('GitHub respondió ' + raw.status + ' al leer las fotos');
+      data = parse(await raw.text());
+      if (!data || !Array.isArray(data.fotos)) throw new Error('el archivo de fotos no tiene el formato esperado');
+    }
     return { sha: j.sha, data };
   }
 
@@ -3135,6 +3143,7 @@
     try {
       const { data } = await ganGet();
       _ganFotos = (data && data.fotos) ? data.fotos.map(f => ({ imagen: f.imagen, nombre: ganNombre(f), monto: f.monto ?? '' })) : [];
+      _ganCargado = true;
       ganPintarLista();
       msg.className = 'kam-msg';
       msg.textContent = _ganFotos.length ? 'Carrusel actual: ' + _ganFotos.length + ' foto(s).' : '';
@@ -3203,6 +3212,7 @@
     } finally { btns.forEach(b => b.disabled = false); }
   }
   function ganPublicar() {
+    if (!_ganCargado) { const m = document.getElementById('gan-msg'); m.className = 'kam-msg err'; m.textContent = 'No se pudieron leer las fotos ya publicadas. Recarga la página y vuelve a entrar para no borrarlas.'; return; }
     if (!_ganFotos.length) { const m = document.getElementById('gan-msg'); m.className = 'kam-msg err'; m.textContent = 'Agrega al menos una foto, o usa "Quitar todas".'; return; }
     const fotos = _ganFotos.map(f => ({ imagen: f.imagen, nombre: (f.nombre || '').trim(), monto: ganMonto(f) ? parseFloat(String(f.monto).replace(',', '.')) : null }));
     ganGuardar({ fotos, updated: new Date().toISOString() }, 'actualizar carrusel de ganadoras AT');
