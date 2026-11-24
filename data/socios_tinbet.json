@@ -1,0 +1,39 @@
+{
+ "partner": "TINBET",
+ "esquema_default": "base",
+ "esquemas": {
+  "base": {
+   "tramos": [
+    {
+     "hasta": 1500,
+     "pct": 8
+    },
+    {
+     "hasta": 6000,
+     "pct": 10
+    },
+    {
+     "hasta": 20000,
+     "pct": 12
+    },
+    {
+     "hasta": null,
+     "pct": 14
+    }
+   ],
+   "raspas": 8,
+   "premios": 2,
+   "igv": 18
+  }
+ },
+ "admin": {
+  "s": "xB1VR5soo9cmhItB79ZTkg==",
+  "i": "o65sb8qJpABdfH6O",
+  "c": "aBfu/LYYGhZifBzmVTynT9GJNoNhi7dv0tt+mtN2ApVwEn581sN78GsMrYmLp4za89oYADwy+tLcAaEYubnCTuye5s8TT3smmpQrS2i5T4do9J++6xRGIAGh"
+ },
+ "dataRepo": null,
+ "dataToken": null,
+ "incentivos": [],
+ "socios": [],
+ "updated": "2026-11-24T15:14:20.774Z"
+}
