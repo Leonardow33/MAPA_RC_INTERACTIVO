@@ -134,7 +134,33 @@ Power BI → Power Automate (DAX diario → JSON en SharePoint)
 - **Finales de línea**: en git los archivos están en LF, pero la copia de trabajo de Windows está en CRLF (autocrlf). La herramienta Edit funciona bien. Los scripts que editen con `read_bytes()`/`write_bytes()` deben buscar y escribir `\r\n` (o aceptar `\r?\n`), como en `bonus_at.html`.
 - La lógica compartida grande vive en `js/` (`mapa.js`, `visitas.js`, `planificador.js`, `zonas.js`, `supycap.js`). Mucho JS va inline en los HTML.
 - `herramientas/`: utilidades internas (`editor_pdv.html`, `mapa_incidencias.html`).
-- `sources/` (Excel fuente, ignorado por git), `distribucion/` (paquetes zip y docs para distribuir) y los `*_prebak.json` no forman parte del sitio.
+- `sources/` está ignorado por git: **solo se suben, con `git add -f`, los archivos que usa el sitio o un script**: `sources/logos-games/*` (logos, bundles, llamas, video), `BASE_PARA MAPAS.xlsx` y `KEYS_BONOS_TAMBO.xlsx` (los lee `scripts/convertir.py`) y `FORMATO_1_TAMBO.xlsx` (modelo del Excel que descarga `bonus.html`). Los Excel de un solo uso no se suben: el 25-nov-2026 se mandaron a la Papelera los que no usaba nada y se quitaron del repo `SABADO_30.xlsx`, `PROMOINKA.jpeg`, `kv_fixture_liga1.jpg` y `suerte-2.png`. Antes de agregar un archivo a `sources/`, revisa que una página o un script lo use.
+- `distribucion/` (paquetes zip y copias del sitio para distribuir, regenerables) y los `*_prebak.json` no forman parte del sitio y están en `.gitignore`. Los manuales `.md` de `distribucion/` van al repo privado (ver **Laptop nueva y respaldo**).
+
+## Laptop nueva y respaldo
+
+Este repo es **público** (lo sirve GitHub Pages). Lo que no puede ser público vive en el repo **privado** `Leonardow33/MAPAS_RC_PRIVADO`: manuales para correo (`distribucion/manuales/`, `distribucion/*.md`), la memoria de Claude Code del proyecto y `.claude/settings.local.json`. Se sincroniza con `scripts/respaldo_privado.sh`:
+- **Después de cambiar un manual o cuando Claude guarde memoria nueva**: `bash scripts/respaldo_privado.sh respaldar` (copia, hace commit y push al privado, clonado en `../MAPAS_RC_PRIVADO`).
+- **Laptop nueva** (Windows, Git Bash):
+  1. Instalar Git, GitHub CLI, Node 20 y Python 3. Luego `gh auth login` y `git config --global core.autocrlf true`.
+  2. `git clone https://github.com/Leonardow33/MAPA_RC_INTERACTIVO.git MAPAS_RC_AUTO` (de preferencia en la misma ruta, `C:\Users\<usuario>\Music\ESTRUCTURA TRANSVERSAL\`).
+  3. `pip install playwright pandas openpyxl requests` y `python -m playwright install chromium` (pruebas de páginas y `convertir.py`).
+  4. `bash scripts/respaldo_privado.sh restaurar`: baja el repo privado y deja los manuales en `distribucion/` y la memoria de Claude en `~/.claude/projects/<carpeta>/memory/`.
+  5. Probar con `python -m http.server 8000` y `node scripts/test_plan.js`.
+
+**Lo que no está en ningún repo** (si algo deja de funcionar, se revisa allí):
+- **Secrets de GitHub Actions** (`PBI_USERNAME`, `PBI_PASSWORD`, `ZAPI_URL`, `ZAPI_PHONE`, `ZAPI_CLIENT_TOKEN`): están en la configuración del repo en GitHub, no hay que copiarlos.
+- **cron-job.org**: lanza `actualizar_ventas.yml` cada 25 min y `findemes_noche.yml` a las 23:40, con un token de GitHub guardado en esa cuenta.
+- **Power Automate y Power BI**: los flujos y sus DAX (ventas, `tambo_*`, `puntos.json`, `version.json`) viven en la cuenta de Microsoft. Los DAX no están en el repo; sus reglas están en este archivo.
+- **Apps Script** de `visitas.html` (acciones `getVisitas`, `getVisitasSup`, `getVisitasMapa2`) y las hojas de Google: viven en la cuenta de Google. En el repo solo está `scripts/material_pop_webapp.gs`.
+- **Contraseñas** (KAM de `bonus_at.html`, `admin` del portal Tinbet) y **tokens fine-grained**: las guarda el usuario. En el repo solo van cifradas (`RUSH_TOKEN_ENC`, `data/socios_tinbet.json`). Si se pierde la del admin Tinbet, se vuelve a crear con `scripts/init_socios_tinbet.js` y `FORZAR=1` (los socios necesitan contraseña nueva).
+- `pbi_session.b64.txt` es una sesión vieja de Power BI que solo usaba `fetch_ventas.py` (ya no corre). No se copia; si hiciera falta, se genera con `scripts/save_pbi_session.py`.
+
+## Pendientes
+
+- **Portal Tinbet · historial**: crear un repo privado **aparte** (no `MAPAS_RC_PRIVADO`, porque el token de los socios no debe verlo), por ejemplo `portal-socios-data`, con un token fine-grained solo de ese repo (Contents: Read and write), y cargarlo en el panel admin → "Registro de facturación".
+- **Portal Tinbet · premios pagados**: el usuario creará el flujo de Power Automate y enviará el documento. Falta ajustar el nombre y el formato de `data/premios_pagados(_prev).json`, y agregar la descarga, el `_prev` al cambiar de mes y el sync a `dist` en `actualizar_ventas.yml`.
+- **Portal Tinbet · socios**: el usuario está limpiando los `gz` duplicados en la base y creando los usuarios desde el panel admin.
 
 ## Convenciones
 
@@ -142,4 +168,5 @@ Power BI → Power Automate (DAX diario → JSON en SharePoint)
 - A veces el usuario manda varias ediciones seguidas y pide **no hacer commit hasta tenerlas todas**: en ese caso espera a que diga "commit and push".
 - Cuando cambie una regla de negocio (bonos, semanas, metas, flujos de Power Automate), actualiza también este archivo.
 - Los commits automáticos de datos llevan `[skip ci]`.
-- No hagas commit de `pbi_session.b64.txt` (es una sesión de Power BI) ni de `sources/`.
+- No hagas commit de `pbi_session.b64.txt` (es una sesión de Power BI) ni de `sources/` (salvo los archivos que usa el sitio o un script, con `git add -f`).
+- Nada con datos personales, correos, contraseñas o puntos débiles de seguridad va a este repo, ni siquiera en documentación: va al repo privado.

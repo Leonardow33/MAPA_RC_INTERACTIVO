@@ -4,3 +4,8 @@ scripts/__pycache__/
 sources/
 sugerencias_rc*.csv
 sugerencias_sin_dia_cap.csv
+
+# Paquetes para distribuir (regenerables; los manuales .md van al repo privado MAPAS_RC_PRIVADO)
+distribucion/
+# Respaldos manuales de los _prev
+data/*_prebak.json
