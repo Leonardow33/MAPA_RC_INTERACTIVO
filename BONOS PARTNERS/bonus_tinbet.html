@@ -1,1123 +1,2588 @@
 ﻿<!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="robots" content="noindex">
-<title>Portal Socios · Tinbet</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Nunito+Sans:opsz,wght@6..12,400;6..12,600;6..12,700;6..12,800&display=swap">
-<style>
-/* Portal de socios Lotobola × Tinbet: cada socio (franquiciado o agente) entra con su usuario y ve solo sus tiendas. */
-:root{
-  --bg:#F6F3F8; --surf:#FFFFFF; --surf2:#FBF7FA; --line:#EADDE6; --fg:#1D1530; --muted:#6B5F78;
-  --brand:#D63B8C; --brand2:#A81F68; --navy:#0B4A9E; --sun:#FFD23F; --sun-ink:#5A3D00;
-  --ok:#14874F; --ok-bg:#E3F5EB; --warn:#B26A00; --warn-bg:#FFF2D6; --bad:#C62828; --bad-bg:#FDE7E7;
-  --f-display:"Baloo 2","Nunito Sans",system-ui,sans-serif;
-  --f-body:"Nunito Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
-  --r:16px;
-}
-@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
-  --bg:#150F1C; --surf:#1F1729; --surf2:#271D33; --line:#3A2D48; --fg:#F4EEF8; --muted:#B3A6C2;
-  --brand:#F06AAE; --brand2:#D63B8C; --navy:#7FB2FF;
-  --ok:#4FD18E; --ok-bg:#173527; --warn:#FFC266; --warn-bg:#3A2A10; --bad:#FF8A80; --bad-bg:#3A1A1A; color-scheme:dark }}
-:root[data-theme="dark"]{
-  --bg:#150F1C; --surf:#1F1729; --surf2:#271D33; --line:#3A2D48; --fg:#F4EEF8; --muted:#B3A6C2;
-  --brand:#F06AAE; --brand2:#D63B8C; --navy:#7FB2FF;
-  --ok:#4FD18E; --ok-bg:#173527; --warn:#FFC266; --warn-bg:#3A2A10; --bad:#FF8A80; --bad-bg:#3A1A1A; color-scheme:dark }
-*{box-sizing:border-box}
-body{background:var(--bg);color:var(--fg);font-family:var(--f-body);font-size:15px;line-height:1.5;margin:0}
-[hidden]{display:none!important}
-.num{font-variant-numeric:tabular-nums}
-h1,h2,h3{font-family:var(--f-display);line-height:1.15;margin:0;text-wrap:balance}
-button{font:inherit;cursor:pointer}
-:focus-visible{outline:3px solid var(--sun);outline-offset:2px}
-.wrap{max-width:1120px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1"/>
+  <title>Mi Progreso · Tinbet</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-/* ── Login ── */
-#login{min-height:100vh;display:grid;place-items:center;padding-block:32px;
-  background:radial-gradient(circle at 15% 10%,rgba(255,210,63,.35),transparent 30%),linear-gradient(150deg,#F27BB6 0%,#D63B8C 55%,#9E1C62 100%)}
-.lg-card{width:min(860px,100%);display:grid;grid-template-columns:1fr 1fr;background:var(--surf);border-radius:24px;overflow:hidden;box-shadow:0 30px 70px rgba(60,0,35,.35)}
-.lg-art{position:relative;background:linear-gradient(170deg,#FFE27A,#FFD23F 60%,#F5B400);padding:28px;display:flex;flex-direction:column;justify-content:space-between;min-height:420px;color:#3D2600;overflow:hidden}
-.lg-art h2{font-size:30px;color:#3D2600}
-.lg-art p{margin:6px 0 0;max-width:26ch;font-weight:600}
-.lg-art img.llama{position:absolute;right:-6px;bottom:-8px;width:190px}
-.lg-art ul{list-style:none;padding:0;margin:0;display:grid;gap:6px;font-size:13px;font-weight:700;max-width:55%}
-.lg-art li::before{content:"✓ ";color:var(--brand2)}
-.lg-form{padding:32px 28px;display:flex;flex-direction:column;gap:14px}
-.lg-logos{display:flex;align-items:center;gap:12px}
-.lg-logos img{height:34px;width:auto}
-.lg-logos img.pt{height:40px;border-radius:8px}
-.lg-form h1{font-size:26px}
-.lg-sub{color:var(--muted);margin:-8px 0 4px;font-size:14px}
-label{font-size:13px;font-weight:800;display:grid;gap:5px}
-input[type=text],input[type=password],input[type=date],input[type=number],select,textarea{font:inherit;padding:11px 13px;border-radius:12px;border:1.5px solid var(--line);background:var(--surf2);color:var(--fg);min-width:0}
-input:focus,select:focus,textarea:focus{border-color:var(--brand);outline:none}
-.btn{border:none;border-radius:12px;padding:12px 16px;font-weight:800;background:var(--brand);color:#fff;font-size:15px}
-.btn:hover{background:var(--brand2)}
-.btn:disabled{opacity:.55;cursor:wait}
-.btn.sec{background:var(--surf2);color:var(--fg);border:1.5px solid var(--line)}
-.btn.sec:hover{border-color:var(--brand)}
-.btn.sm{padding:6px 11px;font-size:12.5px;border-radius:9px}
-.btn.danger{background:var(--bad-bg);color:var(--bad);border:1.5px solid transparent}
-.lg-err{color:var(--bad);font-size:13px;font-weight:700;min-height:18px}
-.lg-note{background:var(--surf2);border:1.5px dashed var(--line);border-radius:12px;padding:10px 12px;font-size:12.5px;color:var(--muted)}
+    :root {
+      --bg:       #EDFBF3;
+      --surf:     #FFFFFF;
+      --surf2:    #F0FDF6;
+      --border:   #BFDDCD;
+      --text:     #0A2415;
+      --muted:    #2D6A42;
+      --dim:      #80B895;
+      --accent:   #16A34A;
+      --accent-d: #15803D;
+      --glow:     rgba(22,163,74,.2);
+      --green:    #0DA870;
+      --amber:    #D97706;
+      --red:      #DC2626;
+      --rose:     rgba(10,36,21,.45);
+      --rose-soft: rgba(10,36,21,.04);
+    }
 
-/* ── App ── */
-.top{background:linear-gradient(120deg,#E4519B,#B8226E);color:#fff}
-.top .wrap{display:flex;align-items:center;gap:14px;padding-block:12px;flex-wrap:wrap}
-.top .logo{background:#fff;border-radius:999px;padding:6px 12px;display:flex}
-.top .logo img{height:22px;width:auto}
-.top .plogo{height:36px;width:auto;border-radius:8px;border:1.5px solid rgba(255,255,255,.7)}
-.who{flex:1;min-width:0}
-.who b{display:block;font-family:var(--f-display);font-size:19px;line-height:1.1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.who span{font-size:12.5px;opacity:.9}
-.out{border:1.5px solid rgba(255,255,255,.6);background:transparent;color:#fff;border-radius:999px;padding:7px 14px;font-weight:800;font-size:13px}
-.adm-banner{background:#1D1530;color:#FFD23F;font-size:13px;font-weight:700}
-.adm-banner .wrap{display:flex;gap:10px;align-items:center;justify-content:space-between;padding-block:8px;flex-wrap:wrap}
-.adm-banner button{border:1.5px solid #FFD23F;background:none;color:#FFD23F;border-radius:999px;padding:4px 12px;font-weight:800;font-size:12.5px}
-.hero{background:linear-gradient(120deg,#E4519B,#B8226E);color:#fff;padding-bottom:64px}
-.hero .wrap{display:flex;justify-content:space-between;align-items:flex-end;gap:12px;flex-wrap:wrap;padding-top:6px}
-.hero h1{font-size:28px}
-.hero p{margin:2px 0 0;opacity:.9;font-size:14px}
-.per{display:flex;background:rgba(255,255,255,.18);border-radius:999px;padding:3px}
-.per button{border:none;background:transparent;color:#fff;padding:7px 14px;border-radius:999px;font-weight:800;font-size:13px;text-transform:capitalize}
-.per button.on{background:#fff;color:var(--brand2)}
-main.wrap{margin-top:-48px;display:grid;grid-template-columns:minmax(0,1fr);gap:18px;padding-bottom:40px}
-main.wrap>*,.grid2>*{min-width:0}
-.card{background:var(--surf);border:1px solid var(--line);border-radius:var(--r);padding:18px}
-.card h2{font-size:20px}
-.card .hint{color:var(--muted);font-size:13px;margin:2px 0 0}
-.grid2{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(0,1fr);gap:18px;align-items:start}
-.chart{width:100%;height:auto;display:block;margin-top:10px}
-.legend{display:flex;gap:14px;font-size:12.5px;color:var(--muted);margin-top:6px;flex-wrap:wrap}
-.legend i{display:inline-block;width:14px;height:3px;border-radius:2px;vertical-align:middle;margin-right:5px}
-.how{margin-top:12px;font-size:13px;color:var(--muted)}
-.how summary{cursor:pointer;font-weight:800;color:var(--navy)}
-.scale{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-top:8px}
-.scale div{background:var(--surf2);border:1px solid var(--line);border-radius:10px;padding:6px;text-align:center;font-size:11.5px}
-.scale b{display:block;font-size:16px;color:var(--fg);font-family:var(--f-display)}
-.tbl-wrap{overflow-x:auto;margin-top:12px;border:1px solid var(--line);border-radius:12px}
-table.st{width:100%;border-collapse:collapse;font-size:13.5px;min-width:760px}
-table.st th{text-align:left;font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);padding:10px 12px;background:var(--surf2);border-bottom:1px solid var(--line);white-space:nowrap}
-table.st td{padding:10px 12px;border-bottom:1px solid var(--line);vertical-align:middle}
-table.st tr:last-child td{border-bottom:none}
-table.st td.r,table.st th.r{text-align:right;white-space:nowrap}
-table.st td.sname{min-width:150px}
-table.st tfoot td{font-weight:800;background:var(--surf2)}
-.sname b{display:block}
-.sname span{font-size:12px;color:var(--muted)}
-.tier{display:inline-flex;align-items:center;gap:4px;font-weight:800;font-size:12px;padding:3px 9px;border-radius:999px;background:var(--surf2);border:1px solid var(--line);white-space:nowrap}
-.tier.t3{background:#2B1A4D;color:#FFD23F;border-color:#2B1A4D}
-.tier.t2{background:var(--ok-bg);color:var(--ok);border-color:transparent}
-.tier.t1{background:#E6EEFB;color:#0B4A9E;border-color:transparent}
-.nudge{font-size:12px;color:var(--warn);font-weight:700;background:var(--warn-bg);border-radius:8px;padding:3px 8px;display:inline-block;white-space:nowrap}
-.nudge.done{color:var(--ok);background:var(--ok-bg)}
-.inc{display:grid;grid-template-columns:auto 1fr;gap:18px;align-items:center;background:linear-gradient(135deg,#0B4A9E,#1E63C4);color:#fff;border:none}
-.inc+.inc{margin-top:0}
-.inc .badge{width:92px;height:92px;border-radius:22px;background:var(--sun);color:#3D2600;display:grid;place-items:center;text-align:center;font-family:var(--f-display);line-height:1}
-.inc .badge b{font-size:34px;display:block}
-.inc .badge small{font-size:11px;font-weight:800}
-.inc h2{font-size:21px}
-.inc p{margin:4px 0 10px;opacity:.92;font-size:14px}
-.bar{height:12px;border-radius:999px;background:rgba(255,255,255,.22);overflow:hidden}
-.bar i{display:block;height:100%;border-radius:999px;background:var(--sun)}
-.inc .meta{display:flex;justify-content:space-between;font-size:12.5px;margin-top:6px;gap:8px;flex-wrap:wrap}
-.hist{display:grid;gap:8px;margin-top:10px}
-.hrow{display:grid;grid-template-columns:1fr auto auto auto;gap:12px;align-items:center;padding:10px 12px;border:1px solid var(--line);border-radius:12px;background:var(--surf2)}
-.hrow b{font-family:var(--f-display);font-size:16px}
-.hrow span{font-size:12.5px;color:var(--muted)}
-.hrow .amt{font-weight:800;color:var(--fg);font-size:14px}
-.hform{grid-column:1/-1;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;padding-top:8px;border-top:1px dashed var(--line)}
-.hform .act{grid-column:1/-1;display:flex;gap:8px;justify-content:flex-end;align-items:center;flex-wrap:wrap}
-.pill{font-size:11.5px;font-weight:800;padding:4px 10px;border-radius:999px;white-space:nowrap}
-.pill.paid{background:var(--ok-bg);color:var(--ok)}
-.pill.inv{background:#E6EEFB;color:#0B4A9E}
-.pill.run{background:var(--warn-bg);color:var(--warn)}
-.pill.pend{background:var(--surf);color:var(--muted);border:1px solid var(--line)}
-.priv{display:flex;gap:10px;align-items:flex-start;font-size:13px;color:var(--muted);padding:12px 14px;border-radius:12px;border:1px dashed var(--line)}
-.msg{font-size:13px;font-weight:700;color:var(--muted)}
-.msg.ok{color:var(--ok)} .msg.err{color:var(--bad)}
-/* Bloque de ganancia */
-.earn{position:relative;display:grid;grid-template-columns:auto minmax(0,1fr) minmax(0,260px);gap:22px;align-items:center;overflow:hidden;
-  background:linear-gradient(135deg,#FFE680 0%,#FFD23F 55%,#F7B500 100%);border-radius:22px;padding:20px 24px;color:#3D2600;box-shadow:0 14px 34px rgba(150,70,0,.18)}
-.earn::after{content:"";position:absolute;right:-60px;top:-80px;width:260px;height:260px;border-radius:50%;background:radial-gradient(circle,rgba(255,255,255,.45),transparent 70%);pointer-events:none}
-.earn .llama{width:112px;height:auto;margin:-10px 0 -24px -6px;filter:drop-shadow(0 8px 14px rgba(120,40,0,.25))}
-.earn .lbl{font-size:13px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:#7A4E00}
-.earn .big{font-family:var(--f-display);font-size:54px;line-height:1;letter-spacing:-.01em;color:#2A1A00;margin:4px 0 2px}
-.earn .igv{font-size:13.5px;font-weight:700;color:#6A4A00}
-.earn .track{position:relative;height:14px;border-radius:999px;background:rgba(61,38,0,.14);margin-top:14px;overflow:hidden}
-.earn .track i{position:absolute;inset:0 auto 0 0;border-radius:999px;background:linear-gradient(90deg,#D63B8C,#A81F68)}
-.earn .tlab{display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap;font-size:12.5px;font-weight:700;margin-top:6px;color:#5A3D00}
-.earn .side{position:relative;z-index:1;display:grid;gap:10px}
-.earn .mini{background:rgba(255,255,255,.62);border-radius:14px;padding:10px 14px}
-.earn .mini span{display:block;font-size:11px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:#7A4E00}
-.earn .mini b{font-family:var(--f-display);font-size:22px;color:#2A1A00}
-.earn .mini em{font-style:normal;font-size:12px;font-weight:800}
-.earn .mini em.up{color:#0E6B3B}.earn .mini em.dn{color:#B42318}
-.earn .mini small{display:block;font-size:11.5px;font-weight:700;color:#7A4E00}
-/* Comprobante */
-.rcpt{position:relative;background:var(--surf);color:var(--fg);padding:22px 22px 26px;filter:drop-shadow(0 10px 18px rgba(60,0,35,.12));
-  -webkit-mask:radial-gradient(circle 7px at 50% 0,#0000 98%,#000) 0 0/18px 51% repeat-x,radial-gradient(circle 7px at 50% 100%,#0000 98%,#000) 0 100%/18px 51% repeat-x;
-          mask:radial-gradient(circle 7px at 50% 0,#0000 98%,#000) 0 0/18px 51% repeat-x,radial-gradient(circle 7px at 50% 100%,#0000 98%,#000) 0 100%/18px 51% repeat-x}
-.rc-head{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;padding-bottom:12px;border-bottom:2px dashed var(--line)}
-.rc-head img{height:22px;width:auto}
-.rc-head .no{text-align:right;font-size:11px;color:var(--muted);font-weight:700;line-height:1.35}
-.rc-head .no b{display:block;font-family:var(--f-display);font-size:16px;color:var(--fg);letter-spacing:.02em}
-.rc-who{font-size:12.5px;color:var(--muted);padding:10px 0;border-bottom:2px dashed var(--line);line-height:1.45}
-.rc-who b{color:var(--fg)}
-.rc-lines{list-style:none;margin:0;padding:12px 0 4px;display:grid;gap:8px;font-size:14px}
-.rc-lines li{display:flex;align-items:baseline;gap:6px}
-.rc-lines li::after{content:"";order:2;flex:1;border-bottom:2px dotted var(--line);transform:translateY(-3px)}
-.rc-lines li span{order:1}
-.rc-lines li b{order:3;white-space:nowrap}
-.rc-lines li small{display:block;font-size:11.5px;color:var(--muted);font-weight:600}
-.rc-lines li.sep{padding-top:6px;border-top:1px solid var(--line)}
-.rc-lines li.mut{color:var(--muted)}
-.rc-total{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-top:10px;padding:12px 14px;border-radius:12px;background:linear-gradient(120deg,#E4519B,#A81F68);color:#fff}
-.rc-total span{font-weight:800;font-size:13px;letter-spacing:.04em;text-transform:uppercase}
-.rc-total b{font-family:var(--f-display);font-size:26px;white-space:nowrap}
-.stamp{float:right;margin:2px 0 0 8px;transform:rotate(-8deg);border:3px solid currentColor;border-radius:10px;padding:3px 10px;font-family:var(--f-display);font-size:15px;letter-spacing:.08em;opacity:.8;pointer-events:none}
-.stamp.pre{color:var(--warn)}.stamp.fac{color:var(--navy)}.stamp.pag{color:var(--ok)}.stamp.pen{color:var(--muted)}
-/* Escalera de tramos */
-.stairs{display:grid;grid-template-columns:repeat(var(--n,4),minmax(0,1fr));gap:10px;align-items:start;margin-top:14px}
-.step{display:flex;flex-direction:column;border-radius:16px 16px 12px 12px;overflow:hidden;border:1px solid var(--line);background:var(--surf2);min-width:0}
-.step .cap{padding:12px 12px 10px;color:#fff;position:relative}
-.step .cap b{font-family:var(--f-display);font-size:30px;line-height:1;display:block}
-.step .cap span{font-size:11.5px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;opacity:.92}
-.step .cap em{position:absolute;right:10px;top:10px;font-style:normal;font-size:12px;font-weight:800;background:rgba(255,255,255,.25);border-radius:999px;padding:2px 8px}
-.step .rng{font-size:11.5px;color:var(--muted);padding:6px 12px 0;font-weight:700}
-.step .chips{display:grid;gap:6px;padding:8px;max-height:520px;overflow:auto}
-.step .empty{font-size:12px;color:var(--muted);padding:6px 6px 10px;text-align:center}
-.s0 .cap{background:linear-gradient(140deg,#D08A52,#9E5A2A)}
-.s1 .cap{background:linear-gradient(140deg,#9AAAC0,#5E708A)}
-.s2 .cap{background:linear-gradient(140deg,#F2C230,#C48A00)}
-.s3 .cap{background:linear-gradient(140deg,#9A6BFF,#5B2DD6)}
-@media (min-width:901px){.stairs .s0{margin-top:72px}.stairs .s1{margin-top:48px}.stairs .s2{margin-top:24px}}
-.chip{background:var(--surf);border:1px solid var(--line);border-radius:10px;padding:8px 10px;min-width:0}
-.chip .n{display:flex;justify-content:space-between;gap:6px;font-size:12.5px;font-weight:800}
-.chip .n span:first-child{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.chip .n span:last-child{white-space:nowrap;color:var(--muted);font-weight:700}
-.chip .pb{height:6px;border-radius:999px;background:var(--line);margin-top:6px;overflow:hidden}
-.chip .pb i{display:block;height:100%;border-radius:999px;background:var(--brand)}
-.chip .f{font-size:11px;font-weight:700;color:var(--warn);margin-top:4px}
-.chip .f.top{color:var(--ok)}
-.detail{margin-top:14px}
-.detail summary{cursor:pointer;font-weight:800;color:var(--navy);font-size:14px}
-.empty-state{padding:30px 18px;text-align:center;color:var(--muted)}
-.loading{min-height:60vh;display:grid;place-items:center;color:var(--muted);font-weight:700}
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      font-size: 14px;
+      min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
+    }
 
-/* ── Panel de administración ── */
-#admin main.wrap{margin-top:18px}
-.adm-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:18px;align-items:start}
-.adm-grid>*{min-width:0}
-.frm{display:grid;gap:10px;margin-top:12px}
-.frm .row{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
-.gzlist{max-height:260px;overflow:auto;border:1.5px solid var(--line);border-radius:12px;padding:6px;background:var(--surf2);display:grid;gap:2px}
-.gzlist label{display:flex;gap:8px;align-items:center;font-weight:600;font-size:13px;padding:4px 6px;border-radius:8px}
-.gzlist label:hover{background:var(--surf)}
-.gzlist label small{margin-left:auto;color:var(--muted);white-space:nowrap}
-.gzlist label.taken{opacity:.55}
-.acts{display:flex;gap:6px;flex-wrap:wrap}
-.newpw{display:grid;gap:6px;margin-top:10px}
-.newpw div{display:flex;justify-content:space-between;gap:10px;align-items:center;padding:8px 12px;border-radius:10px;background:var(--warn-bg);font-size:13.5px;flex-wrap:wrap}
-.newpw code{font-size:15px;font-weight:800;letter-spacing:.04em}
-.esq{border:1px solid var(--line);border-radius:12px;padding:12px;margin-top:10px;background:var(--surf2)}
-.esq-h{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap}
-.esq table{width:100%;border-collapse:collapse;margin-top:8px;font-size:13px}
-.esq td{padding:3px 4px}
-.esq input{width:100%;padding:7px 9px;border-radius:9px}
-.esq .row3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-top:8px}
-.savebar{position:sticky;bottom:0;z-index:5;background:#1D1530;color:#fff}
-.savebar .wrap{display:flex;gap:12px;align-items:center;justify-content:space-between;padding-block:10px;flex-wrap:wrap}
-.savebar .btn{background:var(--sun);color:#3D2600}
-.tag{font-size:11px;font-weight:800;padding:2px 8px;border-radius:999px;white-space:nowrap}
-.tag.on{background:var(--ok-bg);color:var(--ok)}.tag.off{background:var(--bad-bg);color:var(--bad)}
+    /* ── SEARCH SCREEN ──────────────────────────────────────── */
+    #search-screen {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      padding: 48px 24px 96px;
+    }
 
-@media (max-width:900px){.grid2,.adm-grid{grid-template-columns:minmax(0,1fr)}
-  .earn{grid-template-columns:auto minmax(0,1fr)}.earn .side{grid-column:1/-1;grid-template-columns:1fr 1fr}
-  .stairs{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}.hform{grid-template-columns:repeat(2,minmax(0,1fr))}}
-@media (max-width:640px){
-  .earn{padding:16px 16px 18px;gap:12px}.earn .llama{width:74px;margin:-6px 0 -10px -4px}.earn .big{font-size:38px}.earn .lbl{font-size:11.5px}
-  .earn .mini b{font-size:18px}.top .plogo{height:30px}
-  .stairs{grid-template-columns:minmax(0,1fr)}.rc-total b{font-size:22px}.stamp{font-size:13px}
-  .lg-card{grid-template-columns:1fr}.lg-art{min-height:0;padding:22px 20px}.lg-art h2{font-size:24px;max-width:62%}.lg-art p{max-width:62%;font-size:13.5px}.lg-art img.llama{width:112px}.lg-art ul{display:none}
-  .hero h1{font-size:23px}.inc{grid-template-columns:1fr}.inc .badge{width:72px;height:72px}.inc .badge b{font-size:26px}
-  .scale{grid-template-columns:repeat(2,1fr)}.hrow{grid-template-columns:1fr auto}.hrow .amt{grid-row:2;grid-column:1}.hrow .pill{grid-row:1;grid-column:2;justify-self:end}.hrow .hbtn{grid-row:2;grid-column:2;justify-self:end}
-  .hform{grid-template-columns:minmax(0,1fr)}
-  .who b{font-size:17px;white-space:normal}.who{order:3;flex-basis:100%}.top .out{margin-left:auto}.who span{display:block;font-size:11.5px;line-height:1.35}.top .wrap{gap:10px}.out{padding:6px 10px;font-size:12px}
-  .frm .row,.esq .row3{grid-template-columns:minmax(0,1fr)}
-}
-@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
-</style>
+    .ss-eyebrow {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 10px;
+    }
+
+    .ss-heading {
+      font-size: clamp(26px, 6vw, 34px);
+      font-weight: 800;
+      line-height: 1.15;
+      text-align: center;
+      color: var(--text);
+      margin-bottom: 8px;
+      text-wrap: balance;
+    }
+
+    .ss-sub {
+      font-size: 14px;
+      color: var(--muted);
+      text-align: center;
+      margin-bottom: 20px;
+      max-width: 280px;
+    }
+
+    .search-wrap {
+      width: 100%;
+      max-width: 420px;
+      position: relative;
+    }
+
+    .search-input {
+      width: 100%;
+      background: var(--surf);
+      border: 1.5px solid var(--border);
+      border-radius: 14px;
+      padding: 15px 18px 15px 48px;
+      font-size: 15px;
+      color: var(--text);
+      font-family: inherit;
+      outline: none;
+      transition: border-color .2s, box-shadow .2s;
+    }
+    .search-input::placeholder { color: var(--dim); }
+    .search-input:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px var(--glow);
+    }
+
+    .search-ico {
+      position: absolute;
+      left: 16px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--dim);
+      font-size: 18px;
+      pointer-events: none;
+      line-height: 1;
+    }
+
+    .ac-list {
+      position: absolute;
+      top: calc(100% + 6px);
+      left: 0; right: 0;
+      background: var(--surf2);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+      z-index: 20;
+      max-height: 300px;
+      overflow-y: auto;
+      display: none;
+    }
+    .ac-list.open { display: block; }
+
+    .ac-item {
+      padding: 11px 16px;
+      cursor: pointer;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      gap: 1px;
+      transition: background .12s;
+    }
+    .ac-item:last-child { border-bottom: none; }
+    .ac-item:hover, .ac-item.focused { background: rgba(22,163,74,.12); }
+    .ac-item .ac-name { font-size: 13px; font-weight: 600; }
+    .ac-item .ac-meta { font-size: 11px; color: rgba(13,31,53,.5); }
+
+    .ss-back {
+      align-self: flex-start;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--muted);
+      text-decoration: none;
+      padding: 7px 12px;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      background: var(--surf);
+      margin-bottom: 20px;
+      transition: color .15s, border-color .15s;
+    }
+    .ss-back:hover { color: var(--text); border-color: rgba(13,31,53,.3); }
+
+    .ss-hint {
+      margin-top: 28px;
+      font-size: 12px;
+      color: rgba(244,114,182,.45);
+      text-align: center;
+    }
+
+    /* ── ROLE SELECTOR ────────────────────────────────────── */
+    .role-tabs {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 24px;
+      width: 100%;
+      max-width: 420px;
+    }
+    .role-tab {
+      flex: 1;
+      padding: 10px 6px;
+      background: var(--surf);
+      border: 1.5px solid var(--border);
+      border-radius: 12px;
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 600;
+      font-family: inherit;
+      cursor: pointer;
+      transition: all .2s;
+    }
+    .role-tab.active {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: #fff;
+      box-shadow: 0 0 14px var(--glow);
+    }
+    .role-tab:not(.active):hover { border-color: rgba(22,163,74,.4); color: var(--text); }
+
+    #role-panel-tienda, #role-panel-jz, #role-panel-gz { width: 100%; max-width: 420px; }
+
+    .role-select {
+      width: 100%;
+      background: var(--surf);
+      border: 1.5px solid var(--border);
+      border-radius: 14px;
+      padding: 14px 40px 14px 18px;
+      font-size: 15px;
+      color: var(--text);
+      font-family: inherit;
+      outline: none;
+      appearance: none;
+      -webkit-appearance: none;
+      cursor: pointer;
+      transition: border-color .2s, box-shadow .2s;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' fill='none'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23888' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 16px center;
+      margin-bottom: 14px;
+    }
+    .role-select:focus { border-color: var(--accent); box-shadow: 0 0 0 3px var(--glow); }
+
+    .store-card-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      max-height: 52vh;
+      overflow-y: auto;
+      padding-bottom: 4px;
+    }
+    .store-card {
+      background: var(--surf);
+      border: 1.5px solid var(--border);
+      border-radius: 12px;
+      padding: 12px 14px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      transition: background .15s, border-color .15s;
+    }
+    .store-card:hover { background: var(--surf2); border-color: rgba(22,163,74,.4); }
+    .sc-info { flex: 1; overflow: hidden; }
+    .sc-name { font-size: 13px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .sc-meta { font-size: 11px; color: rgba(13,31,53,.5); margin-top: 2px; }
+    .sc-sup  { font-size: 10px; color: rgba(13,31,53,.38); margin-top: 1px; }
+    .sc-arrow { color: var(--accent); font-size: 18px; flex-shrink: 0; line-height: 1; }
+    .sc-count { font-size: 12px; color: var(--muted); text-align: center; margin-top: 10px; }
+
+    /* ── DASHBOARD ──────────────────────────────────────────── */
+    #dashboard { display: none; min-height: 100vh; }
+
+    .dash-nav {
+      background: var(--surf);
+      border-top: 2px solid var(--accent);
+      border-bottom: 1px solid var(--border);
+      padding: 12px 16px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+
+    .back-btn {
+      background: none;
+      border: 1px solid var(--border);
+      color: var(--muted);
+      font-size: 14px;
+      cursor: pointer;
+      padding: 6px 12px;
+      border-radius: 8px;
+      font-family: inherit;
+      transition: color .15s, border-color .15s;
+      flex-shrink: 0;
+    }
+    .back-btn:hover { color: var(--text); border-color: rgba(13,31,53,.3); }
+
+    .nav-store { flex: 1; overflow: hidden; }
+    .nav-store .ns-name {
+      font-size: 14px;
+      font-weight: 700;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .nav-store .ns-id  { font-size: 11px; color: rgba(13,31,53,.5); }
+    .nav-store .ns-sup { font-size: 10px; color: rgba(13,31,53,.38); margin-top: 1px; }
+
+    .nav-badge {
+      background: var(--accent);
+      color: #fff;
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: .06em;
+      padding: 3px 8px;
+      border-radius: 20px;
+      flex-shrink: 0;
+    }
+
+    .dash-body {
+      padding: 20px 16px 40px;
+      max-width: 460px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    /* ── HERO RING CARD ─────────────────────────────────────── */
+    .ring-card {
+      background: var(--surf);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 28px 20px 24px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .ring-card-glow {
+      position: absolute;
+      top: -40px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 200px;
+      height: 200px;
+      border-radius: 50%;
+      background: var(--glow-color, var(--glow));
+      filter: blur(50px);
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 1s ease;
+    }
+
+    .ring-period-label {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 20px;
+      position: relative;
+    }
+
+    .ring-wrap {
+      position: relative;
+      width: 168px;
+      height: 168px;
+      margin-bottom: 20px;
+      flex-shrink: 0;
+    }
+
+    .ring-svg {
+      width: 168px;
+      height: 168px;
+      transform: rotate(-90deg);
+    }
+
+    .ring-track { fill: none; stroke: var(--border); stroke-width: 11; }
+    .ring-fill  {
+      fill: none;
+      stroke-width: 11;
+      stroke-linecap: round;
+      stroke-dasharray: 424;
+      stroke-dashoffset: 424;
+      transition: stroke-dashoffset 1.1s cubic-bezier(.22,.6,.36,1), stroke .4s;
+    }
+
+    .ring-center {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 0;
+    }
+
+    .ring-pct {
+      font-size: 38px;
+      font-weight: 900;
+      line-height: 1;
+      font-variant-numeric: tabular-nums;
+      letter-spacing: -1px;
+    }
+
+    .ring-pct-sign { font-size: 20px; font-weight: 700; }
+    .ring-sub { font-size: 10px; color: var(--rose); letter-spacing: .06em; text-transform: uppercase; margin-top: 3px; }
+
+    .ring-amounts {
+      display: flex;
+      gap: 0;
+      width: 100%;
+      position: relative;
+    }
+
+    .ra-item {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 3px;
+      padding: 12px 8px;
+    }
+
+    .ra-item + .ra-item { border-left: 1px solid var(--border); }
+
+    .ra-val {
+      font-size: 20px;
+      font-weight: 800;
+      font-variant-numeric: tabular-nums;
+      line-height: 1;
+    }
+
+    .ra-lbl {
+      font-size: 10px;
+      color: var(--rose);
+      text-transform: uppercase;
+      letter-spacing: .08em;
+    }
+
+    /* ── PERIOD CARDS ───────────────────────────────────────── */
+    .period-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .period-card {
+      background: var(--surf);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 15px 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .period-card--primary {
+      border-color: rgba(22,163,74,.25);
+      background: linear-gradient(135deg, rgba(22,163,74,.07) 0%, var(--surf) 60%);
+    }
+
+    .pc-label {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--rose);
+    }
+
+    .pc-val {
+      font-size: 22px;
+      font-weight: 800;
+      font-variant-numeric: tabular-nums;
+      line-height: 1;
+    }
+
+    .pc-meta { font-size: 11px; color: var(--dim); }
+
+    .pbar-track {
+      height: 5px;
+      background: var(--border);
+      border-radius: 99px;
+      overflow: hidden;
+      margin-top: 2px;
+    }
+
+    .pbar-fill {
+      height: 100%;
+      border-radius: 99px;
+      width: 0;
+      transition: width .9s cubic-bezier(.22,.6,.36,1);
+    }
+
+    .pc-pct {
+      font-size: 11px;
+      font-weight: 700;
+      margin-top: 1px;
+    }
+
+    /* ── GAMES BREAKDOWN ────────────────────────────────────── */
+    .games-card {
+      background: var(--surf);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 16px 14px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card-title {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: var(--rose);
+      margin-bottom: 14px;
+    }
+
+    .game-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+    .game-row:last-child { margin-bottom: 0; }
+
+    .gr-name {
+      font-size: 12px;
+      font-weight: 700;
+      width: 96px;
+      flex-shrink: 0;
+      color: var(--text);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .gr-logo {
+      width: 22px;
+      height: 22px;
+      object-fit: contain;
+      flex-shrink: 0;
+      border-radius: 4px;
+    }
+
+    .gr-bar {
+      flex: 1;
+      height: 7px;
+      background: var(--border);
+      border-radius: 99px;
+      overflow: hidden;
+    }
+
+    .gr-fill {
+      height: 100%;
+      border-radius: 99px;
+      width: 0;
+      transition: width .9s cubic-bezier(.22,.6,.36,1) .2s;
+    }
+
+    .gr-val {
+      font-size: 13px;
+      font-weight: 700;
+      font-variant-numeric: tabular-nums;
+      width: 68px;
+      text-align: right;
+      flex-shrink: 0;
+    }
+
+    /* ── MOTIVATIONAL ───────────────────────────────────────── */
+    .motive-card {
+      border-radius: 16px;
+      padding: 16px 18px;
+      display: flex;
+      gap: 14px;
+      align-items: flex-start;
+    }
+
+    .mc-icon { font-size: 26px; line-height: 1; flex-shrink: 0; margin-top: 1px; }
+    .mc-body { display: flex; flex-direction: column; gap: 3px; }
+    .mc-msg { font-size: 14px; font-weight: 700; line-height: 1.35; }
+    .mc-detail { font-size: 12px; opacity: .7; line-height: 1.4; }
+
+    /* ── WEEKLY CHART ───────────────────────────────────────── */
+    .week-card {
+      background: var(--surf);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 16px 14px 14px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .week-chart {
+      display: flex;
+      align-items: flex-end;
+      gap: 5px;
+      height: 80px;
+      margin-top: 10px;
+    }
+
+    .wc-col {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 5px;
+      height: 100%;
+    }
+
+    .wc-bar {
+      width: 100%;
+      border-radius: 3px 3px 0 0;
+      min-height: 3px;
+      transition: height .9s cubic-bezier(.22,.6,.36,1) .1s, opacity .15s;
+      cursor: pointer;
+    }
+
+    .wc-amount {
+      font-size: 8px;
+      font-weight: 700;
+      font-variant-numeric: tabular-nums;
+      color: var(--muted);
+      text-align: center;
+      min-height: 11px;
+      transition: color .15s;
+      white-space: nowrap;
+    }
+
+    .wc-day {
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: .04em;
+      text-transform: uppercase;
+      color: var(--dim);
+      flex-shrink: 0;
+    }
+
+    .wc-col--today .wc-day   { color: var(--accent); }
+    .wc-col--today .wc-bar   { box-shadow: 0 0 8px rgba(22,163,74,.45); }
+    .wc-col--today .wc-amount{ color: var(--accent); }
+
+    /* selected state */
+    .wc-col--selected .wc-bar    { outline: 2px solid var(--text); outline-offset: 2px; }
+    .wc-col--selected .wc-day    { color: var(--text); }
+    .wc-col--selected .wc-amount { color: var(--text); font-size: 9px; }
+
+    /* selected tooltip strip */
+    .wc-tooltip {
+      margin-top: 10px;
+      background: var(--surf2);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 8px 12px;
+      font-size: 12px;
+      font-weight: 600;
+      text-align: center;
+      min-height: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: opacity .2s;
+    }
+    .wc-tooltip .wt-day  { color: var(--muted); font-size: 11px; }
+    .wc-tooltip .wt-val  { color: var(--text); font-size: 15px; font-weight: 800; font-variant-numeric: tabular-nums; }
+
+    /* ── PIN SCREEN ─────────────────────────────────────────── */
+    #pin-screen {
+      min-height: 100vh;
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 48px 24px 64px;
+      animation: fadeUp .22s ease both;
+    }
+    @keyframes fadeUp {
+      from { opacity:0; transform:translateY(10px); }
+      to   { opacity:1; transform:translateY(0); }
+    }
+
+    .pin-badge {
+      background: var(--accent);
+      color: #fff;
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      padding: 4px 14px;
+      border-radius: 20px;
+      margin-bottom: 16px;
+    }
+
+    .pin-title {
+      font-size: clamp(22px, 5vw, 28px);
+      font-weight: 800;
+      text-align: center;
+      margin-bottom: 6px;
+    }
+
+    .pin-sub {
+      font-size: 13px;
+      color: var(--muted);
+      text-align: center;
+      margin-bottom: 32px;
+      max-width: 260px;
+    }
+
+    .pin-box {
+      width: 100%;
+      max-width: 320px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .pin-input-wrap { position: relative; }
+
+    .pin-input {
+      width: 100%;
+      background: var(--surf);
+      border: 1.5px solid var(--border);
+      border-radius: 14px;
+      padding: 14px 44px 14px 18px;
+      font-size: 18px;
+      letter-spacing: .18em;
+      color: var(--text);
+      font-family: inherit;
+      text-align: center;
+      outline: none;
+      transition: border-color .2s, box-shadow .2s;
+    }
+    .pin-input:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px var(--glow);
+    }
+
+    .pin-eye {
+      position: absolute;
+      right: 14px; top: 50%;
+      transform: translateY(-50%);
+      background: none; border: none;
+      color: var(--dim); font-size: 16px;
+      cursor: pointer; padding: 4px;
+      transition: color .15s;
+    }
+    .pin-eye:hover { color: var(--muted); }
+
+    .pin-error {
+      font-size: 12px;
+      color: #F04444;
+      text-align: center;
+      min-height: 16px;
+    }
+
+    .pin-btn {
+      background: var(--accent);
+      color: #fff;
+      border: none;
+      border-radius: 14px;
+      padding: 14px;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+      font-family: inherit;
+      transition: opacity .15s, transform .1s;
+    }
+    .pin-btn:hover  { opacity: .88; }
+    .pin-btn:active { transform: scale(.98); }
+
+    @keyframes shake {
+      0%,100%{ transform:translateX(0); }
+      20%    { transform:translateX(-6px); }
+      40%    { transform:translateX(6px); }
+      60%    { transform:translateX(-4px); }
+      80%    { transform:translateX(4px); }
+    }
+    .pin-input.shake { animation: shake .35s ease; }
+
+    /* ── NO-META STATE ──────────────────────────────────────── */
+    .no-meta-note {
+      background: rgba(22,163,74,.08);
+      border: 1px solid rgba(22,163,74,.25);
+      border-radius: 12px;
+      padding: 12px 14px;
+      font-size: 12px;
+      color: var(--accent);
+      text-align: center;
+    }
+
+    /* ── LOADING ────────────────────────────────────────────── */
+    #loading {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--muted);
+      font-size: 13px;
+      gap: 10px;
+    }
+
+    .spin {
+      width: 20px; height: 20px;
+      border: 2px solid var(--border);
+      border-top-color: var(--accent);
+      border-radius: 50%;
+      animation: spin .7s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* ── PROMO CARD (solo móvil) ────────────────────────── */
+    .promo-card {
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .promo-video {
+      width: 100%;
+      display: block;
+      max-height: 280px;
+      object-fit: cover;
+    }
+
+    .promo-llama {
+      position: absolute;
+      object-fit: contain;
+      pointer-events: none;
+      filter: drop-shadow(0 3px 10px rgba(0,0,0,.55));
+    }
+
+    @media (min-width: 901px) { .promo-card { display: none; } }
+
+    /* ── SUERTE SIDE DECO ───────────────────────────────── */
+    .suerte-side {
+      position: fixed;
+      top: 50%;
+      transform: translateY(-50%);
+      display: flex;
+      flex-direction: column;
+      gap: 28px;
+      align-items: center;
+      pointer-events: none;
+      z-index: 1;
+    }
+    .suerte-side.left { right: calc(50% + 246px); }
+    .suerte-deco-img {
+      width: 80px;
+      height: 80px;
+      object-fit: contain;
+      opacity: .45;
+      filter: drop-shadow(0 2px 14px rgba(236,72,153,.45));
+      transition: opacity .3s;
+    }
+    .suerte-deco-img:hover { opacity: .8; pointer-events: auto; }
+    @media (max-width: 700px) { .suerte-side { display: none; } }
+
+    /* ── VIDEO SIDE ─────────────────────────────────────── */
+    .video-side {
+      position: fixed;
+      left: calc(50% + 246px);
+      top: 50%;
+      transform: translateY(-50%);
+      width: 220px;
+      z-index: 1;
+      pointer-events: none;
+    }
+    .video-side video {
+      width: 100%;
+      display: block;
+      border-radius: 18px;
+      box-shadow:
+        0 0 0 1px rgba(22,163,74,.2),
+        0 8px 40px rgba(0,0,0,.7),
+        0 0 60px rgba(22,163,74,.15);
+    }
+    @media (max-width: 900px) { .video-side { display: none; } }
+
+    @media (prefers-reduced-motion: reduce) {
+      .ring-fill, .pbar-fill, .gr-fill { transition: none; }
+      .spin { animation: none; }
+    }
+
+    /* ── GZ SUMMARY ─────────────────────────────────────── */
+    .gz-sum-card {
+      background: var(--surf);
+      border: 1.5px solid var(--border);
+      border-radius: 16px;
+      padding: 16px 16px 14px;
+      margin-bottom: 12px;
+    }
+    .gz-sum-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 4px;
+    }
+    .gz-sum-title {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+    .gz-sum-pct {
+      font-size: 30px;
+      font-weight: 900;
+      font-variant-numeric: tabular-nums;
+      line-height: 1;
+    }
+    .gz-sum-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 8px;
+      margin-bottom: 14px;
+    }
+    .gz-sum-stat {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+      align-items: center;
+      text-align: center;
+    }
+    .gz-sum-val {
+      font-size: 14px;
+      font-weight: 800;
+      font-variant-numeric: tabular-nums;
+    }
+    .gz-sum-lbl {
+      font-size: 10px;
+      color: var(--muted);
+    }
+    .gz-det-btn {
+      width: 100%;
+      background: var(--surf2);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 10px;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--muted);
+      font-family: inherit;
+      cursor: pointer;
+      transition: color .15s, border-color .15s, background .15s;
+    }
+    .gz-det-btn:hover {
+      color: var(--text);
+      border-color: var(--accent);
+      background: var(--rose-soft);
+    }
+
+    /* ── STORE SALES ROWS (detalle GZ) ──────────────────── */
+    .store-row {
+      background: var(--surf);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 10px 12px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      transition: background .12s, border-color .12s;
+    }
+    .store-row:hover { background: var(--surf2); border-color: var(--accent); }
+    .sr-info { flex: 1; min-width: 0; }
+    .sr-name { font-size: 12px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .sr-bar-wrap { height: 4px; background: var(--border); border-radius: 99px; overflow: hidden; margin-top: 5px; }
+    .sr-bar-fill  { height: 100%; border-radius: 99px; }
+    .sr-right { display: flex; flex-direction: column; align-items: flex-end; gap: 2px; flex-shrink: 0; }
+    .sr-val   { font-size: 12px; font-weight: 700; font-variant-numeric: tabular-nums; }
+    .sr-pct   { font-size: 10px; font-weight: 700; }
+
+    /* ── SUPERVISOR CARDS (panel JZ) ────────────────────── */
+    .sup-card { background: var(--surf); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; }
+    .sup-header { padding: 12px 14px; cursor: pointer; display: flex; align-items: center; gap: 10px; transition: background .12s; }
+    .sup-header:hover { background: var(--surf2); }
+    .sup-name    { font-size: 13px; font-weight: 700; }
+    .sup-submeta { font-size: 11px; color: var(--muted); margin-top: 2px; }
+    .sup-bar-wrap { height: 4px; background: var(--border); border-radius: 99px; overflow: hidden; margin-top: 6px; }
+    .sup-bar-fill { height: 100%; border-radius: 99px; }
+    .sup-right { display: flex; flex-direction: column; align-items: flex-end; gap: 3px; flex-shrink: 0; }
+    .sup-pct   { font-size: 20px; font-weight: 900; font-variant-numeric: tabular-nums; }
+    .sup-chv   { font-size: 11px; color: var(--dim); line-height: 1; transition: transform .2s; }
+    .sup-chv.open { transform: rotate(180deg); }
+    .sup-rows  { display: flex; flex-direction: column; gap: 6px; padding: 0 10px 10px; }
+    .sup-rows .store-row { background: var(--surf2); }
+
+    /* ── JZ DOWNLOAD ────────────────────────────────────── */
+    .jz-dl-card  { background: var(--surf); border: 1.5px solid var(--border); border-radius: 12px; padding: 12px 14px; margin-top: 10px; display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+    .jz-dl-left  { flex: 1; min-width: 0; }
+    .jz-dl-title { font-size: 13px; font-weight: 700; color: var(--text); }
+    .jz-dl-sub   { font-size: 11px; color: var(--muted); margin-top: 2px; }
+    .jz-dl-btn   { background: var(--accent); color: #fff; border: none; border-radius: 10px; padding: 9px 14px; font-size: 13px; font-weight: 700; font-family: inherit; cursor: pointer; display: flex; align-items: center; gap: 5px; white-space: nowrap; flex-shrink: 0; transition: background .15s, transform .1s; }
+    .jz-dl-btn:hover  { background: var(--accent-d); }
+    .jz-dl-btn:active { transform: scale(.96); }
+    .dev-badge {
+      position: fixed; bottom: 12px; right: 14px;
+      font-size: 9px; font-weight: 600; letter-spacing: .05em;
+      color: rgba(13,31,53,.45); background: rgba(13,31,53,.05);
+      border: 1px solid rgba(13,31,53,.12);
+      border-radius: 20px; padding: 4px 11px;
+      cursor: pointer; z-index: 999; white-space: nowrap; user-select: none;
+    }
+    /* ── MODO PROGRAMADOR ─────────────────────────────────────── */
+    #dev-overlay { display:none; position:fixed; inset:0; z-index:10010; background:rgba(0,0,0,.55); backdrop-filter:blur(4px); align-items:center; justify-content:center; }
+    #dev-overlay.open { display:flex; }
+    #dev-modal { background:var(--surf); border:1px solid var(--border); border-radius:18px; padding:28px 24px 24px; width:min(340px,90vw); box-shadow:0 24px 60px rgba(0,0,0,.25); display:flex; flex-direction:column; gap:14px; }
+    #dev-modal h3 { font-size:15px; font-weight:700; color:var(--text); }
+    #dev-modal p { font-size:13px; color:var(--muted); }
+    #dev-pwd-input { width:100%; padding:10px 14px; border:1.5px solid var(--border); border-radius:10px; font-size:18px; font-family:monospace; letter-spacing:.3em; background:var(--surf2,#f4f8ff); color:var(--text); outline:none; }
+    #dev-pwd-input:focus { border-color:var(--accent); }
+    #dev-pwd-err { font-size:12px; color:var(--red,#DC2626); min-height:16px; }
+    .dev-btn-row { display:flex; gap:10px; }
+    .dev-btn { flex:1; padding:10px; border:none; border-radius:10px; font-size:13px; font-weight:600; cursor:pointer; font-family:inherit; }
+    .dev-btn-cancel { background:var(--surf2,#f4f8ff); color:var(--muted); }
+    .dev-btn-ok { background:var(--accent); color:#fff; }
+    #dev-panel { display:none; position:fixed; inset:0; z-index:10010; background:rgba(0,0,0,.55); backdrop-filter:blur(4px); align-items:flex-end; justify-content:center; }
+    #dev-panel.open { display:flex; }
+    #dev-panel-inner { background:var(--surf); border-radius:20px 20px 0 0; width:min(480px,100vw); padding:24px 20px 36px; box-shadow:0 -8px 40px rgba(0,0,0,.2); display:flex; flex-direction:column; gap:12px; max-height:70vh; overflow-y:auto; }
+    #dev-panel-inner h3 { font-size:11px; font-weight:700; color:var(--accent); letter-spacing:.1em; text-transform:uppercase; }
+    .dev-stat { font-size:12px; color:var(--muted); line-height:1.8; }
+    .dev-stat strong { color:var(--text); }
+    .dev-dl-btn { padding:12px; background:var(--accent); color:#fff; border:none; border-radius:12px; font-size:14px; font-weight:700; cursor:pointer; width:100%; font-family:inherit; }
+    .dev-close-btn { padding:10px; background:var(--surf2,#f4f8ff); color:var(--muted); border:none; border-radius:12px; font-size:13px; font-weight:600; cursor:pointer; width:100%; font-family:inherit; }
+
+    /* ── STOCK RAPIRASPAS ──────────────────────────────────── */
+    .stock-card { background:var(--surf);border-radius:16px;padding:18px 16px 16px;position:relative;overflow:hidden; }
+    .stock-card-hdr { display:flex;align-items:center;justify-content:space-between;margin-bottom:14px; }
+    .stock-card-title { font-size:12px;font-weight:700;letter-spacing:.5px;color:var(--muted);text-transform:uppercase; }
+    .stock-card-ts { font-size:10px;color:var(--muted);font-weight:500; }
+    .stock-grid { display:grid;grid-template-columns:1fr 1fr;gap:8px 12px;margin-bottom:14px; }
+    .stock-item { display:flex;flex-direction:column;gap:4px; }
+    .stock-item.full { grid-column:1/-1;display:flex;flex-direction:row;align-items:center;gap:10px; }
+    .stock-item.full .stock-label { min-width:90px;margin-bottom:0; }
+    .stock-label { font-size:11px;font-weight:600;color:var(--muted);margin-bottom:2px; }
+    .stock-input { width:100%;background:var(--bg);border:1.5px solid var(--border);border-radius:8px;padding:8px 6px;font-size:16px;font-weight:700;color:var(--text);font-family:inherit;text-align:center;box-sizing:border-box;transition:border-color .15s,color .15s; }
+    .stock-input:focus { outline:none;border-color:var(--accent); }
+    .stock-input:disabled { color:var(--muted);border-color:transparent;background:transparent;cursor:default; }
+    .stock-edit-btn { padding:5px 11px;background:transparent;border:1.5px solid var(--border);border-radius:8px;color:var(--muted);font-size:11px;font-weight:700;cursor:pointer;font-family:inherit;transition:all .15s;white-space:nowrap; }
+    .stock-edit-btn:hover { border-color:var(--accent);color:var(--accent); }
+    .stock-actions { display:flex;gap:8px;margin-top:12px; }
+    .stock-save-btn { flex:1;background:var(--accent);color:#fff;border:none;border-radius:10px;padding:12px;font-size:14px;font-weight:700;font-family:inherit;cursor:pointer;transition:opacity .15s;letter-spacing:.3px; }
+    .stock-save-btn:disabled { opacity:.5;cursor:not-allowed; }
+    .stock-cancel-btn { padding:12px 16px;background:transparent;border:1.5px solid var(--border);border-radius:10px;color:var(--muted);font-size:13px;font-weight:600;font-family:inherit;cursor:pointer; }
+    .stock-feedback { text-align:center;font-size:12px;font-weight:600;margin-top:9px;min-height:16px; }
+    .vista-toggle { padding:5px 12px;background:var(--surf2);border:1.5px solid var(--border);border-radius:8px;color:var(--muted);font-size:11px;font-weight:700;cursor:pointer;letter-spacing:.3px;transition:all .15s;white-space:nowrap;font-family:inherit; }
+    .vista-toggle:hover,.vista-toggle.active { border-color:var(--accent);color:var(--accent);background:rgba(245,158,11,.08); }
+
+    /* ── META SEMANAL + RANKING POR CLÚSTER ─────────────────── */
+    .week-chart { height: 88px; }
+    .wc-plot { position: relative; width: 100%; display: flex; align-items: flex-end; flex-shrink: 0; }
+    .wc-meta-line { position: absolute; left: -3px; right: -3px; border-top: 1.5px dashed var(--green); pointer-events: none; z-index: 1; }
+    .wc-meta-cap { font-size: 11px; color: var(--muted); margin-top: 10px; display: flex; align-items: center; gap: 6px; }
+    .wc-meta-cap::before { content: ''; width: 16px; border-top: 1.5px dashed var(--green); }
+    #role-panel-rank { width: 100%; max-width: 420px; }
+    .rank-sub { font-size: 11px; color: var(--muted); margin: -4px 0 10px; text-align: center; }
+    .rk-list { position: relative; display: flex; flex-direction: column; gap: 6px; max-height: 52vh; overflow-y: auto; }
+    .rank-card { background: var(--surf); border: 1px solid var(--border); border-radius: 16px; padding: 16px 14px 14px; }
+    .rank-card .rk-list { max-height: 280px; }
+    .rk-head { font-size: 13px; color: var(--muted); margin: -4px 0 12px; }
+    .rk-big { font-size: 26px; font-weight: 800; color: var(--accent); }
+    .rk-week { font-size: 11px; color: var(--dim); }
+    .rk-row { display: flex; align-items: center; gap: 10px; padding: 9px 12px; background: var(--surf); border: 1.5px solid var(--border); border-radius: 12px; cursor: pointer; transition: background .15s, border-color .15s; }
+    .rk-row:hover { background: var(--surf2); border-color: var(--accent); }
+    .rk-row--me { border-color: var(--accent); background: var(--surf2); box-shadow: 0 0 0 2px var(--glow); }
+    .rk-pos { width: 26px; text-align: center; font-size: 13px; font-weight: 800; color: var(--muted); flex-shrink: 0; font-variant-numeric: tabular-nums; }
+    .rk-info { flex: 1; min-width: 0; }
+    .rk-name { font-size: 12px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .rk-bar { height: 4px; background: var(--border); border-radius: 2px; margin-top: 5px; overflow: hidden; }
+    .rk-fill { height: 100%; border-radius: 2px; }
+    .rk-right { text-align: right; flex-shrink: 0; }
+    .rk-pct { font-size: 14px; font-weight: 800; font-variant-numeric: tabular-nums; }
+    .rk-amt { font-size: 10px; color: var(--muted); white-space: nowrap; font-variant-numeric: tabular-nums; }
+    .gz-sem { font-size: 12px; color: var(--muted); margin-bottom: 6px; }
+  </style>
 </head>
 <body>
 
-<!-- ═════════ LOGIN ═════════ -->
-<section id="login">
-  <div class="wrap" style="display:grid;place-items:center;width:100%">
-  <div class="lg-card">
-    <div class="lg-art">
-      <div>
-        <h2>Tu espacio de socio Lotobola</h2>
-        <p>Revisa tus ventas y comisiones cuando quieras, con el mismo detalle que llega en tu liquidación.</p>
+<div id="loading"><div class="spin"></div> Cargando datos…</div>
+
+<!-- PIN SCREEN -->
+<div id="pin-screen">
+  <div class="pin-badge">Tinbet</div>
+  <h1 class="pin-title">Ingresa tu clave de hoy</h1>
+  <p class="pin-sub">La clave cambia cada día. Consulta con tu RC si no la tienes.</p>
+  <div class="pin-box">
+    <div class="pin-input-wrap">
+      <input type="password" class="pin-input" id="pin-input"
+             placeholder="•••••" autocomplete="off" spellcheck="false"/>
+      <button class="pin-eye" onclick="
+        var i=document.getElementById('pin-input');
+        i.type=i.type==='password'?'text':'password'
+      ">👁</button>
+    </div>
+    <div class="pin-error" id="pin-error"></div>
+    <button class="pin-btn" onclick="checkPin()">Continuar →</button>
+  </div>
+</div>
+
+<!-- SEARCH / SELECTOR SCREEN -->
+<div id="search-screen" style="display:none">
+    <div class="ss-eyebrow">Tinbet · LOTOBOLA</div>
+  <h1 class="ss-heading">¿Quién eres?</h1>
+  <p class="ss-sub">Selecciona tu rol para ver el progreso de tus tiendas</p>
+
+  <div class="role-tabs">
+    <button class="role-tab active" id="tab-tienda" onclick="setRole('tienda')">🏪 Mi tienda</button>
+    <button class="role-tab" id="tab-gz" onclick="setRole('gz')">Supervisor</button>
+    <button class="role-tab" id="tab-jz" onclick="setRole('jz')">Jefe Comercial</button>
+    <button class="role-tab" id="tab-rank" onclick="setRole('rank')">🏆 Ranking</button>
+  </div>
+
+  <!-- Panel: Ranking → posición y avance semanal por clúster -->
+  <div id="role-panel-rank" style="display:none">
+    <select class="role-select" id="rank-select"></select>
+    <p class="rank-sub" id="rank-sub"></p>
+    <div class="rk-list" id="rank-list"></div>
+  </div>
+
+  <!-- Panel: Tienda → búsqueda por nombre/código + lista completa -->
+  <div id="role-panel-tienda">
+    <div class="search-wrap">
+      <span class="search-ico">🔍</span>
+      <input
+        type="text"
+        class="search-input"
+        id="search-input"
+        placeholder="Busca tu tienda…"
+        autocomplete="off"
+        spellcheck="false"
+      />
+    </div>
+    <div class="store-card-list" id="tienda-store-list" style="margin-top:12px"></div>
+    <p class="sc-count" id="tienda-count"></p>
+  </div>
+
+  <!-- Panel: JZ → seleccionar JZ → resumen + lista de tiendas -->
+  <div id="role-panel-jz" style="display:none">
+    <select class="role-select" id="jz-select">
+      <option value="">— Selecciona tu nombre —</option>
+    </select>
+    <div id="jz-summary" style="display:none"></div>
+    <div id="jz-download"></div>
+    <div id="jz-stores-wrap" style="display:none">
+      <div class="store-card-list" id="jz-store-list"></div>
+      <p class="sc-count" id="jz-count"></p>
+    </div>
+  </div>
+
+  <!-- Panel: GZ → seleccionar GZ → resumen + lista de tiendas -->
+  <div id="role-panel-gz" style="display:none">
+    <select class="role-select" id="gz-select">
+      <option value="">— Selecciona tu nombre —</option>
+    </select>
+    <div id="gz-summary" style="display:none"></div>
+    <div id="gz-stores-wrap" style="display:none">
+      <div class="store-card-list" id="gz-store-list"></div>
+      <p class="sc-count" id="gz-count"></p>
+    </div>
+  </div>
+</div>
+
+<!-- DASHBOARD -->
+<div id="dashboard">
+  <nav class="dash-nav">
+    <button class="back-btn" onclick="volverBusqueda()">← Volver</button>
+    <div class="nav-store">
+      <div class="ns-name" id="nav-nombre">—</div>
+      <div class="ns-id" id="nav-id">—</div>
+      <div class="ns-sup" id="nav-sup" style="display:none"></div>
+    </div>
+    <span class="nav-badge">AT</span>
+  </nav>
+
+  <div class="dash-body">
+    <!-- No-meta notice (hidden when meta exists) -->
+    <div class="no-meta-note" id="no-meta-note" style="display:none">
+      ⚙️ Meta diaria aún no asignada — mostrando ventas acumuladas
+    </div>
+
+    <!-- PRIORIDAD: Hoy + Semana -->
+    <div class="period-grid">
+      <div class="period-card period-card--primary">
+        <div class="pc-label">Hoy</div>
+        <div class="pc-val" id="hoy-val">S/ 0</div>
+        <div class="pc-meta" id="hoy-meta">Meta: —</div>
+        <div class="pbar-track"><div class="pbar-fill" id="hoy-bar"></div></div>
+        <div class="pc-pct" id="hoy-pct">—</div>
       </div>
-      <ul>
-        <li>Venta de todas tus tiendas</li>
-        <li>Comisión por venta y por pago de premios</li>
-        <li>Incentivos vigentes</li>
-        <li>Historial de liquidaciones</li>
-      </ul>
-      <img class="llama" src="../sources/logos-games/suerte-3.png" alt="">
-    </div>
-    <form class="lg-form" id="lg-form" novalidate>
-      <div class="lg-logos"><img src="../sources/logos-games/lotobola.webp" alt="Lotobola"><img class="pt" src="../icons/tinbet.png" alt="Tinbet"></div>
-      <h1>Ingresa a tu cuenta</h1>
-      <p class="lg-sub">Franquiciados y agentes Tinbet</p>
-      <label for="u">Usuario<input id="u" type="text" autocomplete="username" autocapitalize="off" spellcheck="false" placeholder="Tu usuario"></label>
-      <label for="p">Contraseña<input id="p" type="password" autocomplete="current-password" placeholder="Tu contraseña"></label>
-      <div class="lg-err" id="lg-err" role="alert"></div>
-      <button class="btn" type="submit" id="lg-btn">Ingresar</button>
-      <div class="lg-note">¿No tienes usuario o olvidaste tu contraseña? Pídela a tu ejecutivo comercial de Lotobola.</div>
-    </form>
-  </div>
-  </div>
-</section>
-
-<!-- ═════════ PORTAL DEL SOCIO ═════════ -->
-<div id="app" hidden>
-  <div class="adm-banner" id="adm-banner" hidden><div class="wrap"><span id="adm-banner-t"></span><button type="button" onclick="volverAdmin()">← Volver al panel</button></div></div>
-  <header class="top"><div class="wrap">
-    <span class="logo"><img src="../sources/logos-games/lotobola.webp" alt="Lotobola"></span>
-    <img class="plogo" src="../icons/tinbet.png" alt="Tinbet">
-    <div class="who"><b id="s-name"></b><span id="s-meta"></span></div>
-    <button class="out" type="button" onclick="logout()">Cerrar sesión</button>
-  </div></header>
-  <section class="hero"><div class="wrap">
-    <div><h1 id="h-title"></h1><p id="h-sub"></p></div>
-    <div class="per" id="per" role="tablist" aria-label="Mes"></div>
-  </div></section>
-
-  <main class="wrap" id="main">
-    <section class="earn" id="earn"></section>
-
-    <div class="grid2">
-      <section class="card">
-        <h2>Venta acumulada del mes</h2>
-        <p class="hint" id="ch-hint"></p>
-        <svg class="chart" id="chart" viewBox="0 0 640 240" role="img" aria-label="Venta acumulada por día"></svg>
-        <div class="legend"><span><i style="background:var(--brand)"></i><span id="lg-a"></span></span><span id="lg-b-w"><i style="background:var(--muted);opacity:.6"></i><span id="lg-b"></span></span></div>
-      </section>
-      <section>
-        <div class="rcpt" id="rcpt"></div>
-        <details class="how">
-          <summary>¿Cómo se calcula?</summary>
-          <div id="how-body"></div>
-        </details>
-      </section>
+      <div class="period-card period-card--primary">
+        <div class="pc-label">Esta Semana</div>
+        <div class="pc-val" id="sem-val">S/ 0</div>
+        <div class="pc-meta" id="sem-meta">Meta: —</div>
+        <div class="pbar-track"><div class="pbar-fill" id="sem-bar"></div></div>
+        <div class="pc-pct" id="sem-pct">—</div>
+      </div>
     </div>
 
-    <section class="card">
-      <h2>Tus tiendas por tramo de comisión</h2>
-      <p class="hint" id="st-hint"></p>
-      <div class="stairs" id="stairs"></div>
-      <details class="detail">
-        <summary>Ver detalle completo por tienda</summary>
-        <div class="tbl-wrap"><table class="st num" id="stores"></table></div>
-      </details>
-    </section>
+    <!-- Progreso mensual -->
+    <div class="ring-card" id="ring-card">
+      <img src="../sources/logos-games/suerte-1.png" aria-hidden="true"
+           style="position:absolute;width:88px;bottom:-8px;left:-6px;transform:rotate(-10deg);opacity:.22;pointer-events:none;">
+      <div class="ring-card-glow" id="ring-glow"></div>
+      <div class="ring-period-label">PROGRESO DEL MES</div>
+      <div class="ring-wrap">
+        <svg class="ring-svg" viewBox="0 0 168 168">
+          <circle class="ring-track" cx="84" cy="84" r="67.5"/>
+          <circle class="ring-fill" id="ring-fill" cx="84" cy="84" r="67.5"/>
+        </svg>
+        <div class="ring-center">
+          <div class="ring-pct" id="ring-pct">0<span class="ring-pct-sign">%</span></div>
+          <div class="ring-sub">del mes</div>
+        </div>
+      </div>
+      <div class="ring-amounts">
+        <div class="ra-item">
+          <div class="ra-val" id="ra-actual">S/ 0</div>
+          <div class="ra-lbl">Vendido</div>
+        </div>
+        <div class="ra-item">
+          <div class="ra-val" id="ra-meta" style="color:var(--muted)">S/ —</div>
+          <div class="ra-lbl">Meta mes</div>
+        </div>
+        <div class="ra-item">
+          <div class="ra-val" id="ra-falta" style="color:var(--muted)">—</div>
+          <div class="ra-lbl">Falta</div>
+        </div>
+      </div>
+    </div>
 
-    <div id="incs" style="display:grid;gap:18px"></div>
+    <!-- Games breakdown -->
+    <div class="games-card">
+      <img src="../sources/logos-games/suerte-3.png" aria-hidden="true"
+           style="position:absolute;width:72px;bottom:-6px;right:-4px;transform:rotate(9deg);opacity:.2;pointer-events:none;">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
+        <div class="card-title" id="games-card-title" style="margin-bottom:0">Desglose por juego · este mes</div>
+        <button id="btn-vista-dia" class="vista-toggle" onclick="toggleVistaDia()">📅 Ver día</button>
+      </div>
+      <div class="game-row">
+        <div class="gr-name"><img src="../sources/logos-games/pozopower.png" class="gr-logo" alt="">PozoPower</div>
+        <div class="gr-bar"><div class="gr-fill" id="pp-bar" style="background:var(--accent)"></div></div>
+        <div class="gr-val" id="pp-val">S/ 0</div>
+      </div>
+      <div class="game-row">
+        <div class="gr-name"><img src="../sources/logos-games/lakidey.png" class="gr-logo" alt="">LakiDey</div>
+        <div class="gr-bar"><div class="gr-fill" id="ld-bar" style="background:#3B9EE8"></div></div>
+        <div class="gr-val" id="ld-val">S/ 0</div>
+      </div>
+      <div class="game-row">
+        <div class="gr-name"><img src="../sources/logos-games/rapiraspa.png" class="gr-logo" alt="">Rapiraspas</div>
+        <div class="gr-bar"><div class="gr-fill" id="sc-bar" style="background:#16A34A"></div></div>
+        <div class="gr-val" id="sc-val">S/ 0</div>
+      </div>
+      <div class="game-row">
+        <div class="gr-name"><img src="../sources/logos-games/pozopower.png" class="gr-logo" alt="">Go</div>
+        <div class="gr-bar"><div class="gr-fill" id="go-bar" style="background:#D97706"></div></div>
+        <div class="gr-val" id="go-val">S/ 0</div>
+      </div>
+      <div class="game-row">
+        <div class="gr-name"><img src="../sources/logos-games/elige3.png" class="gr-logo" alt="">Elige 3</div>
+        <div class="gr-bar"><div class="gr-fill" id="e3-bar" style="background:#7C3AED"></div></div>
+        <div class="gr-val" id="e3-val">S/ 0</div>
+      </div>
+      <div class="game-row">
+        <div class="gr-name"><img src="../sources/logos-games/Turbito.png" class="gr-logo" alt="">Turbito</div>
+        <div class="gr-bar"><div class="gr-fill" id="turbito-bar" style="background:#0891B2"></div></div>
+        <div class="gr-val" id="turbito-val">S/ 0</div>
+      </div>
+    </div>
 
-    <section class="card">
-      <h2>Historial de liquidaciones</h2>
-      <p class="hint" id="hist-hint">Lo que se facturó y pagó cada mes. Registra aquí tu factura y cuándo te pagaron.</p>
-      <div class="hist num" id="hist"></div>
-    </section>
+    <!-- Motivational -->
+    <div class="motive-card" id="motive-card">
+      <div class="mc-icon" id="motive-icon">⏳</div>
+      <div class="mc-body">
+        <div class="mc-msg" id="motive-msg">Cargando…</div>
+        <div class="mc-detail" id="motive-detail"></div>
+      </div>
+    </div>
 
-    <div class="priv">🔒 <span>Solo ves la información de tus tiendas. Ningún otro socio puede ver tus ventas ni tus comisiones, y tú no ves las de ellos. Datos con corte al día anterior.</span></div>
-  </main>
+    <!-- Weekly evolution chart -->
+    <div class="week-card">
+      <img src="../sources/logos-games/suerte-4.png" aria-hidden="true"
+           style="position:absolute;width:62px;top:-4px;right:-2px;transform:rotate(14deg);opacity:.18;pointer-events:none;">
+      <div class="card-title">Evolución · semana en curso</div>
+      <div class="week-chart" id="week-chart"></div>
+      <div class="wc-tooltip" id="wc-tooltip" style="display:none"></div>
+      <div class="wc-meta-cap" id="wc-meta-cap" style="display:none"></div>
+    </div>
+
+    <!-- Ranking semanal por clúster -->
+    <div class="rank-card" id="rank-card" style="display:none">
+      <div class="card-title" id="rank-card-title">Ranking semanal</div>
+      <div class="rk-head" id="rank-card-pos"></div>
+      <div class="rk-list" id="rank-card-list"></div>
+    </div>
+
+    <!-- Stock Rapiraspas -->
+    <div class="stock-card" id="stock-card" style="display:none">
+      <div class="stock-card-hdr">
+        <div class="stock-card-title">📦 Stock Rapiraspas</div>
+        <div style="display:flex;align-items:center;gap:8px">
+          <div class="stock-card-ts" id="stock-ts">—</div>
+          <button class="stock-edit-btn" id="stock-edit-btn" onclick="editarStock()">✏️ Editar</button>
+        </div>
+      </div>
+      <div class="stock-grid">
+        <div class="stock-item">
+          <div class="stock-label">Jack</div>
+          <input class="stock-input" id="sk-jack" type="number" min="0" value="0" disabled>
+        </div>
+        <div class="stock-item">
+          <div class="stock-label">Wicho</div>
+          <input class="stock-input" id="sk-wicho" type="number" min="0" value="0" disabled>
+        </div>
+        <div class="stock-item">
+          <div class="stock-label">BlinoBlin</div>
+          <input class="stock-input" id="sk-blinoblin" type="number" min="0" value="0" disabled>
+        </div>
+        <div class="stock-item">
+          <div class="stock-label">7 Pecados</div>
+          <input class="stock-input" id="sk-7pecados" type="number" min="0" value="0" disabled>
+        </div>
+        <div class="stock-item">
+          <div class="stock-label">GoldenOro</div>
+          <input class="stock-input" id="sk-goldeooro" type="number" min="0" value="0" disabled>
+        </div>
+        <div class="stock-item">
+          <div class="stock-label">Rojo y Negro</div>
+          <input class="stock-input" id="sk-rojoyNegro" type="number" min="0" value="0" disabled>
+        </div>
+        <div class="stock-item full">
+          <div class="stock-label">El Dorado</div>
+          <input class="stock-input" id="sk-eldorado" type="number" min="0" value="0" style="max-width:110px" disabled>
+        </div>
+        <div class="stock-item full">
+          <div class="stock-label">🖨️ Contómetros</div>
+          <input class="stock-input" id="sk-contometros" type="number" min="0" value="0" style="max-width:110px" disabled>
+        </div>
+      </div>
+      <div class="stock-actions" id="stock-actions" style="display:none">
+        <button class="stock-cancel-btn" onclick="cancelarStockEdit()">Cancelar</button>
+        <button class="stock-save-btn" id="stock-save-btn" onclick="guardarStockRapi()">💾 Guardar</button>
+      </div>
+      <div class="stock-feedback" id="stock-feedback"></div>
+    </div>
+
+    <!-- Promo: video limpio (solo móvil) -->
+    <div class="promo-card">
+      <video autoplay muted loop playsinline class="promo-video">
+        <source src="../sources/logos-games/WhatsApp%20Video%202026-07-06%20at%202.57.39%20PM.mp4" type="video/mp4">
+      </video>
+    </div>
+  </div>
 </div>
 
-<!-- ═════════ PANEL DE ADMINISTRACIÓN ═════════ -->
-<div id="admin" hidden>
-  <header class="top"><div class="wrap">
-    <span class="logo"><img src="../sources/logos-games/lotobola.webp" alt="Lotobola"></span>
-    <img class="plogo" src="../icons/tinbet.png" alt="Tinbet">
-    <div class="who"><b>Administración del portal</b><span>Socios Tinbet · usuarios, comisiones e incentivos</span></div>
-    <button class="out" type="button" onclick="logout()">Cerrar sesión</button>
-  </div></header>
-  <main class="wrap">
-    <section class="card">
-      <h2>Socios y accesos</h2>
-      <p class="hint">Cada socio entra con su usuario y ve solo las tiendas de los nombres de socio (<code>gz</code>) que tenga asignados. Los cambios se aplican al publicar y el portal los toma en 3–5 minutos.</p>
-      <div class="tbl-wrap"><table class="st" id="adm-socios"></table></div>
-      <div class="newpw" id="newpw"></div>
-    </section>
-
-    <div class="adm-grid">
-      <section class="card">
-        <h2 id="frm-title">Nuevo socio</h2>
-        <p class="hint">La contraseña se genera sola al crear el socio. Cópiala y envíasela: no se vuelve a mostrar.</p>
-        <div class="frm">
-          <div class="row">
-            <label>Usuario<input id="f-u" type="text" autocapitalize="off" spellcheck="false" placeholder="ej. gaming.solutions"></label>
-            <label>Nombre visible<input id="f-n" type="text" placeholder="Razón social o nombre"></label>
-          </div>
-          <div class="row">
-            <label>Tipo<select id="f-t"><option>Franquiciado</option><option>Agente</option></select></label>
-            <label>Esquema de comisión<select id="f-e"></select></label>
-          </div>
-          <label><span>Tiendas: nombres de socio (<code>gz</code>) que verá</span>
-            <input id="f-q" type="text" placeholder="Buscar…" oninput="pintarGz()">
-          </label>
-          <div class="gzlist" id="f-gz"></div>
-          <div class="acts"><button class="btn" type="button" id="f-save" onclick="guardarSocio()">Crear socio</button><button class="btn sec" type="button" onclick="limpiarForm()">Limpiar</button><span class="msg" id="f-msg"></span></div>
-        </div>
-      </section>
-
-      <section class="card">
-        <h2>Esquemas de comisión</h2>
-        <p class="hint">Loterías: la tasa del tramo se aplica a toda la venta de loterías de la tienda en el mes. Deja vacío el “hasta” del último tramo.</p>
-        <label style="margin-top:10px">Esquema por defecto del partner<select id="e-def" onchange="CFG.esquema_default=this.value;sucio()"></select></label>
-        <div id="esqs"></div>
-        <div class="acts" style="margin-top:10px"><button class="btn sec sm" type="button" onclick="nuevoEsquema()">+ Nuevo esquema</button></div>
-      </section>
-    </div>
-
-    <div class="adm-grid">
-      <section class="card">
-        <h2>Incentivos</h2>
-        <p class="hint">Ranking de socios por venta total entre las fechas. Cada socio ve solo su puesto y su avance.</p>
-        <div id="incs-adm" class="hist"></div>
-        <div class="frm">
-          <label>Título<input id="i-t" type="text" placeholder="Incentivo trimestral socios"></label>
-          <label>Descripción<textarea id="i-d" rows="2" placeholder="El socio con mayor venta acumulada gana…"></textarea></label>
-          <div class="row"><label>Desde<input id="i-a" type="date"></label><label>Hasta<input id="i-b" type="date"></label></div>
-          <div class="row"><label>Premio (texto)<input id="i-p" type="text" placeholder="Viaje para 2 personas"></label><label>Meta por socio S/ (opcional)<input id="i-m" type="number" min="0" step="100"></label></div>
-          <div class="acts"><button class="btn sec" type="button" onclick="agregarIncentivo()">Agregar incentivo</button><span class="msg" id="i-msg"></span></div>
-        </div>
-      </section>
-
-      <section class="card">
-        <h2>Registro de facturación</h2>
-        <p class="hint">Los socios registran su factura y su pago en un repositorio aparte, para que su acceso no pueda tocar el sitio. Usa un token <i>fine-grained</i> solo de ese repositorio, con <b>Contents: Read and write</b>.</p>
-        <div class="frm">
-          <label>Repositorio (dueño/nombre)<input id="d-r" type="text" placeholder="Leonardow33/portal-socios-data" autocapitalize="off" spellcheck="false"></label>
-          <label>Token de GitHub de ese repositorio<input id="d-t" type="password" autocomplete="off" placeholder="github_pat_… (vacío = no cambiar)"></label>
-          <div class="acts"><button class="btn sec" type="button" onclick="guardarRepoDatos()">Guardar y probar</button><span class="msg" id="d-msg"></span></div>
-        </div>
-        <h2 style="margin-top:22px">Acceso de administrador</h2>
-        <div class="frm">
-          <div class="row"><label>Nueva contraseña<input id="a-p1" type="password" autocomplete="new-password"></label><label>Repítela<input id="a-p2" type="password" autocomplete="new-password"></label></div>
-          <label>Token de GitHub del sitio (opcional, solo si se renueva)<input id="a-gh" type="password" autocomplete="off" placeholder="github_pat_…"></label>
-          <div class="acts"><button class="btn sec" type="button" onclick="cambiarAdmin()">Cambiar</button><span class="msg" id="a-msg"></span></div>
-        </div>
-      </section>
-    </div>
-  </main>
-  <div class="savebar" id="savebar" hidden><div class="wrap"><span id="save-t">Tienes cambios sin publicar.</span><button class="btn" type="button" id="save-btn" onclick="publicar()">Publicar cambios</button></div></div>
+<!-- Llamitas Suerte: lado izquierdo (desktop) -->
+<div class="suerte-side left">
+  <img src="../sources/logos-games/suerte-1.png" class="suerte-deco-img" alt="">
+  <img src="../sources/logos-games/suerte-3.png" class="suerte-deco-img" alt="">
 </div>
 
-<div class="loading" id="loading" hidden>Cargando…</div>
+<!-- Video promo: lado derecho (desktop) -->
+<div class="video-side">
+  <video autoplay muted loop playsinline>
+    <source src="../sources/logos-games/WhatsApp%20Video%202026-07-06%20at%202.57.39%20PM.mp4" type="video/mp4">
+  </video>
+</div>
 
 <script>
-// ─────────────────────────────────────────────────────────────────────────────
-// Portal de socios Tinbet. Datos: data/puntos.json (tiendas, campo gz = socio),
-// ventas_mes(_prev) TOTAL, ventas_raspes(_prev) y premios_pagados(_prev) (pendiente).
-// Loterías = TOTAL − raspas (TOTAL ya suma PozoPower, Go, Elige 3, LakiDey y Turbito).
-// Accesos: data/socios_tinbet.json. Cada socio guarda una clave del portal (K) cifrada
-// con su contraseña (PBKDF2-SHA256 600k + AES-GCM). El admin guarda {gh, k} igual.
-// K descifra el token del repo de facturación, donde cada socio escribe historial/<usuario>.json.
-// ─────────────────────────────────────────────────────────────────────────────
-const PARTNER   = 'TINBET';
-const REPO      = 'Leonardow33/MAPA_RC_INTERACTIVO';
-const CFG_PATH  = 'data/socios_tinbet.json';
-const SESS_KEY  = 'tin_socio';
-const ITER      = 600000;
-const ESQ_REF   = { tramos: [{ hasta: 1500, pct: 8 }, { hasta: 6000, pct: 10 }, { hasta: 20000, pct: 12 }, { hasta: null, pct: 14 }], raspas: 8, premios: 2, igv: 18 };
-const TRAMO_NOM = ['Base', 'Plata', 'Oro', 'Diamante'];
-const MESES     = ['enero','febrero','marzo','abril','mayo','junio','julio','agosto','setiembre','octubre','noviembre','diciembre'];
-const ESTADOS   = { pendiente: 'Por facturar', facturado: 'Facturado', pagado: 'Pagado' };
+  // ── Clave diaria rotatoria ────────────────────────────────
+  // Cambia AT_SEED para regenerar todos los códigos futuros
+  const AT_SEED = 'GEODOR_TIN_2025';
 
-const $ = id => document.getElementById(id);
-const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
-const r2 = n => Math.round(n * 100) / 100;
-const fmt  = n => 'S/ ' + Math.round(n).toLocaleString('es-PE');
-const fmt2 = n => 'S/ ' + (+n).toLocaleString('es-PE', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-const normGz = s => String(s || '').normalize('NFD').replace(/[̀-ͯ]/g, '').toUpperCase().replace(/\s+/g, ' ').trim();
-const hoyLima = () => new Intl.DateTimeFormat('en-CA', { timeZone: 'America/Lima' }).format(new Date());
-const addDias = (iso, n) => { const d = new Date(iso + 'T12:00:00Z'); d.setUTCDate(d.getUTCDate() + n); return d.toISOString().slice(0, 10); };
-const fCorta = iso => iso ? `${iso.slice(8, 10)}/${iso.slice(5, 7)}/${iso.slice(0, 4)}` : '';
-const nomMes = ym => { const [y, m] = ym.split('-'); return MESES[+m - 1] + ' ' + y; };
-const cap = s => s.charAt(0).toUpperCase() + s.slice(1);
-
-const HOY = hoyLima(), AYER = addDias(HOY, -1);
-
-// ── Cifrado (Web Crypto) ─────────────────────────────────────────────────────
-const te = new TextEncoder(), td = new TextDecoder();
-const b64 = u8 => { let s = ''; u8.forEach(b => s += String.fromCharCode(b)); return btoa(s); };
-const unb64 = s => Uint8Array.from(atob(s), c => c.charCodeAt(0));
-async function pwKey(pass, salt) {
-  const base = await crypto.subtle.importKey('raw', te.encode(pass), 'PBKDF2', false, ['deriveKey']);
-  return crypto.subtle.deriveKey({ name: 'PBKDF2', salt: unb64(salt), iterations: ITER, hash: 'SHA-256' }, base, { name: 'AES-GCM', length: 256 }, false, ['encrypt', 'decrypt']);
-}
-async function seal(key, obj) {
-  const iv = crypto.getRandomValues(new Uint8Array(12));
-  const c = new Uint8Array(await crypto.subtle.encrypt({ name: 'AES-GCM', iv }, key, te.encode(JSON.stringify(obj))));
-  return { i: b64(iv), c: b64(c) };
-}
-async function unseal(key, box) { return JSON.parse(td.decode(await crypto.subtle.decrypt({ name: 'AES-GCM', iv: unb64(box.i) }, key, unb64(box.c)))); }
-async function sealPw(pass, obj) { const s = b64(crypto.getRandomValues(new Uint8Array(16))); return { s, ...(await seal(await pwKey(pass, s), obj)) }; }
-async function unsealPw(pass, box) { return unseal(await pwKey(pass, box.s), box); }
-const rawKey = k => crypto.subtle.importKey('raw', unb64(k), 'AES-GCM', false, ['encrypt', 'decrypt']);
-function genPass() {
-  const A = 'ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnpqrstuvwxyz23456789', r = crypto.getRandomValues(new Uint8Array(12));
-  let s = ''; r.forEach(b => s += A[b % A.length]); return s.slice(0, 4) + '-' + s.slice(4, 8) + '-' + s.slice(8, 12);
-}
-
-// ── GitHub Contents API ──────────────────────────────────────────────────────
-const ghHeaders = token => ({ Authorization: 'Bearer ' + token, Accept: 'application/vnd.github+json', 'X-GitHub-Api-Version': '2022-11-28' });
-async function ghGet(repo, token, path) {
-  const res = await fetch(`https://api.github.com/repos/${repo}/contents/${path}?t=${Date.now()}_${Math.random().toString(36).slice(2)}`, { headers: ghHeaders(token), cache: 'no-store' });
-  if (res.status === 404) return { data: null, sha: null };
-  if (res.status === 401 || res.status === 403) throw new Error('el token no tiene acceso (' + res.status + ')');
-  if (!res.ok) throw new Error('GitHub respondió ' + res.status);
-  const j = await res.json();
-  return { data: JSON.parse(decodeURIComponent(escape(atob(j.content.replace(/\n/g, ''))))), sha: j.sha };
-}
-async function ghPut(repo, token, path, data, mensaje) {
-  const content = btoa(unescape(encodeURIComponent(JSON.stringify(data, null, 1))));
-  for (let intento = 0; intento < 2; intento++) {
-    const { sha } = await ghGet(repo, token, path);
-    const res = await fetch(`https://api.github.com/repos/${repo}/contents/${path}`, {
-      method: 'PUT', headers: ghHeaders(token),
-      body: JSON.stringify({ message: mensaje, content, ...(sha ? { sha } : {}) }) });
-    if (res.ok) return;
-    if (res.status === 401 || res.status === 403) throw new Error('el token no tiene permiso de escritura (' + res.status + ')');
-    if (res.status !== 409 && res.status !== 422) throw new Error('GitHub respondió ' + res.status);
+  function isoDate() {
+    return new Date().toLocaleDateString('sv', { timeZone: 'America/Lima' });
   }
-  throw new Error('conflicto al guardar, intenta de nuevo');
-}
 
-// ── Estado ───────────────────────────────────────────────────────────────────
-let CFG = null;            // data/socios_tinbet.json
-let STORES = [];           // tiendas Tinbet de puntos.json
-let DIAS = new Map();      // ID → Map(fecha → {t, r, p})
-let MESES_DATA = [];       // ['2026-11', '2026-10'] (más reciente primero)
-let PREMIOS_OK = false;    // hay archivo de premios pagados
-let USER = null;           // entrada del socio
-let KB64 = null;           // clave del portal (base64)
-let ADMIN = null;          // {gh, k} cuando entra el admin
-let DATA_TOKEN = null;     // token del repo de facturación
-let HIST = { meses: {} }, HIST_OK = false;
-let PER = null;
-let _datos = null;
+  function dailyCode(seed, date) {
+    const s = seed + '|' + date;
+    let h = 5381;
+    for (let i = 0; i < s.length; i++) {
+      h = (((h << 5) + h) ^ s.charCodeAt(i)) >>> 0;
+    }
+    return h.toString(36).toUpperCase().slice(0, 5);
+  }
 
-async function loadJSON(url) {
-  const r = await fetch(url, { cache: 'no-cache' });
-  if (!r.ok) throw new Error(url + ' ' + r.status);
-  return JSON.parse((await r.text()).replace(/^﻿/, ''));
-}
-const filas = d => d ? (d.body || d.ventas || (Array.isArray(d) ? d : [])) : [];
+  function checkPin() {
+    const val   = document.getElementById('pin-input').value.trim().toUpperCase();
+    const valid = dailyCode(AT_SEED, isoDate());
+    if (val === valid) {
+      sessionStorage.setItem('tin_auth', isoDate());
+      showSelector();
+    } else {
+      const inp = document.getElementById('pin-input');
+      document.getElementById('pin-error').textContent = 'Clave incorrecta — intenta de nuevo';
+      inp.classList.remove('shake');
+      void inp.offsetWidth;
+      inp.classList.add('shake');
+      inp.value = '';
+      inp.focus();
+    }
+  }
 
-async function cargarCfg() {
-  CFG = await loadJSON('../' + CFG_PATH + '?t=' + Date.now());
-  normalizarCfg();
-}
-function normalizarCfg() {
-  CFG.esquemas = CFG.esquemas || { base: JSON.parse(JSON.stringify(ESQ_REF)) };
-  CFG.esquema_default = CFG.esquema_default && CFG.esquemas[CFG.esquema_default] ? CFG.esquema_default : Object.keys(CFG.esquemas)[0];
-  CFG.socios = CFG.socios || [];
-  CFG.incentivos = CFG.incentivos || [];
-}
-
-function cargarDatos() {
-  if (_datos) return _datos;
-  _datos = (async () => {
-    const opt = f => loadJSON('../data/' + f + '.json').catch(() => null);
-    const [pts, mes, mesP, ras, rasP, pre, preP] = await Promise.all([
-      loadJSON('../data/puntos.json'), opt('ventas_mes'), opt('ventas_mes_prev'),
-      opt('ventas_raspes'), opt('ventas_raspes_prev'), opt('premios_pagados'), opt('premios_pagados_prev')]);
-    const P = Array.isArray(pts) ? pts : (pts.body || Object.values(pts)[0]);
-    STORES = P.filter(p => String(p.responsable || '').toUpperCase() === PARTNER);
-    const ids = new Set(STORES.map(s => String(s.ID)));
-    // Clave tienda|fecha|juego para no duplicar si un día aparece en los dos archivos
-    const acc = (rows, campo, soloTotal) => {
-      const m = new Map();
-      rows.forEach(v => {
-        const id = String(v.org_code), f = String(v.fecha || '').slice(0, 10);
-        if (!ids.has(id) || !f || f > AYER) return;
-        if (soloTotal && v.tipo_juego !== 'TOTAL') return;
-        m.set(id + '|' + f + '|' + (v.tipo_juego || ''), +v.total || 0);
-      });
-      m.forEach((val, k) => {
-        const [id, f] = k.split('|');
-        if (!DIAS.has(id)) DIAS.set(id, new Map());
-        const d = DIAS.get(id); if (!d.has(f)) d.set(f, { t: 0, r: 0, p: 0 });
-        d.get(f)[campo] += val;
-      });
-    };
-    acc([...filas(mesP), ...filas(mes)], 't', true);
-    acc([...filas(rasP), ...filas(ras)], 'r', false);
-    const prem = [...filas(preP), ...filas(pre)];
-    PREMIOS_OK = prem.length > 0;
-    acc(prem, 'p', false);
-    const ms = new Set();
-    DIAS.forEach(d => d.forEach((_, f) => ms.add(f.slice(0, 7))));
-    MESES_DATA = [...ms].sort().reverse().slice(0, 2);
-  })();
-  return _datos;
-}
-
-// ── Cálculo ──────────────────────────────────────────────────────────────────
-function esquemaDe(u) { return (CFG.esquemas[u && u.esquema] || CFG.esquemas[CFG.esquema_default] || ESQ_REF); }
-function tramoIdx(esq, v) { const i = esq.tramos.findIndex(t => t.hasta == null || v <= t.hasta); return i < 0 ? esq.tramos.length - 1 : i; }
-function tiendasDe(u) {
-  const gz = new Set((u.gz || []).map(normGz));
-  return STORES.filter(s => gz.has(normGz(s.gz)) && (s.estado === 'ACTIVO' || DIAS.has(String(s.ID))));
-}
-function infoMes(ym) {
-  const [y, m] = ym.split('-').map(Number), diasMes = new Date(y, m, 0).getDate();
-  const cerrado = ym < HOY.slice(0, 7);
-  const diasDatos = cerrado ? diasMes : (AYER.slice(0, 7) === ym ? +AYER.slice(8) : 0);
-  return { ym, y, m, diasMes, cerrado, diasDatos };
-}
-// Venta por tienda en un mes, hasta el día `hasta` (inclusive)
-function ventasMes(stores, ym, hasta) {
-  const im = infoMes(ym);
-  return stores.map(s => {
-    const daily = Array.from({ length: im.diasMes }, () => ({ t: 0, r: 0, p: 0 }));
-    let t = 0, r = 0, p = 0;
-    (DIAS.get(String(s.ID)) || new Map()).forEach((x, f) => {
-      if (f.slice(0, 7) !== ym) return;
-      const d = +f.slice(8); if (d > hasta) return;
-      daily[d - 1] = x; t += x.t; r += x.r; p += x.p;
+  document.addEventListener('DOMContentLoaded', () => {
+    document.getElementById('pin-input').addEventListener('keydown', e => {
+      if (e.key === 'Enter') checkPin();
     });
-    return { s, cod: s.ID, nombre: s.nombre, zona: [s.distrito, s.zona].filter(Boolean).join(' · '), daily, tot: t, ras: r, lot: Math.max(0, t - r), pre: p };
   });
-}
-function calcular(ts, esq, im) {
-  const k = im.diasDatos ? im.diasMes / im.diasDatos : 1;
-  let cLot = 0, cRas = 0, cPre = 0, cProy = 0;
-  ts.forEach(t => {
-    t.ti = tramoIdx(esq, t.lot); t.tasa = esq.tramos[t.ti].pct / 100;
-    const a = r2(t.lot * t.tasa), b = r2(t.ras * esq.raspas / 100), c = r2(t.pre * esq.premios / 100);
-    t.com = r2(a + b + c);
-    const lp = t.lot * k;
-    cProy += lp * esq.tramos[tramoIdx(esq, lp)].pct / 100 + t.ras * k * esq.raspas / 100 + t.pre * k * esq.premios / 100;
-    cLot += a; cRas += b; cPre += c;
-  });
-  const sum = f => ts.reduce((a, t) => a + t[f], 0);
-  cLot = r2(cLot); cRas = r2(cRas); cPre = r2(cPre);
-  const sub = r2(cLot + cRas + cPre), igv = r2(sub * esq.igv / 100);
-  return { cLot, cRas, cPre, sub, igv, tot: r2(sub + igv), cProy, totProy: cProy * (1 + esq.igv / 100), venta: sum('tot'), lot: sum('lot'), ras: sum('ras'), pre: sum('pre') };
-}
 
-// ── Login ────────────────────────────────────────────────────────────────────
-$('lg-form').addEventListener('submit', async e => {
-  e.preventDefault();
-  const u = $('u').value.trim().toLowerCase(), p = $('p').value, err = $('lg-err'), btn = $('lg-btn');
-  if (!u || !p) { err.textContent = 'Escribe tu usuario y tu contraseña.'; return; }
-  btn.disabled = true; btn.textContent = 'Verificando…'; err.textContent = '';
-  try {
-    if (!CFG) await cargarCfg();
-    if (u === 'admin') {
-      if (!CFG.admin) throw new Error('cfg');
-      ADMIN = await unsealPw(p, CFG.admin).catch(() => null);
-      if (!ADMIN) throw new Error('cred');
-      KB64 = ADMIN.k; $('p').value = '';
-      await abrirAdmin();
+  function showSelector() {
+    document.getElementById('loading').style.display       = 'none';
+    document.getElementById('pin-screen').style.display    = 'none';
+    document.getElementById('search-screen').style.display = 'flex';
+    if (!selectorReady) {
+      selectorReady = true;
+      setupSearch();
+      setupRoleSelects();
+    }
+    document.getElementById('search-input').focus();
+  }
+
+  function setRole(role) {
+    ['tienda','jz','gz','rank'].forEach(r => {
+      const tab = document.getElementById('tab-' + r);
+      if (!tab) return;
+      tab.classList.toggle('active', r === role);
+      document.getElementById('role-panel-' + r).style.display = r === role ? '' : 'none';
+    });
+    if (role === 'rank') renderRankPanel();
+    if (role === 'tienda') document.getElementById('search-input').focus();
+  }
+
+  function setupRoleSelects() {
+    const gzSet = new Set(), jzSet = new Set();
+    allStores.forEach(p => {
+      if (p.gz && p.gz !== 'SIN INFO') gzSet.add(p.gz);
+      if (p.jz && p.jz !== 'SIN INFO') jzSet.add(p.jz);
+    });
+
+    const gzSel = document.getElementById('gz-select');
+    [...gzSet].sort().forEach(gz => {
+      const opt = document.createElement('option');
+      opt.value = gz; opt.textContent = gz;
+      gzSel.appendChild(opt);
+    });
+    gzSel.addEventListener('change', () => {
+      const gz     = gzSel.value;
+      const stores = gz ? allStores.filter(p => p.gz === gz) : [];
+      renderRoleSummary('gz', gz, stores);
+      renderGzDetail(stores);
+      document.getElementById('gz-stores-wrap').style.display = 'none';
+    });
+
+    const jzSel = document.getElementById('jz-select');
+    [...jzSet].sort().forEach(jz => {
+      const opt = document.createElement('option');
+      opt.value = jz; opt.textContent = jz;
+      jzSel.appendChild(opt);
+    });
+    jzSel.addEventListener('change', () => {
+      const jz     = jzSel.value;
+      const stores = jz ? allStores.filter(p => p.jz === jz) : [];
+      renderRoleSummary('jz', jz, stores);
+      renderJzDownload(jz, stores);
+      renderJzDetail(stores);
+      document.getElementById('jz-stores-wrap').style.display = 'none';
+    });
+  }
+
+  function renderRoleSummary(role, name, stores) {
+    const summaryEl = document.getElementById(role + '-summary');
+    const wrapEl    = document.getElementById(role + '-stores-wrap');
+    if (!name || !stores.length) {
+      summaryEl.style.display = 'none';
+      wrapEl.style.display    = 'none';
       return;
     }
-    const s = CFG.socios.find(x => x.u === u);
-    const box = s && s.activo !== false && s.cred ? await unsealPw(p, s.cred).catch(() => null) : null;
-    if (!box) throw new Error('cred');
-    KB64 = box.k; USER = s; $('p').value = '';
-    try { sessionStorage.setItem(SESS_KEY, JSON.stringify({ u, k: KB64 })); } catch (_) {}
-    await abrirPortal();
-  } catch (ex) {
-    err.textContent = ex.message === 'cred' ? 'Usuario o contraseña incorrectos. Revisa los datos e inténtalo otra vez.'
-      : ex.message === 'cfg' ? 'El portal aún no está configurado.' : 'No se pudo ingresar: ' + ex.message;
-  } finally { btn.disabled = false; btn.textContent = 'Ingresar'; }
-});
+    const now        = new Date();
+    const mesIni   = new Date(now.getFullYear(), now.getMonth() - (isMesPrev ? 1 : 0), 1);
+    const mesFin   = new Date(now.getFullYear(), now.getMonth() - (isMesPrev ? 1 : 0) + 1, 0, 23, 59, 59);
+    const diasCalMes = 30;
+    const ids        = new Set(stores.map(s => String(s.ID)));
 
-function logout() {
-  if (_sucio && !confirm('Tienes cambios sin publicar. ¿Salir igual?')) return;
-  _sucio = false;
-  try { sessionStorage.removeItem(SESS_KEY); } catch (_) {}
-  USER = null; KB64 = null; ADMIN = null; DATA_TOKEN = null; HIST = { meses: {} }; HIST_OK = false;
-  $('app').hidden = true; $('admin').hidden = true; $('login').hidden = false; $('savebar').hidden = true;
-  window.scrollTo(0, 0);
-}
+    let totalVentas = 0;
+    allVentas.forEach(v => {
+      if (!ids.has(String(v.org_code)) || !v.fecha || v.tipo_juego !== 'TOTAL') return;
+      const f = new Date(v.fecha + 'T12:00:00');
+      if (f >= mesIni && f <= mesFin) totalVentas += v.total || 0;
+    });
 
-async function tokenDatos() {
-  if (DATA_TOKEN || !CFG.dataRepo || !CFG.dataToken || !KB64) return DATA_TOKEN;
-  try { DATA_TOKEN = (await unseal(await rawKey(KB64), CFG.dataToken)).t; } catch (_) { DATA_TOKEN = null; }
-  return DATA_TOKEN;
-}
-async function cargarHistorial() {
-  HIST = { meses: {} }; HIST_OK = false;
-  const tk = await tokenDatos();
-  if (!tk) return;
-  try { const { data } = await ghGet(CFG.dataRepo, tk, `historial/${USER.u}.json`); HIST = data && data.meses ? data : { meses: {} }; HIST_OK = true; }
-  catch (e) { console.warn('historial', e); }
-}
+    let totalMeta = 0;
+    stores.forEach(s => {
+      if (s.meta_diaria && s.meta_diaria > 0) totalMeta += Math.round(parseFloat(s.meta_diaria) * diasCalMes);
+    });
 
-async function abrirPortal() {
-  $('login').hidden = true; $('admin').hidden = true; $('loading').hidden = false;
-  await cargarDatos();
-  await cargarHistorial();
-  $('loading').hidden = true; $('app').hidden = false;
-  $('adm-banner').hidden = !ADMIN;
-  if (ADMIN) $('adm-banner-t').textContent = `Vista de administrador: estás viendo el portal de ${USER.nombre || USER.u}.`;
-  PER = MESES_DATA[0] || HOY.slice(0, 7);
-  render(); window.scrollTo(0, 0);
-}
+    const pct        = totalMeta > 0 ? Math.round(totalVentas / totalMeta * 100) : null;
+    const col        = pct !== null ? pctColor(pct) : 'var(--dim)';
+    const faltaAmt   = totalMeta && totalVentas < totalMeta ? '-' + fmtS(totalMeta - totalVentas) : totalMeta ? '✓' : '—';
+    const faltaColor = totalMeta && totalVentas < totalMeta ? 'var(--red)' : 'var(--green)';
+    const barW       = Math.min(pct || 0, 100);
+    const m          = motivation(pct);
+    const wm         = weeklyVentasMap();
+    let semV = 0, semM = 0;
+    stores.forEach(s => { semV += wm[String(s.ID)] || 0; semM += metaSemDe(s); });
+    const semPct     = semM ? Math.round(semV / semM * 100) : null;
+    const semCol     = semPct !== null ? pctColor(semPct) : 'var(--dim)';
 
-// ── Portal ───────────────────────────────────────────────────────────────────
-function setPer(ym) { PER = ym; render(); }
-function render() {
-  const esq = esquemaDe(USER), stores = tiendasDe(USER), im = infoMes(PER);
-  const ts = ventasMes(stores, PER, im.diasDatos), R = calcular(ts, esq, im);
-  const enCurso = !im.cerrado;
-  // Mes anterior al mismo corte, para comparar
-  const prevYm = MESES_DATA.find(m => m < PER);
-  let Rc = null;
-  if (prevYm) { const ip = infoMes(prevYm); Rc = calcular(ventasMes(stores, prevYm, enCurso ? Math.min(im.diasDatos, ip.diasMes) : ip.diasMes), esq, ip); }
-
-  $('s-name').textContent = USER.nombre || USER.u;
-  $('s-meta').textContent = `${USER.tipo || 'Franquiciado'} · Tinbet · ${stores.length} tienda${stores.length === 1 ? '' : 's'}`;
-  $('per').innerHTML = MESES_DATA.slice().reverse().map(m => `<button type="button" class="${m === PER ? 'on' : ''}" onclick="setPer('${m}')">${MESES[+m.slice(5) - 1]}</button>`).join('');
-  $('h-title').textContent = cap(nomMes(PER)) + (enCurso ? ' · en curso' : ' · cerrado');
-  const fAyer = new Date(AYER + 'T12:00:00Z').toLocaleDateString('es-PE', { weekday: 'long', day: 'numeric', month: 'long', timeZone: 'UTC' }).replace(',', '');
-  $('h-sub').textContent = enCurso ? `Datos al ${fAyer}. Se actualiza cada día.` : 'Mes cerrado.';
-
-  if (!stores.length) {
-    $('earn').innerHTML = `<div class="empty-state" style="grid-column:1/-1">Todavía no tienes tiendas asignadas. Escríbele a tu ejecutivo comercial de Lotobola.</div>`;
-  } else {
-    const dV = Rc && Rc.venta > 0 ? (R.venta / Rc.venta - 1) * 100 : null;
-    const pct = enCurso ? (R.cProy > 0 ? Math.min(R.sub / R.cProy * 100, 100) : 0) : 100;
-    $('earn').innerHTML = `
-      <img class="llama" src="../sources/logos-games/suerte-3.png" alt="">
-      <div style="position:relative;z-index:1;min-width:0">
-        <div class="lbl">${enCurso ? 'Llevas ganado este mes' : 'Ganaste en ' + MESES[im.m - 1]}</div>
-        <div class="big num">${fmt2(R.sub)}</div>
-        <div class="igv num">${fmt2(R.tot)} con IGV · ${enCurso ? 'comisión a la fecha' : 'comisión del mes'}</div>
-        <div class="track" aria-hidden="true"><i style="width:${pct.toFixed(1)}%"></i></div>
-        <div class="tlab num">${enCurso
-          ? `<span>Proyección al cierre: <b>${fmt(R.cProy)}</b> si mantienes el ritmo</span><span>Faltan ${im.diasMes - im.diasDatos} días</span>`
-          : `<span>Mes cerrado</span><span>${ts.length} tienda${ts.length === 1 ? '' : 's'}</span>`}</div>
-      </div>
-      <div class="side num">
-        <div class="mini"><span>Venta acumulada</span><b>${fmt(R.venta)}</b>${dV === null ? '' : ` <em class="${dV >= 0 ? 'up' : 'dn'}">${dV >= 0 ? '▲' : '▼'} ${Math.abs(dV).toFixed(1)}%</em><small>vs ${MESES[+prevYm.slice(5) - 1]}${enCurso ? ' al mismo día' : ''}</small>`}</div>
-        <div class="mini"><span>Premios pagados</span>${PREMIOS_OK ? `<b>${fmt(R.pre)}</b>` : '<b>—</b><small>Dato en preparación</small>'}</div>
+    summaryEl.style.display = '';
+    summaryEl.innerHTML = `
+      <div class="gz-sum-card">
+        <div class="gz-sum-top">
+          <div class="gz-sum-title">${stores.length} tienda${stores.length !== 1 ? 's' : ''} · este mes</div>
+          <div class="gz-sum-pct" style="color:${col}">${pct !== null ? pct + '%' : '—'}</div>
+        </div>
+        <div class="pbar-track" style="margin:8px 0 14px">
+          <div class="pbar-fill" style="width:${barW}%;background:${col}"></div>
+        </div>
+        <div class="gz-sum-row">
+          <div class="gz-sum-stat">
+            <div class="gz-sum-val">${fmtS(totalVentas)}</div>
+            <div class="gz-sum-lbl">Vendido</div>
+          </div>
+          <div class="gz-sum-stat">
+            <div class="gz-sum-val" style="color:var(--muted)">${totalMeta ? fmtS(totalMeta) : 'S/ —'}</div>
+            <div class="gz-sum-lbl">Meta mes</div>
+          </div>
+          <div class="gz-sum-stat">
+            <div class="gz-sum-val" style="color:${faltaColor}">${faltaAmt}</div>
+            <div class="gz-sum-lbl">Falta</div>
+          </div>
+        </div>
+        <div class="gz-sem">Esta semana: <b>${fmtS(semV)}</b> de ${semM ? fmtS(semM) : 'S/ —'} · <b style="color:${semCol}">${semPct !== null ? semPct + '%' : '—'}</b></div>
+        <div class="pbar-track" style="margin:0 0 14px"><div class="pbar-fill" style="width:${Math.min(semPct || 0, 100)}%;background:${semCol}"></div></div>
+        <div style="border-radius:12px;padding:11px 13px;display:flex;gap:11px;align-items:flex-start;background:${m.bg};margin-bottom:12px;">
+          <div style="font-size:20px;line-height:1;flex-shrink:0;margin-top:1px">${m.icon}</div>
+          <div>
+            <div style="font-size:13px;font-weight:700;color:${m.clr};line-height:1.3">${m.msg}</div>
+            <div style="font-size:11px;opacity:.75;margin-top:3px;line-height:1.4">${m.detail}</div>
+          </div>
+        </div>
+        <button class="gz-det-btn" id="${role}-det-btn" onclick="toggleRoleDetail('${role}')">${role === 'jz' ? 'Ver supervisores y tiendas ▾' : 'Ver detalle por tienda ▾'}</button>
       </div>`;
   }
 
-  // Comprobante
-  const h = HIST.meses[PER] || {};
-  const st = enCurso ? ['pre', 'PRELIMINAR'] : h.estado === 'pagado' ? ['pag', 'PAGADO'] : h.estado === 'facturado' ? ['fac', 'FACTURADO'] : ['pen', 'POR FACTURAR'];
-  let hsh = 0; for (const c of USER.u) hsh = (hsh * 31 + c.charCodeAt(0)) % 9000;
-  $('rcpt').innerHTML = `
-    <div class="rc-head"><img src="../sources/logos-games/lotobola.webp" alt="Lotobola"><div class="no">Liquidación de comisiones<b>LQ-${PER}-${1000 + hsh}</b>${cap(nomMes(PER))}${enCurso ? ' · al ' + fCorta(AYER).slice(0, 5) : ''}</div></div>
-    <div class="rc-who"><span class="stamp ${st[0]}">${st[1]}</span><b>${esc(USER.nombre || USER.u)}</b><br>${esc(USER.tipo || 'Franquiciado')} · ${ts.length} tienda${ts.length === 1 ? '' : 's'}${h.factura ? ' · Factura ' + esc(h.factura) : ''}</div>
-    <ul class="rc-lines num">
-      <li><span>Comisión loterías<small>Venta ${fmt(R.lot)} · tasa por tramo</small></span><b>${fmt2(R.cLot)}</b></li>
-      <li><span>Comisión raspas ${esq.raspas}%<small>Venta ${fmt(R.ras)}</small></span><b>${fmt2(R.cRas)}</b></li>
-      <li><span>Pago de premios ${esq.premios}%<small>${PREMIOS_OK ? 'Premios pagados ' + fmt(R.pre) : 'Dato en preparación'}</small></span><b>${PREMIOS_OK ? fmt2(R.cPre) : '—'}</b></li>
-      <li class="sep"><span><b>Subtotal</b></span><b>${fmt2(R.sub)}</b></li>
-      <li class="mut"><span>IGV ${esq.igv}%</span><b>${fmt2(R.igv)}</b></li>
-    </ul>
-    <div class="rc-total num"><span>Total a facturar</span><b>${fmt2(R.tot)}</b></div>`;
-  const rng = (t, i) => { const min = i ? esq.tramos[i - 1].hasta : 0; return t.hasta == null ? `Más de S/ ${min.toLocaleString('es-PE')}` : i ? `S/ ${(min + 1).toLocaleString('es-PE')} – ${t.hasta.toLocaleString('es-PE')}` : `Hasta S/ ${t.hasta.toLocaleString('es-PE')}`; };
-  $('how-body').innerHTML = `<p>Loterías (PozoPower, Go, Elige 3, LakiDey, Turbito): la tasa depende de la venta del mes <b>de cada tienda</b> y se aplica a toda su venta de loterías.</p>
-    <div class="scale num">${esq.tramos.map((t, i) => `<div>${rng(t, i)}<b>${t.pct}%</b></div>`).join('')}</div>
-    <p>Raspas: ${esq.raspas}% fijo. Pago de premios: ${esq.premios}% de los premios que tus tiendas pagan a los clientes. Al total se le suma el ${esq.igv}% de IGV para tu factura.</p>`;
+  function toggleRoleDetail(role) {
+    const wrap  = document.getElementById(role + '-stores-wrap');
+    const btn   = document.getElementById(role + '-det-btn');
+    const open  = wrap.style.display !== 'none';
+    const label = role === 'jz' ? 'Ver supervisores y tiendas' : 'Ver detalle por tienda';
+    wrap.style.display = open ? 'none' : '';
+    btn.textContent    = open ? label + ' ▾' : 'Ocultar ▲';
+  }
 
-  drawChart(stores, PER, im, prevYm);
-  renderTramos(ts, esq, enCurso, R);
-  renderIncentivos();
-  renderHist(stores, esq);
-}
+  function renderJzDownload(jz, stores) {
+    const wrap = document.getElementById('jz-download');
+    if (!wrap) return;
+    if (!jz || !stores.length) { wrap.innerHTML = ''; return; }
+    const now = new Date();
+    const d   = now.getDate();
+    const mes = ['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'][now.getMonth()];
+    wrap.innerHTML = `
+      <div class="jz-dl-card" id="jz-dl-card">
+        <div class="jz-dl-left">
+          <div class="jz-dl-title">📊 Reporte de avance</div>
+          <div class="jz-dl-sub">${stores.length} tiendas · Corte día ${d} de ${mes}</div>
+        </div>
+        <button class="jz-dl-btn" id="jz-dl-btn">⬇ Excel</button>
+      </div>`;
+    document.getElementById('jz-dl-btn').onclick = () => {
+      const card = document.getElementById('jz-dl-card');
+      card.innerHTML = `
+        <div class="jz-dl-left">
+          <div class="jz-dl-title" style="margin-bottom:6px">🔐 Clave del día</div>
+          <input id="jz-dl-code" type="password" placeholder="•••••" autocomplete="off"
+                 style="width:140px;padding:8px 12px;border:1.5px solid var(--border);border-radius:10px;font-size:15px;font-family:inherit;background:var(--surf);color:var(--text);outline:none"/>
+          <div id="jz-dl-err" style="font-size:11px;color:#F04444;min-height:14px;margin-top:3px"></div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:6px;flex-shrink:0">
+          <button class="jz-dl-btn" id="jz-dl-ok">Descargar</button>
+          <button class="jz-dl-btn" id="jz-dl-no" style="background:var(--border);color:var(--muted)">Cancelar</button>
+        </div>`;
+      const inp = document.getElementById('jz-dl-code');
+      inp.focus();
+      const check = () => {
+        const val = inp.value.trim().toUpperCase();
+        if (val === dailyCode(AT_SEED, isoDate())) {
+          renderJzDownload(jz, stores);
+          downloadJzReport(jz, stores);
+        } else {
+          document.getElementById('jz-dl-err').textContent = 'Clave incorrecta — intenta de nuevo';
+          inp.style.borderColor = '#F04444';
+          inp.style.boxShadow   = '0 0 0 3px rgba(240,68,68,.2)';
+          setTimeout(() => { inp.style.borderColor = ''; inp.style.boxShadow = ''; }, 1500);
+        }
+      };
+      inp.addEventListener('keydown', e => { if (e.key === 'Enter') check(); });
+      document.getElementById('jz-dl-ok').onclick  = check;
+      document.getElementById('jz-dl-no').onclick  = () => renderJzDownload(jz, stores);
+    };
+  }
 
-function drawChart(stores, ym, im, prevYm) {
-  const W = 640, H = 240, L = 58, Rr = 14, T = 14, B = 30;
-  const cum = (ymX, n) => { const ts = ventasMes(stores, ymX, n); const out = []; let a = 0; for (let d = 0; d < n; d++) { ts.forEach(t => a += t.daily[d] ? t.daily[d].t : 0); out.push(a); } return out; };
-  const days = im.diasMes;
-  const ca = cum(ym, Math.max(im.diasDatos, 1));
-  const cb = prevYm ? cum(prevYm, Math.min(infoMes(prevYm).diasMes, days)) : null;
-  const max = Math.max(1, ...ca, ...(cb || [0])) * 1.08;
-  const step = [50, 100, 200, 500, 1000, 2000, 5000, 10000, 20000, 50000, 100000, 200000, 500000, 1000000].find(s => max / s <= 5) || 2000000;
-  const top = Math.ceil(max / step) * step;
-  const x = d => L + (d - 1) / (days - 1) * (W - L - Rr), y = v => T + (1 - v / top) * (H - T - B);
-  let g = '';
-  for (let v = 0; v <= top; v += step) g += `<line x1="${L}" x2="${W - Rr}" y1="${y(v)}" y2="${y(v)}" stroke="var(--line)"/><text x="${L - 8}" y="${y(v) + 4}" text-anchor="end" font-size="11" fill="var(--muted)">${v >= 1000 ? (v / 1000) + 'k' : v}</text>`;
-  [1, 8, 15, 22, days].forEach(d => g += `<text x="${x(d)}" y="${H - 8}" text-anchor="middle" font-size="11" fill="var(--muted)">${d}</text>`);
-  const path = arr => arr.map((v, i) => (i ? 'L' : 'M') + x(i + 1).toFixed(1) + ' ' + y(v).toFixed(1)).join(' ');
-  const last = ca.length, lv = ca[last - 1];
-  const area = path(ca) + ` L${x(last).toFixed(1)} ${y(0)} L${x(1)} ${y(0)} Z`;
-  $('chart').innerHTML = `<defs><linearGradient id="ga" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="var(--brand)" stop-opacity=".28"/><stop offset="1" stop-color="var(--brand)" stop-opacity="0"/></linearGradient></defs>
-    ${g}
-    ${cb ? `<path d="${path(cb)}" fill="none" stroke="var(--muted)" stroke-opacity=".55" stroke-width="2" stroke-dasharray="5 5"/>` : ''}
-    <path d="${area}" fill="url(#ga)"/>
-    <path d="${path(ca)}" fill="none" stroke="var(--brand)" stroke-width="3" stroke-linejoin="round"/>
-    <circle cx="${x(last)}" cy="${y(lv)}" r="5" fill="var(--brand)" stroke="var(--surf)" stroke-width="2"/>
-    <text x="${Math.min(x(last) + 8, W - Rr - 70)}" y="${y(lv) - 10}" font-size="12" font-weight="800" fill="var(--fg)">${fmt(lv)}</text>`;
-  $('ch-hint').textContent = cb ? `Día a día, comparado con ${MESES[+prevYm.slice(5) - 1]}.` : 'Día a día.';
-  $('lg-a').textContent = cap(MESES[im.m - 1]);
-  $('lg-b-w').hidden = !cb;
-  if (cb) $('lg-b').textContent = cap(MESES[+prevYm.slice(5) - 1]);
-}
+  function downloadJzReport(jz, stores) {
+    const now        = new Date();
+    const diasCalMes = now.getDate();
+    const meses      = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
+    const mesLabel   = meses[now.getMonth()] + ' ' + now.getFullYear();
+    const ids        = new Set(stores.map(s => String(s.ID)));
+    const vm         = monthlyVentasMap(ids);
+    const wm         = weeklyVentasMap();
+    const esc        = v => String(v == null ? '' : v).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+    const cols      = ['Jefe Comercial','Supervisor','ID Tienda','Tienda','Período','Días transcurridos','Ventas S/','Meta Mensual S/','Avance % (mes)','Falta para meta S/','Ventas semana S/','Meta semanal S/','Avance % (semana)'];
+    const totalDias = 30;
 
-function renderTramos(ts, esq, enCurso, R) {
-  const n = esq.tramos.length;
-  $('stairs').style.setProperty('--n', n);
-  $('stairs').innerHTML = esq.tramos.map((tr, i) => {
-    const min = i ? esq.tramos[i - 1].hasta : 0;
-    const en = ts.filter(t => t.ti === i).sort((a, b) => b.lot - a.lot);
-    const chips = en.map(t => {
-      const prog = tr.hasta == null ? 100 : Math.max(0, Math.min((t.lot - min) / (tr.hasta - min) * 100, 100));
-      const nota = !enCurso ? '' : tr.hasta != null ? `<div class="f">Faltan ${fmt(tr.hasta + 1 - t.lot)} para ${esq.tramos[i + 1].pct}%</div>` : '<div class="f top">Tramo máximo</div>';
-      return `<div class="chip" title="${esc(t.nombre)} · ${esc(t.cod)}"><div class="n"><span>${esc(t.nombre)}</span><span>${fmt(t.lot)}</span></div><div class="pb"><i style="width:${prog.toFixed(0)}%"></i></div>${nota}</div>`;
+    const filas = [...stores]
+      .sort((a, b) => {
+        const pA = a.meta_diaria ? (vm[String(a.ID)] || 0) / (a.meta_diaria * totalDias) : -1;
+        const pB = b.meta_diaria ? (vm[String(b.ID)] || 0) / (b.meta_diaria * totalDias) : -1;
+        return pB - pA;
+      })
+      .map(s => {
+        const sold = vm[String(s.ID)] || 0;
+        const meta = s.meta_diaria ? s.meta_diaria * totalDias : 0;
+        const pct  = meta > 0 ? Math.round(sold / meta * 100) : '';
+        const falt = meta > 0 ? Math.round(sold < meta ? sold - meta : 0) : '';
+        return [jz, s.gz || '', s.ID || '', s.nombre || '', mesLabel, diasCalMes,
+                Math.round(sold), Math.round(meta), pct, falt,
+                Math.round(wm[String(s.ID)] || 0), metaSemDe(s) || '',
+                metaSemDe(s) ? Math.round((wm[String(s.ID)] || 0) / metaSemDe(s) * 100) : ''];
+      });
+
+    let xml = '<?xml version="1.0" encoding="UTF-8"?><?mso-application progid="Excel.Sheet"?>' +
+      '<Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet" xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet">' +
+      '<Styles>' +
+        '<Style ss:ID="h"><Font ss:Bold="1" ss:Color="#FFFFFF"/><Interior ss:Color="#1F2937" ss:Pattern="Solid"/></Style>' +
+        '<Style ss:ID="n"><NumberFormat ss:Format="#,##0"/></Style>' +
+      '</Styles>' +
+      '<Worksheet ss:Name="Avance"><Table>' +
+      '<Row>' + cols.map(c => '<Cell ss:StyleID="h"><Data ss:Type="String">' + esc(c) + '</Data></Cell>').join('') + '</Row>';
+
+    filas.forEach(r => {
+      xml += '<Row>';
+      r.forEach((v, i) => {
+        if (i >= 6 && v !== '') {
+          xml += '<Cell ss:StyleID="n"><Data ss:Type="Number">' + v + '</Data></Cell>';
+        } else {
+          xml += '<Cell><Data ss:Type="String">' + esc(v) + '</Data></Cell>';
+        }
+      });
+      xml += '</Row>';
+    });
+    xml += '</Table></Worksheet></Workbook>';
+
+    const blob = new Blob([xml], { type: 'application/vnd.ms-excel' });
+    const url  = URL.createObjectURL(blob);
+    const a    = document.createElement('a');
+    a.href     = url;
+    a.download = 'Avance_' + jz.replace(/[^a-zA-Z0-9]/g,'_') + '_dia' + diasCalMes + '.xls';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  }
+
+  function monthlyVentasMap(ids) {
+    const now    = new Date();
+    const mesIni   = new Date(now.getFullYear(), now.getMonth() - (isMesPrev ? 1 : 0), 1);
+    const mesFin   = new Date(now.getFullYear(), now.getMonth() - (isMesPrev ? 1 : 0) + 1, 0, 23, 59, 59);
+    const map    = {};
+    allVentas.forEach(v => {
+      if (!v.fecha || v.tipo_juego !== 'TOTAL') return;
+      const sid = String(v.org_code);
+      if (!ids.has(sid)) return;
+      const f = new Date(v.fecha + 'T12:00:00');
+      if (f >= mesIni && f <= mesFin) map[sid] = (map[sid] || 0) + (v.total || 0);
+    });
+    return map;
+  }
+
+  function buildStoreRows(stores, vm, diasCalMes) {
+    const frag = document.createDocumentFragment();
+    const wm   = weeklyVentasMap();
+    [...stores].sort((a, b) => {
+      const pA = a.meta_diaria ? (vm[String(a.ID)] || 0) / (a.meta_diaria * diasCalMes) : -1;
+      const pB = b.meta_diaria ? (vm[String(b.ID)] || 0) / (b.meta_diaria * diasCalMes) : -1;
+      return pB - pA;
+    }).forEach(s => {
+      const sold = vm[String(s.ID)] || 0;
+      const meta = s.meta_diaria ? Math.round(parseFloat(s.meta_diaria) * diasCalMes) : null;
+      const pct  = meta ? Math.round(sold / meta * 100) : null;
+      const col  = pct !== null ? pctColor(pct) : 'var(--dim)';
+      const semMeta = metaSemDe(s);
+      const semPct  = semMeta ? Math.round((wm[String(s.ID)] || 0) / semMeta * 100) : null;
+      const row  = document.createElement('div');
+      row.className = 'store-row';
+      row.innerHTML = `
+        <div class="sr-info">
+          <div class="sr-name">${s.nombre}</div>
+          <div class="sr-bar-wrap"><div class="sr-bar-fill" style="width:${Math.min(pct||0,100)}%;background:${col}"></div></div>
+        </div>
+        <div class="sr-right">
+          <div class="sr-val" style="color:${col}">${fmtS(sold)}</div>
+          <div class="sr-pct" style="color:${col}">${pct !== null ? pct+'%' : '—'}</div>
+          <div class="sr-pct" style="font-size:10px;color:${semPct !== null ? pctColor(semPct) : 'var(--dim)'}">Sem ${semPct !== null ? semPct+'%' : '—'}</div>
+        </div>`;
+      row.addEventListener('click', () => renderDashboard(s));
+      frag.appendChild(row);
+    });
+    return frag;
+  }
+
+  function renderGzDetail(stores) {
+    const wrap       = document.getElementById('gz-stores-wrap');
+    const now        = new Date();
+    const diasCalMes = 30;
+    const ids        = new Set(stores.map(s => String(s.ID)));
+    const vm         = monthlyVentasMap(ids);
+    const list       = document.createElement('div');
+    list.style.cssText = 'display:flex;flex-direction:column;gap:6px;';
+    list.appendChild(buildStoreRows(stores, vm, diasCalMes));
+    wrap.innerHTML = '';
+    wrap.appendChild(list);
+    const cnt = document.createElement('p');
+    cnt.className = 'sc-count';
+    cnt.textContent = stores.length + ' tienda' + (stores.length !== 1 ? 's' : '');
+    wrap.appendChild(cnt);
+  }
+
+  function renderJzDetail(stores) {
+    const wrap       = document.getElementById('jz-stores-wrap');
+    const now        = new Date();
+    const diasCalMes = 30;
+    const ids        = new Set(stores.map(s => String(s.ID)));
+    const vm         = monthlyVentasMap(ids);
+    const wm         = weeklyVentasMap();
+
+    const supMap = {};
+    stores.forEach(s => {
+      const gz = (s.gz && s.gz !== 'SIN INFO') ? s.gz : '(Sin supervisor)';
+      if (!supMap[gz]) supMap[gz] = [];
+      supMap[gz].push(s);
+    });
+
+    wrap.innerHTML = '';
+    const container = document.createElement('div');
+    container.style.cssText = 'display:flex;flex-direction:column;gap:8px;';
+
+    const supPct = ss => { let v=0,m=0; ss.forEach(s=>{v+=vm[String(s.ID)]||0;if(s.meta_diaria)m+=Math.round(parseFloat(s.meta_diaria)*diasCalMes);}); return m?v/m:-1; };
+    Object.entries(supMap).sort(([,a],[,b]) => supPct(b)-supPct(a)).forEach(([gz, gzStores]) => {
+      let totV = 0, totM = 0;
+      gzStores.forEach(s => {
+        totV += vm[String(s.ID)] || 0;
+        if (s.meta_diaria) totM += Math.round(parseFloat(s.meta_diaria) * diasCalMes);
+      });
+      const pct  = totM ? Math.round(totV / totM * 100) : null;
+      const col  = pct !== null ? pctColor(pct) : 'var(--dim)';
+      const barW = Math.min(pct || 0, 100);
+      let semV = 0, semM = 0;
+      gzStores.forEach(s => { semV += wm[String(s.ID)] || 0; semM += metaSemDe(s); });
+      const semPct = semM ? Math.round(semV / semM * 100) : null;
+
+      const card = document.createElement('div');
+      card.className = 'sup-card';
+      card.innerHTML = `
+        <div class="sup-header">
+          <div style="flex:1;min-width:0">
+            <div class="sup-name">${gz}</div>
+            <div class="sup-submeta">${gzStores.length} tienda${gzStores.length!==1?'s':''} · ${fmtS(totV)} · Sem ${semPct!==null?semPct+'%':'—'}</div>
+            <div class="sup-bar-wrap"><div class="sup-bar-fill" style="width:${barW}%;background:${col}"></div></div>
+          </div>
+          <div class="sup-right">
+            <div class="sup-pct" style="color:${col}">${pct!==null?pct+'%':'—'}</div>
+            <div class="sup-chv">▾</div>
+          </div>
+        </div>
+        <div class="sup-rows" style="display:none"></div>`;
+
+      const hdr     = card.querySelector('.sup-header');
+      const rowsDiv = card.querySelector('.sup-rows');
+      const chv     = card.querySelector('.sup-chv');
+      let rendered  = false;
+
+      hdr.addEventListener('click', () => {
+        const open = rowsDiv.style.display !== 'none';
+        if (!rendered) { rowsDiv.appendChild(buildStoreRows(gzStores, vm, diasCalMes)); rendered = true; }
+        rowsDiv.style.display = open ? 'none' : '';
+        chv.classList.toggle('open', !open);
+      });
+
+      container.appendChild(card);
+    });
+
+    const cnt = document.createElement('p');
+    cnt.className = 'sc-count';
+    cnt.style.paddingTop = '4px';
+    cnt.textContent = stores.length + ' tienda' + (stores.length !== 1 ? 's' : '') + ' en total';
+    container.appendChild(cnt);
+    wrap.appendChild(container);
+  }
+
+  function renderStoreCards(role, stores) {
+    const listEl  = document.getElementById(role + '-store-list');
+    const countEl = document.getElementById(role + '-count');
+    if (!stores.length) {
+      listEl.innerHTML = '';
+      countEl.textContent = '';
+      return;
+    }
+    listEl.innerHTML = stores.map(s => `
+      <div class="store-card" data-id="${s.ID}">
+        <div class="sc-info">
+          <div class="sc-name">${s.nombre}</div>
+          <div class="sc-meta">${s.ID} · ${s.zona || ''} · ${s.distrito || ''}</div>
+          ${(s.jz && s.jz !== 'SIN INFO') || (s.gz && s.gz !== 'SIN INFO') ? `<div class="sc-sup">${[s.jz && s.jz !== 'SIN INFO' ? 'JC: ' + s.jz : '', s.gz && s.gz !== 'SIN INFO' ? 'SUP: ' + s.gz : ''].filter(Boolean).join(' · ')}</div>` : ''}
+        </div>
+        <span class="sc-arrow">›</span>
+      </div>`).join('');
+    listEl.querySelectorAll('.store-card').forEach(el => {
+      el.addEventListener('click', () => {
+        const s = allStores.find(p => String(p.ID) === el.dataset.id);
+        if (s) renderDashboard(s);
+      });
+    });
+    countEl.textContent = stores.length + ' tienda' + (stores.length !== 1 ? 's' : '');
+  }
+
+  const PARTNER = 'TINBET';
+  const isMesPrev = new URLSearchParams(location.search).get('mes') === 'prev';
+
+  const DIA_JS = {
+    'LUNES':1,'MARTES':2,'MIÉRCOLES':3,'MIERCOLES':3,
+    'JUEVES':4,'VIERNES':5,'SÁBADO':6,'SABADO':6,'DOMINGO':0
+  };
+
+  let allStores = [], allVentas = [], allRaspes = [], allLoteria = [], sortedStores = [];
+  let ventasSemana = [];   // allVentas + días del mes anterior (para semanas que cruzan de mes)
+  let selectorReady = false;
+
+  function loadJSON(u) {
+    return fetch(u + '?v=' + Date.now(), { cache: 'no-store' }).then(r => {
+      if (!r.ok) throw new Error(r.status);
+      return r.json();
+    });
+  }
+
+  function isoToday() {
+    const d = new Date();
+    return d.getFullYear() + '-' +
+      String(d.getMonth()+1).padStart(2,'0') + '-' +
+      String(d.getDate()).padStart(2,'0');
+  }
+
+  function juevesDe(d) {
+    const j = new Date(d);
+    j.setHours(0,0,0,0);
+    const wd = j.getDay();
+    j.setDate(j.getDate() - ((wd - 4 + 7) % 7));
+    return j;
+  }
+  function lunesDe(d) {
+    const j = new Date(d);
+    j.setHours(0,0,0,0);
+    const wd = j.getDay();
+    j.setDate(j.getDate() - ((wd + 6) % 7)); // retrocede al lunes anterior
+    return j;
+  }
+
+  function diasVisitaEnRango(dias, inicio, fin) {
+    const nums = (dias || []).map(d => DIA_JS[d.toUpperCase()]).filter(n => n !== undefined);
+    if (!nums.length) return 0;
+    let cnt = 0, cur = new Date(inicio);
+    while (cur <= fin) { if (nums.includes(cur.getDay())) cnt++; cur.setDate(cur.getDate()+1); }
+    return cnt;
+  }
+
+  // ── Meta semanal y ranking por clúster ────────────────────────────────────
+  // Meta semanal = meta_diaria × 7 (semana Lun→Dom). El clúster sale de cluster_bono
+  // y, si viene vacío o "SIN CLUSTER", de cluster.
+  const sinCluster = v => !v || !String(v).trim() || String(v).trim().toUpperCase() === 'SIN CLUSTER';
+  let _clusterMap = null, _semMap = null, _rankReady = false;
+
+  function metaSemDe(s) {
+    const md = parseFloat(s.meta_diaria);
+    return md > 0 ? Math.round(md * 7) : 0;
+  }
+
+  function clusterDe(s) {
+    if (!_clusterMap) {
+      const raw = {}, sizes = {};
+      allStores.forEach(p => {
+        const c = !sinCluster(p.cluster_bono) ? String(p.cluster_bono).trim()
+                : !sinCluster(p.cluster)      ? String(p.cluster).trim() : '';
+        raw[String(p.ID)] = c;
+        if (c) sizes[c] = (sizes[c] || 0) + 1;
+      });
+      // Sin clústeres, o todos de una sola tienda (p. ej. Doradobet) → un único ranking general
+      const nombres = Object.keys(sizes);
+      const unico   = !nombres.length || nombres.every(c => sizes[c] === 1);
+      _clusterMap = {};
+      Object.keys(raw).forEach(id => { _clusterMap[id] = unico ? 'GENERAL' : (raw[id] || 'SIN CLÚSTER'); });
+    }
+    return _clusterMap[String(s.ID)];
+  }
+
+  function rangoSemana() {
+    const ini = lunesDe(new Date());
+    const fin = new Date(ini); fin.setDate(ini.getDate() + 6); fin.setHours(23,59,59,999);
+    return { ini, fin };
+  }
+
+  function textoSemana() {
+    const { ini, fin } = rangoSemana();
+    const f = d => d.getDate() + '/' + (d.getMonth() + 1);
+    return 'semana ' + f(ini) + ' – ' + f(fin);
+  }
+
+  function weeklyVentasMap() {
+    if (_semMap) return _semMap;
+    const { ini, fin } = rangoSemana();
+    _semMap = {};
+    ventasSemana.forEach(v => {
+      if (!v.fecha || v.tipo_juego !== 'TOTAL') return;
+      const f = new Date(v.fecha + 'T12:00:00');
+      if (f < ini || f > fin) return;
+      const sid = String(v.org_code);
+      _semMap[sid] = (_semMap[sid] || 0) + (v.total || 0);
+    });
+    return _semMap;
+  }
+
+  function rankingDe(cluster) {
+    const wm = weeklyVentasMap();
+    return allStores
+      .filter(s => clusterDe(s) === cluster)
+      .map(s => {
+        const sold = wm[String(s.ID)] || 0;
+        const meta = metaSemDe(s);
+        return { s, sold, meta, pct: meta ? sold / meta * 100 : null };
+      })
+      .sort((a, b) => ((b.pct ?? -1) - (a.pct ?? -1)) || (b.sold - a.sold) || a.s.nombre.localeCompare(b.s.nombre));
+  }
+
+  function clustersOrdenados() {
+    const g = {};
+    allStores.forEach(s => {
+      const c = clusterDe(s);
+      if (!g[c]) g[c] = { n: 0, meta: 0 };
+      g[c].n++;
+      g[c].meta += parseFloat(s.meta_diaria) || 0;
+    });
+    return Object.keys(g).sort((a, b) =>
+      (a === 'SIN CLÚSTER') - (b === 'SIN CLÚSTER') ||
+      g[b].meta / g[b].n - g[a].meta / g[a].n ||
+      a.localeCompare(b)
+    ).map(c => ({ nombre: c, n: g[c].n }));
+  }
+
+  function nombreCluster(c) {
+    return c === 'GENERAL' ? 'todas las tiendas' : c === 'SIN CLÚSTER' ? 'sin clúster' : 'clúster ' + c;
+  }
+
+  function rankRowsHTML(rows, currentId) {
+    return rows.map((r, i) => {
+      const pct = r.pct !== null ? Math.round(r.pct) : null;
+      const col = pct !== null ? pctColor(pct) : 'var(--dim)';
+      const pos = i < 3 ? ['🥇','🥈','🥉'][i] : i + 1;
+      return `<div class="rk-row${String(r.s.ID) === currentId ? ' rk-row--me' : ''}" data-id="${r.s.ID}">
+        <div class="rk-pos">${pos}</div>
+        <div class="rk-info">
+          <div class="rk-name">${r.s.nombre}</div>
+          <div class="rk-bar"><div class="rk-fill" style="width:${Math.min(pct || 0, 100)}%;background:${col}"></div></div>
+        </div>
+        <div class="rk-right">
+          <div class="rk-pct" style="color:${col}">${pct !== null ? pct + '%' : '—'}</div>
+          <div class="rk-amt">${fmtS(r.sold)} / ${r.meta ? fmtS(r.meta) : 'S/ —'}</div>
+        </div>
+      </div>`;
     }).join('');
-    const rango = tr.hasta == null ? `Más de ${fmt(min)}` : i ? `${fmt(min + 1)} a ${fmt(tr.hasta)}` : `Hasta ${fmt(tr.hasta)}`;
-    const cls = 's' + Math.min(3, Math.round(i * 3 / Math.max(1, n - 1)));
-    return `<div class="step ${cls}"><div class="cap"><span>${n === 4 ? TRAMO_NOM[i] : 'Tramo ' + (i + 1)}</span><b>${tr.pct}%</b><em>${en.length}</em></div><div class="rng num">${rango} en loterías</div><div class="chips num">${chips || '<div class="empty">Ninguna tienda aquí todavía</div>'}</div></div>`;
-  }).join('');
-  $('st-hint').textContent = enCurso ? 'Mientras más vende una tienda en loterías, mayor es su comisión. Cada barra muestra cuánto le falta para subir al siguiente tramo.' : 'Tramo en que cerró cada tienda.';
-  const sorted = [...ts].sort((a, b) => b.tot - a.tot);
-  const rows = sorted.map(t => {
-    let nudge = '';
-    if (enCurso) nudge = t.ti < n - 1 ? `<span class="nudge">Faltan ${fmt(esq.tramos[t.ti].hasta + 1 - t.lot)} para ${esq.tramos[t.ti + 1].pct}%</span>` : '<span class="nudge done">Tramo máximo</span>';
-    const tc = 't' + Math.min(3, Math.round(t.ti * 3 / Math.max(1, n - 1)));
-    return `<tr>
-      <td class="sname"><b>${esc(t.nombre)}</b><span>${esc(t.cod)} · ${esc(t.zona)}</span></td>
-      <td class="r">${fmt(t.lot)}</td><td class="r">${fmt(t.ras)}</td><td class="r">${PREMIOS_OK ? fmt(t.pre) : '—'}</td>
-      <td><span class="tier ${tc}">${esq.tramos[t.ti].pct}%</span></td>
-      <td class="r"><b>${fmt2(t.com)}</b></td>
-      ${enCurso ? `<td>${nudge}</td>` : ''}
-    </tr>`;
-  }).join('');
-  $('stores').innerHTML = `<thead><tr><th>Tienda</th><th class="r">Loterías</th><th class="r">Raspas</th><th class="r">Premios pagados</th><th>Tramo</th><th class="r">Comisión</th>${enCurso ? '<th>Para subir de tramo</th>' : ''}</tr></thead>
-    <tbody>${rows || `<tr><td colspan="7" class="empty-state">Sin tiendas</td></tr>`}</tbody>
-    <tfoot><tr><td>Total ${ts.length} tienda${ts.length === 1 ? '' : 's'}</td><td class="r">${fmt(R.lot)}</td><td class="r">${fmt(R.ras)}</td><td class="r">${PREMIOS_OK ? fmt(R.pre) : '—'}</td><td></td><td class="r">${fmt2(R.sub)}</td>${enCurso ? '<td></td>' : ''}</tr></tfoot>`;
-}
-
-// Incentivos vigentes: ranking por venta total del socio entre desde y hasta (con corte a ayer).
-function ventaSocioRango(u, desde, hasta) {
-  let v = 0;
-  tiendasDe(u).forEach(s => (DIAS.get(String(s.ID)) || new Map()).forEach((x, f) => { if (f >= desde && f <= hasta) v += x.t; }));
-  return v;
-}
-function renderIncentivos() {
-  const vig = CFG.incentivos.filter(i => i.desde <= HOY && HOY <= i.hasta);
-  const primerDato = [...DIAS.values()].reduce((m, d) => { d.forEach((_, f) => { if (!m || f < m) m = f; }); return m; }, null);
-  $('incs').innerHTML = vig.map(inc => {
-    const hasta = inc.hasta < AYER ? inc.hasta : AYER;
-    const rk = CFG.socios.filter(s => s.activo !== false).map(s => ({ u: s.u, v: ventaSocioRango(s, inc.desde, hasta) })).sort((a, b) => b.v - a.v);
-    const pos = rk.findIndex(r => r.u === USER.u) + 1;
-    const mia = pos ? rk[pos - 1].v : ventaSocioRango(USER, inc.desde, hasta);
-    const meta = +inc.meta || 0, av = meta ? Math.min(mia / meta * 100, 100) : null;
-    const parcial = primerDato && inc.desde < primerDato ? ` (desde el ${fCorta(primerDato)})` : '';
-    return `<section class="card inc">
-      <div class="badge"><div><b>${pos ? '#' + pos : '—'}</b><small>TU PUESTO</small></div></div>
-      <div>
-        <h2>${esc(inc.titulo)}</h2>
-        <p>${esc(inc.descripcion || '')}${inc.premio ? ' <b>Premio: ' + esc(inc.premio) + '.</b>' : ''} Solo ves tu propio puesto y tu avance.</p>
-        ${av !== null ? `<div class="bar"><i style="width:${av.toFixed(1)}%"></i></div>` : ''}
-        <div class="meta num"><span>Llevas <b>${fmt(mia)}</b>${parcial}${meta ? ` de tu meta ${fmt(meta)} (${av.toFixed(0)}%)` : ' en venta'}</span><span>Cierra el ${fCorta(inc.hasta)}</span></div>
-      </div></section>`;
-  }).join('');
-}
-
-// ── Historial de liquidaciones (lo registra el socio) ───────────────────────
-function montoMes(stores, esq, ym) {
-  if (!MESES_DATA.includes(ym)) return null;
-  const im = infoMes(ym), R = calcular(ventasMes(stores, ym, im.diasDatos), esq, im);
-  return { tot: im.cerrado ? R.tot : r2(R.totProy), proy: !im.cerrado };
-}
-let _hEdit = null;
-function renderHist(stores, esq) {
-  const yms = [...new Set([...MESES_DATA, ...Object.keys(HIST.meses || {})])].sort().reverse();
-  const puede = HIST_OK && !!DATA_TOKEN;
-  $('hist-hint').textContent = puede ? 'Lo que se facturó y pagó cada mes. Registra aquí tu factura y cuándo te pagaron.'
-    : 'Lo que se facturó y pagó cada mes. El registro de facturas y pagos se habilitará pronto.';
-  $('hist').innerHTML = yms.map(ym => {
-    const im = infoMes(ym), h = (HIST.meses || {})[ym] || {}, m = montoMes(stores, esq, ym);
-    const monto = m ? m.tot : h.monto;
-    const enCurso = !im.cerrado;
-    const est = enCurso ? 'run' : h.estado || 'pendiente';
-    const pill = est === 'run' ? '<span class="pill run">En curso</span>' : est === 'pagado' ? '<span class="pill paid">Pagado</span>' : est === 'facturado' ? '<span class="pill inv">Facturado</span>' : '<span class="pill pend">Por facturar</span>';
-    const det = enCurso ? 'Se factura al cierre del mes'
-      : est === 'pagado' ? `Pagado${h.fechaPago ? ' el ' + fCorta(h.fechaPago) : ''}${h.factura ? ' · Factura ' + esc(h.factura) : ''}`
-      : est === 'facturado' ? `Factura ${esc(h.factura || '')}${h.fechaFactura ? ' emitida el ' + fCorta(h.fechaFactura) : ''}`
-      : 'Mes cerrado, falta registrar la factura';
-    const btn = puede && !enCurso ? `<button class="btn sec sm hbtn" type="button" onclick="editarHist('${ym}')">${_hEdit === ym ? 'Cerrar' : 'Registrar'}</button>` : '<span class="hbtn"></span>';
-    const form = _hEdit === ym ? `<div class="hform">
-        <label>Estado<select id="h-e"><option value="pendiente">Por facturar</option><option value="facturado">Facturado</option><option value="pagado">Pagado</option></select></label>
-        <label>N° de factura<input id="h-f" type="text" value="${esc(h.factura || '')}" placeholder="F001-000123"></label>
-        <label>Fecha de factura<input id="h-ff" type="date" value="${esc(h.fechaFactura || '')}"></label>
-        <label>Fecha de pago<input id="h-fp" type="date" value="${esc(h.fechaPago || '')}"></label>
-        <label style="grid-column:1/-1">Nota (opcional)<input id="h-n" type="text" value="${esc(h.nota || '')}" maxlength="200"></label>
-        <div class="act"><span class="msg" id="h-msg"></span><button class="btn sm" type="button" onclick="guardarHist('${ym}', ${monto == null ? 'null' : monto})">Guardar</button></div>
-      </div>` : '';
-    return `<div class="hrow"><div><b>${cap(nomMes(ym))}</b><br><span>${det}</span></div><span class="amt">${monto == null ? '—' : fmt2(monto)}${m && m.proy ? ' <span>proy.</span>' : ''}</span>${pill}${btn}${form}</div>`;
-  }).join('') || '<div class="empty-state">Sin meses para mostrar.</div>';
-  if (_hEdit && $('h-e')) $('h-e').value = ((HIST.meses || {})[_hEdit] || {}).estado || 'pendiente';
-}
-function editarHist(ym) { _hEdit = _hEdit === ym ? null : ym; renderHist(tiendasDe(USER), esquemaDe(USER)); }
-async function guardarHist(ym, monto) {
-  const msg = $('h-msg'), estado = $('h-e').value;
-  const reg = { estado, factura: $('h-f').value.trim(), fechaFactura: $('h-ff').value, fechaPago: $('h-fp').value, nota: $('h-n').value.trim(), monto, updated: new Date().toISOString() };
-  if (estado !== 'pendiente' && !reg.factura) { msg.className = 'msg err'; msg.textContent = 'Escribe el número de factura.'; return; }
-  if (estado === 'pagado' && !reg.fechaPago) { msg.className = 'msg err'; msg.textContent = 'Indica la fecha de pago.'; return; }
-  msg.className = 'msg'; msg.textContent = 'Guardando…';
-  try {
-    const tk = await tokenDatos();
-    const { data } = await ghGet(CFG.dataRepo, tk, `historial/${USER.u}.json`);
-    const nuevo = data && data.meses ? data : { usuario: USER.u, meses: {} };
-    nuevo.meses[ym] = reg; nuevo.updated = reg.updated;
-    await ghPut(CFG.dataRepo, tk, `historial/${USER.u}.json`, nuevo, `historial ${USER.u} ${ym}: ${estado}`);
-    HIST = nuevo; _hEdit = null; render();
-  } catch (e) { msg.className = 'msg err'; msg.textContent = 'No se pudo guardar: ' + e.message; }
-}
-
-// ── Administración ───────────────────────────────────────────────────────────
-let _sucio = false, _editU = null, _nuevas = [];
-function sucio() { _sucio = true; $('savebar').hidden = false; $('save-t').textContent = 'Tienes cambios sin publicar.'; }
-window.addEventListener('beforeunload', e => { if (_sucio) { e.preventDefault(); e.returnValue = ''; } });
-
-async function abrirAdmin() {
-  $('login').hidden = true; $('app').hidden = true; $('loading').hidden = false;
-  try {
-    const { data } = await ghGet(REPO, ADMIN.gh, CFG_PATH);   // versión de main, sin esperar a Pages
-    if (data) { CFG = data; normalizarCfg(); }
-  } catch (e) { alert('No se pudo leer la configuración desde GitHub (' + e.message + '). Se usa la publicada.'); }
-  await cargarDatos();
-  await tokenDatos();
-  $('loading').hidden = true; $('admin').hidden = false;
-  if (CFG.dataRepo) $('d-r').value = CFG.dataRepo;
-  pintarAdmin(); window.scrollTo(0, 0);
-}
-function volverAdmin() { USER = null; HIST = { meses: {} }; HIST_OK = false; _hEdit = null; $('app').hidden = true; $('admin').hidden = false; pintarAdmin(); }
-
-function gzConteo() {
-  const m = new Map();
-  STORES.forEach(s => {
-    const k = normGz(s.gz); if (!k) return;
-    if (!m.has(k)) m.set(k, { nombre: String(s.gz).trim(), total: 0, activas: 0 });
-    const e = m.get(k); e.total++; if (s.estado === 'ACTIVO') e.activas++;
-  });
-  return m;
-}
-function pintarAdmin() {
-  const GZ = gzConteo();
-  $('adm-socios').innerHTML = `<thead><tr><th>Usuario</th><th>Socio</th><th class="r">Tiendas</th><th>Tipo</th><th>Esquema</th><th>Acceso</th><th>Acciones</th></tr></thead><tbody>${
-    CFG.socios.map(s => `<tr>
-      <td><b>${esc(s.u)}</b></td>
-      <td class="sname"><b>${esc(s.nombre || '')}</b><span>${(s.gz || []).map(esc).join(' · ')}</span></td>
-      <td class="r">${tiendasDe(s).length}</td>
-      <td>${esc(s.tipo || 'Franquiciado')}</td>
-      <td>${esc(s.esquema || CFG.esquema_default)}${s.esquema ? '' : ' <span class="hint">(defecto)</span>'}</td>
-      <td><span class="tag ${s.activo === false ? 'off' : 'on'}">${s.activo === false ? 'De baja' : 'Activo'}</span></td>
-      <td><div class="acts">
-        <button class="btn sec sm" type="button" onclick="verComo('${esc(s.u)}')">Ver</button>
-        <button class="btn sec sm" type="button" onclick="editarSocio('${esc(s.u)}')">Editar</button>
-        <button class="btn sec sm" type="button" onclick="resetPass('${esc(s.u)}')">Nueva contraseña</button>
-        <button class="btn sec sm" type="button" onclick="toggleSocio('${esc(s.u)}')">${s.activo === false ? 'Reactivar' : 'Dar de baja'}</button>
-        <button class="btn danger sm" type="button" onclick="borrarSocio('${esc(s.u)}')">Eliminar</button>
-      </div></td></tr>`).join('') || '<tr><td colspan="7" class="empty-state">Aún no hay socios. Créalos con el formulario de abajo.</td></tr>'
-  }</tbody>`;
-  $('newpw').innerHTML = _nuevas.length ? `<b>Contraseñas nuevas (cópialas ahora: no se vuelven a mostrar)</b>` + _nuevas.map(n =>
-    `<div><span>${esc(n.u)}</span><code>${esc(n.p)}</code><button class="btn sec sm" type="button" onclick="navigator.clipboard.writeText('Usuario: ${esc(n.u)}\\nContraseña: ${esc(n.p)}')">Copiar</button></div>`).join('') : '';
-  const opts = Object.keys(CFG.esquemas).map(k => `<option value="${esc(k)}">${esc(k)}</option>`).join('');
-  const fe = $('f-e'), fv = fe.value; fe.innerHTML = `<option value="">Por defecto (${esc(CFG.esquema_default)})</option>` + opts; fe.value = fv;
-  $('e-def').innerHTML = opts; $('e-def').value = CFG.esquema_default;
-  pintarGz(); pintarEsquemas(); pintarIncAdm();
-}
-
-let _gzSel = new Set();
-function pintarGz() {
-  const GZ = gzConteo(), q = normGz($('f-q').value);
-  const dueño = new Map(); CFG.socios.forEach(s => (s.gz || []).forEach(g => dueño.set(normGz(g), s.u)));
-  const lista = [...GZ.entries()].sort((a, b) => b[1].activas - a[1].activas || a[1].nombre.localeCompare(b[1].nombre));
-  $('f-gz').innerHTML = lista.filter(([k]) => !q || k.includes(q) || _gzSel.has(k)).map(([k, e]) => {
-    const otro = dueño.get(k) && dueño.get(k) !== _editU ? dueño.get(k) : '';
-    return `<label class="${otro ? 'taken' : ''}"><input type="checkbox" ${_gzSel.has(k) ? 'checked' : ''} onchange="selGz(this, '${esc(k).replace(/'/g, '&#39;')}')">${esc(e.nombre)}<small>${e.activas} activas / ${e.total}${otro ? ' · de ' + esc(otro) : ''}</small></label>`;
-  }).join('') || '<div class="empty-state">Sin coincidencias</div>';
-}
-function selGz(el, k) {
-  if (el.checked) {
-    _gzSel.add(k);
-    if (!$('f-n').value) $('f-n').value = gzConteo().get(k).nombre;
-    if (!$('f-u').value && !_editU) $('f-u').value = gzConteo().get(k).nombre.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/[^a-z0-9]+/g, '.').replace(/^\.|\.$/g, '').slice(0, 30);
-  } else _gzSel.delete(k);
-}
-function limpiarForm() {
-  _editU = null; _gzSel = new Set();
-  ['f-u', 'f-n', 'f-q'].forEach(id => $(id).value = ''); $('f-t').value = 'Franquiciado'; $('f-e').value = '';
-  $('f-u').disabled = false; $('frm-title').textContent = 'Nuevo socio'; $('f-save').textContent = 'Crear socio'; $('f-msg').textContent = '';
-  pintarGz();
-}
-function editarSocio(u) {
-  const s = CFG.socios.find(x => x.u === u); if (!s) return;
-  _editU = u; _gzSel = new Set((s.gz || []).map(normGz));
-  $('f-u').value = s.u; $('f-u').disabled = true; $('f-n').value = s.nombre || ''; $('f-t').value = s.tipo || 'Franquiciado'; $('f-e').value = s.esquema || '';
-  $('frm-title').textContent = 'Editar socio ' + u; $('f-save').textContent = 'Guardar cambios'; $('f-msg').textContent = '';
-  pintarGz(); $('frm-title').scrollIntoView({ behavior: 'smooth', block: 'start' });
-}
-async function guardarSocio() {
-  const msg = $('f-msg'), btn = $('f-save');
-  const u = $('f-u').value.trim().toLowerCase(), nombre = $('f-n').value.trim();
-  const GZ = gzConteo(), gz = [..._gzSel].map(k => (GZ.get(k) || {}).nombre || k);
-  if (!/^[a-z0-9._-]{3,40}$/.test(u) || u === 'admin') { msg.className = 'msg err'; msg.textContent = 'Usuario: 3 a 40 caracteres (letras, números, punto, guion). No puede ser “admin”.'; return; }
-  if (!gz.length) { msg.className = 'msg err'; msg.textContent = 'Marca al menos un nombre de socio (gz).'; return; }
-  const datos = { nombre: nombre || gz[0], tipo: $('f-t').value, esquema: $('f-e').value || null, gz };
-  if (_editU) {
-    Object.assign(CFG.socios.find(x => x.u === _editU), datos);
-    msg.className = 'msg ok'; msg.textContent = 'Cambios listos. Falta publicar.';
-  } else {
-    if (CFG.socios.some(x => x.u === u)) { msg.className = 'msg err'; msg.textContent = 'Ese usuario ya existe.'; return; }
-    btn.disabled = true; msg.className = 'msg'; msg.textContent = 'Creando…';
-    const p = genPass();
-    CFG.socios.push({ u, ...datos, activo: true, cred: await sealPw(p, { k: KB64 }), creado: new Date().toISOString() });
-    _nuevas.push({ u, p });
-    btn.disabled = false;
   }
-  sucio(); limpiarForm(); pintarAdmin();
-}
-async function resetPass(u) {
-  if (!confirm(`¿Generar una contraseña nueva para ${u}? La anterior deja de funcionar al publicar.`)) return;
-  const s = CFG.socios.find(x => x.u === u), p = genPass();
-  s.cred = await sealPw(p, { k: KB64 });
-  _nuevas = _nuevas.filter(n => n.u !== u); _nuevas.push({ u, p });
-  sucio(); pintarAdmin();
-}
-function toggleSocio(u) { const s = CFG.socios.find(x => x.u === u); s.activo = s.activo === false; sucio(); pintarAdmin(); }
-function borrarSocio(u) {
-  if (!confirm(`¿Eliminar al socio ${u}? Pierde el acceso al publicar. Su historial de facturación se conserva.`)) return;
-  CFG.socios = CFG.socios.filter(x => x.u !== u); _nuevas = _nuevas.filter(n => n.u !== u);
-  sucio(); pintarAdmin();
-}
-async function verComo(u) {
-  USER = CFG.socios.find(x => x.u === u); if (!USER) return;
-  _hEdit = null;
-  $('admin').hidden = true; $('loading').hidden = false;
-  await cargarHistorial();
-  $('loading').hidden = true; $('app').hidden = false;
-  $('adm-banner').hidden = false; $('adm-banner-t').textContent = `Vista de administrador: estás viendo el portal de ${USER.nombre || USER.u}.`;
-  PER = MESES_DATA[0] || HOY.slice(0, 7); render(); window.scrollTo(0, 0);
-}
 
-function pintarEsquemas() {
-  $('esqs').innerHTML = Object.entries(CFG.esquemas).map(([k, e]) => {
-    const en = CFG.socios.filter(s => s.esquema === k).length;
-    return `<div class="esq">
-      <div class="esq-h"><b>${esc(k)}</b><span class="hint">${k === CFG.esquema_default ? 'Por defecto · ' : ''}${en} socio${en === 1 ? '' : 's'} con este esquema</span>
-        ${k !== CFG.esquema_default && !en ? `<button class="btn danger sm" type="button" onclick="borrarEsquema('${esc(k)}')">Eliminar</button>` : ''}</div>
-      <table><tr><td class="hint">Loterías hasta S/</td><td class="hint">Tasa %</td><td></td></tr>
-      ${e.tramos.map((t, i) => `<tr><td><input type="number" min="0" step="1" value="${t.hasta ?? ''}" placeholder="sin tope" onchange="setTramo('${esc(k)}', ${i}, 'hasta', this.value)"></td>
-        <td><input type="number" min="0" step="0.1" value="${t.pct}" onchange="setTramo('${esc(k)}', ${i}, 'pct', this.value)"></td>
-        <td>${e.tramos.length > 1 ? `<button class="btn sec sm" type="button" onclick="quitarTramo('${esc(k)}', ${i})">✕</button>` : ''}</td></tr>`).join('')}
-      </table>
-      <div class="acts" style="margin-top:6px"><button class="btn sec sm" type="button" onclick="agregarTramo('${esc(k)}')">+ Tramo</button></div>
-      <div class="row3">
-        <label>Raspas %<input type="number" min="0" step="0.1" value="${e.raspas}" onchange="setEsq('${esc(k)}', 'raspas', this.value)"></label>
-        <label>Premios %<input type="number" min="0" step="0.1" value="${e.premios}" onchange="setEsq('${esc(k)}', 'premios', this.value)"></label>
-        <label>IGV %<input type="number" min="0" step="0.1" value="${e.igv}" onchange="setEsq('${esc(k)}', 'igv', this.value)"></label>
-      </div></div>`;
-  }).join('');
-}
-function ordenarTramos(e) {
-  const fijos = e.tramos.filter(t => t.hasta != null).sort((a, b) => a.hasta - b.hasta);
-  const ult = e.tramos.find(t => t.hasta == null) || { hasta: null, pct: (fijos.length ? fijos[fijos.length - 1].pct : 0) };
-  e.tramos = [...fijos, ult];
-}
-function setTramo(k, i, campo, v) {
-  const e = CFG.esquemas[k];
-  if (campo === 'hasta') e.tramos[i].hasta = v === '' ? null : Math.max(0, Math.round(+v));
-  else e.tramos[i].pct = Math.max(0, +v || 0);
-  if (campo === 'hasta') { if (e.tramos.filter(t => t.hasta == null).length > 1) e.tramos[i].hasta = (e.tramos[i - 1]?.hasta || 0) + 1000; ordenarTramos(e); }
-  sucio(); pintarEsquemas();
-}
-function agregarTramo(k) {
-  const e = CFG.esquemas[k], fijos = e.tramos.filter(t => t.hasta != null);
-  e.tramos.splice(e.tramos.length - 1, 0, { hasta: (fijos.length ? fijos[fijos.length - 1].hasta : 0) + 1000, pct: e.tramos[e.tramos.length - 1].pct });
-  ordenarTramos(e); sucio(); pintarEsquemas();
-}
-function quitarTramo(k, i) { const e = CFG.esquemas[k]; e.tramos.splice(i, 1); ordenarTramos(e); sucio(); pintarEsquemas(); }
-function setEsq(k, campo, v) { CFG.esquemas[k][campo] = Math.max(0, +v || 0); sucio(); }
-function nuevoEsquema() {
-  const n = (prompt('Nombre del nuevo esquema (ej. "especial-norte"):') || '').trim().toLowerCase().replace(/[^a-z0-9._-]+/g, '-');
-  if (!n) return;
-  if (CFG.esquemas[n]) { alert('Ya existe un esquema con ese nombre.'); return; }
-  CFG.esquemas[n] = JSON.parse(JSON.stringify(CFG.esquemas[CFG.esquema_default] || ESQ_REF));
-  sucio(); pintarAdmin();
-}
-function borrarEsquema(k) { if (!confirm('¿Eliminar el esquema ' + k + '?')) return; delete CFG.esquemas[k]; sucio(); pintarAdmin(); }
-
-function pintarIncAdm() {
-  $('incs-adm').innerHTML = CFG.incentivos.map((i, n) => `<div class="hrow"><div><b>${esc(i.titulo)}</b><br><span>${fCorta(i.desde)} – ${fCorta(i.hasta)}${i.premio ? ' · ' + esc(i.premio) : ''}${i.meta ? ' · meta ' + fmt(i.meta) : ''}</span></div>
-    <span class="pill ${i.hasta < HOY ? 'pend' : i.desde > HOY ? 'inv' : 'paid'}">${i.hasta < HOY ? 'Terminado' : i.desde > HOY ? 'Próximo' : 'Vigente'}</span><span></span>
-    <button class="btn danger sm" type="button" onclick="quitarIncentivo(${n})">Quitar</button></div>`).join('') || '<div class="hint">No hay incentivos cargados.</div>';
-}
-function agregarIncentivo() {
-  const msg = $('i-msg'), inc = { titulo: $('i-t').value.trim(), descripcion: $('i-d').value.trim(), desde: $('i-a').value, hasta: $('i-b').value, premio: $('i-p').value.trim(), meta: +$('i-m').value || null };
-  if (!inc.titulo || !inc.desde || !inc.hasta || inc.hasta < inc.desde) { msg.className = 'msg err'; msg.textContent = 'Completa título y fechas (hasta ≥ desde).'; return; }
-  CFG.incentivos.push(inc); ['i-t', 'i-d', 'i-a', 'i-b', 'i-p', 'i-m'].forEach(id => $(id).value = '');
-  msg.className = 'msg ok'; msg.textContent = 'Agregado. Falta publicar.'; sucio(); pintarIncAdm();
-}
-function quitarIncentivo(n) { if (!confirm('¿Quitar este incentivo?')) return; CFG.incentivos.splice(n, 1); sucio(); pintarIncAdm(); }
-
-async function guardarRepoDatos() {
-  const msg = $('d-msg'), repo = $('d-r').value.trim(), tk = $('d-t').value.trim();
-  if (!/^[\w.-]+\/[\w.-]+$/.test(repo)) { msg.className = 'msg err'; msg.textContent = 'Escribe el repositorio como dueño/nombre.'; return; }
-  const token = tk || (repo === CFG.dataRepo ? DATA_TOKEN : null);
-  if (!token) { msg.className = 'msg err'; msg.textContent = 'Falta el token de ese repositorio.'; return; }
-  msg.className = 'msg'; msg.textContent = 'Probando acceso…';
-  try {
-    const r = await fetch(`https://api.github.com/repos/${repo}`, { headers: ghHeaders(token) });
-    if (!r.ok) throw new Error('GitHub respondió ' + r.status);
-    const j = await r.json();
-    if (!j.permissions || !j.permissions.push) throw new Error('el token no tiene permiso de escritura');
-    CFG.dataRepo = repo; CFG.dataToken = await seal(await rawKey(KB64), { t: token }); DATA_TOKEN = token;
-    $('d-t').value = '';
-    msg.className = 'msg ok'; msg.textContent = `Acceso correcto${j.private ? ' (repositorio privado)' : ' · ojo: el repositorio es público'}. Falta publicar.`;
-    sucio();
-  } catch (e) { msg.className = 'msg err'; msg.textContent = 'No funcionó: ' + e.message; }
-}
-async function cambiarAdmin() {
-  const msg = $('a-msg'), p1 = $('a-p1').value, p2 = $('a-p2').value, gh = $('a-gh').value.trim();
-  if (p1.length < 10) { msg.className = 'msg err'; msg.textContent = 'Usa al menos 10 caracteres.'; return; }
-  if (p1 !== p2) { msg.className = 'msg err'; msg.textContent = 'Las contraseñas no coinciden.'; return; }
-  if (gh) ADMIN.gh = gh;
-  CFG.admin = await sealPw(p1, { gh: ADMIN.gh, k: KB64 });
-  ['a-p1', 'a-p2', 'a-gh'].forEach(id => $(id).value = '');
-  msg.className = 'msg ok'; msg.textContent = 'Listo. Falta publicar; después entra con la nueva.'; sucio();
-}
-async function publicar() {
-  const btn = $('save-btn'); btn.disabled = true; $('save-t').textContent = 'Publicando…';
-  try {
-    CFG.updated = new Date().toISOString();
-    await ghPut(REPO, ADMIN.gh, CFG_PATH, CFG, 'chore: actualizar socios Tinbet (panel admin)');
-    _sucio = false; $('save-t').textContent = 'Publicado. El portal lo toma en 3–5 minutos.';
-    setTimeout(() => { if (!_sucio) $('savebar').hidden = true; }, 6000);
-  } catch (e) { $('save-t').textContent = 'No se pudo publicar: ' + e.message; }
-  btn.disabled = false;
-}
-
-// ── Inicio: retomar la sesión del socio en esta pestaña ─────────────────────
-(async () => {
-  let ses = null; try { ses = JSON.parse(sessionStorage.getItem(SESS_KEY) || 'null'); } catch (_) {}
-  try { await cargarCfg(); } catch (e) { console.warn('config', e); }
-  cargarDatos().catch(e => console.warn('datos', e));
-  if (ses && CFG) {
-    const s = CFG.socios.find(x => x.u === ses.u && x.activo !== false);
-    if (s) { USER = s; KB64 = ses.k; abrirPortal(); return; }
-    try { sessionStorage.removeItem(SESS_KEY); } catch (_) {}
+  function bindRankRows(el) {
+    el.querySelectorAll('.rk-row').forEach(row => row.addEventListener('click', () => {
+      const s = allStores.find(p => String(p.ID) === row.dataset.id);
+      if (s) { renderDashboard(s); window.scrollTo(0, 0); }
+    }));
   }
-})();
+
+  function renderRankPanel() {
+    const sel = document.getElementById('rank-select');
+    if (!_rankReady) {
+      _rankReady = true;
+      const cs = clustersOrdenados();
+      sel.innerHTML = cs.map(c => {
+        const lbl = nombreCluster(c.nombre);
+        return `<option value="${c.nombre}">${lbl.charAt(0).toUpperCase() + lbl.slice(1)} · ${c.n} tienda${c.n !== 1 ? 's' : ''}</option>`;
+      }).join('');
+      sel.style.display = cs.length > 1 ? '' : 'none';
+      sel.addEventListener('change', renderRankPanel);
+    }
+    document.getElementById('rank-sub').textContent = 'Avance vs meta semanal · ' + textoSemana();
+    const list = document.getElementById('rank-list');
+    list.innerHTML = rankRowsHTML(rankingDe(sel.value), null);
+    bindRankRows(list);
+  }
+
+  function renderRankCard(store) {
+    const card = document.getElementById('rank-card');
+    if (isMesPrev) { card.style.display = 'none'; return; }
+    const id      = String(store.ID);
+    const cluster = clusterDe(store);
+    const rows    = rankingDe(cluster);
+    const pos     = rows.findIndex(r => String(r.s.ID) === id) + 1;
+    card.style.display = '';
+    document.getElementById('rank-card-title').textContent = 'Ranking semanal · ' + nombreCluster(cluster);
+    document.getElementById('rank-card-pos').innerHTML =
+      `<span class="rk-big">#${pos}</span> de ${rows.length} <span class="rk-week">· ${textoSemana()}</span>`;
+    const list = document.getElementById('rank-card-list');
+    list.innerHTML = rankRowsHTML(rows, id);
+    bindRankRows(list);
+    const me = list.querySelector('.rk-row--me');
+    if (me) list.scrollTop = me.offsetTop - list.clientHeight / 2 + me.clientHeight / 2;
+  }
+
+  function pctColor(pct) {
+    if (pct >= 100) return 'var(--green)';
+    if (pct >= 80)  return 'var(--accent)';
+    if (pct >= 50)  return 'var(--amber)';
+    return 'var(--red)';
+  }
+
+  function fmtS(n) {
+    if (!n && n !== 0) return 'S/ —';
+    return 'S/ ' + Math.round(n).toLocaleString('es-PE');
+  }
+
+  function fmtPct(pct) {
+    if (pct === null || pct === undefined || isNaN(pct)) return '—';
+    return Math.round(pct) + '%';
+  }
+
+  function setBar(el, pct, color) {
+    el.style.width  = Math.min(pct, 100) + '%';
+    el.style.background = color;
+  }
+
+  function motivation(pct) {
+    if (pct === null) return { icon:'📊', msg:'Registra tus ventas diariamente', detail:'Tu progreso aparecerá aquí en cuanto haya datos del mes.', bg:'rgba(90,116,153,.12)', clr:'var(--muted)' };
+    if (pct >= 110)   return { icon:'🏆', msg:'¡Meta superada! Excelente trabajo', detail:'Estás por encima del objetivo mensual. ¡Sigue así!', bg:'rgba(16,217,138,.12)', clr:'var(--green)' };
+    if (pct >= 100)   return { icon:'🎯', msg:'¡Meta cumplida este mes!', detail:'Lograste tu objetivo. ¡Sigue vendiendo y cierra el mes fuerte!', bg:'rgba(16,217,138,.1)', clr:'var(--green)' };
+    if (pct >= 80)    return { icon:'🔥', msg:'Casi llegas — ¡un último empuje!', detail:`Solo te falta el ${Math.round(100-pct)}% para alcanzar la meta mensual.`, bg:'rgba(22,163,74,.12)', clr:'var(--accent)' };
+    if (pct >= 60)    return { icon:'💪', msg:'Buen ritmo, mantén el paso', detail:'Vas bien. Enfócate en cerrar cada día con tu meta diaria cubierta.', bg:'rgba(245,158,11,.1)', clr:'var(--amber)' };
+    if (pct >= 30)    return { icon:'📈', msg:'Hay margen para mejorar', detail:'Cada venta cuenta. Recuerda atender a todos tus clientes frecuentes.', bg:'rgba(245,158,11,.08)', clr:'var(--amber)' };
+    return { icon:'⚡', msg:'¡VAMOS POR MÁS!', detail:'Aprovecha la afluencia del mundial para llegar a tu meta.', bg:'rgba(240,68,68,.1)', clr:'var(--red)' };
+  }
+
+  async function init() {
+    try {
+      const [puntosData, ventasData, raspesData, loteriaData, lakideyData, turbitoData, ventasPrevData] = await Promise.all([
+        loadJSON('../data/puntos.json'),
+        loadJSON('../data/' + (isMesPrev ? 'ventas_mes_prev' : 'ventas_mes') + '.json'),
+        loadJSON('../data/' + (isMesPrev ? 'ventas_raspes_prev' : 'ventas_raspes') + '.json'),
+        loadJSON('../data/' + (isMesPrev ? 'ventas_loteria_prev' : 'ventas_loteria') + '.json'),
+        loadJSON('../data/' + (isMesPrev ? 'ventas_lakidey_prev' : 'ventas_lakidey') + '.json').catch(() => ({ventas:[]})),
+        loadJSON('../data/' + (isMesPrev ? 'ventas_turbito_prev' : 'ventas_turbito') + '.json').catch(() => ({ventas:[]})),
+        // Mes anterior: solo para semanas que cruzan de mes
+        isMesPrev ? Promise.resolve({ventas:[]}) : loadJSON('../data/ventas_mes_prev.json').catch(() => ({ventas:[]})),
+      ]);
+
+      allStores = (Array.isArray(puntosData) ? puntosData : []).filter(p =>
+        (p.responsable || '').toUpperCase() === PARTNER &&
+        (p.estado || '').toUpperCase() === 'ACTIVO'
+      );
+
+      const todos = ventasData.body || ventasData.ventas || [];
+      allVentas  = todos.filter(v => (v.partner || '').toUpperCase() === PARTNER);
+      // Semana que cruza de mes: se suman los días del mes anterior que no estén ya en ventas_mes
+      const mesesActuales = new Set(allVentas.map(v => (v.fecha || '').slice(0, 7)));
+      const prevSemana = (ventasPrevData.body || ventasPrevData.ventas || []).filter(v =>
+        (v.partner || '').toUpperCase() === PARTNER && v.fecha && !mesesActuales.has(v.fecha.slice(0, 7))
+      );
+      ventasSemana = allVentas.concat(prevSemana);
+      allRaspes  = (raspesData.body  || raspesData.ventas  || []).filter(v => (v.partner || '').toUpperCase() === PARTNER);
+      allLoteria = (loteriaData.body || loteriaData.ventas || []).filter(v => (v.partner || '').toUpperCase() === PARTNER);
+      const _ld = (lakideyData.ventas || lakideyData.body || []).filter(v => (v.partner || '').toUpperCase() === PARTNER);
+      const _tb = (turbitoData.ventas || turbitoData.body || []).filter(v => (v.partner || '').toUpperCase() === PARTNER);
+      if (_ld.length > 0) { allLoteria = allLoteria.filter(v => v.tipo_juego !== 'LakiDey'); allLoteria.push(..._ld); }
+      if (_tb.length > 0) { allLoteria = allLoteria.filter(v => v.tipo_juego !== 'Turbito'); allLoteria.push(..._tb); }
+
+      // URL param shortcut (viene de progreso.html ya autenticado)
+      const params  = new URLSearchParams(location.search);
+      const idParam = params.get('id') || params.get('tienda');
+      if (idParam) {
+        const found = allStores.find(p => String(p.ID) === String(idParam));
+        if (found) { renderDashboard(found); return; }
+      }
+
+      // PIN desactivado temporalmente — acceso directo al selector
+      document.getElementById('loading').style.display = 'none';
+      showSelector();
+    } catch(e) {
+      document.getElementById('loading').textContent = 'Error al cargar datos: ' + e.message;
+    }
+  }
+
+  function setupSearch() {
+    if (isMesPrev) { const t = document.getElementById('tab-rank'); if (t) t.style.display = 'none'; }
+    sortedStores = [...allStores].sort((a, b) => a.nombre.localeCompare(b.nombre));
+    renderStoreCards('tienda', sortedStores);
+    const input = document.getElementById('search-input');
+    input.addEventListener('input', () => {
+      const q = input.value.trim().toLowerCase();
+      const filtered = q.length < 2
+        ? sortedStores
+        : sortedStores.filter(p => p.nombre.toLowerCase().includes(q) || String(p.ID).includes(q));
+      renderStoreCards('tienda', filtered);
+    });
+  }
+
+  function volverBusqueda() {
+    document.getElementById('dashboard').style.display     = 'none';
+    document.getElementById('search-screen').style.display = 'flex';
+    const activeRole = document.querySelector('.role-tab.active')?.id?.replace('tab-','') || 'tienda';
+    if (activeRole === 'tienda') {
+      const input = document.getElementById('search-input');
+      input.value = '';
+      renderStoreCards('tienda', sortedStores);
+      input.focus();
+    }
+  }
+
+  function renderDashboard(store) {
+    document.getElementById('loading').style.display = 'none';
+    document.getElementById('search-screen').style.display = 'none';
+    document.getElementById('dashboard').style.display = 'block';
+
+    // Nav
+    document.getElementById('nav-nombre').textContent = store.nombre;
+    document.getElementById('nav-id').textContent = 'Código ' + store.ID;
+    const supParts = [];
+    if (store.jz && store.jz !== 'SIN INFO') supParts.push('JC: ' + store.jz);
+    if (store.gz && store.gz !== 'SIN INFO') supParts.push('SUP: ' + store.gz);
+    const supEl = document.getElementById('nav-sup');
+    supEl.textContent = supParts.join(' · ');
+    supEl.style.display = supParts.length ? '' : 'none';
+
+    const hasMeta = store.meta_diaria != null && store.meta_diaria > 0;
+    document.getElementById('no-meta-note').style.display = hasMeta ? 'none' : '';
+
+    const hoy      = isoToday();
+    const now      = new Date();
+    const mesIni   = new Date(now.getFullYear(), now.getMonth() - (isMesPrev ? 1 : 0), 1);
+    const mesFin   = new Date(now.getFullYear(), now.getMonth() - (isMesPrev ? 1 : 0) + 1, 0, 23, 59, 59);
+    const semJue   = juevesDe(now);
+    const semLun   = lunesDe(now);
+    const semMie   = new Date(semJue); semMie.setDate(semJue.getDate()+6); semMie.setHours(23,59,59,999);
+    const semDom   = new Date(semLun); semDom.setDate(semLun.getDate()+6); semDom.setHours(23,59,59,999);
+
+    // Aggregate ventas for this store
+    const id       = String(store.ID);
+    let totHoy = 0, totSem = 0, totMes = 0, ppMes = 0, ldMes = 0, scMes = 0, goMes = 0, e3Mes = 0, turbitoMes = 0;
+    let ppHoy = 0, ldHoy = 0, scHoy = 0, goHoy = 0, e3Hoy = 0, turbitoHoy = 0;
+
+    ventasSemana.forEach(v => {
+      if (String(v.org_code) !== id || !v.fecha || v.tipo_juego !== 'TOTAL') return;
+      const f = new Date(v.fecha + 'T12:00:00');
+      const amt = v.total || 0;
+      if (v.fecha === hoy) totHoy += amt;
+      if (f >= semLun && f <= semDom) totSem += amt;
+      if (f >= mesIni && f <= mesFin) totMes += amt;
+    });
+    allRaspes.forEach(v => {
+      if (String(v.org_code) !== id || !v.fecha) return;
+      const f = new Date(v.fecha + 'T12:00:00');
+      if (f >= mesIni && f <= mesFin) scMes += (v.total || 0);
+      if (v.fecha === hoy) scHoy += (v.total || 0);
+    });
+    allLoteria.forEach(v => {
+      if (String(v.org_code) !== id || !v.fecha) return;
+      const f   = new Date(v.fecha + 'T12:00:00');
+      const amt = v.total || 0;
+      const tj  = v.tipo_juego || '';
+      if (tj === 'PozoPower'   && f >= mesIni && f <= mesFin) ppMes      += amt;
+      if (tj === 'LakiDey'     && f >= mesIni && f <= mesFin) ldMes      += amt;
+      if ((tj === 'PozoPowerGo' || tj === 'Go') && f >= mesIni && f <= mesFin) goMes      += amt;
+      if (tj === 'Elige 3'     && f >= mesIni && f <= mesFin) e3Mes      += amt;
+      if (tj === 'Turbito'     && f >= mesIni && f <= mesFin) turbitoMes += amt;
+      if (tj === 'PozoPower'   && v.fecha === hoy) ppHoy      += amt;
+      if (tj === 'LakiDey'     && v.fecha === hoy) ldHoy      += amt;
+      if ((tj === 'PozoPowerGo' || tj === 'Go') && v.fecha === hoy) goHoy      += amt;
+      if (tj === 'Elige 3'     && v.fecha === hoy) e3Hoy      += amt;
+      if (tj === 'Turbito'     && v.fecha === hoy) turbitoHoy += amt;
+    });
+
+    // Metas
+    const dias       = store.dias || [];
+    const metaDiaria = hasMeta ? store.meta_diaria : null;
+    const diasCalMes = 30;                      // siempre 30 para homogenizar todos los meses
+    const diasCalSem = 7;                       // la semana siempre tiene 7 días
+    const metaSem    = hasMeta ? Math.round(metaDiaria * diasCalSem) : null;
+    const metaMes    = hasMeta ? Math.round(metaDiaria * diasCalMes) : null;
+
+    const pctMes     = metaMes  ? Math.round(totMes  / metaMes  * 100) : null;
+    const pctSem     = metaSem  ? Math.round(totSem  / metaSem  * 100) : null;
+    const pctHoy     = metaDiaria ? Math.round(totHoy / metaDiaria * 100) : null;
+
+    // Ring (circumference for r=67.5: 2π×67.5 ≈ 424)
+    const CIRC  = 424;
+    const clamp = p => Math.min(p === null ? 0 : p, 100);
+    const ringEl = document.getElementById('ring-fill');
+    const glowEl = document.getElementById('ring-glow');
+    const col    = pctMes !== null ? pctColor(pctMes) : 'var(--dim)';
+
+    ringEl.style.stroke = col;
+    ringEl.style.strokeDashoffset = CIRC * (1 - clamp(pctMes) / 100);
+
+    glowEl.style.background =
+      col === 'var(--green)'  ? 'rgba(16,217,138,.28)'  :
+      col === 'var(--accent)' ? 'rgba(22,163,74,.35)'   :
+      col === 'var(--amber)'  ? 'rgba(245,158,11,.22)'  :
+      col === 'var(--red)'    ? 'rgba(240,68,68,.22)'   : 'transparent';
+    requestAnimationFrame(() => { glowEl.style.opacity = '1'; });
+
+    document.getElementById('ring-pct').innerHTML =
+      (pctMes !== null ? pctMes : '—') + '<span class="ring-pct-sign">%</span>';
+    document.getElementById('ring-pct').style.color = col;
+
+    document.getElementById('ra-actual').textContent = fmtS(totMes);
+    document.getElementById('ra-meta').textContent   = metaMes ? fmtS(metaMes) : 'S/ —';
+    document.getElementById('ra-falta').textContent  = metaMes && totMes < metaMes ? fmtS(metaMes - totMes) : metaMes ? '✓' : '—';
+    document.getElementById('ra-falta').style.color  = metaMes && totMes >= metaMes ? 'var(--green)' : 'var(--muted)';
+
+    // Today card
+    const hoyCol = pctHoy !== null ? pctColor(pctHoy) : 'var(--dim)';
+    document.getElementById('hoy-val').textContent  = fmtS(totHoy);
+    document.getElementById('hoy-val').style.color  = hoyCol;
+    document.getElementById('hoy-meta').textContent = metaDiaria ? 'Meta: ' + fmtS(metaDiaria) : 'Sin meta asignada';
+    document.getElementById('hoy-pct').textContent  = pctHoy !== null ? fmtPct(pctHoy) : '—';
+    document.getElementById('hoy-pct').style.color  = hoyCol;
+    setBar(document.getElementById('hoy-bar'), pctHoy || 0, hoyCol);
+
+    // Week card
+    const semCol = pctSem !== null ? pctColor(pctSem) : 'var(--dim)';
+    document.getElementById('sem-val').textContent  = fmtS(totSem);
+    document.getElementById('sem-val').style.color  = semCol;
+    document.getElementById('sem-meta').textContent = metaSem
+      ? 'Meta: ' + fmtS(metaSem) + (totSem < metaSem ? ' · faltan ' + fmtS(metaSem - totSem) : ' · ✓ cumplida')
+      : 'Sin meta asignada';
+    document.getElementById('sem-pct').textContent  = pctSem !== null ? fmtPct(pctSem) : '—';
+    document.getElementById('sem-pct').style.color  = semCol;
+    setBar(document.getElementById('sem-bar'), pctSem || 0, semCol);
+
+    // Games — save state and render
+    _ds = { ppMes, ldMes, scMes, goMes, e3Mes, turbitoMes, ppHoy, ldHoy, scHoy, goHoy, e3Hoy, turbitoHoy };
+    vistaMode = 'mes';
+    const btnVD = document.getElementById('btn-vista-dia');
+    if (btnVD) { btnVD.textContent = '📅 Ver día'; btnVD.classList.remove('active'); }
+    const ttlVD = document.getElementById('games-card-title');
+    if (ttlVD) ttlVD.textContent = 'Desglose por juego · este mes';
+    renderGamesMode();
+
+    // Weekly chart (Lun→Dom, 7 days)
+    const DAY_NAMES      = ['Lun','Mar','Mié','Jue','Vie','Sáb','Dom'];
+    const DAY_NAMES_LONG = ['Lunes','Martes','Miércoles','Jueves','Viernes','Sábado','Domingo'];
+    const weekKeys = [];
+    for (let i = 0; i < 7; i++) {
+      const d = new Date(semLun);
+      d.setDate(semLun.getDate() + i);
+      weekKeys.push(
+        d.getFullYear() + '-' +
+        String(d.getMonth()+1).padStart(2,'0') + '-' +
+        String(d.getDate()).padStart(2,'0')
+      );
+    }
+    const dayTotals = new Array(7).fill(0);
+    ventasSemana.forEach(v => {
+      if (String(v.org_code) !== id || !v.fecha || v.tipo_juego !== 'TOTAL') return;
+      const idx = weekKeys.indexOf(v.fecha);
+      if (idx >= 0) dayTotals[idx] += v.total || 0;
+    });
+    const BAR_MAX_H = 52;
+    const maxDay    = Math.max(...dayTotals, metaDiaria ? metaDiaria * 1.15 : 0, 1);
+    const metaLine  = metaDiaria
+      ? `<div class="wc-meta-line" style="bottom:${Math.round(metaDiaria / maxDay * BAR_MAX_H)}px"></div>`
+      : '';
+    const chartEl   = document.getElementById('week-chart');
+    const tooltipEl = document.getElementById('wc-tooltip');
+    let selectedIdx = null;
+
+    function selectDay(i) {
+      if (selectedIdx === i) {
+        selectedIdx = null;
+        tooltipEl.style.display = 'none';
+      } else {
+        selectedIdx = i;
+        const isFuture = weekKeys[i] > hoy;
+        tooltipEl.style.display = 'flex';
+        tooltipEl.innerHTML = `<span class="wt-day">${DAY_NAMES_LONG[i]}</span><span class="wt-val">${isFuture ? '—' : fmtS(dayTotals[i])}</span>`;
+      }
+      chartEl.querySelectorAll('.wc-col').forEach((col, j) => {
+        col.classList.toggle('wc-col--selected', j === selectedIdx);
+      });
+    }
+
+    chartEl.innerHTML = weekKeys.map((dk, i) => {
+      const isToday  = dk === hoy;
+      const isFuture = dk > hoy;
+      const cls = isToday ? 'wc-col--today' : isFuture ? 'wc-col--future' : 'wc-col--past';
+      const barH = isFuture ? 3 : Math.max(Math.round(dayTotals[i] / maxDay * BAR_MAX_H), 3);
+      const barColor = isToday ? 'var(--accent)' : isFuture ? 'var(--border)' : 'rgba(13,31,53,.14)';
+      const amt = !isFuture && dayTotals[i] > 0
+        ? Math.round(dayTotals[i]).toLocaleString('es-PE')
+        : '';
+      return `<div class="wc-col ${cls}" data-idx="${i}">
+        <div class="wc-amount">${amt}</div>
+        <div class="wc-plot" style="height:${BAR_MAX_H}px">${metaLine}<div class="wc-bar" style="height:${barH}px;background:${barColor}"></div></div>
+        <div class="wc-day">${DAY_NAMES[i]}</div>
+      </div>`;
+    }).join('');
+
+    chartEl.querySelectorAll('.wc-col').forEach(col => {
+      col.addEventListener('click', () => selectDay(+col.dataset.idx));
+    });
+
+    const capEl = document.getElementById('wc-meta-cap');
+    if (metaDiaria) {
+      const pasados   = weekKeys.filter(dk => dk <= hoy).length;
+      const cumplidos = weekKeys.filter((dk, i) => dk <= hoy && dayTotals[i] >= metaDiaria).length;
+      capEl.textContent = `Meta diaria ${fmtS(metaDiaria)} · cumplida ${cumplidos} de ${pasados} día${pasados !== 1 ? 's' : ''}`;
+      capEl.style.display = '';
+    } else {
+      capEl.style.display = 'none';
+    }
+
+    // Motivation
+    const m = motivation(pctMes);
+    const mc = document.getElementById('motive-card');
+    mc.style.background = m.bg;
+    mc.style.border = '1px solid ' + m.clr.replace(')', ',.3)').replace('var(', 'color-mix(in srgb,').replace('var(--', '');
+    mc.style.borderColor = m.clr;
+    mc.style.opacity = '.9';
+    document.getElementById('motive-icon').textContent   = m.icon;
+    document.getElementById('motive-msg').textContent    = m.msg;
+    document.getElementById('motive-msg').style.color    = m.clr;
+    document.getElementById('motive-detail').textContent = m.detail;
+    mc.style.border = `1px solid ${m.clr}40`;
+    renderRankCard(store);
+    if (STOCK_ACTIVO) { document.getElementById('stock-card').style.display = ''; loadStock(store); }
+  }
+
+  // ── Banner mes anterior ────────────────────────────────────────────────────
+  (function() {
+    var _q  = new URLSearchParams(location.search);
+    var _mp = _q.get('mes') === 'prev';
+    if (!_mp) return;
+    var _d  = new Date();
+    var _pm = new Date(_d.getFullYear(), _d.getMonth()-1, 1);
+    var _ms = ['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
+    var _bn = document.createElement('div');
+    _bn.id  = 'prev-mes-banner';
+    _bn.style.cssText = 'position:fixed;top:0;left:0;right:0;z-index:9999;background:#F59E0B;color:#1C1917;font-size:13px;font-weight:700;text-align:center;padding:8px 12px;display:flex;align-items:center;justify-content:center;gap:12px;box-shadow:0 2px 8px rgba(0,0,0,.18)';
+    _bn.innerHTML = '<span>Viendo datos de <strong>' + _ms[_pm.getMonth()] + ' ' + _pm.getFullYear() + '</strong></span><a href="' + location.pathname + '" style="background:white;color:#1C1917;border-radius:8px;padding:3px 10px;text-decoration:none;font-size:12px">Ver mes actual</a>';
+    document.body.prepend(_bn);
+    setTimeout(function() {
+      var db = document.getElementById('dashboard');
+      if (db && db.style.display !== 'none') db.style.paddingTop = '48px';
+    }, 500);
+  })();
+
+  init();
+
+  // ── Stock Rapiraspas ────────────────────────────────────────────────────────
+  // Oculto porque no se usa: cambia a true para volver a mostrarlo
+  const STOCK_ACTIVO = false;
+  const GAS_STOCK_URL = 'https://script.google.com/macros/s/AKfycbyUKWhWdbbSwOcr-ae3TDI1CW7b5HYlO88HMawG3oWz0eeQ7lzvR4SbTBrg2z3eKib4/exec';
+  let _stockStore = null;
+
+  const RAPI_IDS = ['jack','wicho','blinoblin','7pecados','goldeooro','rojoyNegro','eldorado','contometros'];
+
+  function stockSetEditing(on) {
+    RAPI_IDS.forEach(k => { const el = document.getElementById('sk-' + k); if (el) el.disabled = !on; });
+    document.getElementById('stock-actions').style.display = on ? 'flex' : 'none';
+    document.getElementById('stock-edit-btn').style.display = on ? 'none' : '';
+    document.getElementById('stock-feedback').textContent = '';
+  }
+
+  function fmtStockTs(fecha, hora) {
+    let f = String(fecha || '');
+    let h = String(hora  || '');
+    if (f.includes('T')) f = f.split('T')[0];
+    if (h.includes('T')) h = h.split('T')[1].slice(0,5);
+    if (!f) return 'Sin registro';
+    const [y, mo, da] = f.split('-');
+    return `Último: ${da}/${mo}/${y} ${h}`;
+  }
+
+  async function loadStock(store) {
+    _stockStore = store;
+    RAPI_IDS.forEach(k => { const el = document.getElementById('sk-' + k); if (el) el.value = 0; });
+    stockSetEditing(false);
+    document.getElementById('stock-ts').textContent = 'Cargando...';
+    try {
+      const res  = await fetch(GAS_STOCK_URL + '?action=stock&org_code=' + encodeURIComponent(store.ID));
+      const data = await res.json();
+      if (data.stock) {
+        const s = data.stock;
+        document.getElementById('sk-jack').value        = s.jack        || 0;
+        document.getElementById('sk-wicho').value       = s.wicho       || 0;
+        document.getElementById('sk-blinoblin').value   = s.blinoblin   || 0;
+        document.getElementById('sk-7pecados').value    = s['7pecados'] || 0;
+        document.getElementById('sk-goldeooro').value   = s.goldeooro   || 0;
+        document.getElementById('sk-rojoyNegro').value  = s.rojoyNegro  || 0;
+        document.getElementById('sk-eldorado').value    = s.eldorado    || 0;
+        document.getElementById('sk-contometros').value = s.contometros || 0;
+        document.getElementById('stock-ts').textContent = fmtStockTs(s.fecha, s.hora);
+      } else {
+        document.getElementById('stock-ts').textContent = 'Sin registro';
+      }
+    } catch(e) {
+      document.getElementById('stock-ts').textContent = 'Sin conexión';
+    }
+  }
+
+  function editarStock() { stockSetEditing(true); }
+
+  function cancelarStockEdit() { stockSetEditing(false); }
+
+  async function guardarStockRapi() {
+    if (!_stockStore) return;
+    const btn = document.getElementById('stock-save-btn');
+    const fb  = document.getElementById('stock-feedback');
+    btn.disabled = true; btn.textContent = '⏳ Guardando...';
+    fb.style.color = 'var(--muted)';
+    const payload = {
+      action:      'guardar',
+      org_code:    String(_stockStore.ID),
+      tienda:      _stockStore.nombre     || '',
+      partner:     PARTNER,
+      direccion:   _stockStore.direccion  || '',
+      distrito:    _stockStore.distrito   || '',
+      zonal_tipo:  _stockStore.zonal_tipo || '',
+      jack:        Number(document.getElementById('sk-jack').value)        || 0,
+      wicho:       Number(document.getElementById('sk-wicho').value)       || 0,
+      blinoblin:   Number(document.getElementById('sk-blinoblin').value)   || 0,
+      '7pecados':  Number(document.getElementById('sk-7pecados').value)    || 0,
+      goldeooro:   Number(document.getElementById('sk-goldeooro').value)   || 0,
+      rojoyNegro:  Number(document.getElementById('sk-rojoyNegro').value)  || 0,
+      eldorado:    Number(document.getElementById('sk-eldorado').value)    || 0,
+      contometros: Number(document.getElementById('sk-contometros').value) || 0,
+    };
+    try {
+      const res  = await fetch(GAS_STOCK_URL, { method: 'POST', body: JSON.stringify(payload) });
+      const data = await res.json();
+      if (data.ok) {
+        const label = data.updated ? '✏️ Actualizado' : '✓ Guardado';
+        const ts    = fmtStockTs(data.fecha, data.hora);
+        fb.textContent = label + ' · ' + ts.replace('Último: ','');
+        fb.style.color = 'var(--green)';
+        document.getElementById('stock-ts').textContent = ts;
+        stockSetEditing(false);
+      } else {
+        fb.textContent = 'Error: ' + (data.error || 'desconocido');
+        fb.style.color = 'var(--red)';
+      }
+    } catch(e) {
+      fb.textContent = 'Error de conexión';
+      fb.style.color = 'var(--red)';
+    } finally {
+      btn.disabled = false; btn.textContent = '💾 Guardar';
+    }
+  }
+
+  let vistaMode = 'mes';
+  let _ds = {};
+
+  function renderGamesMode() {
+    const isMes = vistaMode === 'mes';
+    const pp  = isMes ? _ds.ppMes      : _ds.ppHoy;
+    const ld  = isMes ? _ds.ldMes      : _ds.ldHoy;
+    const sc  = isMes ? _ds.scMes      : _ds.scHoy;
+    const go  = isMes ? _ds.goMes      : _ds.goHoy;
+    const e3  = isMes ? _ds.e3Mes      : _ds.e3Hoy;
+    const tb  = isMes ? _ds.turbitoMes : _ds.turbitoHoy;
+    const max = Math.max(pp, ld, sc, go, e3, tb, 1);
+    document.getElementById('pp-val').textContent      = fmtS(pp);
+    document.getElementById('ld-val').textContent      = fmtS(ld);
+    document.getElementById('sc-val').textContent      = fmtS(sc);
+    document.getElementById('go-val').textContent      = fmtS(go);
+    document.getElementById('e3-val').textContent      = fmtS(e3);
+    document.getElementById('turbito-val').textContent = fmtS(tb);
+    setBar(document.getElementById('pp-bar'),      pp / max * 100, 'var(--accent)');
+    setBar(document.getElementById('ld-bar'),      ld / max * 100, '#3B9EE8');
+    setBar(document.getElementById('sc-bar'),      sc / max * 100, '#16A34A');
+    setBar(document.getElementById('go-bar'),      go / max * 100, '#D97706');
+    setBar(document.getElementById('e3-bar'),      e3 / max * 100, '#7C3AED');
+    setBar(document.getElementById('turbito-bar'), tb / max * 100, '#0891B2');
+  }
+
+  function toggleVistaDia() {
+    vistaMode = vistaMode === 'mes' ? 'dia' : 'mes';
+    const btn = document.getElementById('btn-vista-dia');
+    const ttl = document.getElementById('games-card-title');
+    if (vistaMode === 'dia') {
+      if (btn) { btn.textContent = '📅 Ver mes'; btn.classList.add('active'); }
+      if (ttl) ttl.textContent = 'Desglose por juego · hoy';
+    } else {
+      if (btn) { btn.textContent = '📅 Ver día'; btn.classList.remove('active'); }
+      if (ttl) ttl.textContent = 'Desglose por juego · este mes';
+    }
+    renderGamesMode();
+  }
+
+  // ── MODO PROGRAMADOR ──────────────────────────────────────────────
+  function devOpen() {
+    document.getElementById('dev-overlay').classList.add('open');
+    var inp = document.getElementById('dev-pwd-input');
+    inp.value = '';
+    document.getElementById('dev-pwd-err').textContent = '';
+    setTimeout(function(){ inp.focus(); }, 80);
+  }
+  function devClose() {
+    document.getElementById('dev-overlay').classList.remove('open');
+    document.getElementById('dev-panel').classList.remove('open');
+  }
+  function devAuth() {
+    var val = document.getElementById('dev-pwd-input').value;
+    if (val === '1234567') {
+      document.getElementById('dev-overlay').classList.remove('open');
+      var res = devGetRows();
+      var rows = res.rows;
+      var tiendas = new Set(rows.map(function(r){ return r.org_code; })).size;
+      document.getElementById('dev-stats').innerHTML =
+        '<div class="dev-stat">Período: <strong>' + res.desde + ' → ' + res.hasta + '</strong></div>' +
+        '<div class="dev-stat">Registros: <strong>' + rows.length.toLocaleString('es') + '</strong></div>' +
+        '<div class="dev-stat">Tiendas con venta: <strong>' + tiendas + '</strong></div>' +
+        '<div class="dev-stat">Partner: <strong>' + PARTNER + '</strong></div>';
+      document.getElementById('dev-panel').classList.add('open');
+    } else {
+      document.getElementById('dev-pwd-err').textContent = 'Código incorrecto.';
+      document.getElementById('dev-pwd-input').value = '';
+      document.getElementById('dev-pwd-input').focus();
+    }
+  }
+  function devGetRows() {
+    var nameMap = {};
+    allStores.forEach(function(s){ nameMap[String(s.ID||'')] = s.nombre||''; });
+    var now = new Date();
+    var mesN = isMesPrev ? now.getMonth() - 1 : now.getMonth();
+    var yearN = now.getFullYear();
+    if (mesN < 0) { mesN = 11; yearN--; }
+    var ini = new Date(yearN, mesN, 1);
+    var fin = new Date(yearN, mesN + 1, 0);
+    var desde = ini.toISOString().slice(0,10);
+    var hasta = fin.toISOString().slice(0,10);
+    var seen = {};
+    function push(arr, src) {
+      arr.forEach(function(v){
+        var fecha = v.fecha || '';
+        if (fecha < desde || fecha > hasta) return;
+        var key = String(v.org_code??'') + '|' + fecha + '|' + (v.tipo_juego||'TOTAL');
+        var total = v.total ?? 0;
+        if (!seen[key] || total > seen[key].total) {
+          seen[key] = { org_code: String(v.org_code??''), nombre: nameMap[String(v.org_code??'')] || '', fecha: fecha, tipo_juego: v.tipo_juego||'TOTAL', total: total, fuente: src };
+        }
+      });
+    }
+    push(allVentas,  'ventas_mes');
+    push(allRaspes,  'ventas_raspes');
+    push(allLoteria, 'ventas_loteria');
+    return { rows: Object.values(seen).sort(function(a,b){ return a.org_code.localeCompare(b.org_code)||a.fecha.localeCompare(b.fecha)||a.tipo_juego.localeCompare(b.tipo_juego); }), desde: desde, hasta: hasta };
+  }
+  function devDownload() {
+    var res = devGetRows();
+    var rows = res.rows;
+    var csv = 'org_code,nombre,fecha,tipo_juego,total,fuente\n' + rows.map(function(r){
+      return [r.org_code, '"'+r.nombre.replace(/"/g,'""')+'"', r.fecha, r.tipo_juego, r.total, r.fuente].join(',');
+    }).join('\n');
+    var blob = new Blob(['﻿'+csv], {type:'text/csv;charset=utf-8'});
+    var a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = PARTNER.toLowerCase().replace(/\s+/g,'_') + '_mes_' + res.desde.slice(0,7) + '.csv';
+    a.click();
+    URL.revokeObjectURL(a.href);
+  }
 </script>
+<div class="dev-badge" onclick="devOpen()" title="Modo programador">Desarrollado por Doriant C.</div>
+<!-- Modo Programador -->
+<div id="dev-overlay" onclick="if(event.target===this)devClose()">
+  <div id="dev-modal">
+    <h3>🔧 Modo Programador</h3>
+    <p>Ingresa el código de acceso.</p>
+    <input id="dev-pwd-input" type="password" placeholder="·······" maxlength="20" autocomplete="off" onkeydown="if(event.key==='Enter')devAuth()">
+    <div id="dev-pwd-err"></div>
+    <div class="dev-btn-row">
+      <button class="dev-btn dev-btn-cancel" onclick="devClose()">Cancelar</button>
+      <button class="dev-btn dev-btn-ok" onclick="devAuth()">Acceder</button>
+    </div>
+  </div>
+</div>
+<div id="dev-panel" onclick="if(event.target===this)devClose()">
+  <div id="dev-panel-inner">
+    <h3>🔧 Modo Programador</h3>
+    <div id="dev-stats"></div>
+    <button class="dev-dl-btn" onclick="devDownload()">⬇ Descargar datos por tienda / juego (CSV)</button>
+    <button class="dev-close-btn" onclick="devClose()">Cerrar</button>
+  </div>
+</div>
 </body>
 </html>

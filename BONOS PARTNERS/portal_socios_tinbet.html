@@ -1,0 +1,1123 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex">
+<title>Portal Socios · Tinbet</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Nunito+Sans:opsz,wght@6..12,400;6..12,600;6..12,700;6..12,800&display=swap">
+<style>
+/* Portal de socios Lotobola × Tinbet: cada socio (franquiciado o agente) entra con su usuario y ve solo sus tiendas. */
+:root{
+  --bg:#F6F3F8; --surf:#FFFFFF; --surf2:#FBF7FA; --line:#EADDE6; --fg:#1D1530; --muted:#6B5F78;
+  --brand:#D63B8C; --brand2:#A81F68; --navy:#0B4A9E; --sun:#FFD23F; --sun-ink:#5A3D00;
+  --ok:#14874F; --ok-bg:#E3F5EB; --warn:#B26A00; --warn-bg:#FFF2D6; --bad:#C62828; --bad-bg:#FDE7E7;
+  --f-display:"Baloo 2","Nunito Sans",system-ui,sans-serif;
+  --f-body:"Nunito Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --r:16px;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#150F1C; --surf:#1F1729; --surf2:#271D33; --line:#3A2D48; --fg:#F4EEF8; --muted:#B3A6C2;
+  --brand:#F06AAE; --brand2:#D63B8C; --navy:#7FB2FF;
+  --ok:#4FD18E; --ok-bg:#173527; --warn:#FFC266; --warn-bg:#3A2A10; --bad:#FF8A80; --bad-bg:#3A1A1A; color-scheme:dark }}
+:root[data-theme="dark"]{
+  --bg:#150F1C; --surf:#1F1729; --surf2:#271D33; --line:#3A2D48; --fg:#F4EEF8; --muted:#B3A6C2;
+  --brand:#F06AAE; --brand2:#D63B8C; --navy:#7FB2FF;
+  --ok:#4FD18E; --ok-bg:#173527; --warn:#FFC266; --warn-bg:#3A2A10; --bad:#FF8A80; --bad-bg:#3A1A1A; color-scheme:dark }
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);font-family:var(--f-body);font-size:15px;line-height:1.5;margin:0}
+[hidden]{display:none!important}
+.num{font-variant-numeric:tabular-nums}
+h1,h2,h3{font-family:var(--f-display);line-height:1.15;margin:0;text-wrap:balance}
+button{font:inherit;cursor:pointer}
+:focus-visible{outline:3px solid var(--sun);outline-offset:2px}
+.wrap{max-width:1120px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+
+/* ── Login ── */
+#login{min-height:100vh;display:grid;place-items:center;padding-block:32px;
+  background:radial-gradient(circle at 15% 10%,rgba(255,210,63,.35),transparent 30%),linear-gradient(150deg,#F27BB6 0%,#D63B8C 55%,#9E1C62 100%)}
+.lg-card{width:min(860px,100%);display:grid;grid-template-columns:1fr 1fr;background:var(--surf);border-radius:24px;overflow:hidden;box-shadow:0 30px 70px rgba(60,0,35,.35)}
+.lg-art{position:relative;background:linear-gradient(170deg,#FFE27A,#FFD23F 60%,#F5B400);padding:28px;display:flex;flex-direction:column;justify-content:space-between;min-height:420px;color:#3D2600;overflow:hidden}
+.lg-art h2{font-size:30px;color:#3D2600}
+.lg-art p{margin:6px 0 0;max-width:26ch;font-weight:600}
+.lg-art img.llama{position:absolute;right:-6px;bottom:-8px;width:190px}
+.lg-art ul{list-style:none;padding:0;margin:0;display:grid;gap:6px;font-size:13px;font-weight:700;max-width:55%}
+.lg-art li::before{content:"✓ ";color:var(--brand2)}
+.lg-form{padding:32px 28px;display:flex;flex-direction:column;gap:14px}
+.lg-logos{display:flex;align-items:center;gap:12px}
+.lg-logos img{height:34px;width:auto}
+.lg-logos img.pt{height:40px;border-radius:8px}
+.lg-form h1{font-size:26px}
+.lg-sub{color:var(--muted);margin:-8px 0 4px;font-size:14px}
+label{font-size:13px;font-weight:800;display:grid;gap:5px}
+input[type=text],input[type=password],input[type=date],input[type=number],select,textarea{font:inherit;padding:11px 13px;border-radius:12px;border:1.5px solid var(--line);background:var(--surf2);color:var(--fg);min-width:0}
+input:focus,select:focus,textarea:focus{border-color:var(--brand);outline:none}
+.btn{border:none;border-radius:12px;padding:12px 16px;font-weight:800;background:var(--brand);color:#fff;font-size:15px}
+.btn:hover{background:var(--brand2)}
+.btn:disabled{opacity:.55;cursor:wait}
+.btn.sec{background:var(--surf2);color:var(--fg);border:1.5px solid var(--line)}
+.btn.sec:hover{border-color:var(--brand)}
+.btn.sm{padding:6px 11px;font-size:12.5px;border-radius:9px}
+.btn.danger{background:var(--bad-bg);color:var(--bad);border:1.5px solid transparent}
+.lg-err{color:var(--bad);font-size:13px;font-weight:700;min-height:18px}
+.lg-note{background:var(--surf2);border:1.5px dashed var(--line);border-radius:12px;padding:10px 12px;font-size:12.5px;color:var(--muted)}
+
+/* ── App ── */
+.top{background:linear-gradient(120deg,#E4519B,#B8226E);color:#fff}
+.top .wrap{display:flex;align-items:center;gap:14px;padding-block:12px;flex-wrap:wrap}
+.top .logo{background:#fff;border-radius:999px;padding:6px 12px;display:flex}
+.top .logo img{height:22px;width:auto}
+.top .plogo{height:36px;width:auto;border-radius:8px;border:1.5px solid rgba(255,255,255,.7)}
+.who{flex:1;min-width:0}
+.who b{display:block;font-family:var(--f-display);font-size:19px;line-height:1.1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.who span{font-size:12.5px;opacity:.9}
+.out{border:1.5px solid rgba(255,255,255,.6);background:transparent;color:#fff;border-radius:999px;padding:7px 14px;font-weight:800;font-size:13px}
+.adm-banner{background:#1D1530;color:#FFD23F;font-size:13px;font-weight:700}
+.adm-banner .wrap{display:flex;gap:10px;align-items:center;justify-content:space-between;padding-block:8px;flex-wrap:wrap}
+.adm-banner button{border:1.5px solid #FFD23F;background:none;color:#FFD23F;border-radius:999px;padding:4px 12px;font-weight:800;font-size:12.5px}
+.hero{background:linear-gradient(120deg,#E4519B,#B8226E);color:#fff;padding-bottom:64px}
+.hero .wrap{display:flex;justify-content:space-between;align-items:flex-end;gap:12px;flex-wrap:wrap;padding-top:6px}
+.hero h1{font-size:28px}
+.hero p{margin:2px 0 0;opacity:.9;font-size:14px}
+.per{display:flex;background:rgba(255,255,255,.18);border-radius:999px;padding:3px}
+.per button{border:none;background:transparent;color:#fff;padding:7px 14px;border-radius:999px;font-weight:800;font-size:13px;text-transform:capitalize}
+.per button.on{background:#fff;color:var(--brand2)}
+main.wrap{margin-top:-48px;display:grid;grid-template-columns:minmax(0,1fr);gap:18px;padding-bottom:40px}
+main.wrap>*,.grid2>*{min-width:0}
+.card{background:var(--surf);border:1px solid var(--line);border-radius:var(--r);padding:18px}
+.card h2{font-size:20px}
+.card .hint{color:var(--muted);font-size:13px;margin:2px 0 0}
+.grid2{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(0,1fr);gap:18px;align-items:start}
+.chart{width:100%;height:auto;display:block;margin-top:10px}
+.legend{display:flex;gap:14px;font-size:12.5px;color:var(--muted);margin-top:6px;flex-wrap:wrap}
+.legend i{display:inline-block;width:14px;height:3px;border-radius:2px;vertical-align:middle;margin-right:5px}
+.how{margin-top:12px;font-size:13px;color:var(--muted)}
+.how summary{cursor:pointer;font-weight:800;color:var(--navy)}
+.scale{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-top:8px}
+.scale div{background:var(--surf2);border:1px solid var(--line);border-radius:10px;padding:6px;text-align:center;font-size:11.5px}
+.scale b{display:block;font-size:16px;color:var(--fg);font-family:var(--f-display)}
+.tbl-wrap{overflow-x:auto;margin-top:12px;border:1px solid var(--line);border-radius:12px}
+table.st{width:100%;border-collapse:collapse;font-size:13.5px;min-width:760px}
+table.st th{text-align:left;font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);padding:10px 12px;background:var(--surf2);border-bottom:1px solid var(--line);white-space:nowrap}
+table.st td{padding:10px 12px;border-bottom:1px solid var(--line);vertical-align:middle}
+table.st tr:last-child td{border-bottom:none}
+table.st td.r,table.st th.r{text-align:right;white-space:nowrap}
+table.st td.sname{min-width:150px}
+table.st tfoot td{font-weight:800;background:var(--surf2)}
+.sname b{display:block}
+.sname span{font-size:12px;color:var(--muted)}
+.tier{display:inline-flex;align-items:center;gap:4px;font-weight:800;font-size:12px;padding:3px 9px;border-radius:999px;background:var(--surf2);border:1px solid var(--line);white-space:nowrap}
+.tier.t3{background:#2B1A4D;color:#FFD23F;border-color:#2B1A4D}
+.tier.t2{background:var(--ok-bg);color:var(--ok);border-color:transparent}
+.tier.t1{background:#E6EEFB;color:#0B4A9E;border-color:transparent}
+.nudge{font-size:12px;color:var(--warn);font-weight:700;background:var(--warn-bg);border-radius:8px;padding:3px 8px;display:inline-block;white-space:nowrap}
+.nudge.done{color:var(--ok);background:var(--ok-bg)}
+.inc{display:grid;grid-template-columns:auto 1fr;gap:18px;align-items:center;background:linear-gradient(135deg,#0B4A9E,#1E63C4);color:#fff;border:none}
+.inc+.inc{margin-top:0}
+.inc .badge{width:92px;height:92px;border-radius:22px;background:var(--sun);color:#3D2600;display:grid;place-items:center;text-align:center;font-family:var(--f-display);line-height:1}
+.inc .badge b{font-size:34px;display:block}
+.inc .badge small{font-size:11px;font-weight:800}
+.inc h2{font-size:21px}
+.inc p{margin:4px 0 10px;opacity:.92;font-size:14px}
+.bar{height:12px;border-radius:999px;background:rgba(255,255,255,.22);overflow:hidden}
+.bar i{display:block;height:100%;border-radius:999px;background:var(--sun)}
+.inc .meta{display:flex;justify-content:space-between;font-size:12.5px;margin-top:6px;gap:8px;flex-wrap:wrap}
+.hist{display:grid;gap:8px;margin-top:10px}
+.hrow{display:grid;grid-template-columns:1fr auto auto auto;gap:12px;align-items:center;padding:10px 12px;border:1px solid var(--line);border-radius:12px;background:var(--surf2)}
+.hrow b{font-family:var(--f-display);font-size:16px}
+.hrow span{font-size:12.5px;color:var(--muted)}
+.hrow .amt{font-weight:800;color:var(--fg);font-size:14px}
+.hform{grid-column:1/-1;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;padding-top:8px;border-top:1px dashed var(--line)}
+.hform .act{grid-column:1/-1;display:flex;gap:8px;justify-content:flex-end;align-items:center;flex-wrap:wrap}
+.pill{font-size:11.5px;font-weight:800;padding:4px 10px;border-radius:999px;white-space:nowrap}
+.pill.paid{background:var(--ok-bg);color:var(--ok)}
+.pill.inv{background:#E6EEFB;color:#0B4A9E}
+.pill.run{background:var(--warn-bg);color:var(--warn)}
+.pill.pend{background:var(--surf);color:var(--muted);border:1px solid var(--line)}
+.priv{display:flex;gap:10px;align-items:flex-start;font-size:13px;color:var(--muted);padding:12px 14px;border-radius:12px;border:1px dashed var(--line)}
+.msg{font-size:13px;font-weight:700;color:var(--muted)}
+.msg.ok{color:var(--ok)} .msg.err{color:var(--bad)}
+/* Bloque de ganancia */
+.earn{position:relative;display:grid;grid-template-columns:auto minmax(0,1fr) minmax(0,260px);gap:22px;align-items:center;overflow:hidden;
+  background:linear-gradient(135deg,#FFE680 0%,#FFD23F 55%,#F7B500 100%);border-radius:22px;padding:20px 24px;color:#3D2600;box-shadow:0 14px 34px rgba(150,70,0,.18)}
+.earn::after{content:"";position:absolute;right:-60px;top:-80px;width:260px;height:260px;border-radius:50%;background:radial-gradient(circle,rgba(255,255,255,.45),transparent 70%);pointer-events:none}
+.earn .llama{width:112px;height:auto;margin:-10px 0 -24px -6px;filter:drop-shadow(0 8px 14px rgba(120,40,0,.25))}
+.earn .lbl{font-size:13px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:#7A4E00}
+.earn .big{font-family:var(--f-display);font-size:54px;line-height:1;letter-spacing:-.01em;color:#2A1A00;margin:4px 0 2px}
+.earn .igv{font-size:13.5px;font-weight:700;color:#6A4A00}
+.earn .track{position:relative;height:14px;border-radius:999px;background:rgba(61,38,0,.14);margin-top:14px;overflow:hidden}
+.earn .track i{position:absolute;inset:0 auto 0 0;border-radius:999px;background:linear-gradient(90deg,#D63B8C,#A81F68)}
+.earn .tlab{display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap;font-size:12.5px;font-weight:700;margin-top:6px;color:#5A3D00}
+.earn .side{position:relative;z-index:1;display:grid;gap:10px}
+.earn .mini{background:rgba(255,255,255,.62);border-radius:14px;padding:10px 14px}
+.earn .mini span{display:block;font-size:11px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:#7A4E00}
+.earn .mini b{font-family:var(--f-display);font-size:22px;color:#2A1A00}
+.earn .mini em{font-style:normal;font-size:12px;font-weight:800}
+.earn .mini em.up{color:#0E6B3B}.earn .mini em.dn{color:#B42318}
+.earn .mini small{display:block;font-size:11.5px;font-weight:700;color:#7A4E00}
+/* Comprobante */
+.rcpt{position:relative;background:var(--surf);color:var(--fg);padding:22px 22px 26px;filter:drop-shadow(0 10px 18px rgba(60,0,35,.12));
+  -webkit-mask:radial-gradient(circle 7px at 50% 0,#0000 98%,#000) 0 0/18px 51% repeat-x,radial-gradient(circle 7px at 50% 100%,#0000 98%,#000) 0 100%/18px 51% repeat-x;
+          mask:radial-gradient(circle 7px at 50% 0,#0000 98%,#000) 0 0/18px 51% repeat-x,radial-gradient(circle 7px at 50% 100%,#0000 98%,#000) 0 100%/18px 51% repeat-x}
+.rc-head{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;padding-bottom:12px;border-bottom:2px dashed var(--line)}
+.rc-head img{height:22px;width:auto}
+.rc-head .no{text-align:right;font-size:11px;color:var(--muted);font-weight:700;line-height:1.35}
+.rc-head .no b{display:block;font-family:var(--f-display);font-size:16px;color:var(--fg);letter-spacing:.02em}
+.rc-who{font-size:12.5px;color:var(--muted);padding:10px 0;border-bottom:2px dashed var(--line);line-height:1.45}
+.rc-who b{color:var(--fg)}
+.rc-lines{list-style:none;margin:0;padding:12px 0 4px;display:grid;gap:8px;font-size:14px}
+.rc-lines li{display:flex;align-items:baseline;gap:6px}
+.rc-lines li::after{content:"";order:2;flex:1;border-bottom:2px dotted var(--line);transform:translateY(-3px)}
+.rc-lines li span{order:1}
+.rc-lines li b{order:3;white-space:nowrap}
+.rc-lines li small{display:block;font-size:11.5px;color:var(--muted);font-weight:600}
+.rc-lines li.sep{padding-top:6px;border-top:1px solid var(--line)}
+.rc-lines li.mut{color:var(--muted)}
+.rc-total{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-top:10px;padding:12px 14px;border-radius:12px;background:linear-gradient(120deg,#E4519B,#A81F68);color:#fff}
+.rc-total span{font-weight:800;font-size:13px;letter-spacing:.04em;text-transform:uppercase}
+.rc-total b{font-family:var(--f-display);font-size:26px;white-space:nowrap}
+.stamp{float:right;margin:2px 0 0 8px;transform:rotate(-8deg);border:3px solid currentColor;border-radius:10px;padding:3px 10px;font-family:var(--f-display);font-size:15px;letter-spacing:.08em;opacity:.8;pointer-events:none}
+.stamp.pre{color:var(--warn)}.stamp.fac{color:var(--navy)}.stamp.pag{color:var(--ok)}.stamp.pen{color:var(--muted)}
+/* Escalera de tramos */
+.stairs{display:grid;grid-template-columns:repeat(var(--n,4),minmax(0,1fr));gap:10px;align-items:start;margin-top:14px}
+.step{display:flex;flex-direction:column;border-radius:16px 16px 12px 12px;overflow:hidden;border:1px solid var(--line);background:var(--surf2);min-width:0}
+.step .cap{padding:12px 12px 10px;color:#fff;position:relative}
+.step .cap b{font-family:var(--f-display);font-size:30px;line-height:1;display:block}
+.step .cap span{font-size:11.5px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;opacity:.92}
+.step .cap em{position:absolute;right:10px;top:10px;font-style:normal;font-size:12px;font-weight:800;background:rgba(255,255,255,.25);border-radius:999px;padding:2px 8px}
+.step .rng{font-size:11.5px;color:var(--muted);padding:6px 12px 0;font-weight:700}
+.step .chips{display:grid;gap:6px;padding:8px;max-height:520px;overflow:auto}
+.step .empty{font-size:12px;color:var(--muted);padding:6px 6px 10px;text-align:center}
+.s0 .cap{background:linear-gradient(140deg,#D08A52,#9E5A2A)}
+.s1 .cap{background:linear-gradient(140deg,#9AAAC0,#5E708A)}
+.s2 .cap{background:linear-gradient(140deg,#F2C230,#C48A00)}
+.s3 .cap{background:linear-gradient(140deg,#9A6BFF,#5B2DD6)}
+@media (min-width:901px){.stairs .s0{margin-top:72px}.stairs .s1{margin-top:48px}.stairs .s2{margin-top:24px}}
+.chip{background:var(--surf);border:1px solid var(--line);border-radius:10px;padding:8px 10px;min-width:0}
+.chip .n{display:flex;justify-content:space-between;gap:6px;font-size:12.5px;font-weight:800}
+.chip .n span:first-child{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.chip .n span:last-child{white-space:nowrap;color:var(--muted);font-weight:700}
+.chip .pb{height:6px;border-radius:999px;background:var(--line);margin-top:6px;overflow:hidden}
+.chip .pb i{display:block;height:100%;border-radius:999px;background:var(--brand)}
+.chip .f{font-size:11px;font-weight:700;color:var(--warn);margin-top:4px}
+.chip .f.top{color:var(--ok)}
+.detail{margin-top:14px}
+.detail summary{cursor:pointer;font-weight:800;color:var(--navy);font-size:14px}
+.empty-state{padding:30px 18px;text-align:center;color:var(--muted)}
+.loading{min-height:60vh;display:grid;place-items:center;color:var(--muted);font-weight:700}
+
+/* ── Panel de administración ── */
+#admin main.wrap{margin-top:18px}
+.adm-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:18px;align-items:start}
+.adm-grid>*{min-width:0}
+.frm{display:grid;gap:10px;margin-top:12px}
+.frm .row{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.gzlist{max-height:260px;overflow:auto;border:1.5px solid var(--line);border-radius:12px;padding:6px;background:var(--surf2);display:grid;gap:2px}
+.gzlist label{display:flex;gap:8px;align-items:center;font-weight:600;font-size:13px;padding:4px 6px;border-radius:8px}
+.gzlist label:hover{background:var(--surf)}
+.gzlist label small{margin-left:auto;color:var(--muted);white-space:nowrap}
+.gzlist label.taken{opacity:.55}
+.acts{display:flex;gap:6px;flex-wrap:wrap}
+.newpw{display:grid;gap:6px;margin-top:10px}
+.newpw div{display:flex;justify-content:space-between;gap:10px;align-items:center;padding:8px 12px;border-radius:10px;background:var(--warn-bg);font-size:13.5px;flex-wrap:wrap}
+.newpw code{font-size:15px;font-weight:800;letter-spacing:.04em}
+.esq{border:1px solid var(--line);border-radius:12px;padding:12px;margin-top:10px;background:var(--surf2)}
+.esq-h{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap}
+.esq table{width:100%;border-collapse:collapse;margin-top:8px;font-size:13px}
+.esq td{padding:3px 4px}
+.esq input{width:100%;padding:7px 9px;border-radius:9px}
+.esq .row3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-top:8px}
+.savebar{position:sticky;bottom:0;z-index:5;background:#1D1530;color:#fff}
+.savebar .wrap{display:flex;gap:12px;align-items:center;justify-content:space-between;padding-block:10px;flex-wrap:wrap}
+.savebar .btn{background:var(--sun);color:#3D2600}
+.tag{font-size:11px;font-weight:800;padding:2px 8px;border-radius:999px;white-space:nowrap}
+.tag.on{background:var(--ok-bg);color:var(--ok)}.tag.off{background:var(--bad-bg);color:var(--bad)}
+
+@media (max-width:900px){.grid2,.adm-grid{grid-template-columns:minmax(0,1fr)}
+  .earn{grid-template-columns:auto minmax(0,1fr)}.earn .side{grid-column:1/-1;grid-template-columns:1fr 1fr}
+  .stairs{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}.hform{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:640px){
+  .earn{padding:16px 16px 18px;gap:12px}.earn .llama{width:74px;margin:-6px 0 -10px -4px}.earn .big{font-size:38px}.earn .lbl{font-size:11.5px}
+  .earn .mini b{font-size:18px}.top .plogo{height:30px}
+  .stairs{grid-template-columns:minmax(0,1fr)}.rc-total b{font-size:22px}.stamp{font-size:13px}
+  .lg-card{grid-template-columns:1fr}.lg-art{min-height:0;padding:22px 20px}.lg-art h2{font-size:24px;max-width:62%}.lg-art p{max-width:62%;font-size:13.5px}.lg-art img.llama{width:112px}.lg-art ul{display:none}
+  .hero h1{font-size:23px}.inc{grid-template-columns:1fr}.inc .badge{width:72px;height:72px}.inc .badge b{font-size:26px}
+  .scale{grid-template-columns:repeat(2,1fr)}.hrow{grid-template-columns:1fr auto}.hrow .amt{grid-row:2;grid-column:1}.hrow .pill{grid-row:1;grid-column:2;justify-self:end}.hrow .hbtn{grid-row:2;grid-column:2;justify-self:end}
+  .hform{grid-template-columns:minmax(0,1fr)}
+  .who b{font-size:17px;white-space:normal}.who{order:3;flex-basis:100%}.top .out{margin-left:auto}.who span{display:block;font-size:11.5px;line-height:1.35}.top .wrap{gap:10px}.out{padding:6px 10px;font-size:12px}
+  .frm .row,.esq .row3{grid-template-columns:minmax(0,1fr)}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+</head>
+<body>
+
+<!-- ═════════ LOGIN ═════════ -->
+<section id="login">
+  <div class="wrap" style="display:grid;place-items:center;width:100%">
+  <div class="lg-card">
+    <div class="lg-art">
+      <div>
+        <h2>Tu espacio de socio Lotobola</h2>
+        <p>Revisa tus ventas y comisiones cuando quieras, con el mismo detalle que llega en tu liquidación.</p>
+      </div>
+      <ul>
+        <li>Venta de todas tus tiendas</li>
+        <li>Comisión por venta y por pago de premios</li>
+        <li>Incentivos vigentes</li>
+        <li>Historial de liquidaciones</li>
+      </ul>
+      <img class="llama" src="../sources/logos-games/suerte-3.png" alt="">
+    </div>
+    <form class="lg-form" id="lg-form" novalidate>
+      <div class="lg-logos"><img src="../sources/logos-games/lotobola.webp" alt="Lotobola"><img class="pt" src="../icons/tinbet.png" alt="Tinbet"></div>
+      <h1>Ingresa a tu cuenta</h1>
+      <p class="lg-sub">Franquiciados y agentes Tinbet</p>
+      <label for="u">Usuario<input id="u" type="text" autocomplete="username" autocapitalize="off" spellcheck="false" placeholder="Tu usuario"></label>
+      <label for="p">Contraseña<input id="p" type="password" autocomplete="current-password" placeholder="Tu contraseña"></label>
+      <div class="lg-err" id="lg-err" role="alert"></div>
+      <button class="btn" type="submit" id="lg-btn">Ingresar</button>
+      <div class="lg-note">¿No tienes usuario o olvidaste tu contraseña? Pídela a tu ejecutivo comercial de Lotobola.</div>
+    </form>
+  </div>
+  </div>
+</section>
+
+<!-- ═════════ PORTAL DEL SOCIO ═════════ -->
+<div id="app" hidden>
+  <div class="adm-banner" id="adm-banner" hidden><div class="wrap"><span id="adm-banner-t"></span><button type="button" onclick="volverAdmin()">← Volver al panel</button></div></div>
+  <header class="top"><div class="wrap">
+    <span class="logo"><img src="../sources/logos-games/lotobola.webp" alt="Lotobola"></span>
+    <img class="plogo" src="../icons/tinbet.png" alt="Tinbet">
+    <div class="who"><b id="s-name"></b><span id="s-meta"></span></div>
+    <button class="out" type="button" onclick="logout()">Cerrar sesión</button>
+  </div></header>
+  <section class="hero"><div class="wrap">
+    <div><h1 id="h-title"></h1><p id="h-sub"></p></div>
+    <div class="per" id="per" role="tablist" aria-label="Mes"></div>
+  </div></section>
+
+  <main class="wrap" id="main">
+    <section class="earn" id="earn"></section>
+
+    <div class="grid2">
+      <section class="card">
+        <h2>Venta acumulada del mes</h2>
+        <p class="hint" id="ch-hint"></p>
+        <svg class="chart" id="chart" viewBox="0 0 640 240" role="img" aria-label="Venta acumulada por día"></svg>
+        <div class="legend"><span><i style="background:var(--brand)"></i><span id="lg-a"></span></span><span id="lg-b-w"><i style="background:var(--muted);opacity:.6"></i><span id="lg-b"></span></span></div>
+      </section>
+      <section>
+        <div class="rcpt" id="rcpt"></div>
+        <details class="how">
+          <summary>¿Cómo se calcula?</summary>
+          <div id="how-body"></div>
+        </details>
+      </section>
+    </div>
+
+    <section class="card">
+      <h2>Tus tiendas por tramo de comisión</h2>
+      <p class="hint" id="st-hint"></p>
+      <div class="stairs" id="stairs"></div>
+      <details class="detail">
+        <summary>Ver detalle completo por tienda</summary>
+        <div class="tbl-wrap"><table class="st num" id="stores"></table></div>
+      </details>
+    </section>
+
+    <div id="incs" style="display:grid;gap:18px"></div>
+
+    <section class="card">
+      <h2>Historial de liquidaciones</h2>
+      <p class="hint" id="hist-hint">Lo que se facturó y pagó cada mes. Registra aquí tu factura y cuándo te pagaron.</p>
+      <div class="hist num" id="hist"></div>
+    </section>
+
+    <div class="priv">🔒 <span>Solo ves la información de tus tiendas. Ningún otro socio puede ver tus ventas ni tus comisiones, y tú no ves las de ellos. Datos con corte al día anterior.</span></div>
+  </main>
+</div>
+
+<!-- ═════════ PANEL DE ADMINISTRACIÓN ═════════ -->
+<div id="admin" hidden>
+  <header class="top"><div class="wrap">
+    <span class="logo"><img src="../sources/logos-games/lotobola.webp" alt="Lotobola"></span>
+    <img class="plogo" src="../icons/tinbet.png" alt="Tinbet">
+    <div class="who"><b>Administración del portal</b><span>Socios Tinbet · usuarios, comisiones e incentivos</span></div>
+    <button class="out" type="button" onclick="logout()">Cerrar sesión</button>
+  </div></header>
+  <main class="wrap">
+    <section class="card">
+      <h2>Socios y accesos</h2>
+      <p class="hint">Cada socio entra con su usuario y ve solo las tiendas de los nombres de socio (<code>gz</code>) que tenga asignados. Los cambios se aplican al publicar y el portal los toma en 3–5 minutos.</p>
+      <div class="tbl-wrap"><table class="st" id="adm-socios"></table></div>
+      <div class="newpw" id="newpw"></div>
+    </section>
+
+    <div class="adm-grid">
+      <section class="card">
+        <h2 id="frm-title">Nuevo socio</h2>
+        <p class="hint">La contraseña se genera sola al crear el socio. Cópiala y envíasela: no se vuelve a mostrar.</p>
+        <div class="frm">
+          <div class="row">
+            <label>Usuario<input id="f-u" type="text" autocapitalize="off" spellcheck="false" placeholder="ej. gaming.solutions"></label>
+            <label>Nombre visible<input id="f-n" type="text" placeholder="Razón social o nombre"></label>
+          </div>
+          <div class="row">
+            <label>Tipo<select id="f-t"><option>Franquiciado</option><option>Agente</option></select></label>
+            <label>Esquema de comisión<select id="f-e"></select></label>
+          </div>
+          <label><span>Tiendas: nombres de socio (<code>gz</code>) que verá</span>
+            <input id="f-q" type="text" placeholder="Buscar…" oninput="pintarGz()">
+          </label>
+          <div class="gzlist" id="f-gz"></div>
+          <div class="acts"><button class="btn" type="button" id="f-save" onclick="guardarSocio()">Crear socio</button><button class="btn sec" type="button" onclick="limpiarForm()">Limpiar</button><span class="msg" id="f-msg"></span></div>
+        </div>
+      </section>
+
+      <section class="card">
+        <h2>Esquemas de comisión</h2>
+        <p class="hint">Loterías: la tasa del tramo se aplica a toda la venta de loterías de la tienda en el mes. Deja vacío el “hasta” del último tramo.</p>
+        <label style="margin-top:10px">Esquema por defecto del partner<select id="e-def" onchange="CFG.esquema_default=this.value;sucio()"></select></label>
+        <div id="esqs"></div>
+        <div class="acts" style="margin-top:10px"><button class="btn sec sm" type="button" onclick="nuevoEsquema()">+ Nuevo esquema</button></div>
+      </section>
+    </div>
+
+    <div class="adm-grid">
+      <section class="card">
+        <h2>Incentivos</h2>
+        <p class="hint">Ranking de socios por venta total entre las fechas. Cada socio ve solo su puesto y su avance.</p>
+        <div id="incs-adm" class="hist"></div>
+        <div class="frm">
+          <label>Título<input id="i-t" type="text" placeholder="Incentivo trimestral socios"></label>
+          <label>Descripción<textarea id="i-d" rows="2" placeholder="El socio con mayor venta acumulada gana…"></textarea></label>
+          <div class="row"><label>Desde<input id="i-a" type="date"></label><label>Hasta<input id="i-b" type="date"></label></div>
+          <div class="row"><label>Premio (texto)<input id="i-p" type="text" placeholder="Viaje para 2 personas"></label><label>Meta por socio S/ (opcional)<input id="i-m" type="number" min="0" step="100"></label></div>
+          <div class="acts"><button class="btn sec" type="button" onclick="agregarIncentivo()">Agregar incentivo</button><span class="msg" id="i-msg"></span></div>
+        </div>
+      </section>
+
+      <section class="card">
+        <h2>Registro de facturación</h2>
+        <p class="hint">Los socios registran su factura y su pago en un repositorio aparte, para que su acceso no pueda tocar el sitio. Usa un token <i>fine-grained</i> solo de ese repositorio, con <b>Contents: Read and write</b>.</p>
+        <div class="frm">
+          <label>Repositorio (dueño/nombre)<input id="d-r" type="text" placeholder="Leonardow33/portal-socios-data" autocapitalize="off" spellcheck="false"></label>
+          <label>Token de GitHub de ese repositorio<input id="d-t" type="password" autocomplete="off" placeholder="github_pat_… (vacío = no cambiar)"></label>
+          <div class="acts"><button class="btn sec" type="button" onclick="guardarRepoDatos()">Guardar y probar</button><span class="msg" id="d-msg"></span></div>
+        </div>
+        <h2 style="margin-top:22px">Acceso de administrador</h2>
+        <div class="frm">
+          <div class="row"><label>Nueva contraseña<input id="a-p1" type="password" autocomplete="new-password"></label><label>Repítela<input id="a-p2" type="password" autocomplete="new-password"></label></div>
+          <label>Token de GitHub del sitio (opcional, solo si se renueva)<input id="a-gh" type="password" autocomplete="off" placeholder="github_pat_…"></label>
+          <div class="acts"><button class="btn sec" type="button" onclick="cambiarAdmin()">Cambiar</button><span class="msg" id="a-msg"></span></div>
+        </div>
+      </section>
+    </div>
+  </main>
+  <div class="savebar" id="savebar" hidden><div class="wrap"><span id="save-t">Tienes cambios sin publicar.</span><button class="btn" type="button" id="save-btn" onclick="publicar()">Publicar cambios</button></div></div>
+</div>
+
+<div class="loading" id="loading" hidden>Cargando…</div>
+
+<script>
+// ─────────────────────────────────────────────────────────────────────────────
+// Portal de socios Tinbet. Datos: data/puntos.json (tiendas, campo gz = socio),
+// ventas_mes(_prev) TOTAL, ventas_raspes(_prev) y premios_pagados(_prev) (pendiente).
+// Loterías = TOTAL − raspas (TOTAL ya suma PozoPower, Go, Elige 3, LakiDey y Turbito).
+// Accesos: data/socios_tinbet.json. Cada socio guarda una clave del portal (K) cifrada
+// con su contraseña (PBKDF2-SHA256 600k + AES-GCM). El admin guarda {gh, k} igual.
+// K descifra el token del repo de facturación, donde cada socio escribe historial/<usuario>.json.
+// ─────────────────────────────────────────────────────────────────────────────
+const PARTNER   = 'TINBET';
+const REPO      = 'Leonardow33/MAPA_RC_INTERACTIVO';
+const CFG_PATH  = 'data/socios_tinbet.json';
+const SESS_KEY  = 'tin_socio';
+const ITER      = 600000;
+const ESQ_REF   = { tramos: [{ hasta: 1500, pct: 8 }, { hasta: 6000, pct: 10 }, { hasta: 20000, pct: 12 }, { hasta: null, pct: 14 }], raspas: 8, premios: 2, igv: 18 };
+const TRAMO_NOM = ['Base', 'Plata', 'Oro', 'Diamante'];
+const MESES     = ['enero','febrero','marzo','abril','mayo','junio','julio','agosto','setiembre','octubre','noviembre','diciembre'];
+const ESTADOS   = { pendiente: 'Por facturar', facturado: 'Facturado', pagado: 'Pagado' };
+
+const $ = id => document.getElementById(id);
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+const r2 = n => Math.round(n * 100) / 100;
+const fmt  = n => 'S/ ' + Math.round(n).toLocaleString('es-PE');
+const fmt2 = n => 'S/ ' + (+n).toLocaleString('es-PE', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+const normGz = s => String(s || '').normalize('NFD').replace(/[̀-ͯ]/g, '').toUpperCase().replace(/\s+/g, ' ').trim();
+const hoyLima = () => new Intl.DateTimeFormat('en-CA', { timeZone: 'America/Lima' }).format(new Date());
+const addDias = (iso, n) => { const d = new Date(iso + 'T12:00:00Z'); d.setUTCDate(d.getUTCDate() + n); return d.toISOString().slice(0, 10); };
+const fCorta = iso => iso ? `${iso.slice(8, 10)}/${iso.slice(5, 7)}/${iso.slice(0, 4)}` : '';
+const nomMes = ym => { const [y, m] = ym.split('-'); return MESES[+m - 1] + ' ' + y; };
+const cap = s => s.charAt(0).toUpperCase() + s.slice(1);
+
+const HOY = hoyLima(), AYER = addDias(HOY, -1);
+
+// ── Cifrado (Web Crypto) ─────────────────────────────────────────────────────
+const te = new TextEncoder(), td = new TextDecoder();
+const b64 = u8 => { let s = ''; u8.forEach(b => s += String.fromCharCode(b)); return btoa(s); };
+const unb64 = s => Uint8Array.from(atob(s), c => c.charCodeAt(0));
+async function pwKey(pass, salt) {
+  const base = await crypto.subtle.importKey('raw', te.encode(pass), 'PBKDF2', false, ['deriveKey']);
+  return crypto.subtle.deriveKey({ name: 'PBKDF2', salt: unb64(salt), iterations: ITER, hash: 'SHA-256' }, base, { name: 'AES-GCM', length: 256 }, false, ['encrypt', 'decrypt']);
+}
+async function seal(key, obj) {
+  const iv = crypto.getRandomValues(new Uint8Array(12));
+  const c = new Uint8Array(await crypto.subtle.encrypt({ name: 'AES-GCM', iv }, key, te.encode(JSON.stringify(obj))));
+  return { i: b64(iv), c: b64(c) };
+}
+async function unseal(key, box) { return JSON.parse(td.decode(await crypto.subtle.decrypt({ name: 'AES-GCM', iv: unb64(box.i) }, key, unb64(box.c)))); }
+async function sealPw(pass, obj) { const s = b64(crypto.getRandomValues(new Uint8Array(16))); return { s, ...(await seal(await pwKey(pass, s), obj)) }; }
+async function unsealPw(pass, box) { return unseal(await pwKey(pass, box.s), box); }
+const rawKey = k => crypto.subtle.importKey('raw', unb64(k), 'AES-GCM', false, ['encrypt', 'decrypt']);
+function genPass() {
+  const A = 'ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnpqrstuvwxyz23456789', r = crypto.getRandomValues(new Uint8Array(12));
+  let s = ''; r.forEach(b => s += A[b % A.length]); return s.slice(0, 4) + '-' + s.slice(4, 8) + '-' + s.slice(8, 12);
+}
+
+// ── GitHub Contents API ──────────────────────────────────────────────────────
+const ghHeaders = token => ({ Authorization: 'Bearer ' + token, Accept: 'application/vnd.github+json', 'X-GitHub-Api-Version': '2022-11-28' });
+async function ghGet(repo, token, path) {
+  const res = await fetch(`https://api.github.com/repos/${repo}/contents/${path}?t=${Date.now()}_${Math.random().toString(36).slice(2)}`, { headers: ghHeaders(token), cache: 'no-store' });
+  if (res.status === 404) return { data: null, sha: null };
+  if (res.status === 401 || res.status === 403) throw new Error('el token no tiene acceso (' + res.status + ')');
+  if (!res.ok) throw new Error('GitHub respondió ' + res.status);
+  const j = await res.json();
+  return { data: JSON.parse(decodeURIComponent(escape(atob(j.content.replace(/\n/g, ''))))), sha: j.sha };
+}
+async function ghPut(repo, token, path, data, mensaje) {
+  const content = btoa(unescape(encodeURIComponent(JSON.stringify(data, null, 1))));
+  for (let intento = 0; intento < 2; intento++) {
+    const { sha } = await ghGet(repo, token, path);
+    const res = await fetch(`https://api.github.com/repos/${repo}/contents/${path}`, {
+      method: 'PUT', headers: ghHeaders(token),
+      body: JSON.stringify({ message: mensaje, content, ...(sha ? { sha } : {}) }) });
+    if (res.ok) return;
+    if (res.status === 401 || res.status === 403) throw new Error('el token no tiene permiso de escritura (' + res.status + ')');
+    if (res.status !== 409 && res.status !== 422) throw new Error('GitHub respondió ' + res.status);
+  }
+  throw new Error('conflicto al guardar, intenta de nuevo');
+}
+
+// ── Estado ───────────────────────────────────────────────────────────────────
+let CFG = null;            // data/socios_tinbet.json
+let STORES = [];           // tiendas Tinbet de puntos.json
+let DIAS = new Map();      // ID → Map(fecha → {t, r, p})
+let MESES_DATA = [];       // ['2026-11', '2026-10'] (más reciente primero)
+let PREMIOS_OK = false;    // hay archivo de premios pagados
+let USER = null;           // entrada del socio
+let KB64 = null;           // clave del portal (base64)
+let ADMIN = null;          // {gh, k} cuando entra el admin
+let DATA_TOKEN = null;     // token del repo de facturación
+let HIST = { meses: {} }, HIST_OK = false;
+let PER = null;
+let _datos = null;
+
+async function loadJSON(url) {
+  const r = await fetch(url, { cache: 'no-cache' });
+  if (!r.ok) throw new Error(url + ' ' + r.status);
+  return JSON.parse((await r.text()).replace(/^﻿/, ''));
+}
+const filas = d => d ? (d.body || d.ventas || (Array.isArray(d) ? d : [])) : [];
+
+async function cargarCfg() {
+  CFG = await loadJSON('../' + CFG_PATH + '?t=' + Date.now());
+  normalizarCfg();
+}
+function normalizarCfg() {
+  CFG.esquemas = CFG.esquemas || { base: JSON.parse(JSON.stringify(ESQ_REF)) };
+  CFG.esquema_default = CFG.esquema_default && CFG.esquemas[CFG.esquema_default] ? CFG.esquema_default : Object.keys(CFG.esquemas)[0];
+  CFG.socios = CFG.socios || [];
+  CFG.incentivos = CFG.incentivos || [];
+}
+
+function cargarDatos() {
+  if (_datos) return _datos;
+  _datos = (async () => {
+    const opt = f => loadJSON('../data/' + f + '.json').catch(() => null);
+    const [pts, mes, mesP, ras, rasP, pre, preP] = await Promise.all([
+      loadJSON('../data/puntos.json'), opt('ventas_mes'), opt('ventas_mes_prev'),
+      opt('ventas_raspes'), opt('ventas_raspes_prev'), opt('premios_pagados'), opt('premios_pagados_prev')]);
+    const P = Array.isArray(pts) ? pts : (pts.body || Object.values(pts)[0]);
+    STORES = P.filter(p => String(p.responsable || '').toUpperCase() === PARTNER);
+    const ids = new Set(STORES.map(s => String(s.ID)));
+    // Clave tienda|fecha|juego para no duplicar si un día aparece en los dos archivos
+    const acc = (rows, campo, soloTotal) => {
+      const m = new Map();
+      rows.forEach(v => {
+        const id = String(v.org_code), f = String(v.fecha || '').slice(0, 10);
+        if (!ids.has(id) || !f || f > AYER) return;
+        if (soloTotal && v.tipo_juego !== 'TOTAL') return;
+        m.set(id + '|' + f + '|' + (v.tipo_juego || ''), +v.total || 0);
+      });
+      m.forEach((val, k) => {
+        const [id, f] = k.split('|');
+        if (!DIAS.has(id)) DIAS.set(id, new Map());
+        const d = DIAS.get(id); if (!d.has(f)) d.set(f, { t: 0, r: 0, p: 0 });
+        d.get(f)[campo] += val;
+      });
+    };
+    acc([...filas(mesP), ...filas(mes)], 't', true);
+    acc([...filas(rasP), ...filas(ras)], 'r', false);
+    const prem = [...filas(preP), ...filas(pre)];
+    PREMIOS_OK = prem.length > 0;
+    acc(prem, 'p', false);
+    const ms = new Set();
+    DIAS.forEach(d => d.forEach((_, f) => ms.add(f.slice(0, 7))));
+    MESES_DATA = [...ms].sort().reverse().slice(0, 2);
+  })();
+  return _datos;
+}
+
+// ── Cálculo ──────────────────────────────────────────────────────────────────
+function esquemaDe(u) { return (CFG.esquemas[u && u.esquema] || CFG.esquemas[CFG.esquema_default] || ESQ_REF); }
+function tramoIdx(esq, v) { const i = esq.tramos.findIndex(t => t.hasta == null || v <= t.hasta); return i < 0 ? esq.tramos.length - 1 : i; }
+function tiendasDe(u) {
+  const gz = new Set((u.gz || []).map(normGz));
+  return STORES.filter(s => gz.has(normGz(s.gz)) && (s.estado === 'ACTIVO' || DIAS.has(String(s.ID))));
+}
+function infoMes(ym) {
+  const [y, m] = ym.split('-').map(Number), diasMes = new Date(y, m, 0).getDate();
+  const cerrado = ym < HOY.slice(0, 7);
+  const diasDatos = cerrado ? diasMes : (AYER.slice(0, 7) === ym ? +AYER.slice(8) : 0);
+  return { ym, y, m, diasMes, cerrado, diasDatos };
+}
+// Venta por tienda en un mes, hasta el día `hasta` (inclusive)
+function ventasMes(stores, ym, hasta) {
+  const im = infoMes(ym);
+  return stores.map(s => {
+    const daily = Array.from({ length: im.diasMes }, () => ({ t: 0, r: 0, p: 0 }));
+    let t = 0, r = 0, p = 0;
+    (DIAS.get(String(s.ID)) || new Map()).forEach((x, f) => {
+      if (f.slice(0, 7) !== ym) return;
+      const d = +f.slice(8); if (d > hasta) return;
+      daily[d - 1] = x; t += x.t; r += x.r; p += x.p;
+    });
+    return { s, cod: s.ID, nombre: s.nombre, zona: [s.distrito, s.zona].filter(Boolean).join(' · '), daily, tot: t, ras: r, lot: Math.max(0, t - r), pre: p };
+  });
+}
+function calcular(ts, esq, im) {
+  const k = im.diasDatos ? im.diasMes / im.diasDatos : 1;
+  let cLot = 0, cRas = 0, cPre = 0, cProy = 0;
+  ts.forEach(t => {
+    t.ti = tramoIdx(esq, t.lot); t.tasa = esq.tramos[t.ti].pct / 100;
+    const a = r2(t.lot * t.tasa), b = r2(t.ras * esq.raspas / 100), c = r2(t.pre * esq.premios / 100);
+    t.com = r2(a + b + c);
+    const lp = t.lot * k;
+    cProy += lp * esq.tramos[tramoIdx(esq, lp)].pct / 100 + t.ras * k * esq.raspas / 100 + t.pre * k * esq.premios / 100;
+    cLot += a; cRas += b; cPre += c;
+  });
+  const sum = f => ts.reduce((a, t) => a + t[f], 0);
+  cLot = r2(cLot); cRas = r2(cRas); cPre = r2(cPre);
+  const sub = r2(cLot + cRas + cPre), igv = r2(sub * esq.igv / 100);
+  return { cLot, cRas, cPre, sub, igv, tot: r2(sub + igv), cProy, totProy: cProy * (1 + esq.igv / 100), venta: sum('tot'), lot: sum('lot'), ras: sum('ras'), pre: sum('pre') };
+}
+
+// ── Login ────────────────────────────────────────────────────────────────────
+$('lg-form').addEventListener('submit', async e => {
+  e.preventDefault();
+  const u = $('u').value.trim().toLowerCase(), p = $('p').value, err = $('lg-err'), btn = $('lg-btn');
+  if (!u || !p) { err.textContent = 'Escribe tu usuario y tu contraseña.'; return; }
+  btn.disabled = true; btn.textContent = 'Verificando…'; err.textContent = '';
+  try {
+    if (!CFG) await cargarCfg();
+    if (u === 'admin') {
+      if (!CFG.admin) throw new Error('cfg');
+      ADMIN = await unsealPw(p, CFG.admin).catch(() => null);
+      if (!ADMIN) throw new Error('cred');
+      KB64 = ADMIN.k; $('p').value = '';
+      await abrirAdmin();
+      return;
+    }
+    const s = CFG.socios.find(x => x.u === u);
+    const box = s && s.activo !== false && s.cred ? await unsealPw(p, s.cred).catch(() => null) : null;
+    if (!box) throw new Error('cred');
+    KB64 = box.k; USER = s; $('p').value = '';
+    try { sessionStorage.setItem(SESS_KEY, JSON.stringify({ u, k: KB64 })); } catch (_) {}
+    await abrirPortal();
+  } catch (ex) {
+    err.textContent = ex.message === 'cred' ? 'Usuario o contraseña incorrectos. Revisa los datos e inténtalo otra vez.'
+      : ex.message === 'cfg' ? 'El portal aún no está configurado.' : 'No se pudo ingresar: ' + ex.message;
+  } finally { btn.disabled = false; btn.textContent = 'Ingresar'; }
+});
+
+function logout() {
+  if (_sucio && !confirm('Tienes cambios sin publicar. ¿Salir igual?')) return;
+  _sucio = false;
+  try { sessionStorage.removeItem(SESS_KEY); } catch (_) {}
+  USER = null; KB64 = null; ADMIN = null; DATA_TOKEN = null; HIST = { meses: {} }; HIST_OK = false;
+  $('app').hidden = true; $('admin').hidden = true; $('login').hidden = false; $('savebar').hidden = true;
+  window.scrollTo(0, 0);
+}
+
+async function tokenDatos() {
+  if (DATA_TOKEN || !CFG.dataRepo || !CFG.dataToken || !KB64) return DATA_TOKEN;
+  try { DATA_TOKEN = (await unseal(await rawKey(KB64), CFG.dataToken)).t; } catch (_) { DATA_TOKEN = null; }
+  return DATA_TOKEN;
+}
+async function cargarHistorial() {
+  HIST = { meses: {} }; HIST_OK = false;
+  const tk = await tokenDatos();
+  if (!tk) return;
+  try { const { data } = await ghGet(CFG.dataRepo, tk, `historial/${USER.u}.json`); HIST = data && data.meses ? data : { meses: {} }; HIST_OK = true; }
+  catch (e) { console.warn('historial', e); }
+}
+
+async function abrirPortal() {
+  $('login').hidden = true; $('admin').hidden = true; $('loading').hidden = false;
+  await cargarDatos();
+  await cargarHistorial();
+  $('loading').hidden = true; $('app').hidden = false;
+  $('adm-banner').hidden = !ADMIN;
+  if (ADMIN) $('adm-banner-t').textContent = `Vista de administrador: estás viendo el portal de ${USER.nombre || USER.u}.`;
+  PER = MESES_DATA[0] || HOY.slice(0, 7);
+  render(); window.scrollTo(0, 0);
+}
+
+// ── Portal ───────────────────────────────────────────────────────────────────
+function setPer(ym) { PER = ym; render(); }
+function render() {
+  const esq = esquemaDe(USER), stores = tiendasDe(USER), im = infoMes(PER);
+  const ts = ventasMes(stores, PER, im.diasDatos), R = calcular(ts, esq, im);
+  const enCurso = !im.cerrado;
+  // Mes anterior al mismo corte, para comparar
+  const prevYm = MESES_DATA.find(m => m < PER);
+  let Rc = null;
+  if (prevYm) { const ip = infoMes(prevYm); Rc = calcular(ventasMes(stores, prevYm, enCurso ? Math.min(im.diasDatos, ip.diasMes) : ip.diasMes), esq, ip); }
+
+  $('s-name').textContent = USER.nombre || USER.u;
+  $('s-meta').textContent = `${USER.tipo || 'Franquiciado'} · Tinbet · ${stores.length} tienda${stores.length === 1 ? '' : 's'}`;
+  $('per').innerHTML = MESES_DATA.slice().reverse().map(m => `<button type="button" class="${m === PER ? 'on' : ''}" onclick="setPer('${m}')">${MESES[+m.slice(5) - 1]}</button>`).join('');
+  $('h-title').textContent = cap(nomMes(PER)) + (enCurso ? ' · en curso' : ' · cerrado');
+  const fAyer = new Date(AYER + 'T12:00:00Z').toLocaleDateString('es-PE', { weekday: 'long', day: 'numeric', month: 'long', timeZone: 'UTC' }).replace(',', '');
+  $('h-sub').textContent = enCurso ? `Datos al ${fAyer}. Se actualiza cada día.` : 'Mes cerrado.';
+
+  if (!stores.length) {
+    $('earn').innerHTML = `<div class="empty-state" style="grid-column:1/-1">Todavía no tienes tiendas asignadas. Escríbele a tu ejecutivo comercial de Lotobola.</div>`;
+  } else {
+    const dV = Rc && Rc.venta > 0 ? (R.venta / Rc.venta - 1) * 100 : null;
+    const pct = enCurso ? (R.cProy > 0 ? Math.min(R.sub / R.cProy * 100, 100) : 0) : 100;
+    $('earn').innerHTML = `
+      <img class="llama" src="../sources/logos-games/suerte-3.png" alt="">
+      <div style="position:relative;z-index:1;min-width:0">
+        <div class="lbl">${enCurso ? 'Llevas ganado este mes' : 'Ganaste en ' + MESES[im.m - 1]}</div>
+        <div class="big num">${fmt2(R.sub)}</div>
+        <div class="igv num">${fmt2(R.tot)} con IGV · ${enCurso ? 'comisión a la fecha' : 'comisión del mes'}</div>
+        <div class="track" aria-hidden="true"><i style="width:${pct.toFixed(1)}%"></i></div>
+        <div class="tlab num">${enCurso
+          ? `<span>Proyección al cierre: <b>${fmt(R.cProy)}</b> si mantienes el ritmo</span><span>Faltan ${im.diasMes - im.diasDatos} días</span>`
+          : `<span>Mes cerrado</span><span>${ts.length} tienda${ts.length === 1 ? '' : 's'}</span>`}</div>
+      </div>
+      <div class="side num">
+        <div class="mini"><span>Venta acumulada</span><b>${fmt(R.venta)}</b>${dV === null ? '' : ` <em class="${dV >= 0 ? 'up' : 'dn'}">${dV >= 0 ? '▲' : '▼'} ${Math.abs(dV).toFixed(1)}%</em><small>vs ${MESES[+prevYm.slice(5) - 1]}${enCurso ? ' al mismo día' : ''}</small>`}</div>
+        <div class="mini"><span>Premios pagados</span>${PREMIOS_OK ? `<b>${fmt(R.pre)}</b>` : '<b>—</b><small>Dato en preparación</small>'}</div>
+      </div>`;
+  }
+
+  // Comprobante
+  const h = HIST.meses[PER] || {};
+  const st = enCurso ? ['pre', 'PRELIMINAR'] : h.estado === 'pagado' ? ['pag', 'PAGADO'] : h.estado === 'facturado' ? ['fac', 'FACTURADO'] : ['pen', 'POR FACTURAR'];
+  let hsh = 0; for (const c of USER.u) hsh = (hsh * 31 + c.charCodeAt(0)) % 9000;
+  $('rcpt').innerHTML = `
+    <div class="rc-head"><img src="../sources/logos-games/lotobola.webp" alt="Lotobola"><div class="no">Liquidación de comisiones<b>LQ-${PER}-${1000 + hsh}</b>${cap(nomMes(PER))}${enCurso ? ' · al ' + fCorta(AYER).slice(0, 5) : ''}</div></div>
+    <div class="rc-who"><span class="stamp ${st[0]}">${st[1]}</span><b>${esc(USER.nombre || USER.u)}</b><br>${esc(USER.tipo || 'Franquiciado')} · ${ts.length} tienda${ts.length === 1 ? '' : 's'}${h.factura ? ' · Factura ' + esc(h.factura) : ''}</div>
+    <ul class="rc-lines num">
+      <li><span>Comisión loterías<small>Venta ${fmt(R.lot)} · tasa por tramo</small></span><b>${fmt2(R.cLot)}</b></li>
+      <li><span>Comisión raspas ${esq.raspas}%<small>Venta ${fmt(R.ras)}</small></span><b>${fmt2(R.cRas)}</b></li>
+      <li><span>Pago de premios ${esq.premios}%<small>${PREMIOS_OK ? 'Premios pagados ' + fmt(R.pre) : 'Dato en preparación'}</small></span><b>${PREMIOS_OK ? fmt2(R.cPre) : '—'}</b></li>
+      <li class="sep"><span><b>Subtotal</b></span><b>${fmt2(R.sub)}</b></li>
+      <li class="mut"><span>IGV ${esq.igv}%</span><b>${fmt2(R.igv)}</b></li>
+    </ul>
+    <div class="rc-total num"><span>Total a facturar</span><b>${fmt2(R.tot)}</b></div>`;
+  const rng = (t, i) => { const min = i ? esq.tramos[i - 1].hasta : 0; return t.hasta == null ? `Más de S/ ${min.toLocaleString('es-PE')}` : i ? `S/ ${(min + 1).toLocaleString('es-PE')} – ${t.hasta.toLocaleString('es-PE')}` : `Hasta S/ ${t.hasta.toLocaleString('es-PE')}`; };
+  $('how-body').innerHTML = `<p>Loterías (PozoPower, Go, Elige 3, LakiDey, Turbito): la tasa depende de la venta del mes <b>de cada tienda</b> y se aplica a toda su venta de loterías.</p>
+    <div class="scale num">${esq.tramos.map((t, i) => `<div>${rng(t, i)}<b>${t.pct}%</b></div>`).join('')}</div>
+    <p>Raspas: ${esq.raspas}% fijo. Pago de premios: ${esq.premios}% de los premios que tus tiendas pagan a los clientes. Al total se le suma el ${esq.igv}% de IGV para tu factura.</p>`;
+
+  drawChart(stores, PER, im, prevYm);
+  renderTramos(ts, esq, enCurso, R);
+  renderIncentivos();
+  renderHist(stores, esq);
+}
+
+function drawChart(stores, ym, im, prevYm) {
+  const W = 640, H = 240, L = 58, Rr = 14, T = 14, B = 30;
+  const cum = (ymX, n) => { const ts = ventasMes(stores, ymX, n); const out = []; let a = 0; for (let d = 0; d < n; d++) { ts.forEach(t => a += t.daily[d] ? t.daily[d].t : 0); out.push(a); } return out; };
+  const days = im.diasMes;
+  const ca = cum(ym, Math.max(im.diasDatos, 1));
+  const cb = prevYm ? cum(prevYm, Math.min(infoMes(prevYm).diasMes, days)) : null;
+  const max = Math.max(1, ...ca, ...(cb || [0])) * 1.08;
+  const step = [50, 100, 200, 500, 1000, 2000, 5000, 10000, 20000, 50000, 100000, 200000, 500000, 1000000].find(s => max / s <= 5) || 2000000;
+  const top = Math.ceil(max / step) * step;
+  const x = d => L + (d - 1) / (days - 1) * (W - L - Rr), y = v => T + (1 - v / top) * (H - T - B);
+  let g = '';
+  for (let v = 0; v <= top; v += step) g += `<line x1="${L}" x2="${W - Rr}" y1="${y(v)}" y2="${y(v)}" stroke="var(--line)"/><text x="${L - 8}" y="${y(v) + 4}" text-anchor="end" font-size="11" fill="var(--muted)">${v >= 1000 ? (v / 1000) + 'k' : v}</text>`;
+  [1, 8, 15, 22, days].forEach(d => g += `<text x="${x(d)}" y="${H - 8}" text-anchor="middle" font-size="11" fill="var(--muted)">${d}</text>`);
+  const path = arr => arr.map((v, i) => (i ? 'L' : 'M') + x(i + 1).toFixed(1) + ' ' + y(v).toFixed(1)).join(' ');
+  const last = ca.length, lv = ca[last - 1];
+  const area = path(ca) + ` L${x(last).toFixed(1)} ${y(0)} L${x(1)} ${y(0)} Z`;
+  $('chart').innerHTML = `<defs><linearGradient id="ga" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="var(--brand)" stop-opacity=".28"/><stop offset="1" stop-color="var(--brand)" stop-opacity="0"/></linearGradient></defs>
+    ${g}
+    ${cb ? `<path d="${path(cb)}" fill="none" stroke="var(--muted)" stroke-opacity=".55" stroke-width="2" stroke-dasharray="5 5"/>` : ''}
+    <path d="${area}" fill="url(#ga)"/>
+    <path d="${path(ca)}" fill="none" stroke="var(--brand)" stroke-width="3" stroke-linejoin="round"/>
+    <circle cx="${x(last)}" cy="${y(lv)}" r="5" fill="var(--brand)" stroke="var(--surf)" stroke-width="2"/>
+    <text x="${Math.min(x(last) + 8, W - Rr - 70)}" y="${y(lv) - 10}" font-size="12" font-weight="800" fill="var(--fg)">${fmt(lv)}</text>`;
+  $('ch-hint').textContent = cb ? `Día a día, comparado con ${MESES[+prevYm.slice(5) - 1]}.` : 'Día a día.';
+  $('lg-a').textContent = cap(MESES[im.m - 1]);
+  $('lg-b-w').hidden = !cb;
+  if (cb) $('lg-b').textContent = cap(MESES[+prevYm.slice(5) - 1]);
+}
+
+function renderTramos(ts, esq, enCurso, R) {
+  const n = esq.tramos.length;
+  $('stairs').style.setProperty('--n', n);
+  $('stairs').innerHTML = esq.tramos.map((tr, i) => {
+    const min = i ? esq.tramos[i - 1].hasta : 0;
+    const en = ts.filter(t => t.ti === i).sort((a, b) => b.lot - a.lot);
+    const chips = en.map(t => {
+      const prog = tr.hasta == null ? 100 : Math.max(0, Math.min((t.lot - min) / (tr.hasta - min) * 100, 100));
+      const nota = !enCurso ? '' : tr.hasta != null ? `<div class="f">Faltan ${fmt(tr.hasta + 1 - t.lot)} para ${esq.tramos[i + 1].pct}%</div>` : '<div class="f top">Tramo máximo</div>';
+      return `<div class="chip" title="${esc(t.nombre)} · ${esc(t.cod)}"><div class="n"><span>${esc(t.nombre)}</span><span>${fmt(t.lot)}</span></div><div class="pb"><i style="width:${prog.toFixed(0)}%"></i></div>${nota}</div>`;
+    }).join('');
+    const rango = tr.hasta == null ? `Más de ${fmt(min)}` : i ? `${fmt(min + 1)} a ${fmt(tr.hasta)}` : `Hasta ${fmt(tr.hasta)}`;
+    const cls = 's' + Math.min(3, Math.round(i * 3 / Math.max(1, n - 1)));
+    return `<div class="step ${cls}"><div class="cap"><span>${n === 4 ? TRAMO_NOM[i] : 'Tramo ' + (i + 1)}</span><b>${tr.pct}%</b><em>${en.length}</em></div><div class="rng num">${rango} en loterías</div><div class="chips num">${chips || '<div class="empty">Ninguna tienda aquí todavía</div>'}</div></div>`;
+  }).join('');
+  $('st-hint').textContent = enCurso ? 'Mientras más vende una tienda en loterías, mayor es su comisión. Cada barra muestra cuánto le falta para subir al siguiente tramo.' : 'Tramo en que cerró cada tienda.';
+  const sorted = [...ts].sort((a, b) => b.tot - a.tot);
+  const rows = sorted.map(t => {
+    let nudge = '';
+    if (enCurso) nudge = t.ti < n - 1 ? `<span class="nudge">Faltan ${fmt(esq.tramos[t.ti].hasta + 1 - t.lot)} para ${esq.tramos[t.ti + 1].pct}%</span>` : '<span class="nudge done">Tramo máximo</span>';
+    const tc = 't' + Math.min(3, Math.round(t.ti * 3 / Math.max(1, n - 1)));
+    return `<tr>
+      <td class="sname"><b>${esc(t.nombre)}</b><span>${esc(t.cod)} · ${esc(t.zona)}</span></td>
+      <td class="r">${fmt(t.lot)}</td><td class="r">${fmt(t.ras)}</td><td class="r">${PREMIOS_OK ? fmt(t.pre) : '—'}</td>
+      <td><span class="tier ${tc}">${esq.tramos[t.ti].pct}%</span></td>
+      <td class="r"><b>${fmt2(t.com)}</b></td>
+      ${enCurso ? `<td>${nudge}</td>` : ''}
+    </tr>`;
+  }).join('');
+  $('stores').innerHTML = `<thead><tr><th>Tienda</th><th class="r">Loterías</th><th class="r">Raspas</th><th class="r">Premios pagados</th><th>Tramo</th><th class="r">Comisión</th>${enCurso ? '<th>Para subir de tramo</th>' : ''}</tr></thead>
+    <tbody>${rows || `<tr><td colspan="7" class="empty-state">Sin tiendas</td></tr>`}</tbody>
+    <tfoot><tr><td>Total ${ts.length} tienda${ts.length === 1 ? '' : 's'}</td><td class="r">${fmt(R.lot)}</td><td class="r">${fmt(R.ras)}</td><td class="r">${PREMIOS_OK ? fmt(R.pre) : '—'}</td><td></td><td class="r">${fmt2(R.sub)}</td>${enCurso ? '<td></td>' : ''}</tr></tfoot>`;
+}
+
+// Incentivos vigentes: ranking por venta total del socio entre desde y hasta (con corte a ayer).
+function ventaSocioRango(u, desde, hasta) {
+  let v = 0;
+  tiendasDe(u).forEach(s => (DIAS.get(String(s.ID)) || new Map()).forEach((x, f) => { if (f >= desde && f <= hasta) v += x.t; }));
+  return v;
+}
+function renderIncentivos() {
+  const vig = CFG.incentivos.filter(i => i.desde <= HOY && HOY <= i.hasta);
+  const primerDato = [...DIAS.values()].reduce((m, d) => { d.forEach((_, f) => { if (!m || f < m) m = f; }); return m; }, null);
+  $('incs').innerHTML = vig.map(inc => {
+    const hasta = inc.hasta < AYER ? inc.hasta : AYER;
+    const rk = CFG.socios.filter(s => s.activo !== false).map(s => ({ u: s.u, v: ventaSocioRango(s, inc.desde, hasta) })).sort((a, b) => b.v - a.v);
+    const pos = rk.findIndex(r => r.u === USER.u) + 1;
+    const mia = pos ? rk[pos - 1].v : ventaSocioRango(USER, inc.desde, hasta);
+    const meta = +inc.meta || 0, av = meta ? Math.min(mia / meta * 100, 100) : null;
+    const parcial = primerDato && inc.desde < primerDato ? ` (desde el ${fCorta(primerDato)})` : '';
+    return `<section class="card inc">
+      <div class="badge"><div><b>${pos ? '#' + pos : '—'}</b><small>TU PUESTO</small></div></div>
+      <div>
+        <h2>${esc(inc.titulo)}</h2>
+        <p>${esc(inc.descripcion || '')}${inc.premio ? ' <b>Premio: ' + esc(inc.premio) + '.</b>' : ''} Solo ves tu propio puesto y tu avance.</p>
+        ${av !== null ? `<div class="bar"><i style="width:${av.toFixed(1)}%"></i></div>` : ''}
+        <div class="meta num"><span>Llevas <b>${fmt(mia)}</b>${parcial}${meta ? ` de tu meta ${fmt(meta)} (${av.toFixed(0)}%)` : ' en venta'}</span><span>Cierra el ${fCorta(inc.hasta)}</span></div>
+      </div></section>`;
+  }).join('');
+}
+
+// ── Historial de liquidaciones (lo registra el socio) ───────────────────────
+function montoMes(stores, esq, ym) {
+  if (!MESES_DATA.includes(ym)) return null;
+  const im = infoMes(ym), R = calcular(ventasMes(stores, ym, im.diasDatos), esq, im);
+  return { tot: im.cerrado ? R.tot : r2(R.totProy), proy: !im.cerrado };
+}
+let _hEdit = null;
+function renderHist(stores, esq) {
+  const yms = [...new Set([...MESES_DATA, ...Object.keys(HIST.meses || {})])].sort().reverse();
+  const puede = HIST_OK && !!DATA_TOKEN;
+  $('hist-hint').textContent = puede ? 'Lo que se facturó y pagó cada mes. Registra aquí tu factura y cuándo te pagaron.'
+    : 'Lo que se facturó y pagó cada mes. El registro de facturas y pagos se habilitará pronto.';
+  $('hist').innerHTML = yms.map(ym => {
+    const im = infoMes(ym), h = (HIST.meses || {})[ym] || {}, m = montoMes(stores, esq, ym);
+    const monto = m ? m.tot : h.monto;
+    const enCurso = !im.cerrado;
+    const est = enCurso ? 'run' : h.estado || 'pendiente';
+    const pill = est === 'run' ? '<span class="pill run">En curso</span>' : est === 'pagado' ? '<span class="pill paid">Pagado</span>' : est === 'facturado' ? '<span class="pill inv">Facturado</span>' : '<span class="pill pend">Por facturar</span>';
+    const det = enCurso ? 'Se factura al cierre del mes'
+      : est === 'pagado' ? `Pagado${h.fechaPago ? ' el ' + fCorta(h.fechaPago) : ''}${h.factura ? ' · Factura ' + esc(h.factura) : ''}`
+      : est === 'facturado' ? `Factura ${esc(h.factura || '')}${h.fechaFactura ? ' emitida el ' + fCorta(h.fechaFactura) : ''}`
+      : 'Mes cerrado, falta registrar la factura';
+    const btn = puede && !enCurso ? `<button class="btn sec sm hbtn" type="button" onclick="editarHist('${ym}')">${_hEdit === ym ? 'Cerrar' : 'Registrar'}</button>` : '<span class="hbtn"></span>';
+    const form = _hEdit === ym ? `<div class="hform">
+        <label>Estado<select id="h-e"><option value="pendiente">Por facturar</option><option value="facturado">Facturado</option><option value="pagado">Pagado</option></select></label>
+        <label>N° de factura<input id="h-f" type="text" value="${esc(h.factura || '')}" placeholder="F001-000123"></label>
+        <label>Fecha de factura<input id="h-ff" type="date" value="${esc(h.fechaFactura || '')}"></label>
+        <label>Fecha de pago<input id="h-fp" type="date" value="${esc(h.fechaPago || '')}"></label>
+        <label style="grid-column:1/-1">Nota (opcional)<input id="h-n" type="text" value="${esc(h.nota || '')}" maxlength="200"></label>
+        <div class="act"><span class="msg" id="h-msg"></span><button class="btn sm" type="button" onclick="guardarHist('${ym}', ${monto == null ? 'null' : monto})">Guardar</button></div>
+      </div>` : '';
+    return `<div class="hrow"><div><b>${cap(nomMes(ym))}</b><br><span>${det}</span></div><span class="amt">${monto == null ? '—' : fmt2(monto)}${m && m.proy ? ' <span>proy.</span>' : ''}</span>${pill}${btn}${form}</div>`;
+  }).join('') || '<div class="empty-state">Sin meses para mostrar.</div>';
+  if (_hEdit && $('h-e')) $('h-e').value = ((HIST.meses || {})[_hEdit] || {}).estado || 'pendiente';
+}
+function editarHist(ym) { _hEdit = _hEdit === ym ? null : ym; renderHist(tiendasDe(USER), esquemaDe(USER)); }
+async function guardarHist(ym, monto) {
+  const msg = $('h-msg'), estado = $('h-e').value;
+  const reg = { estado, factura: $('h-f').value.trim(), fechaFactura: $('h-ff').value, fechaPago: $('h-fp').value, nota: $('h-n').value.trim(), monto, updated: new Date().toISOString() };
+  if (estado !== 'pendiente' && !reg.factura) { msg.className = 'msg err'; msg.textContent = 'Escribe el número de factura.'; return; }
+  if (estado === 'pagado' && !reg.fechaPago) { msg.className = 'msg err'; msg.textContent = 'Indica la fecha de pago.'; return; }
+  msg.className = 'msg'; msg.textContent = 'Guardando…';
+  try {
+    const tk = await tokenDatos();
+    const { data } = await ghGet(CFG.dataRepo, tk, `historial/${USER.u}.json`);
+    const nuevo = data && data.meses ? data : { usuario: USER.u, meses: {} };
+    nuevo.meses[ym] = reg; nuevo.updated = reg.updated;
+    await ghPut(CFG.dataRepo, tk, `historial/${USER.u}.json`, nuevo, `historial ${USER.u} ${ym}: ${estado}`);
+    HIST = nuevo; _hEdit = null; render();
+  } catch (e) { msg.className = 'msg err'; msg.textContent = 'No se pudo guardar: ' + e.message; }
+}
+
+// ── Administración ───────────────────────────────────────────────────────────
+let _sucio = false, _editU = null, _nuevas = [];
+function sucio() { _sucio = true; $('savebar').hidden = false; $('save-t').textContent = 'Tienes cambios sin publicar.'; }
+window.addEventListener('beforeunload', e => { if (_sucio) { e.preventDefault(); e.returnValue = ''; } });
+
+async function abrirAdmin() {
+  $('login').hidden = true; $('app').hidden = true; $('loading').hidden = false;
+  try {
+    const { data } = await ghGet(REPO, ADMIN.gh, CFG_PATH);   // versión de main, sin esperar a Pages
+    if (data) { CFG = data; normalizarCfg(); }
+  } catch (e) { alert('No se pudo leer la configuración desde GitHub (' + e.message + '). Se usa la publicada.'); }
+  await cargarDatos();
+  await tokenDatos();
+  $('loading').hidden = true; $('admin').hidden = false;
+  if (CFG.dataRepo) $('d-r').value = CFG.dataRepo;
+  pintarAdmin(); window.scrollTo(0, 0);
+}
+function volverAdmin() { USER = null; HIST = { meses: {} }; HIST_OK = false; _hEdit = null; $('app').hidden = true; $('admin').hidden = false; pintarAdmin(); }
+
+function gzConteo() {
+  const m = new Map();
+  STORES.forEach(s => {
+    const k = normGz(s.gz); if (!k) return;
+    if (!m.has(k)) m.set(k, { nombre: String(s.gz).trim(), total: 0, activas: 0 });
+    const e = m.get(k); e.total++; if (s.estado === 'ACTIVO') e.activas++;
+  });
+  return m;
+}
+function pintarAdmin() {
+  const GZ = gzConteo();
+  $('adm-socios').innerHTML = `<thead><tr><th>Usuario</th><th>Socio</th><th class="r">Tiendas</th><th>Tipo</th><th>Esquema</th><th>Acceso</th><th>Acciones</th></tr></thead><tbody>${
+    CFG.socios.map(s => `<tr>
+      <td><b>${esc(s.u)}</b></td>
+      <td class="sname"><b>${esc(s.nombre || '')}</b><span>${(s.gz || []).map(esc).join(' · ')}</span></td>
+      <td class="r">${tiendasDe(s).length}</td>
+      <td>${esc(s.tipo || 'Franquiciado')}</td>
+      <td>${esc(s.esquema || CFG.esquema_default)}${s.esquema ? '' : ' <span class="hint">(defecto)</span>'}</td>
+      <td><span class="tag ${s.activo === false ? 'off' : 'on'}">${s.activo === false ? 'De baja' : 'Activo'}</span></td>
+      <td><div class="acts">
+        <button class="btn sec sm" type="button" onclick="verComo('${esc(s.u)}')">Ver</button>
+        <button class="btn sec sm" type="button" onclick="editarSocio('${esc(s.u)}')">Editar</button>
+        <button class="btn sec sm" type="button" onclick="resetPass('${esc(s.u)}')">Nueva contraseña</button>
+        <button class="btn sec sm" type="button" onclick="toggleSocio('${esc(s.u)}')">${s.activo === false ? 'Reactivar' : 'Dar de baja'}</button>
+        <button class="btn danger sm" type="button" onclick="borrarSocio('${esc(s.u)}')">Eliminar</button>
+      </div></td></tr>`).join('') || '<tr><td colspan="7" class="empty-state">Aún no hay socios. Créalos con el formulario de abajo.</td></tr>'
+  }</tbody>`;
+  $('newpw').innerHTML = _nuevas.length ? `<b>Contraseñas nuevas (cópialas ahora: no se vuelven a mostrar)</b>` + _nuevas.map(n =>
+    `<div><span>${esc(n.u)}</span><code>${esc(n.p)}</code><button class="btn sec sm" type="button" onclick="navigator.clipboard.writeText('Usuario: ${esc(n.u)}\\nContraseña: ${esc(n.p)}')">Copiar</button></div>`).join('') : '';
+  const opts = Object.keys(CFG.esquemas).map(k => `<option value="${esc(k)}">${esc(k)}</option>`).join('');
+  const fe = $('f-e'), fv = fe.value; fe.innerHTML = `<option value="">Por defecto (${esc(CFG.esquema_default)})</option>` + opts; fe.value = fv;
+  $('e-def').innerHTML = opts; $('e-def').value = CFG.esquema_default;
+  pintarGz(); pintarEsquemas(); pintarIncAdm();
+}
+
+let _gzSel = new Set();
+function pintarGz() {
+  const GZ = gzConteo(), q = normGz($('f-q').value);
+  const dueño = new Map(); CFG.socios.forEach(s => (s.gz || []).forEach(g => dueño.set(normGz(g), s.u)));
+  const lista = [...GZ.entries()].sort((a, b) => b[1].activas - a[1].activas || a[1].nombre.localeCompare(b[1].nombre));
+  $('f-gz').innerHTML = lista.filter(([k]) => !q || k.includes(q) || _gzSel.has(k)).map(([k, e]) => {
+    const otro = dueño.get(k) && dueño.get(k) !== _editU ? dueño.get(k) : '';
+    return `<label class="${otro ? 'taken' : ''}"><input type="checkbox" ${_gzSel.has(k) ? 'checked' : ''} onchange="selGz(this, '${esc(k).replace(/'/g, '&#39;')}')">${esc(e.nombre)}<small>${e.activas} activas / ${e.total}${otro ? ' · de ' + esc(otro) : ''}</small></label>`;
+  }).join('') || '<div class="empty-state">Sin coincidencias</div>';
+}
+function selGz(el, k) {
+  if (el.checked) {
+    _gzSel.add(k);
+    if (!$('f-n').value) $('f-n').value = gzConteo().get(k).nombre;
+    if (!$('f-u').value && !_editU) $('f-u').value = gzConteo().get(k).nombre.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/[^a-z0-9]+/g, '.').replace(/^\.|\.$/g, '').slice(0, 30);
+  } else _gzSel.delete(k);
+}
+function limpiarForm() {
+  _editU = null; _gzSel = new Set();
+  ['f-u', 'f-n', 'f-q'].forEach(id => $(id).value = ''); $('f-t').value = 'Franquiciado'; $('f-e').value = '';
+  $('f-u').disabled = false; $('frm-title').textContent = 'Nuevo socio'; $('f-save').textContent = 'Crear socio'; $('f-msg').textContent = '';
+  pintarGz();
+}
+function editarSocio(u) {
+  const s = CFG.socios.find(x => x.u === u); if (!s) return;
+  _editU = u; _gzSel = new Set((s.gz || []).map(normGz));
+  $('f-u').value = s.u; $('f-u').disabled = true; $('f-n').value = s.nombre || ''; $('f-t').value = s.tipo || 'Franquiciado'; $('f-e').value = s.esquema || '';
+  $('frm-title').textContent = 'Editar socio ' + u; $('f-save').textContent = 'Guardar cambios'; $('f-msg').textContent = '';
+  pintarGz(); $('frm-title').scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+async function guardarSocio() {
+  const msg = $('f-msg'), btn = $('f-save');
+  const u = $('f-u').value.trim().toLowerCase(), nombre = $('f-n').value.trim();
+  const GZ = gzConteo(), gz = [..._gzSel].map(k => (GZ.get(k) || {}).nombre || k);
+  if (!/^[a-z0-9._-]{3,40}$/.test(u) || u === 'admin') { msg.className = 'msg err'; msg.textContent = 'Usuario: 3 a 40 caracteres (letras, números, punto, guion). No puede ser “admin”.'; return; }
+  if (!gz.length) { msg.className = 'msg err'; msg.textContent = 'Marca al menos un nombre de socio (gz).'; return; }
+  const datos = { nombre: nombre || gz[0], tipo: $('f-t').value, esquema: $('f-e').value || null, gz };
+  if (_editU) {
+    Object.assign(CFG.socios.find(x => x.u === _editU), datos);
+    msg.className = 'msg ok'; msg.textContent = 'Cambios listos. Falta publicar.';
+  } else {
+    if (CFG.socios.some(x => x.u === u)) { msg.className = 'msg err'; msg.textContent = 'Ese usuario ya existe.'; return; }
+    btn.disabled = true; msg.className = 'msg'; msg.textContent = 'Creando…';
+    const p = genPass();
+    CFG.socios.push({ u, ...datos, activo: true, cred: await sealPw(p, { k: KB64 }), creado: new Date().toISOString() });
+    _nuevas.push({ u, p });
+    btn.disabled = false;
+  }
+  sucio(); limpiarForm(); pintarAdmin();
+}
+async function resetPass(u) {
+  if (!confirm(`¿Generar una contraseña nueva para ${u}? La anterior deja de funcionar al publicar.`)) return;
+  const s = CFG.socios.find(x => x.u === u), p = genPass();
+  s.cred = await sealPw(p, { k: KB64 });
+  _nuevas = _nuevas.filter(n => n.u !== u); _nuevas.push({ u, p });
+  sucio(); pintarAdmin();
+}
+function toggleSocio(u) { const s = CFG.socios.find(x => x.u === u); s.activo = s.activo === false; sucio(); pintarAdmin(); }
+function borrarSocio(u) {
+  if (!confirm(`¿Eliminar al socio ${u}? Pierde el acceso al publicar. Su historial de facturación se conserva.`)) return;
+  CFG.socios = CFG.socios.filter(x => x.u !== u); _nuevas = _nuevas.filter(n => n.u !== u);
+  sucio(); pintarAdmin();
+}
+async function verComo(u) {
+  USER = CFG.socios.find(x => x.u === u); if (!USER) return;
+  _hEdit = null;
+  $('admin').hidden = true; $('loading').hidden = false;
+  await cargarHistorial();
+  $('loading').hidden = true; $('app').hidden = false;
+  $('adm-banner').hidden = false; $('adm-banner-t').textContent = `Vista de administrador: estás viendo el portal de ${USER.nombre || USER.u}.`;
+  PER = MESES_DATA[0] || HOY.slice(0, 7); render(); window.scrollTo(0, 0);
+}
+
+function pintarEsquemas() {
+  $('esqs').innerHTML = Object.entries(CFG.esquemas).map(([k, e]) => {
+    const en = CFG.socios.filter(s => s.esquema === k).length;
+    return `<div class="esq">
+      <div class="esq-h"><b>${esc(k)}</b><span class="hint">${k === CFG.esquema_default ? 'Por defecto · ' : ''}${en} socio${en === 1 ? '' : 's'} con este esquema</span>
+        ${k !== CFG.esquema_default && !en ? `<button class="btn danger sm" type="button" onclick="borrarEsquema('${esc(k)}')">Eliminar</button>` : ''}</div>
+      <table><tr><td class="hint">Loterías hasta S/</td><td class="hint">Tasa %</td><td></td></tr>
+      ${e.tramos.map((t, i) => `<tr><td><input type="number" min="0" step="1" value="${t.hasta ?? ''}" placeholder="sin tope" onchange="setTramo('${esc(k)}', ${i}, 'hasta', this.value)"></td>
+        <td><input type="number" min="0" step="0.1" value="${t.pct}" onchange="setTramo('${esc(k)}', ${i}, 'pct', this.value)"></td>
+        <td>${e.tramos.length > 1 ? `<button class="btn sec sm" type="button" onclick="quitarTramo('${esc(k)}', ${i})">✕</button>` : ''}</td></tr>`).join('')}
+      </table>
+      <div class="acts" style="margin-top:6px"><button class="btn sec sm" type="button" onclick="agregarTramo('${esc(k)}')">+ Tramo</button></div>
+      <div class="row3">
+        <label>Raspas %<input type="number" min="0" step="0.1" value="${e.raspas}" onchange="setEsq('${esc(k)}', 'raspas', this.value)"></label>
+        <label>Premios %<input type="number" min="0" step="0.1" value="${e.premios}" onchange="setEsq('${esc(k)}', 'premios', this.value)"></label>
+        <label>IGV %<input type="number" min="0" step="0.1" value="${e.igv}" onchange="setEsq('${esc(k)}', 'igv', this.value)"></label>
+      </div></div>`;
+  }).join('');
+}
+function ordenarTramos(e) {
+  const fijos = e.tramos.filter(t => t.hasta != null).sort((a, b) => a.hasta - b.hasta);
+  const ult = e.tramos.find(t => t.hasta == null) || { hasta: null, pct: (fijos.length ? fijos[fijos.length - 1].pct : 0) };
+  e.tramos = [...fijos, ult];
+}
+function setTramo(k, i, campo, v) {
+  const e = CFG.esquemas[k];
+  if (campo === 'hasta') e.tramos[i].hasta = v === '' ? null : Math.max(0, Math.round(+v));
+  else e.tramos[i].pct = Math.max(0, +v || 0);
+  if (campo === 'hasta') { if (e.tramos.filter(t => t.hasta == null).length > 1) e.tramos[i].hasta = (e.tramos[i - 1]?.hasta || 0) + 1000; ordenarTramos(e); }
+  sucio(); pintarEsquemas();
+}
+function agregarTramo(k) {
+  const e = CFG.esquemas[k], fijos = e.tramos.filter(t => t.hasta != null);
+  e.tramos.splice(e.tramos.length - 1, 0, { hasta: (fijos.length ? fijos[fijos.length - 1].hasta : 0) + 1000, pct: e.tramos[e.tramos.length - 1].pct });
+  ordenarTramos(e); sucio(); pintarEsquemas();
+}
+function quitarTramo(k, i) { const e = CFG.esquemas[k]; e.tramos.splice(i, 1); ordenarTramos(e); sucio(); pintarEsquemas(); }
+function setEsq(k, campo, v) { CFG.esquemas[k][campo] = Math.max(0, +v || 0); sucio(); }
+function nuevoEsquema() {
+  const n = (prompt('Nombre del nuevo esquema (ej. "especial-norte"):') || '').trim().toLowerCase().replace(/[^a-z0-9._-]+/g, '-');
+  if (!n) return;
+  if (CFG.esquemas[n]) { alert('Ya existe un esquema con ese nombre.'); return; }
+  CFG.esquemas[n] = JSON.parse(JSON.stringify(CFG.esquemas[CFG.esquema_default] || ESQ_REF));
+  sucio(); pintarAdmin();
+}
+function borrarEsquema(k) { if (!confirm('¿Eliminar el esquema ' + k + '?')) return; delete CFG.esquemas[k]; sucio(); pintarAdmin(); }
+
+function pintarIncAdm() {
+  $('incs-adm').innerHTML = CFG.incentivos.map((i, n) => `<div class="hrow"><div><b>${esc(i.titulo)}</b><br><span>${fCorta(i.desde)} – ${fCorta(i.hasta)}${i.premio ? ' · ' + esc(i.premio) : ''}${i.meta ? ' · meta ' + fmt(i.meta) : ''}</span></div>
+    <span class="pill ${i.hasta < HOY ? 'pend' : i.desde > HOY ? 'inv' : 'paid'}">${i.hasta < HOY ? 'Terminado' : i.desde > HOY ? 'Próximo' : 'Vigente'}</span><span></span>
+    <button class="btn danger sm" type="button" onclick="quitarIncentivo(${n})">Quitar</button></div>`).join('') || '<div class="hint">No hay incentivos cargados.</div>';
+}
+function agregarIncentivo() {
+  const msg = $('i-msg'), inc = { titulo: $('i-t').value.trim(), descripcion: $('i-d').value.trim(), desde: $('i-a').value, hasta: $('i-b').value, premio: $('i-p').value.trim(), meta: +$('i-m').value || null };
+  if (!inc.titulo || !inc.desde || !inc.hasta || inc.hasta < inc.desde) { msg.className = 'msg err'; msg.textContent = 'Completa título y fechas (hasta ≥ desde).'; return; }
+  CFG.incentivos.push(inc); ['i-t', 'i-d', 'i-a', 'i-b', 'i-p', 'i-m'].forEach(id => $(id).value = '');
+  msg.className = 'msg ok'; msg.textContent = 'Agregado. Falta publicar.'; sucio(); pintarIncAdm();
+}
+function quitarIncentivo(n) { if (!confirm('¿Quitar este incentivo?')) return; CFG.incentivos.splice(n, 1); sucio(); pintarIncAdm(); }
+
+async function guardarRepoDatos() {
+  const msg = $('d-msg'), repo = $('d-r').value.trim(), tk = $('d-t').value.trim();
+  if (!/^[\w.-]+\/[\w.-]+$/.test(repo)) { msg.className = 'msg err'; msg.textContent = 'Escribe el repositorio como dueño/nombre.'; return; }
+  const token = tk || (repo === CFG.dataRepo ? DATA_TOKEN : null);
+  if (!token) { msg.className = 'msg err'; msg.textContent = 'Falta el token de ese repositorio.'; return; }
+  msg.className = 'msg'; msg.textContent = 'Probando acceso…';
+  try {
+    const r = await fetch(`https://api.github.com/repos/${repo}`, { headers: ghHeaders(token) });
+    if (!r.ok) throw new Error('GitHub respondió ' + r.status);
+    const j = await r.json();
+    if (!j.permissions || !j.permissions.push) throw new Error('el token no tiene permiso de escritura');
+    CFG.dataRepo = repo; CFG.dataToken = await seal(await rawKey(KB64), { t: token }); DATA_TOKEN = token;
+    $('d-t').value = '';
+    msg.className = 'msg ok'; msg.textContent = `Acceso correcto${j.private ? ' (repositorio privado)' : ' · ojo: el repositorio es público'}. Falta publicar.`;
+    sucio();
+  } catch (e) { msg.className = 'msg err'; msg.textContent = 'No funcionó: ' + e.message; }
+}
+async function cambiarAdmin() {
+  const msg = $('a-msg'), p1 = $('a-p1').value, p2 = $('a-p2').value, gh = $('a-gh').value.trim();
+  if (p1.length < 10) { msg.className = 'msg err'; msg.textContent = 'Usa al menos 10 caracteres.'; return; }
+  if (p1 !== p2) { msg.className = 'msg err'; msg.textContent = 'Las contraseñas no coinciden.'; return; }
+  if (gh) ADMIN.gh = gh;
+  CFG.admin = await sealPw(p1, { gh: ADMIN.gh, k: KB64 });
+  ['a-p1', 'a-p2', 'a-gh'].forEach(id => $(id).value = '');
+  msg.className = 'msg ok'; msg.textContent = 'Listo. Falta publicar; después entra con la nueva.'; sucio();
+}
+async function publicar() {
+  const btn = $('save-btn'); btn.disabled = true; $('save-t').textContent = 'Publicando…';
+  try {
+    CFG.updated = new Date().toISOString();
+    await ghPut(REPO, ADMIN.gh, CFG_PATH, CFG, 'chore: actualizar socios Tinbet (panel admin)');
+    _sucio = false; $('save-t').textContent = 'Publicado. El portal lo toma en 3–5 minutos.';
+    setTimeout(() => { if (!_sucio) $('savebar').hidden = true; }, 6000);
+  } catch (e) { $('save-t').textContent = 'No se pudo publicar: ' + e.message; }
+  btn.disabled = false;
+}
+
+// ── Inicio: retomar la sesión del socio en esta pestaña ─────────────────────
+(async () => {
+  let ses = null; try { ses = JSON.parse(sessionStorage.getItem(SESS_KEY) || 'null'); } catch (_) {}
+  try { await cargarCfg(); } catch (e) { console.warn('config', e); }
+  cargarDatos().catch(e => console.warn('datos', e));
+  if (ses && CFG) {
+    const s = CFG.socios.find(x => x.u === ses.u && x.activo !== false);
+    if (s) { USER = s; KB64 = ses.k; abrirPortal(); return; }
+    try { sessionStorage.removeItem(SESS_KEY); } catch (_) {}
+  }
+})();
+</script>
+</body>
+</html>

@@ -1,4 +1,4 @@
-// Crea data/socios_tinbet.json (portal de socios de BONOS PARTNERS/bonus_tinbet.html) con el acceso de administrador.
+// Crea data/socios_tinbet.json (portal de socios de BONOS PARTNERS/portal_socios_tinbet.html) con el acceso de administrador.
 // Uso:  TOKEN=github_pat_... CLAVE=xxxx node scripts/init_socios_tinbet.js        (FORZAR=1 para reemplazar uno existente)
 // TOKEN: token fine-grained solo de este repo con Contents: Read and write (el panel admin publica el JSON con él).
 // CLAVE: contraseña del usuario "admin" del portal. Se genera una clave del portal (K) al azar.
