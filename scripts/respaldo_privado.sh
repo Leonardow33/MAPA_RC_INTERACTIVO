@@ -34,10 +34,12 @@ clonar() {
 case "$MODO" in
   respaldar)
     clonar
-    rm -rf "$PRIV_DIR/manuales" "$PRIV_DIR/docs_distribucion" "$PRIV_DIR/claude-memoria" "$PRIV_DIR/claude-settings"
+    rm -rf "$PRIV_DIR/manuales" "$PRIV_DIR/docs_distribucion" "$PRIV_DIR/claude-memoria" "$PRIV_DIR/claude-settings" "$PRIV_DIR/app_lotobola"
     mkdir -p "$PRIV_DIR/manuales" "$PRIV_DIR/docs_distribucion" "$PRIV_DIR/claude-memoria" "$PRIV_DIR/claude-settings"
     cp "$REPO_DIR"/distribucion/manuales/*.md "$PRIV_DIR/manuales/" 2>/dev/null || echo "  (sin manuales)"
     cp "$REPO_DIR"/distribucion/*.md "$PRIV_DIR/docs_distribucion/" 2>/dev/null || echo "  (sin docs de distribucion)"
+    # fichas y prototipo de los módulos de la app Lotobola (Órbita)
+    [ -d "$REPO_DIR/distribucion/app_lotobola" ] && cp -r "$REPO_DIR/distribucion/app_lotobola" "$PRIV_DIR/app_lotobola"
     cp "$MEM_DIR"/*.md "$PRIV_DIR/claude-memoria/" 2>/dev/null || echo "  (sin memoria en $MEM_DIR)"
     cp "$REPO_DIR/.claude/settings.local.json" "$PRIV_DIR/claude-settings/" 2>/dev/null || echo "  (sin settings.local.json)"
     cd "$PRIV_DIR"
@@ -52,6 +54,7 @@ case "$MODO" in
     mkdir -p "$REPO_DIR/distribucion/manuales" "$MEM_DIR" "$REPO_DIR/.claude"
     cp "$PRIV_DIR"/manuales/*.md "$REPO_DIR/distribucion/manuales/" 2>/dev/null || true
     cp "$PRIV_DIR"/docs_distribucion/*.md "$REPO_DIR/distribucion/" 2>/dev/null || true
+    [ -d "$PRIV_DIR/app_lotobola" ] && cp -r "$PRIV_DIR/app_lotobola" "$REPO_DIR/distribucion/"
     cp "$PRIV_DIR"/claude-memoria/*.md "$MEM_DIR/" 2>/dev/null || true
     [ -f "$REPO_DIR/.claude/settings.local.json" ] || cp "$PRIV_DIR/claude-settings/settings.local.json" "$REPO_DIR/.claude/" 2>/dev/null || true
     echo "Restaurado. Memoria de Claude en: $MEM_DIR"
